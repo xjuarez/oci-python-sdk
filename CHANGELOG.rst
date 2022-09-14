@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 ====================
+2.82.0 - 2022-09-13
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the eu-madrid-1 region
+* Support for exporting and importing larger model artifacts in the model catalog in the Data Science service
+* Support for Request Based Authorization in the API Gateway service
+* Support for Dynamic Authentication in the API Gateway service
+* Support for Dynamic Routing Backend in the API Gateway service
+ 
+Breaking
+--------
+* Support for retries by default on some operations of the Data Science service
+ 
+====================
+2.81.0 - 2022-09-06
+====================
+
+Added
+-----
+* Support for generic REST, OCI Streaming service, and Lake House connectors in the Data Connectivity Management service
+* Support for connecting to the Data Catalog service in the Data Connectivity Management service
+* Support for Kerberos and SSL for HDFS operations in the Data Connectivity Management service
+* Support for excel-formatted data and default columns in the Data Connectivity Management service
+* Support for reporting connector usage in the Data Connectivity Management service
+* Support for preferred credentials for performing privileged operations in the Database Management service
+* Support for passing a content encoding when posting metrics in the Monitoring service  
+ 
+Breaking
+--------
+* Support for retries by default on some operations of the Data Connectivity Management service
+* Model `ConnectionValidationSummaryCollection` removed from the Data Connectivity Management service
+* Operations `delete_connection_validation` and `list_connection_validations` removed from the `DataConnectivityManagementClient` of the Data Connectivity Management service
+* Parameter `resource_id` renamed to `registry_id` in `list_work_requests` operation from the `DataConnectivityManagementClient` of the Data Connectivity Management service
+ 
+====================
 2.80.1 - 2022-08-30
 ====================
 
