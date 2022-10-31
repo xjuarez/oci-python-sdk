@@ -135,7 +135,7 @@ class ShowOCIFlags(object):
 # class ShowOCIService
 ##########################################################################
 class ShowOCIService(object):
-    oci_compatible_version = "2.78.0"
+    oci_compatible_version = "2.82.0"
 
     ##########################################################################
     # Global Constants
@@ -304,6 +304,7 @@ class ShowOCIService(object):
     # function
     C_FUNCTION = "functions"
     C_FUNCTION_APPLICATIONS = "applications"
+    C_FUNCTION_FUNCTIONS = "app_functions"
 
     # API gateways
     C_API = "apis"
@@ -475,6 +476,9 @@ class ShowOCIService(object):
     #
     ##########################################################################
     def __init__(self, flags):
+
+        # Initiate data everytime class is instantiated
+        self.data = {}
 
         if not isinstance(flags, ShowOCIFlags):
             raise TypeError("flags must be ShowOCIFlags class")
@@ -1219,7 +1223,6 @@ class ShowOCIService(object):
                 self.__load_identity_users_groups(identity, tenancy_id)
                 self.__load_identity_dynamic_groups(identity, tenancy_id)
                 self.__load_identity_policies(identity)
-                self.__load_identity_providers(identity, tenancy_id)
                 self.__load_identity_cost_tracking_tags(identity, tenancy_id)
                 self.__load_identity_tag_namespace(identity)
 
@@ -1480,12 +1483,10 @@ class ShowOCIService(object):
         try:
             users = []
             groups = []
-            identity_providers = []
 
             try:
                 users = oci.pagination.list_call_get_all_results(identity.list_users, tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
                 groups = oci.pagination.list_call_get_all_results(identity.list_groups, tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
-                identity_providers = identity.list_identity_providers("SAML2", tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
             except oci.exceptions.ServiceError as item:
                 if 'auth' in item.code.lower() or item.code == 'Forbidden':
                     self.__load_print_auth_warning()
@@ -1535,15 +1536,6 @@ class ShowOCIService(object):
                 for ugm in [e['group_id'] for e in members if user.id == e['user_id']]:
                     group_users.append(next(item for item in groups if item.id == ugm).name)
 
-                # identity provider
-                identity_provider_name = ""
-                try:
-                    if user.identity_provider_id:
-                        identity_provider_name = next(
-                            item for item in identity_providers if item.id == user.identity_provider_id).name
-                except Exception:
-                    identity_provider_name = 'unknown'
-
                 # user data
                 user_data = {
                     'id': user.id,
@@ -1553,8 +1545,8 @@ class ShowOCIService(object):
                     'lifecycle_state': str(user.lifecycle_state),
                     'inactive_status': str(user.inactive_status),
                     'time_created': str(user.time_created),
-                    'identity_provider_id': str(user.identity_provider_id),
-                    'identity_provider_name': str(identity_provider_name),
+                    'identity_provider_id': "",
+                    'identity_provider_name': "",
                     'email': str(user.email),
                     'email_verified': str(user.email_verified),
                     'external_identifier': str(user.external_identifier),
@@ -1769,65 +1761,6 @@ class ShowOCIService(object):
             raise
         except Exception as e:
             self.__print_error("__load_identity_policies", e)
-
-    ##########################################################################
-    # Print Identity Providers
-    ##########################################################################
-    def __load_identity_providers(self, identity, tenancy_id):
-        data = []
-        self.__load_print_status("Providers")
-        start_time = time.time()
-
-        try:
-            groups = self.data[self.C_IDENTITY][self.C_IDENTITY_GROUPS]
-
-            try:
-                identity_providers = identity.list_identity_providers("SAML2", tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
-
-                for d in identity_providers:
-
-                    # get identity providers groups
-                    try:
-                        igm = oci.pagination.list_call_get_all_results(identity.list_idp_group_mappings, d.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
-
-                        # get the group data
-                        groupdata = []
-                        for ig in igm:
-                            for grp in groups:
-                                if grp['id'] == ig.group_id:
-                                    groupdata.append(ig.idp_group_name + " <-> " + grp['name'])
-
-                        data.append({
-                            'id': str(d.id),
-                            'name': str(d.name),
-                            'description': str(d.description),
-                            'product_type': str(d.product_type),
-                            'protocol': str(d.protocol),
-                            'redirect_url': str(d.redirect_url),
-                            'metadata_url': str(d.metadata_url),
-                            'group_map': groupdata
-                        })
-
-                    except oci.exceptions.ServiceError as e:
-                        if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
-                            continue
-                        raise
-
-            except oci.exceptions.ServiceError as e:
-                if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
-                else:
-                    raise
-
-            # add to data
-            self.data[self.C_IDENTITY][self.C_IDENTITY_PROVIDERS] = data
-            self.__load_print_cnt(len(data), start_time)
-
-        except oci.exceptions.RequestException:
-            raise
-        except Exception as e:
-            self.__print_error("__load_identity_providers", e)
 
     ##########################################################################
     # Print Dynamic Groups
@@ -4009,6 +3942,11 @@ class ShowOCIService(object):
             if self.flags.proxy:
                 compute_client.base_client.session.proxies = {'https': self.flags.proxy}
 
+            # compute_plugins
+            plugin_client = oci.compute_instance_agent.PluginClient(self.config, signer=self.signer)
+            if self.flags.proxy:
+                plugin_client.base_client.session.proxies = {'https': self.flags.proxy}
+
             # virtual_network - for vnics
             virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer)
             if self.flags.proxy:
@@ -4046,7 +3984,7 @@ class ShowOCIService(object):
             block = self.data[self.C_BLOCK]
 
             # append the data
-            compute[self.C_COMPUTE_INST] += self.__load_core_compute_instances(compute_client, compartments)
+            compute[self.C_COMPUTE_INST] += self.__load_core_compute_instances(compute_client, compartments, plugin_client)
             compute[self.C_COMPUTE_IMAGES] += self.__load_core_compute_images(compute_client, compartments)
             compute[self.C_COMPUTE_BOOT_VOL_ATTACH] += self.__load_core_compute_boot_vol_attach(compute_client, compartments)
             compute[self.C_COMPUTE_VOLUME_ATTACH] += self.__load_core_compute_vol_attach(compute_client, compartments)
@@ -4082,7 +4020,7 @@ class ShowOCIService(object):
     ##########################################################################
     # data compute read instances
     ##########################################################################
-    def __load_core_compute_instances(self, compute, compartments):
+    def __load_core_compute_instances(self, compute, compartments, plugin_client):
 
         data = []
         cnt = 0
@@ -4154,16 +4092,37 @@ class ShowOCIService(object):
                            'console_vnc_connection_string': "",
                            'image': "Unknown",
                            'image_os': "Unknown",
-                           'agent_is_management_disabled ': "",
+                           'are_all_plugins_disabled': "",
+                           'agent_is_management_disabled': "",
                            'agent_is_monitoring_disabled': "",
+                           'agent_plugin_config': [],
+                           'agent_plugin_status': [],
                            'metadata': arr.metadata,
                            'extended_metadata': arr.extended_metadata
                            }
 
                     # agent_config
                     if arr.agent_config:
+                        val["are_all_plugins_disabled"] = str(arr.agent_config.are_all_plugins_disabled)
                         val["agent_is_management_disabled"] = str(arr.agent_config.is_management_disabled)
                         val["agent_is_monitoring_disabled"] = str(arr.agent_config.is_monitoring_disabled)
+                        plugin_config = []
+                        if arr.agent_config.plugins_config:
+                            for config in arr.agent_config.plugins_config:
+                                plugin_config.append({'name': config.name, 'desired_state': config.desired_state})
+                            val['agent_plugin_config'] = plugin_config
+
+                    # agent_status
+                    plugins = []
+                    try:
+                        # arr = oci.compute_instance_agent.models.InstanceAgentPluginSummary
+                        plugins = plugin_client.list_instance_agent_plugins(compartment_id=arr.compartment_id, instanceagent_id=arr.id).data
+                        for plugin in plugins:
+                            val['agent_plugin_status'].append({'name': plugin.name, 'status': plugin.status, 'time_last_updated_utc': str(plugin.time_last_updated_utc)})
+
+                    except oci.exceptions.ServiceError as e:
+                        if self.__check_service_error(e.code):
+                            continue
 
                     # check if vm has shape config
                     if arr.shape_config:
@@ -4764,9 +4723,14 @@ class ShowOCIService(object):
                     # arr = oci.core.models.BootVolumeAttachment
                     for arr in arrs:
                         val = {'id': str(arr.id), 'display_name': str(arr.display_name),
-                               'boot_volume_id': str(arr.boot_volume_id), 'instance_id': str(arr.instance_id),
-                               'lifecycle_state': str(arr.lifecycle_state), 'time_created': str(arr.time_created),
-                               'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
+                               'boot_volume_id': str(arr.boot_volume_id),
+                               'instance_id': str(arr.instance_id),
+                               'lifecycle_state': str(arr.lifecycle_state),
+                               'time_created': str(arr.time_created),
+                               'is_pv_encryption_in_transit_enabled': str(arr.is_pv_encryption_in_transit_enabled),
+                               'encryption_in_transit_type': str(arr.encryption_in_transit_type),
+                               'compartment_name': str(compartment['name']),
+                               'compartment_id': str(compartment['id']),
                                'compartment_path': str(compartment['path']),
                                'region_name': str(self.config['region'])}
                         data.append(val)
@@ -4819,10 +4783,21 @@ class ShowOCIService(object):
                 # loop on array
                 # arr = oci.core.models.VolumeAttachment
                 for arr in arrs:
-                    val = {'id': str(arr.id), 'display_name': str(arr.display_name), 'volume_id': str(arr.volume_id),
-                           'instance_id': str(arr.instance_id), 'lifecycle_state': str(arr.lifecycle_state),
-                           'time_created': str(arr.time_created), 'attachment_type': str(arr.attachment_type),
-                           'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
+                    val = {'id': str(arr.id),
+                           'display_name': str(arr.display_name),
+                           'volume_id': str(arr.volume_id),
+                           'instance_id': str(arr.instance_id),
+                           'lifecycle_state': str(arr.lifecycle_state),
+                           'time_created': str(arr.time_created),
+                           'attachment_type': str(arr.attachment_type),
+                           'device': str(arr.device),
+                           'is_read_only': str(arr.is_read_only),
+                           'is_shareable': str(arr.is_shareable),
+                           'is_pv_encryption_in_transit_enabled': str(arr.is_pv_encryption_in_transit_enabled),
+                           'is_multipath': str(arr.is_multipath),
+                           'iscsi_login_state': str(arr.iscsi_login_state),
+                           'compartment_name': str(compartment['name']),
+                           'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
                            'region_name': str(self.config['region'])}
                     data.append(val)
@@ -9915,12 +9890,15 @@ class ShowOCIService(object):
 
             # add the key if not exists
             self.__initialize_data_key(self.C_FUNCTION, self.C_FUNCTION_APPLICATIONS)
+            self.__initialize_data_key(self.C_FUNCTION, self.C_FUNCTION_FUNCTIONS)
 
             # reference to function
             fn = self.data[self.C_FUNCTION]
 
             # append the data
-            fn[self.C_FUNCTION_APPLICATIONS] += self.__load_functions_applications(function_client, compartments)
+            applications = self.__load_functions_applications(function_client, compartments)
+            fn[self.C_FUNCTION_APPLICATIONS] += applications
+            fn[self.C_FUNCTION_FUNCTIONS] += self.__load_functions_functions(function_client, applications)
             print("")
 
         except oci.exceptions.RequestException:
@@ -9931,7 +9909,7 @@ class ShowOCIService(object):
             self.__print_error("__load_functions_main", e)
 
     ##########################################################################
-    # __load_functions_functions
+    # __load_functions_applications
     ##########################################################################
     def __load_functions_applications(self, function_client, compartments):
 
@@ -9974,6 +9952,7 @@ class ShowOCIService(object):
                            'subnet_ids': app.subnet_ids, 'time_created': str(app.time_created),
                            'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
+                           'functions': [],
                            'defined_tags': [] if app.defined_tags is None else app.defined_tags,
                            'freeform_tags': [] if app.freeform_tags is None else app.freeform_tags,
                            'region_name': str(self.config['region'])}
@@ -9992,6 +9971,79 @@ class ShowOCIService(object):
             raise
         except Exception as e:
             self.__print_error("__load_functions_applications", e)
+            return data
+
+    ##########################################################################
+    # __load_functions_functions
+    ##########################################################################
+    def __load_functions_functions(self, function_client, applications):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            self.__load_print_status("Functions")
+
+            # loop on all applications
+            for app in applications:
+                funs = []
+                try:
+                    funs = oci.pagination.list_call_get_all_results(
+                        function_client.list_functions, application_id=app['id'],
+                        sort_by="displayName",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_request_error(e):
+                        return data
+
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning()
+                        continue
+                    raise
+
+                print("f", end="")
+
+                # fns = oci.functions.models.ApplicationSummary
+                for fun in funs:
+                    if fun.lifecycle_state == 'TERMINATED':
+                        continue
+
+                    val = {
+                        'id': str(fun.id),
+                        'display_name': str(fun.display_name),
+                        'lifecycle_state': str(fun.lifecycle_state),
+                        'image': str(fun.image),
+                        'image_digest': str(fun.image_digest),
+                        'memory_in_mbs': str(fun.memory_in_mbs),
+                        'timeout_in_seconds': str(fun.timeout_in_seconds),
+                        'invoke_endpoint': str(fun.invoke_endpoint),
+                        'time_created': str(fun.time_created),
+                        'time_updated': str(fun.time_updated),
+                        'compartment_name': str(app['compartment_name']),
+                        'compartment_id': str(fun.compartment_id),
+                        'compartment_path': str(app['compartment_path']),
+                        'defined_tags': [] if fun.defined_tags is None else fun.defined_tags,
+                        'freeform_tags': [] if fun.freeform_tags is None else fun.freeform_tags,
+                        'region_name': str(self.config['region'])}
+
+                    # add the data
+                    cnt += 1
+                    data.append(val)
+                    app['functions'].append(val)
+
+            self.__load_print_cnt(cnt, start_time)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+
+            raise
+        except Exception as e:
+            self.__print_error("__load_functions_functions", e)
             return data
 
     ##########################################################################
@@ -10204,9 +10256,9 @@ class ShowOCIService(object):
                     print(".", end="")
                     continue
 
-                events = []
+                rules = []
                 try:
-                    events = oci.pagination.list_call_get_all_results(
+                    rules = oci.pagination.list_call_get_all_results(
                         event_client.list_rules,
                         compartment['id'],
                         sort_by="DISPLAY_NAME",
@@ -10223,19 +10275,46 @@ class ShowOCIService(object):
                 print(".", end="")
 
                 # event = oci.events.models.RuleSummary
-                for event in events:
-                    val = {'id': str(event.id),
-                           'display_name': str(event.display_name),
-                           'description': str(event.description),
-                           'condition': str(event.condition),
-                           'is_enabled': str(event.is_enabled),
-                           'time_created': str(event.time_created),
+                for rule in rules:
+                    val = {'id': str(rule.id),
+                           'display_name': str(rule.display_name),
+                           'description': str(rule.description),
+                           'condition': str(rule.condition),
+                           'is_enabled': str(rule.is_enabled),
+                           'time_created': str(rule.time_created),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
-                           'defined_tags': [] if event.defined_tags is None else event.defined_tags,
-                           'freeform_tags': [] if event.freeform_tags is None else event.freeform_tags,
+                           'actions': [],
+                           'defined_tags': [] if rule.defined_tags is None else rule.defined_tags,
+                           'freeform_tags': [] if rule.freeform_tags is None else rule.freeform_tags,
                            'region_name': str(self.config['region'])}
+
+                    # get actions using the get_rule
+                    try:
+                        rule_info = event_client.get_rule(rule.id).data
+                        if rule_info:
+                            if rule_info.actions:
+                                for act in rule_info.actions.actions:
+                                    action = {
+                                        'id': act.id,
+                                        'action_type': str(act.action_type),
+                                        'lifecycle_state': str(act.lifecycle_state),
+                                        'is_enabled': str(act.is_enabled),
+                                        'description': str(act.description),
+                                        'dest_id': '',
+                                        'dest_name': ''}
+
+                                    if act.action_type == 'ONS':
+                                        action['dest_id'] = str(act.topic_id)
+                                    if act.action_type == 'OSS':
+                                        action['dest_id'] = str(act.stream_id)
+                                    if act.action_type == 'FAAS':
+                                        action['dest_id'] = str(act.function_id)
+                                    val['actions'].append(action)
+
+                    except oci.exceptions.ServiceError:
+                        print("w", end="")
 
                     # add the data
                     cnt += 1
