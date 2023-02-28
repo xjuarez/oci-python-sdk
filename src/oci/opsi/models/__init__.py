@@ -1,11 +1,12 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from __future__ import absolute_import
 
 from .add_em_managed_external_exadata_insight_members_details import AddEmManagedExternalExadataInsightMembersDetails
 from .add_exadata_insight_members_details import AddExadataInsightMembersDetails
+from .add_pe_comanaged_exadata_insight_members_details import AddPeComanagedExadataInsightMembersDetails
 from .autonomous_database_configuration_summary import AutonomousDatabaseConfigurationSummary
 from .autonomous_database_insight import AutonomousDatabaseInsight
 from .autonomous_database_insight_summary import AutonomousDatabaseInsightSummary
@@ -42,15 +43,28 @@ from .awr_report import AwrReport
 from .awr_snapshot_collection import AwrSnapshotCollection
 from .awr_snapshot_summary import AwrSnapshotSummary
 from .awr_source_summary import AwrSourceSummary
+from .basic_configuration_item_metadata import BasicConfigurationItemMetadata
+from .basic_configuration_item_summary import BasicConfigurationItemSummary
 from .change_database_insight_compartment_details import ChangeDatabaseInsightCompartmentDetails
 from .change_enterprise_manager_bridge_compartment_details import ChangeEnterpriseManagerBridgeCompartmentDetails
 from .change_exadata_insight_compartment_details import ChangeExadataInsightCompartmentDetails
 from .change_host_insight_compartment_details import ChangeHostInsightCompartmentDetails
 from .change_operations_insights_private_endpoint_compartment_details import ChangeOperationsInsightsPrivateEndpointCompartmentDetails
+from .change_opsi_configuration_compartment_details import ChangeOpsiConfigurationCompartmentDetails
 from .change_pe_comanaged_database_insight_details import ChangePeComanagedDatabaseInsightDetails
 from .cloud_importable_compute_entity_summary import CloudImportableComputeEntitySummary
+from .configuration_item_allowed_value_details import ConfigurationItemAllowedValueDetails
+from .configuration_item_free_text_allowed_value_details import ConfigurationItemFreeTextAllowedValueDetails
+from .configuration_item_limit_allowed_value_details import ConfigurationItemLimitAllowedValueDetails
+from .configuration_item_metadata import ConfigurationItemMetadata
+from .configuration_item_pick_allowed_value_details import ConfigurationItemPickAllowedValueDetails
+from .configuration_item_summary import ConfigurationItemSummary
+from .configuration_item_unit_details import ConfigurationItemUnitDetails
+from .configuration_items_collection import ConfigurationItemsCollection
 from .connection_details import ConnectionDetails
 from .create_awr_hub_details import CreateAwrHubDetails
+from .create_basic_configuration_item_details import CreateBasicConfigurationItemDetails
+from .create_configuration_item_details import CreateConfigurationItemDetails
 from .create_database_insight_details import CreateDatabaseInsightDetails
 from .create_em_managed_external_database_insight_details import CreateEmManagedExternalDatabaseInsightDetails
 from .create_em_managed_external_exadata_insight_details import CreateEmManagedExternalExadataInsightDetails
@@ -64,7 +78,11 @@ from .create_macs_managed_external_host_insight_details import CreateMacsManaged
 from .create_operations_insights_private_endpoint_details import CreateOperationsInsightsPrivateEndpointDetails
 from .create_operations_insights_warehouse_details import CreateOperationsInsightsWarehouseDetails
 from .create_operations_insights_warehouse_user_details import CreateOperationsInsightsWarehouseUserDetails
+from .create_opsi_configuration_details import CreateOpsiConfigurationDetails
+from .create_opsi_ux_configuration_details import CreateOpsiUxConfigurationDetails
 from .create_pe_comanaged_database_insight_details import CreatePeComanagedDatabaseInsightDetails
+from .create_pe_comanaged_exadata_insight_details import CreatePeComanagedExadataInsightDetails
+from .create_pe_comanaged_exadata_vmcluster_details import CreatePeComanagedExadataVmclusterDetails
 from .credential_by_vault import CredentialByVault
 from .credential_details import CredentialDetails
 from .credentials_by_source import CredentialsBySource
@@ -114,6 +132,7 @@ from .enable_host_insight_details import EnableHostInsightDetails
 from .enable_macs_managed_cloud_host_insight_details import EnableMacsManagedCloudHostInsightDetails
 from .enable_macs_managed_external_host_insight_details import EnableMacsManagedExternalHostInsightDetails
 from .enable_pe_comanaged_database_insight_details import EnablePeComanagedDatabaseInsightDetails
+from .enable_pe_comanaged_exadata_insight_details import EnablePeComanagedExadataInsightDetails
 from .enterprise_manager_bridge import EnterpriseManagerBridge
 from .enterprise_manager_bridge_collection import EnterpriseManagerBridgeCollection
 from .enterprise_manager_bridge_summary import EnterpriseManagerBridgeSummary
@@ -124,6 +143,7 @@ from .exadata_database_machine_configuration_summary import ExadataDatabaseMachi
 from .exadata_database_statistics_summary import ExadataDatabaseStatisticsSummary
 from .exadata_details import ExadataDetails
 from .exadata_diskgroup_statistics_summary import ExadataDiskgroupStatisticsSummary
+from .exadata_exacs_configuration_summary import ExadataExacsConfigurationSummary
 from .exadata_host_statistics_summary import ExadataHostStatisticsSummary
 from .exadata_insight import ExadataInsight
 from .exadata_insight_resource_capacity_trend_aggregation import ExadataInsightResourceCapacityTrendAggregation
@@ -213,15 +233,24 @@ from .operations_insights_warehouse_user_summary import OperationsInsightsWareho
 from .operations_insights_warehouse_user_summary_collection import OperationsInsightsWarehouseUserSummaryCollection
 from .operations_insights_warehouse_users import OperationsInsightsWarehouseUsers
 from .operations_insights_warehouses import OperationsInsightsWarehouses
+from .opsi_configuration import OpsiConfiguration
+from .opsi_configuration_basic_configuration_item_summary import OpsiConfigurationBasicConfigurationItemSummary
+from .opsi_configuration_configuration_item_summary import OpsiConfigurationConfigurationItemSummary
+from .opsi_configuration_summary import OpsiConfigurationSummary
 from .opsi_configurations import OpsiConfigurations
+from .opsi_configurations_collection import OpsiConfigurationsCollection
 from .opsi_data_object import OpsiDataObject
 from .opsi_data_object_summary import OpsiDataObjectSummary
 from .opsi_data_objects import OpsiDataObjects
 from .opsi_data_objects_collection import OpsiDataObjectsCollection
+from .opsi_ux_configuration import OpsiUxConfiguration
+from .opsi_ux_configuration_summary import OpsiUxConfigurationSummary
 from .pe_comanaged_database_connection_details import PeComanagedDatabaseConnectionDetails
 from .pe_comanaged_database_host_details import PeComanagedDatabaseHostDetails
 from .pe_comanaged_database_insight import PeComanagedDatabaseInsight
 from .pe_comanaged_database_insight_summary import PeComanagedDatabaseInsightSummary
+from .pe_comanaged_exadata_insight import PeComanagedExadataInsight
+from .pe_comanaged_exadata_insight_summary import PeComanagedExadataInsightSummary
 from .pe_comanaged_host_configuration_summary import PeComanagedHostConfigurationSummary
 from .pe_comanaged_managed_external_database_configuration_summary import PeComanagedManagedExternalDatabaseConfigurationSummary
 from .projected_data_item import ProjectedDataItem
@@ -299,6 +328,8 @@ from .top_processes_usage_trend import TopProcessesUsageTrend
 from .top_processes_usage_trend_aggregation import TopProcessesUsageTrendAggregation
 from .update_autonomous_database_insight_details import UpdateAutonomousDatabaseInsightDetails
 from .update_awr_hub_details import UpdateAwrHubDetails
+from .update_basic_configuration_item_details import UpdateBasicConfigurationItemDetails
+from .update_configuration_item_details import UpdateConfigurationItemDetails
 from .update_database_insight_details import UpdateDatabaseInsightDetails
 from .update_em_managed_external_database_insight_details import UpdateEmManagedExternalDatabaseInsightDetails
 from .update_em_managed_external_exadata_insight_details import UpdateEmManagedExternalExadataInsightDetails
@@ -312,7 +343,12 @@ from .update_macs_managed_external_host_insight_details import UpdateMacsManaged
 from .update_operations_insights_private_endpoint_details import UpdateOperationsInsightsPrivateEndpointDetails
 from .update_operations_insights_warehouse_details import UpdateOperationsInsightsWarehouseDetails
 from .update_operations_insights_warehouse_user_details import UpdateOperationsInsightsWarehouseUserDetails
+from .update_opsi_configuration_details import UpdateOpsiConfigurationDetails
+from .update_opsi_ux_configuration_details import UpdateOpsiUxConfigurationDetails
 from .update_pe_comanaged_database_insight_details import UpdatePeComanagedDatabaseInsightDetails
+from .update_pe_comanaged_exadata_insight_details import UpdatePeComanagedExadataInsightDetails
+from .ux_configuration_items_collection import UxConfigurationItemsCollection
+from .vm_cluster_summary import VmClusterSummary
 from .work_request import WorkRequest
 from .work_request_collection import WorkRequestCollection
 from .work_request_error import WorkRequestError
@@ -326,6 +362,7 @@ from .work_requests import WorkRequests
 opsi_type_mapping = {
     "AddEmManagedExternalExadataInsightMembersDetails": AddEmManagedExternalExadataInsightMembersDetails,
     "AddExadataInsightMembersDetails": AddExadataInsightMembersDetails,
+    "AddPeComanagedExadataInsightMembersDetails": AddPeComanagedExadataInsightMembersDetails,
     "AutonomousDatabaseConfigurationSummary": AutonomousDatabaseConfigurationSummary,
     "AutonomousDatabaseInsight": AutonomousDatabaseInsight,
     "AutonomousDatabaseInsightSummary": AutonomousDatabaseInsightSummary,
@@ -362,15 +399,28 @@ opsi_type_mapping = {
     "AwrSnapshotCollection": AwrSnapshotCollection,
     "AwrSnapshotSummary": AwrSnapshotSummary,
     "AwrSourceSummary": AwrSourceSummary,
+    "BasicConfigurationItemMetadata": BasicConfigurationItemMetadata,
+    "BasicConfigurationItemSummary": BasicConfigurationItemSummary,
     "ChangeDatabaseInsightCompartmentDetails": ChangeDatabaseInsightCompartmentDetails,
     "ChangeEnterpriseManagerBridgeCompartmentDetails": ChangeEnterpriseManagerBridgeCompartmentDetails,
     "ChangeExadataInsightCompartmentDetails": ChangeExadataInsightCompartmentDetails,
     "ChangeHostInsightCompartmentDetails": ChangeHostInsightCompartmentDetails,
     "ChangeOperationsInsightsPrivateEndpointCompartmentDetails": ChangeOperationsInsightsPrivateEndpointCompartmentDetails,
+    "ChangeOpsiConfigurationCompartmentDetails": ChangeOpsiConfigurationCompartmentDetails,
     "ChangePeComanagedDatabaseInsightDetails": ChangePeComanagedDatabaseInsightDetails,
     "CloudImportableComputeEntitySummary": CloudImportableComputeEntitySummary,
+    "ConfigurationItemAllowedValueDetails": ConfigurationItemAllowedValueDetails,
+    "ConfigurationItemFreeTextAllowedValueDetails": ConfigurationItemFreeTextAllowedValueDetails,
+    "ConfigurationItemLimitAllowedValueDetails": ConfigurationItemLimitAllowedValueDetails,
+    "ConfigurationItemMetadata": ConfigurationItemMetadata,
+    "ConfigurationItemPickAllowedValueDetails": ConfigurationItemPickAllowedValueDetails,
+    "ConfigurationItemSummary": ConfigurationItemSummary,
+    "ConfigurationItemUnitDetails": ConfigurationItemUnitDetails,
+    "ConfigurationItemsCollection": ConfigurationItemsCollection,
     "ConnectionDetails": ConnectionDetails,
     "CreateAwrHubDetails": CreateAwrHubDetails,
+    "CreateBasicConfigurationItemDetails": CreateBasicConfigurationItemDetails,
+    "CreateConfigurationItemDetails": CreateConfigurationItemDetails,
     "CreateDatabaseInsightDetails": CreateDatabaseInsightDetails,
     "CreateEmManagedExternalDatabaseInsightDetails": CreateEmManagedExternalDatabaseInsightDetails,
     "CreateEmManagedExternalExadataInsightDetails": CreateEmManagedExternalExadataInsightDetails,
@@ -384,7 +434,11 @@ opsi_type_mapping = {
     "CreateOperationsInsightsPrivateEndpointDetails": CreateOperationsInsightsPrivateEndpointDetails,
     "CreateOperationsInsightsWarehouseDetails": CreateOperationsInsightsWarehouseDetails,
     "CreateOperationsInsightsWarehouseUserDetails": CreateOperationsInsightsWarehouseUserDetails,
+    "CreateOpsiConfigurationDetails": CreateOpsiConfigurationDetails,
+    "CreateOpsiUxConfigurationDetails": CreateOpsiUxConfigurationDetails,
     "CreatePeComanagedDatabaseInsightDetails": CreatePeComanagedDatabaseInsightDetails,
+    "CreatePeComanagedExadataInsightDetails": CreatePeComanagedExadataInsightDetails,
+    "CreatePeComanagedExadataVmclusterDetails": CreatePeComanagedExadataVmclusterDetails,
     "CredentialByVault": CredentialByVault,
     "CredentialDetails": CredentialDetails,
     "CredentialsBySource": CredentialsBySource,
@@ -434,6 +488,7 @@ opsi_type_mapping = {
     "EnableMacsManagedCloudHostInsightDetails": EnableMacsManagedCloudHostInsightDetails,
     "EnableMacsManagedExternalHostInsightDetails": EnableMacsManagedExternalHostInsightDetails,
     "EnablePeComanagedDatabaseInsightDetails": EnablePeComanagedDatabaseInsightDetails,
+    "EnablePeComanagedExadataInsightDetails": EnablePeComanagedExadataInsightDetails,
     "EnterpriseManagerBridge": EnterpriseManagerBridge,
     "EnterpriseManagerBridgeCollection": EnterpriseManagerBridgeCollection,
     "EnterpriseManagerBridgeSummary": EnterpriseManagerBridgeSummary,
@@ -444,6 +499,7 @@ opsi_type_mapping = {
     "ExadataDatabaseStatisticsSummary": ExadataDatabaseStatisticsSummary,
     "ExadataDetails": ExadataDetails,
     "ExadataDiskgroupStatisticsSummary": ExadataDiskgroupStatisticsSummary,
+    "ExadataExacsConfigurationSummary": ExadataExacsConfigurationSummary,
     "ExadataHostStatisticsSummary": ExadataHostStatisticsSummary,
     "ExadataInsight": ExadataInsight,
     "ExadataInsightResourceCapacityTrendAggregation": ExadataInsightResourceCapacityTrendAggregation,
@@ -533,15 +589,24 @@ opsi_type_mapping = {
     "OperationsInsightsWarehouseUserSummaryCollection": OperationsInsightsWarehouseUserSummaryCollection,
     "OperationsInsightsWarehouseUsers": OperationsInsightsWarehouseUsers,
     "OperationsInsightsWarehouses": OperationsInsightsWarehouses,
+    "OpsiConfiguration": OpsiConfiguration,
+    "OpsiConfigurationBasicConfigurationItemSummary": OpsiConfigurationBasicConfigurationItemSummary,
+    "OpsiConfigurationConfigurationItemSummary": OpsiConfigurationConfigurationItemSummary,
+    "OpsiConfigurationSummary": OpsiConfigurationSummary,
     "OpsiConfigurations": OpsiConfigurations,
+    "OpsiConfigurationsCollection": OpsiConfigurationsCollection,
     "OpsiDataObject": OpsiDataObject,
     "OpsiDataObjectSummary": OpsiDataObjectSummary,
     "OpsiDataObjects": OpsiDataObjects,
     "OpsiDataObjectsCollection": OpsiDataObjectsCollection,
+    "OpsiUxConfiguration": OpsiUxConfiguration,
+    "OpsiUxConfigurationSummary": OpsiUxConfigurationSummary,
     "PeComanagedDatabaseConnectionDetails": PeComanagedDatabaseConnectionDetails,
     "PeComanagedDatabaseHostDetails": PeComanagedDatabaseHostDetails,
     "PeComanagedDatabaseInsight": PeComanagedDatabaseInsight,
     "PeComanagedDatabaseInsightSummary": PeComanagedDatabaseInsightSummary,
+    "PeComanagedExadataInsight": PeComanagedExadataInsight,
+    "PeComanagedExadataInsightSummary": PeComanagedExadataInsightSummary,
     "PeComanagedHostConfigurationSummary": PeComanagedHostConfigurationSummary,
     "PeComanagedManagedExternalDatabaseConfigurationSummary": PeComanagedManagedExternalDatabaseConfigurationSummary,
     "ProjectedDataItem": ProjectedDataItem,
@@ -619,6 +684,8 @@ opsi_type_mapping = {
     "TopProcessesUsageTrendAggregation": TopProcessesUsageTrendAggregation,
     "UpdateAutonomousDatabaseInsightDetails": UpdateAutonomousDatabaseInsightDetails,
     "UpdateAwrHubDetails": UpdateAwrHubDetails,
+    "UpdateBasicConfigurationItemDetails": UpdateBasicConfigurationItemDetails,
+    "UpdateConfigurationItemDetails": UpdateConfigurationItemDetails,
     "UpdateDatabaseInsightDetails": UpdateDatabaseInsightDetails,
     "UpdateEmManagedExternalDatabaseInsightDetails": UpdateEmManagedExternalDatabaseInsightDetails,
     "UpdateEmManagedExternalExadataInsightDetails": UpdateEmManagedExternalExadataInsightDetails,
@@ -632,7 +699,12 @@ opsi_type_mapping = {
     "UpdateOperationsInsightsPrivateEndpointDetails": UpdateOperationsInsightsPrivateEndpointDetails,
     "UpdateOperationsInsightsWarehouseDetails": UpdateOperationsInsightsWarehouseDetails,
     "UpdateOperationsInsightsWarehouseUserDetails": UpdateOperationsInsightsWarehouseUserDetails,
+    "UpdateOpsiConfigurationDetails": UpdateOpsiConfigurationDetails,
+    "UpdateOpsiUxConfigurationDetails": UpdateOpsiUxConfigurationDetails,
     "UpdatePeComanagedDatabaseInsightDetails": UpdatePeComanagedDatabaseInsightDetails,
+    "UpdatePeComanagedExadataInsightDetails": UpdatePeComanagedExadataInsightDetails,
+    "UxConfigurationItemsCollection": UxConfigurationItemsCollection,
+    "VmClusterSummary": VmClusterSummary,
     "WorkRequest": WorkRequest,
     "WorkRequestCollection": WorkRequestCollection,
     "WorkRequestError": WorkRequestError,

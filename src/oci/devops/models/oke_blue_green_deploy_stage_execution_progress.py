@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .deploy_stage_execution_progress import DeployStageExecutionProgress
@@ -96,7 +96,7 @@ class OkeBlueGreenDeployStageExecutionProgress(DeployStageExecutionProgress):
     def namespace(self):
         """
         Gets the namespace of this OkeBlueGreenDeployStageExecutionProgress.
-        Namespace either environment A or environment B where artifacts are deployed.
+        Namespace either environment A or environment B where artifacts are deployed. Example:  blue - Name of the namespace where blue artifacts were deployed. green - Name of the namespace where green artifacts were deployed.
 
 
         :return: The namespace of this OkeBlueGreenDeployStageExecutionProgress.
@@ -108,7 +108,7 @@ class OkeBlueGreenDeployStageExecutionProgress(DeployStageExecutionProgress):
     def namespace(self, namespace):
         """
         Sets the namespace of this OkeBlueGreenDeployStageExecutionProgress.
-        Namespace either environment A or environment B where artifacts are deployed.
+        Namespace either environment A or environment B where artifacts are deployed. Example:  blue - Name of the namespace where blue artifacts were deployed. green - Name of the namespace where green artifacts were deployed.
 
 
         :param namespace: The namespace of this OkeBlueGreenDeployStageExecutionProgress.

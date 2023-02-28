@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -44,7 +44,7 @@ class InstancePoolPlacementSecondaryVnicSubnet(object):
     def display_name(self):
         """
         Gets the display_name of this InstancePoolPlacementSecondaryVnicSubnet.
-        The display name of the VNIC. This is also use to match against the instance configuration defined
+        The display name of the VNIC. This is also used to match against the instance configuration defined
         secondary VNIC.
 
 
@@ -57,7 +57,7 @@ class InstancePoolPlacementSecondaryVnicSubnet(object):
     def display_name(self, display_name):
         """
         Sets the display_name of this InstancePoolPlacementSecondaryVnicSubnet.
-        The display name of the VNIC. This is also use to match against the instance configuration defined
+        The display name of the VNIC. This is also used to match against the instance configuration defined
         secondary VNIC.
 
 

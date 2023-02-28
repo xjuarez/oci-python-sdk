@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .create_autonomous_database_base import CreateAutonomousDatabaseBase
@@ -38,6 +38,15 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
         :param cpu_core_count:
             The value to assign to the cpu_core_count property of this CreateAutonomousDatabaseDetails.
         :type cpu_core_count: int
+
+        :param compute_model:
+            The value to assign to the compute_model property of this CreateAutonomousDatabaseDetails.
+            Allowed values for this property are: "ECPU", "OCPU"
+        :type compute_model: str
+
+        :param compute_count:
+            The value to assign to the compute_count property of this CreateAutonomousDatabaseDetails.
+        :type compute_count: float
 
         :param ocpu_count:
             The value to assign to the ocpu_count property of this CreateAutonomousDatabaseDetails.
@@ -141,6 +150,10 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             The value to assign to the defined_tags property of this CreateAutonomousDatabaseDetails.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param private_endpoint_ip:
+            The value to assign to the private_endpoint_ip property of this CreateAutonomousDatabaseDetails.
+        :type private_endpoint_ip: str
+
         :param db_version:
             The value to assign to the db_version property of this CreateAutonomousDatabaseDetails.
         :type db_version: str
@@ -179,6 +192,18 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             The value to assign to the database_edition property of this CreateAutonomousDatabaseDetails.
         :type database_edition: str
 
+        :param db_tools_details:
+            The value to assign to the db_tools_details property of this CreateAutonomousDatabaseDetails.
+        :type db_tools_details: list[oci.database.models.DatabaseTool]
+
+        :param secret_id:
+            The value to assign to the secret_id property of this CreateAutonomousDatabaseDetails.
+        :type secret_id: str
+
+        :param secret_version_number:
+            The value to assign to the secret_version_number property of this CreateAutonomousDatabaseDetails.
+        :type secret_version_number: int
+
         """
         self.swagger_types = {
             'compartment_id': 'str',
@@ -186,6 +211,8 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             'ncharacter_set': 'str',
             'db_name': 'str',
             'cpu_core_count': 'int',
+            'compute_model': 'str',
+            'compute_count': 'float',
             'ocpu_count': 'float',
             'db_workload': 'str',
             'data_storage_size_in_tbs': 'int',
@@ -211,6 +238,7 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             'private_endpoint_label': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'private_endpoint_ip': 'str',
             'db_version': 'str',
             'source': 'str',
             'customer_contacts': 'list[CustomerContact]',
@@ -219,7 +247,10 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             'scheduled_operations': 'list[ScheduledOperationDetails]',
             'is_auto_scaling_for_storage_enabled': 'bool',
             'max_cpu_core_count': 'int',
-            'database_edition': 'str'
+            'database_edition': 'str',
+            'db_tools_details': 'list[DatabaseTool]',
+            'secret_id': 'str',
+            'secret_version_number': 'int'
         }
 
         self.attribute_map = {
@@ -228,6 +259,8 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             'ncharacter_set': 'ncharacterSet',
             'db_name': 'dbName',
             'cpu_core_count': 'cpuCoreCount',
+            'compute_model': 'computeModel',
+            'compute_count': 'computeCount',
             'ocpu_count': 'ocpuCount',
             'db_workload': 'dbWorkload',
             'data_storage_size_in_tbs': 'dataStorageSizeInTBs',
@@ -253,6 +286,7 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             'private_endpoint_label': 'privateEndpointLabel',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'private_endpoint_ip': 'privateEndpointIp',
             'db_version': 'dbVersion',
             'source': 'source',
             'customer_contacts': 'customerContacts',
@@ -261,7 +295,10 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
             'scheduled_operations': 'scheduledOperations',
             'is_auto_scaling_for_storage_enabled': 'isAutoScalingForStorageEnabled',
             'max_cpu_core_count': 'maxCpuCoreCount',
-            'database_edition': 'databaseEdition'
+            'database_edition': 'databaseEdition',
+            'db_tools_details': 'dbToolsDetails',
+            'secret_id': 'secretId',
+            'secret_version_number': 'secretVersionNumber'
         }
 
         self._compartment_id = None
@@ -269,6 +306,8 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
         self._ncharacter_set = None
         self._db_name = None
         self._cpu_core_count = None
+        self._compute_model = None
+        self._compute_count = None
         self._ocpu_count = None
         self._db_workload = None
         self._data_storage_size_in_tbs = None
@@ -294,6 +333,7 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
         self._private_endpoint_label = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._private_endpoint_ip = None
         self._db_version = None
         self._source = None
         self._customer_contacts = None
@@ -303,6 +343,9 @@ class CreateAutonomousDatabaseDetails(CreateAutonomousDatabaseBase):
         self._is_auto_scaling_for_storage_enabled = None
         self._max_cpu_core_count = None
         self._database_edition = None
+        self._db_tools_details = None
+        self._secret_id = None
+        self._secret_version_number = None
         self._source = 'NONE'
 
     def __repr__(self):

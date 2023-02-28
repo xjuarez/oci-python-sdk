@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -23,6 +23,7 @@ class CreateDeployStageDetails(object):
         * :class:`~oci.devops.models.CreateComputeInstanceGroupCanaryDeployStageDetails`
         * :class:`~oci.devops.models.CreateWaitDeployStageDetails`
         * :class:`~oci.devops.models.CreateLoadBalancerTrafficShiftDeployStageDetails`
+        * :class:`~oci.devops.models.CreateShellDeployStageDetails`
         * :class:`~oci.devops.models.CreateComputeInstanceGroupBlueGreenTrafficShiftDeployStageDetails`
         * :class:`~oci.devops.models.CreateOkeBlueGreenDeployStageDetails`
         * :class:`~oci.devops.models.CreateComputeInstanceGroupDeployStageDetails`
@@ -118,6 +119,9 @@ class CreateDeployStageDetails(object):
 
         if type == 'LOAD_BALANCER_TRAFFIC_SHIFT':
             return 'CreateLoadBalancerTrafficShiftDeployStageDetails'
+
+        if type == 'SHELL':
+            return 'CreateShellDeployStageDetails'
 
         if type == 'COMPUTE_INSTANCE_GROUP_BLUE_GREEN_TRAFFIC_SHIFT':
             return 'CreateComputeInstanceGroupBlueGreenTrafficShiftDeployStageDetails'

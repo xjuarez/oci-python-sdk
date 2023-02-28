@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from __future__ import absolute_import
@@ -7,12 +7,14 @@ from __future__ import absolute_import
 from .activate_exadata_infrastructure_details import ActivateExadataInfrastructureDetails
 from .add_virtual_machine_to_cloud_vm_cluster_details import AddVirtualMachineToCloudVmClusterDetails
 from .add_virtual_machine_to_vm_cluster_details import AddVirtualMachineToVmClusterDetails
+from .app_version_summary import AppVersionSummary
 from .associated_database_details import AssociatedDatabaseDetails
 from .automated_mount_details import AutomatedMountDetails
 from .autonomous_container_database import AutonomousContainerDatabase
 from .autonomous_container_database_backup_config import AutonomousContainerDatabaseBackupConfig
 from .autonomous_container_database_dataguard_association import AutonomousContainerDatabaseDataguardAssociation
 from .autonomous_container_database_summary import AutonomousContainerDatabaseSummary
+from .autonomous_container_database_version_summary import AutonomousContainerDatabaseVersionSummary
 from .autonomous_data_warehouse import AutonomousDataWarehouse
 from .autonomous_data_warehouse_connection_strings import AutonomousDataWarehouseConnectionStrings
 from .autonomous_data_warehouse_summary import AutonomousDataWarehouseSummary
@@ -38,6 +40,8 @@ from .autonomous_exadata_infrastructure_shape_summary import AutonomousExadataIn
 from .autonomous_exadata_infrastructure_summary import AutonomousExadataInfrastructureSummary
 from .autonomous_patch import AutonomousPatch
 from .autonomous_patch_summary import AutonomousPatchSummary
+from .autonomous_virtual_machine import AutonomousVirtualMachine
+from .autonomous_virtual_machine_summary import AutonomousVirtualMachineSummary
 from .autonomous_vm_cluster import AutonomousVmCluster
 from .autonomous_vm_cluster_summary import AutonomousVmClusterSummary
 from .backup import Backup
@@ -50,6 +54,7 @@ from .change_cloud_autonomous_vm_cluster_compartment_details import ChangeCloudA
 from .change_cloud_exadata_infrastructure_compartment_details import ChangeCloudExadataInfrastructureCompartmentDetails
 from .change_cloud_vm_cluster_compartment_details import ChangeCloudVmClusterCompartmentDetails
 from .change_compartment_details import ChangeCompartmentDetails
+from .change_dataguard_role_details import ChangeDataguardRoleDetails
 from .change_exadata_infrastructure_compartment_details import ChangeExadataInfrastructureCompartmentDetails
 from .change_key_store_compartment_details import ChangeKeyStoreCompartmentDetails
 from .change_vm_cluster_compartment_details import ChangeVmClusterCompartmentDetails
@@ -138,6 +143,7 @@ from .database_software_image import DatabaseSoftwareImage
 from .database_software_image_summary import DatabaseSoftwareImageSummary
 from .database_ssl_connection_credentials import DatabaseSslConnectionCredentials
 from .database_summary import DatabaseSummary
+from .database_tool import DatabaseTool
 from .database_upgrade_history_entry import DatabaseUpgradeHistoryEntry
 from .database_upgrade_history_entry_summary import DatabaseUpgradeHistoryEntrySummary
 from .database_upgrade_source_base import DatabaseUpgradeSourceBase
@@ -181,6 +187,7 @@ from .enable_external_non_container_database_stack_monitoring_details import Ena
 from .enable_external_pluggable_database_database_management_details import EnableExternalPluggableDatabaseDatabaseManagementDetails
 from .enable_external_pluggable_database_operations_insights_details import EnableExternalPluggableDatabaseOperationsInsightsDetails
 from .enable_external_pluggable_database_stack_monitoring_details import EnableExternalPluggableDatabaseStackMonitoringDetails
+from .enable_pluggable_database_management_details import EnablePluggableDatabaseManagementDetails
 from .estimated_patching_time import EstimatedPatchingTime
 from .exadata_db_system_migration import ExadataDbSystemMigration
 from .exadata_db_system_migration_summary import ExadataDbSystemMigrationSummary
@@ -229,6 +236,7 @@ from .maintenance_run_summary import MaintenanceRunSummary
 from .maintenance_window import MaintenanceWindow
 from .migrate_vault_key_details import MigrateVaultKeyDetails
 from .modify_database_management_details import ModifyDatabaseManagementDetails
+from .modify_pluggable_database_management_details import ModifyPluggableDatabaseManagementDetails
 from .month import Month
 from .mount_type_details import MountTypeDetails
 from .node_details import NodeDetails
@@ -245,6 +253,7 @@ from .pdb_conversion_to_new_database_details import PdbConversionToNewDatabaseDe
 from .peer_autonomous_container_database_backup_config import PeerAutonomousContainerDatabaseBackupConfig
 from .pluggable_database import PluggableDatabase
 from .pluggable_database_connection_strings import PluggableDatabaseConnectionStrings
+from .pluggable_database_management_config import PluggableDatabaseManagementConfig
 from .pluggable_database_summary import PluggableDatabaseSummary
 from .refreshable_clone_collection import RefreshableCloneCollection
 from .refreshable_clone_summary import RefreshableCloneSummary
@@ -314,12 +323,14 @@ database_type_mapping = {
     "ActivateExadataInfrastructureDetails": ActivateExadataInfrastructureDetails,
     "AddVirtualMachineToCloudVmClusterDetails": AddVirtualMachineToCloudVmClusterDetails,
     "AddVirtualMachineToVmClusterDetails": AddVirtualMachineToVmClusterDetails,
+    "AppVersionSummary": AppVersionSummary,
     "AssociatedDatabaseDetails": AssociatedDatabaseDetails,
     "AutomatedMountDetails": AutomatedMountDetails,
     "AutonomousContainerDatabase": AutonomousContainerDatabase,
     "AutonomousContainerDatabaseBackupConfig": AutonomousContainerDatabaseBackupConfig,
     "AutonomousContainerDatabaseDataguardAssociation": AutonomousContainerDatabaseDataguardAssociation,
     "AutonomousContainerDatabaseSummary": AutonomousContainerDatabaseSummary,
+    "AutonomousContainerDatabaseVersionSummary": AutonomousContainerDatabaseVersionSummary,
     "AutonomousDataWarehouse": AutonomousDataWarehouse,
     "AutonomousDataWarehouseConnectionStrings": AutonomousDataWarehouseConnectionStrings,
     "AutonomousDataWarehouseSummary": AutonomousDataWarehouseSummary,
@@ -345,6 +356,8 @@ database_type_mapping = {
     "AutonomousExadataInfrastructureSummary": AutonomousExadataInfrastructureSummary,
     "AutonomousPatch": AutonomousPatch,
     "AutonomousPatchSummary": AutonomousPatchSummary,
+    "AutonomousVirtualMachine": AutonomousVirtualMachine,
+    "AutonomousVirtualMachineSummary": AutonomousVirtualMachineSummary,
     "AutonomousVmCluster": AutonomousVmCluster,
     "AutonomousVmClusterSummary": AutonomousVmClusterSummary,
     "Backup": Backup,
@@ -357,6 +370,7 @@ database_type_mapping = {
     "ChangeCloudExadataInfrastructureCompartmentDetails": ChangeCloudExadataInfrastructureCompartmentDetails,
     "ChangeCloudVmClusterCompartmentDetails": ChangeCloudVmClusterCompartmentDetails,
     "ChangeCompartmentDetails": ChangeCompartmentDetails,
+    "ChangeDataguardRoleDetails": ChangeDataguardRoleDetails,
     "ChangeExadataInfrastructureCompartmentDetails": ChangeExadataInfrastructureCompartmentDetails,
     "ChangeKeyStoreCompartmentDetails": ChangeKeyStoreCompartmentDetails,
     "ChangeVmClusterCompartmentDetails": ChangeVmClusterCompartmentDetails,
@@ -445,6 +459,7 @@ database_type_mapping = {
     "DatabaseSoftwareImageSummary": DatabaseSoftwareImageSummary,
     "DatabaseSslConnectionCredentials": DatabaseSslConnectionCredentials,
     "DatabaseSummary": DatabaseSummary,
+    "DatabaseTool": DatabaseTool,
     "DatabaseUpgradeHistoryEntry": DatabaseUpgradeHistoryEntry,
     "DatabaseUpgradeHistoryEntrySummary": DatabaseUpgradeHistoryEntrySummary,
     "DatabaseUpgradeSourceBase": DatabaseUpgradeSourceBase,
@@ -488,6 +503,7 @@ database_type_mapping = {
     "EnableExternalPluggableDatabaseDatabaseManagementDetails": EnableExternalPluggableDatabaseDatabaseManagementDetails,
     "EnableExternalPluggableDatabaseOperationsInsightsDetails": EnableExternalPluggableDatabaseOperationsInsightsDetails,
     "EnableExternalPluggableDatabaseStackMonitoringDetails": EnableExternalPluggableDatabaseStackMonitoringDetails,
+    "EnablePluggableDatabaseManagementDetails": EnablePluggableDatabaseManagementDetails,
     "EstimatedPatchingTime": EstimatedPatchingTime,
     "ExadataDbSystemMigration": ExadataDbSystemMigration,
     "ExadataDbSystemMigrationSummary": ExadataDbSystemMigrationSummary,
@@ -536,6 +552,7 @@ database_type_mapping = {
     "MaintenanceWindow": MaintenanceWindow,
     "MigrateVaultKeyDetails": MigrateVaultKeyDetails,
     "ModifyDatabaseManagementDetails": ModifyDatabaseManagementDetails,
+    "ModifyPluggableDatabaseManagementDetails": ModifyPluggableDatabaseManagementDetails,
     "Month": Month,
     "MountTypeDetails": MountTypeDetails,
     "NodeDetails": NodeDetails,
@@ -552,6 +569,7 @@ database_type_mapping = {
     "PeerAutonomousContainerDatabaseBackupConfig": PeerAutonomousContainerDatabaseBackupConfig,
     "PluggableDatabase": PluggableDatabase,
     "PluggableDatabaseConnectionStrings": PluggableDatabaseConnectionStrings,
+    "PluggableDatabaseManagementConfig": PluggableDatabaseManagementConfig,
     "PluggableDatabaseSummary": PluggableDatabaseSummary,
     "RefreshableCloneCollection": RefreshableCloneCollection,
     "RefreshableCloneSummary": RefreshableCloneSummary,

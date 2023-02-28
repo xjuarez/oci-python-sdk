@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .deploy_stage_execution_progress import DeployStageExecutionProgress
@@ -68,6 +68,10 @@ class OkeHelmChartDeploymentStageExecutionProgress(DeployStageExecutionProgress)
             The value to assign to the namespace property of this OkeHelmChartDeploymentStageExecutionProgress.
         :type namespace: str
 
+        :param helm_diff:
+            The value to assign to the helm_diff property of this OkeHelmChartDeploymentStageExecutionProgress.
+        :type helm_diff: str
+
         """
         self.swagger_types = {
             'deploy_stage_display_name': 'str',
@@ -81,7 +85,8 @@ class OkeHelmChartDeploymentStageExecutionProgress(DeployStageExecutionProgress)
             'release_name': 'str',
             'chart_url': 'str',
             'version': 'str',
-            'namespace': 'str'
+            'namespace': 'str',
+            'helm_diff': 'str'
         }
 
         self.attribute_map = {
@@ -96,7 +101,8 @@ class OkeHelmChartDeploymentStageExecutionProgress(DeployStageExecutionProgress)
             'release_name': 'releaseName',
             'chart_url': 'chartUrl',
             'version': 'version',
-            'namespace': 'namespace'
+            'namespace': 'namespace',
+            'helm_diff': 'helmDiff'
         }
 
         self._deploy_stage_display_name = None
@@ -111,6 +117,7 @@ class OkeHelmChartDeploymentStageExecutionProgress(DeployStageExecutionProgress)
         self._chart_url = None
         self._version = None
         self._namespace = None
+        self._helm_diff = None
         self._deploy_stage_type = 'OKE_HELM_CHART_DEPLOYMENT'
 
     @property
@@ -208,6 +215,40 @@ class OkeHelmChartDeploymentStageExecutionProgress(DeployStageExecutionProgress)
         :type: str
         """
         self._namespace = namespace
+
+    @property
+    def helm_diff(self):
+        """
+        Gets the helm_diff of this OkeHelmChartDeploymentStageExecutionProgress.
+        Helm Diff output
+        Example:
+        Helm diff was successful
+        data:
+        - greeting: Version 1.0
+        + greeting: Version 1.1
+
+
+        :return: The helm_diff of this OkeHelmChartDeploymentStageExecutionProgress.
+        :rtype: str
+        """
+        return self._helm_diff
+
+    @helm_diff.setter
+    def helm_diff(self, helm_diff):
+        """
+        Sets the helm_diff of this OkeHelmChartDeploymentStageExecutionProgress.
+        Helm Diff output
+        Example:
+        Helm diff was successful
+        data:
+        - greeting: Version 1.0
+        + greeting: Version 1.1
+
+
+        :param helm_diff: The helm_diff of this OkeHelmChartDeploymentStageExecutionProgress.
+        :type: str
+        """
+        self._helm_diff = helm_diff
 
     def __repr__(self):
         return formatted_flat_dict(self)

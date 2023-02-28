@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -80,7 +80,7 @@ class AiPrivateEndpoint(object):
 
         :param system_tags:
             The value to assign to the system_tags property of this AiPrivateEndpoint.
-        :type system_tags: dict(str, dict(str, object))
+        :type system_tags: dict(str, object)
 
         :param lifecycle_state:
             The value to assign to the lifecycle_state property of this AiPrivateEndpoint.
@@ -107,7 +107,7 @@ class AiPrivateEndpoint(object):
             'time_updated': 'datetime',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
-            'system_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, object)',
             'lifecycle_state': 'str',
             'lifecycle_details': 'str',
             'attached_data_assets': 'list[str]'
@@ -378,11 +378,11 @@ class AiPrivateEndpoint(object):
         """
         Gets the system_tags of this AiPrivateEndpoint.
         Usage of system tag keys. These predefined keys are scoped to namespaces.
-        Example: `{\"orcl-cloud\": {\"free-tier-retained\": \"true\"}}`
+        Example: `{ \"orcl-cloud\": { \"free-tier-retained\": \"true\" } }`
 
 
         :return: The system_tags of this AiPrivateEndpoint.
-        :rtype: dict(str, dict(str, object))
+        :rtype: dict(str, object)
         """
         return self._system_tags
 
@@ -391,11 +391,11 @@ class AiPrivateEndpoint(object):
         """
         Sets the system_tags of this AiPrivateEndpoint.
         Usage of system tag keys. These predefined keys are scoped to namespaces.
-        Example: `{\"orcl-cloud\": {\"free-tier-retained\": \"true\"}}`
+        Example: `{ \"orcl-cloud\": { \"free-tier-retained\": \"true\" } }`
 
 
         :param system_tags: The system_tags of this AiPrivateEndpoint.
-        :type: dict(str, dict(str, object))
+        :type: dict(str, object)
         """
         self._system_tags = system_tags
 

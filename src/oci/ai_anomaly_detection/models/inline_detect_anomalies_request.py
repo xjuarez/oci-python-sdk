@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .detect_anomalies_details import DetectAnomaliesDetails
@@ -10,8 +10,8 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class InlineDetectAnomaliesRequest(DetectAnomaliesDetails):
     """
-    This is the specialised JSON format that we accept as Training data, with an additional
-    field for 'requestType' which is a required field used deciding whether it is an inline
+    This is the specialised JSON format that is accepted as training data, with an additional
+    field for 'requestType'. This is a required field used deciding whether it is an inline
     request or contains embedded data.
     """
 
@@ -30,6 +30,10 @@ class InlineDetectAnomaliesRequest(DetectAnomaliesDetails):
             Allowed values for this property are: "INLINE", "BASE64_ENCODED"
         :type request_type: str
 
+        :param sensitivity:
+            The value to assign to the sensitivity property of this InlineDetectAnomaliesRequest.
+        :type sensitivity: float
+
         :param signal_names:
             The value to assign to the signal_names property of this InlineDetectAnomaliesRequest.
         :type signal_names: list[str]
@@ -42,6 +46,7 @@ class InlineDetectAnomaliesRequest(DetectAnomaliesDetails):
         self.swagger_types = {
             'model_id': 'str',
             'request_type': 'str',
+            'sensitivity': 'float',
             'signal_names': 'list[str]',
             'data': 'list[DataItem]'
         }
@@ -49,12 +54,14 @@ class InlineDetectAnomaliesRequest(DetectAnomaliesDetails):
         self.attribute_map = {
             'model_id': 'modelId',
             'request_type': 'requestType',
+            'sensitivity': 'sensitivity',
             'signal_names': 'signalNames',
             'data': 'data'
         }
 
         self._model_id = None
         self._request_type = None
+        self._sensitivity = None
         self._signal_names = None
         self._data = None
         self._request_type = 'INLINE'

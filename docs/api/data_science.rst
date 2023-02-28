@@ -27,14 +27,20 @@ Data Science
     oci.data_science.models.ChangeJobRunCompartmentDetails
     oci.data_science.models.ChangeModelCompartmentDetails
     oci.data_science.models.ChangeModelDeploymentCompartmentDetails
+    oci.data_science.models.ChangeModelVersionSetCompartmentDetails
     oci.data_science.models.ChangeNotebookSessionCompartmentDetails
+    oci.data_science.models.ChangePipelineCompartmentDetails
+    oci.data_science.models.ChangePipelineRunCompartmentDetails
     oci.data_science.models.ChangeProjectCompartmentDetails
     oci.data_science.models.CreateJobDetails
     oci.data_science.models.CreateJobRunDetails
     oci.data_science.models.CreateModelDeploymentDetails
     oci.data_science.models.CreateModelDetails
     oci.data_science.models.CreateModelProvenanceDetails
+    oci.data_science.models.CreateModelVersionSetDetails
     oci.data_science.models.CreateNotebookSessionDetails
+    oci.data_science.models.CreatePipelineDetails
+    oci.data_science.models.CreatePipelineRunDetails
     oci.data_science.models.CreateProjectDetails
     oci.data_science.models.DefaultJobConfigurationDetails
     oci.data_science.models.ExportModelArtifactDetails
@@ -64,6 +70,8 @@ Data Science
     oci.data_science.models.ModelDeploymentSummary
     oci.data_science.models.ModelProvenance
     oci.data_science.models.ModelSummary
+    oci.data_science.models.ModelVersionSet
+    oci.data_science.models.ModelVersionSetSummary
     oci.data_science.models.NotebookSession
     oci.data_science.models.NotebookSessionConfigDetails
     oci.data_science.models.NotebookSessionConfigurationDetails
@@ -73,6 +81,27 @@ Data Science
     oci.data_science.models.NotebookSessionShapeConfigDetails
     oci.data_science.models.NotebookSessionShapeSummary
     oci.data_science.models.NotebookSessionSummary
+    oci.data_science.models.Pipeline
+    oci.data_science.models.PipelineConfigurationDetails
+    oci.data_science.models.PipelineCustomScriptStepDetails
+    oci.data_science.models.PipelineCustomScriptStepRun
+    oci.data_science.models.PipelineCustomScriptStepUpdateDetails
+    oci.data_science.models.PipelineDefaultConfigurationDetails
+    oci.data_science.models.PipelineInfrastructureConfigurationDetails
+    oci.data_science.models.PipelineLogConfigurationDetails
+    oci.data_science.models.PipelineMLJobStepDetails
+    oci.data_science.models.PipelineMLJobStepRun
+    oci.data_science.models.PipelineMLJobStepUpdateDetails
+    oci.data_science.models.PipelineRun
+    oci.data_science.models.PipelineRunLogDetails
+    oci.data_science.models.PipelineRunSummary
+    oci.data_science.models.PipelineShapeConfigDetails
+    oci.data_science.models.PipelineStepConfigurationDetails
+    oci.data_science.models.PipelineStepDetails
+    oci.data_science.models.PipelineStepOverrideDetails
+    oci.data_science.models.PipelineStepRun
+    oci.data_science.models.PipelineStepUpdateDetails
+    oci.data_science.models.PipelineSummary
     oci.data_science.models.Project
     oci.data_science.models.ProjectSummary
     oci.data_science.models.ScalingPolicy
@@ -86,7 +115,10 @@ Data Science
     oci.data_science.models.UpdateModelDeploymentDetails
     oci.data_science.models.UpdateModelDetails
     oci.data_science.models.UpdateModelProvenanceDetails
+    oci.data_science.models.UpdateModelVersionSetDetails
     oci.data_science.models.UpdateNotebookSessionDetails
+    oci.data_science.models.UpdatePipelineDetails
+    oci.data_science.models.UpdatePipelineRunDetails
     oci.data_science.models.UpdateProjectDetails
     oci.data_science.models.UpdateSingleModelDeploymentConfigurationDetails
     oci.data_science.models.WorkRequest

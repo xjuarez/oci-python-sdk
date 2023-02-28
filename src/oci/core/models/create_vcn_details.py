@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -341,7 +341,7 @@ class CreateVcnDetails(object):
         Gets the dns_label of this CreateVcnDetails.
         A DNS label for the VCN, used in conjunction with the VNIC's hostname and
         subnet's DNS label to form a fully qualified domain name (FQDN) for each VNIC
-        within this subnet (for example, `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+        within this subnet (for example, `bminstance1.subnet123.vcn1.oraclevcn.com`).
         Not required to be unique, but it's a best practice to set unique DNS labels
         for VCNs in your tenancy. Must be an alphanumeric string that begins with a letter.
         The value cannot be changed.
@@ -369,7 +369,7 @@ class CreateVcnDetails(object):
         Sets the dns_label of this CreateVcnDetails.
         A DNS label for the VCN, used in conjunction with the VNIC's hostname and
         subnet's DNS label to form a fully qualified domain name (FQDN) for each VNIC
-        within this subnet (for example, `bminstance-1.subnet123.vcn1.oraclevcn.com`).
+        within this subnet (for example, `bminstance1.subnet123.vcn1.oraclevcn.com`).
         Not required to be unique, but it's a best practice to set unique DNS labels
         for VCNs in your tenancy. Must be an alphanumeric string that begins with a letter.
         The value cannot be changed.

@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -425,9 +425,9 @@ class VolumeBackup(object):
     def kms_key_id(self):
         """
         Gets the kms_key_id of this VolumeBackup.
-        The OCID of the Key Management key which is the master encryption key for the volume backup.
-        For more information about the Key Management service and encryption keys, see
-        `Overview of Key Management`__ and
+        The OCID of the Vault service key which is the master encryption key for the volume backup.
+        For more information about the Vault service and encryption keys, see
+        `Overview of Vault service`__ and
         `Using Keys`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm
@@ -443,9 +443,9 @@ class VolumeBackup(object):
     def kms_key_id(self, kms_key_id):
         """
         Sets the kms_key_id of this VolumeBackup.
-        The OCID of the Key Management key which is the master encryption key for the volume backup.
-        For more information about the Key Management service and encryption keys, see
-        `Overview of Key Management`__ and
+        The OCID of the Vault service key which is the master encryption key for the volume backup.
+        For more information about the Vault service and encryption keys, see
+        `Overview of Vault service`__ and
         `Using Keys`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm

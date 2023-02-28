@@ -20,6 +20,7 @@ Opsi
 
     oci.opsi.models.AddEmManagedExternalExadataInsightMembersDetails
     oci.opsi.models.AddExadataInsightMembersDetails
+    oci.opsi.models.AddPeComanagedExadataInsightMembersDetails
     oci.opsi.models.AutonomousDatabaseConfigurationSummary
     oci.opsi.models.AutonomousDatabaseInsight
     oci.opsi.models.AutonomousDatabaseInsightSummary
@@ -56,15 +57,28 @@ Opsi
     oci.opsi.models.AwrSnapshotCollection
     oci.opsi.models.AwrSnapshotSummary
     oci.opsi.models.AwrSourceSummary
+    oci.opsi.models.BasicConfigurationItemMetadata
+    oci.opsi.models.BasicConfigurationItemSummary
     oci.opsi.models.ChangeDatabaseInsightCompartmentDetails
     oci.opsi.models.ChangeEnterpriseManagerBridgeCompartmentDetails
     oci.opsi.models.ChangeExadataInsightCompartmentDetails
     oci.opsi.models.ChangeHostInsightCompartmentDetails
     oci.opsi.models.ChangeOperationsInsightsPrivateEndpointCompartmentDetails
+    oci.opsi.models.ChangeOpsiConfigurationCompartmentDetails
     oci.opsi.models.ChangePeComanagedDatabaseInsightDetails
     oci.opsi.models.CloudImportableComputeEntitySummary
+    oci.opsi.models.ConfigurationItemAllowedValueDetails
+    oci.opsi.models.ConfigurationItemFreeTextAllowedValueDetails
+    oci.opsi.models.ConfigurationItemLimitAllowedValueDetails
+    oci.opsi.models.ConfigurationItemMetadata
+    oci.opsi.models.ConfigurationItemPickAllowedValueDetails
+    oci.opsi.models.ConfigurationItemSummary
+    oci.opsi.models.ConfigurationItemUnitDetails
+    oci.opsi.models.ConfigurationItemsCollection
     oci.opsi.models.ConnectionDetails
     oci.opsi.models.CreateAwrHubDetails
+    oci.opsi.models.CreateBasicConfigurationItemDetails
+    oci.opsi.models.CreateConfigurationItemDetails
     oci.opsi.models.CreateDatabaseInsightDetails
     oci.opsi.models.CreateEmManagedExternalDatabaseInsightDetails
     oci.opsi.models.CreateEmManagedExternalExadataInsightDetails
@@ -78,7 +92,11 @@ Opsi
     oci.opsi.models.CreateOperationsInsightsPrivateEndpointDetails
     oci.opsi.models.CreateOperationsInsightsWarehouseDetails
     oci.opsi.models.CreateOperationsInsightsWarehouseUserDetails
+    oci.opsi.models.CreateOpsiConfigurationDetails
+    oci.opsi.models.CreateOpsiUxConfigurationDetails
     oci.opsi.models.CreatePeComanagedDatabaseInsightDetails
+    oci.opsi.models.CreatePeComanagedExadataInsightDetails
+    oci.opsi.models.CreatePeComanagedExadataVmclusterDetails
     oci.opsi.models.CredentialByVault
     oci.opsi.models.CredentialDetails
     oci.opsi.models.CredentialsBySource
@@ -128,6 +146,7 @@ Opsi
     oci.opsi.models.EnableMacsManagedCloudHostInsightDetails
     oci.opsi.models.EnableMacsManagedExternalHostInsightDetails
     oci.opsi.models.EnablePeComanagedDatabaseInsightDetails
+    oci.opsi.models.EnablePeComanagedExadataInsightDetails
     oci.opsi.models.EnterpriseManagerBridge
     oci.opsi.models.EnterpriseManagerBridgeCollection
     oci.opsi.models.EnterpriseManagerBridgeSummary
@@ -138,6 +157,7 @@ Opsi
     oci.opsi.models.ExadataDatabaseStatisticsSummary
     oci.opsi.models.ExadataDetails
     oci.opsi.models.ExadataDiskgroupStatisticsSummary
+    oci.opsi.models.ExadataExacsConfigurationSummary
     oci.opsi.models.ExadataHostStatisticsSummary
     oci.opsi.models.ExadataInsight
     oci.opsi.models.ExadataInsightResourceCapacityTrendAggregation
@@ -227,15 +247,24 @@ Opsi
     oci.opsi.models.OperationsInsightsWarehouseUserSummaryCollection
     oci.opsi.models.OperationsInsightsWarehouseUsers
     oci.opsi.models.OperationsInsightsWarehouses
+    oci.opsi.models.OpsiConfiguration
+    oci.opsi.models.OpsiConfigurationBasicConfigurationItemSummary
+    oci.opsi.models.OpsiConfigurationConfigurationItemSummary
+    oci.opsi.models.OpsiConfigurationSummary
     oci.opsi.models.OpsiConfigurations
+    oci.opsi.models.OpsiConfigurationsCollection
     oci.opsi.models.OpsiDataObject
     oci.opsi.models.OpsiDataObjectSummary
     oci.opsi.models.OpsiDataObjects
     oci.opsi.models.OpsiDataObjectsCollection
+    oci.opsi.models.OpsiUxConfiguration
+    oci.opsi.models.OpsiUxConfigurationSummary
     oci.opsi.models.PeComanagedDatabaseConnectionDetails
     oci.opsi.models.PeComanagedDatabaseHostDetails
     oci.opsi.models.PeComanagedDatabaseInsight
     oci.opsi.models.PeComanagedDatabaseInsightSummary
+    oci.opsi.models.PeComanagedExadataInsight
+    oci.opsi.models.PeComanagedExadataInsightSummary
     oci.opsi.models.PeComanagedHostConfigurationSummary
     oci.opsi.models.PeComanagedManagedExternalDatabaseConfigurationSummary
     oci.opsi.models.ProjectedDataItem
@@ -313,6 +342,8 @@ Opsi
     oci.opsi.models.TopProcessesUsageTrendAggregation
     oci.opsi.models.UpdateAutonomousDatabaseInsightDetails
     oci.opsi.models.UpdateAwrHubDetails
+    oci.opsi.models.UpdateBasicConfigurationItemDetails
+    oci.opsi.models.UpdateConfigurationItemDetails
     oci.opsi.models.UpdateDatabaseInsightDetails
     oci.opsi.models.UpdateEmManagedExternalDatabaseInsightDetails
     oci.opsi.models.UpdateEmManagedExternalExadataInsightDetails
@@ -326,7 +357,12 @@ Opsi
     oci.opsi.models.UpdateOperationsInsightsPrivateEndpointDetails
     oci.opsi.models.UpdateOperationsInsightsWarehouseDetails
     oci.opsi.models.UpdateOperationsInsightsWarehouseUserDetails
+    oci.opsi.models.UpdateOpsiConfigurationDetails
+    oci.opsi.models.UpdateOpsiUxConfigurationDetails
     oci.opsi.models.UpdatePeComanagedDatabaseInsightDetails
+    oci.opsi.models.UpdatePeComanagedExadataInsightDetails
+    oci.opsi.models.UxConfigurationItemsCollection
+    oci.opsi.models.VmClusterSummary
     oci.opsi.models.WorkRequest
     oci.opsi.models.WorkRequestCollection
     oci.opsi.models.WorkRequestError

@@ -8,7 +8,10 @@ Output can be printer friendly, CSV files or JSON file.
 [cost analysis](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm) 
 and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/usagereportsoverview.htm) features should be used instead.**
 
-**Developed by Adi Zohar, 2018-2022**
+Please visit [step_by_step_howto.md](step_by_step_howto.md) for useful Howto information.
+
+**Developed by Adi Zohar, 2018-2023**
+
 
 ![](img/screen_xls.png)
 ![](img/screen_scr1.png)
@@ -60,6 +63,7 @@ and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/
 - oci.bastion.BastionClient
 - oci.key_management.KmsVaultClient
 - oci.data_integration.DataIntegrationClient
+- oci.queue.QueueAdminClient
 
 ## Executing using Cloud Shell:
 ```
@@ -120,7 +124,7 @@ Allow Group ReadOnlyUsers to read resource-availability in tenancy
 Please follow [Python Documentation](https://docs.python.org/3/using/index.html)
 
 ## Install oci SDK Packages:
-Please follow [Oracle Python SDK Documentation](https://github.com/oracle/oci-python-sdk)
+Please follow [Oracle Python SDK Documentation](https://docs.oracle.com/iaas/tools/python/latest/api/landing.html)
 
 ## Setup connectivity using Instance Principals
 
@@ -151,62 +155,68 @@ Execute
 $ python3 showoci.py  
 
 usage: showoci.py [-h] [-a] [-ani] [-an] [-api] [-b] [-c] [-cn] [-d] [-e] [-edge] [-f] [-fun] [-i] [-ic] [-isc] [-l] [-lq] [-m]
-                  [-n] [-o] [-paas] [-dataai] [-rm] [-s] [-sec] [-nobackups] [-so] [-mc] [-nr] [-ip] [-is] [-dt] [-t PROFILE]
-                  [-p PROXY] [-rg REGION] [-cp COMPART] [-cpr COMPART_RECUR] [-cpath COMPARTPATH] [-tenantid TENANTID]
-                  [-cf CONFIG] [-csv CSV] [-csv_nodate] [-jf JOUTFILE] [-js] [-sjf SJOUTFILE] [-cachef SERVICEFILE] [-caches]
-                  [--version]
+                  [-n] [-o] [-paas] [-dataai] [-rm] [-s] [-sec] [-nobackups] [-skipdbhomes] [-readtimeout READTIMEOUT]
+                  [-conntimeout CONNTIMEOUT] [-so] [-mc] [-nr] [-ip] [-is] [-dt] [-t PROFILE] [-p PROXY] [-rg REGION]
+                  [-cp COMPART] [-cpr COMPART_RECUR] [-cpath COMPARTPATH] [-tenantid TENANTID] [-cf CONFIG] [-csv CSV]
+                  [-csvcol CSVCOL] [-csv_nodate] [-csv_notagstocols] [-jf JOUTFILE] [-js] [-sjf SJOUTFILE] [-cachef SERVICEFILE]
+                  [-caches] [--version]
 
-optional arguments:
-  -h, --help           show this help message and exit
-  -a                   Print All Resources
-  -ani                 Print All Resources but identity
-  -an                  Print Announcements
-  -api                 Print API Gateways
-  -b                   Print Budgets
-  -c                   Print Compute
-  -cn                  Print Containers
-  -d                   Print Database
-  -e                   Print EMail
-  -edge                Print Edge, DNS Services and WAAS policies
-  -f                   Print File Storage
-  -fun                 Print Functions
-  -i                   Print Identity
-  -ic                  Print Identity Compartments only
-  -isc                 Skip Identity User Credential extract
-  -l                   Print Load Balancer
-  -lq                  Print Limits and Quotas
-  -m                   Print Monitoring, Notifications, Events, Agents
-  -n                   Print Network
-  -o                   Print Object Storage
-  -paas                Print PaaS Platform Services - OIC OAC OCE OCVS
-  -dataai              Print - D.Science, D.Catalog, D.Flow, ODA, BDS, DI
-  -rm                  Print Resource management
-  -s                   Print Streams
-  -sec                 Print Security, Logging, Vaults
-  -nobackups           Do not process backups
-  -so                  Print Summary Only
-  -mc                  exclude ManagedCompartmentForPaaS
-  -nr                  Not include root compartment
-  -ip                  Use Instance Principals for Authentication
-  -is                  Use Config and Security Token for Authentication
-  -dt                  Use Delegation Token (Cloud shell)
-  -t PROFILE           Config file section to use (tenancy profile)
-  -p PROXY             Set Proxy (i.e. www-proxy-server.com:80)
-  -rg REGION           Filter by Region
-  -cp COMPART          Filter by Compartment Name or OCID
-  -cpr COMPART_RECUR   Filter by Comp Name Recursive
-  -cpath COMPARTPATH   Filter by Compartment path ,(i.e. -cpath "Adi / Sub"
-  -tenantid TENANTID   Override confile file tenancy_id
-  -cf CONFIG           Config File (~/.oci/config)
-  -csv CSV             Output to CSV files, Input as file header
-  -csv_nodate          Do not add date field to the csv
-  -jf JOUTFILE         Output to file (JSON format)
-  -js                  Output to screen (JSON format)
-  -sjf SJOUTFILE       Output to screen (nice format) and JSON File
-  -cachef SERVICEFILE  Output Cache to file (JSON format)
-  -caches              Output Cache to screen (JSON format)
-  --version            show program's version number and exit
-```
+options:
+  -h, --help                show this help message and exit
+  -a                        Print All Resources
+  -ani                      Print All Resources but identity
+  -an                       Print Announcements
+  -api                      Print API Gateways
+  -b                        Print Budgets
+  -c                        Print Compute
+  -cn                       Print Containers
+  -d                        Print Database
+  -e                        Print EMail
+  -edge                     Print Edge, DNS Services and WAAS policies
+  -f                        Print File Storage
+  -fun                      Print Functions
+  -i                        Print Identity
+  -ic                       Print Identity Compartments only
+  -isc                      Skip Identity User Credential extract
+  -l                        Print Load Balancer
+  -lq                       Print Limits and Quotas
+  -m                        Print Monitoring, Notifications, Events, Agents
+  -n                        Print Network
+  -o                        Print Object Storage
+  -paas                     Print PaaS Platform Services - OIC OAC OCE OCVS
+  -dataai                   Print - D.Science, D.Catalog, D.Flow, ODA, BDS, DI
+  -rm                       Print Resource management
+  -s                        Print Streams and Queues
+  -sec                      Print Security, Logging, Vaults
+  -nobackups                Do not process backups
+  -skipdbhomes              Do not process Database Homes and Below
+  -readtimeout READTIMEOUT  Timeout for REST API Connection (Default=20)
+  -conntimeout CONNTIMEOUT  Timeout for REST API Read (Default=150)
+  -so                       Print Summary Only
+  -mc                       exclude ManagedCompartmentForPaaS
+  -nr                       Not include root compartment
+  -ip                       Use Instance Principals for Authentication
+  -is                       Use Config and Security Token for Authentication
+  -dt                       Use Delegation Token (Cloud shell)
+  -t PROFILE                Config file section to use (tenancy profile)
+  -p PROXY                  Set Proxy (i.e. www-proxy-server.com:80)
+  -rg REGION                Filter by Region
+  -cp COMPART               Filter by Compartment Name or OCID
+  -cpr COMPART_RECUR        Filter by Comp Name Recursive
+  -cpath COMPARTPATH        Filter by Compartment path ,(i.e. -cpath "Adi / Sub"
+  -tenantid TENANTID        Override confile file tenancy_id
+  -cf CONFIG                Config File (~/.oci/config)
+  -csv CSV                  Output to CSV files, Input as file header
+  -csvcol CSVCOL            Extract define tags as columns for Compute in CSV
+  -csv_nodate               Do not add date field to the csv
+  -csv_notagstocols         Do not Convert Tags to Columns in CSV Extract
+  -jf JOUTFILE              Output to file (JSON format)
+  -js                       Output to screen (JSON format)
+  -sjf SJOUTFILE            Output to screen (nice format) and JSON File
+  -cachef SERVICEFILE       Output Cache to file (JSON format)
+  -caches                   Output Cache to screen (JSON format)
+  --version                 show program's version number and exit
+  ```
 
 ## Below example of reports from few tenancies  
 

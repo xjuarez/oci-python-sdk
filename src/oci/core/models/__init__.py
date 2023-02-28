@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from __future__ import absolute_import
@@ -389,6 +389,7 @@ from .shape_alternative_object import ShapeAlternativeObject
 from .shape_input_output_memory_management_unit_enabled_platform_options import ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions
 from .shape_max_vnic_attachment_options import ShapeMaxVnicAttachmentOptions
 from .shape_measured_boot_options import ShapeMeasuredBootOptions
+from .shape_memory_encryption_options import ShapeMemoryEncryptionOptions
 from .shape_memory_options import ShapeMemoryOptions
 from .shape_networking_bandwidth_options import ShapeNetworkingBandwidthOptions
 from .shape_numa_nodes_per_socket_platform_options import ShapeNumaNodesPerSocketPlatformOptions
@@ -912,6 +913,7 @@ core_type_mapping = {
     "ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions": ShapeInputOutputMemoryManagementUnitEnabledPlatformOptions,
     "ShapeMaxVnicAttachmentOptions": ShapeMaxVnicAttachmentOptions,
     "ShapeMeasuredBootOptions": ShapeMeasuredBootOptions,
+    "ShapeMemoryEncryptionOptions": ShapeMemoryEncryptionOptions,
     "ShapeMemoryOptions": ShapeMemoryOptions,
     "ShapeNetworkingBandwidthOptions": ShapeNetworkingBandwidthOptions,
     "ShapeNumaNodesPerSocketPlatformOptions": ShapeNumaNodesPerSocketPlatformOptions,

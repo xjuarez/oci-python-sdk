@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .update_deploy_stage_details import UpdateDeployStageDetails
@@ -156,7 +156,7 @@ class UpdateLoadBalancerTrafficShiftDeployStageDetails(UpdateDeployStageDetails)
     def traffic_shift_target(self):
         """
         Gets the traffic_shift_target of this UpdateLoadBalancerTrafficShiftDeployStageDetails.
-        Specifies the target or destination backend set.
+        Specifies the target or destination backend set. Example: BLUE - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs, as per rolloutPolicy. GREEN - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs ser as per rolloutPolicy.
 
 
         :return: The traffic_shift_target of this UpdateLoadBalancerTrafficShiftDeployStageDetails.
@@ -168,7 +168,7 @@ class UpdateLoadBalancerTrafficShiftDeployStageDetails(UpdateDeployStageDetails)
     def traffic_shift_target(self, traffic_shift_target):
         """
         Sets the traffic_shift_target of this UpdateLoadBalancerTrafficShiftDeployStageDetails.
-        Specifies the target or destination backend set.
+        Specifies the target or destination backend set. Example: BLUE - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs, as per rolloutPolicy. GREEN - Traffic from the existing backends of managed Load Balance Listener to blue Backend IPs ser as per rolloutPolicy.
 
 
         :param traffic_shift_target: The traffic_shift_target of this UpdateLoadBalancerTrafficShiftDeployStageDetails.

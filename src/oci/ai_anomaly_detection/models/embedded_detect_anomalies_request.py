@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .detect_anomalies_details import DetectAnomaliesDetails
@@ -37,6 +37,10 @@ class EmbeddedDetectAnomaliesRequest(DetectAnomaliesDetails):
             Allowed values for this property are: "INLINE", "BASE64_ENCODED"
         :type request_type: str
 
+        :param sensitivity:
+            The value to assign to the sensitivity property of this EmbeddedDetectAnomaliesRequest.
+        :type sensitivity: float
+
         :param content_type:
             The value to assign to the content_type property of this EmbeddedDetectAnomaliesRequest.
             Allowed values for this property are: "CSV", "JSON"
@@ -50,6 +54,7 @@ class EmbeddedDetectAnomaliesRequest(DetectAnomaliesDetails):
         self.swagger_types = {
             'model_id': 'str',
             'request_type': 'str',
+            'sensitivity': 'float',
             'content_type': 'str',
             'content': 'str'
         }
@@ -57,12 +62,14 @@ class EmbeddedDetectAnomaliesRequest(DetectAnomaliesDetails):
         self.attribute_map = {
             'model_id': 'modelId',
             'request_type': 'requestType',
+            'sensitivity': 'sensitivity',
             'content_type': 'contentType',
             'content': 'content'
         }
 
         self._model_id = None
         self._request_type = None
+        self._sensitivity = None
         self._content_type = None
         self._content = None
         self._request_type = 'BASE64_ENCODED'

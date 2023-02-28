@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -75,6 +75,10 @@ class UpdateAutonomousDatabaseDetails(object):
         :param cpu_core_count:
             The value to assign to the cpu_core_count property of this UpdateAutonomousDatabaseDetails.
         :type cpu_core_count: int
+
+        :param compute_count:
+            The value to assign to the compute_count property of this UpdateAutonomousDatabaseDetails.
+        :type compute_count: float
 
         :param ocpu_count:
             The value to assign to the ocpu_count property of this UpdateAutonomousDatabaseDetails.
@@ -185,6 +189,10 @@ class UpdateAutonomousDatabaseDetails(object):
             The value to assign to the private_endpoint_label property of this UpdateAutonomousDatabaseDetails.
         :type private_endpoint_label: str
 
+        :param private_endpoint_ip:
+            The value to assign to the private_endpoint_ip property of this UpdateAutonomousDatabaseDetails.
+        :type private_endpoint_ip: str
+
         :param nsg_ids:
             The value to assign to the nsg_ids property of this UpdateAutonomousDatabaseDetails.
         :type nsg_ids: list[str]
@@ -213,9 +221,22 @@ class UpdateAutonomousDatabaseDetails(object):
             The value to assign to the database_edition property of this UpdateAutonomousDatabaseDetails.
         :type database_edition: str
 
+        :param db_tools_details:
+            The value to assign to the db_tools_details property of this UpdateAutonomousDatabaseDetails.
+        :type db_tools_details: list[oci.database.models.DatabaseTool]
+
+        :param secret_id:
+            The value to assign to the secret_id property of this UpdateAutonomousDatabaseDetails.
+        :type secret_id: str
+
+        :param secret_version_number:
+            The value to assign to the secret_version_number property of this UpdateAutonomousDatabaseDetails.
+        :type secret_version_number: int
+
         """
         self.swagger_types = {
             'cpu_core_count': 'int',
+            'compute_count': 'float',
             'ocpu_count': 'float',
             'data_storage_size_in_tbs': 'int',
             'data_storage_size_in_gbs': 'int',
@@ -242,17 +263,22 @@ class UpdateAutonomousDatabaseDetails(object):
             'permission_level': 'str',
             'subnet_id': 'str',
             'private_endpoint_label': 'str',
+            'private_endpoint_ip': 'str',
             'nsg_ids': 'list[str]',
             'customer_contacts': 'list[CustomerContact]',
             'is_mtls_connection_required': 'bool',
             'scheduled_operations': 'list[ScheduledOperationDetails]',
             'is_auto_scaling_for_storage_enabled': 'bool',
             'max_cpu_core_count': 'int',
-            'database_edition': 'str'
+            'database_edition': 'str',
+            'db_tools_details': 'list[DatabaseTool]',
+            'secret_id': 'str',
+            'secret_version_number': 'int'
         }
 
         self.attribute_map = {
             'cpu_core_count': 'cpuCoreCount',
+            'compute_count': 'computeCount',
             'ocpu_count': 'ocpuCount',
             'data_storage_size_in_tbs': 'dataStorageSizeInTBs',
             'data_storage_size_in_gbs': 'dataStorageSizeInGBs',
@@ -279,16 +305,21 @@ class UpdateAutonomousDatabaseDetails(object):
             'permission_level': 'permissionLevel',
             'subnet_id': 'subnetId',
             'private_endpoint_label': 'privateEndpointLabel',
+            'private_endpoint_ip': 'privateEndpointIp',
             'nsg_ids': 'nsgIds',
             'customer_contacts': 'customerContacts',
             'is_mtls_connection_required': 'isMtlsConnectionRequired',
             'scheduled_operations': 'scheduledOperations',
             'is_auto_scaling_for_storage_enabled': 'isAutoScalingForStorageEnabled',
             'max_cpu_core_count': 'maxCpuCoreCount',
-            'database_edition': 'databaseEdition'
+            'database_edition': 'databaseEdition',
+            'db_tools_details': 'dbToolsDetails',
+            'secret_id': 'secretId',
+            'secret_version_number': 'secretVersionNumber'
         }
 
         self._cpu_core_count = None
+        self._compute_count = None
         self._ocpu_count = None
         self._data_storage_size_in_tbs = None
         self._data_storage_size_in_gbs = None
@@ -315,6 +346,7 @@ class UpdateAutonomousDatabaseDetails(object):
         self._permission_level = None
         self._subnet_id = None
         self._private_endpoint_label = None
+        self._private_endpoint_ip = None
         self._nsg_ids = None
         self._customer_contacts = None
         self._is_mtls_connection_required = None
@@ -322,14 +354,17 @@ class UpdateAutonomousDatabaseDetails(object):
         self._is_auto_scaling_for_storage_enabled = None
         self._max_cpu_core_count = None
         self._database_edition = None
+        self._db_tools_details = None
+        self._secret_id = None
+        self._secret_version_number = None
 
     @property
     def cpu_core_count(self):
         """
         Gets the cpu_core_count of this UpdateAutonomousDatabaseDetails.
-        The number of OCPU cores to be made available to the Autonomous Database.
+        The number of CPUs to be made available to the Autonomous Database.
 
-        **Note:** This parameter cannot be used with the `ocpuCount` parameter.
+        **Note:** This parameter cannot be used with the `ocpuCount` or `computeCount` parameter.
 
 
         :return: The cpu_core_count of this UpdateAutonomousDatabaseDetails.
@@ -341,15 +376,39 @@ class UpdateAutonomousDatabaseDetails(object):
     def cpu_core_count(self, cpu_core_count):
         """
         Sets the cpu_core_count of this UpdateAutonomousDatabaseDetails.
-        The number of OCPU cores to be made available to the Autonomous Database.
+        The number of CPUs to be made available to the Autonomous Database.
 
-        **Note:** This parameter cannot be used with the `ocpuCount` parameter.
+        **Note:** This parameter cannot be used with the `ocpuCount` or `computeCount` parameter.
 
 
         :param cpu_core_count: The cpu_core_count of this UpdateAutonomousDatabaseDetails.
         :type: int
         """
         self._cpu_core_count = cpu_core_count
+
+    @property
+    def compute_count(self):
+        """
+        Gets the compute_count of this UpdateAutonomousDatabaseDetails.
+        The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.@endif
+
+
+        :return: The compute_count of this UpdateAutonomousDatabaseDetails.
+        :rtype: float
+        """
+        return self._compute_count
+
+    @compute_count.setter
+    def compute_count(self, compute_count):
+        """
+        Sets the compute_count of this UpdateAutonomousDatabaseDetails.
+        The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.@endif
+
+
+        :param compute_count: The compute_count of this UpdateAutonomousDatabaseDetails.
+        :type: float
+        """
+        self._compute_count = compute_count
 
     @property
     def ocpu_count(self):
@@ -1222,6 +1281,30 @@ class UpdateAutonomousDatabaseDetails(object):
         self._private_endpoint_label = private_endpoint_label
 
     @property
+    def private_endpoint_ip(self):
+        """
+        Gets the private_endpoint_ip of this UpdateAutonomousDatabaseDetails.
+        The private endpoint Ip address for the resource.
+
+
+        :return: The private_endpoint_ip of this UpdateAutonomousDatabaseDetails.
+        :rtype: str
+        """
+        return self._private_endpoint_ip
+
+    @private_endpoint_ip.setter
+    def private_endpoint_ip(self, private_endpoint_ip):
+        """
+        Sets the private_endpoint_ip of this UpdateAutonomousDatabaseDetails.
+        The private endpoint Ip address for the resource.
+
+
+        :param private_endpoint_ip: The private_endpoint_ip of this UpdateAutonomousDatabaseDetails.
+        :type: str
+        """
+        self._private_endpoint_ip = private_endpoint_ip
+
+    @property
     def nsg_ids(self):
         """
         Gets the nsg_ids of this UpdateAutonomousDatabaseDetails.
@@ -1398,6 +1481,78 @@ class UpdateAutonomousDatabaseDetails(object):
         :type: str
         """
         self._database_edition = database_edition
+
+    @property
+    def db_tools_details(self):
+        """
+        Gets the db_tools_details of this UpdateAutonomousDatabaseDetails.
+        List of database tools details.
+
+
+        :return: The db_tools_details of this UpdateAutonomousDatabaseDetails.
+        :rtype: list[oci.database.models.DatabaseTool]
+        """
+        return self._db_tools_details
+
+    @db_tools_details.setter
+    def db_tools_details(self, db_tools_details):
+        """
+        Sets the db_tools_details of this UpdateAutonomousDatabaseDetails.
+        List of database tools details.
+
+
+        :param db_tools_details: The db_tools_details of this UpdateAutonomousDatabaseDetails.
+        :type: list[oci.database.models.DatabaseTool]
+        """
+        self._db_tools_details = db_tools_details
+
+    @property
+    def secret_id(self):
+        """
+        Gets the secret_id of this UpdateAutonomousDatabaseDetails.
+        The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+
+
+        :return: The secret_id of this UpdateAutonomousDatabaseDetails.
+        :rtype: str
+        """
+        return self._secret_id
+
+    @secret_id.setter
+    def secret_id(self, secret_id):
+        """
+        Sets the secret_id of this UpdateAutonomousDatabaseDetails.
+        The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+
+
+        :param secret_id: The secret_id of this UpdateAutonomousDatabaseDetails.
+        :type: str
+        """
+        self._secret_id = secret_id
+
+    @property
+    def secret_version_number(self):
+        """
+        Gets the secret_version_number of this UpdateAutonomousDatabaseDetails.
+        The version of the vault secret. If no version is specified, the latest version will be used.
+
+
+        :return: The secret_version_number of this UpdateAutonomousDatabaseDetails.
+        :rtype: int
+        """
+        return self._secret_version_number
+
+    @secret_version_number.setter
+    def secret_version_number(self, secret_version_number):
+        """
+        Sets the secret_version_number of this UpdateAutonomousDatabaseDetails.
+        The version of the vault secret. If no version is specified, the latest version will be used.
+
+
+        :param secret_version_number: The secret_version_number of this UpdateAutonomousDatabaseDetails.
+        :type: int
+        """
+        self._secret_version_number = secret_version_number
 
     def __repr__(self):
         return formatted_flat_dict(self)

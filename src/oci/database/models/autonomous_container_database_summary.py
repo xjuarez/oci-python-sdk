@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -93,6 +93,14 @@ class AutonomousContainerDatabaseSummary(object):
     #: This constant has a value of "RELEASE_UPDATE_REVISIONS"
     PATCH_MODEL_RELEASE_UPDATE_REVISIONS = "RELEASE_UPDATE_REVISIONS"
 
+    #: A constant which can be used with the version_preference property of a AutonomousContainerDatabaseSummary.
+    #: This constant has a value of "NEXT_RELEASE_UPDATE"
+    VERSION_PREFERENCE_NEXT_RELEASE_UPDATE = "NEXT_RELEASE_UPDATE"
+
+    #: A constant which can be used with the version_preference property of a AutonomousContainerDatabaseSummary.
+    #: This constant has a value of "LATEST_RELEASE_UPDATE"
+    VERSION_PREFERENCE_LATEST_RELEASE_UPDATE = "LATEST_RELEASE_UPDATE"
+
     #: A constant which can be used with the role property of a AutonomousContainerDatabaseSummary.
     #: This constant has a value of "PRIMARY"
     ROLE_PRIMARY = "PRIMARY"
@@ -104,6 +112,18 @@ class AutonomousContainerDatabaseSummary(object):
     #: A constant which can be used with the role property of a AutonomousContainerDatabaseSummary.
     #: This constant has a value of "DISABLED_STANDBY"
     ROLE_DISABLED_STANDBY = "DISABLED_STANDBY"
+
+    #: A constant which can be used with the role property of a AutonomousContainerDatabaseSummary.
+    #: This constant has a value of "SNAPSHOT_STANDBY"
+    ROLE_SNAPSHOT_STANDBY = "SNAPSHOT_STANDBY"
+
+    #: A constant which can be used with the compute_model property of a AutonomousContainerDatabaseSummary.
+    #: This constant has a value of "ECPU"
+    COMPUTE_MODEL_ECPU = "ECPU"
+
+    #: A constant which can be used with the compute_model property of a AutonomousContainerDatabaseSummary.
+    #: This constant has a value of "OCPU"
+    COMPUTE_MODEL_OCPU = "OCPU"
 
     def __init__(self, **kwargs):
         """
@@ -180,6 +200,10 @@ class AutonomousContainerDatabaseSummary(object):
             The value to assign to the time_created property of this AutonomousContainerDatabaseSummary.
         :type time_created: datetime
 
+        :param time_snapshot_standby_revert:
+            The value to assign to the time_snapshot_standby_revert property of this AutonomousContainerDatabaseSummary.
+        :type time_snapshot_standby_revert: datetime
+
         :param patch_model:
             The value to assign to the patch_model property of this AutonomousContainerDatabaseSummary.
             Allowed values for this property are: "RELEASE_UPDATES", "RELEASE_UPDATE_REVISIONS", 'UNKNOWN_ENUM_VALUE'.
@@ -206,6 +230,12 @@ class AutonomousContainerDatabaseSummary(object):
             The value to assign to the standby_maintenance_buffer_in_days property of this AutonomousContainerDatabaseSummary.
         :type standby_maintenance_buffer_in_days: int
 
+        :param version_preference:
+            The value to assign to the version_preference property of this AutonomousContainerDatabaseSummary.
+            Allowed values for this property are: "NEXT_RELEASE_UPDATE", "LATEST_RELEASE_UPDATE", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type version_preference: str
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this AutonomousContainerDatabaseSummary.
         :type freeform_tags: dict(str, str)
@@ -216,7 +246,7 @@ class AutonomousContainerDatabaseSummary(object):
 
         :param role:
             The value to assign to the role property of this AutonomousContainerDatabaseSummary.
-            Allowed values for this property are: "PRIMARY", "STANDBY", "DISABLED_STANDBY", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "PRIMARY", "STANDBY", "DISABLED_STANDBY", "SNAPSHOT_STANDBY", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type role: str
 
@@ -260,6 +290,12 @@ class AutonomousContainerDatabaseSummary(object):
             The value to assign to the provisionable_cpus property of this AutonomousContainerDatabaseSummary.
         :type provisionable_cpus: list[float]
 
+        :param compute_model:
+            The value to assign to the compute_model property of this AutonomousContainerDatabaseSummary.
+            Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type compute_model: str
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -278,12 +314,14 @@ class AutonomousContainerDatabaseSummary(object):
             'lifecycle_state': 'str',
             'lifecycle_details': 'str',
             'time_created': 'datetime',
+            'time_snapshot_standby_revert': 'datetime',
             'patch_model': 'str',
             'patch_id': 'str',
             'last_maintenance_run_id': 'str',
             'next_maintenance_run_id': 'str',
             'maintenance_window': 'MaintenanceWindow',
             'standby_maintenance_buffer_in_days': 'int',
+            'version_preference': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'role': 'str',
@@ -296,7 +334,8 @@ class AutonomousContainerDatabaseSummary(object):
             'available_cpus': 'float',
             'total_cpus': 'int',
             'reclaimable_cpus': 'float',
-            'provisionable_cpus': 'list[float]'
+            'provisionable_cpus': 'list[float]',
+            'compute_model': 'str'
         }
 
         self.attribute_map = {
@@ -316,12 +355,14 @@ class AutonomousContainerDatabaseSummary(object):
             'lifecycle_state': 'lifecycleState',
             'lifecycle_details': 'lifecycleDetails',
             'time_created': 'timeCreated',
+            'time_snapshot_standby_revert': 'timeSnapshotStandbyRevert',
             'patch_model': 'patchModel',
             'patch_id': 'patchId',
             'last_maintenance_run_id': 'lastMaintenanceRunId',
             'next_maintenance_run_id': 'nextMaintenanceRunId',
             'maintenance_window': 'maintenanceWindow',
             'standby_maintenance_buffer_in_days': 'standbyMaintenanceBufferInDays',
+            'version_preference': 'versionPreference',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'role': 'role',
@@ -334,7 +375,8 @@ class AutonomousContainerDatabaseSummary(object):
             'available_cpus': 'availableCpus',
             'total_cpus': 'totalCpus',
             'reclaimable_cpus': 'reclaimableCpus',
-            'provisionable_cpus': 'provisionableCpus'
+            'provisionable_cpus': 'provisionableCpus',
+            'compute_model': 'computeModel'
         }
 
         self._id = None
@@ -353,12 +395,14 @@ class AutonomousContainerDatabaseSummary(object):
         self._lifecycle_state = None
         self._lifecycle_details = None
         self._time_created = None
+        self._time_snapshot_standby_revert = None
         self._patch_model = None
         self._patch_id = None
         self._last_maintenance_run_id = None
         self._next_maintenance_run_id = None
         self._maintenance_window = None
         self._standby_maintenance_buffer_in_days = None
+        self._version_preference = None
         self._freeform_tags = None
         self._defined_tags = None
         self._role = None
@@ -372,6 +416,7 @@ class AutonomousContainerDatabaseSummary(object):
         self._total_cpus = None
         self._reclaimable_cpus = None
         self._provisionable_cpus = None
+        self._compute_model = None
 
     @property
     def id(self):
@@ -786,6 +831,30 @@ class AutonomousContainerDatabaseSummary(object):
         self._time_created = time_created
 
     @property
+    def time_snapshot_standby_revert(self):
+        """
+        Gets the time_snapshot_standby_revert of this AutonomousContainerDatabaseSummary.
+        The date and time the Autonomous Container Database will be reverted to Standby from Snapshot Standby.
+
+
+        :return: The time_snapshot_standby_revert of this AutonomousContainerDatabaseSummary.
+        :rtype: datetime
+        """
+        return self._time_snapshot_standby_revert
+
+    @time_snapshot_standby_revert.setter
+    def time_snapshot_standby_revert(self, time_snapshot_standby_revert):
+        """
+        Sets the time_snapshot_standby_revert of this AutonomousContainerDatabaseSummary.
+        The date and time the Autonomous Container Database will be reverted to Standby from Snapshot Standby.
+
+
+        :param time_snapshot_standby_revert: The time_snapshot_standby_revert of this AutonomousContainerDatabaseSummary.
+        :type: datetime
+        """
+        self._time_snapshot_standby_revert = time_snapshot_standby_revert
+
+    @property
     def patch_model(self):
         """
         **[Required]** Gets the patch_model of this AutonomousContainerDatabaseSummary.
@@ -946,6 +1015,36 @@ class AutonomousContainerDatabaseSummary(object):
         self._standby_maintenance_buffer_in_days = standby_maintenance_buffer_in_days
 
     @property
+    def version_preference(self):
+        """
+        Gets the version_preference of this AutonomousContainerDatabaseSummary.
+        The next maintenance version preference.
+
+        Allowed values for this property are: "NEXT_RELEASE_UPDATE", "LATEST_RELEASE_UPDATE", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The version_preference of this AutonomousContainerDatabaseSummary.
+        :rtype: str
+        """
+        return self._version_preference
+
+    @version_preference.setter
+    def version_preference(self, version_preference):
+        """
+        Sets the version_preference of this AutonomousContainerDatabaseSummary.
+        The next maintenance version preference.
+
+
+        :param version_preference: The version_preference of this AutonomousContainerDatabaseSummary.
+        :type: str
+        """
+        allowed_values = ["NEXT_RELEASE_UPDATE", "LATEST_RELEASE_UPDATE"]
+        if not value_allowed_none_or_none_sentinel(version_preference, allowed_values):
+            version_preference = 'UNKNOWN_ENUM_VALUE'
+        self._version_preference = version_preference
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this AutonomousContainerDatabaseSummary.
@@ -1015,7 +1114,7 @@ class AutonomousContainerDatabaseSummary(object):
         Gets the role of this AutonomousContainerDatabaseSummary.
         The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
 
-        Allowed values for this property are: "PRIMARY", "STANDBY", "DISABLED_STANDBY", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "PRIMARY", "STANDBY", "DISABLED_STANDBY", "SNAPSHOT_STANDBY", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -1034,7 +1133,7 @@ class AutonomousContainerDatabaseSummary(object):
         :param role: The role of this AutonomousContainerDatabaseSummary.
         :type: str
         """
-        allowed_values = ["PRIMARY", "STANDBY", "DISABLED_STANDBY"]
+        allowed_values = ["PRIMARY", "STANDBY", "DISABLED_STANDBY", "SNAPSHOT_STANDBY"]
         if not value_allowed_none_or_none_sentinel(role, allowed_values):
             role = 'UNKNOWN_ENUM_VALUE'
         self._role = role
@@ -1163,7 +1262,7 @@ class AutonomousContainerDatabaseSummary(object):
     def memory_per_oracle_compute_unit_in_gbs(self):
         """
         Gets the memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
-        The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
+        The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
 
 
         :return: The memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
@@ -1175,7 +1274,7 @@ class AutonomousContainerDatabaseSummary(object):
     def memory_per_oracle_compute_unit_in_gbs(self, memory_per_oracle_compute_unit_in_gbs):
         """
         Sets the memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
-        The amount of memory (in GBs) enabled per each OCPU core in Autonomous VM Cluster.
+        The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
 
 
         :param memory_per_oracle_compute_unit_in_gbs: The memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
@@ -1187,7 +1286,7 @@ class AutonomousContainerDatabaseSummary(object):
     def available_cpus(self):
         """
         Gets the available_cpus of this AutonomousContainerDatabaseSummary.
-        Sum of OCPUs available on the Autonomous VM Cluster + Sum of reclaimable OCPUs available in the Autonomous Container Database.
+        Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
 
 
         :return: The available_cpus of this AutonomousContainerDatabaseSummary.
@@ -1199,7 +1298,7 @@ class AutonomousContainerDatabaseSummary(object):
     def available_cpus(self, available_cpus):
         """
         Sets the available_cpus of this AutonomousContainerDatabaseSummary.
-        Sum of OCPUs available on the Autonomous VM Cluster + Sum of reclaimable OCPUs available in the Autonomous Container Database.
+        Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
 
 
         :param available_cpus: The available_cpus of this AutonomousContainerDatabaseSummary.
@@ -1211,7 +1310,7 @@ class AutonomousContainerDatabaseSummary(object):
     def total_cpus(self):
         """
         Gets the total_cpus of this AutonomousContainerDatabaseSummary.
-        The number of CPU cores allocated to the Autonomous VM cluster.
+        The number of CPUs allocated to the Autonomous VM cluster.
 
 
         :return: The total_cpus of this AutonomousContainerDatabaseSummary.
@@ -1223,7 +1322,7 @@ class AutonomousContainerDatabaseSummary(object):
     def total_cpus(self, total_cpus):
         """
         Sets the total_cpus of this AutonomousContainerDatabaseSummary.
-        The number of CPU cores allocated to the Autonomous VM cluster.
+        The number of CPUs allocated to the Autonomous VM cluster.
 
 
         :param total_cpus: The total_cpus of this AutonomousContainerDatabaseSummary.
@@ -1235,7 +1334,7 @@ class AutonomousContainerDatabaseSummary(object):
     def reclaimable_cpus(self):
         """
         Gets the reclaimable_cpus of this AutonomousContainerDatabaseSummary.
-        CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+        CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
 
 
         :return: The reclaimable_cpus of this AutonomousContainerDatabaseSummary.
@@ -1247,7 +1346,7 @@ class AutonomousContainerDatabaseSummary(object):
     def reclaimable_cpus(self, reclaimable_cpus):
         """
         Sets the reclaimable_cpus of this AutonomousContainerDatabaseSummary.
-        CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+        CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
 
 
         :param reclaimable_cpus: The reclaimable_cpus of this AutonomousContainerDatabaseSummary.
@@ -1278,6 +1377,36 @@ class AutonomousContainerDatabaseSummary(object):
         :type: list[float]
         """
         self._provisionable_cpus = provisionable_cpus
+
+    @property
+    def compute_model(self):
+        """
+        Gets the compute_model of this AutonomousContainerDatabaseSummary.
+        The compute model of the Autonomous VM Cluster.
+
+        Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The compute_model of this AutonomousContainerDatabaseSummary.
+        :rtype: str
+        """
+        return self._compute_model
+
+    @compute_model.setter
+    def compute_model(self, compute_model):
+        """
+        Sets the compute_model of this AutonomousContainerDatabaseSummary.
+        The compute model of the Autonomous VM Cluster.
+
+
+        :param compute_model: The compute_model of this AutonomousContainerDatabaseSummary.
+        :type: str
+        """
+        allowed_values = ["ECPU", "OCPU"]
+        if not value_allowed_none_or_none_sentinel(compute_model, allowed_values):
+            compute_model = 'UNKNOWN_ENUM_VALUE'
+        self._compute_model = compute_model
 
     def __repr__(self):
         return formatted_flat_dict(self)

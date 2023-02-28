@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .oke_canary_strategy import OkeCanaryStrategy
@@ -54,7 +54,7 @@ class NginxCanaryStrategy(OkeCanaryStrategy):
     def namespace(self):
         """
         **[Required]** Gets the namespace of this NginxCanaryStrategy.
-        Canary namespace to be used for Kubernetes canary deployment.
+        Canary namespace to be used for Kubernetes canary deployment. Example: canary - Name of the Canary namespace.
 
 
         :return: The namespace of this NginxCanaryStrategy.
@@ -66,7 +66,7 @@ class NginxCanaryStrategy(OkeCanaryStrategy):
     def namespace(self, namespace):
         """
         Sets the namespace of this NginxCanaryStrategy.
-        Canary namespace to be used for Kubernetes canary deployment.
+        Canary namespace to be used for Kubernetes canary deployment. Example: canary - Name of the Canary namespace.
 
 
         :param namespace: The namespace of this NginxCanaryStrategy.

@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .platform_config import PlatformConfig
@@ -36,25 +36,32 @@ class AmdVmPlatformConfig(PlatformConfig):
             The value to assign to the is_measured_boot_enabled property of this AmdVmPlatformConfig.
         :type is_measured_boot_enabled: bool
 
+        :param is_memory_encryption_enabled:
+            The value to assign to the is_memory_encryption_enabled property of this AmdVmPlatformConfig.
+        :type is_memory_encryption_enabled: bool
+
         """
         self.swagger_types = {
             'type': 'str',
             'is_secure_boot_enabled': 'bool',
             'is_trusted_platform_module_enabled': 'bool',
-            'is_measured_boot_enabled': 'bool'
+            'is_measured_boot_enabled': 'bool',
+            'is_memory_encryption_enabled': 'bool'
         }
 
         self.attribute_map = {
             'type': 'type',
             'is_secure_boot_enabled': 'isSecureBootEnabled',
             'is_trusted_platform_module_enabled': 'isTrustedPlatformModuleEnabled',
-            'is_measured_boot_enabled': 'isMeasuredBootEnabled'
+            'is_measured_boot_enabled': 'isMeasuredBootEnabled',
+            'is_memory_encryption_enabled': 'isMemoryEncryptionEnabled'
         }
 
         self._type = None
         self._is_secure_boot_enabled = None
         self._is_trusted_platform_module_enabled = None
         self._is_measured_boot_enabled = None
+        self._is_memory_encryption_enabled = None
         self._type = 'AMD_VM'
 
     def __repr__(self):

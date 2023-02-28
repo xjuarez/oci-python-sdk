@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .deploy_stage_execution_progress import DeployStageExecutionProgress
@@ -96,6 +96,8 @@ class ManualApprovalDeployStageExecutionProgress(DeployStageExecutionProgress):
     def approval_actions(self):
         """
         Gets the approval_actions of this ManualApprovalDeployStageExecutionProgress.
+        Specifies the Canary approval actions.
+
 
         :return: The approval_actions of this ManualApprovalDeployStageExecutionProgress.
         :rtype: list[oci.devops.models.ApprovalAction]
@@ -106,6 +108,8 @@ class ManualApprovalDeployStageExecutionProgress(DeployStageExecutionProgress):
     def approval_actions(self, approval_actions):
         """
         Sets the approval_actions of this ManualApprovalDeployStageExecutionProgress.
+        Specifies the Canary approval actions.
+
 
         :param approval_actions: The approval_actions of this ManualApprovalDeployStageExecutionProgress.
         :type: list[oci.devops.models.ApprovalAction]

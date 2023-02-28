@@ -1,5 +1,5 @@
 ##########################################################################
-# Copyright (c) 2016, 2020, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # showoci_service.py
@@ -31,111 +31,9 @@ import platform
 ##########################################################################
 # class ShowOCIService
 ##########################################################################
-class ShowOCIFlags(object):
-    # Read Flags
-    read_identity = False
-    read_identity_compartments = False
-    read_network = False
-    read_compute = False
-    read_database = False
-    read_file_storage = False
-    read_object_storage = False
-    read_load_balancer = False
-    read_email_distribution = False
-    read_resource_management = False
-    read_containers = False
-    read_streams = False
-    read_budgets = False
-    read_monitoring_notifications = False
-    read_edge = False
-    read_security = False
-    read_announcement = False
-    read_ManagedCompartmentForPaaS = True
-    read_root_compartment = True
-    read_limits = False
-    read_paas_native = False
-    read_function = False
-    read_api = False
-    read_data_ai = False
-    skip_identity_user_credential = False
-    skip_backups = False
-
-    # is_vcn_exist_for_region
-    is_vcn_exist_for_region = False
-
-    # filter flags
-    filter_by_region = ""
-    filter_by_compartment = ""
-    filter_by_compartment_recursive = ""
-    filter_by_compartment_path = ""
-    filter_by_tenancy_id = ""
-
-    # version, config files and proxy
-    proxy = ""
-    showoci_version = ""
-    config_file = oci.config.DEFAULT_LOCATION
-    config_section = oci.config.DEFAULT_PROFILE
-    use_instance_principals = False
-    use_delegation_token = False
-    use_security_token = False
-
-    # pyton and host info
-    machine = platform.node() + " (" + platform.machine() + ")"
-    python = platform.python_version()
-
-    # flag if to run on compartment
-    run_on_compartments = False
-
-    ############################################
-    # Init
-    ############################################
-    def __init__(self):
-        pass
-
-    ############################################
-    # get run on compartments flag
-    ############################################
-    def is_loop_on_compartments(self):
-        return (self.read_network or
-                self.read_compute or
-                self.read_database or
-                self.read_file_storage or
-                self.read_object_storage or
-                self.read_load_balancer or
-                self.read_email_distribution or
-                self.read_resource_management or
-                self.read_containers or
-                self.read_streams or
-                self.read_budgets or
-                self.read_monitoring_notifications or
-                self.read_edge or
-                self.read_paas_native or
-                self.read_limits or
-                self.read_api or
-                self.read_function or
-                self.read_data_ai or
-                self.read_security)
-
-    ############################################
-    # check if to load basic network (vcn+subnets)
-    ############################################
-    def is_load_basic_network(self):
-        return (self.read_network or
-                self.read_compute or
-                self.read_database or
-                self.read_file_storage or
-                self.read_load_balancer or
-                self.read_containers or
-                self.read_function or
-                self.read_api or
-                self.read_paas_native)
-
-
-##########################################################################
-# class ShowOCIService
-##########################################################################
 class ShowOCIService(object):
-    oci_compatible_version = "2.88.0"
+    version = "23.02.14"
+    oci_compatible_version = "2.90.3"
 
     ##########################################################################
     # Global Constants
@@ -235,14 +133,17 @@ class ShowOCIService(object):
     # database
     C_DATABASE = "database"
     C_DATABASE_HOMES = "dhomes"
+    C_DATABASE_BACKUPS = "backups"
     C_DATABASE_DBSYSTEMS = "dbsystems"
     C_DATABASE_EXADATA = "exadata"
     C_DATABASE_EXADATA_VMS = "exadata_vmclusters"
+    C_DATABASE_EXACC_ADB_VMS = "exadata_adb_vmclusters"
     C_DATABASE_EXACC = "exacc"
     C_DATABASE_EXACC_VMS = "exacc_vmclusters"
     C_DATABASE_EXACC_DBSERVERS = "exacc_db_servers"
     C_DATABASE_ADB_DATABASE = "autonomous"
-    C_DATABASE_ADB_D_INFRA = "autonomous_dedicated_infrastructure"
+    C_DATABASE_ADB_D_VMS = "autonomous_dedicated_vmclusters"
+    C_DATABASE_ADB_D_CONTAINERS = "autonomous_dedicated_containers"
     C_DATABASE_NOSQL = "nosql"
     C_DATABASE_MYSQL = "mysql"
     C_DATABASE_SOFTWARE_IMAGES = "database_software_images"
@@ -257,9 +158,10 @@ class ShowOCIService(object):
     C_CONTAINER_CLUSTERS = "clusters"
     C_CONTAINER_NODE_POOLS = "nodepools"
 
-    # streams
-    C_STREAMS = "streams"
+    # streams and queues
+    C_STREAMS = "streams_queues"
     C_STREAMS_STREAMS = "streams"
+    C_STREAMS_QUEUES = "queues"
 
     # budgets
     C_BUDGETS = "budgets"
@@ -316,6 +218,7 @@ class ShowOCIService(object):
     C_DATA_AI = "data_ai"
     C_DATA_AI_SCIENCE = "data_science"
     C_DATA_AI_CATALOG = "data_catalog"
+    C_DATA_AI_DCREGISTRY = "data_connectivity_registry"
     C_DATA_AI_FLOW = "data_flow"
     C_DATA_AI_DI = "data_integration"
     C_DATA_AI_ODA = "oda"
@@ -866,6 +769,38 @@ class ShowOCIService(object):
         return ""
 
     ##########################################################################
+    # Get Database Edition
+    ##########################################################################
+    def get_database_short_edition(self, edition):
+        if not edition:
+            return ""
+
+        if edition == "ENTERPRISE_EDITION":
+            return "EE"
+        elif edition == "ENTERPRISE_EDITION_EXTREME_PERFORMANCE":
+            return "XP"
+        elif edition == "ENTERPRISE_EDITION_HIGH_PERFORMANCE":
+            return "HP"
+        elif edition == "STANDARD_EDITION":
+            return "SE"
+        else:
+            return edition
+
+    ##########################################################################
+    # Get Database Short license
+    ##########################################################################
+    def get_database_short_license(self, license):
+        if not license:
+            return ""
+
+        if license == "BRING_YOUR_OWN_LICENSE":
+            return "BYOL"
+        elif license == "LICENSE_INCLUDED":
+            return "INCL"
+        else:
+            return license
+
+    ##########################################################################
     # check oci version
     ##########################################################################
     def check_oci_version_compatible(self):
@@ -965,7 +900,7 @@ class ShowOCIService(object):
     # print status message
     ##########################################################################
     def __load_print_status(self, msg):
-        print("--> " + msg.ljust(25) + "<-- ", end="")
+        print("--> " + msg.ljust(27) + "<-- ", end="")
 
     ##########################################################################
     # print print error
@@ -1013,6 +948,19 @@ class ShowOCIService(object):
         ):
             print("Service Not Accessible or not yet exist")
             return True
+
+        # if ReadTimeoutError timeout
+        if ('ReadTimeoutError' in str(e)):
+            print("ReadTimeoutError, Please use higher value with -readtimeout flag !\nError: " + str(e))
+            self.error += 1
+            return True
+
+        # if Connection TimeoutError timeout
+        if ('TimeoutError' in str(e)):
+            print("Connection TimeoutError, Please use higher value with -conntimeout flag !\nError: " + str(e))
+            self.error += 1
+            return True
+
         return False
 
     ##########################################################################
@@ -1156,9 +1104,9 @@ class ShowOCIService(object):
                 self.__load_resource_management_main()
 
         # if streams
-        if self.flags.read_streams:
+        if self.flags.read_streams_queues:
             if self.check_if_service_available(region_name, self.C_STREAMS):
-                self.__load_streams_main()
+                self.__load_streams_queues_main()
 
         # if budgets
         if self.flags.read_budgets:
@@ -1214,7 +1162,7 @@ class ShowOCIService(object):
             print("Identity...")
 
             # create identity object
-            identity = oci.identity.IdentityClient(self.config, signer=self.signer)
+            identity = oci.identity.IdentityClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 identity.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -1771,7 +1719,9 @@ class ShowOCIService(object):
             self.data[self.C_IDENTITY][self.C_IDENTITY_POLICIES] = data
             self.__load_print_cnt(len(data), start_time)
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
             raise
         except Exception as e:
             self.__print_error("__load_identity_policies", e)
@@ -1808,7 +1758,9 @@ class ShowOCIService(object):
             self.data[self.C_IDENTITY][self.C_IDENTITY_DYNAMIC_GROUPS] = data
             self.__load_print_cnt(len(data), start_time)
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
             raise
         except Exception as e:
             self.__print_error("__load_identity_dynamic_groups", e)
@@ -1858,7 +1810,9 @@ class ShowOCIService(object):
             self.data[self.C_IDENTITY][self.C_IDENTITY_NETWORK_SOURCES] = data
             self.__load_print_cnt(len(data), start_time)
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
             raise
         except Exception as e:
             self.__print_error("__load_identity_network_sources", e)
@@ -1899,7 +1853,9 @@ class ShowOCIService(object):
             self.data[self.C_IDENTITY][self.C_IDENTITY_COST_TRACKING_TAGS] = data
             self.__load_print_cnt(len(data), start_time)
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
             raise
         except Exception as e:
             self.__print_error("__load_identity_cost_tracking_tags", e)
@@ -1963,7 +1919,9 @@ class ShowOCIService(object):
             self.data[self.C_IDENTITY][self.C_IDENTITY_TAG_NAMESPACE] = data
             self.__load_print_cnt(len(data), start_time)
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
             raise
         except Exception as e:
             self.__print_error("__load_identity_tag_namespace", e)
@@ -1977,7 +1935,7 @@ class ShowOCIService(object):
             print("Identity...")
 
             # create identity object
-            identity = oci.identity.IdentityClient(self.config, signer=self.signer)
+            identity = oci.identity.IdentityClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 identity.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -2011,7 +1969,9 @@ class ShowOCIService(object):
 
             print("")
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
             raise
         except Exception as e:
             self.__print_error("__load_identity_availability_domains", e)
@@ -2037,12 +1997,12 @@ class ShowOCIService(object):
             print("Network...")
 
             # Open connectivity to OCI
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer)
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
 
             # Open connectivity to OCI
-            dns_client = oci.dns.DnsClient(self.config, signer=self.signer)
+            dns_client = oci.dns.DnsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 dns_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -2182,7 +2142,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -2252,7 +2211,9 @@ class ShowOCIService(object):
             self.__load_print_cnt(cnt, start_time)
             return data
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
             raise
         except Exception as e:
             if 'NotAuthorizedOrNotFound' in str(e.message):
@@ -2307,7 +2268,9 @@ class ShowOCIService(object):
             self.__load_print_cnt(cnt, start_time)
             return data
 
-        except oci.exceptions.RequestException:
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
             raise
         except Exception as e:
             self.__print_error("__load_core_network_igw", e)
@@ -2377,7 +2340,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -2446,7 +2408,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -2512,7 +2473,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -2607,7 +2567,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -2829,7 +2788,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -3085,7 +3043,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -3170,7 +3127,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -3244,7 +3200,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -3309,7 +3264,6 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
 
@@ -4017,32 +3971,32 @@ class ShowOCIService(object):
             print("Compute...")
 
             # BlockstorageClient
-            block_storage = oci.core.BlockstorageClient(self.config, signer=self.signer)
+            block_storage = oci.core.BlockstorageClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 block_storage.base_client.session.proxies = {'https': self.flags.proxy}
 
             # ComputeManagementClient
-            compute_manage = oci.core.ComputeManagementClient(self.config, signer=self.signer)
+            compute_manage = oci.core.ComputeManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 compute_manage.base_client.session.proxies = {'https': self.flags.proxy}
 
             # ComputeClient
-            compute_client = oci.core.ComputeClient(self.config, signer=self.signer)
+            compute_client = oci.core.ComputeClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 compute_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # compute_plugins
-            plugin_client = oci.compute_instance_agent.PluginClient(self.config, signer=self.signer)
+            plugin_client = oci.compute_instance_agent.PluginClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 plugin_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # virtual_network - for vnics
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer)
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
 
             # auto scaling
-            auto_scaling = oci.autoscaling.AutoScalingClient(self.config, signer=self.signer)
+            auto_scaling = oci.autoscaling.AutoScalingClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 auto_scaling.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -4124,18 +4078,11 @@ class ShowOCIService(object):
 
                 # read instances and console connections
                 arrs = []
-                consoles = []
                 try:
                     arrs = oci.pagination.list_call_get_all_results(
                         compute.list_instances,
                         compartment['id'],
                         sort_by="DISPLAYNAME",
-                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                    ).data
-
-                    consoles = oci.pagination.list_call_get_all_results(
-                        compute.list_instance_console_connections,
-                        compartment['id'],
                         retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
                     ).data
 
@@ -4156,39 +4103,43 @@ class ShowOCIService(object):
                         continue
 
                     # load data
-                    val = {'id': str(arr.id), 'display_name': str(arr.display_name), 'shape': str(arr.shape),
-                           'lifecycle_state': str(arr.lifecycle_state),
-                           'availability_domain': str(arr.availability_domain), 'fault_domain': str(arr.fault_domain),
-                           'time_created': str(arr.time_created),
-                           'time_maintenance_reboot_due': str(arr.time_maintenance_reboot_due),
-                           'image_id': str(arr.image_id),
-                           'compartment_name': str(compartment['name']),
-                           'compartment_path': str(compartment['path']),
-                           'compartment_id': str(compartment['id']), 'region_name': str(self.config['region']),
-                           'console_id': "", 'console': "", 'console_connection_string': "",
-                           'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
-                           'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
-                           'shape_ocpu': 0,
-                           'shape_memory_gb': 0,
-                           'shape_storage_tb': 0,
-                           'shape_gpu_description': "",
-                           'shape_gpus': 0,
-                           'shape_local_disk_description': "",
-                           'shape_local_disks': 0,
-                           'shape_max_vnic_attachments': 0,
-                           'shape_networking_bandwidth_in_gbps': 0,
-                           'shape_processor_description': "",
-                           'console_vnc_connection_string': "",
-                           'image': "Unknown",
-                           'image_os': "Unknown",
-                           'are_all_plugins_disabled': "",
-                           'agent_is_management_disabled': "",
-                           'agent_is_monitoring_disabled': "",
-                           'agent_plugin_config': [],
-                           'agent_plugin_status': [],
-                           'metadata': arr.metadata,
-                           'extended_metadata': arr.extended_metadata
-                           }
+                    val = {
+                        'id': str(arr.id),
+                        'display_name': str(arr.display_name),
+                        'shape': str(arr.shape),
+                        'lifecycle_state': str(arr.lifecycle_state),
+                        'availability_domain': str(arr.availability_domain),
+                        'fault_domain': str(arr.fault_domain),
+                        'time_created': str(arr.time_created),
+                        'time_maintenance_reboot_due': str(arr.time_maintenance_reboot_due),
+                        'image_id': str(arr.image_id),
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'region_name': str(self.config['region']),
+                        'console_id': "", 'console': "", 'console_connection_string': "",
+                        'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
+                        'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
+                        'shape_ocpu': 0,
+                        'shape_memory_gb': 0,
+                        'shape_storage_tb': 0,
+                        'shape_gpu_description': "",
+                        'shape_gpus': 0,
+                        'shape_local_disk_description': "",
+                        'shape_local_disks': 0,
+                        'shape_max_vnic_attachments': 0,
+                        'shape_networking_bandwidth_in_gbps': 0,
+                        'shape_processor_description': "",
+                        'console_vnc_connection_string': "",
+                        'image': "Unknown",
+                        'image_os': "Unknown",
+                        'are_all_plugins_disabled': "",
+                        'agent_is_management_disabled': "",
+                        'agent_is_monitoring_disabled': "",
+                        'agent_plugin_config': [],
+                        'agent_plugin_status': [],
+                        'metadata': arr.metadata,
+                        'extended_metadata': arr.extended_metadata}
 
                     # agent_config
                     if arr.agent_config:
@@ -4211,7 +4162,28 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            continue
+                            self.__load_print_auth_warning()
+
+                    # console
+                    consoles = []
+                    try:
+                        consoles = oci.pagination.list_call_get_all_results(
+                            compute.list_instance_console_connections,
+                            compartment['id'],
+                            retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                        ).data
+
+                        # check console connections enabled
+                        for icc in consoles:
+                            if str(icc.instance_id) == str(arr.id) and str(icc.lifecycle_state) == oci.core.models.InstanceConsoleConnection.LIFECYCLE_STATE_ACTIVE:
+                                val['console_id'] = str(icc.id)
+                                val['console'] = "Console Connection Active"
+                                val['console_connection_string'] = icc.connection_string
+                                val['console_vnc_connection_string'] = icc.vnc_connection_string
+
+                    except oci.exceptions.ServiceError as e:
+                        if self.__check_service_error(e.code):
+                            self.__load_print_auth_warning()
 
                     # check if vm has shape config
                     if arr.shape_config:
@@ -4245,14 +4217,6 @@ class ShowOCIService(object):
                             val['image_os'] = str(image.operating_system)
                     except Exception:
                         pass
-
-                    # check console connections enabled
-                    for icc in consoles:
-                        if str(icc.instance_id) == str(arr.id) and str(icc.lifecycle_state) == oci.core.models.InstanceConsoleConnection.LIFECYCLE_STATE_ACTIVE:
-                            val['console_id'] = str(icc.id)
-                            val['console'] = "Console Connection Active"
-                            val['console_connection_string'] = icc.connection_string
-                            val['console_vnc_connection_string'] = icc.vnc_connection_string
 
                     # add data to array
 
@@ -4544,23 +4508,27 @@ class ShowOCIService(object):
                                           'display_name': str(pol.display_name),
                                           'policy_type': str(pol.policy_type),
                                           'time_created': str(pol.time_created),
-                                          'capacity_min': str(pol.capacity.min),
-                                          'capacity_max': str(pol.capacity.max),
-                                          'capacity_initial': str(pol.capacity.initial),
+                                          'capacity_min': str(pol.capacity.min) if pol.capacity else "",
+                                          'capacity_max': str(pol.capacity.max) if pol.capacity else "",
+                                          'capacity_initial': str(pol.capacity.initial) if pol.capacity else "",
                                           'rules': []
                                           }
 
                                 ##############################
                                 # if policy is ThresholdPolicy
                                 ##############################
-                                if pol.policy_type == "threshold":
-                                    for rule in pol.rules:
-                                        valpol['rules'].append(
-                                            str(rule.action.type) + " " +
-                                            str(rule.action.value).ljust(3) + " when " +
-                                            str(rule.metric.metric_type) + " " +
-                                            str(rule.metric.threshold.operator) + " " +
-                                            str(rule.metric.threshold.value))
+                                try:
+                                    if pol.policy_type == "threshold":
+                                        for rule in pol.rules:
+                                            if rule.action and rule.metric:
+                                                valpol['rules'].append(
+                                                    str(rule.action.type) + " " +
+                                                    str(rule.action.value).ljust(3) + " when " +
+                                                    str(rule.metric.metric_type) + " " +
+                                                    str(rule.metric.threshold.operator) + " " +
+                                                    str(rule.metric.threshold.value))
+                                except Exception:
+                                    pass
 
                                 # add policy
                                 val['policies'].append(valpol)
@@ -5229,10 +5197,8 @@ class ShowOCIService(object):
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
-
             raise
         except Exception as e:
             self.__print_error("__load_core_block_volume", e)
@@ -5566,12 +5532,12 @@ class ShowOCIService(object):
             print("Load Balancer...")
 
             # LoadBalancerClient
-            load_balancer = oci.load_balancer.LoadBalancerClient(self.config, signer=self.signer)
+            load_balancer = oci.load_balancer.LoadBalancerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 load_balancer.base_client.session.proxies = {'https': self.flags.proxy}
 
             # NetworkLoadBalancerClient
-            network_load_balancer = oci.network_load_balancer.NetworkLoadBalancerClient(self.config, signer=self.signer)
+            network_load_balancer = oci.network_load_balancer.NetworkLoadBalancerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 network_load_balancer.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -6261,7 +6227,7 @@ class ShowOCIService(object):
             print("Object Storage...")
 
             # LoadBalancerClient
-            object_storage = oci.object_storage.ObjectStorageClient(self.config, signer=self.signer)
+            object_storage = oci.object_storage.ObjectStorageClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 object_storage.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -6365,6 +6331,7 @@ class ShowOCIService(object):
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
                             self.__load_print_auth_warning()
+                            continue
                         else:
                             raise
 
@@ -6374,6 +6341,11 @@ class ShowOCIService(object):
                     lp = None
                     try:
                         lp = object_storage.get_object_lifecycle_policy(namespace_name, str(arr.name)).data
+                        if lp:
+                            for lc in lp.items:
+                                if val['object_lifecycle']:
+                                    val['object_lifecycle'] += ", "
+                                val['object_lifecycle'] += str(lc.name) + " - " + str(lc.action) + " - " + str(lc.time_amount) + " " + str(lc.time_unit)
                     except oci.exceptions.ServiceError as e:
                         if e.code == "LifecyclePolicyNotFound":
                             pass
@@ -6381,12 +6353,6 @@ class ShowOCIService(object):
                             self.__load_print_auth_warning()
                         else:
                             raise
-
-                    if lp:
-                        for lc in lp.items:
-                            if val['object_lifecycle']:
-                                val['object_lifecycle'] += ", "
-                            val['object_lifecycle'] += str(lc.name) + " - " + str(lc.action) + " - " + str(lc.time_amount) + " " + str(lc.time_unit)
 
                     data.append(val)
                     cnt += 1
@@ -6419,7 +6385,7 @@ class ShowOCIService(object):
             print("Resource Management...")
 
             # LoadBalancerClient
-            orm = oci.resource_manager.ResourceManagerClient(self.config, signer=self.signer)
+            orm = oci.resource_manager.ResourceManagerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 orm.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -6549,7 +6515,7 @@ class ShowOCIService(object):
             print("Email Notifications...")
 
             # EmailClient
-            email_client = oci.email.EmailClient(self.config, signer=self.signer)
+            email_client = oci.email.EmailClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 email_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -6709,11 +6675,11 @@ class ShowOCIService(object):
             print("File Storage...")
 
             # LoadBalancerClient
-            file_storage = oci.file_storage.FileStorageClient(self.config, signer=self.signer)
+            file_storage = oci.file_storage.FileStorageClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 file_storage.base_client.session.proxies = {'https': self.flags.proxy}
 
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer)
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -6983,23 +6949,23 @@ class ShowOCIService(object):
             print("Database...")
 
             # LoadBalancerClient
-            database_client = oci.database.DatabaseClient(self.config, signer=self.signer, timeout=30)
+            database_client = oci.database.DatabaseClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 database_client.base_client.session.proxies = {'https': self.flags.proxy}
 
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=15)
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
 
-            nosql_client = oci.nosql.NosqlClient(self.config, signer=self.signer, timeout=15)
+            nosql_client = oci.nosql.NosqlClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 nosql_client.base_client.session.proxies = {'https': self.flags.proxy}
 
-            mysql_client = oci.mysql.DbSystemClient(self.config, signer=self.signer, timeout=15)
+            mysql_client = oci.mysql.DbSystemClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 mysql_client.base_client.session.proxies = {'https': self.flags.proxy}
 
-            gg_client = oci.golden_gate.GoldenGateClient(self.config, signer=self.signer, timeout=15)
+            gg_client = oci.golden_gate.GoldenGateClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 gg_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -7008,14 +6974,17 @@ class ShowOCIService(object):
 
             # add the key if not exists
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_HOMES)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_BACKUPS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_DBSYSTEMS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXADATA)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXADATA_VMS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXACC)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXACC_VMS)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXACC_ADB_VMS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXACC_DBSERVERS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_ADB_DATABASE)
-            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_ADB_D_INFRA)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_ADB_D_VMS)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_ADB_D_CONTAINERS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_NOSQL)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_MYSQL)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_SOFTWARE_IMAGES)
@@ -7029,13 +6998,16 @@ class ShowOCIService(object):
             db = self.data[self.C_DATABASE]
 
             # append the data
+            db[self.C_DATABASE_BACKUPS] += self.__load_database_standalone_backups(database_client, compartments)
             db[self.C_DATABASE_HOMES] += self.__load_database_homes(database_client, compartments)
             db[self.C_DATABASE_EXACC] += self.__load_database_exacc_infrastructure(database_client, virtual_network, compartments)
             db[self.C_DATABASE_EXACC_VMS] += self.__load_database_exacc_vm_clusters(database_client, virtual_network, compartments)
+            db[self.C_DATABASE_EXACC_ADB_VMS] += self.__load_database_exacc_adb_vmclusters(database_client, compartments)
             db[self.C_DATABASE_EXADATA] += self.__load_database_exadata_infrastructure(database_client, virtual_network, compartments)
             db[self.C_DATABASE_EXADATA_VMS] += self.__load_database_exadata_vm_clusters(database_client, virtual_network, compartments)
             db[self.C_DATABASE_DBSYSTEMS] += self.__load_database_dbsystems(database_client, virtual_network, compartments)
-            db[self.C_DATABASE_ADB_D_INFRA] += self.__load_database_adb_d_infrastructure(database_client, compartments)
+            db[self.C_DATABASE_ADB_D_VMS] += self.__load_database_adb_d_vmclusters(database_client, compartments)
+            db[self.C_DATABASE_ADB_D_CONTAINERS] += self.__load_database_adb_d_containers(database_client, compartments)
             db[self.C_DATABASE_ADB_DATABASE] += self.__load_database_adb_database(database_client, compartments)
             db[self.C_DATABASE_NOSQL] += self.__load_database_nosql(nosql_client, compartments)
             db[self.C_DATABASE_MYSQL] += self.__load_database_mysql(mysql_client, compartments)
@@ -7388,6 +7360,122 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
+    # __load_database_exacc_adb_vmclusters
+    ##########################################################################
+    def __load_database_exacc_adb_vmclusters(self, database_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+
+            self.__load_print_status("ExaCC VMClusters ADB")
+
+            # loop on all compartments
+            for compartment in compartments:
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    print(".", end="")
+                    continue
+
+                print(".", end="")
+
+                # list_cloud_autonomous_vm_clusters
+                list_vms = []
+                try:
+                    list_vms = oci.pagination.list_call_get_all_results(
+                        database_client.list_autonomous_vm_clusters,
+                        compartment['id'],
+                        sort_by="DISPLAYNAME",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning("a", False)
+                        continue
+                    else:
+                        raise
+
+                # dbs = oci.database.models.AutonomousVmClusterSummary
+                for dbs in list_vms:
+                    if (dbs.lifecycle_state == "TERMINATED" or dbs.lifecycle_state == "TERMINATING"):
+                        continue
+
+                    value = {'id': str(dbs.id),
+                             'display_name': str(dbs.display_name),
+                             'description': str(dbs.description),
+                             'last_update_history_entry_id': str(dbs.last_update_history_entry_id),
+                             'lifecycle_state': str(dbs.lifecycle_state),
+                             'lifecycle_details': str(dbs.lifecycle_details),
+                             'time_created': str(dbs.time_created),
+                             'time_zone': str(dbs.cluster_time_zone),
+                             'shape': str(dbs.shape),
+                             'exadata_infrastructure_id': str(dbs.exadata_infrastructure_id),
+                             'vm_cluster_network_id': str(dbs.vm_cluster_network_id),
+                             'is_local_backup_enabled': str(dbs.is_local_backup_enabled),
+                             'cpus_enabled': str(dbs.cpus_enabled),
+                             'ocpus_enabled': str(dbs.ocpus_enabled),
+                             'available_cpus': str(dbs.available_cpus),
+                             'total_container_databases': str(dbs.total_container_databases),
+                             'memory_per_oracle_compute_unit_in_gbs': str(dbs.memory_per_oracle_compute_unit_in_gbs),
+                             'cpu_core_count_per_node': str(dbs.cpu_core_count_per_node),
+                             'autonomous_data_storage_size_in_tbs': str(dbs.autonomous_data_storage_size_in_tbs),
+                             'memory_size_in_gbs': str(dbs.memory_size_in_gbs),
+                             'db_node_storage_size_in_gbs': str(dbs.db_node_storage_size_in_gbs),
+                             'data_storage_size_in_tbs': str(dbs.data_storage_size_in_tbs),
+                             'data_storage_size_in_gbs': str(dbs.data_storage_size_in_gbs),
+                             'available_data_storage_size_in_tbs': str(dbs.available_data_storage_size_in_tbs),
+                             'reclaimable_cpus': str(dbs.license_reclaimable_cpusmodel),
+                             'available_container_databases': str(dbs.available_container_databases),
+                             'available_autonomous_data_storage_size_in_tbs': str(dbs.available_autonomous_data_storage_size_in_tbs),
+                             'scan_listener_port_tls': str(dbs.scan_listener_port_tls),
+                             'scan_listener_port_non_tls': str(dbs.scan_listener_port_non_tls),
+                             'is_mtls_enabled': str(dbs.is_mtls_enabled),
+                             'maintenance_window': self.__load_database_maintatance_windows(dbs.maintenance_window),
+                             'last_maintenance_run': self.__load_database_maintatance(database_client, dbs.last_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
+                             'next_maintenance_run': self.__load_database_maintatance(database_client, dbs.next_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
+                             'defined_tags': [] if dbs.defined_tags is None else dbs.defined_tags,
+                             'freeform_tags': [] if dbs.freeform_tags is None else dbs.freeform_tags,
+                             'compartment_name': str(compartment['name']),
+                             'compartment_path': str(compartment['path']),
+                             'compartment_id': str(compartment['id']),
+                             'region_name': str(self.config['region'])
+                             }
+
+                    # license model
+                    if dbs.license_model == oci.database.models.AutonomousVmClusterSummary.LICENSE_MODEL_LICENSE_INCLUDED:
+                        value['license_model'] = "INCL"
+                    elif dbs.license_model == oci.database.models.AutonomousVmClusterSummary.LICENSE_MODEL_BRING_YOUR_OWN_LICENSE:
+                        value['license_model'] = "BYOL"
+                    else:
+                        value['license_model'] = str(dbs.license_model)
+
+                    # get shape
+                    if dbs.shape:
+                        shape_sizes = self.get_shape_details(str(dbs.shape))
+                        if shape_sizes:
+                            value['shape_ocpu'] = shape_sizes['cpu']
+                            value['shape_memory_gb'] = shape_sizes['memory']
+                            value['shape_storage_tb'] = shape_sizes['storage']
+
+                    # add the data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_cnt(cnt, start_time)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_database_exacc_adb_vmclusters", e)
+            return data
+
+    ##########################################################################
     # __load_database_exacc_dbservers
     ##########################################################################
     def __load_database_exacc_dbservers(self, database_client, compartment, dbs_id):
@@ -7523,7 +7611,8 @@ class ShowOCIService(object):
                              'defined_tags': [] if dbs.defined_tags is None else dbs.defined_tags,
                              'freeform_tags': [] if dbs.freeform_tags is None else dbs.freeform_tags,
                              'region_name': str(self.config['region']),
-                             'vm_clusters': []
+                             'vm_clusters': [],
+                             'db_servers': self.__load_database_exacc_dbservers(database_client, compartment, dbs.id)
                              }
 
                     # get shape
@@ -7715,6 +7804,11 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
+            # if skip db homes
+            if self.flags.skip_dbhomes:
+                self.__load_print_status("Database Homes")
+                print("Skipped.")
+                return data
 
             self.__load_print_status("Database Homes")
 
@@ -7789,6 +7883,95 @@ class ShowOCIService(object):
             raise
         except Exception as e:
             self.__print_error("__load_database_db_homes", e)
+            return data
+
+    ##########################################################################
+    # __load_database_backups
+    ##########################################################################
+    def __load_database_standalone_backups(self, database_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            self.__load_print_status("Database Standalone Backups")
+
+            if self.flags.skip_backups:
+                print("Skipped.")
+                return data
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    print(".", end="")
+                    continue
+
+                print(".", end="")
+
+                backups = []
+                try:
+                    backups = oci.pagination.list_call_get_all_results(
+                        database_client.list_backups,
+                        compartment_id=compartment['id'],
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning("a", False)
+                        continue
+                    else:
+                        raise
+
+                for backup in backups:
+                    if (backup.lifecycle_state == "DELETING" or backup.lifecycle_state == "DELETED"):
+                        continue
+
+                    value = {
+                        'id': str(backup.id),
+                        'display_name': str(backup.display_name),
+                        'database_id': str(backup.database_id),
+                        'standalone': True,
+                        'type': str(backup.type),
+                        'time_started': str(backup.time_started),
+                        'time_ended': str(backup.time_ended),
+                        'lifecycle_state': str(backup.lifecycle_state),
+                        'lifecycle_details': str(backup.lifecycle_details),
+                        'availability_domain': str(backup.availability_domain),
+                        'database_edition': self.get_database_short_edition(backup.database_edition),
+                        'shape': str(backup.shape),
+                        'version': str(backup.version),
+                        'kms_key_id': str(backup.kms_key_id) if backup.kms_key_id else "",
+                        'kms_key_version_id': str(backup.kms_key_version_id) if backup.kms_key_version_id else "",
+                        'vault_id': str(backup.vault_id) if backup.vault_id else "",
+                        'database_size_in_gbs': "" if backup.database_size_in_gbs is None else str(backup.database_size_in_gbs),
+                        'compartment_id': str(compartment['id']),
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'region_name': str(self.config['region'])}
+
+                    # add to main data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_cnt(cnt, start_time)
+            return data
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                self.__load_print_auth_warning()
+                return data
+            else:
+                raise
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_database_standalone_backups", e)
             return data
 
     ##########################################################################
@@ -7913,6 +8096,9 @@ class ShowOCIService(object):
                              'zone_id': str(dbs.zone_id),
                              }
 
+                    value['database_edition_short'] = self.get_database_short_edition(dbs.database_edition)
+                    value['license_model'] = self.get_database_short_license(dbs.license_model)
+
                     # get shape
                     if dbs.shape:
                         shape_sizes = self.get_shape_details(str(dbs.shape))
@@ -7925,26 +8111,6 @@ class ShowOCIService(object):
                     if dbs.db_system_options:
                         if dbs.db_system_options.storage_management:
                             value['storage_management'] = dbs.db_system_options.storage_management
-
-                    # license model
-                    if dbs.license_model == oci.database.models.DbSystem.LICENSE_MODEL_LICENSE_INCLUDED:
-                        value['license_model'] = "INCL"
-                    elif dbs.license_model == oci.database.models.DbSystem.LICENSE_MODEL_BRING_YOUR_OWN_LICENSE:
-                        value['license_model'] = "BYOL"
-                    else:
-                        value['license_model'] = str(dbs.license_model)
-
-                    # Edition
-                    if dbs.database_edition == oci.database.models.DbSystem.DATABASE_EDITION_ENTERPRISE_EDITION:
-                        value['database_edition_short'] = "EE"
-                    elif dbs.database_edition == oci.database.models.DbSystem.DATABASE_EDITION_ENTERPRISE_EDITION_EXTREME_PERFORMANCE:
-                        value['database_edition_short'] = "XP"
-                    elif dbs.database_edition == oci.database.models.DbSystem.DATABASE_EDITION_ENTERPRISE_EDITION_HIGH_PERFORMANCE:
-                        value['database_edition_short'] = "HP"
-                    elif dbs.database_edition == oci.database.models.DbSystem.DATABASE_EDITION_STANDARD_EDITION:
-                        value['database_edition_short'] = "SE"
-                    else:
-                        value['database_edition_short'] = dbs.database_edition
 
                     # scan IPs
                     value['scan_ips'] = []
@@ -8056,6 +8222,67 @@ class ShowOCIService(object):
             return self.search_multi_items(self.C_DATABASE, self.C_DATABASE_HOMES, 'vm_cluster_id', dbs_id)
 
     ##########################################################################
+    # __load_database_dbsystems_db_backups
+    ##########################################################################
+    def __load_database_dbsystems_db_backups(self, database_client, db_id, compartment):
+
+        data = []
+        try:
+            backups = oci.pagination.list_call_get_all_results(
+                database_client.list_backups,
+                database_id=db_id,
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
+
+            for backup in backups:
+                value = {
+                    'id': str(backup.id),
+                    'display_name': str(backup.display_name),
+                    'database_id': str(backup.database_id),
+                    'standalone': False,
+                    'type': str(backup.type),
+                    'time_started': str(backup.time_started),
+                    'time_ended': str(backup.time_ended),
+                    'lifecycle_state': str(backup.lifecycle_state),
+                    'lifecycle_details': str(backup.lifecycle_details),
+                    'availability_domain': str(backup.availability_domain),
+                    'database_edition': self.get_database_short_edition(backup.database_edition),
+                    'shape': str(backup.shape),
+                    'version': str(backup.version),
+                    'kms_key_id': str(backup.kms_key_id) if backup.kms_key_id else "",
+                    'kms_key_version_id': str(backup.kms_key_version_id) if backup.kms_key_version_id else "",
+                    'vault_id': str(backup.vault_id) if backup.vault_id else "",
+                    'database_size_in_gbs': "" if backup.database_size_in_gbs is None else str(backup.database_size_in_gbs),
+                    'compartment_id': str(compartment['id']),
+                    'compartment_name': str(compartment['name']),
+                    'compartment_path': str(compartment['path']),
+                    'region_name': str(self.config['region'])}
+
+                data.append(value)
+
+                # add to main backup array if not exist
+                db = self.data[self.C_DATABASE]
+                bk = db[self.C_DATABASE_BACKUPS]
+                if not any(d['id'] == str(backup.id) for d in bk):
+                    bk.append(value)
+
+            return data
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                self.__load_print_auth_warning()
+                return data
+            else:
+                raise
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_database_dbsystems_patches", e)
+            return data
+
+    ##########################################################################
     # __load_database_dbsystems_dbhomes_databases
     ##########################################################################
 
@@ -8100,7 +8327,7 @@ class ShowOCIService(object):
                     'connection_strings_cdb': "",
                     'auto_backup_enabled': False,
                     'dataguard': self.__load_database_dbsystems_db_dg(database_client, db.id),
-                    'backups': [] if self.flags.skip_backups else self.__load_database_dbsystems_db_backups(database_client, db.id),
+                    'backups': [] if self.flags.skip_backups else self.__load_database_dbsystems_db_backups(database_client, db.id, compartment),
                     'pdbs': self.__load_database_dbsystems_dbhomes_databases_pdbs(database_client, db.id)
                 }
 
@@ -8294,45 +8521,6 @@ class ShowOCIService(object):
     ##########################################################################
     # get db system patches
     ##########################################################################
-    def __load_database_dbsystems_db_backups(self, database_client, db_id):
-
-        data = []
-        try:
-            backups = oci.pagination.list_call_get_all_results(
-                database_client.list_backups,
-                database_id=db_id,
-                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-            ).data
-
-            for backup in backups:
-                data.append(
-                    {'id': str(backup.id),
-                     'display_name': str(backup.display_name),
-                     'type': str(backup.type),
-                     'lifecycle_state': str(backup.lifecycle_state),
-                     'time_started': str(backup.time_started),
-                     'time_ended': str(backup.time_ended),
-                     'database_size_in_gbs': "" if backup.database_size_in_gbs is None else str(backup.database_size_in_gbs)
-                     })
-            return data
-
-        except oci.exceptions.ServiceError as e:
-            if self.__check_service_error(e.code):
-                self.__load_print_auth_warning()
-                return data
-            else:
-                raise
-        except oci.exceptions.RequestException as e:
-            if self.__check_request_error(e):
-                return data
-            raise
-        except Exception as e:
-            self.__print_error("__load_database_dbsystems_patches", e)
-            return data
-
-    ##########################################################################
-    # get db system patches
-    ##########################################################################
     def __load_database_dbsystems_db_dg(self, database_client, db_id):
 
         data = []
@@ -8392,9 +8580,9 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_database_autonomous_exadata_infrastructure
+    # __load_database_adb_d_vmclusters
     ##########################################################################
-    def __load_database_adb_d_infrastructure(self, database_client, compartments):
+    def __load_database_adb_d_vmclusters(self, database_client, compartments):
 
         data = []
         cnt = 0
@@ -8402,7 +8590,7 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Autonomous Dedicated")
+            self.__load_print_status("ADB-D VMClusters")
 
             # loop on all compartments
             for compartment in compartments:
@@ -8413,11 +8601,11 @@ class ShowOCIService(object):
 
                 print(".", end="")
 
-                # list_autonomous_exadata_infrastructures
-                list_exa = []
+                # list_cloud_autonomous_vm_clusters
+                list_vms = []
                 try:
-                    list_exa = oci.pagination.list_call_get_all_results(
-                        database_client.list_autonomous_exadata_infrastructures,
+                    list_vms = oci.pagination.list_call_get_all_results(
+                        database_client.list_cloud_autonomous_vm_clusters,
                         compartment['id'],
                         sort_by="DISPLAYNAME",
                         retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
@@ -8431,46 +8619,59 @@ class ShowOCIService(object):
                         raise
 
                 # loop on the Exadata infrastructure
-                # dbs = oci.database.models.AutonomousExadataInfrastructureSummary
-                for dbs in list_exa:
-                    if (dbs.lifecycle_state == oci.database.models.AutonomousExadataInfrastructureSummary.LIFECYCLE_STATE_TERMINATED or
-                            dbs.lifecycle_state == oci.database.models.AutonomousExadataInfrastructureSummary.LIFECYCLE_STATE_TERMINATING):
+                # dbs = oci.database.models.CloudAutonomousVmClusterSummary
+                for dbs in list_vms:
+                    if (dbs.lifecycle_state == "TERMINATED" or dbs.lifecycle_state == "TERMINATING"):
                         continue
 
-                    value = {'id': str(dbs.id),
-                             'display_name': str(dbs.display_name),
-                             'availability_domain': str(dbs.availability_domain),
-                             'subnet_id': str(dbs.subnet_id),
-                             'subnet_name': self.get_network_subnet(str(dbs.subnet_id), True),
-                             'nsg_ids': dbs.nsg_ids,
-                             'shape': str(dbs.shape),
-                             'shape_ocpu': 0,
-                             'shape_memory_gb': 0,
-                             'shape_storage_tb': 0,
-                             'hostname': str(dbs.hostname),
-                             'domain': str(dbs.domain),
-                             'lifecycle_state': str(dbs.lifecycle_state),
-                             'lifecycle_details': str(dbs.lifecycle_details),
-                             'license_model': str(dbs.license_model),
-                             'time_created': str(dbs.time_created),
-                             'scan_dns_name': str(dbs.scan_dns_name),
-                             'zone_id': str(dbs.zone_id),
-                             'maintenance_window': self.__load_database_maintatance_windows(dbs.maintenance_window),
-                             'last_maintenance_run': self.__load_database_maintatance(database_client, dbs.last_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
-                             'next_maintenance_run': self.__load_database_maintatance(database_client, dbs.next_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
-                             'defined_tags': [] if dbs.defined_tags is None else dbs.defined_tags,
-                             'freeform_tags': [] if dbs.freeform_tags is None else dbs.freeform_tags,
-                             'compartment_name': str(compartment['name']),
-                             'compartment_path': str(compartment['path']),
-                             'compartment_id': str(compartment['id']),
-                             'region_name': str(self.config['region']),
-                             'containers': self.__load_database_adb_d_containers(database_client, dbs.id, compartment)
-                             }
+                    value = {
+                        'id': str(dbs.id),
+                        'display_name': str(dbs.display_name),
+                        'availability_domain': str(dbs.availability_domain),
+                        'description': str(dbs.description),
+                        'subnet_id': str(dbs.subnet_id),
+                        'subnet_name': self.get_network_subnet(str(dbs.subnet_id), True),
+                        'nsg_ids': dbs.nsg_ids,
+                        'last_update_history_entry_id': str(dbs.last_update_history_entry_id),
+                        'lifecycle_state': str(dbs.lifecycle_state),
+                        'time_created': str(dbs.time_created),
+                        'time_updated': str(dbs.time_updated),
+                        'cluster_time_zone': str(dbs.cluster_time_zone),
+                        'lifecycle_details': str(dbs.lifecycle_details),
+                        'shape': str(dbs.shape),
+                        'node_count': str(dbs.node_count),
+                        'data_storage_size_in_tbs': str(dbs.data_storage_size_in_tbs),
+                        'data_storage_size_in_gbs': str(dbs.data_storage_size_in_gbs),
+                        'cpu_core_count': str(dbs.cpu_core_count),
+                        'ocpu_count': str(dbs.ocpu_count),
+                        'cpu_core_count_per_node': str(dbs.cpu_core_count_per_node),
+                        'memory_size_in_gbs': str(dbs.memory_size_in_gbs),
+                        'license_model': str(dbs.license_model),
+                        'cloud_exadata_infrastructure_id': str(dbs.cloud_exadata_infrastructure_id),
+                        'hostname': str(dbs.hostname),
+                        'domain': str(dbs.domain),
+                        'available_cpus': str(dbs.available_cpus),
+                        'reclaimable_cpus': str(dbs.reclaimable_cpus),
+                        'available_container_databases': str(dbs.available_container_databases),
+                        'total_container_databases': str(dbs.total_container_databases),
+                        'available_autonomous_data_storage_size_in_tbs': str(dbs.available_autonomous_data_storage_size_in_tbs),
+                        'autonomous_data_storage_size_in_tbs': str(dbs.autonomous_data_storage_size_in_tbs),
+                        'db_node_storage_size_in_gbs': str(dbs.db_node_storage_size_in_gbs),
+                        'memory_per_oracle_compute_unit_in_gbs': str(dbs.memory_per_oracle_compute_unit_in_gbs),
+                        'maintenance_window': self.__load_database_maintatance_windows(dbs.maintenance_window),
+                        'last_maintenance_run': self.__load_database_maintatance(database_client, dbs.last_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
+                        'next_maintenance_run': self.__load_database_maintatance(database_client, dbs.next_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
+                        'defined_tags': [] if dbs.defined_tags is None else dbs.defined_tags,
+                        'freeform_tags': [] if dbs.freeform_tags is None else dbs.freeform_tags,
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'region_name': str(self.config['region'])}
 
                     # license model
-                    if dbs.license_model == oci.database.models.AutonomousExadataInfrastructureSummary.LICENSE_MODEL_LICENSE_INCLUDED:
+                    if dbs.license_model == oci.database.models.CloudAutonomousVmClusterSummary.LICENSE_MODEL_LICENSE_INCLUDED:
                         value['license_model'] = "INCL"
-                    elif dbs.license_model == oci.database.models.AutonomousExadataInfrastructureSummary.LICENSE_MODEL_BRING_YOUR_OWN_LICENSE:
+                    elif dbs.license_model == oci.database.models.CloudAutonomousVmClusterSummary.LICENSE_MODEL_BRING_YOUR_OWN_LICENSE:
                         value['license_model'] = "BYOL"
                     else:
                         value['license_model'] = str(dbs.license_model)
@@ -8495,68 +8696,95 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_autonomous_exadata_infrastructure", e)
+            self.__print_error("__load_database_adb_d_vmclusters", e)
             return data
 
     ##########################################################################
-    # __load_database_autonomous_exadata_infrastructure
+    # __load_database_adb_d_containers
     ##########################################################################
-    def __load_database_adb_d_containers(self, database_client, exa_id, compartment):
+    def __load_database_adb_d_containers(self, database_client, compartments):
 
         data = []
-        try:
-            vms = database_client.list_autonomous_container_databases(
-                compartment['id'],
-                autonomous_exadata_infrastructure_id=exa_id,
-                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-            ).data
+        cnt = 0
+        start_time = time.time()
 
-            # arr = oci.database.models.AutonomousContainerDatabaseSummary
-            for arr in vms:
-                if (arr.lifecycle_state == oci.database.models.AutonomousContainerDatabaseSummary.LIFECYCLE_STATE_TERMINATED or
-                        arr.lifecycle_state == oci.database.models.AutonomousContainerDatabaseSummary.LIFECYCLE_STATE_TERMINATING):
+        try:
+
+            self.__load_print_status("ADB-D Containers")
+
+            # loop on all compartments
+            for compartment in compartments:
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    print(".", end="")
                     continue
 
-                value = {
-                    'id': str(arr.id),
-                    'display_name': str(arr.display_name),
-                    'db_unique_name': str(arr.db_unique_name),
-                    'service_level_agreement_type': str(arr.service_level_agreement_type),
-                    'autonomous_exadata_infrastructure_id': str(arr.autonomous_exadata_infrastructure_id),
-                    'autonomous_vm_cluster_id': str(arr.autonomous_vm_cluster_id),
-                    'infrastructure_type': str(arr.infrastructure_type),
-                    'kms_key_id': str(arr.kms_key_id),
-                    'vault_id': str(arr.vault_id),
-                    'lifecycle_state': str(arr.lifecycle_state),
-                    'lifecycle_details': str(arr.lifecycle_details),
-                    'time_created': str(arr.time_created),
-                    'patch_model': str(arr.patch_model),
-                    'patch_id': str(arr.patch_id),
-                    'maintenance_window': self.__load_database_maintatance_windows(arr.maintenance_window),
-                    'last_maintenance_run': self.__load_database_maintatance(database_client, arr.last_maintenance_run_id, str(arr.display_name)),
-                    'next_maintenance_run': self.__load_database_maintatance(database_client, arr.next_maintenance_run_id, str(arr.display_name)),
-                    'standby_maintenance_buffer_in_days': str(arr.standby_maintenance_buffer_in_days),
-                    'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
-                    'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
-                    'role': str(arr.role),
-                    'availability_domain': str(arr.availability_domain),
-                    'db_version': str(arr.db_version),
-                    'key_store_id': str(arr.key_store_id),
-                    'key_store_wallet_name': str(arr.key_store_wallet_name),
-                    'region_name': str(self.config['region'])
-                }
+                print(".", end="")
 
-                # add to main data
-                data.append(value)
+                # list_autonomous_container_databases
+                vms = []
+                try:
+                    vms = database_client.list_autonomous_container_databases(
+                        compartment['id'],
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
 
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning("a", False)
+                        continue
+                    else:
+                        raise
+
+                # arr = oci.database.models.AutonomousContainerDatabaseSummary
+                for arr in vms:
+                    if (arr.lifecycle_state == oci.database.models.AutonomousContainerDatabaseSummary.LIFECYCLE_STATE_TERMINATED or
+                            arr.lifecycle_state == oci.database.models.AutonomousContainerDatabaseSummary.LIFECYCLE_STATE_TERMINATING):
+                        continue
+
+                    value = {
+                        'id': str(arr.id),
+                        'display_name': str(arr.display_name),
+                        'db_unique_name': str(arr.db_unique_name),
+                        'service_level_agreement_type': str(arr.service_level_agreement_type),
+                        'autonomous_exadata_infrastructure_id': str(arr.autonomous_exadata_infrastructure_id),
+                        'autonomous_vm_cluster_id': str(arr.autonomous_vm_cluster_id),
+                        'cloud_autonomous_vm_cluster_id': str(arr.cloud_autonomous_vm_cluster_id),
+                        'infrastructure_type': str(arr.infrastructure_type),
+                        'kms_key_id': str(arr.kms_key_id),
+                        'vault_id': str(arr.vault_id),
+                        'lifecycle_state': str(arr.lifecycle_state),
+                        'lifecycle_details': str(arr.lifecycle_details),
+                        'time_created': str(arr.time_created),
+                        'patch_model': str(arr.patch_model),
+                        'patch_id': str(arr.patch_id),
+                        'maintenance_window': self.__load_database_maintatance_windows(arr.maintenance_window),
+                        'last_maintenance_run': self.__load_database_maintatance(database_client, arr.last_maintenance_run_id, str(arr.display_name)),
+                        'next_maintenance_run': self.__load_database_maintatance(database_client, arr.next_maintenance_run_id, str(arr.display_name)),
+                        'standby_maintenance_buffer_in_days': str(arr.standby_maintenance_buffer_in_days),
+                        'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
+                        'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
+                        'role': str(arr.role),
+                        'availability_domain': str(arr.availability_domain),
+                        'db_version': str(arr.db_version),
+                        'key_store_id': str(arr.key_store_id),
+                        'key_store_wallet_name': str(arr.key_store_wallet_name),
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'region_name': str(self.config['region'])
+                    }
+
+                    # add to main data
+                    data.append(value)
+
+                    # add the data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_cnt(cnt, start_time)
             return data
 
-        except oci.exceptions.ServiceError as e:
-            if self.__check_service_error(e.code):
-                self.__load_print_auth_warning()
-                return data
-            else:
-                raise
         except oci.exceptions.RequestException as e:
             if self.__check_request_error(e):
                 return data
@@ -8576,7 +8804,7 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Autonomous Databases")
+            self.__load_print_status("ADB-X Databases")
 
             # loop on all compartments
             for compartment in compartments:
@@ -9513,7 +9741,7 @@ class ShowOCIService(object):
             print("Containers...")
 
             # ContainerEngineClient
-            container_client = oci.container_engine.ContainerEngineClient(self.config, signer=self.signer)
+            container_client = oci.container_engine.ContainerEngineClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 container_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -9675,29 +9903,38 @@ class ShowOCIService(object):
     # OCI Classes used:
     #
     # class oci.streaming.StreamAdminClient(config, **kwargs)
+    # class oci.queue.QueueAdminClient(config, **kwargs)
     #
     ##########################################################################
-    def __load_streams_main(self):
+    def __load_streams_queues_main(self):
 
         try:
-            print("Streams...")
+            print("Streams and Queues...")
 
             # StreamAdminClient
-            stream_client = oci.streaming.StreamAdminClient(self.config, signer=self.signer)
+            stream_client = oci.streaming.StreamAdminClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 stream_client.base_client.session.proxies = {'https': self.flags.proxy}
+
+            # QueueAdminClient
+            queue_client = oci.queue.QueueAdminClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            if self.flags.proxy:
+                queue_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
             compartments = self.get_compartment()
 
             # add the key if not exists
             self.__initialize_data_key(self.C_STREAMS, self.C_STREAMS_STREAMS)
+            self.__initialize_data_key(self.C_STREAMS, self.C_STREAMS_QUEUES)
 
             # reference to stream
             stream = self.data[self.C_STREAMS]
 
             # append the data
             stream[self.C_STREAMS_STREAMS] += self.__load_streams_streams(stream_client, compartments)
+            stream[self.C_STREAMS_QUEUES] += self.__load_streams_queues(queue_client, compartments)
+
             print("")
 
         except oci.exceptions.RequestException:
@@ -9705,7 +9942,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_streams_main", e)
+            self.__print_error("__load_streams_queues_main", e)
 
     ##########################################################################
     # __load_streams_streams
@@ -9746,6 +9983,7 @@ class ShowOCIService(object):
                            'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
                            'messages_endpoint': str(stream.messages_endpoint),
+                           'lifecycle_state': str(stream.lifecycle_state),
                            'defined_tags': [] if stream.defined_tags is None else stream.defined_tags,
                            'freeform_tags': [] if stream.freeform_tags is None else stream.freeform_tags,
                            'region_name': str(self.config['region'])}
@@ -9767,6 +10005,78 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
+    # __load_queues_queues
+    ##########################################################################
+    def __load_streams_queues(self, queue_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            self.__load_print_status("Queues")
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                queues = []
+                try:
+                    queues = oci.pagination.list_call_get_all_results(
+                        queue_client.list_queues, compartment_id=compartment['id'],
+                        sort_by="displayName",
+                        lifecycle_state=oci.streaming.models.StreamSummary.LIFECYCLE_STATE_ACTIVE,
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning()
+                        continue
+                    raise
+
+                print(".", end="")
+
+                # queue = oci.queue.models.QueueSummary
+                for queue_list in queues:
+                    queue = queue_client.get_queue(queue_list.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+                    val = {
+                        'id': str(queue.id),
+                        'name': str(queue.display_name),
+                        'time_created': str(queue.time_created),
+                        'time_updated': str(queue.time_updated),
+                        'lifecycle_state': str(queue.lifecycle_state),
+                        'lifecycle_details': str(queue.lifecycle_details) if queue.lifecycle_details else "",
+                        'retention_in_seconds': str(queue.retention_in_seconds),
+                        'visibility_in_seconds': str(queue.visibility_in_seconds),
+                        'timeout_in_seconds': str(queue.timeout_in_seconds),
+                        'dead_letter_queue_delivery_count': str(queue.dead_letter_queue_delivery_count),
+                        'custom_encryption_key_id': str(queue.custom_encryption_key_id) if queue.custom_encryption_key_id else "",
+                        'compartment_name': str(compartment['name']),
+                        'compartment_id': str(compartment['id']),
+                        'compartment_path': str(compartment['path']),
+                        'messages_endpoint': str(queue.messages_endpoint),
+                        'defined_tags': [] if queue.defined_tags is None else queue.defined_tags,
+                        'system_tags': [] if queue.defined_tags is None else queue.defined_tags,
+                        'freeform_tags': [] if queue.freeform_tags is None else queue.freeform_tags,
+                        'region_name': str(self.config['region'])}
+
+                    # add the data
+                    cnt += 1
+                    data.append(val)
+
+            self.__load_print_cnt(cnt, start_time)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+
+            raise
+        except Exception as e:
+            self.__print_error("__load_streams_queues", e)
+            return data
+
+    ##########################################################################
     # __load_api_main
     ##########################################################################
     #
@@ -9782,8 +10092,8 @@ class ShowOCIService(object):
             print("API Gateways...")
 
             # GatewayClient and DeploymentClient
-            api_gw_client = oci.apigateway.GatewayClient(self.config, signer=self.signer, timeout=2)
-            api_deployment_client = oci.apigateway.DeploymentClient(self.config, signer=self.signer, timeout=2)
+            api_gw_client = oci.apigateway.GatewayClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            api_deployment_client = oci.apigateway.DeploymentClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
 
             if self.flags.proxy:
                 api_gw_client.base_client.session.proxies = {'https': self.flags.proxy}
@@ -9970,7 +10280,7 @@ class ShowOCIService(object):
             print("Functions...")
 
             # StreamAdminClient
-            function_client = oci.functions.FunctionsManagementClient(self.config, signer=self.signer, timeout=2)
+            function_client = oci.functions.FunctionsManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 function_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -10150,7 +10460,7 @@ class ShowOCIService(object):
             print("Budgets...")
 
             # BudgetClient
-            budget_client = oci.budget.BudgetClient(self.config, signer=self.signer)
+            budget_client = oci.budget.BudgetClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 budget_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -10265,32 +10575,32 @@ class ShowOCIService(object):
             print("Monitoring, Notifications and Events...")
 
             # MonitoringClient
-            monitor_client = oci.monitoring.MonitoringClient(self.config, signer=self.signer)
+            monitor_client = oci.monitoring.MonitoringClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 monitor_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # NotificationControlPlaneClient
-            ons_cp_client = oci.ons.NotificationControlPlaneClient(self.config, signer=self.signer)
+            ons_cp_client = oci.ons.NotificationControlPlaneClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 ons_cp_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # NotificationDataPlaneClient
-            ons_dp_client = oci.ons.NotificationDataPlaneClient(self.config, signer=self.signer)
+            ons_dp_client = oci.ons.NotificationDataPlaneClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 ons_dp_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # oci.events.EventsClient
-            event_client = oci.events.EventsClient(self.config, signer=self.signer)
+            event_client = oci.events.EventsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 event_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # oci.management_agent.ManagementAgentClient
-            management_agent_client = oci.management_agent.ManagementAgentClient(self.config, signer=self.signer)
+            management_agent_client = oci.management_agent.ManagementAgentClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 event_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # oci.database_management.DbManagementClient
-            db_management_client = oci.database_management.DbManagementClient(self.config, signer=self.signer)
+            db_management_client = oci.database_management.DbManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 db_management_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -10801,17 +11111,17 @@ class ShowOCIService(object):
             print("Edge Services...")
 
             # BudgetClient
-            healthcheck_client = oci.healthchecks.HealthChecksClient(self.config, signer=self.signer)
+            healthcheck_client = oci.healthchecks.HealthChecksClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 healthcheck_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # Open connectivity to OCI
-            dns = oci.dns.DnsClient(self.config, signer=self.signer)
+            dns = oci.dns.DnsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 dns.base_client.session.proxies = {'https': self.flags.proxy}
 
             # Open connectivity to OCI - Waas
-            waas = oci.waas.WaasClient(self.config, signer=self.signer)
+            waas = oci.waas.WaasClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 waas.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -11356,6 +11666,7 @@ class ShowOCIService(object):
     #
     # OCI Classes used:
     #
+    # oci.data_connectivity.DataConnectivityManagementClient
     # oci.data_catalog.DataCatalogClient
     # oci.data_science.DataScienceClient
     # oci.data_flow.DataFlowClient
@@ -11368,12 +11679,13 @@ class ShowOCIService(object):
             print("Data and AI Services...")
 
             # clients
-            ds_client = oci.data_science.DataScienceClient(self.config, signer=self.signer, timeout=2)
-            dc_client = oci.data_catalog.DataCatalogClient(self.config, signer=self.signer, timeout=2)
-            df_client = oci.data_flow.DataFlowClient(self.config, signer=self.signer, timeout=2)
-            oda_client = oci.oda.OdaClient(self.config, signer=self.signer, timeout=2)
-            bds_client = oci.bds.BdsClient(self.config, signer=self.signer, timeout=2)
-            di_client = oci.data_integration.DataIntegrationClient(self.config, signer=self.signer, timeout=2)
+            dcmr_client = oci.data_connectivity.DataConnectivityManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            ds_client = oci.data_science.DataScienceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            dc_client = oci.data_catalog.DataCatalogClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            df_client = oci.data_flow.DataFlowClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            oda_client = oci.oda.OdaClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            bds_client = oci.bds.BdsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            di_client = oci.data_integration.DataIntegrationClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
 
             if self.flags.proxy:
                 ds_client.base_client.session.proxies = {'https': self.flags.proxy}
@@ -11382,12 +11694,14 @@ class ShowOCIService(object):
                 oda_client.base_client.session.proxies = {'https': self.flags.proxy}
                 bds_client.base_client.session.proxies = {'https': self.flags.proxy}
                 di_client.base_client.session.proxies = {'https': self.flags.proxy}
+                dcmr_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
             compartments = self.get_compartment()
 
             # add the key if not exists
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_CATALOG)
+            self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_DCREGISTRY)
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_FLOW)
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_SCIENCE)
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_ODA)
@@ -11398,6 +11712,7 @@ class ShowOCIService(object):
             data_ai = self.data[self.C_DATA_AI]
 
             # append the data
+            data_ai[self.C_DATA_AI_DCREGISTRY] += self.__load_data_ai_dcregistry(dcmr_client, compartments)
             data_ai[self.C_DATA_AI_CATALOG] += self.__load_data_ai_catalog(dc_client, compartments)
             data_ai[self.C_DATA_AI_FLOW] += self.__load_data_ai_flow(df_client, compartments)
             data_ai[self.C_DATA_AI_SCIENCE] += self.__load_data_ai_science(ds_client, compartments)
@@ -11412,6 +11727,82 @@ class ShowOCIService(object):
             raise
         except Exception as e:
             self.__print_error("__load_data_ai_main", e)
+
+    ##########################################################################
+    # __load_data_ai_catalog
+    ##########################################################################
+    def __load_data_ai_dcregistry(self, dc_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            self.__load_print_status("Data Connection Registry")
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    print(".", end="")
+                    continue
+
+                array = []
+                try:
+                    array = oci.pagination.list_call_get_all_results(
+                        dc_client.list_registries,
+                        compartment['id'],
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning()
+                        continue
+                    raise
+                except oci.exceptions.ConnectTimeout:
+                    self.__load_print_auth_warning()
+                    continue
+
+                print(".", end="")
+
+                # arr = oci.data_connectivity.models.RegistrySummaryCollection
+                for arr in array:
+                    if (arr.lifecycle_state == 'ACTIVE' or arr.lifecycle_state == 'UPDATING'):
+
+                        val = {'id': str(arr.id),
+                               'description': str(arr.description),
+                               'display_name': str(arr.display_name),
+                               'time_created': str(arr.time_created),
+                               'time_updated': str(arr.time_updated),
+                               'updated_by': str(arr.updated_by),
+                               'lifecycle_state': str(arr.lifecycle_state),
+                               'state_message': str(arr.state_message),
+                               'sum_info': "Data Conn Registry",
+                               'sum_size_gb': str("1"),
+                               'compartment_name': str(compartment['name']),
+                               'compartment_path': str(compartment['path']),
+                               'compartment_id': str(compartment['id']),
+                               'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
+                               'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
+                               'region_name': str(self.config['region'])
+                               }
+
+                        # add the data
+                        cnt += 1
+                        data.append(val)
+
+            self.__load_print_cnt(cnt, start_time)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_data_ai_dcregistry", e)
+            return data
 
     ##########################################################################
     # __load_data_ai_catalog
@@ -11881,13 +12272,13 @@ class ShowOCIService(object):
             print("PaaS Native Services...")
 
             # clients
-            oic_client = oci.integration.IntegrationInstanceClient(self.config, signer=self.signer, timeout=2)
-            oac_client = oci.analytics.AnalyticsClient(self.config, signer=self.signer, timeout=(2, 2))
-            oce_client = oci.oce.OceInstanceClient(self.config, signer=self.signer, timeout=(2, 2))
-            ocvs_client = oci.ocvp.SddcClient(self.config, signer=self.signer, timeout=(3, 3))
-            esxi_client = oci.ocvp.EsxiHostClient(self.config, signer=self.signer, timeout=(3, 3))
-            vb_client = oci.visual_builder.VbInstanceClient(self.config, signer=self.signer, timeout=(3, 3))
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer)
+            oic_client = oci.integration.IntegrationInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            oac_client = oci.analytics.AnalyticsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            oce_client = oci.oce.OceInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            ocvs_client = oci.ocvp.SddcClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            esxi_client = oci.ocvp.EsxiHostClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            vb_client = oci.visual_builder.VbInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
 
             if self.flags.proxy:
                 oic_client.base_client.session.proxies = {'https': self.flags.proxy}
@@ -12430,7 +12821,7 @@ class ShowOCIService(object):
             print("Announcements...")
 
             # AnnouncementClient
-            announcement_client = oci.announcements_service.AnnouncementClient(self.config, signer=self.signer)
+            announcement_client = oci.announcements_service.AnnouncementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 announcement_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -12534,12 +12925,12 @@ class ShowOCIService(object):
             print("Limits and Quotas...")
 
             # LimitsClient
-            limits_client = oci.limits.LimitsClient(self.config, signer=self.signer)
+            limits_client = oci.limits.LimitsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 limits_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # QuotasClient
-            quotas_client = oci.limits.QuotasClient(self.config, signer=self.signer)
+            quotas_client = oci.limits.QuotasClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             if self.flags.proxy:
                 quotas_client.base_client.session.proxies = {'https': self.flags.proxy}
 
@@ -12768,10 +13159,10 @@ class ShowOCIService(object):
             print("Security and Logging Services...")
 
             # clients
-            bs_client = oci.bastion.BastionClient(self.config, signer=self.signer, timeout=2)
-            cg_client = oci.cloud_guard.CloudGuardClient(self.config, signer=self.signer, timeout=2)
-            log_client = oci.logging.LoggingManagementClient(self.config, signer=self.signer, timeout=2)
-            kms_client = oci.key_management.KmsVaultClient(self.config, signer=self.signer, timeout=2)
+            bs_client = oci.bastion.BastionClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            cg_client = oci.cloud_guard.CloudGuardClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            log_client = oci.logging.LoggingManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            kms_client = oci.key_management.KmsVaultClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
 
             if self.flags.proxy:
                 cg_client.base_client.session.proxies = {'https': self.flags.proxy}
@@ -12820,7 +13211,7 @@ class ShowOCIService(object):
             print("Cloud Guard Scores...")
 
             # clients
-            cg_client = oci.cloud_guard.CloudGuardClient(self.config, signer=self.signer, timeout=2)
+            cg_client = oci.cloud_guard.CloudGuardClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
 
             if self.flags.proxy:
                 cg_client.base_client.session.proxies = {'https': self.flags.proxy}
@@ -13356,3 +13747,109 @@ class ShowOCIService(object):
         except Exception as e:
             self.__print_error("__load_security_bastions", e)
             return data
+
+
+##########################################################################
+# class ShowOCIFlags
+##########################################################################
+class ShowOCIFlags(object):
+    # Read Flags
+    read_identity = False
+    read_identity_compartments = False
+    read_network = False
+    read_compute = False
+    read_database = False
+    read_file_storage = False
+    read_object_storage = False
+    read_load_balancer = False
+    read_email_distribution = False
+    read_resource_management = False
+    read_containers = False
+    read_streams_queues = False
+    read_budgets = False
+    read_monitoring_notifications = False
+    read_edge = False
+    read_security = False
+    read_announcement = False
+    read_ManagedCompartmentForPaaS = True
+    read_root_compartment = True
+    read_limits = False
+    read_paas_native = False
+    read_function = False
+    read_api = False
+    read_data_ai = False
+    skip_identity_user_credential = False
+    skip_backups = False
+    skip_dbhomes = False
+    connection_timeout = 20
+    read_timeout = 150
+
+    # is_vcn_exist_for_region
+    is_vcn_exist_for_region = False
+
+    # filter flags
+    filter_by_region = ""
+    filter_by_compartment = ""
+    filter_by_compartment_recursive = ""
+    filter_by_compartment_path = ""
+    filter_by_tenancy_id = ""
+
+    # version, config files and proxy
+    proxy = ""
+    showoci_version = ""
+    config_file = oci.config.DEFAULT_LOCATION
+    config_section = oci.config.DEFAULT_PROFILE
+    use_instance_principals = False
+    use_delegation_token = False
+    use_security_token = False
+
+    # pyton and host info
+    machine = platform.node() + " (" + platform.machine() + ")"
+    python = platform.python_version()
+
+    # flag if to run on compartment
+    run_on_compartments = False
+
+    ############################################
+    # Init
+    ############################################
+    def __init__(self):
+        pass
+
+    ############################################
+    # get run on compartments flag
+    ############################################
+    def is_loop_on_compartments(self):
+        return (self.read_network or
+                self.read_compute or
+                self.read_database or
+                self.read_file_storage or
+                self.read_object_storage or
+                self.read_load_balancer or
+                self.read_email_distribution or
+                self.read_resource_management or
+                self.read_containers or
+                self.read_streams_queues or
+                self.read_budgets or
+                self.read_monitoring_notifications or
+                self.read_edge or
+                self.read_paas_native or
+                self.read_limits or
+                self.read_api or
+                self.read_function or
+                self.read_data_ai or
+                self.read_security)
+
+    ############################################
+    # check if to load basic network (vcn+subnets)
+    ############################################
+    def is_load_basic_network(self):
+        return (self.read_network or
+                self.read_compute or
+                self.read_database or
+                self.read_file_storage or
+                self.read_load_balancer or
+                self.read_containers or
+                self.read_function or
+                self.read_api or
+                self.read_paas_native)

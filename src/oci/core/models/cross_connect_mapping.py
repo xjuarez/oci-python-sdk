@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -173,7 +173,7 @@ class CrossConnectMapping(object):
         Oracle. Specified by the owner of that router. If the session goes from Oracle
         to a customer, this is the BGP IPv4 address of the customer's edge router. If the
         session goes from Oracle to a provider, this is the BGP IPv4 address of the
-        provider's edge router. Must use a /30 or /31 subnet mask.
+        provider's edge router. Must use a subnet mask from /28 to /31.
 
         There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
@@ -193,7 +193,7 @@ class CrossConnectMapping(object):
         Oracle. Specified by the owner of that router. If the session goes from Oracle
         to a customer, this is the BGP IPv4 address of the customer's edge router. If the
         session goes from Oracle to a provider, this is the BGP IPv4 address of the
-        provider's edge router. Must use a /30 or /31 subnet mask.
+        provider's edge router. Must use a subnet mask from /28 to /31.
 
         There's one exception: for a public virtual circuit, Oracle specifies the BGP IPv4 addresses.
 
@@ -209,8 +209,8 @@ class CrossConnectMapping(object):
     def oracle_bgp_peering_ip(self):
         """
         Gets the oracle_bgp_peering_ip of this CrossConnectMapping.
-        The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31
-        subnet mask. If the session goes from Oracle to a customer's edge router,
+        The IPv4 address for Oracle's end of the BGP session. Must use a subnet mask from /28 to /31.
+        If the session goes from Oracle to a customer's edge router,
         the customer specifies this information. If the session goes from Oracle to
         a provider's edge router, the provider specifies this.
 
@@ -228,8 +228,8 @@ class CrossConnectMapping(object):
     def oracle_bgp_peering_ip(self, oracle_bgp_peering_ip):
         """
         Sets the oracle_bgp_peering_ip of this CrossConnectMapping.
-        The IPv4 address for Oracle's end of the BGP session. Must use a /30 or /31
-        subnet mask. If the session goes from Oracle to a customer's edge router,
+        The IPv4 address for Oracle's end of the BGP session. Must use a subnet mask from /28 to /31.
+        If the session goes from Oracle to a customer's edge router,
         the customer specifies this information. If the session goes from Oracle to
         a provider's edge router, the provider specifies this.
 

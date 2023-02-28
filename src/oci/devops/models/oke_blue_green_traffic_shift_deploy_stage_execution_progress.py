@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from .deploy_stage_execution_progress import DeployStageExecutionProgress
@@ -96,7 +96,7 @@ class OkeBlueGreenTrafficShiftDeployStageExecutionProgress(DeployStageExecutionP
     def namespace(self):
         """
         Gets the namespace of this OkeBlueGreenTrafficShiftDeployStageExecutionProgress.
-        Namespace where traffic is going.
+        Namespace where traffic is going. Example:  blue - Traffic is going to blue namespace. green - Traffic is going to green namespace.
 
 
         :return: The namespace of this OkeBlueGreenTrafficShiftDeployStageExecutionProgress.
@@ -108,7 +108,7 @@ class OkeBlueGreenTrafficShiftDeployStageExecutionProgress(DeployStageExecutionP
     def namespace(self, namespace):
         """
         Sets the namespace of this OkeBlueGreenTrafficShiftDeployStageExecutionProgress.
-        Namespace where traffic is going.
+        Namespace where traffic is going. Example:  blue - Traffic is going to blue namespace. green - Traffic is going to green namespace.
 
 
         :param namespace: The namespace of this OkeBlueGreenTrafficShiftDeployStageExecutionProgress.

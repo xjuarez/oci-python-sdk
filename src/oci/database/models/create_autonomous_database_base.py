@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -19,6 +19,14 @@ class CreateAutonomousDatabaseBase(object):
 
     **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
     """
+
+    #: A constant which can be used with the compute_model property of a CreateAutonomousDatabaseBase.
+    #: This constant has a value of "ECPU"
+    COMPUTE_MODEL_ECPU = "ECPU"
+
+    #: A constant which can be used with the compute_model property of a CreateAutonomousDatabaseBase.
+    #: This constant has a value of "OCPU"
+    COMPUTE_MODEL_OCPU = "OCPU"
 
     #: A constant which can be used with the db_workload property of a CreateAutonomousDatabaseBase.
     #: This constant has a value of "OLTP"
@@ -109,6 +117,15 @@ class CreateAutonomousDatabaseBase(object):
         :param cpu_core_count:
             The value to assign to the cpu_core_count property of this CreateAutonomousDatabaseBase.
         :type cpu_core_count: int
+
+        :param compute_model:
+            The value to assign to the compute_model property of this CreateAutonomousDatabaseBase.
+            Allowed values for this property are: "ECPU", "OCPU"
+        :type compute_model: str
+
+        :param compute_count:
+            The value to assign to the compute_count property of this CreateAutonomousDatabaseBase.
+        :type compute_count: float
 
         :param ocpu_count:
             The value to assign to the ocpu_count property of this CreateAutonomousDatabaseBase.
@@ -212,6 +229,10 @@ class CreateAutonomousDatabaseBase(object):
             The value to assign to the defined_tags property of this CreateAutonomousDatabaseBase.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param private_endpoint_ip:
+            The value to assign to the private_endpoint_ip property of this CreateAutonomousDatabaseBase.
+        :type private_endpoint_ip: str
+
         :param db_version:
             The value to assign to the db_version property of this CreateAutonomousDatabaseBase.
         :type db_version: str
@@ -250,6 +271,18 @@ class CreateAutonomousDatabaseBase(object):
             The value to assign to the database_edition property of this CreateAutonomousDatabaseBase.
         :type database_edition: str
 
+        :param db_tools_details:
+            The value to assign to the db_tools_details property of this CreateAutonomousDatabaseBase.
+        :type db_tools_details: list[oci.database.models.DatabaseTool]
+
+        :param secret_id:
+            The value to assign to the secret_id property of this CreateAutonomousDatabaseBase.
+        :type secret_id: str
+
+        :param secret_version_number:
+            The value to assign to the secret_version_number property of this CreateAutonomousDatabaseBase.
+        :type secret_version_number: int
+
         """
         self.swagger_types = {
             'compartment_id': 'str',
@@ -257,6 +290,8 @@ class CreateAutonomousDatabaseBase(object):
             'ncharacter_set': 'str',
             'db_name': 'str',
             'cpu_core_count': 'int',
+            'compute_model': 'str',
+            'compute_count': 'float',
             'ocpu_count': 'float',
             'db_workload': 'str',
             'data_storage_size_in_tbs': 'int',
@@ -282,6 +317,7 @@ class CreateAutonomousDatabaseBase(object):
             'private_endpoint_label': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'private_endpoint_ip': 'str',
             'db_version': 'str',
             'source': 'str',
             'customer_contacts': 'list[CustomerContact]',
@@ -290,7 +326,10 @@ class CreateAutonomousDatabaseBase(object):
             'scheduled_operations': 'list[ScheduledOperationDetails]',
             'is_auto_scaling_for_storage_enabled': 'bool',
             'max_cpu_core_count': 'int',
-            'database_edition': 'str'
+            'database_edition': 'str',
+            'db_tools_details': 'list[DatabaseTool]',
+            'secret_id': 'str',
+            'secret_version_number': 'int'
         }
 
         self.attribute_map = {
@@ -299,6 +338,8 @@ class CreateAutonomousDatabaseBase(object):
             'ncharacter_set': 'ncharacterSet',
             'db_name': 'dbName',
             'cpu_core_count': 'cpuCoreCount',
+            'compute_model': 'computeModel',
+            'compute_count': 'computeCount',
             'ocpu_count': 'ocpuCount',
             'db_workload': 'dbWorkload',
             'data_storage_size_in_tbs': 'dataStorageSizeInTBs',
@@ -324,6 +365,7 @@ class CreateAutonomousDatabaseBase(object):
             'private_endpoint_label': 'privateEndpointLabel',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'private_endpoint_ip': 'privateEndpointIp',
             'db_version': 'dbVersion',
             'source': 'source',
             'customer_contacts': 'customerContacts',
@@ -332,7 +374,10 @@ class CreateAutonomousDatabaseBase(object):
             'scheduled_operations': 'scheduledOperations',
             'is_auto_scaling_for_storage_enabled': 'isAutoScalingForStorageEnabled',
             'max_cpu_core_count': 'maxCpuCoreCount',
-            'database_edition': 'databaseEdition'
+            'database_edition': 'databaseEdition',
+            'db_tools_details': 'dbToolsDetails',
+            'secret_id': 'secretId',
+            'secret_version_number': 'secretVersionNumber'
         }
 
         self._compartment_id = None
@@ -340,6 +385,8 @@ class CreateAutonomousDatabaseBase(object):
         self._ncharacter_set = None
         self._db_name = None
         self._cpu_core_count = None
+        self._compute_model = None
+        self._compute_count = None
         self._ocpu_count = None
         self._db_workload = None
         self._data_storage_size_in_tbs = None
@@ -365,6 +412,7 @@ class CreateAutonomousDatabaseBase(object):
         self._private_endpoint_label = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._private_endpoint_ip = None
         self._db_version = None
         self._source = None
         self._customer_contacts = None
@@ -374,6 +422,9 @@ class CreateAutonomousDatabaseBase(object):
         self._is_auto_scaling_for_storage_enabled = None
         self._max_cpu_core_count = None
         self._database_edition = None
+        self._db_tools_details = None
+        self._secret_id = None
+        self._secret_version_number = None
 
     @staticmethod
     def get_subtype(object_dictionary):
@@ -550,6 +601,62 @@ class CreateAutonomousDatabaseBase(object):
         :type: int
         """
         self._cpu_core_count = cpu_core_count
+
+    @property
+    def compute_model(self):
+        """
+        Gets the compute_model of this CreateAutonomousDatabaseBase.
+        The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+
+        Allowed values for this property are: "ECPU", "OCPU"
+
+
+        :return: The compute_model of this CreateAutonomousDatabaseBase.
+        :rtype: str
+        """
+        return self._compute_model
+
+    @compute_model.setter
+    def compute_model(self, compute_model):
+        """
+        Sets the compute_model of this CreateAutonomousDatabaseBase.
+        The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+
+
+        :param compute_model: The compute_model of this CreateAutonomousDatabaseBase.
+        :type: str
+        """
+        allowed_values = ["ECPU", "OCPU"]
+        if not value_allowed_none_or_none_sentinel(compute_model, allowed_values):
+            raise ValueError(
+                "Invalid value for `compute_model`, must be None or one of {0}"
+                .format(allowed_values)
+            )
+        self._compute_model = compute_model
+
+    @property
+    def compute_count(self):
+        """
+        Gets the compute_count of this CreateAutonomousDatabaseBase.
+        The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+
+
+        :return: The compute_count of this CreateAutonomousDatabaseBase.
+        :rtype: float
+        """
+        return self._compute_count
+
+    @compute_count.setter
+    def compute_count(self, compute_count):
+        """
+        Sets the compute_count of this CreateAutonomousDatabaseBase.
+        The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is on Shared or Dedicated infrastructure. For an Autonomous Database on Shared infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+
+
+        :param compute_count: The compute_count of this CreateAutonomousDatabaseBase.
+        :type: float
+        """
+        self._compute_count = compute_count
 
     @property
     def ocpu_count(self):
@@ -1356,6 +1463,30 @@ class CreateAutonomousDatabaseBase(object):
         self._defined_tags = defined_tags
 
     @property
+    def private_endpoint_ip(self):
+        """
+        Gets the private_endpoint_ip of this CreateAutonomousDatabaseBase.
+        The private endpoint Ip address for the resource.
+
+
+        :return: The private_endpoint_ip of this CreateAutonomousDatabaseBase.
+        :rtype: str
+        """
+        return self._private_endpoint_ip
+
+    @private_endpoint_ip.setter
+    def private_endpoint_ip(self, private_endpoint_ip):
+        """
+        Sets the private_endpoint_ip of this CreateAutonomousDatabaseBase.
+        The private endpoint Ip address for the resource.
+
+
+        :param private_endpoint_ip: The private_endpoint_ip of this CreateAutonomousDatabaseBase.
+        :type: str
+        """
+        self._private_endpoint_ip = private_endpoint_ip
+
+    @property
     def db_version(self):
         """
         Gets the db_version of this CreateAutonomousDatabaseBase.
@@ -1598,6 +1729,78 @@ class CreateAutonomousDatabaseBase(object):
         :type: str
         """
         self._database_edition = database_edition
+
+    @property
+    def db_tools_details(self):
+        """
+        Gets the db_tools_details of this CreateAutonomousDatabaseBase.
+        List of database tools details.
+
+
+        :return: The db_tools_details of this CreateAutonomousDatabaseBase.
+        :rtype: list[oci.database.models.DatabaseTool]
+        """
+        return self._db_tools_details
+
+    @db_tools_details.setter
+    def db_tools_details(self, db_tools_details):
+        """
+        Sets the db_tools_details of this CreateAutonomousDatabaseBase.
+        List of database tools details.
+
+
+        :param db_tools_details: The db_tools_details of this CreateAutonomousDatabaseBase.
+        :type: list[oci.database.models.DatabaseTool]
+        """
+        self._db_tools_details = db_tools_details
+
+    @property
+    def secret_id(self):
+        """
+        Gets the secret_id of this CreateAutonomousDatabaseBase.
+        The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+
+
+        :return: The secret_id of this CreateAutonomousDatabaseBase.
+        :rtype: str
+        """
+        return self._secret_id
+
+    @secret_id.setter
+    def secret_id(self, secret_id):
+        """
+        Sets the secret_id of this CreateAutonomousDatabaseBase.
+        The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+
+
+        :param secret_id: The secret_id of this CreateAutonomousDatabaseBase.
+        :type: str
+        """
+        self._secret_id = secret_id
+
+    @property
+    def secret_version_number(self):
+        """
+        Gets the secret_version_number of this CreateAutonomousDatabaseBase.
+        The version of the vault secret. If no version is specified, the latest version will be used.
+
+
+        :return: The secret_version_number of this CreateAutonomousDatabaseBase.
+        :rtype: int
+        """
+        return self._secret_version_number
+
+    @secret_version_number.setter
+    def secret_version_number(self, secret_version_number):
+        """
+        Sets the secret_version_number of this CreateAutonomousDatabaseBase.
+        The version of the vault secret. If no version is specified, the latest version will be used.
+
+
+        :param secret_version_number: The secret_version_number of this CreateAutonomousDatabaseBase.
+        :type: int
+        """
+        self._secret_version_number = secret_version_number
 
     def __repr__(self):
         return formatted_flat_dict(self)

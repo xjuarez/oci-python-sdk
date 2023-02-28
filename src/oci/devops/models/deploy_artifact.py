@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2022, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 
@@ -36,6 +36,10 @@ class DeployArtifact(object):
     #: A constant which can be used with the deploy_artifact_type property of a DeployArtifact.
     #: This constant has a value of "HELM_CHART"
     DEPLOY_ARTIFACT_TYPE_HELM_CHART = "HELM_CHART"
+
+    #: A constant which can be used with the deploy_artifact_type property of a DeployArtifact.
+    #: This constant has a value of "COMMAND_SPEC"
+    DEPLOY_ARTIFACT_TYPE_COMMAND_SPEC = "COMMAND_SPEC"
 
     #: A constant which can be used with the argument_substitution_mode property of a DeployArtifact.
     #: This constant has a value of "NONE"
@@ -96,7 +100,7 @@ class DeployArtifact(object):
 
         :param deploy_artifact_type:
             The value to assign to the deploy_artifact_type property of this DeployArtifact.
-            Allowed values for this property are: "DEPLOYMENT_SPEC", "JOB_SPEC", "KUBERNETES_MANIFEST", "GENERIC_FILE", "DOCKER_IMAGE", "HELM_CHART", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "DEPLOYMENT_SPEC", "JOB_SPEC", "KUBERNETES_MANIFEST", "GENERIC_FILE", "DOCKER_IMAGE", "HELM_CHART", "COMMAND_SPEC", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type deploy_artifact_type: str
 
@@ -319,7 +323,7 @@ class DeployArtifact(object):
         **[Required]** Gets the deploy_artifact_type of this DeployArtifact.
         Type of the deployment artifact.
 
-        Allowed values for this property are: "DEPLOYMENT_SPEC", "JOB_SPEC", "KUBERNETES_MANIFEST", "GENERIC_FILE", "DOCKER_IMAGE", "HELM_CHART", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "DEPLOYMENT_SPEC", "JOB_SPEC", "KUBERNETES_MANIFEST", "GENERIC_FILE", "DOCKER_IMAGE", "HELM_CHART", "COMMAND_SPEC", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -338,7 +342,7 @@ class DeployArtifact(object):
         :param deploy_artifact_type: The deploy_artifact_type of this DeployArtifact.
         :type: str
         """
-        allowed_values = ["DEPLOYMENT_SPEC", "JOB_SPEC", "KUBERNETES_MANIFEST", "GENERIC_FILE", "DOCKER_IMAGE", "HELM_CHART"]
+        allowed_values = ["DEPLOYMENT_SPEC", "JOB_SPEC", "KUBERNETES_MANIFEST", "GENERIC_FILE", "DOCKER_IMAGE", "HELM_CHART", "COMMAND_SPEC"]
         if not value_allowed_none_or_none_sentinel(deploy_artifact_type, allowed_values):
             deploy_artifact_type = 'UNKNOWN_ENUM_VALUE'
         self._deploy_artifact_type = deploy_artifact_type
