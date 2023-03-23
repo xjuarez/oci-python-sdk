@@ -4,6 +4,82 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 ====================
+2.96.0 - 2023-03-21
+====================
+
+Added
+-----
+* Support for backup automation integration with the Database Recovery service in the Database service
+* Support for changing the disaster recovery configuration of an autonomous database in remote regions of its disaster recovery association in the Database service
+* Support for creating a remote disaster recovery association clone of an autonomous database in the Database service
+* Support for managed build stages to be configured to use custom shape build runners in the DevOps service
+* Support for listing pre-built functions and creating functions from pre-built functions in the Functions service
+* Support for connections types for database resources of type Amazon S3, HDFS, SQL Server, Java Messaging service, Mongo DB, Oracle NoSQL, and Snowflake in the GoldenGate service
+
+Breaking
+--------
+* The constant value `MODEL_TYPE_LAKE_HOUSE_CONNECTION` was renamed to `MODEL_TYPE_LAKE_CONNECTION` in the Connection, ConnectionDetails, ConnectionSummary, CreateConnectionDetails and UpdateConnectionDetails models in the Data Integration Service
+* The constant value `MODEL_TYPE_LAKE_HOUSE_DATA_ASSET` was renamed to `MODEL_TYPE_LAKE_DATA_ASSET` in the enum ModelTypeEnum in the DataAsset, CreateDataAssetDetails, DataAssetSummary, and UpdateDataAssetDetails models in the Data Integration Service
+* Model `UpdateConnectionFromLakehouse` was renamed to `UpdateConnectionFromLake` in the Data Integration Service
+* The constant values for `lifecycle_state` property of model `FunctionSummary` are removed in the Functions Service
+
+====================
+2.95.0 - 2023-03-14
+====================
+
+Added
+-----
+* Support for the Identity Domains service
+* Support for long-term backups for autonomous databases on Exadata Cloud at Customer in the Database service
+* Support for database OS patching in the Database service
+* Support for managing enhanced clusters, cluster add-ons, and serverless virtual node pools in the Container Engine for Kubernetes service
+* Support for templates and copy object requests in the Data Integration service
+* Support for maintenance features in the GoldenGate service
+* Support for AMD_MILAN_BM_GPU configuration type on instances in the Compute service
+* Support for host storage metrics and network metrics as part of host capacity planning in the Operations Insights service
+ 
+Breaking
+--------
+* `UNKNOWN_ENUM_VALUE` will be returned for unknown enum values, instead of raising `ValueError`, for property `protocol` in model `IdentityProvider` in the Identity Data Plane service
+* `UNKNOWN_ENUM_VALUE` will be returned for unknown enum values, instead of raising `ValueError`, for property `lifecycle_state` in model `TemplateSummary` in the Identity Data Plane service
+ 
+Security
+--------
+* The upper bound for `cryptography` dependency has changed to versions less than `40.0.0` to address security vulnerability CVE-2023-23931. For more discussion please see https://github.com/oracle/oci-python-sdk/issues/515
+  
+====================
+2.94.0 - 2023-03-07
+====================
+
+Added
+-----
+* Support for creating and updating autonomous database long-term backup schedules in the Database service
+* Support for creating, updating, and deleting autonomous database long-term backups in the Database service
+* Support for model deployment resources to use customized container images containing runtime dependencies of ML models and custom web servers to handle inference requests in the Data Science service
+* Support for using the compartmentIdInSubtree parameter when summarizing management agent counts in the Management Agent Cloud service
+* Support for getting agent property details in the Management Agent Cloud service
+* Support for filtering by gateway ID when listing agents in the Management Agent Cloud service
+* Support for the Hebrew and Greek languages during AI language text translation in the AI Language service
+* Support for auto-detection when analyzing text with pre-trained models in the AI Language service
+* Support for specifying update operation constraints when updating an instance in the Compute Service
+* Support for disaster recovery in the Content Management service
+* Support for advanced autonomous databases insights in the Operations Insights service  
+ 
+Breaking
+--------
+* Support for retries by default on operations of the Analytics Cloud service
+* The value `ACTIVE` was removed from `LifecycleDetails` in the `OceInstanceSummary` and `OceInstance` model in the Content Management service 
+ 
+====================
+2.93.1 - 2023-02-28
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the eu-dcc-rating-1, eu-dcc-rating-2, eu-dcc-dublin-1, eu-dcc-dublin-2, and eu-dcc-milan-2 regions
+* Support for on-demand bootstrap script execution in the Big Data Service
+ 
+====================
 2.93.0 - 2023-02-21
 ====================
 

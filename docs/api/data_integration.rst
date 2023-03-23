@@ -73,8 +73,8 @@ Data Integration
     oci.data_integration.models.ConnectionFromBipDetails
     oci.data_integration.models.ConnectionFromJdbc
     oci.data_integration.models.ConnectionFromJdbcDetails
-    oci.data_integration.models.ConnectionFromLakehouse
-    oci.data_integration.models.ConnectionFromLakehouseDetails
+    oci.data_integration.models.ConnectionFromLake
+    oci.data_integration.models.ConnectionFromLakeDetails
     oci.data_integration.models.ConnectionFromMySQL
     oci.data_integration.models.ConnectionFromMySQLDetails
     oci.data_integration.models.ConnectionFromObjectStorage
@@ -94,7 +94,7 @@ Data Integration
     oci.data_integration.models.ConnectionSummaryFromBICC
     oci.data_integration.models.ConnectionSummaryFromBIP
     oci.data_integration.models.ConnectionSummaryFromJdbc
-    oci.data_integration.models.ConnectionSummaryFromLakehouse
+    oci.data_integration.models.ConnectionSummaryFromLake
     oci.data_integration.models.ConnectionSummaryFromMySQL
     oci.data_integration.models.ConnectionSummaryFromObjectStorage
     oci.data_integration.models.ConnectionSummaryFromOracle
@@ -104,6 +104,11 @@ Data Integration
     oci.data_integration.models.ConnectionValidationSummary
     oci.data_integration.models.ConnectionValidationSummaryCollection
     oci.data_integration.models.ConnectorAttribute
+    oci.data_integration.models.CopyConflictResolution
+    oci.data_integration.models.CopyObjectMetadataSummary
+    oci.data_integration.models.CopyObjectRequest
+    oci.data_integration.models.CopyObjectRequestSummary
+    oci.data_integration.models.CopyObjectRequestSummaryCollection
     oci.data_integration.models.CountStatistic
     oci.data_integration.models.CountStatisticSummary
     oci.data_integration.models.CreateApplicationDetails
@@ -115,26 +120,28 @@ Data Integration
     oci.data_integration.models.CreateConnectionFromBICC
     oci.data_integration.models.CreateConnectionFromBIP
     oci.data_integration.models.CreateConnectionFromJdbc
-    oci.data_integration.models.CreateConnectionFromLakehouse
+    oci.data_integration.models.CreateConnectionFromLake
     oci.data_integration.models.CreateConnectionFromMySQL
     oci.data_integration.models.CreateConnectionFromObjectStorage
     oci.data_integration.models.CreateConnectionFromOracle
     oci.data_integration.models.CreateConnectionFromRestBasicAuth
     oci.data_integration.models.CreateConnectionFromRestNoAuth
     oci.data_integration.models.CreateConnectionValidationDetails
+    oci.data_integration.models.CreateCopyObjectRequestDetails
     oci.data_integration.models.CreateDataAssetDetails
     oci.data_integration.models.CreateDataAssetFromAdwc
     oci.data_integration.models.CreateDataAssetFromAmazonS3
     oci.data_integration.models.CreateDataAssetFromAtp
     oci.data_integration.models.CreateDataAssetFromFusionApp
     oci.data_integration.models.CreateDataAssetFromJdbc
-    oci.data_integration.models.CreateDataAssetFromLakehouse
+    oci.data_integration.models.CreateDataAssetFromLake
     oci.data_integration.models.CreateDataAssetFromMySQL
     oci.data_integration.models.CreateDataAssetFromObjectStorage
     oci.data_integration.models.CreateDataAssetFromOracle
     oci.data_integration.models.CreateDataAssetFromRest
     oci.data_integration.models.CreateDataFlowDetails
     oci.data_integration.models.CreateDataFlowValidationDetails
+    oci.data_integration.models.CreateDetailedDescriptionDetails
     oci.data_integration.models.CreateDisApplicationDetails
     oci.data_integration.models.CreateEntityShapeDetails
     oci.data_integration.models.CreateEntityShapeFromFile
@@ -174,7 +181,7 @@ Data Integration
     oci.data_integration.models.DataAssetFromAtpDetails
     oci.data_integration.models.DataAssetFromFusionApp
     oci.data_integration.models.DataAssetFromJdbc
-    oci.data_integration.models.DataAssetFromLakehouseDetails
+    oci.data_integration.models.DataAssetFromLakeDetails
     oci.data_integration.models.DataAssetFromMySQL
     oci.data_integration.models.DataAssetFromObjectStorageDetails
     oci.data_integration.models.DataAssetFromOracleDetails
@@ -186,7 +193,7 @@ Data Integration
     oci.data_integration.models.DataAssetSummaryFromAtp
     oci.data_integration.models.DataAssetSummaryFromFusionApp
     oci.data_integration.models.DataAssetSummaryFromJdbc
-    oci.data_integration.models.DataAssetSummaryFromLakehouse
+    oci.data_integration.models.DataAssetSummaryFromLake
     oci.data_integration.models.DataAssetSummaryFromMySQL
     oci.data_integration.models.DataAssetSummaryFromObjectStorage
     oci.data_integration.models.DataAssetSummaryFromOracle
@@ -228,6 +235,7 @@ Data Integration
     oci.data_integration.models.DerivedEntity
     oci.data_integration.models.DerivedField
     oci.data_integration.models.DerivedType
+    oci.data_integration.models.DetailedDescription
     oci.data_integration.models.DirectFieldMap
     oci.data_integration.models.DirectNamedFieldMap
     oci.data_integration.models.DisApplication
@@ -449,6 +457,7 @@ Data Integration
     oci.data_integration.models.TaskValidation
     oci.data_integration.models.TaskValidationSummary
     oci.data_integration.models.TaskValidationSummaryCollection
+    oci.data_integration.models.Template
     oci.data_integration.models.TemplateSummary
     oci.data_integration.models.TemplateSummaryCollection
     oci.data_integration.models.Time
@@ -471,24 +480,26 @@ Data Integration
     oci.data_integration.models.UpdateConnectionFromBICC
     oci.data_integration.models.UpdateConnectionFromBIP
     oci.data_integration.models.UpdateConnectionFromJdbc
-    oci.data_integration.models.UpdateConnectionFromLakehouse
+    oci.data_integration.models.UpdateConnectionFromLake
     oci.data_integration.models.UpdateConnectionFromMySQL
     oci.data_integration.models.UpdateConnectionFromObjectStorage
     oci.data_integration.models.UpdateConnectionFromOracle
     oci.data_integration.models.UpdateConnectionFromRestBasicAuth
     oci.data_integration.models.UpdateConnectionFromRestNoAuth
+    oci.data_integration.models.UpdateCopyObjectRequestDetails
     oci.data_integration.models.UpdateDataAssetDetails
     oci.data_integration.models.UpdateDataAssetFromAdwc
     oci.data_integration.models.UpdateDataAssetFromAmazonS3
     oci.data_integration.models.UpdateDataAssetFromAtp
     oci.data_integration.models.UpdateDataAssetFromFusionApp
     oci.data_integration.models.UpdateDataAssetFromJdbc
-    oci.data_integration.models.UpdateDataAssetFromLakehouse
+    oci.data_integration.models.UpdateDataAssetFromLake
     oci.data_integration.models.UpdateDataAssetFromMySQL
     oci.data_integration.models.UpdateDataAssetFromObjectStorage
     oci.data_integration.models.UpdateDataAssetFromOracle
     oci.data_integration.models.UpdateDataAssetFromRest
     oci.data_integration.models.UpdateDataFlowDetails
+    oci.data_integration.models.UpdateDetailedDescriptionDetails
     oci.data_integration.models.UpdateDisApplicationDetails
     oci.data_integration.models.UpdateExternalPublicationDetails
     oci.data_integration.models.UpdateFolderDetails

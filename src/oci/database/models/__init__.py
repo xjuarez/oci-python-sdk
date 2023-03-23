@@ -55,6 +55,7 @@ from .change_cloud_exadata_infrastructure_compartment_details import ChangeCloud
 from .change_cloud_vm_cluster_compartment_details import ChangeCloudVmClusterCompartmentDetails
 from .change_compartment_details import ChangeCompartmentDetails
 from .change_dataguard_role_details import ChangeDataguardRoleDetails
+from .change_disaster_recovery_configuration_details import ChangeDisasterRecoveryConfigurationDetails
 from .change_exadata_infrastructure_compartment_details import ChangeExadataInfrastructureCompartmentDetails
 from .change_key_store_compartment_details import ChangeKeyStoreCompartmentDetails
 from .change_vm_cluster_compartment_details import ChangeVmClusterCompartmentDetails
@@ -90,6 +91,7 @@ from .create_cloud_exadata_infrastructure_details import CreateCloudExadataInfra
 from .create_cloud_vm_cluster_details import CreateCloudVmClusterDetails
 from .create_console_connection_details import CreateConsoleConnectionDetails
 from .create_cross_region_autonomous_database_data_guard_details import CreateCrossRegionAutonomousDatabaseDataGuardDetails
+from .create_cross_region_disaster_recovery_details import CreateCrossRegionDisasterRecoveryDetails
 from .create_data_guard_association_details import CreateDataGuardAssociationDetails
 from .create_data_guard_association_to_existing_db_system_details import CreateDataGuardAssociationToExistingDbSystemDetails
 from .create_data_guard_association_to_existing_vm_cluster_details import CreateDataGuardAssociationToExistingVmClusterDetails
@@ -174,6 +176,7 @@ from .db_system_upgrade_history_entry import DbSystemUpgradeHistoryEntry
 from .db_system_upgrade_history_entry_summary import DbSystemUpgradeHistoryEntrySummary
 from .db_version_summary import DbVersionSummary
 from .deregister_autonomous_database_data_safe_details import DeregisterAutonomousDatabaseDataSafeDetails
+from .disaster_recovery_configuration import DisasterRecoveryConfiguration
 from .disk_performance_details import DiskPerformanceDetails
 from .enable_database_management_details import EnableDatabaseManagementDetails
 from .enable_external_container_database_database_management_details import EnableExternalContainerDatabaseDatabaseManagementDetails
@@ -229,6 +232,7 @@ from .launch_db_system_from_backup_details import LaunchDbSystemFromBackupDetail
 from .launch_db_system_from_database_details import LaunchDbSystemFromDatabaseDetails
 from .launch_db_system_from_db_system_details import LaunchDbSystemFromDbSystemDetails
 from .local_clone_pluggable_database_details import LocalClonePluggableDatabaseDetails
+from .long_term_back_up_schedule_details import LongTermBackUpScheduleDetails
 from .maintenance_run import MaintenanceRun
 from .maintenance_run_history import MaintenanceRunHistory
 from .maintenance_run_history_summary import MaintenanceRunHistorySummary
@@ -274,6 +278,7 @@ from .switchover_data_guard_association_details import SwitchoverDataGuardAssoci
 from .update import Update
 from .update_autonomous_container_database_data_guard_association_details import UpdateAutonomousContainerDatabaseDataGuardAssociationDetails
 from .update_autonomous_container_database_details import UpdateAutonomousContainerDatabaseDetails
+from .update_autonomous_database_backup_details import UpdateAutonomousDatabaseBackupDetails
 from .update_autonomous_database_details import UpdateAutonomousDatabaseDetails
 from .update_autonomous_database_wallet_details import UpdateAutonomousDatabaseWalletDetails
 from .update_autonomous_exadata_infrastructure_details import UpdateAutonomousExadataInfrastructureDetails
@@ -371,6 +376,7 @@ database_type_mapping = {
     "ChangeCloudVmClusterCompartmentDetails": ChangeCloudVmClusterCompartmentDetails,
     "ChangeCompartmentDetails": ChangeCompartmentDetails,
     "ChangeDataguardRoleDetails": ChangeDataguardRoleDetails,
+    "ChangeDisasterRecoveryConfigurationDetails": ChangeDisasterRecoveryConfigurationDetails,
     "ChangeExadataInfrastructureCompartmentDetails": ChangeExadataInfrastructureCompartmentDetails,
     "ChangeKeyStoreCompartmentDetails": ChangeKeyStoreCompartmentDetails,
     "ChangeVmClusterCompartmentDetails": ChangeVmClusterCompartmentDetails,
@@ -406,6 +412,7 @@ database_type_mapping = {
     "CreateCloudVmClusterDetails": CreateCloudVmClusterDetails,
     "CreateConsoleConnectionDetails": CreateConsoleConnectionDetails,
     "CreateCrossRegionAutonomousDatabaseDataGuardDetails": CreateCrossRegionAutonomousDatabaseDataGuardDetails,
+    "CreateCrossRegionDisasterRecoveryDetails": CreateCrossRegionDisasterRecoveryDetails,
     "CreateDataGuardAssociationDetails": CreateDataGuardAssociationDetails,
     "CreateDataGuardAssociationToExistingDbSystemDetails": CreateDataGuardAssociationToExistingDbSystemDetails,
     "CreateDataGuardAssociationToExistingVmClusterDetails": CreateDataGuardAssociationToExistingVmClusterDetails,
@@ -490,6 +497,7 @@ database_type_mapping = {
     "DbSystemUpgradeHistoryEntrySummary": DbSystemUpgradeHistoryEntrySummary,
     "DbVersionSummary": DbVersionSummary,
     "DeregisterAutonomousDatabaseDataSafeDetails": DeregisterAutonomousDatabaseDataSafeDetails,
+    "DisasterRecoveryConfiguration": DisasterRecoveryConfiguration,
     "DiskPerformanceDetails": DiskPerformanceDetails,
     "EnableDatabaseManagementDetails": EnableDatabaseManagementDetails,
     "EnableExternalContainerDatabaseDatabaseManagementDetails": EnableExternalContainerDatabaseDatabaseManagementDetails,
@@ -545,6 +553,7 @@ database_type_mapping = {
     "LaunchDbSystemFromDatabaseDetails": LaunchDbSystemFromDatabaseDetails,
     "LaunchDbSystemFromDbSystemDetails": LaunchDbSystemFromDbSystemDetails,
     "LocalClonePluggableDatabaseDetails": LocalClonePluggableDatabaseDetails,
+    "LongTermBackUpScheduleDetails": LongTermBackUpScheduleDetails,
     "MaintenanceRun": MaintenanceRun,
     "MaintenanceRunHistory": MaintenanceRunHistory,
     "MaintenanceRunHistorySummary": MaintenanceRunHistorySummary,
@@ -590,6 +599,7 @@ database_type_mapping = {
     "Update": Update,
     "UpdateAutonomousContainerDatabaseDataGuardAssociationDetails": UpdateAutonomousContainerDatabaseDataGuardAssociationDetails,
     "UpdateAutonomousContainerDatabaseDetails": UpdateAutonomousContainerDatabaseDetails,
+    "UpdateAutonomousDatabaseBackupDetails": UpdateAutonomousDatabaseBackupDetails,
     "UpdateAutonomousDatabaseDetails": UpdateAutonomousDatabaseDetails,
     "UpdateAutonomousDatabaseWalletDetails": UpdateAutonomousDatabaseWalletDetails,
     "UpdateAutonomousExadataInfrastructureDetails": UpdateAutonomousExadataInfrastructureDetails,
