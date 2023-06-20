@@ -53,7 +53,9 @@ REGIONS_SHORT_NAMES = {
     'snn': 'eu-dcc-dublin-2',
     'dtm': 'eu-dcc-rating-2',
     'dus': 'eu-dcc-rating-1',
-    'ork': 'eu-dcc-dublin-1'
+    'ork': 'eu-dcc-dublin-1',
+    'vll': 'eu-madrid-2',
+    'beg': 'eu-jovanovac-1'
 }
 REGION_REALMS = {
     'ap-chuncheon-1': 'oc1',
@@ -113,7 +115,11 @@ REGION_REALMS = {
     'eu-dcc-dublin-2': 'oc14',
     'eu-dcc-rating-2': 'oc14',
     'eu-dcc-rating-1': 'oc14',
-    'eu-dcc-dublin-1': 'oc14'
+    'eu-dcc-dublin-1': 'oc14',
+
+    'eu-madrid-2': 'oc19',
+
+    'eu-jovanovac-1': 'oc20'
 }
 REALMS = {
     'oc1': 'oraclecloud.com',
@@ -123,7 +129,9 @@ REALMS = {
     'oc8': 'oraclecloud8.com',
     'oc9': 'oraclecloud9.com',
     'oc10': 'oraclecloud10.com',
-    'oc14': 'oraclecloud14.com'
+    'oc14': 'oraclecloud14.com',
+    'oc19': 'oraclecloud.eu',
+    'oc20': 'oraclecloud20.com'
 }
 REGIONS = [
     'ap-chuncheon-1',
@@ -176,5 +184,7 @@ REGIONS = [
     'eu-dcc-dublin-2',
     'eu-dcc-rating-2',
     'eu-dcc-rating-1',
-    'eu-dcc-dublin-1'
+    'eu-dcc-dublin-1',
+    'eu-madrid-2',
+    'eu-jovanovac-1'
 ]

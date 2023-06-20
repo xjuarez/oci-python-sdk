@@ -45,6 +45,10 @@ class SupportedHostShapeSummary(object):
     #: This constant has a value of "REFRESH_HCX_LICENSE_STATUS"
     SUPPORTED_OPERATIONS_REFRESH_HCX_LICENSE_STATUS = "REFRESH_HCX_LICENSE_STATUS"
 
+    #: A constant which can be used with the supported_operations property of a SupportedHostShapeSummary.
+    #: This constant has a value of "SWAP_BILLING"
+    SUPPORTED_OPERATIONS_SWAP_BILLING = "SWAP_BILLING"
+
     #: A constant which can be used with the supported_sddc_types property of a SupportedHostShapeSummary.
     #: This constant has a value of "PRODUCTION"
     SUPPORTED_SDDC_TYPES_PRODUCTION = "PRODUCTION"
@@ -64,7 +68,7 @@ class SupportedHostShapeSummary(object):
 
         :param supported_operations:
             The value to assign to the supported_operations property of this SupportedHostShapeSummary.
-            Allowed values for items in this list are: "CREATE_SDDC", "DELETE_SDDC", "CREATE_ESXI_HOST", "DELETE_ESXI_HOST", "UPGRADE_HCX", "DOWNGRADE_HCX", "CANCEL_DOWNGRADE_HCX", "REFRESH_HCX_LICENSE_STATUS", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for items in this list are: "CREATE_SDDC", "DELETE_SDDC", "CREATE_ESXI_HOST", "DELETE_ESXI_HOST", "UPGRADE_HCX", "DOWNGRADE_HCX", "CANCEL_DOWNGRADE_HCX", "REFRESH_HCX_LICENSE_STATUS", "SWAP_BILLING", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type supported_operations: list[str]
 
@@ -98,6 +102,10 @@ class SupportedHostShapeSummary(object):
             The value to assign to the is_support_shielded_instances property of this SupportedHostShapeSummary.
         :type is_support_shielded_instances: bool
 
+        :param is_support_monthly_sku:
+            The value to assign to the is_support_monthly_sku property of this SupportedHostShapeSummary.
+        :type is_support_monthly_sku: bool
+
         """
         self.swagger_types = {
             'name': 'str',
@@ -108,7 +116,8 @@ class SupportedHostShapeSummary(object):
             'supported_sddc_types': 'list[str]',
             'supported_vmware_software_versions': 'list[str]',
             'description': 'str',
-            'is_support_shielded_instances': 'bool'
+            'is_support_shielded_instances': 'bool',
+            'is_support_monthly_sku': 'bool'
         }
 
         self.attribute_map = {
@@ -120,7 +129,8 @@ class SupportedHostShapeSummary(object):
             'supported_sddc_types': 'supportedSddcTypes',
             'supported_vmware_software_versions': 'supportedVmwareSoftwareVersions',
             'description': 'description',
-            'is_support_shielded_instances': 'isSupportShieldedInstances'
+            'is_support_shielded_instances': 'isSupportShieldedInstances',
+            'is_support_monthly_sku': 'isSupportMonthlySku'
         }
 
         self._name = None
@@ -132,6 +142,7 @@ class SupportedHostShapeSummary(object):
         self._supported_vmware_software_versions = None
         self._description = None
         self._is_support_shielded_instances = None
+        self._is_support_monthly_sku = None
 
     @property
     def name(self):
@@ -163,7 +174,7 @@ class SupportedHostShapeSummary(object):
         **[Required]** Gets the supported_operations of this SupportedHostShapeSummary.
         The operations where you can use the shape. The operations can be CREATE_SDDC or CREATE_ESXI_HOST.
 
-        Allowed values for items in this list are: "CREATE_SDDC", "DELETE_SDDC", "CREATE_ESXI_HOST", "DELETE_ESXI_HOST", "UPGRADE_HCX", "DOWNGRADE_HCX", "CANCEL_DOWNGRADE_HCX", "REFRESH_HCX_LICENSE_STATUS", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for items in this list are: "CREATE_SDDC", "DELETE_SDDC", "CREATE_ESXI_HOST", "DELETE_ESXI_HOST", "UPGRADE_HCX", "DOWNGRADE_HCX", "CANCEL_DOWNGRADE_HCX", "REFRESH_HCX_LICENSE_STATUS", "SWAP_BILLING", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -182,7 +193,7 @@ class SupportedHostShapeSummary(object):
         :param supported_operations: The supported_operations of this SupportedHostShapeSummary.
         :type: list[str]
         """
-        allowed_values = ["CREATE_SDDC", "DELETE_SDDC", "CREATE_ESXI_HOST", "DELETE_ESXI_HOST", "UPGRADE_HCX", "DOWNGRADE_HCX", "CANCEL_DOWNGRADE_HCX", "REFRESH_HCX_LICENSE_STATUS"]
+        allowed_values = ["CREATE_SDDC", "DELETE_SDDC", "CREATE_ESXI_HOST", "DELETE_ESXI_HOST", "UPGRADE_HCX", "DOWNGRADE_HCX", "CANCEL_DOWNGRADE_HCX", "REFRESH_HCX_LICENSE_STATUS", "SWAP_BILLING"]
         if supported_operations:
             supported_operations[:] = ['UNKNOWN_ENUM_VALUE' if not value_allowed_none_or_none_sentinel(x, allowed_values) else x for x in supported_operations]
         self._supported_operations = supported_operations
@@ -360,6 +371,30 @@ class SupportedHostShapeSummary(object):
         :type: bool
         """
         self._is_support_shielded_instances = is_support_shielded_instances
+
+    @property
+    def is_support_monthly_sku(self):
+        """
+        Gets the is_support_monthly_sku of this SupportedHostShapeSummary.
+        Whether the shape supports \"MONTH\" SKU.
+
+
+        :return: The is_support_monthly_sku of this SupportedHostShapeSummary.
+        :rtype: bool
+        """
+        return self._is_support_monthly_sku
+
+    @is_support_monthly_sku.setter
+    def is_support_monthly_sku(self, is_support_monthly_sku):
+        """
+        Sets the is_support_monthly_sku of this SupportedHostShapeSummary.
+        Whether the shape supports \"MONTH\" SKU.
+
+
+        :param is_support_monthly_sku: The is_support_monthly_sku of this SupportedHostShapeSummary.
+        :type: bool
+        """
+        self._is_support_monthly_sku = is_support_monthly_sku
 
     def __repr__(self):
         return formatted_flat_dict(self)

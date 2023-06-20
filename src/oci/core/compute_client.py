@@ -71,6 +71,9 @@ class ComputeClient(object):
         :param function circuit_breaker_callback: (optional)
             Callback function to receive any exceptions triggerred by the circuit breaker.
 
+        :param bool client_level_realm_specific_endpoint_template_enabled: (optional)
+            A boolean flag to indicate whether or not this client should be created with realm specific endpoint template enabled or disable. By default, this will be set as None.
+
         :param allow_control_chars: (optional)
             allow_control_chars is a boolean to indicate whether or not this client should allow control characters in the response object. By default, the client will not
             allow control characters to be in the response object.
@@ -97,8 +100,10 @@ class ComputeClient(object):
             'service_endpoint': kwargs.get('service_endpoint'),
             'base_path': '/20160918',
             'service_endpoint_template': 'https://iaas.{region}.{secondLevelDomain}',
+            'service_endpoint_template_per_realm': {  },  # noqa: E201 E202
             'skip_deserialization': kwargs.get('skip_deserialization', False),
-            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY)
+            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY),
+            'client_level_realm_specific_endpoint_template_enabled': kwargs.get('client_level_realm_specific_endpoint_template_enabled')
         }
         if 'timeout' in kwargs:
             base_client_init_kwargs['timeout'] = kwargs.get('timeout')
@@ -154,6 +159,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/accept_shielded_integrity_policy.py.html>`__ to see an example of how to use accept_shielded_integrity_policy API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}/actions/acceptShieldedIntegrityPolicy"
         method = "POST"
         operation_name = "accept_shielded_integrity_policy"
@@ -209,7 +216,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -218,7 +226,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def add_image_shape_compatibility_entry(self, image_id, shape_name, **kwargs):
         """
@@ -254,6 +263,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_image_shape_compatibility_entry.py.html>`__ to see an example of how to use add_image_shape_compatibility_entry API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId', 'shapeName']
         resource_path = "/images/{imageId}/shapes/{shapeName}"
         method = "PUT"
         operation_name = "add_image_shape_compatibility_entry"
@@ -305,7 +316,8 @@ class ComputeClient(object):
                 response_type="ImageShapeCompatibilityEntry",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -316,7 +328,8 @@ class ComputeClient(object):
                 response_type="ImageShapeCompatibilityEntry",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def attach_boot_volume(self, attach_boot_volume_details, **kwargs):
         """
@@ -351,6 +364,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/attach_boot_volume.py.html>`__ to see an example of how to use attach_boot_volume API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/bootVolumeAttachments"
         method = "POST"
         operation_name = "attach_boot_volume"
@@ -393,7 +408,8 @@ class ComputeClient(object):
                 response_type="BootVolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -403,7 +419,8 @@ class ComputeClient(object):
                 response_type="BootVolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def attach_vnic(self, attach_vnic_details, **kwargs):
         """
@@ -442,6 +459,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/attach_vnic.py.html>`__ to see an example of how to use attach_vnic API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/vnicAttachments"
         method = "POST"
         operation_name = "attach_vnic"
@@ -484,7 +503,8 @@ class ComputeClient(object):
                 response_type="VnicAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -494,7 +514,8 @@ class ComputeClient(object):
                 response_type="VnicAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def attach_volume(self, attach_volume_details, **kwargs):
         """
@@ -529,6 +550,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/attach_volume.py.html>`__ to see an example of how to use attach_volume API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/volumeAttachments"
         method = "POST"
         operation_name = "attach_volume"
@@ -571,7 +594,8 @@ class ComputeClient(object):
                 response_type="VolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -581,7 +605,8 @@ class ComputeClient(object):
                 response_type="VolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def capture_console_history(self, capture_console_history_details, **kwargs):
         """
@@ -632,6 +657,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/capture_console_history.py.html>`__ to see an example of how to use capture_console_history API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/instanceConsoleHistories"
         method = "POST"
         operation_name = "capture_console_history"
@@ -674,7 +701,8 @@ class ComputeClient(object):
                 response_type="ConsoleHistory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -684,7 +712,8 @@ class ComputeClient(object):
                 response_type="ConsoleHistory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_compute_capacity_reservation_compartment(self, capacity_reservation_id, change_compute_capacity_reservation_compartment_details, **kwargs):
         """
@@ -735,6 +764,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_compute_capacity_reservation_compartment.py.html>`__ to see an example of how to use change_compute_capacity_reservation_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['capacityReservationId']
         resource_path = "/computeCapacityReservations/{capacityReservationId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_compute_capacity_reservation_compartment"
@@ -791,7 +822,8 @@ class ComputeClient(object):
                 body=change_compute_capacity_reservation_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -801,7 +833,136 @@ class ComputeClient(object):
                 body=change_compute_capacity_reservation_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def change_compute_cluster_compartment(self, compute_cluster_id, change_compute_cluster_compartment_details, **kwargs):
+        """
+        Moves a compute cluster into a different compartment within the same tenancy.
+        A compute cluster is a remote direct memory access (RDMA) network group.
+
+        For information about moving resources between compartments, see
+        `Moving Resources to a Different Compartment`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+
+
+        :param str compute_cluster_id: (required)
+            The `OCID`__ of the compute cluster.
+            A compute cluster is a remote direct memory access (RDMA) network group.
+            For more information, see `Compute Clusters`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+
+        :param oci.core.models.ChangeComputeClusterCompartmentDetails change_compute_cluster_compartment_details: (required)
+            The request to move the compute cluster to a different compartment.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous GET or POST response for that resource. The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+            If you need to contact Oracle about a particular request, please provide the request ID.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_compute_cluster_compartment.py.html>`__ to see an example of how to use change_compute_cluster_compartment API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeClusterId']
+        resource_path = "/computeClusters/{computeClusterId}/actions/changeCompartment"
+        method = "POST"
+        operation_name = "change_compute_cluster_compartment"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/ChangeComputeClusterCompartment"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "if_match",
+            "opc_request_id",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "change_compute_cluster_compartment got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "computeClusterId": compute_cluster_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "if-match": kwargs.get("if_match", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=change_compute_cluster_compartment_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=change_compute_cluster_compartment_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_compute_image_capability_schema_compartment(self, compute_image_capability_schema_id, change_compute_image_capability_schema_compartment_details, **kwargs):
         """
@@ -852,6 +1013,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_compute_image_capability_schema_compartment.py.html>`__ to see an example of how to use change_compute_image_capability_schema_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeImageCapabilitySchemaId']
         resource_path = "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_compute_image_capability_schema_compartment"
@@ -910,7 +1073,8 @@ class ComputeClient(object):
                 body=change_compute_image_capability_schema_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -920,7 +1084,8 @@ class ComputeClient(object):
                 body=change_compute_image_capability_schema_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_dedicated_vm_host_compartment(self, dedicated_vm_host_id, change_dedicated_vm_host_compartment_details, **kwargs):
         """
@@ -967,6 +1132,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_dedicated_vm_host_compartment.py.html>`__ to see an example of how to use change_dedicated_vm_host_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['dedicatedVmHostId']
         resource_path = "/dedicatedVmHosts/{dedicatedVmHostId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_dedicated_vm_host_compartment"
@@ -1023,7 +1190,8 @@ class ComputeClient(object):
                 body=change_dedicated_vm_host_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1033,7 +1201,8 @@ class ComputeClient(object):
                 body=change_dedicated_vm_host_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_image_compartment(self, image_id, change_image_compartment_details, **kwargs):
         """
@@ -1086,6 +1255,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_image_compartment.py.html>`__ to see an example of how to use change_image_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId']
         resource_path = "/images/{imageId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_image_compartment"
@@ -1144,7 +1315,8 @@ class ComputeClient(object):
                 body=change_image_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1154,7 +1326,8 @@ class ComputeClient(object):
                 body=change_image_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_instance_compartment(self, instance_id, change_instance_compartment_details, **kwargs):
         """
@@ -1210,6 +1383,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_instance_compartment.py.html>`__ to see an example of how to use change_instance_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_instance_compartment"
@@ -1266,7 +1441,8 @@ class ComputeClient(object):
                 body=change_instance_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1276,7 +1452,8 @@ class ComputeClient(object):
                 body=change_instance_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_app_catalog_subscription(self, create_app_catalog_subscription_details, **kwargs):
         """
@@ -1311,6 +1488,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_app_catalog_subscription.py.html>`__ to see an example of how to use create_app_catalog_subscription API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/appCatalogSubscriptions"
         method = "POST"
         operation_name = "create_app_catalog_subscription"
@@ -1355,7 +1534,8 @@ class ComputeClient(object):
                 response_type="AppCatalogSubscription",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1365,7 +1545,112 @@ class ComputeClient(object):
                 response_type="AppCatalogSubscription",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def create_compute_capacity_report(self, create_compute_capacity_report_details, **kwargs):
+        """
+        Generates a report of the host capacity within an availability domain that is available for you
+        to create compute instances. Host capacity is the physical infrastructure that resources such as compute
+        instances run on.
+
+        Use the capacity report to determine whether sufficient capacity is available for a shape before
+        you create an instance or change the shape of an instance.
+
+
+        :param oci.core.models.CreateComputeCapacityReportDetails create_compute_capacity_report_details: (required)
+            Details for creating a new compute capacity report.
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+            If you need to contact Oracle about a particular request, please provide the request ID.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.core.models.ComputeCapacityReport`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_compute_capacity_report.py.html>`__ to see an example of how to use create_compute_capacity_report API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/computeCapacityReports"
+        method = "POST"
+        operation_name = "create_compute_capacity_report"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCapacityReport/CreateComputeCapacityReport"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "create_compute_capacity_report got unknown kwargs: {!r}".format(extra_kwargs))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_compute_capacity_report_details,
+                response_type="ComputeCapacityReport",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_compute_capacity_report_details,
+                response_type="ComputeCapacityReport",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_compute_capacity_reservation(self, create_compute_capacity_reservation_details, **kwargs):
         """
@@ -1412,6 +1697,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_compute_capacity_reservation.py.html>`__ to see an example of how to use create_compute_capacity_reservation API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/computeCapacityReservations"
         method = "POST"
         operation_name = "create_compute_capacity_reservation"
@@ -1456,7 +1743,8 @@ class ComputeClient(object):
                 response_type="ComputeCapacityReservation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1466,7 +1754,122 @@ class ComputeClient(object):
                 response_type="ComputeCapacityReservation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def create_compute_cluster(self, create_compute_cluster_details, **kwargs):
+        """
+        Creates an empty compute cluster, which is a remote direct memory access (RDMA) network group.
+        After the compute cluster is created, you can use the compute cluster's OCID with the
+        :func:`launch_instance` operation to create instances in the compute cluster.
+        For more information, see `Compute Clusters`__.
+
+        To create a cluster network that uses intance pools to manage groups of identical instances,
+        see :func:`create_cluster_network`.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+
+
+        :param oci.core.models.CreateComputeClusterDetails create_compute_cluster_details: (required)
+            Details for creating a `compute cluster`__, which is a remote direct memory access (RDMA) network group.
+            When first created, the compute cluster is empty.
+            After the compute cluster is created, you can use the compute cluster's OCID with the :func:`launch_instance`
+            operation to create instances in the compute cluster.
+            Compute clusters allow you to manage instances in the cluster individually.
+
+            For details about creating a cluster network that uses intance pools to manage groups of identical instances,
+            see :func:`create_cluster_network_details`.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+            If you need to contact Oracle about a particular request, please provide the request ID.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.core.models.ComputeCluster`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_compute_cluster.py.html>`__ to see an example of how to use create_compute_cluster API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/computeClusters"
+        method = "POST"
+        operation_name = "create_compute_cluster"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/CreateComputeCluster"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_retry_token",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "create_compute_cluster got unknown kwargs: {!r}".format(extra_kwargs))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_compute_cluster_details,
+                response_type="ComputeCluster",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_compute_cluster_details,
+                response_type="ComputeCluster",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_compute_image_capability_schema(self, create_compute_image_capability_schema_details, **kwargs):
         """
@@ -1501,6 +1904,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_compute_image_capability_schema.py.html>`__ to see an example of how to use create_compute_image_capability_schema API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/computeImageCapabilitySchemas"
         method = "POST"
         operation_name = "create_compute_image_capability_schema"
@@ -1545,7 +1950,8 @@ class ComputeClient(object):
                 response_type="ComputeImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1555,7 +1961,8 @@ class ComputeClient(object):
                 response_type="ComputeImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_dedicated_vm_host(self, create_dedicated_vm_host_details, **kwargs):
         """
@@ -1599,6 +2006,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_dedicated_vm_host.py.html>`__ to see an example of how to use create_dedicated_vm_host API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/dedicatedVmHosts"
         method = "POST"
         operation_name = "create_dedicated_vm_host"
@@ -1643,7 +2052,8 @@ class ComputeClient(object):
                 response_type="DedicatedVmHost",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1653,7 +2063,8 @@ class ComputeClient(object):
                 response_type="DedicatedVmHost",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_image(self, create_image_details, **kwargs):
         """
@@ -1715,6 +2126,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_image.py.html>`__ to see an example of how to use create_image API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/images"
         method = "POST"
         operation_name = "create_image"
@@ -1759,7 +2172,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1769,7 +2183,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_instance_console_connection(self, create_instance_console_connection_details, **kwargs):
         """
@@ -1810,6 +2225,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_instance_console_connection.py.html>`__ to see an example of how to use create_instance_console_connection API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/instanceConsoleConnections"
         method = "POST"
         operation_name = "create_instance_console_connection"
@@ -1852,7 +2269,8 @@ class ComputeClient(object):
                 response_type="InstanceConsoleConnection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1862,7 +2280,8 @@ class ComputeClient(object):
                 response_type="InstanceConsoleConnection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_app_catalog_subscription(self, listing_id, compartment_id, resource_version, **kwargs):
         """
@@ -1898,6 +2317,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_app_catalog_subscription.py.html>`__ to see an example of how to use delete_app_catalog_subscription API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['listingId', 'compartmentId', 'resourceVersion']
         resource_path = "/appCatalogSubscriptions"
         method = "DELETE"
         operation_name = "delete_app_catalog_subscription"
@@ -1938,7 +2359,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1947,7 +2369,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_compute_capacity_reservation(self, capacity_reservation_id, **kwargs):
         """
@@ -1984,6 +2407,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_compute_capacity_reservation.py.html>`__ to see an example of how to use delete_compute_capacity_reservation API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['capacityReservationId']
         resource_path = "/computeCapacityReservations/{capacityReservationId}"
         method = "DELETE"
         operation_name = "delete_compute_capacity_reservation"
@@ -2036,7 +2461,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2045,7 +2471,116 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def delete_compute_cluster(self, compute_cluster_id, **kwargs):
+        """
+        Deletes the compute cluster, which is a remote direct memory access (RDMA) network group.
+        To delete a compute cluster, all instances in the cluster must be deleted first.
+
+
+        :param str compute_cluster_id: (required)
+            The `OCID`__ of the compute cluster.
+            A compute cluster is a remote direct memory access (RDMA) network group.
+            For more information, see `Compute Clusters`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+            If you need to contact Oracle about a particular request, please provide the request ID.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous GET or POST response for that resource. The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_compute_cluster.py.html>`__ to see an example of how to use delete_compute_cluster API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeClusterId']
+        resource_path = "/computeClusters/{computeClusterId}"
+        method = "DELETE"
+        operation_name = "delete_compute_cluster"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/DeleteComputeCluster"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "delete_compute_cluster got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "computeClusterId": compute_cluster_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_compute_image_capability_schema(self, compute_image_capability_schema_id, **kwargs):
         """
@@ -2078,6 +2613,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_compute_image_capability_schema.py.html>`__ to see an example of how to use delete_compute_image_capability_schema API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeImageCapabilitySchemaId']
         resource_path = "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}"
         method = "DELETE"
         operation_name = "delete_compute_image_capability_schema"
@@ -2128,7 +2665,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2137,7 +2675,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_console_history(self, instance_console_history_id, **kwargs):
         """
@@ -2170,6 +2709,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_console_history.py.html>`__ to see an example of how to use delete_console_history API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceConsoleHistoryId']
         resource_path = "/instanceConsoleHistories/{instanceConsoleHistoryId}"
         method = "DELETE"
         operation_name = "delete_console_history"
@@ -2220,7 +2761,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2229,7 +2771,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_dedicated_vm_host(self, dedicated_vm_host_id, **kwargs):
         """
@@ -2264,6 +2807,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_dedicated_vm_host.py.html>`__ to see an example of how to use delete_dedicated_vm_host API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['dedicatedVmHostId']
         resource_path = "/dedicatedVmHosts/{dedicatedVmHostId}"
         method = "DELETE"
         operation_name = "delete_dedicated_vm_host"
@@ -2314,7 +2859,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2323,7 +2869,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_image(self, image_id, **kwargs):
         """
@@ -2358,6 +2905,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_image.py.html>`__ to see an example of how to use delete_image API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId']
         resource_path = "/images/{imageId}"
         method = "DELETE"
         operation_name = "delete_image"
@@ -2408,7 +2957,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2417,7 +2967,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_instance_console_connection(self, instance_console_connection_id, **kwargs):
         """
@@ -2450,6 +3001,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_instance_console_connection.py.html>`__ to see an example of how to use delete_instance_console_connection API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceConsoleConnectionId']
         resource_path = "/instanceConsoleConnections/{instanceConsoleConnectionId}"
         method = "DELETE"
         operation_name = "delete_instance_console_connection"
@@ -2500,7 +3053,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2509,7 +3063,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def detach_boot_volume(self, boot_volume_attachment_id, **kwargs):
         """
@@ -2545,6 +3100,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/detach_boot_volume.py.html>`__ to see an example of how to use detach_boot_volume API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bootVolumeAttachmentId']
         resource_path = "/bootVolumeAttachments/{bootVolumeAttachmentId}"
         method = "DELETE"
         operation_name = "detach_boot_volume"
@@ -2595,7 +3152,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2604,7 +3162,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def detach_vnic(self, vnic_attachment_id, **kwargs):
         """
@@ -2648,6 +3207,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/detach_vnic.py.html>`__ to see an example of how to use detach_vnic API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['vnicAttachmentId']
         resource_path = "/vnicAttachments/{vnicAttachmentId}"
         method = "DELETE"
         operation_name = "detach_vnic"
@@ -2698,7 +3259,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2707,7 +3269,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def detach_volume(self, volume_attachment_id, **kwargs):
         """
@@ -2743,6 +3306,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/detach_volume.py.html>`__ to see an example of how to use detach_volume API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['volumeAttachmentId']
         resource_path = "/volumeAttachments/{volumeAttachmentId}"
         method = "DELETE"
         operation_name = "detach_volume"
@@ -2793,7 +3358,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2802,7 +3368,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def export_image(self, image_id, export_image_details, **kwargs):
         """
@@ -2861,6 +3428,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/export_image.py.html>`__ to see an example of how to use export_image API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId']
         resource_path = "/images/{imageId}/actions/export"
         method = "POST"
         operation_name = "export_image"
@@ -2918,7 +3487,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2929,7 +3499,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_app_catalog_listing(self, listing_id, **kwargs):
         """
@@ -2957,6 +3528,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_app_catalog_listing.py.html>`__ to see an example of how to use get_app_catalog_listing API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['listingId']
         resource_path = "/appCatalogListings/{listingId}"
         method = "GET"
         operation_name = "get_app_catalog_listing"
@@ -3003,7 +3576,8 @@ class ComputeClient(object):
                 response_type="AppCatalogListing",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3013,7 +3587,8 @@ class ComputeClient(object):
                 response_type="AppCatalogListing",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_app_catalog_listing_agreements(self, listing_id, resource_version, **kwargs):
         """
@@ -3044,6 +3619,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_app_catalog_listing_agreements.py.html>`__ to see an example of how to use get_app_catalog_listing_agreements API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['listingId', 'resourceVersion']
         resource_path = "/appCatalogListings/{listingId}/resourceVersions/{resourceVersion}/agreements"
         method = "GET"
         operation_name = "get_app_catalog_listing_agreements"
@@ -3091,7 +3668,8 @@ class ComputeClient(object):
                 response_type="AppCatalogListingResourceVersionAgreements",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3101,7 +3679,8 @@ class ComputeClient(object):
                 response_type="AppCatalogListingResourceVersionAgreements",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_app_catalog_listing_resource_version(self, listing_id, resource_version, **kwargs):
         """
@@ -3132,6 +3711,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_app_catalog_listing_resource_version.py.html>`__ to see an example of how to use get_app_catalog_listing_resource_version API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['listingId', 'resourceVersion']
         resource_path = "/appCatalogListings/{listingId}/resourceVersions/{resourceVersion}"
         method = "GET"
         operation_name = "get_app_catalog_listing_resource_version"
@@ -3179,7 +3760,8 @@ class ComputeClient(object):
                 response_type="AppCatalogListingResourceVersion",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3189,7 +3771,8 @@ class ComputeClient(object):
                 response_type="AppCatalogListingResourceVersion",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_boot_volume_attachment(self, boot_volume_attachment_id, **kwargs):
         """
@@ -3217,6 +3800,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_boot_volume_attachment.py.html>`__ to see an example of how to use get_boot_volume_attachment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bootVolumeAttachmentId']
         resource_path = "/bootVolumeAttachments/{bootVolumeAttachmentId}"
         method = "GET"
         operation_name = "get_boot_volume_attachment"
@@ -3261,7 +3846,8 @@ class ComputeClient(object):
                 response_type="BootVolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3271,7 +3857,8 @@ class ComputeClient(object):
                 response_type="BootVolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_compute_capacity_reservation(self, capacity_reservation_id, **kwargs):
         """
@@ -3303,6 +3890,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_compute_capacity_reservation.py.html>`__ to see an example of how to use get_compute_capacity_reservation API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['capacityReservationId']
         resource_path = "/computeCapacityReservations/{capacityReservationId}"
         method = "GET"
         operation_name = "get_compute_capacity_reservation"
@@ -3354,7 +3943,8 @@ class ComputeClient(object):
                 response_type="ComputeCapacityReservation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3364,7 +3954,110 @@ class ComputeClient(object):
                 response_type="ComputeCapacityReservation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def get_compute_cluster(self, compute_cluster_id, **kwargs):
+        """
+        Gets information about the specified compute cluster.
+
+
+        :param str compute_cluster_id: (required)
+            The `OCID`__ of the compute cluster.
+            A compute cluster is a remote direct memory access (RDMA) network group.
+            For more information, see `Compute Clusters`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+            If you need to contact Oracle about a particular request, please provide the request ID.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.core.models.ComputeCluster`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_compute_cluster.py.html>`__ to see an example of how to use get_compute_cluster API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeClusterId']
+        resource_path = "/computeClusters/{computeClusterId}"
+        method = "GET"
+        operation_name = "get_compute_cluster"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/GetComputeCluster"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "get_compute_cluster got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "computeClusterId": compute_cluster_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="ComputeCluster",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="ComputeCluster",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_compute_global_image_capability_schema(self, compute_global_image_capability_schema_id, **kwargs):
         """
@@ -3394,6 +4087,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_compute_global_image_capability_schema.py.html>`__ to see an example of how to use get_compute_global_image_capability_schema API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeGlobalImageCapabilitySchemaId']
         resource_path = "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}"
         method = "GET"
         operation_name = "get_compute_global_image_capability_schema"
@@ -3440,7 +4135,8 @@ class ComputeClient(object):
                 response_type="ComputeGlobalImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3450,7 +4146,8 @@ class ComputeClient(object):
                 response_type="ComputeGlobalImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_compute_global_image_capability_schema_version(self, compute_global_image_capability_schema_id, compute_global_image_capability_schema_version_name, **kwargs):
         """
@@ -3483,6 +4180,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_compute_global_image_capability_schema_version.py.html>`__ to see an example of how to use get_compute_global_image_capability_schema_version API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeGlobalImageCapabilitySchemaId', 'computeGlobalImageCapabilitySchemaVersionName']
         resource_path = "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}/versions/{computeGlobalImageCapabilitySchemaVersionName}"
         method = "GET"
         operation_name = "get_compute_global_image_capability_schema_version"
@@ -3530,7 +4229,8 @@ class ComputeClient(object):
                 response_type="ComputeGlobalImageCapabilitySchemaVersion",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3540,7 +4240,8 @@ class ComputeClient(object):
                 response_type="ComputeGlobalImageCapabilitySchemaVersion",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_compute_image_capability_schema(self, compute_image_capability_schema_id, **kwargs):
         """
@@ -3571,6 +4272,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_compute_image_capability_schema.py.html>`__ to see an example of how to use get_compute_image_capability_schema API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeImageCapabilitySchemaId']
         resource_path = "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}"
         method = "GET"
         operation_name = "get_compute_image_capability_schema"
@@ -3628,7 +4331,8 @@ class ComputeClient(object):
                 response_type="ComputeImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3639,7 +4343,8 @@ class ComputeClient(object):
                 response_type="ComputeImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_console_history(self, instance_console_history_id, **kwargs):
         """
@@ -3669,6 +4374,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_console_history.py.html>`__ to see an example of how to use get_console_history API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceConsoleHistoryId']
         resource_path = "/instanceConsoleHistories/{instanceConsoleHistoryId}"
         method = "GET"
         operation_name = "get_console_history"
@@ -3713,7 +4420,8 @@ class ComputeClient(object):
                 response_type="ConsoleHistory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3723,7 +4431,8 @@ class ComputeClient(object):
                 response_type="ConsoleHistory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_console_history_content(self, instance_console_history_id, **kwargs):
         """
@@ -3759,6 +4468,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_console_history_content.py.html>`__ to see an example of how to use get_console_history_content API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceConsoleHistoryId']
         resource_path = "/instanceConsoleHistories/{instanceConsoleHistoryId}/data"
         method = "GET"
         operation_name = "get_console_history_content"
@@ -3816,7 +4527,8 @@ class ComputeClient(object):
                 response_type="bytes",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3827,7 +4539,8 @@ class ComputeClient(object):
                 response_type="bytes",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_dedicated_vm_host(self, dedicated_vm_host_id, **kwargs):
         """
@@ -3859,6 +4572,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_dedicated_vm_host.py.html>`__ to see an example of how to use get_dedicated_vm_host API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['dedicatedVmHostId']
         resource_path = "/dedicatedVmHosts/{dedicatedVmHostId}"
         method = "GET"
         operation_name = "get_dedicated_vm_host"
@@ -3910,7 +4625,8 @@ class ComputeClient(object):
                 response_type="DedicatedVmHost",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3920,7 +4636,8 @@ class ComputeClient(object):
                 response_type="DedicatedVmHost",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_image(self, image_id, **kwargs):
         """
@@ -3950,6 +4667,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_image.py.html>`__ to see an example of how to use get_image API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId']
         resource_path = "/images/{imageId}"
         method = "GET"
         operation_name = "get_image"
@@ -3996,7 +4715,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4006,7 +4726,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_image_shape_compatibility_entry(self, image_id, shape_name, **kwargs):
         """
@@ -4043,6 +4764,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_image_shape_compatibility_entry.py.html>`__ to see an example of how to use get_image_shape_compatibility_entry API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId', 'shapeName']
         resource_path = "/images/{imageId}/shapes/{shapeName}"
         method = "GET"
         operation_name = "get_image_shape_compatibility_entry"
@@ -4097,7 +4820,8 @@ class ComputeClient(object):
                 response_type="ImageShapeCompatibilityEntry",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4107,7 +4831,8 @@ class ComputeClient(object):
                 response_type="ImageShapeCompatibilityEntry",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_instance(self, instance_id, **kwargs):
         """
@@ -4140,6 +4865,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_instance.py.html>`__ to see an example of how to use get_instance API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}"
         method = "GET"
         operation_name = "get_instance"
@@ -4184,7 +4911,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4194,7 +4922,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_instance_console_connection(self, instance_console_connection_id, **kwargs):
         """
@@ -4222,6 +4951,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_instance_console_connection.py.html>`__ to see an example of how to use get_instance_console_connection API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceConsoleConnectionId']
         resource_path = "/instanceConsoleConnections/{instanceConsoleConnectionId}"
         method = "GET"
         operation_name = "get_instance_console_connection"
@@ -4266,7 +4997,8 @@ class ComputeClient(object):
                 response_type="InstanceConsoleConnection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4276,7 +5008,8 @@ class ComputeClient(object):
                 response_type="InstanceConsoleConnection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_instance_maintenance_reboot(self, instance_id, **kwargs):
         """
@@ -4313,6 +5046,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_instance_maintenance_reboot.py.html>`__ to see an example of how to use get_instance_maintenance_reboot API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}/maintenanceReboot"
         method = "GET"
         operation_name = "get_instance_maintenance_reboot"
@@ -4364,7 +5099,8 @@ class ComputeClient(object):
                 response_type="InstanceMaintenanceReboot",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4374,7 +5110,8 @@ class ComputeClient(object):
                 response_type="InstanceMaintenanceReboot",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_measured_boot_report(self, instance_id, **kwargs):
         """
@@ -4408,6 +5145,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_measured_boot_report.py.html>`__ to see an example of how to use get_measured_boot_report API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}/measuredBootReport"
         method = "GET"
         operation_name = "get_measured_boot_report"
@@ -4459,7 +5198,8 @@ class ComputeClient(object):
                 response_type="MeasuredBootReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4469,7 +5209,8 @@ class ComputeClient(object):
                 response_type="MeasuredBootReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_vnic_attachment(self, vnic_attachment_id, **kwargs):
         """
@@ -4497,6 +5238,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vnic_attachment.py.html>`__ to see an example of how to use get_vnic_attachment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['vnicAttachmentId']
         resource_path = "/vnicAttachments/{vnicAttachmentId}"
         method = "GET"
         operation_name = "get_vnic_attachment"
@@ -4541,7 +5284,8 @@ class ComputeClient(object):
                 response_type="VnicAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4551,7 +5295,8 @@ class ComputeClient(object):
                 response_type="VnicAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_volume_attachment(self, volume_attachment_id, **kwargs):
         """
@@ -4579,6 +5324,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_volume_attachment.py.html>`__ to see an example of how to use get_volume_attachment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['volumeAttachmentId']
         resource_path = "/volumeAttachments/{volumeAttachmentId}"
         method = "GET"
         operation_name = "get_volume_attachment"
@@ -4623,7 +5370,8 @@ class ComputeClient(object):
                 response_type="VolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4633,7 +5381,8 @@ class ComputeClient(object):
                 response_type="VolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_windows_instance_initial_credentials(self, instance_id, **kwargs):
         """
@@ -4664,6 +5413,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_windows_instance_initial_credentials.py.html>`__ to see an example of how to use get_windows_instance_initial_credentials API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}/initialCredentials"
         method = "GET"
         operation_name = "get_windows_instance_initial_credentials"
@@ -4708,7 +5459,8 @@ class ComputeClient(object):
                 response_type="InstanceCredentials",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4718,7 +5470,8 @@ class ComputeClient(object):
                 response_type="InstanceCredentials",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def instance_action(self, instance_id, action, **kwargs):
         """
@@ -4814,6 +5567,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/instance_action.py.html>`__ to see an example of how to use instance_action API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId', 'action']
         resource_path = "/instances/{instanceId}"
         method = "POST"
         operation_name = "instance_action"
@@ -4876,7 +5631,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4888,7 +5644,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def launch_instance(self, launch_instance_details, **kwargs):
         """
@@ -4932,6 +5689,10 @@ class ComputeClient(object):
         with the signature. To get the image ID for the LaunchInstance operation, call
         :func:`get_app_catalog_listing_resource_version`.
 
+        To determine whether capacity is available for a specific shape before you create an instance,
+        use the :func:`create_compute_capacity_report`
+        operation.
+
         __ https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm
         __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm
@@ -4966,6 +5727,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/launch_instance.py.html>`__ to see an example of how to use launch_instance API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/instances"
         method = "POST"
         operation_name = "launch_instance"
@@ -5008,7 +5771,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5018,7 +5782,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_app_catalog_listing_resource_versions(self, listing_id, **kwargs):
         """
@@ -5068,6 +5833,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_app_catalog_listing_resource_versions.py.html>`__ to see an example of how to use list_app_catalog_listing_resource_versions API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['listingId']
         resource_path = "/appCatalogListings/{listingId}/resourceVersions"
         method = "GET"
         operation_name = "list_app_catalog_listing_resource_versions"
@@ -5136,7 +5903,8 @@ class ComputeClient(object):
                 response_type="list[AppCatalogListingResourceVersionSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5147,7 +5915,8 @@ class ComputeClient(object):
                 response_type="list[AppCatalogListingResourceVersionSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_app_catalog_listings(self, **kwargs):
         """
@@ -5203,6 +5972,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_app_catalog_listings.py.html>`__ to see an example of how to use list_app_catalog_listings API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/appCatalogListings"
         method = "GET"
         operation_name = "list_app_catalog_listings"
@@ -5266,7 +6037,8 @@ class ComputeClient(object):
                 response_type="list[AppCatalogListingSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5276,7 +6048,8 @@ class ComputeClient(object):
                 response_type="list[AppCatalogListingSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_app_catalog_subscriptions(self, compartment_id, **kwargs):
         """
@@ -5343,6 +6116,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_app_catalog_subscriptions.py.html>`__ to see an example of how to use list_app_catalog_subscriptions API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/appCatalogSubscriptions"
         method = "GET"
         operation_name = "list_app_catalog_subscriptions"
@@ -5412,7 +6187,8 @@ class ComputeClient(object):
                 response_type="list[AppCatalogSubscriptionSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5422,7 +6198,8 @@ class ComputeClient(object):
                 response_type="list[AppCatalogSubscriptionSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_boot_volume_attachments(self, availability_domain, compartment_id, **kwargs):
         """
@@ -5480,6 +6257,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_boot_volume_attachments.py.html>`__ to see an example of how to use list_boot_volume_attachments API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['availabilityDomain', 'compartmentId']
         resource_path = "/bootVolumeAttachments"
         method = "GET"
         operation_name = "list_boot_volume_attachments"
@@ -5532,7 +6311,8 @@ class ComputeClient(object):
                 response_type="list[BootVolumeAttachment]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5542,7 +6322,8 @@ class ComputeClient(object):
                 response_type="list[BootVolumeAttachment]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_compute_capacity_reservation_instance_shapes(self, compartment_id, **kwargs):
         """
@@ -5618,6 +6399,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_compute_capacity_reservation_instance_shapes.py.html>`__ to see an example of how to use list_compute_capacity_reservation_instance_shapes API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/computeCapacityReservationInstanceShapes"
         method = "GET"
         operation_name = "list_compute_capacity_reservation_instance_shapes"
@@ -5690,7 +6473,8 @@ class ComputeClient(object):
                 response_type="list[ComputeCapacityReservationInstanceShapeSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5700,7 +6484,8 @@ class ComputeClient(object):
                 response_type="list[ComputeCapacityReservationInstanceShapeSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_compute_capacity_reservation_instances(self, capacity_reservation_id, **kwargs):
         """
@@ -5776,6 +6561,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_compute_capacity_reservation_instances.py.html>`__ to see an example of how to use list_compute_capacity_reservation_instances API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['capacityReservationId']
         resource_path = "/computeCapacityReservations/{capacityReservationId}/instances"
         method = "GET"
         operation_name = "list_compute_capacity_reservation_instances"
@@ -5858,7 +6645,8 @@ class ComputeClient(object):
                 response_type="list[CapacityReservationInstanceSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5869,7 +6657,8 @@ class ComputeClient(object):
                 response_type="list[CapacityReservationInstanceSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_compute_capacity_reservations(self, compartment_id, **kwargs):
         """
@@ -5953,6 +6742,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_compute_capacity_reservations.py.html>`__ to see an example of how to use list_compute_capacity_reservations API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/computeCapacityReservations"
         method = "GET"
         operation_name = "list_compute_capacity_reservations"
@@ -6034,7 +6825,8 @@ class ComputeClient(object):
                 response_type="list[ComputeCapacityReservationSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6044,7 +6836,173 @@ class ComputeClient(object):
                 response_type="list[ComputeCapacityReservationSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_compute_clusters(self, compartment_id, **kwargs):
+        """
+        Lists the compute clusters in the specified compartment.
+        A `compute cluster`__ is a remote direct memory access (RDMA) network group.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str availability_domain: (optional)
+            The name of the availability domain.
+
+            Example: `Uocm:PHX-AD-1`
+
+        :param str display_name: (optional)
+            A filter to return only resources that match the given display name exactly.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to return in a paginated
+            \"List\" call. For important details about how pagination works, see
+            `List Pagination`__.
+
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
+            call. For important details about how pagination works, see
+            `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_by: (optional)
+            The field to sort by. You can provide one sort order (`sortOrder`). Default order for
+            TIMECREATED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME
+            sort order is case sensitive.
+
+            **Note:** In general, some \"List\" operations (for example, `ListInstances`) let you
+            optionally filter by availability domain if the scope of the resource type is within a
+            single availability domain. If you call one of these \"List\" operations without specifying
+            an availability domain, the resources are grouped by availability domain, then sorted.
+
+            Allowed values are: "TIMECREATED", "DISPLAYNAME"
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`). The DISPLAYNAME sort order
+            is case sensitive.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+            If you need to contact Oracle about a particular request, please provide the request ID.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.core.models.ComputeClusterCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_compute_clusters.py.html>`__ to see an example of how to use list_compute_clusters API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/computeClusters"
+        method = "GET"
+        operation_name = "list_compute_clusters"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/ListComputeClusters"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "availability_domain",
+            "display_name",
+            "limit",
+            "page",
+            "sort_by",
+            "sort_order",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_compute_clusters got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["TIMECREATED", "DISPLAYNAME"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        query_params = {
+            "availabilityDomain": kwargs.get("availability_domain", missing),
+            "compartmentId": compartment_id,
+            "displayName": kwargs.get("display_name", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "sortOrder": kwargs.get("sort_order", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="ComputeClusterCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="ComputeClusterCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_compute_global_image_capability_schema_versions(self, compute_global_image_capability_schema_id, **kwargs):
         """
@@ -6111,6 +7069,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_compute_global_image_capability_schema_versions.py.html>`__ to see an example of how to use list_compute_global_image_capability_schema_versions API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeGlobalImageCapabilitySchemaId']
         resource_path = "/computeGlobalImageCapabilitySchemas/{computeGlobalImageCapabilitySchemaId}/versions"
         method = "GET"
         operation_name = "list_compute_global_image_capability_schema_versions"
@@ -6190,7 +7150,8 @@ class ComputeClient(object):
                 response_type="list[ComputeGlobalImageCapabilitySchemaVersionSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6201,7 +7162,8 @@ class ComputeClient(object):
                 response_type="list[ComputeGlobalImageCapabilitySchemaVersionSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_compute_global_image_capability_schemas(self, **kwargs):
         """
@@ -6266,6 +7228,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_compute_global_image_capability_schemas.py.html>`__ to see an example of how to use list_compute_global_image_capability_schemas API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/computeGlobalImageCapabilitySchemas"
         method = "GET"
         operation_name = "list_compute_global_image_capability_schemas"
@@ -6336,7 +7300,8 @@ class ComputeClient(object):
                 response_type="list[ComputeGlobalImageCapabilitySchemaSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6346,7 +7311,8 @@ class ComputeClient(object):
                 response_type="list[ComputeGlobalImageCapabilitySchemaSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_compute_image_capability_schemas(self, **kwargs):
         """
@@ -6416,6 +7382,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_compute_image_capability_schemas.py.html>`__ to see an example of how to use list_compute_image_capability_schemas API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/computeImageCapabilitySchemas"
         method = "GET"
         operation_name = "list_compute_image_capability_schemas"
@@ -6488,7 +7456,8 @@ class ComputeClient(object):
                 response_type="list[ComputeImageCapabilitySchemaSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6498,7 +7467,8 @@ class ComputeClient(object):
                 response_type="list[ComputeImageCapabilitySchemaSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_console_histories(self, compartment_id, **kwargs):
         """
@@ -6576,6 +7546,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_console_histories.py.html>`__ to see an example of how to use list_console_histories API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/instanceConsoleHistories"
         method = "GET"
         operation_name = "list_console_histories"
@@ -6654,7 +7626,8 @@ class ComputeClient(object):
                 response_type="list[ConsoleHistory]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6664,7 +7637,8 @@ class ComputeClient(object):
                 response_type="list[ConsoleHistory]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_dedicated_vm_host_instance_shapes(self, compartment_id, **kwargs):
         """
@@ -6723,6 +7697,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_dedicated_vm_host_instance_shapes.py.html>`__ to see an example of how to use list_dedicated_vm_host_instance_shapes API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/dedicatedVmHostInstanceShapes"
         method = "GET"
         operation_name = "list_dedicated_vm_host_instance_shapes"
@@ -6777,7 +7753,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostInstanceShapeSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6787,7 +7764,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostInstanceShapeSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_dedicated_vm_host_instances(self, compartment_id, dedicated_vm_host_id, **kwargs):
         """
@@ -6863,6 +7841,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_dedicated_vm_host_instances.py.html>`__ to see an example of how to use list_dedicated_vm_host_instances API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['dedicatedVmHostId', 'compartmentId']
         resource_path = "/dedicatedVmHosts/{dedicatedVmHostId}/instances"
         method = "GET"
         operation_name = "list_dedicated_vm_host_instances"
@@ -6944,7 +7924,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostInstanceSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6955,7 +7936,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostInstanceSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_dedicated_vm_host_shapes(self, compartment_id, **kwargs):
         """
@@ -7013,6 +7995,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_dedicated_vm_host_shapes.py.html>`__ to see an example of how to use list_dedicated_vm_host_shapes API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/dedicatedVmHostShapes"
         method = "GET"
         operation_name = "list_dedicated_vm_host_shapes"
@@ -7067,7 +8051,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostShapeSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7077,7 +8062,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostShapeSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_dedicated_vm_hosts(self, compartment_id, **kwargs):
         """
@@ -7170,6 +8156,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_dedicated_vm_hosts.py.html>`__ to see an example of how to use list_dedicated_vm_hosts API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/dedicatedVmHosts"
         method = "GET"
         operation_name = "list_dedicated_vm_hosts"
@@ -7257,7 +8245,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7267,7 +8256,8 @@ class ComputeClient(object):
                 response_type="list[DedicatedVmHostSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_image_shape_compatibility_entries(self, image_id, **kwargs):
         """
@@ -7317,6 +8307,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_image_shape_compatibility_entries.py.html>`__ to see an example of how to use list_image_shape_compatibility_entries API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId']
         resource_path = "/images/{imageId}/shapes"
         method = "GET"
         operation_name = "list_image_shape_compatibility_entries"
@@ -7379,7 +8371,8 @@ class ComputeClient(object):
                 response_type="list[ImageShapeCompatibilitySummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7390,7 +8383,8 @@ class ComputeClient(object):
                 response_type="list[ImageShapeCompatibilitySummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_images(self, compartment_id, **kwargs):
         """
@@ -7489,6 +8483,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_images.py.html>`__ to see an example of how to use list_images API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/images"
         method = "GET"
         operation_name = "list_images"
@@ -7573,7 +8569,8 @@ class ComputeClient(object):
                 response_type="list[Image]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7583,7 +8580,8 @@ class ComputeClient(object):
                 response_type="list[Image]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_instance_console_connections(self, compartment_id, **kwargs):
         """
@@ -7636,6 +8634,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_instance_console_connections.py.html>`__ to see an example of how to use list_instance_console_connections API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/instanceConsoleConnections"
         method = "GET"
         operation_name = "list_instance_console_connections"
@@ -7685,7 +8685,8 @@ class ComputeClient(object):
                 response_type="list[InstanceConsoleConnection]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7695,7 +8696,8 @@ class ComputeClient(object):
                 response_type="list[InstanceConsoleConnection]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_instance_devices(self, instance_id, **kwargs):
         """
@@ -7769,6 +8771,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_instance_devices.py.html>`__ to see an example of how to use list_instance_devices API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}/devices"
         method = "GET"
         operation_name = "list_instance_devices"
@@ -7851,7 +8855,8 @@ class ComputeClient(object):
                 response_type="list[Device]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7862,7 +8867,8 @@ class ComputeClient(object):
                 response_type="list[Device]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_instances(self, compartment_id, **kwargs):
         """
@@ -7886,6 +8892,14 @@ class ComputeClient(object):
 
         :param str capacity_reservation_id: (optional)
             The OCID of the compute capacity reservation.
+
+        :param str compute_cluster_id: (optional)
+            The `OCID`__ of the compute cluster.
+            A compute cluster is a remote direct memory access (RDMA) network group.
+            For more information, see `Compute Clusters`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -7948,6 +8962,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_instances.py.html>`__ to see an example of how to use list_instances API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/instances"
         method = "GET"
         operation_name = "list_instances"
@@ -7959,6 +8975,7 @@ class ComputeClient(object):
             "retry_strategy",
             "availability_domain",
             "capacity_reservation_id",
+            "compute_cluster_id",
             "display_name",
             "limit",
             "page",
@@ -7995,6 +9012,7 @@ class ComputeClient(object):
         query_params = {
             "availabilityDomain": kwargs.get("availability_domain", missing),
             "capacityReservationId": kwargs.get("capacity_reservation_id", missing),
+            "computeClusterId": kwargs.get("compute_cluster_id", missing),
             "compartmentId": compartment_id,
             "displayName": kwargs.get("display_name", missing),
             "limit": kwargs.get("limit", missing),
@@ -8028,7 +9046,8 @@ class ComputeClient(object):
                 response_type="list[Instance]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8038,7 +9057,8 @@ class ComputeClient(object):
                 response_type="list[Instance]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_shapes(self, compartment_id, **kwargs):
         """
@@ -8095,6 +9115,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_shapes.py.html>`__ to see an example of how to use list_shapes API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/shapes"
         method = "GET"
         operation_name = "list_shapes"
@@ -8146,7 +9168,8 @@ class ComputeClient(object):
                 response_type="list[Shape]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8156,7 +9179,8 @@ class ComputeClient(object):
                 response_type="list[Shape]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_vnic_attachments(self, compartment_id, **kwargs):
         """
@@ -8215,6 +9239,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_vnic_attachments.py.html>`__ to see an example of how to use list_vnic_attachments API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/vnicAttachments"
         method = "GET"
         operation_name = "list_vnic_attachments"
@@ -8268,7 +9294,8 @@ class ComputeClient(object):
                 response_type="list[VnicAttachment]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8278,7 +9305,8 @@ class ComputeClient(object):
                 response_type="list[VnicAttachment]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_volume_attachments(self, compartment_id, **kwargs):
         """
@@ -8339,6 +9367,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_volume_attachments.py.html>`__ to see an example of how to use list_volume_attachments API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/volumeAttachments"
         method = "GET"
         operation_name = "list_volume_attachments"
@@ -8392,7 +9422,8 @@ class ComputeClient(object):
                 response_type="list[VolumeAttachment]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8402,7 +9433,8 @@ class ComputeClient(object):
                 response_type="list[VolumeAttachment]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def remove_image_shape_compatibility_entry(self, image_id, shape_name, **kwargs):
         """
@@ -8435,6 +9467,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_image_shape_compatibility_entry.py.html>`__ to see an example of how to use remove_image_shape_compatibility_entry API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId', 'shapeName']
         resource_path = "/images/{imageId}/shapes/{shapeName}"
         method = "DELETE"
         operation_name = "remove_image_shape_compatibility_entry"
@@ -8479,7 +9513,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8488,7 +9523,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def terminate_instance(self, instance_id, **kwargs):
         """
@@ -8535,6 +9571,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/terminate_instance.py.html>`__ to see an example of how to use terminate_instance API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}"
         method = "DELETE"
         operation_name = "terminate_instance"
@@ -8592,7 +9630,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8602,7 +9641,8 @@ class ComputeClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_compute_capacity_reservation(self, capacity_reservation_id, update_compute_capacity_reservation_details, **kwargs):
         """
@@ -8644,6 +9684,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_compute_capacity_reservation.py.html>`__ to see an example of how to use update_compute_capacity_reservation API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['capacityReservationId']
         resource_path = "/computeCapacityReservations/{capacityReservationId}"
         method = "PUT"
         operation_name = "update_compute_capacity_reservation"
@@ -8697,7 +9739,8 @@ class ComputeClient(object):
                 body=update_compute_capacity_reservation_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8707,7 +9750,132 @@ class ComputeClient(object):
                 body=update_compute_capacity_reservation_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def update_compute_cluster(self, compute_cluster_id, update_compute_cluster_details, **kwargs):
+        """
+        Updates the specified compute cluster.
+
+
+        :param str compute_cluster_id: (required)
+            The `OCID`__ of the compute cluster.
+            A compute cluster is a remote direct memory access (RDMA) network group.
+            For more information, see `Compute Clusters`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+
+        :param oci.core.models.UpdateComputeClusterDetails update_compute_cluster_details: (required)
+            Details for updating the compute cluster.
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+            If you need to contact Oracle about a particular request, please provide the request ID.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous GET or POST response for that resource. The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.core.models.ComputeCluster`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_compute_cluster.py.html>`__ to see an example of how to use update_compute_cluster API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeClusterId']
+        resource_path = "/computeClusters/{computeClusterId}"
+        method = "PUT"
+        operation_name = "update_compute_cluster"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/UpdateComputeCluster"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "opc_retry_token",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "update_compute_cluster got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "computeClusterId": compute_cluster_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=update_compute_cluster_details,
+                response_type="ComputeCluster",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=update_compute_cluster_details,
+                response_type="ComputeCluster",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_compute_image_capability_schema(self, compute_image_capability_schema_id, update_compute_image_capability_schema_details, **kwargs):
         """
@@ -8743,6 +9911,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_compute_image_capability_schema.py.html>`__ to see an example of how to use update_compute_image_capability_schema API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['computeImageCapabilitySchemaId']
         resource_path = "/computeImageCapabilitySchemas/{computeImageCapabilitySchemaId}"
         method = "PUT"
         operation_name = "update_compute_image_capability_schema"
@@ -8795,7 +9965,8 @@ class ComputeClient(object):
                 response_type="ComputeImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8806,7 +9977,8 @@ class ComputeClient(object):
                 response_type="ComputeImageCapabilitySchema",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_console_history(self, instance_console_history_id, update_console_history_details, **kwargs):
         """
@@ -8842,6 +10014,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_console_history.py.html>`__ to see an example of how to use update_console_history API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceConsoleHistoryId']
         resource_path = "/instanceConsoleHistories/{instanceConsoleHistoryId}"
         method = "PUT"
         operation_name = "update_console_history"
@@ -8894,7 +10068,8 @@ class ComputeClient(object):
                 response_type="ConsoleHistory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8905,7 +10080,8 @@ class ComputeClient(object):
                 response_type="ConsoleHistory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_dedicated_vm_host(self, dedicated_vm_host_id, update_dedicated_vm_host_details, **kwargs):
         """
@@ -8953,6 +10129,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_dedicated_vm_host.py.html>`__ to see an example of how to use update_dedicated_vm_host API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['dedicatedVmHostId']
         resource_path = "/dedicatedVmHosts/{dedicatedVmHostId}"
         method = "PUT"
         operation_name = "update_dedicated_vm_host"
@@ -9010,7 +10188,8 @@ class ComputeClient(object):
                 response_type="DedicatedVmHost",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9021,7 +10200,8 @@ class ComputeClient(object):
                 response_type="DedicatedVmHost",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_image(self, image_id, update_image_details, **kwargs):
         """
@@ -9066,6 +10246,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_image.py.html>`__ to see an example of how to use update_image API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['imageId']
         resource_path = "/images/{imageId}"
         method = "PUT"
         operation_name = "update_image"
@@ -9121,7 +10303,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9132,7 +10315,8 @@ class ComputeClient(object):
                 response_type="Image",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_instance(self, instance_id, update_instance_details, **kwargs):
         """
@@ -9183,6 +10367,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_instance.py.html>`__ to see an example of how to use update_instance API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceId']
         resource_path = "/instances/{instanceId}"
         method = "PUT"
         operation_name = "update_instance"
@@ -9238,7 +10424,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9249,7 +10436,8 @@ class ComputeClient(object):
                 response_type="Instance",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_instance_console_connection(self, instance_console_connection_id, update_instance_console_connection_details, **kwargs):
         """
@@ -9289,6 +10477,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_instance_console_connection.py.html>`__ to see an example of how to use update_instance_console_connection API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['instanceConsoleConnectionId']
         resource_path = "/instanceConsoleConnections/{instanceConsoleConnectionId}"
         method = "PUT"
         operation_name = "update_instance_console_connection"
@@ -9343,7 +10533,8 @@ class ComputeClient(object):
                 response_type="InstanceConsoleConnection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9354,7 +10545,8 @@ class ComputeClient(object):
                 response_type="InstanceConsoleConnection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_volume_attachment(self, volume_attachment_id, update_volume_attachment_details, **kwargs):
         """
@@ -9394,6 +10586,8 @@ class ComputeClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_volume_attachment.py.html>`__ to see an example of how to use update_volume_attachment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['volumeAttachmentId']
         resource_path = "/volumeAttachments/{volumeAttachmentId}"
         method = "PUT"
         operation_name = "update_volume_attachment"
@@ -9448,7 +10642,8 @@ class ComputeClient(object):
                 response_type="VolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9459,4 +10654,5 @@ class ComputeClient(object):
                 response_type="VolumeAttachment",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)

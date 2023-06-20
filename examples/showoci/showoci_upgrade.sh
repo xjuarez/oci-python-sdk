@@ -1,6 +1,6 @@
 #!/bin/bash
 ###################################################
-# Upgrade showoci from adizohar git
+# Upgrade showoci from oci-python-sdk sdk git
 ###################################################
 source ~/.bashrc >/dev/null
 
@@ -8,7 +8,7 @@ export APPDIR=${HOME}/showoci
 export LOGDIR=$APPDIR/log
 export LOG=$LOGDIR/showoci_upgrade.log
 mkdir -p $LOGDIR
-export GIT=https://raw.githubusercontent.com/adizohar/showoci/master
+export GIT=https://raw.githubusercontent.com/oracle/oci-python-sdk/master/examples/showoci
 
 ###########################################
 # Download file Proc
@@ -16,15 +16,18 @@ export GIT=https://raw.githubusercontent.com/adizohar/showoci/master
 download_file()
 {
     file=$1
+    file_download=${file}.download
     echo "   Download $file" | tee -a $LOG
-    wget ${GIT}/$file -O ${APPDIR}/$file -o $LOGDIR/${file}.download.log| tee -a $LOG
+    wget ${GIT}/$file -O ${APPDIR}/$file_download -o $LOGDIR/${file}.download.log| tee -a $LOG
     if cat $LOGDIR/${file}.download.log | grep -q "ERROR" 
     then
         echo "   -------> Error Downloading $file, Abort, log=$LOGDIR/${file}.download.log" | tee -a $LOG
         echo ""
         exit 1
     else
-        echo "   -------> $file downloaded successfully" | tee -a $LOG
+        echo "   -------> $file_download downloaded successfully" | tee -a $LOG
+        echo "   -------> rename $file_download to $file" | tee -a $LOG
+        mv -f ${APPDIR}/$file_download ${APPDIR}/$file
     fi
 }
 
@@ -53,12 +56,13 @@ download_file showoci.py
 download_file showoci_data.py
 download_file showoci_service.py
 download_file showoci_output.py
-download_file showoci_csv2adw.py
 download_file CHANGELOG.rst
 download_file README.md
 
 echo "Rename run_daily_report.sh to run_daily_report.sh.bak" | tee -a $LOG
-mv run_daily_report.sh run_daily_report.sh.bak
+if [ -f "${APPDIR}/run_daily_report.sh" ]; then
+	mv ${APPDIR}/run_daily_report.sh ${APPDIR}/run_daily_report.sh.bak
+fi
 download_file run_daily_report.sh
 
 ###########################################
@@ -66,5 +70,5 @@ download_file run_daily_report.sh
 ###########################################
 
 echo "" | tee -a $LOG
-echo "Upgrading OCI SDK Drivers - oci oci-cli oracledb" | tee -a $LOG
-python3 -m pip install --upgrade oci oci-cli oracledb pip
+echo "Upgrading OCI SDK Drivers - oci oci-cli" | tee -a $LOG
+python3 -m pip install --upgrade oci oci-cli pip

@@ -58,6 +58,10 @@ class CreateEsxiHostDetails(object):
             The value to assign to the display_name property of this CreateEsxiHostDetails.
         :type display_name: str
 
+        :param billing_donor_host_id:
+            The value to assign to the billing_donor_host_id property of this CreateEsxiHostDetails.
+        :type billing_donor_host_id: str
+
         :param current_sku:
             The value to assign to the current_sku property of this CreateEsxiHostDetails.
             Allowed values for this property are: "HOUR", "MONTH", "ONE_YEAR", "THREE_YEARS"
@@ -104,6 +108,7 @@ class CreateEsxiHostDetails(object):
         self.swagger_types = {
             'sddc_id': 'str',
             'display_name': 'str',
+            'billing_donor_host_id': 'str',
             'current_sku': 'str',
             'next_sku': 'str',
             'compute_availability_domain': 'str',
@@ -119,6 +124,7 @@ class CreateEsxiHostDetails(object):
         self.attribute_map = {
             'sddc_id': 'sddcId',
             'display_name': 'displayName',
+            'billing_donor_host_id': 'billingDonorHostId',
             'current_sku': 'currentSku',
             'next_sku': 'nextSku',
             'compute_availability_domain': 'computeAvailabilityDomain',
@@ -133,6 +139,7 @@ class CreateEsxiHostDetails(object):
 
         self._sddc_id = None
         self._display_name = None
+        self._billing_donor_host_id = None
         self._current_sku = None
         self._next_sku = None
         self._compute_availability_domain = None
@@ -213,6 +220,34 @@ class CreateEsxiHostDetails(object):
         :type: str
         """
         self._display_name = display_name
+
+    @property
+    def billing_donor_host_id(self):
+        """
+        Gets the billing_donor_host_id of this CreateEsxiHostDetails.
+        The `OCID`__ of the deleted ESXi Host with LeftOver billing cycle.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The billing_donor_host_id of this CreateEsxiHostDetails.
+        :rtype: str
+        """
+        return self._billing_donor_host_id
+
+    @billing_donor_host_id.setter
+    def billing_donor_host_id(self, billing_donor_host_id):
+        """
+        Sets the billing_donor_host_id of this CreateEsxiHostDetails.
+        The `OCID`__ of the deleted ESXi Host with LeftOver billing cycle.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param billing_donor_host_id: The billing_donor_host_id of this CreateEsxiHostDetails.
+        :type: str
+        """
+        self._billing_donor_host_id = billing_donor_host_id
 
     @property
     def current_sku(self):
@@ -430,11 +465,12 @@ class CreateEsxiHostDetails(object):
         Gets the non_upgraded_esxi_host_id of this CreateEsxiHostDetails.
         The `OCID`__ of the ESXi host that
         will be upgraded. This is an optional parameter. If this parameter
-        is specified, an ESXi host with new version will be created to replace the
-        original one, and the `nonUpgradedEsxiHostId` field will be updated in the newly
-        created Esxi host.
+        is specified, an ESXi host with the new software version is created to replace the
+        original one, and the `nonUpgradedEsxiHostId` field is updated in the newly
+        created Esxi host. See `Upgrading VMware Software`__ for more information.
 
         __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.cloud.oracle.com/Content/VMware/Concepts/upgrade.htm
 
 
         :return: The non_upgraded_esxi_host_id of this CreateEsxiHostDetails.
@@ -448,11 +484,12 @@ class CreateEsxiHostDetails(object):
         Sets the non_upgraded_esxi_host_id of this CreateEsxiHostDetails.
         The `OCID`__ of the ESXi host that
         will be upgraded. This is an optional parameter. If this parameter
-        is specified, an ESXi host with new version will be created to replace the
-        original one, and the `nonUpgradedEsxiHostId` field will be updated in the newly
-        created Esxi host.
+        is specified, an ESXi host with the new software version is created to replace the
+        original one, and the `nonUpgradedEsxiHostId` field is updated in the newly
+        created Esxi host. See `Upgrading VMware Software`__ for more information.
 
         __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.cloud.oracle.com/Content/VMware/Concepts/upgrade.htm
 
 
         :param non_upgraded_esxi_host_id: The non_upgraded_esxi_host_id of this CreateEsxiHostDetails.

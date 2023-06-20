@@ -150,6 +150,10 @@ class AutonomousContainerDatabaseSummary(object):
             The value to assign to the db_unique_name property of this AutonomousContainerDatabaseSummary.
         :type db_unique_name: str
 
+        :param db_name:
+            The value to assign to the db_name property of this AutonomousContainerDatabaseSummary.
+        :type db_name: str
+
         :param service_level_agreement_type:
             The value to assign to the service_level_agreement_type property of this AutonomousContainerDatabaseSummary.
             Allowed values for this property are: "STANDARD", "MISSION_CRITICAL", "AUTONOMOUS_DATAGUARD", 'UNKNOWN_ENUM_VALUE'.
@@ -306,6 +310,7 @@ class AutonomousContainerDatabaseSummary(object):
             'compartment_id': 'str',
             'display_name': 'str',
             'db_unique_name': 'str',
+            'db_name': 'str',
             'service_level_agreement_type': 'str',
             'autonomous_exadata_infrastructure_id': 'str',
             'autonomous_vm_cluster_id': 'str',
@@ -347,6 +352,7 @@ class AutonomousContainerDatabaseSummary(object):
             'compartment_id': 'compartmentId',
             'display_name': 'displayName',
             'db_unique_name': 'dbUniqueName',
+            'db_name': 'dbName',
             'service_level_agreement_type': 'serviceLevelAgreementType',
             'autonomous_exadata_infrastructure_id': 'autonomousExadataInfrastructureId',
             'autonomous_vm_cluster_id': 'autonomousVmClusterId',
@@ -387,6 +393,7 @@ class AutonomousContainerDatabaseSummary(object):
         self._compartment_id = None
         self._display_name = None
         self._db_unique_name = None
+        self._db_name = None
         self._service_level_agreement_type = None
         self._autonomous_exadata_infrastructure_id = None
         self._autonomous_vm_cluster_id = None
@@ -517,6 +524,30 @@ class AutonomousContainerDatabaseSummary(object):
         :type: str
         """
         self._db_unique_name = db_unique_name
+
+    @property
+    def db_name(self):
+        """
+        Gets the db_name of this AutonomousContainerDatabaseSummary.
+        The Database name for the Autonomous Container Database. The name must be unique within the Cloud Autonomous VM Cluster, starting with an alphabetic character, followed by 1 to 7 alphanumeric characters.
+
+
+        :return: The db_name of this AutonomousContainerDatabaseSummary.
+        :rtype: str
+        """
+        return self._db_name
+
+    @db_name.setter
+    def db_name(self, db_name):
+        """
+        Sets the db_name of this AutonomousContainerDatabaseSummary.
+        The Database name for the Autonomous Container Database. The name must be unique within the Cloud Autonomous VM Cluster, starting with an alphabetic character, followed by 1 to 7 alphanumeric characters.
+
+
+        :param db_name: The db_name of this AutonomousContainerDatabaseSummary.
+        :type: str
+        """
+        self._db_name = db_name
 
     @property
     def service_level_agreement_type(self):
@@ -1266,7 +1297,9 @@ class AutonomousContainerDatabaseSummary(object):
     def memory_per_oracle_compute_unit_in_gbs(self):
         """
         Gets the memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
-        The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
+        The amount of memory (in GBs) enabled per OCPU or ECPU in the Autonomous VM Cluster.See `Compute Models`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
@@ -1278,7 +1311,9 @@ class AutonomousContainerDatabaseSummary(object):
     def memory_per_oracle_compute_unit_in_gbs(self, memory_per_oracle_compute_unit_in_gbs):
         """
         Sets the memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
-        The amount of memory (in GBs) enabled per each CPU in the Autonomous VM Cluster.
+        The amount of memory (in GBs) enabled per OCPU or ECPU in the Autonomous VM Cluster.See `Compute Models`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param memory_per_oracle_compute_unit_in_gbs: The memory_per_oracle_compute_unit_in_gbs of this AutonomousContainerDatabaseSummary.
@@ -1290,7 +1325,10 @@ class AutonomousContainerDatabaseSummary(object):
     def available_cpus(self):
         """
         Gets the available_cpus of this AutonomousContainerDatabaseSummary.
-        Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
+        Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br>
+        For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The available_cpus of this AutonomousContainerDatabaseSummary.
@@ -1302,7 +1340,10 @@ class AutonomousContainerDatabaseSummary(object):
     def available_cpus(self, available_cpus):
         """
         Sets the available_cpus of this AutonomousContainerDatabaseSummary.
-        Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
+        Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br>
+        For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param available_cpus: The available_cpus of this AutonomousContainerDatabaseSummary.
@@ -1314,7 +1355,10 @@ class AutonomousContainerDatabaseSummary(object):
     def total_cpus(self):
         """
         Gets the total_cpus of this AutonomousContainerDatabaseSummary.
-        The number of CPUs allocated to the Autonomous VM cluster.
+        The number of CPUs allocated to the Autonomous VM cluster.<br>
+        For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The total_cpus of this AutonomousContainerDatabaseSummary.
@@ -1326,7 +1370,10 @@ class AutonomousContainerDatabaseSummary(object):
     def total_cpus(self, total_cpus):
         """
         Sets the total_cpus of this AutonomousContainerDatabaseSummary.
-        The number of CPUs allocated to the Autonomous VM cluster.
+        The number of CPUs allocated to the Autonomous VM cluster.<br>
+        For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param total_cpus: The total_cpus of this AutonomousContainerDatabaseSummary.
@@ -1338,7 +1385,11 @@ class AutonomousContainerDatabaseSummary(object):
     def reclaimable_cpus(self):
         """
         Gets the reclaimable_cpus of this AutonomousContainerDatabaseSummary.
-        CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+        For Autonomous Databases on Dedicated Exadata Infrastructure:
+        - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+        - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The reclaimable_cpus of this AutonomousContainerDatabaseSummary.
@@ -1350,7 +1401,11 @@ class AutonomousContainerDatabaseSummary(object):
     def reclaimable_cpus(self, reclaimable_cpus):
         """
         Sets the reclaimable_cpus of this AutonomousContainerDatabaseSummary.
-        CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+        For Autonomous Databases on Dedicated Exadata Infrastructure:
+        - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+        - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param reclaimable_cpus: The reclaimable_cpus of this AutonomousContainerDatabaseSummary.
@@ -1362,7 +1417,10 @@ class AutonomousContainerDatabaseSummary(object):
     def provisionable_cpus(self):
         """
         Gets the provisionable_cpus of this AutonomousContainerDatabaseSummary.
-        An array of CPU values that can be used to successfully provision a single Autonomous Database.
+        An array of CPU values that can be used to successfully provision a single Autonomous Database.\\
+        For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The provisionable_cpus of this AutonomousContainerDatabaseSummary.
@@ -1374,7 +1432,10 @@ class AutonomousContainerDatabaseSummary(object):
     def provisionable_cpus(self, provisionable_cpus):
         """
         Sets the provisionable_cpus of this AutonomousContainerDatabaseSummary.
-        An array of CPU values that can be used to successfully provision a single Autonomous Database.
+        An array of CPU values that can be used to successfully provision a single Autonomous Database.\\
+        For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param provisionable_cpus: The provisionable_cpus of this AutonomousContainerDatabaseSummary.
@@ -1386,7 +1447,9 @@ class AutonomousContainerDatabaseSummary(object):
     def compute_model(self):
         """
         Gets the compute_model of this AutonomousContainerDatabaseSummary.
-        The compute model of the Autonomous VM Cluster.
+        The compute model of the Autonomous VM Cluster. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
         Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -1401,7 +1464,9 @@ class AutonomousContainerDatabaseSummary(object):
     def compute_model(self, compute_model):
         """
         Sets the compute_model of this AutonomousContainerDatabaseSummary.
-        The compute model of the Autonomous VM Cluster.
+        The compute model of the Autonomous VM Cluster. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param compute_model: The compute_model of this AutonomousContainerDatabaseSummary.

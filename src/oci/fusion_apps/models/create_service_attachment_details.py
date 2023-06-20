@@ -10,90 +10,83 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class CreateServiceAttachmentDetails(object):
     """
-    Information about the service attachment.
+    Information about the service attachment to be created.
     """
-
-    #: A constant which can be used with the action property of a CreateServiceAttachmentDetails.
-    #: This constant has a value of "CREATE_NEW_INSTANCE"
-    ACTION_CREATE_NEW_INSTANCE = "CREATE_NEW_INSTANCE"
-
-    #: A constant which can be used with the action property of a CreateServiceAttachmentDetails.
-    #: This constant has a value of "ATTACH_EXISTING_INSTANCE"
-    ACTION_ATTACH_EXISTING_INSTANCE = "ATTACH_EXISTING_INSTANCE"
 
     def __init__(self, **kwargs):
         """
-        Initializes a new CreateServiceAttachmentDetails object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
-        to a service operations then you should favor using a subclass over the base class:
-
-        * :class:`~oci.fusion_apps.models.AttachExistingInstanceDetails`
-        * :class:`~oci.fusion_apps.models.CreateNewInstanceDetails`
-
+        Initializes a new CreateServiceAttachmentDetails object with values from keyword arguments.
         The following keyword arguments are supported (corresponding to the getters/setters of this class):
 
-        :param action:
-            The value to assign to the action property of this CreateServiceAttachmentDetails.
-            Allowed values for this property are: "CREATE_NEW_INSTANCE", "ATTACH_EXISTING_INSTANCE"
-        :type action: str
+        :param service_instance_type:
+            The value to assign to the service_instance_type property of this CreateServiceAttachmentDetails.
+        :type service_instance_type: str
+
+        :param service_instance_id:
+            The value to assign to the service_instance_id property of this CreateServiceAttachmentDetails.
+        :type service_instance_id: str
 
         """
         self.swagger_types = {
-            'action': 'str'
+            'service_instance_type': 'str',
+            'service_instance_id': 'str'
         }
 
         self.attribute_map = {
-            'action': 'action'
+            'service_instance_type': 'serviceInstanceType',
+            'service_instance_id': 'serviceInstanceId'
         }
 
-        self._action = None
-
-    @staticmethod
-    def get_subtype(object_dictionary):
-        """
-        Given the hash representation of a subtype of this class,
-        use the info in the hash to return the class of the subtype.
-        """
-        type = object_dictionary['action']
-
-        if type == 'ATTACH_EXISTING_INSTANCE':
-            return 'AttachExistingInstanceDetails'
-
-        if type == 'CREATE_NEW_INSTANCE':
-            return 'CreateNewInstanceDetails'
-        else:
-            return 'CreateServiceAttachmentDetails'
+        self._service_instance_type = None
+        self._service_instance_id = None
 
     @property
-    def action(self):
+    def service_instance_type(self):
         """
-        **[Required]** Gets the action of this CreateServiceAttachmentDetails.
-        The operation type - the customer can ask FAaaS to create a new instance or use an existing instance
-
-        Allowed values for this property are: "CREATE_NEW_INSTANCE", "ATTACH_EXISTING_INSTANCE"
+        **[Required]** Gets the service_instance_type of this CreateServiceAttachmentDetails.
+        Type of the ServiceInstance being attached.
 
 
-        :return: The action of this CreateServiceAttachmentDetails.
+        :return: The service_instance_type of this CreateServiceAttachmentDetails.
         :rtype: str
         """
-        return self._action
+        return self._service_instance_type
 
-    @action.setter
-    def action(self, action):
+    @service_instance_type.setter
+    def service_instance_type(self, service_instance_type):
         """
-        Sets the action of this CreateServiceAttachmentDetails.
-        The operation type - the customer can ask FAaaS to create a new instance or use an existing instance
+        Sets the service_instance_type of this CreateServiceAttachmentDetails.
+        Type of the ServiceInstance being attached.
 
 
-        :param action: The action of this CreateServiceAttachmentDetails.
+        :param service_instance_type: The service_instance_type of this CreateServiceAttachmentDetails.
         :type: str
         """
-        allowed_values = ["CREATE_NEW_INSTANCE", "ATTACH_EXISTING_INSTANCE"]
-        if not value_allowed_none_or_none_sentinel(action, allowed_values):
-            raise ValueError(
-                "Invalid value for `action`, must be None or one of {0}"
-                .format(allowed_values)
-            )
-        self._action = action
+        self._service_instance_type = service_instance_type
+
+    @property
+    def service_instance_id(self):
+        """
+        **[Required]** Gets the service_instance_id of this CreateServiceAttachmentDetails.
+        The service instance OCID of the instance being attached
+
+
+        :return: The service_instance_id of this CreateServiceAttachmentDetails.
+        :rtype: str
+        """
+        return self._service_instance_id
+
+    @service_instance_id.setter
+    def service_instance_id(self, service_instance_id):
+        """
+        Sets the service_instance_id of this CreateServiceAttachmentDetails.
+        The service instance OCID of the instance being attached
+
+
+        :param service_instance_id: The service_instance_id of this CreateServiceAttachmentDetails.
+        :type: str
+        """
+        self._service_instance_id = service_instance_id
 
     def __repr__(self):
         return formatted_flat_dict(self)

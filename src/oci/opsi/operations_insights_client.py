@@ -67,6 +67,9 @@ class OperationsInsightsClient(object):
         :param function circuit_breaker_callback: (optional)
             Callback function to receive any exceptions triggerred by the circuit breaker.
 
+        :param bool client_level_realm_specific_endpoint_template_enabled: (optional)
+            A boolean flag to indicate whether or not this client should be created with realm specific endpoint template enabled or disable. By default, this will be set as None.
+
         :param allow_control_chars: (optional)
             allow_control_chars is a boolean to indicate whether or not this client should allow control characters in the response object. By default, the client will not
             allow control characters to be in the response object.
@@ -93,8 +96,10 @@ class OperationsInsightsClient(object):
             'service_endpoint': kwargs.get('service_endpoint'),
             'base_path': '/20200630',
             'service_endpoint_template': 'https://operationsinsights.{region}.oci.{secondLevelDomain}',
+            'service_endpoint_template_per_realm': {  },  # noqa: E201 E202
             'skip_deserialization': kwargs.get('skip_deserialization', False),
-            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY)
+            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY),
+            'client_level_realm_specific_endpoint_template_enabled': kwargs.get('client_level_realm_specific_endpoint_template_enabled')
         }
         if 'timeout' in kwargs:
             base_client_init_kwargs['timeout'] = kwargs.get('timeout')
@@ -152,6 +157,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/add_exadata_insight_members.py.html>`__ to see an example of how to use add_exadata_insight_members API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/{exadataInsightId}/actions/addMembers"
         method = "POST"
         operation_name = "add_exadata_insight_members"
@@ -210,7 +217,8 @@ class OperationsInsightsClient(object):
                 body=add_exadata_insight_members_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -220,7 +228,8 @@ class OperationsInsightsClient(object):
                 body=add_exadata_insight_members_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_autonomous_database_insight_advanced_features(self, change_autonomous_database_insight_advanced_features_details, database_insight_id, **kwargs):
         """
@@ -268,6 +277,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use change_autonomous_database_insight_advanced_features API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}/actions/changeAutonomousDatabaseInsightAdvancedFeatures"
         method = "POST"
         operation_name = "change_autonomous_database_insight_advanced_features"
@@ -326,7 +337,8 @@ class OperationsInsightsClient(object):
                 body=change_autonomous_database_insight_advanced_features_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -336,7 +348,8 @@ class OperationsInsightsClient(object):
                 body=change_autonomous_database_insight_advanced_features_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_database_insight_compartment(self, database_insight_id, change_database_insight_compartment_details, **kwargs):
         """
@@ -384,6 +397,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_database_insight_compartment.py.html>`__ to see an example of how to use change_database_insight_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_database_insight_compartment"
@@ -442,7 +457,8 @@ class OperationsInsightsClient(object):
                 body=change_database_insight_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -452,7 +468,8 @@ class OperationsInsightsClient(object):
                 body=change_database_insight_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_enterprise_manager_bridge_compartment(self, enterprise_manager_bridge_id, change_enterprise_manager_bridge_compartment_details, **kwargs):
         """
@@ -492,6 +509,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_enterprise_manager_bridge_compartment.py.html>`__ to see an example of how to use change_enterprise_manager_bridge_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['enterpriseManagerBridgeId']
         resource_path = "/enterpriseManagerBridges/{enterpriseManagerBridgeId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_enterprise_manager_bridge_compartment"
@@ -547,7 +566,8 @@ class OperationsInsightsClient(object):
                 body=change_enterprise_manager_bridge_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -557,7 +577,8 @@ class OperationsInsightsClient(object):
                 body=change_enterprise_manager_bridge_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_exadata_insight_compartment(self, exadata_insight_id, change_exadata_insight_compartment_details, **kwargs):
         """
@@ -605,6 +626,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_exadata_insight_compartment.py.html>`__ to see an example of how to use change_exadata_insight_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/{exadataInsightId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_exadata_insight_compartment"
@@ -663,7 +686,8 @@ class OperationsInsightsClient(object):
                 body=change_exadata_insight_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -673,7 +697,8 @@ class OperationsInsightsClient(object):
                 body=change_exadata_insight_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_host_insight_compartment(self, host_insight_id, change_host_insight_compartment_details, **kwargs):
         """
@@ -721,6 +746,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_host_insight_compartment.py.html>`__ to see an example of how to use change_host_insight_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['hostInsightId']
         resource_path = "/hostInsights/{hostInsightId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_host_insight_compartment"
@@ -779,7 +806,8 @@ class OperationsInsightsClient(object):
                 body=change_host_insight_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -789,7 +817,8 @@ class OperationsInsightsClient(object):
                 body=change_host_insight_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_operations_insights_private_endpoint_compartment(self, operations_insights_private_endpoint_id, change_operations_insights_private_endpoint_compartment_details, **kwargs):
         """
@@ -839,6 +868,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_operations_insights_private_endpoint_compartment.py.html>`__ to see an example of how to use change_operations_insights_private_endpoint_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsPrivateEndpointId']
         resource_path = "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_operations_insights_private_endpoint_compartment"
@@ -897,7 +928,8 @@ class OperationsInsightsClient(object):
                 body=change_operations_insights_private_endpoint_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -907,7 +939,8 @@ class OperationsInsightsClient(object):
                 body=change_operations_insights_private_endpoint_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_opsi_configuration_compartment(self, opsi_configuration_id, change_opsi_configuration_compartment_details, **kwargs):
         """
@@ -957,6 +990,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_opsi_configuration_compartment.py.html>`__ to see an example of how to use change_opsi_configuration_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['opsiConfigurationId']
         resource_path = "/opsiConfigurations/{opsiConfigurationId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_opsi_configuration_compartment"
@@ -1015,7 +1050,8 @@ class OperationsInsightsClient(object):
                 body=change_opsi_configuration_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1025,7 +1061,8 @@ class OperationsInsightsClient(object):
                 body=change_opsi_configuration_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_pe_comanaged_database_insight(self, database_insight_id, change_pe_comanaged_database_insight_details, **kwargs):
         """
@@ -1073,6 +1110,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_pe_comanaged_database_insight.py.html>`__ to see an example of how to use change_pe_comanaged_database_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}/actions/changePeComanagedDatabaseInsightDetails"
         method = "POST"
         operation_name = "change_pe_comanaged_database_insight"
@@ -1131,7 +1170,8 @@ class OperationsInsightsClient(object):
                 body=change_pe_comanaged_database_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1141,7 +1181,8 @@ class OperationsInsightsClient(object):
                 body=change_pe_comanaged_database_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_awr_hub(self, create_awr_hub_details, **kwargs):
         """
@@ -1182,6 +1223,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_awr_hub.py.html>`__ to see an example of how to use create_awr_hub API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/awrHubs"
         method = "POST"
         operation_name = "create_awr_hub"
@@ -1228,7 +1271,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrHub",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1238,7 +1282,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrHub",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_database_insight(self, create_database_insight_details, **kwargs):
         """
@@ -1278,6 +1323,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_database_insight.py.html>`__ to see an example of how to use create_database_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights"
         method = "POST"
         operation_name = "create_database_insight"
@@ -1324,7 +1371,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1334,7 +1382,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_enterprise_manager_bridge(self, create_enterprise_manager_bridge_details, **kwargs):
         """
@@ -1374,6 +1423,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_enterprise_manager_bridge.py.html>`__ to see an example of how to use create_enterprise_manager_bridge API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/enterpriseManagerBridges"
         method = "POST"
         operation_name = "create_enterprise_manager_bridge"
@@ -1420,7 +1471,8 @@ class OperationsInsightsClient(object):
                 response_type="EnterpriseManagerBridge",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1430,7 +1482,8 @@ class OperationsInsightsClient(object):
                 response_type="EnterpriseManagerBridge",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_exadata_insight(self, create_exadata_insight_details, **kwargs):
         """
@@ -1470,6 +1523,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_exadata_insight.py.html>`__ to see an example of how to use create_exadata_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/exadataInsights"
         method = "POST"
         operation_name = "create_exadata_insight"
@@ -1516,7 +1571,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1526,7 +1582,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_host_insight(self, create_host_insight_details, **kwargs):
         """
@@ -1566,6 +1623,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_host_insight.py.html>`__ to see an example of how to use create_host_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/hostInsights"
         method = "POST"
         operation_name = "create_host_insight"
@@ -1612,7 +1671,8 @@ class OperationsInsightsClient(object):
                 response_type="HostInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1622,7 +1682,8 @@ class OperationsInsightsClient(object):
                 response_type="HostInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_operations_insights_private_endpoint(self, create_operations_insights_private_endpoint_details, **kwargs):
         """
@@ -1663,6 +1724,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_private_endpoint.py.html>`__ to see an example of how to use create_operations_insights_private_endpoint API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/operationsInsightsPrivateEndpoints"
         method = "POST"
         operation_name = "create_operations_insights_private_endpoint"
@@ -1709,7 +1772,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsPrivateEndpoint",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1719,7 +1783,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsPrivateEndpoint",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_operations_insights_warehouse(self, create_operations_insights_warehouse_details, **kwargs):
         """
@@ -1761,6 +1826,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_warehouse.py.html>`__ to see an example of how to use create_operations_insights_warehouse API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/operationsInsightsWarehouses"
         method = "POST"
         operation_name = "create_operations_insights_warehouse"
@@ -1807,7 +1874,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouse",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1817,7 +1885,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouse",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_operations_insights_warehouse_user(self, create_operations_insights_warehouse_user_details, **kwargs):
         """
@@ -1858,6 +1927,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_warehouse_user.py.html>`__ to see an example of how to use create_operations_insights_warehouse_user API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/operationsInsightsWarehouseUsers"
         method = "POST"
         operation_name = "create_operations_insights_warehouse_user"
@@ -1904,7 +1975,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseUser",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1914,7 +1986,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseUser",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_opsi_configuration(self, create_opsi_configuration_details, **kwargs):
         """
@@ -1973,6 +2046,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_opsi_configuration.py.html>`__ to see an example of how to use create_opsi_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/opsiConfigurations"
         method = "POST"
         operation_name = "create_opsi_configuration"
@@ -2056,7 +2131,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2067,7 +2143,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_awr_hub(self, awr_hub_id, **kwargs):
         """
@@ -2104,6 +2181,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_awr_hub.py.html>`__ to see an example of how to use delete_awr_hub API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId']
         resource_path = "/awrHubs/{awrHubId}"
         method = "DELETE"
         operation_name = "delete_awr_hub"
@@ -2158,7 +2237,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2167,7 +2247,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_database_insight(self, database_insight_id, **kwargs):
         """
@@ -2204,6 +2285,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_database_insight.py.html>`__ to see an example of how to use delete_database_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}"
         method = "DELETE"
         operation_name = "delete_database_insight"
@@ -2258,7 +2341,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2267,7 +2351,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_enterprise_manager_bridge(self, enterprise_manager_bridge_id, **kwargs):
         """
@@ -2304,6 +2389,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_enterprise_manager_bridge.py.html>`__ to see an example of how to use delete_enterprise_manager_bridge API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['enterpriseManagerBridgeId']
         resource_path = "/enterpriseManagerBridges/{enterpriseManagerBridgeId}"
         method = "DELETE"
         operation_name = "delete_enterprise_manager_bridge"
@@ -2358,7 +2445,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2367,7 +2455,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_exadata_insight(self, exadata_insight_id, **kwargs):
         """
@@ -2404,6 +2493,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_exadata_insight.py.html>`__ to see an example of how to use delete_exadata_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/{exadataInsightId}"
         method = "DELETE"
         operation_name = "delete_exadata_insight"
@@ -2458,7 +2549,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2467,7 +2559,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_host_insight(self, host_insight_id, **kwargs):
         """
@@ -2504,6 +2597,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_host_insight.py.html>`__ to see an example of how to use delete_host_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['hostInsightId']
         resource_path = "/hostInsights/{hostInsightId}"
         method = "DELETE"
         operation_name = "delete_host_insight"
@@ -2558,7 +2653,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2567,7 +2663,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_operations_insights_private_endpoint(self, operations_insights_private_endpoint_id, **kwargs):
         """
@@ -2606,6 +2703,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_private_endpoint.py.html>`__ to see an example of how to use delete_operations_insights_private_endpoint API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsPrivateEndpointId']
         resource_path = "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}"
         method = "DELETE"
         operation_name = "delete_operations_insights_private_endpoint"
@@ -2660,7 +2759,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2669,7 +2769,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_operations_insights_warehouse(self, operations_insights_warehouse_id, **kwargs):
         """
@@ -2709,6 +2810,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_warehouse.py.html>`__ to see an example of how to use delete_operations_insights_warehouse API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/operationsInsightsWarehouses/{operationsInsightsWarehouseId}"
         method = "DELETE"
         operation_name = "delete_operations_insights_warehouse"
@@ -2763,7 +2866,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2772,7 +2876,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_operations_insights_warehouse_user(self, operations_insights_warehouse_user_id, **kwargs):
         """
@@ -2809,6 +2914,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_warehouse_user.py.html>`__ to see an example of how to use delete_operations_insights_warehouse_user API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseUserId']
         resource_path = "/operationsInsightsWarehouseUsers/{operationsInsightsWarehouseUserId}"
         method = "DELETE"
         operation_name = "delete_operations_insights_warehouse_user"
@@ -2863,7 +2970,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2872,7 +2980,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_opsi_configuration(self, opsi_configuration_id, **kwargs):
         """
@@ -2911,6 +3020,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_opsi_configuration.py.html>`__ to see an example of how to use delete_opsi_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['opsiConfigurationId']
         resource_path = "/opsiConfigurations/{opsiConfigurationId}"
         method = "DELETE"
         operation_name = "delete_opsi_configuration"
@@ -2965,7 +3076,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2974,7 +3086,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def disable_autonomous_database_insight_advanced_features(self, database_insight_id, **kwargs):
         """
@@ -3019,6 +3132,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use disable_autonomous_database_insight_advanced_features API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}/actions/disableAutonomousDatabaseInsightAdvancedFeatures"
         method = "POST"
         operation_name = "disable_autonomous_database_insight_advanced_features"
@@ -3076,7 +3191,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3085,7 +3201,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def disable_database_insight(self, database_insight_id, **kwargs):
         """
@@ -3130,6 +3247,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_database_insight.py.html>`__ to see an example of how to use disable_database_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}/actions/disable"
         method = "POST"
         operation_name = "disable_database_insight"
@@ -3187,7 +3306,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3196,7 +3316,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def disable_exadata_insight(self, exadata_insight_id, **kwargs):
         """
@@ -3241,6 +3362,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_exadata_insight.py.html>`__ to see an example of how to use disable_exadata_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/{exadataInsightId}/actions/disable"
         method = "POST"
         operation_name = "disable_exadata_insight"
@@ -3298,7 +3421,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3307,7 +3431,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def disable_host_insight(self, host_insight_id, **kwargs):
         """
@@ -3352,6 +3477,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_host_insight.py.html>`__ to see an example of how to use disable_host_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['hostInsightId']
         resource_path = "/hostInsights/{hostInsightId}/actions/disable"
         method = "POST"
         operation_name = "disable_host_insight"
@@ -3409,7 +3536,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3418,7 +3546,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def download_operations_insights_warehouse_wallet(self, operations_insights_warehouse_id, download_operations_insights_warehouse_wallet_details, **kwargs):
         """
@@ -3461,6 +3590,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/download_operations_insights_warehouse_wallet.py.html>`__ to see an example of how to use download_operations_insights_warehouse_wallet API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/operationsInsightsWarehouses/{operationsInsightsWarehouseId}/actions/downloadWarehouseWallet"
         method = "POST"
         operation_name = "download_operations_insights_warehouse_wallet"
@@ -3518,7 +3649,8 @@ class OperationsInsightsClient(object):
                 response_type="stream",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3529,7 +3661,8 @@ class OperationsInsightsClient(object):
                 response_type="stream",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def enable_autonomous_database_insight_advanced_features(self, enable_autonomous_database_insight_advanced_features_details, database_insight_id, **kwargs):
         """
@@ -3577,6 +3710,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use enable_autonomous_database_insight_advanced_features API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}/actions/enableAutonomousDatabaseInsightAdvancedFeatures"
         method = "POST"
         operation_name = "enable_autonomous_database_insight_advanced_features"
@@ -3635,7 +3770,8 @@ class OperationsInsightsClient(object):
                 body=enable_autonomous_database_insight_advanced_features_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3645,7 +3781,8 @@ class OperationsInsightsClient(object):
                 body=enable_autonomous_database_insight_advanced_features_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def enable_database_insight(self, enable_database_insight_details, database_insight_id, **kwargs):
         """
@@ -3693,6 +3830,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_database_insight.py.html>`__ to see an example of how to use enable_database_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}/actions/enable"
         method = "POST"
         operation_name = "enable_database_insight"
@@ -3751,7 +3890,8 @@ class OperationsInsightsClient(object):
                 body=enable_database_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3761,7 +3901,8 @@ class OperationsInsightsClient(object):
                 body=enable_database_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def enable_exadata_insight(self, enable_exadata_insight_details, exadata_insight_id, **kwargs):
         """
@@ -3809,6 +3950,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_exadata_insight.py.html>`__ to see an example of how to use enable_exadata_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/{exadataInsightId}/actions/enable"
         method = "POST"
         operation_name = "enable_exadata_insight"
@@ -3867,7 +4010,8 @@ class OperationsInsightsClient(object):
                 body=enable_exadata_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3877,7 +4021,8 @@ class OperationsInsightsClient(object):
                 body=enable_exadata_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def enable_host_insight(self, enable_host_insight_details, host_insight_id, **kwargs):
         """
@@ -3925,6 +4070,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_host_insight.py.html>`__ to see an example of how to use enable_host_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['hostInsightId']
         resource_path = "/hostInsights/{hostInsightId}/actions/enable"
         method = "POST"
         operation_name = "enable_host_insight"
@@ -3983,7 +4130,8 @@ class OperationsInsightsClient(object):
                 body=enable_host_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3993,7 +4141,8 @@ class OperationsInsightsClient(object):
                 body=enable_host_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_awr_database_report(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -4057,6 +4206,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_database_report.py.html>`__ to see an example of how to use get_awr_database_report API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseReport"
         method = "GET"
         operation_name = "get_awr_database_report"
@@ -4144,7 +4295,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4155,7 +4307,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_awr_database_sql_report(self, awr_hub_id, awr_source_database_identifier, sql_id, **kwargs):
         """
@@ -4217,6 +4370,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_database_sql_report.py.html>`__ to see an example of how to use get_awr_database_sql_report API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'sqlId']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseSqlReport"
         method = "GET"
         operation_name = "get_awr_database_sql_report"
@@ -4296,7 +4451,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSqlReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4307,7 +4463,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSqlReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_awr_hub(self, awr_hub_id, **kwargs):
         """
@@ -4339,6 +4496,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_hub.py.html>`__ to see an example of how to use get_awr_hub API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId']
         resource_path = "/awrHubs/{awrHubId}"
         method = "GET"
         operation_name = "get_awr_hub"
@@ -4392,7 +4551,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrHub",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4402,7 +4562,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrHub",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_awr_report(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -4458,6 +4619,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_report.py.html>`__ to see an example of how to use get_awr_report API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrReport"
         method = "GET"
         operation_name = "get_awr_report"
@@ -4536,7 +4699,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4547,7 +4711,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrReport",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_database_insight(self, database_insight_id, **kwargs):
         """
@@ -4579,6 +4744,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_database_insight.py.html>`__ to see an example of how to use get_database_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}"
         method = "GET"
         operation_name = "get_database_insight"
@@ -4632,7 +4799,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4642,7 +4810,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_enterprise_manager_bridge(self, enterprise_manager_bridge_id, **kwargs):
         """
@@ -4674,6 +4843,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_enterprise_manager_bridge.py.html>`__ to see an example of how to use get_enterprise_manager_bridge API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['enterpriseManagerBridgeId']
         resource_path = "/enterpriseManagerBridges/{enterpriseManagerBridgeId}"
         method = "GET"
         operation_name = "get_enterprise_manager_bridge"
@@ -4727,7 +4898,8 @@ class OperationsInsightsClient(object):
                 response_type="EnterpriseManagerBridge",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4737,7 +4909,8 @@ class OperationsInsightsClient(object):
                 response_type="EnterpriseManagerBridge",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_exadata_insight(self, exadata_insight_id, **kwargs):
         """
@@ -4769,6 +4942,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_exadata_insight.py.html>`__ to see an example of how to use get_exadata_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/{exadataInsightId}"
         method = "GET"
         operation_name = "get_exadata_insight"
@@ -4822,7 +4997,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4832,7 +5008,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_host_insight(self, host_insight_id, **kwargs):
         """
@@ -4864,6 +5041,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_host_insight.py.html>`__ to see an example of how to use get_host_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['hostInsightId']
         resource_path = "/hostInsights/{hostInsightId}"
         method = "GET"
         operation_name = "get_host_insight"
@@ -4917,7 +5096,8 @@ class OperationsInsightsClient(object):
                 response_type="HostInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4927,7 +5107,8 @@ class OperationsInsightsClient(object):
                 response_type="HostInsight",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_operations_insights_private_endpoint(self, operations_insights_private_endpoint_id, **kwargs):
         """
@@ -4961,6 +5142,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_private_endpoint.py.html>`__ to see an example of how to use get_operations_insights_private_endpoint API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsPrivateEndpointId']
         resource_path = "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}"
         method = "GET"
         operation_name = "get_operations_insights_private_endpoint"
@@ -5014,7 +5197,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsPrivateEndpoint",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5024,7 +5208,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsPrivateEndpoint",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_operations_insights_warehouse(self, operations_insights_warehouse_id, **kwargs):
         """
@@ -5057,6 +5242,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_warehouse.py.html>`__ to see an example of how to use get_operations_insights_warehouse API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/operationsInsightsWarehouses/{operationsInsightsWarehouseId}"
         method = "GET"
         operation_name = "get_operations_insights_warehouse"
@@ -5110,7 +5297,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouse",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5120,7 +5308,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouse",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_operations_insights_warehouse_user(self, operations_insights_warehouse_user_id, **kwargs):
         """
@@ -5152,6 +5341,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_warehouse_user.py.html>`__ to see an example of how to use get_operations_insights_warehouse_user API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseUserId']
         resource_path = "/operationsInsightsWarehouseUsers/{operationsInsightsWarehouseUserId}"
         method = "GET"
         operation_name = "get_operations_insights_warehouse_user"
@@ -5205,7 +5396,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseUser",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5215,7 +5407,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseUser",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_opsi_configuration(self, opsi_configuration_id, **kwargs):
         """
@@ -5270,6 +5463,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_opsi_configuration.py.html>`__ to see an example of how to use get_opsi_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['opsiConfigurationId']
         resource_path = "/opsiConfigurations/{opsiConfigurationId}"
         method = "GET"
         operation_name = "get_opsi_configuration"
@@ -5360,7 +5555,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5371,7 +5567,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_opsi_data_object(self, compartment_id, opsi_data_object_identifier, **kwargs):
         """
@@ -5408,6 +5605,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_opsi_data_object.py.html>`__ to see an example of how to use get_opsi_data_object API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['opsiDataObjectIdentifier', 'compartmentId']
         resource_path = "/opsiDataObjects/{opsiDataObjectIdentifier}"
         method = "GET"
         operation_name = "get_opsi_data_object"
@@ -5467,7 +5666,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiDataObject",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5478,7 +5678,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiDataObject",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_work_request(self, work_request_id, **kwargs):
         """
@@ -5510,6 +5711,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}"
         method = "GET"
         operation_name = "get_work_request"
@@ -5563,7 +5766,8 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequest",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5573,7 +5777,136 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequest",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def ingest_addm_reports(self, ingest_addm_reports_details, **kwargs):
+        """
+        This endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
+        Either databaseId or id must be specified.
+
+
+        :param oci.opsi.models.IngestAddmReportsDetails ingest_addm_reports_details: (required)
+            Collection of addm reports for a particular database.
+
+        :param str database_id: (optional)
+            Optional `OCID`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str id: (optional)
+            `OCID`__ of the database insight resource.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param str if_match: (optional)
+            Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous get, create, or update response for that resource.  The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request that can be retried in case of a timeout or
+            server error without risk of executing the same action again. Retry tokens expire after 24
+            hours.
+
+            *Note:* Retry tokens can be invalidated before the 24 hour time limit due to conflicting
+            operations, such as a resource being deleted or purged from the system.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.IngestAddmReportsResponseDetails`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_addm_reports.py.html>`__ to see an example of how to use ingest_addm_reports API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/databaseInsights/actions/ingestAddmReports"
+        method = "POST"
+        operation_name = "ingest_addm_reports"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestAddmReports"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "opc_request_id",
+            "if_match",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "ingest_addm_reports got unknown kwargs: {!r}".format(extra_kwargs))
+
+        query_params = {
+            "databaseId": kwargs.get("database_id", missing),
+            "id": kwargs.get("id", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                body=ingest_addm_reports_details,
+                response_type="IngestAddmReportsResponseDetails",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                body=ingest_addm_reports_details,
+                response_type="IngestAddmReportsResponseDetails",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def ingest_database_configuration(self, ingest_database_configuration_details, **kwargs):
         """
@@ -5628,6 +5961,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_database_configuration.py.html>`__ to see an example of how to use ingest_database_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights/actions/ingestDatabaseConfiguration"
         method = "POST"
         operation_name = "ingest_database_configuration"
@@ -5685,7 +6020,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestDatabaseConfigurationResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5696,7 +6032,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestDatabaseConfigurationResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def ingest_host_configuration(self, id, ingest_host_configuration_details, **kwargs):
         """
@@ -5746,6 +6083,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_host_configuration.py.html>`__ to see an example of how to use ingest_host_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['id']
         resource_path = "/hostInsights/actions/ingestHostConfiguration"
         method = "POST"
         operation_name = "ingest_host_configuration"
@@ -5800,7 +6139,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestHostConfigurationResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5811,7 +6151,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestHostConfigurationResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def ingest_host_metrics(self, id, ingest_host_metrics_details, **kwargs):
         """
@@ -5861,6 +6202,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_host_metrics.py.html>`__ to see an example of how to use ingest_host_metrics API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['id']
         resource_path = "/hostInsights/actions/ingestHostMetrics"
         method = "POST"
         operation_name = "ingest_host_metrics"
@@ -5915,7 +6258,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestHostMetricsResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5926,7 +6270,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestHostMetricsResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def ingest_sql_bucket(self, ingest_sql_bucket_details, **kwargs):
         """
@@ -5987,6 +6332,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_bucket.py.html>`__ to see an example of how to use ingest_sql_bucket API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights/actions/ingestSqlBucket"
         method = "POST"
         operation_name = "ingest_sql_bucket"
@@ -6046,7 +6393,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlBucketResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6057,7 +6405,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlBucketResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def ingest_sql_plan_lines(self, ingest_sql_plan_lines_details, **kwargs):
         """
@@ -6118,6 +6467,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_plan_lines.py.html>`__ to see an example of how to use ingest_sql_plan_lines API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights/actions/ingestSqlPlanLines"
         method = "POST"
         operation_name = "ingest_sql_plan_lines"
@@ -6177,7 +6528,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlPlanLinesResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6188,7 +6540,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlPlanLinesResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def ingest_sql_stats(self, ingest_sql_stats_details, **kwargs):
         """
@@ -6244,6 +6597,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_stats.py.html>`__ to see an example of how to use ingest_sql_stats API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights/actions/ingestSqlStatsMetric"
         method = "POST"
         operation_name = "ingest_sql_stats"
@@ -6301,7 +6656,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlStatsResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6312,7 +6668,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlStatsResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def ingest_sql_text(self, ingest_sql_text_details, **kwargs):
         """
@@ -6374,6 +6731,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_text.py.html>`__ to see an example of how to use ingest_sql_text API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights/actions/ingestSqlText"
         method = "POST"
         operation_name = "ingest_sql_text"
@@ -6433,7 +6792,8 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlTextResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6444,7 +6804,1279 @@ class OperationsInsightsClient(object):
                 response_type="IngestSqlTextResponseDetails",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_addm_db_finding_categories(self, compartment_id, **kwargs):
+        """
+        Gets list of ADDM finding categories.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the finding categories
+
+            Allowed values are: "name"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbFindingCategoryCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_finding_categories.py.html>`__ to see an example of how to use list_addm_db_finding_categories API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbFindingCategories"
+        method = "GET"
+        operation_name = "list_addm_db_finding_categories"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbFindingCategories"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_addm_db_finding_categories got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["name"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbFindingCategoryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbFindingCategoryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_addm_db_findings_time_series(self, compartment_id, **kwargs):
+        """
+        Get the ADDM findings time series for the specified databases for a given time period.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str instance_number: (optional)
+            The optional single value query parameter to filter by database instance number.
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param str category_name: (optional)
+            Optional value filter to match the finding category exactly.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the ADDM finding time series summary data
+
+            Allowed values are: "timestamp"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbFindingsTimeSeriesCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_findings_time_series.py.html>`__ to see an example of how to use list_addm_db_findings_time_series API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbFindingsTimeSeries"
+        method = "GET"
+        operation_name = "list_addm_db_findings_time_series"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbFindingsTimeSeries"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "instance_number",
+            "time_interval_start",
+            "time_interval_end",
+            "category_name",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_addm_db_findings_time_series got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["timestamp"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "instanceNumber": kwargs.get("instance_number", missing),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "categoryName": kwargs.get("category_name", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbFindingsTimeSeriesCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbFindingsTimeSeriesCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_addm_db_parameter_categories(self, compartment_id, **kwargs):
+        """
+        Gets list of ADDM database parameter categories for the specified databases.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the database parameter categories
+
+            Allowed values are: "name"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbParameterCategoryCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_parameter_categories.py.html>`__ to see an example of how to use list_addm_db_parameter_categories API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbParameterCategories"
+        method = "GET"
+        operation_name = "list_addm_db_parameter_categories"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbParameterCategories"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_addm_db_parameter_categories got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["name"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbParameterCategoryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbParameterCategoryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_addm_db_recommendation_categories(self, compartment_id, **kwargs):
+        """
+        Gets list of ADDM recommendation categories for the specified databases.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the recommendation categories
+
+            Allowed values are: "name"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbRecommendationCategoryCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_recommendation_categories.py.html>`__ to see an example of how to use list_addm_db_recommendation_categories API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbRecommendationCategories"
+        method = "GET"
+        operation_name = "list_addm_db_recommendation_categories"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbRecommendationCategories"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_addm_db_recommendation_categories got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["name"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbRecommendationCategoryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbRecommendationCategoryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_addm_db_recommendations_time_series(self, compartment_id, **kwargs):
+        """
+        Gets time series data for ADDM recommendations for the specified databases.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str instance_number: (optional)
+            The optional single value query parameter to filter by database instance number.
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param str category_name: (optional)
+            Optional value filter to match the finding category exactly.
+
+        :param str sql_identifier: (optional)
+            Optional filter to return only resources whose sql id matches the value given. Only considered when
+            categoryName is SQL_TUNING.
+
+        :param str owner_or_name_contains: (optional)
+            Optional filter to return only resources whose owner or name contains the substring given. The
+            match is not case sensitive. Only considered when categoryName is SCHEMA_OBJECT.
+
+        :param str name_contains: (optional)
+            Optional filter to return only resources whose name contains the substring given. The
+            match is not case sensitive. Only considered when categoryName is DATABASE_CONFIGURATION.
+
+        :param str name: (optional)
+            Optional filter to return only resources whose name exactly matches the substring given. The
+            match is case sensitive. Only considered when categoryName is DATABASE_CONFIGURATION.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the ADDM recommendation time series summary data
+
+            Allowed values are: "timestamp"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbRecommendationsTimeSeriesCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_recommendations_time_series.py.html>`__ to see an example of how to use list_addm_db_recommendations_time_series API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbRecommendationsTimeSeries"
+        method = "GET"
+        operation_name = "list_addm_db_recommendations_time_series"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbRecommendationsTimeSeries"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "instance_number",
+            "time_interval_start",
+            "time_interval_end",
+            "category_name",
+            "sql_identifier",
+            "owner_or_name_contains",
+            "name_contains",
+            "name",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_addm_db_recommendations_time_series got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["timestamp"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "instanceNumber": kwargs.get("instance_number", missing),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "categoryName": kwargs.get("category_name", missing),
+            "sqlIdentifier": kwargs.get("sql_identifier", missing),
+            "ownerOrNameContains": kwargs.get("owner_or_name_contains", missing),
+            "nameContains": kwargs.get("name_contains", missing),
+            "name": kwargs.get("name", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbRecommendationsTimeSeriesCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbRecommendationsTimeSeriesCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_addm_dbs(self, compartment_id, **kwargs):
+        """
+        Gets a list of ADDM database information
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting ADDM database data
+
+            Allowed values are: "databaseName", "numberOfFindings"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_dbs.py.html>`__ to see an example of how to use list_addm_dbs API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbs"
+        method = "GET"
+        operation_name = "list_addm_dbs"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ListAddmDbs"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "time_interval_start",
+            "time_interval_end",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_addm_dbs got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["databaseName", "numberOfFindings"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_awr_database_snapshots(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -6524,6 +8156,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_database_snapshots.py.html>`__ to see an example of how to use list_awr_database_snapshots API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseSnapshots"
         method = "GET"
         operation_name = "list_awr_database_snapshots"
@@ -6615,7 +8249,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSnapshotCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6626,7 +8261,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSnapshotCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_awr_databases(self, awr_hub_id, **kwargs):
         """
@@ -6693,6 +8329,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_databases.py.html>`__ to see an example of how to use list_awr_databases API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId']
         resource_path = "/awrHubs/{awrHubId}/awrDatabases"
         method = "GET"
         operation_name = "list_awr_databases"
@@ -6779,7 +8417,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6790,7 +8429,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_awr_hubs(self, operations_insights_warehouse_id, **kwargs):
         """
@@ -6864,6 +8504,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_hubs.py.html>`__ to see an example of how to use list_awr_hubs API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/awrHubs"
         method = "GET"
         operation_name = "list_awr_hubs"
@@ -6950,7 +8592,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrHubSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6960,7 +8603,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrHubSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_awr_snapshots(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -7028,6 +8672,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_snapshots.py.html>`__ to see an example of how to use list_awr_snapshots API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrSnapshots"
         method = "GET"
         operation_name = "list_awr_snapshots"
@@ -7113,7 +8759,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrSnapshotCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7124,7 +8771,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrSnapshotCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_database_configurations(self, **kwargs):
         """
@@ -7246,6 +8894,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_database_configurations.py.html>`__ to see an example of how to use list_database_configurations API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights/databaseConfigurations"
         method = "GET"
         operation_name = "list_database_configurations"
@@ -7351,7 +9001,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseConfigurationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7361,7 +9012,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseConfigurationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_database_insights(self, **kwargs):
         """
@@ -7467,6 +9119,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_database_insights.py.html>`__ to see an example of how to use list_database_insights API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/databaseInsights"
         method = "GET"
         operation_name = "list_database_insights"
@@ -7590,7 +9244,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseInsightsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7600,7 +9255,8 @@ class OperationsInsightsClient(object):
                 response_type="DatabaseInsightsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_enterprise_manager_bridges(self, **kwargs):
         """
@@ -7675,6 +9331,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_enterprise_manager_bridges.py.html>`__ to see an example of how to use list_enterprise_manager_bridges API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/enterpriseManagerBridges"
         method = "GET"
         operation_name = "list_enterprise_manager_bridges"
@@ -7762,7 +9420,8 @@ class OperationsInsightsClient(object):
                 response_type="EnterpriseManagerBridgeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7772,7 +9431,8 @@ class OperationsInsightsClient(object):
                 response_type="EnterpriseManagerBridgeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_exadata_configurations(self, **kwargs):
         """
@@ -7866,6 +9526,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_exadata_configurations.py.html>`__ to see an example of how to use list_exadata_configurations API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/exadataInsights/exadataConfigurations"
         method = "GET"
         operation_name = "list_exadata_configurations"
@@ -7949,7 +9611,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataConfigurationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -7959,7 +9622,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataConfigurationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_exadata_insights(self, **kwargs):
         """
@@ -8045,6 +9709,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_exadata_insights.py.html>`__ to see an example of how to use list_exadata_insights API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/exadataInsights"
         method = "GET"
         operation_name = "list_exadata_insights"
@@ -8144,7 +9810,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataInsightSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8154,7 +9821,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataInsightSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_host_configurations(self, **kwargs):
         """
@@ -8182,11 +9850,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -8276,6 +9944,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_host_configurations.py.html>`__ to see an example of how to use list_host_configurations API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/hostInsights/hostConfigurations"
         method = "GET"
         operation_name = "list_host_configurations"
@@ -8310,7 +9980,7 @@ class OperationsInsightsClient(object):
                 "list_host_configurations got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -8379,7 +10049,8 @@ class OperationsInsightsClient(object):
                 response_type="HostConfigurationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8389,7 +10060,8 @@ class OperationsInsightsClient(object):
                 response_type="HostConfigurationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_host_insights(self, **kwargs):
         """
@@ -8423,11 +10095,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -8488,6 +10160,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_host_insights.py.html>`__ to see an example of how to use list_host_insights API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/hostInsights"
         method = "GET"
         operation_name = "list_host_insights"
@@ -8534,7 +10208,7 @@ class OperationsInsightsClient(object):
                     )
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -8599,7 +10273,8 @@ class OperationsInsightsClient(object):
                 response_type="HostInsightSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8609,7 +10284,8 @@ class OperationsInsightsClient(object):
                 response_type="HostInsightSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_hosted_entities(self, compartment_id, id, **kwargs):
         """
@@ -8647,11 +10323,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param str exadata_insight_id: (optional)
             `OCID`__ of exadata insight resource.
@@ -8715,6 +10391,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_hosted_entities.py.html>`__ to see an example of how to use list_hosted_entities API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'id']
         resource_path = "/hostInsights/hostedEntities"
         method = "GET"
         operation_name = "list_hosted_entities"
@@ -8743,7 +10421,7 @@ class OperationsInsightsClient(object):
                 "list_hosted_entities got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -8808,7 +10486,8 @@ class OperationsInsightsClient(object):
                 response_type="HostedEntityCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8818,7 +10497,8 @@ class OperationsInsightsClient(object):
                 response_type="HostedEntityCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_importable_agent_entities(self, compartment_id, **kwargs):
         """
@@ -8882,6 +10562,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_agent_entities.py.html>`__ to see an example of how to use list_importable_agent_entities API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/importableAgentEntities"
         method = "GET"
         operation_name = "list_importable_agent_entities"
@@ -8952,7 +10634,8 @@ class OperationsInsightsClient(object):
                 response_type="ImportableAgentEntitySummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -8962,7 +10645,8 @@ class OperationsInsightsClient(object):
                 response_type="ImportableAgentEntitySummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_importable_compute_entities(self, compartment_id, **kwargs):
         """
@@ -9028,6 +10712,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_compute_entities.py.html>`__ to see an example of how to use list_importable_compute_entities API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/importableComputeEntities"
         method = "GET"
         operation_name = "list_importable_compute_entities"
@@ -9098,7 +10784,8 @@ class OperationsInsightsClient(object):
                 response_type="ImportableComputeEntitySummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9108,7 +10795,8 @@ class OperationsInsightsClient(object):
                 response_type="ImportableComputeEntitySummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_importable_enterprise_manager_entities(self, enterprise_manager_bridge_id, **kwargs):
         """
@@ -9165,6 +10853,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_enterprise_manager_entities.py.html>`__ to see an example of how to use list_importable_enterprise_manager_entities API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['enterpriseManagerBridgeId']
         resource_path = "/enterpriseManagerBridges/{enterpriseManagerBridgeId}/importableEnterpriseManagerEntities"
         method = "GET"
         operation_name = "list_importable_enterprise_manager_entities"
@@ -9233,7 +10923,8 @@ class OperationsInsightsClient(object):
                 response_type="ImportableEnterpriseManagerEntityCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9244,7 +10935,8 @@ class OperationsInsightsClient(object):
                 response_type="ImportableEnterpriseManagerEntityCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_operations_insights_private_endpoints(self, **kwargs):
         """
@@ -9326,6 +11018,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_private_endpoints.py.html>`__ to see an example of how to use list_operations_insights_private_endpoints API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/operationsInsightsPrivateEndpoints"
         method = "GET"
         operation_name = "list_operations_insights_private_endpoints"
@@ -9417,7 +11111,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsPrivateEndpointCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9427,7 +11122,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsPrivateEndpointCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_operations_insights_warehouse_users(self, operations_insights_warehouse_id, **kwargs):
         """
@@ -9501,6 +11197,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_warehouse_users.py.html>`__ to see an example of how to use list_operations_insights_warehouse_users API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/operationsInsightsWarehouseUsers"
         method = "GET"
         operation_name = "list_operations_insights_warehouse_users"
@@ -9587,7 +11285,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseUserSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9597,7 +11296,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseUserSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_operations_insights_warehouses(self, **kwargs):
         """
@@ -9669,6 +11369,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_warehouses.py.html>`__ to see an example of how to use list_operations_insights_warehouses API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/operationsInsightsWarehouses"
         method = "GET"
         operation_name = "list_operations_insights_warehouses"
@@ -9754,7 +11456,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9764,7 +11467,8 @@ class OperationsInsightsClient(object):
                 response_type="OperationsInsightsWarehouseSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_opsi_configurations(self, compartment_id, **kwargs):
         """
@@ -9837,6 +11541,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_opsi_configurations.py.html>`__ to see an example of how to use list_opsi_configurations API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/opsiConfigurations"
         method = "GET"
         operation_name = "list_opsi_configurations"
@@ -9929,7 +11635,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiConfigurationsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -9939,7 +11646,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiConfigurationsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_opsi_data_objects(self, compartment_id, **kwargs):
         """
@@ -10007,6 +11715,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_opsi_data_objects.py.html>`__ to see an example of how to use list_opsi_data_objects API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/opsiDataObjects"
         method = "GET"
         operation_name = "list_opsi_data_objects"
@@ -10089,7 +11799,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiDataObjectsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -10099,7 +11810,8 @@ class OperationsInsightsClient(object):
                 response_type="OpsiDataObjectsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_sql_plans(self, compartment_id, sql_identifier, plan_hash, **kwargs):
         """
@@ -10159,6 +11871,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_plans.py.html>`__ to see an example of how to use list_sql_plans API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier', 'planHash']
         resource_path = "/databaseInsights/sqlPlans"
         method = "GET"
         operation_name = "list_sql_plans"
@@ -10215,7 +11929,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlPlanCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -10225,7 +11940,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlPlanCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_sql_searches(self, compartment_id, sql_identifier, **kwargs):
         """
@@ -10318,6 +12034,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_searches.py.html>`__ to see an example of how to use list_sql_searches API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier']
         resource_path = "/databaseInsights/sqlSearches"
         method = "GET"
         operation_name = "list_sql_searches"
@@ -10385,7 +12103,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlSearchCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -10395,7 +12114,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlSearchCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_sql_texts(self, compartment_id, sql_identifier, **kwargs):
         """
@@ -10478,6 +12198,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_texts.py.html>`__ to see an example of how to use list_sql_texts API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier']
         resource_path = "/databaseInsights/sqlTexts"
         method = "GET"
         operation_name = "list_sql_texts"
@@ -10543,7 +12265,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlTextCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -10553,7 +12276,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlTextCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_work_request_errors(self, work_request_id, **kwargs):
         """
@@ -10611,6 +12335,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}/errors"
         method = "GET"
         operation_name = "list_work_request_errors"
@@ -10691,7 +12417,8 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequestErrorCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -10702,7 +12429,8 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequestErrorCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_work_request_logs(self, work_request_id, **kwargs):
         """
@@ -10760,6 +12488,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}/logs"
         method = "GET"
         operation_name = "list_work_request_logs"
@@ -10840,7 +12570,8 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequestLogEntryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -10851,7 +12582,8 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequestLogEntryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_work_requests(self, **kwargs):
         """
@@ -10925,6 +12657,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/workRequests"
         method = "GET"
         operation_name = "list_work_requests"
@@ -11011,7 +12745,8 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequestCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -11021,7 +12756,8 @@ class OperationsInsightsClient(object):
                 response_type="WorkRequestCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def query_opsi_data_object_data(self, compartment_id, query_opsi_data_object_data_details, **kwargs):
         """
@@ -11075,6 +12811,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/query_opsi_data_object_data.py.html>`__ to see an example of how to use query_opsi_data_object_data API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/opsiDataObjects/actions/queryData"
         method = "POST"
         operation_name = "query_opsi_data_object_data"
@@ -11128,7 +12866,8 @@ class OperationsInsightsClient(object):
                 response_type="QueryDataObjectResultSetRowsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -11139,7 +12878,8 @@ class OperationsInsightsClient(object):
                 response_type="QueryDataObjectResultSetRowsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def rotate_operations_insights_warehouse_wallet(self, operations_insights_warehouse_id, **kwargs):
         """
@@ -11176,6 +12916,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/rotate_operations_insights_warehouse_wallet.py.html>`__ to see an example of how to use rotate_operations_insights_warehouse_wallet API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/operationsInsightsWarehouses/{operationsInsightsWarehouseId}/actions/rotateWarehouseWallet"
         method = "POST"
         operation_name = "rotate_operations_insights_warehouse_wallet"
@@ -11230,7 +12972,8 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -11239,7 +12982,1372 @@ class OperationsInsightsClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_addm_db_findings(self, compartment_id, **kwargs):
+        """
+        Summarizes ADDM findings for the specified databases.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str instance_number: (optional)
+            The optional single value query parameter to filter by database instance number.
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param str category_name: (optional)
+            Optional value filter to match the finding category exactly.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the ADDM finding summary data
+
+            Allowed values are: "impactOverallPercent", "impactMaxPercent", "impactAvgActiveSessions", "frequencyCount"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbFindingAggregationCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_findings.py.html>`__ to see an example of how to use summarize_addm_db_findings API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbFindings"
+        method = "GET"
+        operation_name = "summarize_addm_db_findings"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbFindings"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "instance_number",
+            "time_interval_start",
+            "time_interval_end",
+            "category_name",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_addm_db_findings got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["impactOverallPercent", "impactMaxPercent", "impactAvgActiveSessions", "frequencyCount"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "instanceNumber": kwargs.get("instance_number", missing),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "categoryName": kwargs.get("category_name", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbFindingAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbFindingAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_addm_db_parameter_changes(self, compartment_id, name, **kwargs):
+        """
+        Summarizes the AWR database parameter change history for the specified parameter. There will
+        be one element for each time that parameter changed during the specified time period.
+        This API is limited to only one parameter per request.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str name: (required)
+            Required filter to return only changes for the specified parameter. The
+            match is case sensitive.
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str instance_number: (optional)
+            The optional single value query parameter to filter by database instance number.
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param str value_contains: (optional)
+            Optional filter to return only resources whose value contains the substring given. The
+            match is not case sensitive.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the database parameter change data
+
+            Allowed values are: "isChanged", "beginSnapId"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbParameterChangeAggregationCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_parameter_changes.py.html>`__ to see an example of how to use summarize_addm_db_parameter_changes API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'name']
+        resource_path = "/databaseInsights/addmDbParameterChanges"
+        method = "GET"
+        operation_name = "summarize_addm_db_parameter_changes"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbParameterChanges"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "instance_number",
+            "time_interval_start",
+            "time_interval_end",
+            "value_contains",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_addm_db_parameter_changes got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["isChanged", "beginSnapId"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "instanceNumber": kwargs.get("instance_number", missing),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "name": name,
+            "valueContains": kwargs.get("value_contains", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbParameterChangeAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbParameterChangeAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_addm_db_parameters(self, compartment_id, **kwargs):
+        """
+        Summarizes database parameter history information for the specified databases. Return a list of parameters
+        with information on whether the parameter values were changed or not within the specified
+        time period. The response does not include the individual parameter changes within the time
+        period.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str instance_number: (optional)
+            The optional single value query parameter to filter by database instance number.
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param str category_name: (optional)
+            Optional value filter to match the parameter category exactly. Note the list of possible
+            category names can be retrieved from the following endpoint:
+            /databases/{databaseId}/addmDbParameterCategories.
+
+        :param str name_or_value_contains: (optional)
+            Optional filter to return only resources whose name or value contains the substring given. The
+            match is not case sensitive.
+
+        :param str is_changed: (optional)
+            Optional filter to return only parameters whose value changed in the specified time period.
+            Valid values include: TRUE, FALSE
+
+            Allowed values are: "true", "false"
+
+        :param str is_default: (optional)
+            Optional filter to return only parameters whose end value was set to the default value (TRUE)
+            or was specified in the parameter file (FALSE). Valid values include: TRUE, FALSE
+
+            Allowed values are: "true", "false"
+
+        :param str has_recommendations: (optional)
+            Optional filter to return only parameters which have recommendations in the specified time period.
+            Valid values include: TRUE, FALSE
+
+            Allowed values are: "true", "false"
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the database parameter data
+
+            Allowed values are: "isChanged", "name"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbParameterAggregationCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_parameters.py.html>`__ to see an example of how to use summarize_addm_db_parameters API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbParameters"
+        method = "GET"
+        operation_name = "summarize_addm_db_parameters"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbParameters"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "instance_number",
+            "time_interval_start",
+            "time_interval_end",
+            "category_name",
+            "name_or_value_contains",
+            "is_changed",
+            "is_default",
+            "has_recommendations",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_addm_db_parameters got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'is_changed' in kwargs:
+            is_changed_allowed_values = ["true", "false"]
+            if kwargs['is_changed'] not in is_changed_allowed_values:
+                raise ValueError(
+                    "Invalid value for `is_changed`, must be one of {0}".format(is_changed_allowed_values)
+                )
+
+        if 'is_default' in kwargs:
+            is_default_allowed_values = ["true", "false"]
+            if kwargs['is_default'] not in is_default_allowed_values:
+                raise ValueError(
+                    "Invalid value for `is_default`, must be one of {0}".format(is_default_allowed_values)
+                )
+
+        if 'has_recommendations' in kwargs:
+            has_recommendations_allowed_values = ["true", "false"]
+            if kwargs['has_recommendations'] not in has_recommendations_allowed_values:
+                raise ValueError(
+                    "Invalid value for `has_recommendations`, must be one of {0}".format(has_recommendations_allowed_values)
+                )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["isChanged", "name"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "instanceNumber": kwargs.get("instance_number", missing),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "categoryName": kwargs.get("category_name", missing),
+            "nameOrValueContains": kwargs.get("name_or_value_contains", missing),
+            "isChanged": kwargs.get("is_changed", missing),
+            "isDefault": kwargs.get("is_default", missing),
+            "hasRecommendations": kwargs.get("has_recommendations", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbParameterAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbParameterAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_addm_db_recommendations(self, compartment_id, **kwargs):
+        """
+        Summarizes ADDM recommendations for the specified databases.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str instance_number: (optional)
+            The optional single value query parameter to filter by database instance number.
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param str category_name: (optional)
+            Optional value filter to match the finding category exactly.
+
+        :param str finding_identifier: (optional)
+            Unique finding ID
+
+        :param str sql_identifier: (optional)
+            Optional filter to return only resources whose sql id matches the value given. Only considered when
+            categoryName is SQL_TUNING.
+
+        :param str owner_or_name_contains: (optional)
+            Optional filter to return only resources whose owner or name contains the substring given. The
+            match is not case sensitive. Only considered when categoryName is SCHEMA_OBJECT.
+
+        :param str name_contains: (optional)
+            Optional filter to return only resources whose name contains the substring given. The
+            match is not case sensitive. Only considered when categoryName is DATABASE_CONFIGURATION.
+
+        :param str name: (optional)
+            Optional filter to return only resources whose name exactly matches the substring given. The
+            match is case sensitive. Only considered when categoryName is DATABASE_CONFIGURATION.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            Field name for sorting the recommendation data
+
+            Allowed values are: "maxBenefitPercent", "maxBenefitAvgActiveSessions", "frequencyCount"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbRecommendationAggregationCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_recommendations.py.html>`__ to see an example of how to use summarize_addm_db_recommendations API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
+        resource_path = "/databaseInsights/addmDbRecommendations"
+        method = "GET"
+        operation_name = "summarize_addm_db_recommendations"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbRecommendations"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "instance_number",
+            "time_interval_start",
+            "time_interval_end",
+            "category_name",
+            "finding_identifier",
+            "sql_identifier",
+            "owner_or_name_contains",
+            "name_contains",
+            "name",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_addm_db_recommendations got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["maxBenefitPercent", "maxBenefitAvgActiveSessions", "frequencyCount"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "instanceNumber": kwargs.get("instance_number", missing),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "categoryName": kwargs.get("category_name", missing),
+            "findingIdentifier": kwargs.get("finding_identifier", missing),
+            "sqlIdentifier": kwargs.get("sql_identifier", missing),
+            "ownerOrNameContains": kwargs.get("owner_or_name_contains", missing),
+            "nameContains": kwargs.get("name_contains", missing),
+            "name": kwargs.get("name", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbRecommendationAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbRecommendationAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_addm_db_schema_objects(self, compartment_id, object_identifier, **kwargs):
+        """
+        Summarizes Schema objects for the specified databases for the specified objectIdentifiers
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param oci.opsi.models.list[int] object_identifier: (required)
+            One or more unique Object id (from RDBMS)
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbSchemaObjectCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_schema_objects.py.html>`__ to see an example of how to use summarize_addm_db_schema_objects API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'objectIdentifier']
+        resource_path = "/databaseInsights/addmDbSchemaObjects"
+        method = "GET"
+        operation_name = "summarize_addm_db_schema_objects"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbSchemaObjects"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "time_interval_start",
+            "time_interval_end",
+            "limit",
+            "page",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_addm_db_schema_objects got unknown kwargs: {!r}".format(extra_kwargs))
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "objectIdentifier": self.base_client.generate_collection_format_param(object_identifier, 'multi'),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbSchemaObjectCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbSchemaObjectCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_addm_db_sql_statements(self, compartment_id, sql_identifier, **kwargs):
+        """
+        Summarizes SQL Statements for the specified databases for the specified sqlIdentifiers
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param oci.opsi.models.list[str] sql_identifier: (required)
+            One or more unique SQL_IDs for a SQL Statement.
+            Example: `6rgjh9bjmy2s7`
+
+        :param list[str] database_id: (optional)
+            Optional list of database `OCIDs`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] id: (optional)
+            Optional list of database insight resource `OCIDs`__.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] defined_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_equals: (optional)
+            A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
+            The key for each tag is \"{tagName}.{value}\".  All inputs are case-insensitive.
+            Multiple values for the same tag name are interpreted as \"OR\".  Values for different tag names are interpreted as \"AND\".
+
+        :param list[str] defined_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified defined tags exist will be returned.
+            Each item in the list has the format \"{namespace}.{tagName}.true\" (for checking existence of a defined tag)
+            or \"{namespace}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for the same key (i.e. same namespace and tag name) are interpreted as \"OR\".
+            Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as \"AND\".
+
+        :param list[str] freeform_tag_exists: (optional)
+            A list of tag existence filters to apply.  Only resources for which the specified freeform tags exist the value will be returned.
+            The key for each tag is \"{tagName}.true\".  All inputs are case-insensitive.
+            Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
+            Multiple values for different tag names are interpreted as \"AND\".
+
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.AddmDbSqlStatementCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_sql_statements.py.html>`__ to see an example of how to use summarize_addm_db_sql_statements API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier']
+        resource_path = "/databaseInsights/addmDbSqlStatements"
+        method = "GET"
+        operation_name = "summarize_addm_db_sql_statements"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeAddmDbSqlStatements"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "time_interval_start",
+            "time_interval_end",
+            "limit",
+            "page",
+            "opc_request_id",
+            "defined_tag_equals",
+            "freeform_tag_equals",
+            "defined_tag_exists",
+            "freeform_tag_exists",
+            "compartment_id_in_subtree"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_addm_db_sql_statements got unknown kwargs: {!r}".format(extra_kwargs))
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "databaseId": self.base_client.generate_collection_format_param(kwargs.get("database_id", missing), 'multi'),
+            "id": self.base_client.generate_collection_format_param(kwargs.get("id", missing), 'multi'),
+            "sqlIdentifier": self.base_client.generate_collection_format_param(sql_identifier, 'multi'),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
+            "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
+            "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbSqlStatementCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AddmDbSqlStatementCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_cpu_usages(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -11328,6 +14436,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_cpu_usages.py.html>`__ to see an example of how to use summarize_awr_database_cpu_usages API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseCpuUsages"
         method = "GET"
         operation_name = "summarize_awr_database_cpu_usages"
@@ -11428,7 +14538,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseCpuUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -11439,7 +14550,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseCpuUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_metrics(self, awr_hub_id, awr_source_database_identifier, name, **kwargs):
         """
@@ -11522,6 +14634,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_metrics.py.html>`__ to see an example of how to use summarize_awr_database_metrics API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseMetrics"
         method = "GET"
         operation_name = "summarize_awr_database_metrics"
@@ -11614,7 +14728,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseMetricCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -11625,7 +14740,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseMetricCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_parameter_changes(self, awr_hub_id, awr_source_database_identifier, name, **kwargs):
         """
@@ -11712,6 +14828,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_parameter_changes.py.html>`__ to see an example of how to use summarize_awr_database_parameter_changes API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseParameterChanges"
         method = "GET"
         operation_name = "summarize_awr_database_parameter_changes"
@@ -11804,7 +14922,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseParameterChangeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -11815,7 +14934,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseParameterChangeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_parameters(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -11926,6 +15046,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_parameters.py.html>`__ to see an example of how to use summarize_awr_database_parameters API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseParameters"
         method = "GET"
         operation_name = "summarize_awr_database_parameters"
@@ -12048,7 +15170,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseParameterCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -12059,7 +15182,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseParameterCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_snapshot_ranges(self, awr_hub_id, **kwargs):
         """
@@ -12126,6 +15250,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_snapshot_ranges.py.html>`__ to see an example of how to use summarize_awr_database_snapshot_ranges API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseSnapshotRanges"
         method = "GET"
         operation_name = "summarize_awr_database_snapshot_ranges"
@@ -12212,7 +15338,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSnapshotRangeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -12223,7 +15350,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSnapshotRangeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_sysstats(self, awr_hub_id, awr_source_database_identifier, name, **kwargs):
         """
@@ -12306,6 +15434,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_sysstats.py.html>`__ to see an example of how to use summarize_awr_database_sysstats API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseSysstats"
         method = "GET"
         operation_name = "summarize_awr_database_sysstats"
@@ -12398,7 +15528,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSysstatCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -12409,7 +15540,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseSysstatCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_top_wait_events(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -12481,6 +15613,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_top_wait_events.py.html>`__ to see an example of how to use summarize_awr_database_top_wait_events API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseTopWaitEvents"
         method = "GET"
         operation_name = "summarize_awr_database_top_wait_events"
@@ -12579,7 +15713,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseTopWaitEventCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -12590,7 +15725,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseTopWaitEventCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_wait_event_buckets(self, awr_hub_id, awr_source_database_identifier, name, **kwargs):
         """
@@ -12682,6 +15818,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_wait_event_buckets.py.html>`__ to see an example of how to use summarize_awr_database_wait_event_buckets API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseWaitEventBuckets"
         method = "GET"
         operation_name = "summarize_awr_database_wait_event_buckets"
@@ -12780,7 +15918,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseWaitEventBucketCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -12791,7 +15930,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseWaitEventBucketCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_database_wait_events(self, awr_hub_id, awr_source_database_identifier, **kwargs):
         """
@@ -12879,6 +16019,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_wait_events.py.html>`__ to see an example of how to use summarize_awr_database_wait_events API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
         resource_path = "/awrHubs/{awrHubId}/awrDatabaseWaitEvents"
         method = "GET"
         operation_name = "summarize_awr_database_wait_events"
@@ -12981,7 +16123,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseWaitEventCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -12992,7 +16135,8 @@ class OperationsInsightsClient(object):
                 response_type="AwrDatabaseWaitEventCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_awr_sources_summaries(self, awr_hub_id, **kwargs):
         """
@@ -13058,6 +16202,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_sources_summaries.py.html>`__ to see an example of how to use summarize_awr_sources_summaries API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId']
         resource_path = "/awrHubs/{awrHubId}/awrSourcesSummary"
         method = "GET"
         operation_name = "summarize_awr_sources_summaries"
@@ -13142,7 +16288,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeAwrSourcesSummariesCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -13153,7 +16300,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeAwrSourcesSummariesCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_configuration_items(self, **kwargs):
         """
@@ -13220,6 +16368,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_configuration_items.py.html>`__ to see an example of how to use summarize_configuration_items API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/opsiConfigurations/configurationItems"
         method = "GET"
         operation_name = "summarize_configuration_items"
@@ -13296,7 +16446,8 @@ class OperationsInsightsClient(object):
                 response_type="ConfigurationItemsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -13306,7 +16457,8 @@ class OperationsInsightsClient(object):
                 response_type="ConfigurationItemsCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_database_insight_resource_capacity_trend(self, compartment_id, resource_metric, **kwargs):
         """
@@ -13463,6 +16615,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_capacity_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/databaseInsights/resourceCapacityTrend"
         method = "GET"
         operation_name = "summarize_database_insight_resource_capacity_trend"
@@ -13587,7 +16741,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -13597,7 +16752,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceCapacityTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_database_insight_resource_forecast_trend(self, compartment_id, resource_metric, **kwargs):
         """
@@ -13767,6 +16923,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_forecast_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/databaseInsights/resourceForecastTrend"
         method = "GET"
         operation_name = "summarize_database_insight_resource_forecast_trend"
@@ -13895,7 +17053,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceForecastTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -13905,7 +17064,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceForecastTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_database_insight_resource_statistics(self, compartment_id, resource_metric, **kwargs):
         """
@@ -14069,6 +17229,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_database_insight_resource_statistics API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/databaseInsights/resourceStatistics"
         method = "GET"
         operation_name = "summarize_database_insight_resource_statistics"
@@ -14190,7 +17352,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceStatisticsAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -14200,7 +17363,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceStatisticsAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_database_insight_resource_usage(self, compartment_id, resource_metric, **kwargs):
         """
@@ -14333,6 +17497,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_usage.py.html>`__ to see an example of how to use summarize_database_insight_resource_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/databaseInsights/resourceUsageSummary"
         method = "GET"
         operation_name = "summarize_database_insight_resource_usage"
@@ -14426,7 +17592,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -14436,7 +17603,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_database_insight_resource_usage_trend(self, compartment_id, resource_metric, **kwargs):
         """
@@ -14575,6 +17743,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_usage_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_usage_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/databaseInsights/resourceUsageTrend"
         method = "GET"
         operation_name = "summarize_database_insight_resource_usage_trend"
@@ -14684,7 +17854,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -14694,7 +17865,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_database_insight_resource_utilization_insight(self, compartment_id, resource_metric, **kwargs):
         """
@@ -14831,6 +18003,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_database_insight_resource_utilization_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/databaseInsights/resourceUtilizationInsight"
         method = "GET"
         operation_name = "summarize_database_insight_resource_utilization_insight"
@@ -14928,7 +18102,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceUtilizationInsightAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -14938,7 +18113,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightResourceUtilizationInsightAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_database_insight_tablespace_usage_trend(self, compartment_id, **kwargs):
         """
@@ -15019,6 +18195,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_tablespace_usage_trend.py.html>`__ to see an example of how to use summarize_database_insight_tablespace_usage_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/databaseInsights/tablespaceUsageTrend"
         method = "GET"
         operation_name = "summarize_database_insight_tablespace_usage_trend"
@@ -15081,7 +18259,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightTablespaceUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -15091,7 +18270,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeDatabaseInsightTablespaceUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_capacity_trend(self, resource_type, resource_metric, exadata_insight_id, **kwargs):
         """
@@ -15213,6 +18393,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_capacity_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['resourceType', 'resourceMetric', 'exadataInsightId']
         resource_path = "/exadataInsights/resourceCapacityTrend"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_capacity_trend"
@@ -15305,7 +18487,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceCapacityTrendCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -15315,7 +18498,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceCapacityTrendCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_capacity_trend_aggregated(self, resource_type, resource_metric, **kwargs):
         """
@@ -15437,6 +18621,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_capacity_trend_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_capacity_trend_aggregated API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['resourceType', 'resourceMetric']
         resource_path = "/exadataInsights/resourceCapacityTrendAggregated"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_capacity_trend_aggregated"
@@ -15530,7 +18716,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceCapacityTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -15540,7 +18727,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceCapacityTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_forecast_trend(self, resource_type, resource_metric, exadata_insight_id, **kwargs):
         """
@@ -15684,6 +18872,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_forecast_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['resourceType', 'resourceMetric', 'exadataInsightId']
         resource_path = "/exadataInsights/resourceForecastTrend"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_forecast_trend"
@@ -15798,7 +18988,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceForecastTrendCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -15808,7 +18999,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceForecastTrendCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_forecast_trend_aggregated(self, resource_type, resource_metric, **kwargs):
         """
@@ -15946,6 +19138,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_forecast_trend_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_forecast_trend_aggregated API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['resourceType', 'resourceMetric']
         resource_path = "/exadataInsights/resourceForecastTrendAggregated"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_forecast_trend_aggregated"
@@ -16045,7 +19239,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceForecastTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -16055,7 +19250,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceForecastTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_statistics(self, exadata_insight_id, resource_type, resource_metric, **kwargs):
         """
@@ -16159,6 +19355,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_statistics API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId', 'resourceType', 'resourceMetric']
         resource_path = "/exadataInsights/resourceStatistics"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_statistics"
@@ -16245,7 +19443,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceStatisticsAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -16255,7 +19454,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceStatisticsAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_usage(self, compartment_id, resource_type, resource_metric, **kwargs):
         """
@@ -16390,6 +19590,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_usage.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceType', 'resourceMetric']
         resource_path = "/exadataInsights/resourceUsageSummary"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_usage"
@@ -16486,7 +19688,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -16496,7 +19699,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_usage_aggregated(self, compartment_id, resource_type, resource_metric, **kwargs):
         """
@@ -16612,6 +19816,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_usage_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_usage_aggregated API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceType', 'resourceMetric']
         resource_path = "/exadataInsights/resourceUsageSummaryAggregated"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_usage_aggregated"
@@ -16688,7 +19894,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -16698,7 +19905,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_insight_resource_utilization_insight(self, compartment_id, resource_type, resource_metric, **kwargs):
         """
@@ -16821,6 +20029,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_utilization_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceType', 'resourceMetric']
         resource_path = "/exadataInsights/resourceUtilizationInsight"
         method = "GET"
         operation_name = "summarize_exadata_insight_resource_utilization_insight"
@@ -16901,7 +20111,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceUtilizationInsightAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -16911,7 +20122,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeExadataInsightResourceUtilizationInsightAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_exadata_members(self, exadata_insight_id, **kwargs):
         """
@@ -16975,6 +20187,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_members.py.html>`__ to see an example of how to use summarize_exadata_members API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/exadataMembers"
         method = "GET"
         operation_name = "summarize_exadata_members"
@@ -17047,7 +20261,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataMemberCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -17057,7 +20272,8 @@ class OperationsInsightsClient(object):
                 response_type="ExadataMemberCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_network_usage_trend(self, compartment_id, id, **kwargs):
         """
@@ -17141,6 +20357,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_network_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_network_usage_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'id']
         resource_path = "/hostInsights/networkUsageTrend"
         method = "GET"
         operation_name = "summarize_host_insight_network_usage_trend"
@@ -17211,7 +20429,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightNetworkUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -17221,7 +20440,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightNetworkUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_resource_capacity_trend(self, compartment_id, resource_metric, **kwargs):
         """
@@ -17260,11 +20480,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
@@ -17370,6 +20590,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_capacity_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/hostInsights/resourceCapacityTrend"
         method = "GET"
         operation_name = "summarize_host_insight_resource_capacity_trend"
@@ -17407,7 +20629,7 @@ class OperationsInsightsClient(object):
                 "summarize_host_insight_resource_capacity_trend got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -17488,7 +20710,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceCapacityTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -17498,7 +20721,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceCapacityTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_resource_forecast_trend(self, compartment_id, resource_metric, **kwargs):
         """
@@ -17536,11 +20760,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
@@ -17666,6 +20890,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_forecast_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/hostInsights/resourceForecastTrend"
         method = "GET"
         operation_name = "summarize_host_insight_resource_forecast_trend"
@@ -17707,7 +20933,7 @@ class OperationsInsightsClient(object):
                 "summarize_host_insight_resource_forecast_trend got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -17792,7 +21018,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceForecastTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -17802,7 +21029,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceForecastTrendAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_resource_statistics(self, compartment_id, resource_metric, **kwargs):
         """
@@ -17840,11 +21068,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
@@ -17961,6 +21189,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_host_insight_resource_statistics API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/hostInsights/resourceStatistics"
         method = "GET"
         operation_name = "summarize_host_insight_resource_statistics"
@@ -18001,7 +21231,7 @@ class OperationsInsightsClient(object):
                 "summarize_host_insight_resource_statistics got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -18078,7 +21308,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceStatisticsAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -18088,7 +21319,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceStatisticsAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_resource_usage(self, compartment_id, resource_metric, **kwargs):
         """
@@ -18128,11 +21360,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
@@ -18216,6 +21448,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_usage.py.html>`__ to see an example of how to use summarize_host_insight_resource_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/hostInsights/resourceUsageSummary"
         method = "GET"
         operation_name = "summarize_host_insight_resource_usage"
@@ -18249,7 +21483,7 @@ class OperationsInsightsClient(object):
                 "summarize_host_insight_resource_usage got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -18305,7 +21539,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -18315,7 +21550,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_resource_usage_trend(self, compartment_id, resource_metric, **kwargs):
         """
@@ -18354,11 +21590,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
@@ -18449,6 +21685,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_usage_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/hostInsights/resourceUsageTrend"
         method = "GET"
         operation_name = "summarize_host_insight_resource_usage_trend"
@@ -18483,7 +21721,7 @@ class OperationsInsightsClient(object):
                 "summarize_host_insight_resource_usage_trend got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -18554,7 +21792,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -18564,7 +21803,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_resource_utilization_insight(self, compartment_id, resource_metric, **kwargs):
         """
@@ -18602,11 +21842,11 @@ class OperationsInsightsClient(object):
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
-            Supported platformType(s) for MACS-managed external host insight: [LINUX].
+            Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
             Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX].
+            Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
 
-            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX"
+            Allowed values are: "LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"
 
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
@@ -18696,6 +21936,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_host_insight_resource_utilization_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'resourceMetric']
         resource_path = "/hostInsights/resourceUtilizationInsight"
         method = "GET"
         operation_name = "summarize_host_insight_resource_utilization_insight"
@@ -18731,7 +21973,7 @@ class OperationsInsightsClient(object):
                 "summarize_host_insight_resource_utilization_insight got unknown kwargs: {!r}".format(extra_kwargs))
 
         if 'platform_type' in kwargs:
-            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX"]
+            platform_type_allowed_values = ["LINUX", "SOLARIS", "SUNOS", "ZLINUX", "WINDOWS", "AIX"]
             for platform_type_item in kwargs['platform_type']:
                 if platform_type_item not in platform_type_allowed_values:
                     raise ValueError(
@@ -18789,7 +22031,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceUtilizationInsightAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -18799,7 +22042,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightResourceUtilizationInsightAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_storage_usage_trend(self, compartment_id, id, **kwargs):
         """
@@ -18883,6 +22127,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_storage_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_storage_usage_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'id']
         resource_path = "/hostInsights/storageUsageTrend"
         method = "GET"
         operation_name = "summarize_host_insight_storage_usage_trend"
@@ -18953,7 +22199,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightStorageUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -18963,7 +22210,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightStorageUsageTrendAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_top_processes_usage(self, compartment_id, id, resource_metric, timestamp, **kwargs):
         """
@@ -19061,6 +22309,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_top_processes_usage.py.html>`__ to see an example of how to use summarize_host_insight_top_processes_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'id', 'resourceMetric', 'timestamp']
         resource_path = "/hostInsights/topProcessesUsage"
         method = "GET"
         operation_name = "summarize_host_insight_top_processes_usage"
@@ -19135,7 +22385,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightsTopProcessesUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -19145,7 +22396,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightsTopProcessesUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_host_insight_top_processes_usage_trend(self, compartment_id, id, resource_metric, **kwargs):
         """
@@ -19242,6 +22494,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_top_processes_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_top_processes_usage_trend API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'id', 'resourceMetric']
         resource_path = "/hostInsights/topProcessesUsageTrend"
         method = "GET"
         operation_name = "summarize_host_insight_top_processes_usage_trend"
@@ -19317,7 +22571,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightsTopProcessesUsageTrendCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -19327,7 +22582,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeHostInsightsTopProcessesUsageTrendCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_operations_insights_warehouse_resource_usage(self, operations_insights_warehouse_id, **kwargs):
         """
@@ -19360,6 +22616,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_operations_insights_warehouse_resource_usage.py.html>`__ to see an example of how to use summarize_operations_insights_warehouse_resource_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/operationsInsightsWarehouses/{operationsInsightsWarehouseId}/resourceUsageSummary"
         method = "GET"
         operation_name = "summarize_operations_insights_warehouse_resource_usage"
@@ -19413,7 +22671,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeOperationsInsightsWarehouseResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -19423,7 +22682,8 @@ class OperationsInsightsClient(object):
                 response_type="SummarizeOperationsInsightsWarehouseResourceUsageAggregation",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_sql_insights(self, compartment_id, **kwargs):
         """
@@ -19545,6 +22805,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_insights.py.html>`__ to see an example of how to use summarize_sql_insights API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/databaseInsights/sqlInsights"
         method = "GET"
         operation_name = "summarize_sql_insights"
@@ -19635,7 +22897,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlInsightAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -19645,7 +22908,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlInsightAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_sql_plan_insights(self, compartment_id, sql_identifier, **kwargs):
         """
@@ -19720,6 +22984,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_plan_insights.py.html>`__ to see an example of how to use summarize_sql_plan_insights API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier']
         resource_path = "/databaseInsights/sqlPlanInsights"
         method = "GET"
         operation_name = "summarize_sql_plan_insights"
@@ -19781,7 +23047,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlPlanInsightAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -19791,7 +23058,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlPlanInsightAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_sql_response_time_distributions(self, compartment_id, sql_identifier, **kwargs):
         """
@@ -19866,6 +23134,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_response_time_distributions.py.html>`__ to see an example of how to use summarize_sql_response_time_distributions API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier']
         resource_path = "/databaseInsights/sqlResponseTimeDistributions"
         method = "GET"
         operation_name = "summarize_sql_response_time_distributions"
@@ -19927,7 +23197,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlResponseTimeDistributionAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -19937,7 +23208,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlResponseTimeDistributionAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_sql_statistics(self, compartment_id, **kwargs):
         """
@@ -20088,6 +23360,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics.py.html>`__ to see an example of how to use summarize_sql_statistics API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/databaseInsights/sqlStatistics"
         method = "GET"
         operation_name = "summarize_sql_statistics"
@@ -20210,7 +23484,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlStatisticAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -20220,7 +23495,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlStatisticAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_sql_statistics_time_series(self, compartment_id, sql_identifier, **kwargs):
         """
@@ -20337,6 +23613,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics_time_series.py.html>`__ to see an example of how to use summarize_sql_statistics_time_series API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier']
         resource_path = "/databaseInsights/sqlStatisticsTimeSeries"
         method = "GET"
         operation_name = "summarize_sql_statistics_time_series"
@@ -20416,7 +23694,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlStatisticsTimeSeriesAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -20426,7 +23705,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlStatisticsTimeSeriesAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_sql_statistics_time_series_by_plan(self, compartment_id, sql_identifier, **kwargs):
         """
@@ -20501,6 +23781,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics_time_series_by_plan.py.html>`__ to see an example of how to use summarize_sql_statistics_time_series_by_plan API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'sqlIdentifier']
         resource_path = "/databaseInsights/sqlStatisticsTimeSeriesByPlan"
         method = "GET"
         operation_name = "summarize_sql_statistics_time_series_by_plan"
@@ -20562,7 +23844,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlStatisticsTimeSeriesByPlanAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -20572,7 +23855,8 @@ class OperationsInsightsClient(object):
                 response_type="SqlStatisticsTimeSeriesByPlanAggregationCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_awr_hub(self, awr_hub_id, update_awr_hub_details, **kwargs):
         """
@@ -20612,6 +23896,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_awr_hub.py.html>`__ to see an example of how to use update_awr_hub API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['awrHubId']
         resource_path = "/awrHubs/{awrHubId}"
         method = "PUT"
         operation_name = "update_awr_hub"
@@ -20667,7 +23953,8 @@ class OperationsInsightsClient(object):
                 body=update_awr_hub_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -20677,7 +23964,8 @@ class OperationsInsightsClient(object):
                 body=update_awr_hub_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_database_insight(self, database_insight_id, update_database_insight_details, **kwargs):
         """
@@ -20717,6 +24005,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_database_insight.py.html>`__ to see an example of how to use update_database_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
         resource_path = "/databaseInsights/{databaseInsightId}"
         method = "PUT"
         operation_name = "update_database_insight"
@@ -20772,7 +24062,8 @@ class OperationsInsightsClient(object):
                 body=update_database_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -20782,7 +24073,8 @@ class OperationsInsightsClient(object):
                 body=update_database_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_enterprise_manager_bridge(self, enterprise_manager_bridge_id, update_enterprise_manager_bridge_details, **kwargs):
         """
@@ -20822,6 +24114,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_enterprise_manager_bridge.py.html>`__ to see an example of how to use update_enterprise_manager_bridge API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['enterpriseManagerBridgeId']
         resource_path = "/enterpriseManagerBridges/{enterpriseManagerBridgeId}"
         method = "PUT"
         operation_name = "update_enterprise_manager_bridge"
@@ -20877,7 +24171,8 @@ class OperationsInsightsClient(object):
                 body=update_enterprise_manager_bridge_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -20887,7 +24182,8 @@ class OperationsInsightsClient(object):
                 body=update_enterprise_manager_bridge_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_exadata_insight(self, exadata_insight_id, update_exadata_insight_details, **kwargs):
         """
@@ -20927,6 +24223,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_exadata_insight.py.html>`__ to see an example of how to use update_exadata_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['exadataInsightId']
         resource_path = "/exadataInsights/{exadataInsightId}"
         method = "PUT"
         operation_name = "update_exadata_insight"
@@ -20982,7 +24280,8 @@ class OperationsInsightsClient(object):
                 body=update_exadata_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -20992,7 +24291,8 @@ class OperationsInsightsClient(object):
                 body=update_exadata_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_host_insight(self, host_insight_id, update_host_insight_details, **kwargs):
         """
@@ -21032,6 +24332,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_host_insight.py.html>`__ to see an example of how to use update_host_insight API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['hostInsightId']
         resource_path = "/hostInsights/{hostInsightId}"
         method = "PUT"
         operation_name = "update_host_insight"
@@ -21087,7 +24389,8 @@ class OperationsInsightsClient(object):
                 body=update_host_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -21097,7 +24400,8 @@ class OperationsInsightsClient(object):
                 body=update_host_insight_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_operations_insights_private_endpoint(self, operations_insights_private_endpoint_id, update_operations_insights_private_endpoint_details, **kwargs):
         """
@@ -21139,6 +24443,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_private_endpoint.py.html>`__ to see an example of how to use update_operations_insights_private_endpoint API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsPrivateEndpointId']
         resource_path = "/operationsInsightsPrivateEndpoints/{operationsInsightsPrivateEndpointId}"
         method = "PUT"
         operation_name = "update_operations_insights_private_endpoint"
@@ -21194,7 +24500,8 @@ class OperationsInsightsClient(object):
                 body=update_operations_insights_private_endpoint_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -21204,7 +24511,8 @@ class OperationsInsightsClient(object):
                 body=update_operations_insights_private_endpoint_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_operations_insights_warehouse(self, operations_insights_warehouse_id, update_operations_insights_warehouse_details, **kwargs):
         """
@@ -21245,6 +24553,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_warehouse.py.html>`__ to see an example of how to use update_operations_insights_warehouse API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseId']
         resource_path = "/operationsInsightsWarehouses/{operationsInsightsWarehouseId}"
         method = "PUT"
         operation_name = "update_operations_insights_warehouse"
@@ -21300,7 +24610,8 @@ class OperationsInsightsClient(object):
                 body=update_operations_insights_warehouse_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -21310,7 +24621,8 @@ class OperationsInsightsClient(object):
                 body=update_operations_insights_warehouse_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_operations_insights_warehouse_user(self, operations_insights_warehouse_user_id, update_operations_insights_warehouse_user_details, **kwargs):
         """
@@ -21350,6 +24662,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_warehouse_user.py.html>`__ to see an example of how to use update_operations_insights_warehouse_user API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['operationsInsightsWarehouseUserId']
         resource_path = "/operationsInsightsWarehouseUsers/{operationsInsightsWarehouseUserId}"
         method = "PUT"
         operation_name = "update_operations_insights_warehouse_user"
@@ -21405,7 +24719,8 @@ class OperationsInsightsClient(object):
                 body=update_operations_insights_warehouse_user_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -21415,7 +24730,8 @@ class OperationsInsightsClient(object):
                 body=update_operations_insights_warehouse_user_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_opsi_configuration(self, opsi_configuration_id, update_opsi_configuration_details, **kwargs):
         """
@@ -21457,6 +24773,8 @@ class OperationsInsightsClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_opsi_configuration.py.html>`__ to see an example of how to use update_opsi_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['opsiConfigurationId']
         resource_path = "/opsiConfigurations/{opsiConfigurationId}"
         method = "PUT"
         operation_name = "update_opsi_configuration"
@@ -21512,7 +24830,8 @@ class OperationsInsightsClient(object):
                 body=update_opsi_configuration_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -21522,4 +24841,5 @@ class OperationsInsightsClient(object):
                 body=update_opsi_configuration_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)

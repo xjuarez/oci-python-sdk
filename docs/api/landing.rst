@@ -3,6 +3,7 @@ API Reference
 
 .. rubric:: Service Clients
 
+* :doc:`Access Governance Cp <access_governance_cp/client/oci.access_governance_cp.AccessGovernanceCPClient>`
 * :doc:`Access Requests <operator_access_control/client/oci.operator_access_control.AccessRequestsClient>`
 * :doc:`Account <marketplace/client/oci.marketplace.AccountClient>`
 * :doc:`Ai Service Document <ai_document/client/oci.ai_document.AIServiceDocumentClient>`
@@ -51,7 +52,6 @@ API Reference
 * :doc:`Dashboard Group <dashboard_service/client/oci.dashboard_service.DashboardGroupClient>`
 * :doc:`Dashx Apis <management_dashboard/client/oci.management_dashboard.DashxApisClient>`
 * :doc:`Data Catalog <data_catalog/client/oci.data_catalog.DataCatalogClient>`
-* :doc:`Data Connectivity Management <data_connectivity/client/oci.data_connectivity.DataConnectivityManagementClient>`
 * :doc:`Data Flow <data_flow/client/oci.data_flow.DataFlowClient>`
 * :doc:`Data Integration <data_integration/client/oci.data_integration.DataIntegrationClient>`
 * :doc:`Data Labeling <data_labeling_service_dataplane/client/oci.data_labeling_service_dataplane.DataLabelingClient>`
@@ -85,6 +85,7 @@ API Reference
 * :doc:`Gateway <apigateway/client/oci.apigateway.GatewayClient>`
 * :doc:`Generic Artifacts Content <generic_artifacts_content/client/oci.generic_artifacts_content.GenericArtifactsContentClient>`
 * :doc:`Golden Gate <golden_gate/client/oci.golden_gate.GoldenGateClient>`
+* :doc:`Governance <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.GovernanceClient>`
 * :doc:`Governance Rule <governance_rules_control_plane/client/oci.governance_rules_control_plane.GovernanceRuleClient>`
 * :doc:`Health Checks <healthchecks/client/oci.healthchecks.HealthChecksClient>`
 * :doc:`Identity <identity/client/oci.identity.IdentityClient>`
@@ -117,12 +118,12 @@ API Reference
 * :doc:`Mysqlaas <mysql/client/oci.mysql.MysqlaasClient>`
 * :doc:`Network Firewall <network_firewall/client/oci.network_firewall.NetworkFirewallClient>`
 * :doc:`Network Load Balancer <network_load_balancer/client/oci.network_load_balancer.NetworkLoadBalancerClient>`
-* :doc:`Network Validation <data_connectivity/client/oci.data_connectivity.NetworkValidationClient>`
 * :doc:`Nosql <nosql/client/oci.nosql.NosqlClient>`
 * :doc:`Notification Control Plane <ons/client/oci.ons.NotificationControlPlaneClient>`
 * :doc:`Notification Data Plane <ons/client/oci.ons.NotificationDataPlaneClient>`
 * :doc:`Object Storage <object_storage/client/oci.object_storage.ObjectStorageClient>`
 * :doc:`Ocb Agent Svc <cloud_bridge/client/oci.cloud_bridge.OcbAgentSvcClient>`
+* :doc:`Occ Metrics <oci_control_center/client/oci.oci_control_center.OccMetricsClient>`
 * :doc:`Oce Instance <oce/client/oci.oce.OceInstanceClient>`
 * :doc:`Oda <oda/client/oci.oda.OdaClient>`
 * :doc:`Odapackage <oda/client/oci.oda.OdapackageClient>`
@@ -152,6 +153,7 @@ API Reference
 * :doc:`Replicas <mysql/client/oci.mysql.ReplicasClient>`
 * :doc:`Resource Manager <resource_manager/client/oci.resource_manager.ResourceManagerClient>`
 * :doc:`Resource Search <resource_search/client/oci.resource_search.ResourceSearchClient>`
+* :doc:`Resources <usage/client/oci.usage.ResourcesClient>`
 * :doc:`Rewards <usage/client/oci.usage.RewardsClient>`
 * :doc:`Rover Cluster <rover/client/oci.rover.RoverClusterClient>`
 * :doc:`Rover Entitlement <rover/client/oci.rover.RoverEntitlementClient>`
@@ -184,6 +186,7 @@ API Reference
 * :doc:`Transfer Package <dts/client/oci.dts.TransferPackageClient>`
 * :doc:`Usage Plans <apigateway/client/oci.apigateway.UsagePlansClient>`
 * :doc:`Usageapi <usage_api/client/oci.usage_api.UsageapiClient>`
+* :doc:`Usagelimits <usage/client/oci.usage.UsagelimitsClient>`
 * :doc:`User <cims/client/oci.cims.UserClient>`
 * :doc:`Vaults <vault/client/oci.vault.VaultsClient>`
 * :doc:`Vb Instance <visual_builder/client/oci.visual_builder.VbInstanceClient>`
@@ -220,6 +223,7 @@ API Reference
     :hidden:
     :maxdepth: 5
 
+    access_governance_cp
     adm
     ai_anomaly_detection
     ai_document
@@ -254,7 +258,6 @@ API Reference
     core
     dashboard_service
     data_catalog
-    data_connectivity
     data_flow
     data_integration
     data_labeling_service
@@ -304,6 +307,7 @@ API Reference
     nosql
     object_storage
     oce
+    oci_control_center
     ocvp
     oda
     onesubscription

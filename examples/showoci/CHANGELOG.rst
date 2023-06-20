@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 =====================
+23.05.23 - 23.05.23
+=====================
+* Added Instance Parameters - Burstable, Launch options and more
+* Removed Data Connectivity per SDK breaking
+
+=====================
+23.05.02 - 23.05.02
+=====================
+* Added live migration flag to compute
+
+=====================
+23.04.18 - 23.04.18
+=====================
+* Removed pause to avoid false positive in security scan
+
+=====================
+23.04.11 - 23.04.11
+=====================
+* Amend scripts and help to point to OCI Python SDK sites
+
+=====================
+23.03.28 - 23.03.28
+=====================
+* Added OCI_RESOURCES table to showoci2adw to load all relevants OCIDs
+* Added Identity to summary
+* Added Goldengate deployment to CSV
+* Added NoSQL to CSV
+* Added Network Firewall + Policies
+* Added more mysql info + added to CSV
+* Added Cloud Guard Recipes
+* Added option to filter by region - comma seperated
+* Added option to filter "Not" by region with -rgn
+* Added Open Search Clusters
+
+=====================
 23.03.21 - 23.03.21
 =====================
 * Added Identity Domains including Users, Groups, IDPs, DynGroups, Auth Setting, KMSI Setting
@@ -13,7 +48,6 @@ The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 23.03.14 - 23.03.14
 =====================
 * Added more info for OKE, APIGW, Databases for JSON and CSV
-* Added most of CSVs to csv2adw process
 * Added DevOps and WAF
 * Added Quotas to CSV
 
@@ -21,7 +55,6 @@ The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 23.03.07 - 23.03.07
 =====================
 * Added Tags to file storage and object storage CSVs
-* Added File Storage, Object Storage and Load Balancers to csv2adw process
 
 =====================
 23.02.28 - 23.02.28
@@ -38,7 +71,6 @@ The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 =====================
 * Added database standalone backups
 * Added tenant_name and tenant_id (6 last letters) to CSVs
-* Added showoci_csv2adw.py (beta) - Load csv files to Oracle database
 
 =====================
 23.02.07 - 23.02.07

@@ -158,6 +158,10 @@ class CloudAutonomousVmCluster(object):
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type compute_model: str
 
+        :param is_mtls_enabled_vm_cluster:
+            The value to assign to the is_mtls_enabled_vm_cluster property of this CloudAutonomousVmCluster.
+        :type is_mtls_enabled_vm_cluster: bool
+
         :param cpu_core_count_per_node:
             The value to assign to the cpu_core_count_per_node property of this CloudAutonomousVmCluster.
         :type cpu_core_count_per_node: int
@@ -184,6 +188,14 @@ class CloudAutonomousVmCluster(object):
             The value to assign to the maintenance_window property of this CloudAutonomousVmCluster.
         :type maintenance_window: oci.database.models.MaintenanceWindow
 
+        :param scan_listener_port_tls:
+            The value to assign to the scan_listener_port_tls property of this CloudAutonomousVmCluster.
+        :type scan_listener_port_tls: int
+
+        :param scan_listener_port_non_tls:
+            The value to assign to the scan_listener_port_non_tls property of this CloudAutonomousVmCluster.
+        :type scan_listener_port_non_tls: int
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CloudAutonomousVmCluster.
         :type freeform_tags: dict(str, str)
@@ -191,6 +203,14 @@ class CloudAutonomousVmCluster(object):
         :param defined_tags:
             The value to assign to the defined_tags property of this CloudAutonomousVmCluster.
         :type defined_tags: dict(str, dict(str, object))
+
+        :param time_database_ssl_certificate_expires:
+            The value to assign to the time_database_ssl_certificate_expires property of this CloudAutonomousVmCluster.
+        :type time_database_ssl_certificate_expires: datetime
+
+        :param time_ords_certificate_expires:
+            The value to assign to the time_ords_certificate_expires property of this CloudAutonomousVmCluster.
+        :type time_ords_certificate_expires: datetime
 
         :param available_cpus:
             The value to assign to the available_cpus property of this CloudAutonomousVmCluster.
@@ -224,6 +244,10 @@ class CloudAutonomousVmCluster(object):
             The value to assign to the memory_per_oracle_compute_unit_in_gbs property of this CloudAutonomousVmCluster.
         :type memory_per_oracle_compute_unit_in_gbs: int
 
+        :param db_servers:
+            The value to assign to the db_servers property of this CloudAutonomousVmCluster.
+        :type db_servers: list[str]
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -249,14 +273,19 @@ class CloudAutonomousVmCluster(object):
             'cpu_core_count': 'int',
             'ocpu_count': 'float',
             'compute_model': 'str',
+            'is_mtls_enabled_vm_cluster': 'bool',
             'cpu_core_count_per_node': 'int',
             'memory_size_in_gbs': 'int',
             'license_model': 'str',
             'last_maintenance_run_id': 'str',
             'next_maintenance_run_id': 'str',
             'maintenance_window': 'MaintenanceWindow',
+            'scan_listener_port_tls': 'int',
+            'scan_listener_port_non_tls': 'int',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'time_database_ssl_certificate_expires': 'datetime',
+            'time_ords_certificate_expires': 'datetime',
             'available_cpus': 'float',
             'reclaimable_cpus': 'float',
             'available_container_databases': 'int',
@@ -264,7 +293,8 @@ class CloudAutonomousVmCluster(object):
             'available_autonomous_data_storage_size_in_tbs': 'float',
             'autonomous_data_storage_size_in_tbs': 'float',
             'db_node_storage_size_in_gbs': 'int',
-            'memory_per_oracle_compute_unit_in_gbs': 'int'
+            'memory_per_oracle_compute_unit_in_gbs': 'int',
+            'db_servers': 'list[str]'
         }
 
         self.attribute_map = {
@@ -291,14 +321,19 @@ class CloudAutonomousVmCluster(object):
             'cpu_core_count': 'cpuCoreCount',
             'ocpu_count': 'ocpuCount',
             'compute_model': 'computeModel',
+            'is_mtls_enabled_vm_cluster': 'isMtlsEnabledVmCluster',
             'cpu_core_count_per_node': 'cpuCoreCountPerNode',
             'memory_size_in_gbs': 'memorySizeInGBs',
             'license_model': 'licenseModel',
             'last_maintenance_run_id': 'lastMaintenanceRunId',
             'next_maintenance_run_id': 'nextMaintenanceRunId',
             'maintenance_window': 'maintenanceWindow',
+            'scan_listener_port_tls': 'scanListenerPortTls',
+            'scan_listener_port_non_tls': 'scanListenerPortNonTls',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'time_database_ssl_certificate_expires': 'timeDatabaseSslCertificateExpires',
+            'time_ords_certificate_expires': 'timeOrdsCertificateExpires',
             'available_cpus': 'availableCpus',
             'reclaimable_cpus': 'reclaimableCpus',
             'available_container_databases': 'availableContainerDatabases',
@@ -306,7 +341,8 @@ class CloudAutonomousVmCluster(object):
             'available_autonomous_data_storage_size_in_tbs': 'availableAutonomousDataStorageSizeInTBs',
             'autonomous_data_storage_size_in_tbs': 'autonomousDataStorageSizeInTBs',
             'db_node_storage_size_in_gbs': 'dbNodeStorageSizeInGBs',
-            'memory_per_oracle_compute_unit_in_gbs': 'memoryPerOracleComputeUnitInGBs'
+            'memory_per_oracle_compute_unit_in_gbs': 'memoryPerOracleComputeUnitInGBs',
+            'db_servers': 'dbServers'
         }
 
         self._id = None
@@ -332,14 +368,19 @@ class CloudAutonomousVmCluster(object):
         self._cpu_core_count = None
         self._ocpu_count = None
         self._compute_model = None
+        self._is_mtls_enabled_vm_cluster = None
         self._cpu_core_count_per_node = None
         self._memory_size_in_gbs = None
         self._license_model = None
         self._last_maintenance_run_id = None
         self._next_maintenance_run_id = None
         self._maintenance_window = None
+        self._scan_listener_port_tls = None
+        self._scan_listener_port_non_tls = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._time_database_ssl_certificate_expires = None
+        self._time_ords_certificate_expires = None
         self._available_cpus = None
         self._reclaimable_cpus = None
         self._available_container_databases = None
@@ -348,6 +389,7 @@ class CloudAutonomousVmCluster(object):
         self._autonomous_data_storage_size_in_tbs = None
         self._db_node_storage_size_in_gbs = None
         self._memory_per_oracle_compute_unit_in_gbs = None
+        self._db_servers = None
 
     @property
     def id(self):
@@ -931,7 +973,9 @@ class CloudAutonomousVmCluster(object):
     def compute_model(self):
         """
         Gets the compute_model of this CloudAutonomousVmCluster.
-        The compute model of the Cloud Autonomous VM Cluster.
+        The compute model of the Cloud Autonomous VM Cluster. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
         Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -946,7 +990,9 @@ class CloudAutonomousVmCluster(object):
     def compute_model(self, compute_model):
         """
         Sets the compute_model of this CloudAutonomousVmCluster.
-        The compute model of the Cloud Autonomous VM Cluster.
+        The compute model of the Cloud Autonomous VM Cluster. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param compute_model: The compute_model of this CloudAutonomousVmCluster.
@@ -958,10 +1004,34 @@ class CloudAutonomousVmCluster(object):
         self._compute_model = compute_model
 
     @property
+    def is_mtls_enabled_vm_cluster(self):
+        """
+        Gets the is_mtls_enabled_vm_cluster of this CloudAutonomousVmCluster.
+        Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
+
+
+        :return: The is_mtls_enabled_vm_cluster of this CloudAutonomousVmCluster.
+        :rtype: bool
+        """
+        return self._is_mtls_enabled_vm_cluster
+
+    @is_mtls_enabled_vm_cluster.setter
+    def is_mtls_enabled_vm_cluster(self, is_mtls_enabled_vm_cluster):
+        """
+        Sets the is_mtls_enabled_vm_cluster of this CloudAutonomousVmCluster.
+        Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
+
+
+        :param is_mtls_enabled_vm_cluster: The is_mtls_enabled_vm_cluster of this CloudAutonomousVmCluster.
+        :type: bool
+        """
+        self._is_mtls_enabled_vm_cluster = is_mtls_enabled_vm_cluster
+
+    @property
     def cpu_core_count_per_node(self):
         """
         Gets the cpu_core_count_per_node of this CloudAutonomousVmCluster.
-        The number of OCPU cores enabled per VM cluster node.
+        The number of CPU cores enabled per VM cluster node.
 
 
         :return: The cpu_core_count_per_node of this CloudAutonomousVmCluster.
@@ -973,7 +1043,7 @@ class CloudAutonomousVmCluster(object):
     def cpu_core_count_per_node(self, cpu_core_count_per_node):
         """
         Sets the cpu_core_count_per_node of this CloudAutonomousVmCluster.
-        The number of OCPU cores enabled per VM cluster node.
+        The number of CPU cores enabled per VM cluster node.
 
 
         :param cpu_core_count_per_node: The cpu_core_count_per_node of this CloudAutonomousVmCluster.
@@ -1014,6 +1084,8 @@ class CloudAutonomousVmCluster(object):
         Note that when provisioning an Autonomous Database on `dedicated Exadata infrastructure`__, this attribute must be null because the attribute is already set at the
         Autonomous Exadata Infrastructure level. When using `shared Exadata infrastructure`__, if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
 
+        This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
+
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html
 
@@ -1034,6 +1106,8 @@ class CloudAutonomousVmCluster(object):
         License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
         Note that when provisioning an Autonomous Database on `dedicated Exadata infrastructure`__, this attribute must be null because the attribute is already set at the
         Autonomous Exadata Infrastructure level. When using `shared Exadata infrastructure`__, if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+
+        This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html
@@ -1124,6 +1198,54 @@ class CloudAutonomousVmCluster(object):
         self._maintenance_window = maintenance_window
 
     @property
+    def scan_listener_port_tls(self):
+        """
+        Gets the scan_listener_port_tls of this CloudAutonomousVmCluster.
+        The SCAN Listenenr TLS port. Default is 2484.
+
+
+        :return: The scan_listener_port_tls of this CloudAutonomousVmCluster.
+        :rtype: int
+        """
+        return self._scan_listener_port_tls
+
+    @scan_listener_port_tls.setter
+    def scan_listener_port_tls(self, scan_listener_port_tls):
+        """
+        Sets the scan_listener_port_tls of this CloudAutonomousVmCluster.
+        The SCAN Listenenr TLS port. Default is 2484.
+
+
+        :param scan_listener_port_tls: The scan_listener_port_tls of this CloudAutonomousVmCluster.
+        :type: int
+        """
+        self._scan_listener_port_tls = scan_listener_port_tls
+
+    @property
+    def scan_listener_port_non_tls(self):
+        """
+        Gets the scan_listener_port_non_tls of this CloudAutonomousVmCluster.
+        The SCAN Listener Non TLS port. Default is 1521.
+
+
+        :return: The scan_listener_port_non_tls of this CloudAutonomousVmCluster.
+        :rtype: int
+        """
+        return self._scan_listener_port_non_tls
+
+    @scan_listener_port_non_tls.setter
+    def scan_listener_port_non_tls(self, scan_listener_port_non_tls):
+        """
+        Sets the scan_listener_port_non_tls of this CloudAutonomousVmCluster.
+        The SCAN Listener Non TLS port. Default is 1521.
+
+
+        :param scan_listener_port_non_tls: The scan_listener_port_non_tls of this CloudAutonomousVmCluster.
+        :type: int
+        """
+        self._scan_listener_port_non_tls = scan_listener_port_non_tls
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this CloudAutonomousVmCluster.
@@ -1188,6 +1310,54 @@ class CloudAutonomousVmCluster(object):
         self._defined_tags = defined_tags
 
     @property
+    def time_database_ssl_certificate_expires(self):
+        """
+        Gets the time_database_ssl_certificate_expires of this CloudAutonomousVmCluster.
+        The date and time of Database SSL certificate expiration.
+
+
+        :return: The time_database_ssl_certificate_expires of this CloudAutonomousVmCluster.
+        :rtype: datetime
+        """
+        return self._time_database_ssl_certificate_expires
+
+    @time_database_ssl_certificate_expires.setter
+    def time_database_ssl_certificate_expires(self, time_database_ssl_certificate_expires):
+        """
+        Sets the time_database_ssl_certificate_expires of this CloudAutonomousVmCluster.
+        The date and time of Database SSL certificate expiration.
+
+
+        :param time_database_ssl_certificate_expires: The time_database_ssl_certificate_expires of this CloudAutonomousVmCluster.
+        :type: datetime
+        """
+        self._time_database_ssl_certificate_expires = time_database_ssl_certificate_expires
+
+    @property
+    def time_ords_certificate_expires(self):
+        """
+        Gets the time_ords_certificate_expires of this CloudAutonomousVmCluster.
+        The date and time of ORDS certificate expiration.
+
+
+        :return: The time_ords_certificate_expires of this CloudAutonomousVmCluster.
+        :rtype: datetime
+        """
+        return self._time_ords_certificate_expires
+
+    @time_ords_certificate_expires.setter
+    def time_ords_certificate_expires(self, time_ords_certificate_expires):
+        """
+        Sets the time_ords_certificate_expires of this CloudAutonomousVmCluster.
+        The date and time of ORDS certificate expiration.
+
+
+        :param time_ords_certificate_expires: The time_ords_certificate_expires of this CloudAutonomousVmCluster.
+        :type: datetime
+        """
+        self._time_ords_certificate_expires = time_ords_certificate_expires
+
+    @property
     def available_cpus(self):
         """
         Gets the available_cpus of this CloudAutonomousVmCluster.
@@ -1215,7 +1385,11 @@ class CloudAutonomousVmCluster(object):
     def reclaimable_cpus(self):
         """
         Gets the reclaimable_cpus of this CloudAutonomousVmCluster.
-        CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+        For Autonomous Databases on Dedicated Exadata Infrastructure:
+        - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+        - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The reclaimable_cpus of this CloudAutonomousVmCluster.
@@ -1227,7 +1401,11 @@ class CloudAutonomousVmCluster(object):
     def reclaimable_cpus(self, reclaimable_cpus):
         """
         Sets the reclaimable_cpus of this CloudAutonomousVmCluster.
-        CPU cores that continue to be included in the count of OCPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available OCPUs at its parent AVMC level by restarting the Autonomous Container Database.
+        For Autonomous Databases on Dedicated Exadata Infrastructure:
+        - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+        - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param reclaimable_cpus: The reclaimable_cpus of this CloudAutonomousVmCluster.
@@ -1359,7 +1537,9 @@ class CloudAutonomousVmCluster(object):
     def memory_per_oracle_compute_unit_in_gbs(self):
         """
         Gets the memory_per_oracle_compute_unit_in_gbs of this CloudAutonomousVmCluster.
-        The amount of memory (in GBs) enabled per each OCPU core.
+        The amount of memory (in GBs) enabled per OCPU or ECPU. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The memory_per_oracle_compute_unit_in_gbs of this CloudAutonomousVmCluster.
@@ -1371,13 +1551,43 @@ class CloudAutonomousVmCluster(object):
     def memory_per_oracle_compute_unit_in_gbs(self, memory_per_oracle_compute_unit_in_gbs):
         """
         Sets the memory_per_oracle_compute_unit_in_gbs of this CloudAutonomousVmCluster.
-        The amount of memory (in GBs) enabled per each OCPU core.
+        The amount of memory (in GBs) enabled per OCPU or ECPU. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param memory_per_oracle_compute_unit_in_gbs: The memory_per_oracle_compute_unit_in_gbs of this CloudAutonomousVmCluster.
         :type: int
         """
         self._memory_per_oracle_compute_unit_in_gbs = memory_per_oracle_compute_unit_in_gbs
+
+    @property
+    def db_servers(self):
+        """
+        Gets the db_servers of this CloudAutonomousVmCluster.
+        The list of `OCIDs`__ of the Db servers.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The db_servers of this CloudAutonomousVmCluster.
+        :rtype: list[str]
+        """
+        return self._db_servers
+
+    @db_servers.setter
+    def db_servers(self, db_servers):
+        """
+        Sets the db_servers of this CloudAutonomousVmCluster.
+        The list of `OCIDs`__ of the Db servers.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param db_servers: The db_servers of this CloudAutonomousVmCluster.
+        :type: list[str]
+        """
+        self._db_servers = db_servers
 
     def __repr__(self):
         return formatted_flat_dict(self)

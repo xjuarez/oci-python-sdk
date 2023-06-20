@@ -10,8 +10,6 @@ It uses APEX for Visualization and generates Daily e-mail report.
 [cost analysis](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm) 
 and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/usagereportsoverview.htm) features should be used instead.**
 
-Additional information located at [Adi Zohar Git](https://github.com/adizohar/usage_reports_to_adw)
-
 **Developed by Adi Zohar, 2020-2023**
 
 ## Main Features
@@ -19,7 +17,8 @@ Additional information located at [Adi Zohar Git](https://github.com/adizohar/us
 - Usage Over Time
 - Cost Analysis
 - Cost Over Time
-- Rate Card for Used Products
+- Rate Card for Used Product
+- ShowOCI Data (If Enabled)
 
 ## Cost Reports
 ![](img/screen_4.png)
@@ -50,8 +49,6 @@ The file name for each usage report is appended with an automatically incrementi
 
 More information can be found at https://docs.cloud.oracle.com/en-us/iaas/Content/Billing/Concepts/usagereportsoverview.htm
 
-## Step by Step Installation Using Oracle Cloud Marketplace
-Please check step by step guide - [step_by_step_marketplace.md](step_by_step_marketplace.md)
 
 ## Step by Step Installation Guide
 Please check step by step guide - [step_by_step_installation.md](step_by_step_installation.md)
@@ -235,3 +232,10 @@ Completed at 2020-04-21 12:05:46
 Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl
 or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+
+## Developed using open source versions:
+Python 3.9.13
+
+oracledb 1.3.0
+
+OCI Python SDK 2.98.0

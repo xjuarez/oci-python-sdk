@@ -66,6 +66,9 @@ class SddcClient(object):
         :param function circuit_breaker_callback: (optional)
             Callback function to receive any exceptions triggerred by the circuit breaker.
 
+        :param bool client_level_realm_specific_endpoint_template_enabled: (optional)
+            A boolean flag to indicate whether or not this client should be created with realm specific endpoint template enabled or disable. By default, this will be set as None.
+
         :param allow_control_chars: (optional)
             allow_control_chars is a boolean to indicate whether or not this client should allow control characters in the response object. By default, the client will not
             allow control characters to be in the response object.
@@ -92,8 +95,10 @@ class SddcClient(object):
             'service_endpoint': kwargs.get('service_endpoint'),
             'base_path': '/20200501',
             'service_endpoint_template': 'https://ocvps.{region}.oci.{secondLevelDomain}',
+            'service_endpoint_template_per_realm': {  },  # noqa: E201 E202
             'skip_deserialization': kwargs.get('skip_deserialization', False),
-            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY)
+            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY),
+            'client_level_realm_specific_endpoint_template_enabled': kwargs.get('client_level_realm_specific_endpoint_template_enabled')
         }
         if 'timeout' in kwargs:
             base_client_init_kwargs['timeout'] = kwargs.get('timeout')
@@ -151,6 +156,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/cancel_downgrade_hcx.py.html>`__ to see an example of how to use cancel_downgrade_hcx API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}/actions/cancelDowngradeHcx"
         method = "POST"
         operation_name = "cancel_downgrade_hcx"
@@ -208,7 +215,8 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -217,7 +225,8 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_sddc_compartment(self, sddc_id, change_sddc_compartment_details, **kwargs):
         """
@@ -272,6 +281,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/change_sddc_compartment.py.html>`__ to see an example of how to use change_sddc_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_sddc_compartment"
@@ -330,7 +341,8 @@ class SddcClient(object):
                 body=change_sddc_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -340,7 +352,8 @@ class SddcClient(object):
                 body=change_sddc_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_sddc(self, create_sddc_details, **kwargs):
         """
@@ -386,6 +399,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/create_sddc.py.html>`__ to see an example of how to use create_sddc API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/sddcs"
         method = "POST"
         operation_name = "create_sddc"
@@ -431,7 +446,8 @@ class SddcClient(object):
                 body=create_sddc_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -440,7 +456,8 @@ class SddcClient(object):
                 body=create_sddc_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_sddc(self, sddc_id, **kwargs):
         """
@@ -486,6 +503,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/delete_sddc.py.html>`__ to see an example of how to use delete_sddc API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}"
         method = "DELETE"
         operation_name = "delete_sddc"
@@ -540,7 +559,8 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -549,11 +569,13 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def downgrade_hcx(self, downgrade_hcx_details, sddc_id, **kwargs):
         """
         Downgrade the specified SDDC from HCX Enterprise to HCX Advanced.
+        SDDC with standard compute shapes will always use HCX Enterprise if HCX is enabled and cannot be downgraded.
         Downgrading from HCX Enterprise to HCX Advanced reduces the number of provided license keys from 10 to 3.
         Downgrade remains in a `PENDING` state until the end of the current billing cycle. You can use :func:`cancel_downgrade_hcx`
         to cancel the downgrade while it's still in a `PENDING` state.
@@ -603,6 +625,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/downgrade_hcx.py.html>`__ to see an example of how to use downgrade_hcx API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}/actions/downgradeHcx"
         method = "POST"
         operation_name = "downgrade_hcx"
@@ -661,7 +685,8 @@ class SddcClient(object):
                 body=downgrade_hcx_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -671,7 +696,8 @@ class SddcClient(object):
                 body=downgrade_hcx_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_sddc(self, sddc_id, **kwargs):
         """
@@ -705,6 +731,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/get_sddc.py.html>`__ to see an example of how to use get_sddc API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}"
         method = "GET"
         operation_name = "get_sddc"
@@ -758,7 +786,8 @@ class SddcClient(object):
                 response_type="Sddc",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -768,7 +797,8 @@ class SddcClient(object):
                 response_type="Sddc",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_sddcs(self, compartment_id, **kwargs):
         """
@@ -848,6 +878,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/list_sddcs.py.html>`__ to see an example of how to use list_sddcs API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/sddcs"
         method = "GET"
         operation_name = "list_sddcs"
@@ -931,7 +963,8 @@ class SddcClient(object):
                 response_type="SddcCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -941,7 +974,8 @@ class SddcClient(object):
                 response_type="SddcCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_supported_host_shapes(self, compartment_id, **kwargs):
         """
@@ -997,6 +1031,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/list_supported_host_shapes.py.html>`__ to see an example of how to use list_supported_host_shapes API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/supportedHostShapes"
         method = "GET"
         operation_name = "list_supported_host_shapes"
@@ -1060,7 +1096,8 @@ class SddcClient(object):
                 response_type="SupportedHostShapeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1070,7 +1107,8 @@ class SddcClient(object):
                 response_type="SupportedHostShapeCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_supported_skus(self, compartment_id, **kwargs):
         """
@@ -1100,6 +1138,9 @@ class SddcClient(object):
             Unique identifier for the request. If you need to contact Oracle about a particular
             request, please provide the request ID.
 
+        :param str host_shape_name: (optional)
+            A filter to return only resources that match or support the given ESXi host shape.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -1118,6 +1159,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/list_supported_skus.py.html>`__ to see an example of how to use list_supported_skus API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/supportedSkus"
         method = "GET"
         operation_name = "list_supported_skus"
@@ -1129,7 +1172,8 @@ class SddcClient(object):
             "retry_strategy",
             "limit",
             "page",
-            "opc_request_id"
+            "opc_request_id",
+            "host_shape_name"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -1139,7 +1183,8 @@ class SddcClient(object):
         query_params = {
             "compartmentId": compartment_id,
             "limit": kwargs.get("limit", missing),
-            "page": kwargs.get("page", missing)
+            "page": kwargs.get("page", missing),
+            "hostShapeName": kwargs.get("host_shape_name", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -1170,7 +1215,8 @@ class SddcClient(object):
                 response_type="SupportedSkuSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1180,7 +1226,8 @@ class SddcClient(object):
                 response_type="SupportedSkuSummaryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_supported_vmware_software_versions(self, compartment_id, **kwargs):
         """
@@ -1229,6 +1276,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/list_supported_vmware_software_versions.py.html>`__ to see an example of how to use list_supported_vmware_software_versions API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId']
         resource_path = "/supportedVmwareSoftwareVersions"
         method = "GET"
         operation_name = "list_supported_vmware_software_versions"
@@ -1281,7 +1330,8 @@ class SddcClient(object):
                 response_type="SupportedVmwareSoftwareVersionCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1291,7 +1341,8 @@ class SddcClient(object):
                 response_type="SupportedVmwareSoftwareVersionCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def refresh_hcx_license_status(self, sddc_id, **kwargs):
         """
@@ -1339,6 +1390,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/refresh_hcx_license_status.py.html>`__ to see an example of how to use refresh_hcx_license_status API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}/actions/refreshHcxLicenses"
         method = "POST"
         operation_name = "refresh_hcx_license_status"
@@ -1396,7 +1449,8 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1405,7 +1459,8 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_sddc(self, sddc_id, update_sddc_details, **kwargs):
         """
@@ -1454,6 +1509,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/update_sddc.py.html>`__ to see an example of how to use update_sddc API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}"
         method = "PUT"
         operation_name = "update_sddc"
@@ -1510,7 +1567,8 @@ class SddcClient(object):
                 response_type="Sddc",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1521,7 +1579,8 @@ class SddcClient(object):
                 response_type="Sddc",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def upgrade_hcx(self, sddc_id, **kwargs):
         """
@@ -1569,6 +1628,8 @@ class SddcClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/ocvp/upgrade_hcx.py.html>`__ to see an example of how to use upgrade_hcx API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['sddcId']
         resource_path = "/sddcs/{sddcId}/actions/upgradeHcx"
         method = "POST"
         operation_name = "upgrade_hcx"
@@ -1626,7 +1687,8 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1635,4 +1697,5 @@ class SddcClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)

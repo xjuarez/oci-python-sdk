@@ -79,6 +79,10 @@ class CreateCloudAutonomousVmClusterDetails(object):
             Allowed values for this property are: "ECPU", "OCPU"
         :type compute_model: str
 
+        :param is_mtls_enabled_vm_cluster:
+            The value to assign to the is_mtls_enabled_vm_cluster property of this CreateCloudAutonomousVmClusterDetails.
+        :type is_mtls_enabled_vm_cluster: bool
+
         :param db_servers:
             The value to assign to the db_servers property of this CreateCloudAutonomousVmClusterDetails.
         :type db_servers: list[str]
@@ -86,6 +90,14 @@ class CreateCloudAutonomousVmClusterDetails(object):
         :param maintenance_window_details:
             The value to assign to the maintenance_window_details property of this CreateCloudAutonomousVmClusterDetails.
         :type maintenance_window_details: oci.database.models.MaintenanceWindow
+
+        :param scan_listener_port_tls:
+            The value to assign to the scan_listener_port_tls property of this CreateCloudAutonomousVmClusterDetails.
+        :type scan_listener_port_tls: int
+
+        :param scan_listener_port_non_tls:
+            The value to assign to the scan_listener_port_non_tls property of this CreateCloudAutonomousVmClusterDetails.
+        :type scan_listener_port_non_tls: int
 
         :param license_model:
             The value to assign to the license_model property of this CreateCloudAutonomousVmClusterDetails.
@@ -117,8 +129,11 @@ class CreateCloudAutonomousVmClusterDetails(object):
             'autonomous_data_storage_size_in_tbs': 'float',
             'cluster_time_zone': 'str',
             'compute_model': 'str',
+            'is_mtls_enabled_vm_cluster': 'bool',
             'db_servers': 'list[str]',
             'maintenance_window_details': 'MaintenanceWindow',
+            'scan_listener_port_tls': 'int',
+            'scan_listener_port_non_tls': 'int',
             'license_model': 'str',
             'nsg_ids': 'list[str]',
             'freeform_tags': 'dict(str, str)',
@@ -137,8 +152,11 @@ class CreateCloudAutonomousVmClusterDetails(object):
             'autonomous_data_storage_size_in_tbs': 'autonomousDataStorageSizeInTBs',
             'cluster_time_zone': 'clusterTimeZone',
             'compute_model': 'computeModel',
+            'is_mtls_enabled_vm_cluster': 'isMtlsEnabledVmCluster',
             'db_servers': 'dbServers',
             'maintenance_window_details': 'maintenanceWindowDetails',
+            'scan_listener_port_tls': 'scanListenerPortTls',
+            'scan_listener_port_non_tls': 'scanListenerPortNonTls',
             'license_model': 'licenseModel',
             'nsg_ids': 'nsgIds',
             'freeform_tags': 'freeformTags',
@@ -156,8 +174,11 @@ class CreateCloudAutonomousVmClusterDetails(object):
         self._autonomous_data_storage_size_in_tbs = None
         self._cluster_time_zone = None
         self._compute_model = None
+        self._is_mtls_enabled_vm_cluster = None
         self._db_servers = None
         self._maintenance_window_details = None
+        self._scan_listener_port_tls = None
+        self._scan_listener_port_non_tls = None
         self._license_model = None
         self._nsg_ids = None
         self._freeform_tags = None
@@ -323,7 +344,7 @@ class CreateCloudAutonomousVmClusterDetails(object):
     def cpu_core_count_per_node(self):
         """
         Gets the cpu_core_count_per_node of this CreateCloudAutonomousVmClusterDetails.
-        The number of OCPU cores to be enabled per VM cluster node.
+        The number of CPU cores to be enabled per VM cluster node.
 
 
         :return: The cpu_core_count_per_node of this CreateCloudAutonomousVmClusterDetails.
@@ -335,7 +356,7 @@ class CreateCloudAutonomousVmClusterDetails(object):
     def cpu_core_count_per_node(self, cpu_core_count_per_node):
         """
         Sets the cpu_core_count_per_node of this CreateCloudAutonomousVmClusterDetails.
-        The number of OCPU cores to be enabled per VM cluster node.
+        The number of CPU cores to be enabled per VM cluster node.
 
 
         :param cpu_core_count_per_node: The cpu_core_count_per_node of this CreateCloudAutonomousVmClusterDetails.
@@ -347,7 +368,9 @@ class CreateCloudAutonomousVmClusterDetails(object):
     def memory_per_oracle_compute_unit_in_gbs(self):
         """
         Gets the memory_per_oracle_compute_unit_in_gbs of this CreateCloudAutonomousVmClusterDetails.
-        The amount of memory (in GBs) to be enabled per each OCPU core.
+        The amount of memory (in GBs) to be enabled per OCPU or ECPU. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :return: The memory_per_oracle_compute_unit_in_gbs of this CreateCloudAutonomousVmClusterDetails.
@@ -359,7 +382,9 @@ class CreateCloudAutonomousVmClusterDetails(object):
     def memory_per_oracle_compute_unit_in_gbs(self, memory_per_oracle_compute_unit_in_gbs):
         """
         Sets the memory_per_oracle_compute_unit_in_gbs of this CreateCloudAutonomousVmClusterDetails.
-        The amount of memory (in GBs) to be enabled per each OCPU core.
+        The amount of memory (in GBs) to be enabled per OCPU or ECPU. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param memory_per_oracle_compute_unit_in_gbs: The memory_per_oracle_compute_unit_in_gbs of this CreateCloudAutonomousVmClusterDetails.
@@ -423,7 +448,9 @@ class CreateCloudAutonomousVmClusterDetails(object):
     def compute_model(self):
         """
         Gets the compute_model of this CreateCloudAutonomousVmClusterDetails.
-        The compute model of the Cloud Autonomous VM Cluster.
+        The compute model of the Cloud Autonomous VM Cluster. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
         Allowed values for this property are: "ECPU", "OCPU"
 
@@ -437,7 +464,9 @@ class CreateCloudAutonomousVmClusterDetails(object):
     def compute_model(self, compute_model):
         """
         Sets the compute_model of this CreateCloudAutonomousVmClusterDetails.
-        The compute model of the Cloud Autonomous VM Cluster.
+        The compute model of the Cloud Autonomous VM Cluster. See `Compute Models in Autonomous Database on Dedicated Exadata Infrastructure`__ for more details.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak
 
 
         :param compute_model: The compute_model of this CreateCloudAutonomousVmClusterDetails.
@@ -450,6 +479,30 @@ class CreateCloudAutonomousVmClusterDetails(object):
                 .format(allowed_values)
             )
         self._compute_model = compute_model
+
+    @property
+    def is_mtls_enabled_vm_cluster(self):
+        """
+        Gets the is_mtls_enabled_vm_cluster of this CreateCloudAutonomousVmClusterDetails.
+        Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
+
+
+        :return: The is_mtls_enabled_vm_cluster of this CreateCloudAutonomousVmClusterDetails.
+        :rtype: bool
+        """
+        return self._is_mtls_enabled_vm_cluster
+
+    @is_mtls_enabled_vm_cluster.setter
+    def is_mtls_enabled_vm_cluster(self, is_mtls_enabled_vm_cluster):
+        """
+        Sets the is_mtls_enabled_vm_cluster of this CreateCloudAutonomousVmClusterDetails.
+        Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
+
+
+        :param is_mtls_enabled_vm_cluster: The is_mtls_enabled_vm_cluster of this CreateCloudAutonomousVmClusterDetails.
+        :type: bool
+        """
+        self._is_mtls_enabled_vm_cluster = is_mtls_enabled_vm_cluster
 
     @property
     def db_servers(self):
@@ -496,6 +549,54 @@ class CreateCloudAutonomousVmClusterDetails(object):
         self._maintenance_window_details = maintenance_window_details
 
     @property
+    def scan_listener_port_tls(self):
+        """
+        Gets the scan_listener_port_tls of this CreateCloudAutonomousVmClusterDetails.
+        The SCAN Listener TLS port. Default is 2484.
+
+
+        :return: The scan_listener_port_tls of this CreateCloudAutonomousVmClusterDetails.
+        :rtype: int
+        """
+        return self._scan_listener_port_tls
+
+    @scan_listener_port_tls.setter
+    def scan_listener_port_tls(self, scan_listener_port_tls):
+        """
+        Sets the scan_listener_port_tls of this CreateCloudAutonomousVmClusterDetails.
+        The SCAN Listener TLS port. Default is 2484.
+
+
+        :param scan_listener_port_tls: The scan_listener_port_tls of this CreateCloudAutonomousVmClusterDetails.
+        :type: int
+        """
+        self._scan_listener_port_tls = scan_listener_port_tls
+
+    @property
+    def scan_listener_port_non_tls(self):
+        """
+        Gets the scan_listener_port_non_tls of this CreateCloudAutonomousVmClusterDetails.
+        The SCAN Listener Non TLS port. Default is 1521.
+
+
+        :return: The scan_listener_port_non_tls of this CreateCloudAutonomousVmClusterDetails.
+        :rtype: int
+        """
+        return self._scan_listener_port_non_tls
+
+    @scan_listener_port_non_tls.setter
+    def scan_listener_port_non_tls(self, scan_listener_port_non_tls):
+        """
+        Sets the scan_listener_port_non_tls of this CreateCloudAutonomousVmClusterDetails.
+        The SCAN Listener Non TLS port. Default is 1521.
+
+
+        :param scan_listener_port_non_tls: The scan_listener_port_non_tls of this CreateCloudAutonomousVmClusterDetails.
+        :type: int
+        """
+        self._scan_listener_port_non_tls = scan_listener_port_non_tls
+
+    @property
     def license_model(self):
         """
         Gets the license_model of this CreateCloudAutonomousVmClusterDetails.
@@ -503,6 +604,8 @@ class CreateCloudAutonomousVmClusterDetails(object):
         License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
         Note that when provisioning an Autonomous Database on `dedicated Exadata infrastructure`__, this attribute must be null because the attribute is already set at the
         Autonomous Exadata Infrastructure level. When using `shared Exadata infrastructure`__, if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+
+        This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html
@@ -523,6 +626,8 @@ class CreateCloudAutonomousVmClusterDetails(object):
         License Included allows you to subscribe to new Oracle Database software licenses and the Database service.
         Note that when provisioning an Autonomous Database on `dedicated Exadata infrastructure`__, this attribute must be null because the attribute is already set at the
         Autonomous Exadata Infrastructure level. When using `shared Exadata infrastructure`__, if a value is not specified, the system will supply the value of `BRING_YOUR_OWN_LICENSE`.
+
+        This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html

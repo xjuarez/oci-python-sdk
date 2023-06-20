@@ -65,6 +65,9 @@ class JavaManagementServiceClient(object):
         :param function circuit_breaker_callback: (optional)
             Callback function to receive any exceptions triggerred by the circuit breaker.
 
+        :param bool client_level_realm_specific_endpoint_template_enabled: (optional)
+            A boolean flag to indicate whether or not this client should be created with realm specific endpoint template enabled or disable. By default, this will be set as None.
+
         :param allow_control_chars: (optional)
             allow_control_chars is a boolean to indicate whether or not this client should allow control characters in the response object. By default, the client will not
             allow control characters to be in the response object.
@@ -91,8 +94,10 @@ class JavaManagementServiceClient(object):
             'service_endpoint': kwargs.get('service_endpoint'),
             'base_path': '/20210610',
             'service_endpoint_template': 'https://javamanagement.{region}.oci.{secondLevelDomain}',
+            'service_endpoint_template_per_realm': {  },  # noqa: E201 E202
             'skip_deserialization': kwargs.get('skip_deserialization', False),
-            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY)
+            'circuit_breaker_strategy': kwargs.get('circuit_breaker_strategy', circuit_breaker.GLOBAL_CIRCUIT_BREAKER_STRATEGY),
+            'client_level_realm_specific_endpoint_template_enabled': kwargs.get('client_level_realm_specific_endpoint_template_enabled')
         }
         if 'timeout' in kwargs:
             base_client_init_kwargs['timeout'] = kwargs.get('timeout')
@@ -152,6 +157,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/add_fleet_installation_sites.py.html>`__ to see an example of how to use add_fleet_installation_sites API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/addInstallationSites"
         method = "POST"
         operation_name = "add_fleet_installation_sites"
@@ -210,7 +217,8 @@ class JavaManagementServiceClient(object):
                 body=add_fleet_installation_sites_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -220,7 +228,8 @@ class JavaManagementServiceClient(object):
                 body=add_fleet_installation_sites_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def cancel_work_request(self, work_request_id, **kwargs):
         """
@@ -260,6 +269,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/cancel_work_request.py.html>`__ to see an example of how to use cancel_work_request API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}"
         method = "DELETE"
         operation_name = "cancel_work_request"
@@ -314,7 +325,8 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -323,7 +335,8 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def change_fleet_compartment(self, fleet_id, change_fleet_compartment_details, **kwargs):
         """
@@ -373,6 +386,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/change_fleet_compartment.py.html>`__ to see an example of how to use change_fleet_compartment API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/changeCompartment"
         method = "POST"
         operation_name = "change_fleet_compartment"
@@ -431,7 +446,8 @@ class JavaManagementServiceClient(object):
                 body=change_fleet_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -441,7 +457,8 @@ class JavaManagementServiceClient(object):
                 body=change_fleet_compartment_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_blocklist(self, fleet_id, create_blocklist_details, **kwargs):
         """
@@ -484,6 +501,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/create_blocklist.py.html>`__ to see an example of how to use create_blocklist API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/blocklists"
         method = "POST"
         operation_name = "create_blocklist"
@@ -541,7 +560,8 @@ class JavaManagementServiceClient(object):
                 response_type="Blocklist",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -552,7 +572,8 @@ class JavaManagementServiceClient(object):
                 response_type="Blocklist",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def create_fleet(self, create_fleet_details, **kwargs):
         """
@@ -598,6 +619,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/create_fleet.py.html>`__ to see an example of how to use create_fleet API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/fleets"
         method = "POST"
         operation_name = "create_fleet"
@@ -643,7 +666,8 @@ class JavaManagementServiceClient(object):
                 body=create_fleet_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -652,7 +676,8 @@ class JavaManagementServiceClient(object):
                 body=create_fleet_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_blocklist(self, fleet_id, blocklist_key, **kwargs):
         """
@@ -695,6 +720,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/delete_blocklist.py.html>`__ to see an example of how to use delete_blocklist API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId', 'blocklistKey']
         resource_path = "/fleets/{fleetId}/blocklists/{blocklistKey}"
         method = "DELETE"
         operation_name = "delete_blocklist"
@@ -750,7 +777,8 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -759,11 +787,12 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_crypto_analysis_result(self, fleet_id, crypto_analysis_result_id, **kwargs):
         """
-        Deletes only the metadata of the Crypto Event Analysis result, but the file remains in the object storage.
+        Deletes the metadata for the result of a Crypto event analysis. The actual report shall remain in the object storage.
 
 
         :param str fleet_id: (required)
@@ -802,6 +831,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/delete_crypto_analysis_result.py.html>`__ to see an example of how to use delete_crypto_analysis_result API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId', 'cryptoAnalysisResultId']
         resource_path = "/fleets/{fleetId}/cryptoAnalysisResults/{cryptoAnalysisResultId}"
         method = "DELETE"
         operation_name = "delete_crypto_analysis_result"
@@ -857,7 +888,8 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -866,7 +898,8 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def delete_fleet(self, fleet_id, **kwargs):
         """
@@ -906,6 +939,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/delete_fleet.py.html>`__ to see an example of how to use delete_fleet API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}"
         method = "DELETE"
         operation_name = "delete_fleet"
@@ -960,7 +995,8 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -969,7 +1005,230 @@ class JavaManagementServiceClient(object):
                 header_params=header_params,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def delete_java_migration_analysis_result(self, fleet_id, java_migration_analysis_result_id, **kwargs):
+        """
+        Delete the Java migration analysis result. The actual report will remain in the Object Storage bucket.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str java_migration_analysis_result_id: (required)
+            The OCID of the analysis result.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            ETag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the ETag you
+            provide matches the resource's current ETag value.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/delete_java_migration_analysis_result.py.html>`__ to see an example of how to use delete_java_migration_analysis_result API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId', 'javaMigrationAnalysisResultId']
+        resource_path = "/fleets/{fleetId}/javaMigrationAnalysisResults/{javaMigrationAnalysisResultId}"
+        method = "DELETE"
+        operation_name = "delete_java_migration_analysis_result"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/DeleteJavaMigrationAnalysisResult"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "if_match",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "delete_java_migration_analysis_result got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id,
+            "javaMigrationAnalysisResultId": java_migration_analysis_result_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "if-match": kwargs.get("if_match", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def delete_performance_tuning_analysis_result(self, fleet_id, performance_tuning_analysis_result_id, **kwargs):
+        """
+        Deletes only the metadata of the Performance Tuning Analysis result, but the file remains in the object storage.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str performance_tuning_analysis_result_id: (required)
+            The OCID of the performance tuning analysis result.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            ETag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the ETag you
+            provide matches the resource's current ETag value.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/delete_performance_tuning_analysis_result.py.html>`__ to see an example of how to use delete_performance_tuning_analysis_result API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId', 'performanceTuningAnalysisResultId']
+        resource_path = "/fleets/{fleetId}/performanceTuningAnalysisResults/{performanceTuningAnalysisResultId}"
+        method = "DELETE"
+        operation_name = "delete_performance_tuning_analysis_result"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/DeletePerformanceTuningAnalysisResult"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "if_match",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "delete_performance_tuning_analysis_result got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id,
+            "performanceTuningAnalysisResultId": performance_tuning_analysis_result_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "if-match": kwargs.get("if_match", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def generate_agent_deploy_script(self, fleet_id, generate_agent_deploy_script_details, **kwargs):
         """
@@ -982,7 +1241,7 @@ class JavaManagementServiceClient(object):
             __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
 
         :param oci.jms.models.GenerateAgentDeployScriptDetails generate_agent_deploy_script_details: (required)
-            Attributes to generate agent deploy script for a Fleet.
+            Attributes to generate the agent deploy script for a Fleet.
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -1005,6 +1264,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/generate_agent_deploy_script.py.html>`__ to see an example of how to use generate_agent_deploy_script API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/generateAgentDeployScript"
         method = "POST"
         operation_name = "generate_agent_deploy_script"
@@ -1059,7 +1320,8 @@ class JavaManagementServiceClient(object):
                 response_type="stream",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1070,11 +1332,12 @@ class JavaManagementServiceClient(object):
                 response_type="stream",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_crypto_analysis_result(self, fleet_id, crypto_analysis_result_id, **kwargs):
         """
-        Retrieve metadata of the Crypto Event Analysis result.
+        Retrieve the metadata for the result of a Crypto event analysis.
 
 
         :param str fleet_id: (required)
@@ -1106,6 +1369,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_crypto_analysis_result.py.html>`__ to see an example of how to use get_crypto_analysis_result API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId', 'cryptoAnalysisResultId']
         resource_path = "/fleets/{fleetId}/cryptoAnalysisResults/{cryptoAnalysisResultId}"
         method = "GET"
         operation_name = "get_crypto_analysis_result"
@@ -1160,7 +1425,8 @@ class JavaManagementServiceClient(object):
                 response_type="CryptoAnalysisResult",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1170,7 +1436,8 @@ class JavaManagementServiceClient(object):
                 response_type="CryptoAnalysisResult",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_fleet(self, fleet_id, **kwargs):
         """
@@ -1203,6 +1470,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_fleet.py.html>`__ to see an example of how to use get_fleet API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}"
         method = "GET"
         operation_name = "get_fleet"
@@ -1256,7 +1525,8 @@ class JavaManagementServiceClient(object):
                 response_type="Fleet",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1266,11 +1536,12 @@ class JavaManagementServiceClient(object):
                 response_type="Fleet",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_fleet_advanced_feature_configuration(self, fleet_id, **kwargs):
         """
-        Returns fleet level advanced feature configuration
+        Returns Fleet level advanced feature configuration.
 
 
         :param str fleet_id: (required)
@@ -1306,6 +1577,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_fleet_advanced_feature_configuration.py.html>`__ to see an example of how to use get_fleet_advanced_feature_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/advancedFeatureConfiguration"
         method = "GET"
         operation_name = "get_fleet_advanced_feature_configuration"
@@ -1361,7 +1634,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetAdvancedFeatureConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1371,7 +1645,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetAdvancedFeatureConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_fleet_agent_configuration(self, fleet_id, **kwargs):
         """
@@ -1404,6 +1679,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_fleet_agent_configuration.py.html>`__ to see an example of how to use get_fleet_agent_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/agentConfiguration"
         method = "GET"
         operation_name = "get_fleet_agent_configuration"
@@ -1457,7 +1734,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetAgentConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1467,7 +1745,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetAgentConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_java_family(self, family_version, **kwargs):
         """
@@ -1498,6 +1777,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_java_family.py.html>`__ to see an example of how to use get_java_family API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['familyVersion']
         resource_path = "/javaFamilies/{familyVersion}"
         method = "GET"
         operation_name = "get_java_family"
@@ -1551,7 +1832,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaFamily",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1561,7 +1843,112 @@ class JavaManagementServiceClient(object):
                 response_type="JavaFamily",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def get_java_migration_analysis_result(self, fleet_id, java_migration_analysis_result_id, **kwargs):
+        """
+        Retrieve Java Migration Analysis result.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str java_migration_analysis_result_id: (required)
+            The OCID of the analysis result.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.JavaMigrationAnalysisResult`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_java_migration_analysis_result.py.html>`__ to see an example of how to use get_java_migration_analysis_result API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId', 'javaMigrationAnalysisResultId']
+        resource_path = "/fleets/{fleetId}/javaMigrationAnalysisResults/{javaMigrationAnalysisResultId}"
+        method = "GET"
+        operation_name = "get_java_migration_analysis_result"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/GetJavaMigrationAnalysisResult"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "get_java_migration_analysis_result got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id,
+            "javaMigrationAnalysisResultId": java_migration_analysis_result_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="JavaMigrationAnalysisResult",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="JavaMigrationAnalysisResult",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_java_release(self, release_version, **kwargs):
         """
@@ -1592,6 +1979,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_java_release.py.html>`__ to see an example of how to use get_java_release API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['releaseVersion']
         resource_path = "/javaReleases/{releaseVersion}"
         method = "GET"
         operation_name = "get_java_release"
@@ -1645,7 +2034,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaRelease",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1655,7 +2045,112 @@ class JavaManagementServiceClient(object):
                 response_type="JavaRelease",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def get_performance_tuning_analysis_result(self, fleet_id, performance_tuning_analysis_result_id, **kwargs):
+        """
+        Retrieve metadata of the Performance Tuning Analysis result.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str performance_tuning_analysis_result_id: (required)
+            The OCID of the performance tuning analysis result.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.PerformanceTuningAnalysisResult`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_performance_tuning_analysis_result.py.html>`__ to see an example of how to use get_performance_tuning_analysis_result API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId', 'performanceTuningAnalysisResultId']
+        resource_path = "/fleets/{fleetId}/performanceTuningAnalysisResults/{performanceTuningAnalysisResultId}"
+        method = "GET"
+        operation_name = "get_performance_tuning_analysis_result"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/GetPerformanceTuningAnalysisResult"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "get_performance_tuning_analysis_result got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id,
+            "performanceTuningAnalysisResultId": performance_tuning_analysis_result_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="PerformanceTuningAnalysisResult",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="PerformanceTuningAnalysisResult",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def get_work_request(self, work_request_id, **kwargs):
         """
@@ -1688,6 +2183,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}"
         method = "GET"
         operation_name = "get_work_request"
@@ -1741,7 +2238,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequest",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1751,7 +2249,155 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequest",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_announcements(self, **kwargs):
+        """
+        Return a list of AnnouncementSummary items
+
+
+        :param str summary_contains: (optional)
+            Filter the list with summary contains the given value.
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str sort_order: (optional)
+            The sort order, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            The field to sort AnnouncementSummary by.  Only one sort order may be provided.
+            If no value is specified _timeReleased_ is default.
+
+            Allowed values are: "timeReleased", "summary"
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.AnnouncementCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_announcements.py.html>`__ to see an example of how to use list_announcements API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/announcements"
+        method = "GET"
+        operation_name = "list_announcements"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AnnouncementCollection/ListAnnouncements"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "summary_contains",
+            "time_start",
+            "time_end",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_announcements got unknown kwargs: {!r}".format(extra_kwargs))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["timeReleased", "summary"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "summaryContains": kwargs.get("summary_contains", missing),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AnnouncementCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AnnouncementCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_blocklists(self, fleet_id, **kwargs):
         """
@@ -1766,7 +2412,7 @@ class JavaManagementServiceClient(object):
         :param str operation: (optional)
             The operation type.
 
-            Allowed values are: "CREATE_FLEET", "DELETE_FLEET", "MOVE_FLEET", "UPDATE_FLEET", "UPDATE_FLEET_AGENT_CONFIGURATION", "DELETE_JAVA_INSTALLATION", "CREATE_JAVA_INSTALLATION", "COLLECT_JFR", "REQUEST_CRYPTO_EVENT_ANALYSIS", "SCAN_JAVA_SERVER_USAGE", "SCAN_LIBRARY_USAGE"
+            Allowed values are: "CREATE_FLEET", "DELETE_FLEET", "MOVE_FLEET", "UPDATE_FLEET", "UPDATE_FLEET_AGENT_CONFIGURATION", "DELETE_JAVA_INSTALLATION", "CREATE_JAVA_INSTALLATION", "COLLECT_JFR", "REQUEST_CRYPTO_EVENT_ANALYSIS", "REQUEST_PERFORMANCE_TUNING_ANALYSIS", "REQUEST_JAVA_MIGRATION_ANALYSIS", "SCAN_JAVA_SERVER_USAGE", "SCAN_LIBRARY_USAGE"
 
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the related managed instance.
@@ -1783,9 +2429,9 @@ class JavaManagementServiceClient(object):
             Allowed values are: "ASC", "DESC"
 
         :param str sort_by: (optional)
-            The field to sort blocklist records. Only one sort order may be provided.
+            The field used to sort blocklist records. Only one sort order may be provided.
             Default order for _operation_ is **ascending**.
-            If no value is specified _operation_ is default.
+            If no value is specified, _operation_ is default.
 
             Allowed values are: "operation"
 
@@ -1810,6 +2456,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_blocklists.py.html>`__ to see an example of how to use list_blocklists API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/blocklists"
         method = "GET"
         operation_name = "list_blocklists"
@@ -1843,7 +2491,7 @@ class JavaManagementServiceClient(object):
                 raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
 
         if 'operation' in kwargs:
-            operation_allowed_values = ["CREATE_FLEET", "DELETE_FLEET", "MOVE_FLEET", "UPDATE_FLEET", "UPDATE_FLEET_AGENT_CONFIGURATION", "DELETE_JAVA_INSTALLATION", "CREATE_JAVA_INSTALLATION", "COLLECT_JFR", "REQUEST_CRYPTO_EVENT_ANALYSIS", "SCAN_JAVA_SERVER_USAGE", "SCAN_LIBRARY_USAGE"]
+            operation_allowed_values = ["CREATE_FLEET", "DELETE_FLEET", "MOVE_FLEET", "UPDATE_FLEET", "UPDATE_FLEET_AGENT_CONFIGURATION", "DELETE_JAVA_INSTALLATION", "CREATE_JAVA_INSTALLATION", "COLLECT_JFR", "REQUEST_CRYPTO_EVENT_ANALYSIS", "REQUEST_PERFORMANCE_TUNING_ANALYSIS", "REQUEST_JAVA_MIGRATION_ANALYSIS", "SCAN_JAVA_SERVER_USAGE", "SCAN_LIBRARY_USAGE"]
             if kwargs['operation'] not in operation_allowed_values:
                 raise ValueError(
                     "Invalid value for `operation`, must be one of {0}".format(operation_allowed_values)
@@ -1901,7 +2549,8 @@ class JavaManagementServiceClient(object):
                 response_type="BlocklistCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -1912,11 +2561,12 @@ class JavaManagementServiceClient(object):
                 response_type="BlocklistCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_crypto_analysis_results(self, fleet_id, **kwargs):
         """
-        List Crypto Event Analysis results.
+        Lists the results of a Crypto event analysis.
 
 
         :param str fleet_id: (required)
@@ -1944,7 +2594,7 @@ class JavaManagementServiceClient(object):
             Allowed values are: "ASC", "DESC"
 
         :param str sort_by: (optional)
-            The field to sort crypto event analysis results. Only one sort order may be provided.
+            The field to sort crypto event analysis results. Only one sort order can be provided.
             Default order for _timeCreated_, and _jreVersion_ is **descending**.
             Default order for _managedInstanceId_, _jreDistribution_, _jreVendor_ and _osName_ is **ascending**.
             If no value is specified _timeCreated_ is default.
@@ -1982,6 +2632,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_crypto_analysis_results.py.html>`__ to see an example of how to use list_crypto_analysis_results API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/cryptoAnalysisResults"
         method = "GET"
         operation_name = "list_crypto_analysis_results"
@@ -2077,7 +2729,8 @@ class JavaManagementServiceClient(object):
                 response_type="CryptoAnalysisResultCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2088,7 +2741,124 @@ class JavaManagementServiceClient(object):
                 response_type="CryptoAnalysisResultCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_fleet_diagnoses(self, fleet_id, **kwargs):
+        """
+        List potential diagnoses that would put a fleet into FAILED or NEEDS_ATTENTION lifecycle state.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.FleetDiagnosisCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_fleet_diagnoses.py.html>`__ to see an example of how to use list_fleet_diagnoses API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/diagnoses"
+        method = "GET"
+        operation_name = "list_fleet_diagnoses"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetDiagnosisSummary/ListFleetDiagnoses"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "limit",
+            "page",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_fleet_diagnoses got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        query_params = {
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="FleetDiagnosisCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="FleetDiagnosisCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_fleets(self, **kwargs):
         """
@@ -2156,6 +2926,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_fleets.py.html>`__ to see an example of how to use list_fleets API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/fleets"
         method = "GET"
         operation_name = "list_fleets"
@@ -2242,7 +3014,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2252,7 +3025,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_installation_sites(self, fleet_id, **kwargs):
         """
@@ -2312,7 +3086,7 @@ class JavaManagementServiceClient(object):
         :param str jre_security_status: (optional)
             The security status of the Java Runtime.
 
-            Allowed values are: "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"
+            Allowed values are: "EARLY_ACCESS", "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"
 
         :param str path_contains: (optional)
             Filter the list with path contains the given value.
@@ -2345,6 +3119,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_installation_sites.py.html>`__ to see an example of how to use list_installation_sites API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/installationSites"
         method = "GET"
         operation_name = "list_installation_sites"
@@ -2409,7 +3185,7 @@ class JavaManagementServiceClient(object):
                     )
 
         if 'jre_security_status' in kwargs:
-            jre_security_status_allowed_values = ["UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"]
+            jre_security_status_allowed_values = ["EARLY_ACCESS", "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"]
             if kwargs['jre_security_status'] not in jre_security_status_allowed_values:
                 raise ValueError(
                     "Invalid value for `jre_security_status`, must be one of {0}".format(jre_security_status_allowed_values)
@@ -2462,7 +3238,8 @@ class JavaManagementServiceClient(object):
                 response_type="InstallationSiteCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2473,7 +3250,8 @@ class JavaManagementServiceClient(object):
                 response_type="InstallationSiteCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_java_families(self, **kwargs):
         """
@@ -2524,6 +3302,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_java_families.py.html>`__ to see an example of how to use list_java_families API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/javaFamilies"
         method = "GET"
         operation_name = "list_java_families"
@@ -2597,7 +3377,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaFamilyCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2607,7 +3388,173 @@ class JavaManagementServiceClient(object):
                 response_type="JavaFamilyCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_java_migration_analysis_results(self, fleet_id, **kwargs):
+        """
+        Lists the results of a Java migration analysis.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str managed_instance_id: (optional)
+            The Fleet-unique identifier of the related managed instance.
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str sort_order: (optional)
+            The sort order, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            The field that sorts the Java migration analysis results. Only one sort order can be provided.
+            The default order for _timeCreated_, _managedInstanceId_ and _workRequestId_ is **descending**.
+            If no value is specified, then _timeCreated_ is default.
+
+            Allowed values are: "timeCreated", "managedInstanceId", "workRequestId"
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.JavaMigrationAnalysisResultCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_java_migration_analysis_results.py.html>`__ to see an example of how to use list_java_migration_analysis_results API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/javaMigrationAnalysisResults"
+        method = "GET"
+        operation_name = "list_java_migration_analysis_results"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/ListJavaMigrationAnalysisResults"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "managed_instance_id",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "time_start",
+            "time_end"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_java_migration_analysis_results got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["timeCreated", "managedInstanceId", "workRequestId"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "managedInstanceId": kwargs.get("managed_instance_id", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="JavaMigrationAnalysisResultCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="JavaMigrationAnalysisResultCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_java_releases(self, **kwargs):
         """
@@ -2628,7 +3575,7 @@ class JavaManagementServiceClient(object):
         :param str jre_security_status: (optional)
             The security status of the Java Runtime.
 
-            Allowed values are: "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"
+            Allowed values are: "EARLY_ACCESS", "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"
 
         :param str license_type: (optional)
             Java license type.
@@ -2672,6 +3619,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_java_releases.py.html>`__ to see an example of how to use list_java_releases API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/javaReleases"
         method = "GET"
         operation_name = "list_java_releases"
@@ -2705,7 +3654,7 @@ class JavaManagementServiceClient(object):
                 )
 
         if 'jre_security_status' in kwargs:
-            jre_security_status_allowed_values = ["UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"]
+            jre_security_status_allowed_values = ["EARLY_ACCESS", "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"]
             if kwargs['jre_security_status'] not in jre_security_status_allowed_values:
                 raise ValueError(
                     "Invalid value for `jre_security_status`, must be one of {0}".format(jre_security_status_allowed_values)
@@ -2772,7 +3721,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaReleaseCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2782,7 +3732,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaReleaseCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_jre_usage(self, **kwargs):
         """
@@ -2857,6 +3808,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_jre_usage.py.html>`__ to see an example of how to use list_jre_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/listJreUsage"
         method = "GET"
         operation_name = "list_jre_usage"
@@ -2938,7 +3891,8 @@ class JavaManagementServiceClient(object):
                 response_type="JreUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -2948,11 +3902,183 @@ class JavaManagementServiceClient(object):
                 response_type="JreUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_performance_tuning_analysis_results(self, fleet_id, **kwargs):
+        """
+        List Performance Tuning Analysis results.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str managed_instance_id: (optional)
+            The Fleet-unique identifier of the related managed instance.
+
+        :param str application_id: (optional)
+            The Fleet-unique identifier of the related application.
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str sort_order: (optional)
+            The sort order, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            The field to sort performance tuning analysis results. Only one sort order may be provided.
+            Default order for _timeCreated_, and _jreVersion_ is **descending**.
+            Default order for _managedInstanceId_, _jreDistribution_, _jreVendor_ and _osName_ is **ascending**.
+            If no value is specified _timeCreated_ is default.
+
+            Allowed values are: "timeCreated", "managedInstanceId", "workRequestId"
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.PerformanceTuningAnalysisResultCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_performance_tuning_analysis_results.py.html>`__ to see an example of how to use list_performance_tuning_analysis_results API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/performanceTuningAnalysisResults"
+        method = "GET"
+        operation_name = "list_performance_tuning_analysis_results"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/ListPerformanceTuningAnalysisResults"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "managed_instance_id",
+            "application_id",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id",
+            "time_start",
+            "time_end"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "list_performance_tuning_analysis_results got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["timeCreated", "managedInstanceId", "workRequestId"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "managedInstanceId": kwargs.get("managed_instance_id", missing),
+            "applicationId": kwargs.get("application_id", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="PerformanceTuningAnalysisResultCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="PerformanceTuningAnalysisResultCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_work_items(self, work_request_id, **kwargs):
         """
-        Retrieve a (paginated) list of work items for a specified work request.
+        Retrieve a paginated list of work items for a specified work request.
 
 
         :param str work_request_id: (required)
@@ -2987,6 +4113,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_work_items.py.html>`__ to see an example of how to use list_work_items API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}/workItems"
         method = "GET"
         operation_name = "list_work_items"
@@ -3049,7 +4177,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkItemCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3060,7 +4189,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkItemCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_work_request_errors(self, work_request_id, **kwargs):
         """
@@ -3099,6 +4229,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}/errors"
         method = "GET"
         operation_name = "list_work_request_errors"
@@ -3161,7 +4293,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequestErrorCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3172,11 +4305,12 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequestErrorCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_work_request_logs(self, work_request_id, **kwargs):
         """
-        Retrieve a (paginated) list of logs for a specified work request.
+        Retrieve a paginated list of logs for a specified work request.
 
 
         :param str work_request_id: (required)
@@ -3211,6 +4345,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['workRequestId']
         resource_path = "/workRequests/{workRequestId}/logs"
         method = "GET"
         operation_name = "list_work_request_logs"
@@ -3273,7 +4409,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequestLogEntryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3284,7 +4421,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequestLogEntryCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def list_work_requests(self, **kwargs):
         """
@@ -3331,6 +4469,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/workRequests"
         method = "GET"
         operation_name = "list_work_requests"
@@ -3388,7 +4528,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequestCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3398,7 +4539,8 @@ class JavaManagementServiceClient(object):
                 response_type="WorkRequestCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def remove_fleet_installation_sites(self, fleet_id, remove_fleet_installation_sites_details, **kwargs):
         """
@@ -3448,6 +4590,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/remove_fleet_installation_sites.py.html>`__ to see an example of how to use remove_fleet_installation_sites API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/removeInstallationSites"
         method = "POST"
         operation_name = "remove_fleet_installation_sites"
@@ -3506,7 +4650,8 @@ class JavaManagementServiceClient(object):
                 body=remove_fleet_installation_sites_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3516,12 +4661,12 @@ class JavaManagementServiceClient(object):
                 body=remove_fleet_installation_sites_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def request_crypto_analyses(self, fleet_id, request_crypto_analyses_details, **kwargs):
         """
-        Request to perform crypto analyses. The result of crypto analysis will be uploaded to the
-        object storage bucket desiginated when enable Crypto Event Analysis feature.
+        Request to perform crypto analysis on one or more selected targets in the Fleet. The result of the crypto analysis will be uploaded to the object storage bucket created by JMS on enabling the Crypto Event Analysis feature in the Fleet.
 
 
         :param str fleet_id: (required)
@@ -3553,6 +4698,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/request_crypto_analyses.py.html>`__ to see an example of how to use request_crypto_analyses API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/requestCryptoAnalyses"
         method = "POST"
         operation_name = "request_crypto_analyses"
@@ -3606,7 +4753,8 @@ class JavaManagementServiceClient(object):
                 body=request_crypto_analyses_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3616,12 +4764,116 @@ class JavaManagementServiceClient(object):
                 body=request_crypto_analyses_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def request_java_migration_analyses(self, fleet_id, request_java_migration_analyses_details, **kwargs):
+        """
+        Request to perform a Java migration analysis. The results of the Java migration analysis will be uploaded to the
+        Object Storage bucket that you designate when you enable the Java Migration Analysis feature.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.jms.models.RequestJavaMigrationAnalysesDetails request_java_migration_analyses_details: (required)
+            Detail information that starts the Java migration analysis
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/request_java_migration_analyses.py.html>`__ to see an example of how to use request_java_migration_analyses API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/actions/requestJavaMigrationAnalyses"
+        method = "POST"
+        operation_name = "request_java_migration_analyses"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestJavaMigrationAnalyses"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "request_java_migration_analyses got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=request_java_migration_analyses_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=request_java_migration_analyses_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def request_jfr_recordings(self, fleet_id, request_jfr_recordings_details, **kwargs):
         """
-        Request to collect the JFR recordings on the selected target. The JFR files are uploaded
-        to the object storage bucket that you designated when you enabled the recording feature.
+        Request to collect the JFR recordings on the selected target in the Fleet. The JFR files are uploaded to the object storage bucket created by JMS on enabling Generic JFR feature in the Fleet.
 
 
         :param str fleet_id: (required)
@@ -3653,6 +4905,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/request_jfr_recordings.py.html>`__ to see an example of how to use request_jfr_recordings API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/requestJfrRecordings"
         method = "POST"
         operation_name = "request_jfr_recordings"
@@ -3706,7 +4960,8 @@ class JavaManagementServiceClient(object):
                 body=request_jfr_recordings_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3716,11 +4971,116 @@ class JavaManagementServiceClient(object):
                 body=request_jfr_recordings_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def request_performance_tuning_analyses(self, fleet_id, request_performance_tuning_analyses_details, **kwargs):
+        """
+        Request to perform performance tuning analyses. The result of performance tuning analysis will be uploaded to the
+        object storage bucket that you designated when you enabled the recording feature.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.jms.models.RequestPerformanceTuningAnalysesDetails request_performance_tuning_analyses_details: (required)
+            Detail information to start Performance Tuning Analyses
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/request_performance_tuning_analyses.py.html>`__ to see an example of how to use request_performance_tuning_analyses API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/actions/requestPerformanceTuningAnalyses"
+        method = "POST"
+        operation_name = "request_performance_tuning_analyses"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestPerformanceTuningAnalyses"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "request_performance_tuning_analyses got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=request_performance_tuning_analyses_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=request_performance_tuning_analyses_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def scan_java_server_usage(self, fleet_id, scan_java_server_usage_details, **kwargs):
         """
-        Scan Java server usage in a fleet.
+        Scan Java Server usage in a fleet.
 
 
         :param str fleet_id: (required)
@@ -3766,6 +5126,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/scan_java_server_usage.py.html>`__ to see an example of how to use scan_java_server_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/scanJavaServerUsage"
         method = "POST"
         operation_name = "scan_java_server_usage"
@@ -3824,7 +5186,8 @@ class JavaManagementServiceClient(object):
                 body=scan_java_server_usage_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3834,7 +5197,8 @@ class JavaManagementServiceClient(object):
                 body=scan_java_server_usage_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def scan_library_usage(self, fleet_id, scan_library_usage_details, **kwargs):
         """
@@ -3884,6 +5248,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/scan_library_usage.py.html>`__ to see an example of how to use scan_library_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/scanLibraryUsage"
         method = "POST"
         operation_name = "scan_library_usage"
@@ -3942,7 +5308,8 @@ class JavaManagementServiceClient(object):
                 body=scan_library_usage_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -3952,7 +5319,245 @@ class JavaManagementServiceClient(object):
                 body=scan_library_usage_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_application_installation_usage(self, fleet_id, **kwargs):
+        """
+        Summarizes the application installation usage in a Fleet filtered by query parameters. In contrast to SummarizeApplicationUsage, which provides only information aggregated by application name, this operation provides installation details. This allows for better focusing of actions.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str application_installation_key: (optional)
+            The Fleet-unique identifier of the application installation.
+
+        :param str application_id: (optional)
+            The Fleet-unique identifier of the application.
+
+        :param str display_name: (optional)
+            The display name.
+
+        :param str display_name_contains: (optional)
+            Filter the list with displayName contains the given value.
+
+        :param str application_type: (optional)
+            The type of the application.
+
+        :param str app_installation_path_contains: (optional)
+            Filter the list with the application installation path that contains the given value.
+
+        :param str jre_vendor: (optional)
+            The vendor of the related Java Runtime.
+
+        :param str jre_distribution: (optional)
+            The distribution of the related Java Runtime.
+
+        :param str jre_version: (optional)
+            The version of the related Java Runtime.
+
+        :param str installation_path: (optional)
+            The file system path of the Java Runtime installation.
+
+        :param str library_key: (optional)
+            The library key.
+
+        :param str managed_instance_id: (optional)
+            The Fleet-unique identifier of the related managed instance.
+
+        :param list[str] os_family: (optional)
+            The operating system type.
+
+            Allowed values are: "LINUX", "WINDOWS", "MACOS", "UNKNOWN"
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str sort_order: (optional)
+            The sort order, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            The field to sort application installation views. Only one sort order may be provided.
+            Default order for _timeFirstSeen_, _timeLastSeen_, _approximateJreCount_, _approximateInstallationCount_
+            and _approximateManagedInstanceCount_  is **descending**.
+            Default order for _displayName_, _installationPath_ and _osName_ is **ascending**.
+            If no value is specified _timeLastSeen_ is default.
+
+            Allowed values are: "timeFirstSeen", "timeLastSeen", "displayName", "installationPath", "osName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount"
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.ApplicationInstallationUsageSummaryCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_application_installation_usage.py.html>`__ to see an example of how to use summarize_application_installation_usage API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/actions/summarizeApplicationInstallationUsage"
+        method = "GET"
+        operation_name = "summarize_application_installation_usage"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ApplicationInstallationUsageSummary/SummarizeApplicationInstallationUsage"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "application_installation_key",
+            "application_id",
+            "display_name",
+            "display_name_contains",
+            "application_type",
+            "app_installation_path_contains",
+            "jre_vendor",
+            "jre_distribution",
+            "jre_version",
+            "installation_path",
+            "library_key",
+            "managed_instance_id",
+            "os_family",
+            "time_start",
+            "time_end",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_application_installation_usage got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        if 'os_family' in kwargs:
+            os_family_allowed_values = ["LINUX", "WINDOWS", "MACOS", "UNKNOWN"]
+            for os_family_item in kwargs['os_family']:
+                if os_family_item not in os_family_allowed_values:
+                    raise ValueError(
+                        "Invalid value for `os_family`, must be one of {0}".format(os_family_allowed_values)
+                    )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["timeFirstSeen", "timeLastSeen", "displayName", "installationPath", "osName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "applicationInstallationKey": kwargs.get("application_installation_key", missing),
+            "applicationId": kwargs.get("application_id", missing),
+            "displayName": kwargs.get("display_name", missing),
+            "displayNameContains": kwargs.get("display_name_contains", missing),
+            "applicationType": kwargs.get("application_type", missing),
+            "appInstallationPathContains": kwargs.get("app_installation_path_contains", missing),
+            "jreVendor": kwargs.get("jre_vendor", missing),
+            "jreDistribution": kwargs.get("jre_distribution", missing),
+            "jreVersion": kwargs.get("jre_version", missing),
+            "installationPath": kwargs.get("installation_path", missing),
+            "libraryKey": kwargs.get("library_key", missing),
+            "managedInstanceId": kwargs.get("managed_instance_id", missing),
+            "osFamily": self.base_client.generate_collection_format_param(kwargs.get("os_family", missing), 'multi'),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="ApplicationInstallationUsageSummaryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="ApplicationInstallationUsageSummaryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_application_usage(self, fleet_id, **kwargs):
         """
@@ -3983,7 +5588,7 @@ class JavaManagementServiceClient(object):
             The version of the related Java Runtime.
 
         :param str installation_path: (optional)
-            The file system path of the installation.
+            The file system path of the Java Runtime installation.
 
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the related managed instance.
@@ -4057,6 +5662,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_application_usage.py.html>`__ to see an example of how to use summarize_application_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeApplicationUsage"
         method = "GET"
         operation_name = "summarize_application_usage"
@@ -4181,7 +5788,8 @@ class JavaManagementServiceClient(object):
                 response_type="ApplicationUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4192,11 +5800,12 @@ class JavaManagementServiceClient(object):
                 response_type="ApplicationUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
-    def summarize_deployed_application_usage(self, fleet_id, **kwargs):
+    def summarize_deployed_application_installation_usage(self, fleet_id, **kwargs):
         """
-        List deployed applications in a fleet filtered by query parameters.
+        Summarize installation usage of an application deployed on Java servers in a fleet filtered by query parameters. In contrast to SummarizeDeployedApplicationUsage, which provides only information aggregated by the deployment information, this operation provides installation details and allows for better focusing of actions.
 
 
         :param str fleet_id: (required)
@@ -4208,7 +5817,211 @@ class JavaManagementServiceClient(object):
             The server key.
 
         :param str server_instance_key: (optional)
-            The Java server instance key.
+            The Java Server instance key.
+
+        :param str managed_instance_id: (optional)
+            The Fleet-unique identifier of the managed instance.
+
+        :param str application_installation_key: (optional)
+            The deployed application installation key.
+
+        :param str application_key: (optional)
+            The deployed application key.
+
+        :param str application_name_contains: (optional)
+            Filter the list with deployed application name contains the given value.
+
+        :param str application_name: (optional)
+            The deployed application name.
+
+        :param str application_source_path_contains: (optional)
+            Filter the list with application source path contains the given value.
+
+        :param str library_key: (optional)
+            The library key.
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str sort_order: (optional)
+            The sort order, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            The field to sort the deployed application installations. Only one sort order can be provided.
+            If no value is specified _timeLastSeen_ is default.
+
+            Allowed values are: "applicationName", "applicationType", "applicationSourcePath", "isClustered", "javaServerInstanceCount", "timeFirstSeen", "timeLastSeen"
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.DeployedApplicationInstallationUsageSummaryCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_deployed_application_installation_usage.py.html>`__ to see an example of how to use summarize_deployed_application_installation_usage API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/actions/summarizeDeployedApplicationInstallationUsage"
+        method = "GET"
+        operation_name = "summarize_deployed_application_installation_usage"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/DeployedApplicationInstallationUsageSummary/SummarizeDeployedApplicationInstallationUsage"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "server_key",
+            "server_instance_key",
+            "managed_instance_id",
+            "application_installation_key",
+            "application_key",
+            "application_name_contains",
+            "application_name",
+            "application_source_path_contains",
+            "library_key",
+            "time_start",
+            "time_end",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                "summarize_deployed_application_installation_usage got unknown kwargs: {!r}".format(extra_kwargs))
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError('Parameter {} cannot be None, whitespace or empty string'.format(k))
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_order`, must be one of {0}".format(sort_order_allowed_values)
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["applicationName", "applicationType", "applicationSourcePath", "isClustered", "javaServerInstanceCount", "timeFirstSeen", "timeLastSeen"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    "Invalid value for `sort_by`, must be one of {0}".format(sort_by_allowed_values)
+                )
+
+        query_params = {
+            "serverKey": kwargs.get("server_key", missing),
+            "serverInstanceKey": kwargs.get("server_instance_key", missing),
+            "managedInstanceId": kwargs.get("managed_instance_id", missing),
+            "applicationInstallationKey": kwargs.get("application_installation_key", missing),
+            "applicationKey": kwargs.get("application_key", missing),
+            "applicationNameContains": kwargs.get("application_name_contains", missing),
+            "applicationName": kwargs.get("application_name", missing),
+            "applicationSourcePathContains": kwargs.get("application_source_path_contains", missing),
+            "libraryKey": kwargs.get("library_key", missing),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="DeployedApplicationInstallationUsageSummaryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="DeployedApplicationInstallationUsageSummaryCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def summarize_deployed_application_usage(self, fleet_id, **kwargs):
+        """
+        List of deployed applications in a Fleet filtered by query parameters.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str server_key: (optional)
+            The server key.
+
+        :param str server_instance_key: (optional)
+            The Java Server instance key.
 
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the managed instance.
@@ -4247,7 +6060,7 @@ class JavaManagementServiceClient(object):
             Allowed values are: "ASC", "DESC"
 
         :param str sort_by: (optional)
-            The field to sort deployed applications.  Only one sort order may be provided.
+            The field to sort the deployed applications. Only one sort order can be provided.
             If no value is specified _timeLastSeen_ is default.
 
             Allowed values are: "applicationName", "applicationType", "isClustered", "javaServerInstanceCount", "timeFirstSeen", "timeLastSeen"
@@ -4273,6 +6086,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_deployed_application_usage.py.html>`__ to see an example of how to use summarize_deployed_application_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeDeployedApplicationUsage"
         method = "GET"
         operation_name = "summarize_deployed_application_usage"
@@ -4371,7 +6186,8 @@ class JavaManagementServiceClient(object):
                 response_type="DeployedApplicationUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4382,7 +6198,8 @@ class JavaManagementServiceClient(object):
                 response_type="DeployedApplicationUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_installation_usage(self, fleet_id, **kwargs):
         """
@@ -4477,6 +6294,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_installation_usage.py.html>`__ to see an example of how to use summarize_installation_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeInstallationUsage"
         method = "GET"
         operation_name = "summarize_installation_usage"
@@ -4595,7 +6414,8 @@ class JavaManagementServiceClient(object):
                 response_type="InstallationUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4606,11 +6426,12 @@ class JavaManagementServiceClient(object):
                 response_type="InstallationUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_java_server_instance_usage(self, fleet_id, **kwargs):
         """
-        List Java server instances in a fleet filtered by query parameters.
+        List Java Server instances in a fleet filtered by query parameters.
 
 
         :param str fleet_id: (required)
@@ -4622,7 +6443,7 @@ class JavaManagementServiceClient(object):
             The server key.
 
         :param str server_instance_key: (optional)
-            The Java server instance key.
+            The Java Server instance key.
 
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the managed instance.
@@ -4634,10 +6455,10 @@ class JavaManagementServiceClient(object):
             The library key.
 
         :param str server_instance_name_contains: (optional)
-            Filter the list with Java server instance name contains the given value.
+            Filter the list with the Java Server instance name contains the given value.
 
         :param str server_instance_name: (optional)
-            The Java server instance name.
+            The Java Server instance name.
 
         :param datetime time_start: (optional)
             The start of the time period during which resources are searched (formatted according to `RFC3339`__).
@@ -4661,7 +6482,7 @@ class JavaManagementServiceClient(object):
             Allowed values are: "ASC", "DESC"
 
         :param str sort_by: (optional)
-            The field to sort Java server instances.  Only one sort order may be provided.
+            The field to sort the Java Server instances. Only one sort order can be provided.
             If no value is specified _timeLastSeen_ is default.
 
             Allowed values are: "serverInstanceName", "managedInstanceName", "approximateDeployedApplicationCount", "timeFirstSeen", "timeLastSeen"
@@ -4687,6 +6508,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_java_server_instance_usage.py.html>`__ to see an example of how to use summarize_java_server_instance_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeJavaServerInstanceUsage"
         method = "GET"
         operation_name = "summarize_java_server_instance_usage"
@@ -4785,7 +6608,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaServerInstanceUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4796,11 +6620,12 @@ class JavaManagementServiceClient(object):
                 response_type="JavaServerInstanceUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_java_server_usage(self, fleet_id, **kwargs):
         """
-        List Java servers in a fleet filtered by query parameters.
+        List of Java servers in a Fleet filtered by query parameters.
 
 
         :param str fleet_id: (required)
@@ -4842,7 +6667,7 @@ class JavaManagementServiceClient(object):
             Allowed values are: "ASC", "DESC"
 
         :param str sort_by: (optional)
-            The field to sort Java servers.  Only one sort order may be provided.
+            The field to sort a Java Server. Only one sort order can be provided.
             If no value is specified _timeLastSeen_ is default.
 
             Allowed values are: "serverName", "serverVersion", "serverInstanceCount", "approximateDeployedApplicationCount", "timeFirstSeen", "timeLastSeen"
@@ -4868,6 +6693,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_java_server_usage.py.html>`__ to see an example of how to use summarize_java_server_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeJavaServerUsage"
         method = "GET"
         operation_name = "summarize_java_server_usage"
@@ -4960,7 +6787,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaServerUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -4971,7 +6799,8 @@ class JavaManagementServiceClient(object):
                 response_type="JavaServerUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_jre_usage(self, fleet_id, **kwargs):
         """
@@ -5050,7 +6879,7 @@ class JavaManagementServiceClient(object):
         :param str jre_security_status: (optional)
             The security status of the Java Runtime.
 
-            Allowed values are: "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"
+            Allowed values are: "EARLY_ACCESS", "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5070,6 +6899,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_jre_usage.py.html>`__ to see an example of how to use summarize_jre_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeJreUsage"
         method = "GET"
         operation_name = "summarize_jre_usage"
@@ -5142,7 +6973,7 @@ class JavaManagementServiceClient(object):
                     )
 
         if 'jre_security_status' in kwargs:
-            jre_security_status_allowed_values = ["UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"]
+            jre_security_status_allowed_values = ["EARLY_ACCESS", "UNKNOWN", "UP_TO_DATE", "UPDATE_REQUIRED", "UPGRADE_REQUIRED"]
             if kwargs['jre_security_status'] not in jre_security_status_allowed_values:
                 raise ValueError(
                     "Invalid value for `jre_security_status`, must be one of {0}".format(jre_security_status_allowed_values)
@@ -5195,7 +7026,8 @@ class JavaManagementServiceClient(object):
                 response_type="JreUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5206,7 +7038,8 @@ class JavaManagementServiceClient(object):
                 response_type="JreUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_library_usage(self, fleet_id, **kwargs):
         """
@@ -5219,7 +7052,7 @@ class JavaManagementServiceClient(object):
             __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
 
         :param str server_instance_key: (optional)
-            The Java server instance key.
+            The Java Server instance key.
 
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the managed instance.
@@ -5284,6 +7117,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_library_usage.py.html>`__ to see an example of how to use summarize_library_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeLibraryUsage"
         method = "GET"
         operation_name = "summarize_library_usage"
@@ -5380,7 +7215,8 @@ class JavaManagementServiceClient(object):
                 response_type="LibraryUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5391,7 +7227,8 @@ class JavaManagementServiceClient(object):
                 response_type="LibraryUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_managed_instance_usage(self, fleet_id, **kwargs):
         """
@@ -5421,7 +7258,7 @@ class JavaManagementServiceClient(object):
             The version of the related Java Runtime.
 
         :param str installation_path: (optional)
-            The file system path of the installation.
+            The file system path of the Java Runtime installation.
 
         :param str application_id: (optional)
             The Fleet-unique identifier of the related application.
@@ -5495,6 +7332,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_managed_instance_usage.py.html>`__ to see an example of how to use summarize_managed_instance_usage API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/actions/summarizeManagedInstanceUsage"
         method = "GET"
         operation_name = "summarize_managed_instance_usage"
@@ -5624,7 +7463,8 @@ class JavaManagementServiceClient(object):
                 response_type="ManagedInstanceUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5635,7 +7475,8 @@ class JavaManagementServiceClient(object):
                 response_type="ManagedInstanceUsageCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def summarize_resource_inventory(self, **kwargs):
         """
@@ -5678,6 +7519,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/summarize_resource_inventory.py.html>`__ to see an example of how to use summarize_resource_inventory API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
         resource_path = "/summarizeResourceInventory"
         method = "GET"
         operation_name = "summarize_resource_inventory"
@@ -5731,7 +7574,8 @@ class JavaManagementServiceClient(object):
                 response_type="ResourceInventory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5741,7 +7585,8 @@ class JavaManagementServiceClient(object):
                 response_type="ResourceInventory",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_fleet(self, fleet_id, update_fleet_details, **kwargs):
         """
@@ -5784,6 +7629,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/update_fleet.py.html>`__ to see an example of how to use update_fleet API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}"
         method = "PUT"
         operation_name = "update_fleet"
@@ -5839,7 +7686,8 @@ class JavaManagementServiceClient(object):
                 body=update_fleet_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5849,12 +7697,13 @@ class JavaManagementServiceClient(object):
                 body=update_fleet_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_fleet_advanced_feature_configuration(self, fleet_id, update_fleet_advanced_feature_configuration_details, **kwargs):
         """
-        Update advanced feature configurations for the fleet
-        Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature
+        Update advanced feature configurations for the Fleet.
+        Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature.
 
 
         :param str fleet_id: (required)
@@ -5863,7 +7712,7 @@ class JavaManagementServiceClient(object):
             __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
 
         :param oci.jms.models.UpdateFleetAdvancedFeatureConfigurationDetails update_fleet_advanced_feature_configuration_details: (required)
-            Update advanced feature configurations with new fields
+            Update advanced feature configurations with new fields.
 
         :param str opc_retry_token: (optional)
             A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -5900,6 +7749,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/update_fleet_advanced_feature_configuration.py.html>`__ to see an example of how to use update_fleet_advanced_feature_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/advancedFeatureConfiguration"
         method = "PUT"
         operation_name = "update_fleet_advanced_feature_configuration"
@@ -5959,7 +7810,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetAdvancedFeatureConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -5970,7 +7822,8 @@ class JavaManagementServiceClient(object):
                 response_type="FleetAdvancedFeatureConfiguration",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
 
     def update_fleet_agent_configuration(self, fleet_id, update_fleet_agent_configuration_details, **kwargs):
         """
@@ -6013,6 +7866,8 @@ class JavaManagementServiceClient(object):
         :example:
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/update_fleet_agent_configuration.py.html>`__ to see an example of how to use update_fleet_agent_configuration API.
         """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
         resource_path = "/fleets/{fleetId}/agentConfiguration"
         method = "PUT"
         operation_name = "update_fleet_agent_configuration"
@@ -6068,7 +7923,8 @@ class JavaManagementServiceClient(object):
                 body=update_fleet_agent_configuration_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
         else:
             return self.base_client.call_api(
                 resource_path=resource_path,
@@ -6078,4 +7934,5 @@ class JavaManagementServiceClient(object):
                 body=update_fleet_agent_configuration_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
-                api_reference_link=api_reference_link)
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)

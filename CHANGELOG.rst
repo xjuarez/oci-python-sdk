@@ -4,6 +4,207 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 ====================
+2.104.2 - 2023-06-13
+====================
+
+Added
+-----
+* Support for the OCI Control Center service
+* Support for resource quotas and limits in the Usage service
+* Support for allowing users to select the billing interval of deleted ESXi hosts while adding new ESXi hosts in the VMWare Solution service
+* Support for custom key/value pairs and custom document classification in the AI Document service
+* Support for namespace-prefixed domains in the Object Storage service
+* Support for getting the full path to a pre-authenticated request in the Object Storage service
+* Support for Java migration analysis, performance tuning recommendations, and JDK LCM customization in the Java Management service
+* Support for the TCPS protocol for cloud databases in the Operations Insights service
+* Support for AIX hosts that are monitored via Enterprise Manager in the Operations Insights service
+ 
+====================
+2.104.1 - 2023-06-06
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the eu-madrid-2 region
+* Support for bulk include/exclude of migration objects in the Database Migration service
+* Support for Kafka cluster profiles, including dedicated Kafka broker nodes, in the Big Data service
+* Support for MySQL HeatWave Lakehouse in the MySQL Database service
+* Support for capacity reports in the Compute service
+
+====================
+2.104.0 - 2023-05-30
+====================
+
+Added
+-----
+* Support for policy-based snapshots in the File Storage service
+* Support for creating and updating a VM cluster network with disaster recovery network support in the Database service
+* Support for setting a management dashboard or saved search to be shared across OCI Observability & Management services in the Management Dashboard service  
+ 
+Breaking
+--------
+* The property `port` was deprecated and made optional in the `ScanDetails` model in the Database service
+ 
+====================
+2.103.0 - 2023-05-23
+====================
+
+Added
+-----
+* Support for CRI-O parsing in the Logging service
+* Support for retrieving the resource availability domain when getting Exadata infrastructure or VM clusters in the Database service
+* Support for specifying database servers when creating dedicated autonomous databases in the Database service
+* Support for secondary egress zones in the DNS service
+ 
+Breaking
+--------
+* The models `LogIncludedSearch`, `LogIncludedSearchSummary`, `LogIncludedSearchSummaryCollection`, `LogIncludedSearch`, `LogIncludedSearchSummary` and `LogIncludedSearchSummaryCollection` were removed in the Logging service
+* The property `keys` was made required in the `UnifiedAgentCsvParser` and `UnifiedAgentTsvParser` models in the Logging service
+* The property `patterns` was made required in the `UnifiedAgentGrokParser` and `UnifiedAgentMultilineGrokParser` models in the Logging service
+* The properties `sources` and `destination` were made required in the `UnifiedAgentLoggingConfiguration` model in the Logging service
+* The property `format` was made required in the `UnifiedAgentMultilineParser` model in the Logging service
+* The property `expression` was made required in the `UnifiedAgentRegexParser` model in the Logging service
+* The property `paths` was made required in the `UnifiedAgentTailLogSource` model in the Logging service
+* The property `channels` was made required in the `UnifiedAgentWindowsEventSource` model in the Logging service
+* The operations `get_log_included_search` and `list_log_included_searches` were removed from the `LoggingManagementClient` in the Logging service
+* A new required property `external_downstreams` was added in the `zone` model in the DNS service
+ 
+====================
+2.102.0 - 2023-05-16
+====================
+
+Added
+-----
+* Support for self-service integration in the Fusion Apps as a Service service
+ 
+Breaking
+--------
+* The models `AttachExistingInstanceDetails`, `CreateNewInstanceDetails`, `CreateOicServiceInstanceDetails`, `CreateServiceInstanceDetails`, `FawAdminInfoDetails` and `CreateOaxServiceInstanceDetails` were removed from the Fusion Apps as a Service service
+* The property `action` was removed from the `ServiceAttachment` model in the Fusion Apps as a Service service
+* The property `action` was removed from the `CreateServiceAttachmentDetails` model in the Fusion Apps as a Service service
+ 
+====================
+2.101.0 - 2023-05-09
+====================
+
+Added
+-----
+* Support for the Access Governance service
+* Support for creating, updating, listing and downloading one-off patches in the Database service
+* Support for changing disaster recovery configurations of remote autonomous databases in the Database service
+* Support for scheduling automatic backups in the Database service
+* Support for provisioning Software-Defined Data Centers (SDDCs) using standard bare metal shapes, with Block Storage as the datastore, in the VMWare Solution service
+* Support for parity with the configuration options of the Compute service in the Compute Autoscaling service
+ 
+Breaking
+--------
+* The Data Connectivity Management service was removed from the SDK
+ 
+====================
+2.100.0 - 2023-05-02
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the eu-jovanovac-1 region
+* Support for bring-your-own-license TLS and ORDS certificates in the Database service
+* Support for tags in the Stack Monitoring service
+* Support for GPU shapes for model deployments in the Data Science service
+* Support for returning networking details of instances in the Visual Builder service
+* Support for high-memory VMs in the Compute service
+* Support for integrating with the Integration Cloud service in the Process Automation service
+* Support for managing on-demand node upgrades in node pools in the Container Engine for Kubernetes service  
+ 
+Breaking
+--------
+* The model `UpdateVirtualNodeDetails` was removed from the Container Engine for Kubernetes service
+* The property `type` in the `DiscoveryDetails` model in the Application Migration service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support.
+* The property `protocol` in the `IdentityProvider` model in the Identity Data Plane service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support.
+* The properties `lifecycle_state`, `kind`, and `last_execution_status` in the `Rule` model in the Log Analytics service were fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if these properties are assigned a value that they do not support.
+* The properties `type` and `lifecycle_state` in the `Parameter` model in the Digital Assistant service were fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if these properties are assigned a value that they do not support.
+* The property `model_type` in the `AbstractField`, `ConnectionDetails`, `Filter`, `Operation`, and `Source` models in the Data Integration service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support.
+* The property `baseline_ocpu_utilization` in the `LaunchInstanceShapeConfigDetails` model in the Compute service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support.
+* The property `type` in the `AssetSource`, `AssetSourceCredentials`, and `AssetSourceSummary` models in the Cloud Migration service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support.
+* The property `lifecycle_state` in the `AssetSource`, `AssetSourceConnection`, `AssetSourceSummary`, `DiscoverySchedule`, and `DiscoveryScheduleSummary` models in the Cloud Migration service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support.
+* The property `connection_type` in the `AssetSourceConnection` model in the Cloud Migration Service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support.
+ 
+====================
+2.99.1 - 2023-04-25
+====================
+
+Added
+-----
+* Support for enabling mTLS authentication with Listener and for providing custom value for TLS port and Non-TLS Port during AVM Cluster Creation in Database service
+* Support for usedDataStorageSizeInGbs property for autonomous database in the Database service
+* Support for csiNumber organization in Tenant Manager Control Plane service
+* Support for creating and updating an infrastructure with LACP support in Database service
+* Support for changePrivateEndpointOutboundConnection operation in Integration Cloud service
+* Support for Enable Process in Integration Cloud service
+* Support for Disaster Recovery, DR enablement, switchover, and failover feature in Fusion Apps service
+* Support for discovery and monitoring of External Exadata infrastructure in Database Management Service
+ 
+====================
+2.99.0 - 2023-04-18
+====================
+
+Added
+-----
+* Support for private endpoints in the Digital Assistant service
+* Support for canceling backups in the Database service
+* Support for improved labeling of key/value pairs in the Data Labeling service 
+ 
+Breaking
+--------
+* Support for retries by default on operations of the Digital Assistant service
+* The property `opc_retry_token` was removed from the models `configure_digital_assistant_parameters`, `rotate_channel_keys`, `start_channel`, `stop_channel` in the Digital Assistant service
+- The property `lifetime_logical_clock` was removed from the models `Record`, `Dataset` and `Annotation` in the Digital Assistant service
+- The property `digital_assistant_id` was renamed to `id` in the `list_digital_assistants` model in the Digital Assistant service
+- The property `is_latest_skill_only` was renamed to `is_latest_version_only` in the `list_packages` method in the Digital Assistant service
+- The property `skill_id` was renamed to `id` in the `list_skills` model in the Digital Assistant service
+- The properties `authorization_endpoint_url` and `subject_claim` were made optional in the `AuthenticationProvider` model in the Digital Assistant service
+ 
+====================
+2.98.0 - 2023-04-11
+====================
+
+Added
+-----
+* Support for rotation of certificates on autonomous VM clusters on Exadata Cloud at Customer in the Database service
+* Support for ACD and OKV wallet naming for autonomous databases and dedicated autonomous databases on Exadata Cloud at Customer in the Database service
+* Support for Exadata cloud service application virtual IPs (VIPs) in the Database service
+* Support for additional manageability features for large sensitive data models and masking policies in the Data Safe service
+* Support for getting user profile details and assignments for databases and fleets in the Data Safe service
+* Support for enabling ADDM spotlight for databases in the Operations Insights service  
+ 
+Breaking
+--------
+* The property `additional_database_status` was removed from the models `AutonomousDatabase`, `AutonomousDatabaseSummary`, `AutonomousDataWarehouse`and `AutonomousDataWarehouseSummary` in the Database service  
+ 
+====================
+2.97.0 - 2023-04-04
+====================
+
+Added
+-----
+* Support for pre-emptible worker nodes in the Container Engine for Kubernetes service
+* Support for larger data storage (now up to 128TB) in the MySQL Database service
+* Support for HTTP health checks for HTTPS backend sets in the Load Balancer service  
+ 
+Breaking
+--------
+* The property `backend_set_name` was made required in the `ForwardToBackendSet` model in the Load Balancer service
+2.96.1 - 2023-03-28
+====================
+
+Added
+-----
+* Support for ACD and OKV wallet naming for autonomous databases and dedicated autonomous databases on Exadata Cloud at Customer in the Database service
+* Support for validating the credentials of a connection in the DevOps service
+* Support for GoldenGate Replicat performance profiles when creating a migration in the Database Migration service
+* Support for connection diagnostics on registered databases in the Database Migration service
+* Support for launching bare metal instances in an RDMA network in the Compute service
+ 
+====================
 2.96.0 - 2023-03-21
 ====================
 

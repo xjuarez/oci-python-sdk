@@ -8,6 +8,8 @@ from .activate_exadata_infrastructure_details import ActivateExadataInfrastructu
 from .add_virtual_machine_to_cloud_vm_cluster_details import AddVirtualMachineToCloudVmClusterDetails
 from .add_virtual_machine_to_vm_cluster_details import AddVirtualMachineToVmClusterDetails
 from .app_version_summary import AppVersionSummary
+from .application_vip import ApplicationVip
+from .application_vip_summary import ApplicationVipSummary
 from .associated_database_details import AssociatedDatabaseDetails
 from .automated_mount_details import AutomatedMountDetails
 from .autonomous_container_database import AutonomousContainerDatabase
@@ -43,6 +45,7 @@ from .autonomous_patch_summary import AutonomousPatchSummary
 from .autonomous_virtual_machine import AutonomousVirtualMachine
 from .autonomous_virtual_machine_summary import AutonomousVirtualMachineSummary
 from .autonomous_vm_cluster import AutonomousVmCluster
+from .autonomous_vm_cluster_resource_details import AutonomousVmClusterResourceDetails
 from .autonomous_vm_cluster_summary import AutonomousVmClusterSummary
 from .backup import Backup
 from .backup_destination import BackupDestination
@@ -76,6 +79,7 @@ from .console_connection import ConsoleConnection
 from .console_connection_summary import ConsoleConnectionSummary
 from .convert_to_pdb_details import ConvertToPdbDetails
 from .convert_to_pdb_target_base import ConvertToPdbTargetBase
+from .create_application_vip_details import CreateApplicationVipDetails
 from .create_autonomous_container_database_details import CreateAutonomousContainerDatabaseDetails
 from .create_autonomous_database_backup_details import CreateAutonomousDatabaseBackupDetails
 from .create_autonomous_database_base import CreateAutonomousDatabaseBase
@@ -124,6 +128,7 @@ from .create_external_pluggable_database_details import CreateExternalPluggableD
 from .create_key_store_details import CreateKeyStoreDetails
 from .create_nfs_backup_destination_details import CreateNFSBackupDestinationDetails
 from .create_new_database_details import CreateNewDatabaseDetails
+from .create_oneoff_patch_details import CreateOneoffPatchDetails
 from .create_pluggable_database_details import CreatePluggableDatabaseDetails
 from .create_recovery_appliance_backup_destination_details import CreateRecoveryApplianceBackupDestinationDetails
 from .create_refreshable_autonomous_database_clone_details import CreateRefreshableAutonomousDatabaseCloneDetails
@@ -178,6 +183,8 @@ from .db_version_summary import DbVersionSummary
 from .deregister_autonomous_database_data_safe_details import DeregisterAutonomousDatabaseDataSafeDetails
 from .disaster_recovery_configuration import DisasterRecoveryConfiguration
 from .disk_performance_details import DiskPerformanceDetails
+from .download_oneoff_patch import DownloadOneoffPatch
+from .dr_scan_details import DrScanDetails
 from .enable_database_management_details import EnableDatabaseManagementDetails
 from .enable_external_container_database_database_management_details import EnableExternalContainerDatabaseDatabaseManagementDetails
 from .enable_external_container_database_stack_monitoring_details import EnableExternalContainerDatabaseStackMonitoringDetails
@@ -197,6 +204,7 @@ from .exadata_db_system_migration_summary import ExadataDbSystemMigrationSummary
 from .exadata_infrastructure import ExadataInfrastructure
 from .exadata_infrastructure_contact import ExadataInfrastructureContact
 from .exadata_infrastructure_summary import ExadataInfrastructureSummary
+from .exadata_infrastructure_un_allocated_resources import ExadataInfrastructureUnAllocatedResources
 from .exadata_iorm_config import ExadataIormConfig
 from .exadata_iorm_config_update_details import ExadataIormConfigUpdateDetails
 from .external_backup_job import ExternalBackupJob
@@ -243,8 +251,11 @@ from .modify_database_management_details import ModifyDatabaseManagementDetails
 from .modify_pluggable_database_management_details import ModifyPluggableDatabaseManagementDetails
 from .month import Month
 from .mount_type_details import MountTypeDetails
+from .network_bonding_mode_details import NetworkBondingModeDetails
 from .node_details import NodeDetails
 from .ocp_us import OCPUs
+from .oneoff_patch import OneoffPatch
+from .oneoff_patch_summary import OneoffPatchSummary
 from .operations_insights_config import OperationsInsightsConfig
 from .patch import Patch
 from .patch_details import PatchDetails
@@ -269,6 +280,10 @@ from .remove_virtual_machine_from_vm_cluster_details import RemoveVirtualMachine
 from .resize_vm_cluster_network_details import ResizeVmClusterNetworkDetails
 from .restore_autonomous_database_details import RestoreAutonomousDatabaseDetails
 from .restore_database_details import RestoreDatabaseDetails
+from .rotate_autonomous_vm_cluster_ords_certs_details import RotateAutonomousVmClusterOrdsCertsDetails
+from .rotate_autonomous_vm_cluster_ssl_certs_details import RotateAutonomousVmClusterSslCertsDetails
+from .rotate_cloud_autonomous_vm_cluster_ords_certs_details import RotateCloudAutonomousVmClusterOrdsCertsDetails
+from .rotate_cloud_autonomous_vm_cluster_ssl_certs_details import RotateCloudAutonomousVmClusterSslCertsDetails
 from .scan_details import ScanDetails
 from .scheduled_operation_details import ScheduledOperationDetails
 from .self_mount_details import SelfMountDetails
@@ -304,6 +319,7 @@ from .update_history_entry import UpdateHistoryEntry
 from .update_history_entry_summary import UpdateHistoryEntrySummary
 from .update_key_store_details import UpdateKeyStoreDetails
 from .update_maintenance_run_details import UpdateMaintenanceRunDetails
+from .update_oneoff_patch_details import UpdateOneoffPatchDetails
 from .update_pluggable_database_details import UpdatePluggableDatabaseDetails
 from .update_summary import UpdateSummary
 from .update_vm_cluster_details import UpdateVmClusterDetails
@@ -329,6 +345,8 @@ database_type_mapping = {
     "AddVirtualMachineToCloudVmClusterDetails": AddVirtualMachineToCloudVmClusterDetails,
     "AddVirtualMachineToVmClusterDetails": AddVirtualMachineToVmClusterDetails,
     "AppVersionSummary": AppVersionSummary,
+    "ApplicationVip": ApplicationVip,
+    "ApplicationVipSummary": ApplicationVipSummary,
     "AssociatedDatabaseDetails": AssociatedDatabaseDetails,
     "AutomatedMountDetails": AutomatedMountDetails,
     "AutonomousContainerDatabase": AutonomousContainerDatabase,
@@ -364,6 +382,7 @@ database_type_mapping = {
     "AutonomousVirtualMachine": AutonomousVirtualMachine,
     "AutonomousVirtualMachineSummary": AutonomousVirtualMachineSummary,
     "AutonomousVmCluster": AutonomousVmCluster,
+    "AutonomousVmClusterResourceDetails": AutonomousVmClusterResourceDetails,
     "AutonomousVmClusterSummary": AutonomousVmClusterSummary,
     "Backup": Backup,
     "BackupDestination": BackupDestination,
@@ -397,6 +416,7 @@ database_type_mapping = {
     "ConsoleConnectionSummary": ConsoleConnectionSummary,
     "ConvertToPdbDetails": ConvertToPdbDetails,
     "ConvertToPdbTargetBase": ConvertToPdbTargetBase,
+    "CreateApplicationVipDetails": CreateApplicationVipDetails,
     "CreateAutonomousContainerDatabaseDetails": CreateAutonomousContainerDatabaseDetails,
     "CreateAutonomousDatabaseBackupDetails": CreateAutonomousDatabaseBackupDetails,
     "CreateAutonomousDatabaseBase": CreateAutonomousDatabaseBase,
@@ -445,6 +465,7 @@ database_type_mapping = {
     "CreateKeyStoreDetails": CreateKeyStoreDetails,
     "CreateNFSBackupDestinationDetails": CreateNFSBackupDestinationDetails,
     "CreateNewDatabaseDetails": CreateNewDatabaseDetails,
+    "CreateOneoffPatchDetails": CreateOneoffPatchDetails,
     "CreatePluggableDatabaseDetails": CreatePluggableDatabaseDetails,
     "CreateRecoveryApplianceBackupDestinationDetails": CreateRecoveryApplianceBackupDestinationDetails,
     "CreateRefreshableAutonomousDatabaseCloneDetails": CreateRefreshableAutonomousDatabaseCloneDetails,
@@ -499,6 +520,8 @@ database_type_mapping = {
     "DeregisterAutonomousDatabaseDataSafeDetails": DeregisterAutonomousDatabaseDataSafeDetails,
     "DisasterRecoveryConfiguration": DisasterRecoveryConfiguration,
     "DiskPerformanceDetails": DiskPerformanceDetails,
+    "DownloadOneoffPatch": DownloadOneoffPatch,
+    "DrScanDetails": DrScanDetails,
     "EnableDatabaseManagementDetails": EnableDatabaseManagementDetails,
     "EnableExternalContainerDatabaseDatabaseManagementDetails": EnableExternalContainerDatabaseDatabaseManagementDetails,
     "EnableExternalContainerDatabaseStackMonitoringDetails": EnableExternalContainerDatabaseStackMonitoringDetails,
@@ -518,6 +541,7 @@ database_type_mapping = {
     "ExadataInfrastructure": ExadataInfrastructure,
     "ExadataInfrastructureContact": ExadataInfrastructureContact,
     "ExadataInfrastructureSummary": ExadataInfrastructureSummary,
+    "ExadataInfrastructureUnAllocatedResources": ExadataInfrastructureUnAllocatedResources,
     "ExadataIormConfig": ExadataIormConfig,
     "ExadataIormConfigUpdateDetails": ExadataIormConfigUpdateDetails,
     "ExternalBackupJob": ExternalBackupJob,
@@ -564,8 +588,11 @@ database_type_mapping = {
     "ModifyPluggableDatabaseManagementDetails": ModifyPluggableDatabaseManagementDetails,
     "Month": Month,
     "MountTypeDetails": MountTypeDetails,
+    "NetworkBondingModeDetails": NetworkBondingModeDetails,
     "NodeDetails": NodeDetails,
     "OCPUs": OCPUs,
+    "OneoffPatch": OneoffPatch,
+    "OneoffPatchSummary": OneoffPatchSummary,
     "OperationsInsightsConfig": OperationsInsightsConfig,
     "Patch": Patch,
     "PatchDetails": PatchDetails,
@@ -590,6 +617,10 @@ database_type_mapping = {
     "ResizeVmClusterNetworkDetails": ResizeVmClusterNetworkDetails,
     "RestoreAutonomousDatabaseDetails": RestoreAutonomousDatabaseDetails,
     "RestoreDatabaseDetails": RestoreDatabaseDetails,
+    "RotateAutonomousVmClusterOrdsCertsDetails": RotateAutonomousVmClusterOrdsCertsDetails,
+    "RotateAutonomousVmClusterSslCertsDetails": RotateAutonomousVmClusterSslCertsDetails,
+    "RotateCloudAutonomousVmClusterOrdsCertsDetails": RotateCloudAutonomousVmClusterOrdsCertsDetails,
+    "RotateCloudAutonomousVmClusterSslCertsDetails": RotateCloudAutonomousVmClusterSslCertsDetails,
     "ScanDetails": ScanDetails,
     "ScheduledOperationDetails": ScheduledOperationDetails,
     "SelfMountDetails": SelfMountDetails,
@@ -625,6 +656,7 @@ database_type_mapping = {
     "UpdateHistoryEntrySummary": UpdateHistoryEntrySummary,
     "UpdateKeyStoreDetails": UpdateKeyStoreDetails,
     "UpdateMaintenanceRunDetails": UpdateMaintenanceRunDetails,
+    "UpdateOneoffPatchDetails": UpdateOneoffPatchDetails,
     "UpdatePluggableDatabaseDetails": UpdatePluggableDatabaseDetails,
     "UpdateSummary": UpdateSummary,
     "UpdateVmClusterDetails": UpdateVmClusterDetails,

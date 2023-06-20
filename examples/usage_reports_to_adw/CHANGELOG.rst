@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 =====================
+23.04.18 - 2023.04.18
+=====================
+* Added showoci_csv2adw.py to load showoci csv files to adw if showoci enabled
+
+=====================
+23.04.11 - 2023.04.11
+=====================
+* Point to OCI Python SDK Repo
+
+=====================
+23.03.22 - 2023.03.22
+=====================
+* Added OCI_RESOURCES Table populated from showoci
+
+=====================
 23.03.15 - 2023.03.15
 =====================
 * Fix OCI_LOAD_STATUS Constraint bug

@@ -44,6 +44,7 @@ from .node import Node
 from .node_error import NodeError
 from .node_eviction_node_pool_settings import NodeEvictionNodePoolSettings
 from .node_pool import NodePool
+from .node_pool_cycling_details import NodePoolCyclingDetails
 from .node_pool_node_config_details import NodePoolNodeConfigDetails
 from .node_pool_options import NodePoolOptions
 from .node_pool_placement_config_details import NodePoolPlacementConfigDetails
@@ -61,11 +62,14 @@ from .placement_configuration import PlacementConfiguration
 from .pod_configuration import PodConfiguration
 from .pod_shape import PodShape
 from .pod_shape_summary import PodShapeSummary
+from .preemptible_node_config_details import PreemptibleNodeConfigDetails
+from .preemption_action import PreemptionAction
 from .service_lb_config_details import ServiceLbConfigDetails
 from .shape_memory_options import ShapeMemoryOptions
 from .shape_network_bandwidth_options import ShapeNetworkBandwidthOptions
 from .shape_ocpu_options import ShapeOcpuOptions
 from .taint import Taint
+from .terminate_preemption_action import TerminatePreemptionAction
 from .update_addon_details import UpdateAddonDetails
 from .update_cluster_details import UpdateClusterDetails
 from .update_cluster_endpoint_config_details import UpdateClusterEndpointConfigDetails
@@ -74,7 +78,6 @@ from .update_image_policy_config_details import UpdateImagePolicyConfigDetails
 from .update_node_pool_details import UpdateNodePoolDetails
 from .update_node_pool_node_config_details import UpdateNodePoolNodeConfigDetails
 from .update_node_shape_config_details import UpdateNodeShapeConfigDetails
-from .update_virtual_node_details import UpdateVirtualNodeDetails
 from .update_virtual_node_pool_details import UpdateVirtualNodePoolDetails
 from .virtual_node import VirtualNode
 from .virtual_node_pool import VirtualNodePool
@@ -129,6 +132,7 @@ container_engine_type_mapping = {
     "NodeError": NodeError,
     "NodeEvictionNodePoolSettings": NodeEvictionNodePoolSettings,
     "NodePool": NodePool,
+    "NodePoolCyclingDetails": NodePoolCyclingDetails,
     "NodePoolNodeConfigDetails": NodePoolNodeConfigDetails,
     "NodePoolOptions": NodePoolOptions,
     "NodePoolPlacementConfigDetails": NodePoolPlacementConfigDetails,
@@ -146,11 +150,14 @@ container_engine_type_mapping = {
     "PodConfiguration": PodConfiguration,
     "PodShape": PodShape,
     "PodShapeSummary": PodShapeSummary,
+    "PreemptibleNodeConfigDetails": PreemptibleNodeConfigDetails,
+    "PreemptionAction": PreemptionAction,
     "ServiceLbConfigDetails": ServiceLbConfigDetails,
     "ShapeMemoryOptions": ShapeMemoryOptions,
     "ShapeNetworkBandwidthOptions": ShapeNetworkBandwidthOptions,
     "ShapeOcpuOptions": ShapeOcpuOptions,
     "Taint": Taint,
+    "TerminatePreemptionAction": TerminatePreemptionAction,
     "UpdateAddonDetails": UpdateAddonDetails,
     "UpdateClusterDetails": UpdateClusterDetails,
     "UpdateClusterEndpointConfigDetails": UpdateClusterEndpointConfigDetails,
@@ -159,7 +166,6 @@ container_engine_type_mapping = {
     "UpdateNodePoolDetails": UpdateNodePoolDetails,
     "UpdateNodePoolNodeConfigDetails": UpdateNodePoolNodeConfigDetails,
     "UpdateNodeShapeConfigDetails": UpdateNodeShapeConfigDetails,
-    "UpdateVirtualNodeDetails": UpdateVirtualNodeDetails,
     "UpdateVirtualNodePoolDetails": UpdateVirtualNodePoolDetails,
     "VirtualNode": VirtualNode,
     "VirtualNodePool": VirtualNodePool,
