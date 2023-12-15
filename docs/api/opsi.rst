@@ -74,6 +74,11 @@ Opsi
     oci.opsi.models.AwrDatabaseWaitEventCollection
     oci.opsi.models.AwrDatabaseWaitEventSummary
     oci.opsi.models.AwrHub
+    oci.opsi.models.AwrHubObjects
+    oci.opsi.models.AwrHubSource
+    oci.opsi.models.AwrHubSourceSummary
+    oci.opsi.models.AwrHubSourceSummaryCollection
+    oci.opsi.models.AwrHubSources
     oci.opsi.models.AwrHubSummary
     oci.opsi.models.AwrHubSummaryCollection
     oci.opsi.models.AwrHubs
@@ -85,11 +90,14 @@ Opsi
     oci.opsi.models.BasicConfigurationItemMetadata
     oci.opsi.models.BasicConfigurationItemSummary
     oci.opsi.models.ChangeAutonomousDatabaseInsightAdvancedFeaturesDetails
+    oci.opsi.models.ChangeAwrHubSourceCompartmentDetails
     oci.opsi.models.ChangeDatabaseInsightCompartmentDetails
     oci.opsi.models.ChangeEnterpriseManagerBridgeCompartmentDetails
     oci.opsi.models.ChangeExadataInsightCompartmentDetails
     oci.opsi.models.ChangeHostInsightCompartmentDetails
+    oci.opsi.models.ChangeNewsReportCompartmentDetails
     oci.opsi.models.ChangeOperationsInsightsPrivateEndpointCompartmentDetails
+    oci.opsi.models.ChangeOperationsInsightsWarehouseCompartmentDetails
     oci.opsi.models.ChangeOpsiConfigurationCompartmentDetails
     oci.opsi.models.ChangePeComanagedDatabaseInsightDetails
     oci.opsi.models.CloudImportableComputeEntitySummary
@@ -103,6 +111,7 @@ Opsi
     oci.opsi.models.ConfigurationItemsCollection
     oci.opsi.models.ConnectionDetails
     oci.opsi.models.CreateAwrHubDetails
+    oci.opsi.models.CreateAwrHubSourceDetails
     oci.opsi.models.CreateBasicConfigurationItemDetails
     oci.opsi.models.CreateConfigurationItemDetails
     oci.opsi.models.CreateDatabaseInsightDetails
@@ -115,6 +124,7 @@ Opsi
     oci.opsi.models.CreateHostInsightDetails
     oci.opsi.models.CreateMacsManagedCloudHostInsightDetails
     oci.opsi.models.CreateMacsManagedExternalHostInsightDetails
+    oci.opsi.models.CreateNewsReportDetails
     oci.opsi.models.CreateOperationsInsightsPrivateEndpointDetails
     oci.opsi.models.CreateOperationsInsightsWarehouseDetails
     oci.opsi.models.CreateOperationsInsightsWarehouseUserDetails
@@ -130,6 +140,7 @@ Opsi
     oci.opsi.models.DBExternalProperties
     oci.opsi.models.DBOSConfigInstance
     oci.opsi.models.DBParameters
+    oci.opsi.models.DataObjectBindParameter
     oci.opsi.models.DataObjectColumnMetadata
     oci.opsi.models.DataObjectColumnUnit
     oci.opsi.models.DataObjectCoreColumnUnit
@@ -141,6 +152,7 @@ Opsi
     oci.opsi.models.DataObjectQuery
     oci.opsi.models.DataObjectQueryTimeFilters
     oci.opsi.models.DataObjectRateColumnUnit
+    oci.opsi.models.DataObjectStandardQuery
     oci.opsi.models.DataObjectTemperatureColumnUnit
     oci.opsi.models.DataObjectTemplatizedQuery
     oci.opsi.models.DataObjectTimeColumnUnit
@@ -245,6 +257,7 @@ Opsi
     oci.opsi.models.ImportableComputeEntitySummaryCollection
     oci.opsi.models.ImportableEnterpriseManagerEntity
     oci.opsi.models.ImportableEnterpriseManagerEntityCollection
+    oci.opsi.models.IndividualOpsiDataObjectDetailsInQuery
     oci.opsi.models.IngestAddmReportsDetails
     oci.opsi.models.IngestAddmReportsResponseDetails
     oci.opsi.models.IngestDatabaseConfigurationDetails
@@ -253,6 +266,8 @@ Opsi
     oci.opsi.models.IngestHostConfigurationResponseDetails
     oci.opsi.models.IngestHostMetricsDetails
     oci.opsi.models.IngestHostMetricsResponseDetails
+    oci.opsi.models.IngestMySqlSqlTextDetails
+    oci.opsi.models.IngestMySqlSqlTextResponseDetails
     oci.opsi.models.IngestSqlBucketDetails
     oci.opsi.models.IngestSqlBucketResponseDetails
     oci.opsi.models.IngestSqlPlanLinesDetails
@@ -262,6 +277,7 @@ Opsi
     oci.opsi.models.IngestSqlTextDetails
     oci.opsi.models.IngestSqlTextResponseDetails
     oci.opsi.models.InstanceMetrics
+    oci.opsi.models.ListObjects
     oci.opsi.models.MacsManagedCloudHostConfigurationSummary
     oci.opsi.models.MacsManagedCloudHostInsight
     oci.opsi.models.MacsManagedCloudHostInsightSummary
@@ -271,8 +287,15 @@ Opsi
     oci.opsi.models.MacsManagedExternalHostConfigurationSummary
     oci.opsi.models.MacsManagedExternalHostInsight
     oci.opsi.models.MacsManagedExternalHostInsightSummary
+    oci.opsi.models.MySqlSqlText
     oci.opsi.models.NetworkUsageTrend
     oci.opsi.models.NetworkUsageTrendAggregation
+    oci.opsi.models.NewsContentTypes
+    oci.opsi.models.NewsReport
+    oci.opsi.models.NewsReportCollection
+    oci.opsi.models.NewsReportSummary
+    oci.opsi.models.NewsReports
+    oci.opsi.models.ObjectSummary
     oci.opsi.models.OperationsInsightsPrivateEndpoint
     oci.opsi.models.OperationsInsightsPrivateEndpointCollection
     oci.opsi.models.OperationsInsightsPrivateEndpointSummary
@@ -291,11 +314,16 @@ Opsi
     oci.opsi.models.OpsiConfigurations
     oci.opsi.models.OpsiConfigurationsCollection
     oci.opsi.models.OpsiDataObject
+    oci.opsi.models.OpsiDataObjectDetailsInQuery
+    oci.opsi.models.OpsiDataObjectQueryParam
     oci.opsi.models.OpsiDataObjectSummary
+    oci.opsi.models.OpsiDataObjectSupportedQueryParam
+    oci.opsi.models.OpsiDataObjectTypeOpsiDataObjectDetailsInQuery
     oci.opsi.models.OpsiDataObjects
     oci.opsi.models.OpsiDataObjectsCollection
     oci.opsi.models.OpsiUxConfiguration
     oci.opsi.models.OpsiUxConfigurationSummary
+    oci.opsi.models.OpsiWarehouseDataObjects
     oci.opsi.models.PeComanagedDatabaseConnectionDetails
     oci.opsi.models.PeComanagedDatabaseHostDetails
     oci.opsi.models.PeComanagedDatabaseInsight
@@ -311,6 +339,7 @@ Opsi
     oci.opsi.models.QueryDataObjectResultSetColumnMetadata
     oci.opsi.models.QueryDataObjectResultSetRowsCollection
     oci.opsi.models.QueryOpsiDataObjectDataDetails
+    oci.opsi.models.QueryWarehouseDataObjectDataDetails
     oci.opsi.models.RelatedObjectTypeDetails
     oci.opsi.models.ResourceCapacityTrendAggregation
     oci.opsi.models.ResourceFilters
@@ -388,6 +417,7 @@ Opsi
     oci.opsi.models.TopProcessesUsageTrendAggregation
     oci.opsi.models.UpdateAutonomousDatabaseInsightDetails
     oci.opsi.models.UpdateAwrHubDetails
+    oci.opsi.models.UpdateAwrHubSourceDetails
     oci.opsi.models.UpdateBasicConfigurationItemDetails
     oci.opsi.models.UpdateConfigurationItemDetails
     oci.opsi.models.UpdateDatabaseInsightDetails
@@ -400,6 +430,7 @@ Opsi
     oci.opsi.models.UpdateMacsManagedCloudHostInsightDetails
     oci.opsi.models.UpdateMacsManagedExternalDatabaseInsightDetails
     oci.opsi.models.UpdateMacsManagedExternalHostInsightDetails
+    oci.opsi.models.UpdateNewsReportDetails
     oci.opsi.models.UpdateOperationsInsightsPrivateEndpointDetails
     oci.opsi.models.UpdateOperationsInsightsWarehouseDetails
     oci.opsi.models.UpdateOperationsInsightsWarehouseUserDetails
@@ -409,6 +440,11 @@ Opsi
     oci.opsi.models.UpdatePeComanagedExadataInsightDetails
     oci.opsi.models.UxConfigurationItemsCollection
     oci.opsi.models.VmClusterSummary
+    oci.opsi.models.WarehouseDataObjectCollection
+    oci.opsi.models.WarehouseDataObjectDetails
+    oci.opsi.models.WarehouseDataObjectSummary
+    oci.opsi.models.WarehouseTableDataObjectDetails
+    oci.opsi.models.WarehouseViewDataObjectDetails
     oci.opsi.models.WorkRequest
     oci.opsi.models.WorkRequestCollection
     oci.opsi.models.WorkRequestError

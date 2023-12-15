@@ -1,10 +1,11 @@
-##########################################################################
+#########################################################################
 # Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # showoci_service.py
 #
 # @author: Adi Zohar
+# @contributors: Olaf Heimburger
 #
 # Supports Python 3 and above
 #
@@ -28,14 +29,18 @@ import time
 import datetime
 import os
 import platform
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
+import threading
 
 
 ##########################################################################
 # class ShowOCIService
 ##########################################################################
 class ShowOCIService(object):
-    version = "23.06.06"
-    oci_compatible_version = "2.104.0"
+    version = "23.12.12"
+    oci_compatible_version = "2.117.0"
+    thread_lock = threading.Lock()
 
     ##########################################################################
     # Global Constants
@@ -151,6 +156,9 @@ class ShowOCIService(object):
     C_DATABASE_ADB_D_CONTAINERS = "autonomous_dedicated_containers"
     C_DATABASE_NOSQL = "nosql"
     C_DATABASE_MYSQL = "mysql"
+    C_DATABASE_MYSQL_BACKUPS = "mysql_backups"
+    C_DATABASE_POSTGRESQL = "postgresql"
+    C_DATABASE_POSTGRESQL_BACKUPS = "postgresql_backups"
     C_DATABASE_SOFTWARE_IMAGES = "database_software_images"
     C_DATABASE_GG_DEPLOYMENTS = "gg_deployments"
     C_DATABASE_GG_DB_REGISTRATION = "gg_db_registration"
@@ -238,6 +246,7 @@ class ShowOCIService(object):
     C_SECURITY_VAULTS = "vaults"
     C_SECURITY_BASTION = "bastion"
     C_SECURITY_LOGGING = "logging"
+    C_SECURITY_LOGGING_UA = "unified_agents"
 
     # Security Scores
     C_SECURITY_SCORES = "security_scores"
@@ -250,6 +259,15 @@ class ShowOCIService(object):
     reboot_migration_counter = 0
     dbsystem_maintenance = []
     tenancy_home_region = ""
+
+    ##########################################################################
+    # Exclude Services
+    ##########################################################################
+    EXCLUDE_NETWORK = 'NETWORK'
+    EXCLUDE_LIMITS = 'LIMITS'
+    EXCLUDE_QUOTAS = 'QUOTAS'
+    EXCLUDE_DNSZONE = 'DNSZONE'
+    EXCLUDE_VCIRCUITS = 'VCIRCUITS'
 
     ##########################################################################
     # Service not yet available - need to remove on availability
@@ -505,6 +523,10 @@ class ShowOCIService(object):
         if flags.use_instance_principals:
             self.generate_signer_from_instance_principals()
 
+        # if resource pricipals - generate signer from token or config
+        elif flags.use_resource_principals:
+            self.generate_signer_from_resource_principals()
+
         # if delegation token for cloud shell
         elif flags.use_delegation_token:
             self.generate_signer_from_delegation_token()
@@ -536,7 +558,7 @@ class ShowOCIService(object):
         except oci.exceptions.ProfileNotFound as e:
             print("*********************************************************************")
             print("* " + str(e))
-            print("* Aboting.                                                          *")
+            print("* Aborting.                                                         *")
             print("*********************************************************************")
             print("")
             raise SystemExit
@@ -559,7 +581,7 @@ class ShowOCIService(object):
         except oci.exceptions.ProfileNotFound as e:
             print("*********************************************************************")
             print("* " + str(e))
-            print("* Aborting.                                                          *")
+            print("* Aborting.                                                         *")
             print("*********************************************************************")
             print("")
             raise SystemExit
@@ -567,7 +589,7 @@ class ShowOCIService(object):
         except Exception as e:
             print("*********************************************************************")
             print("* " + str(e))
-            print("* Aborting.                                                          *")
+            print("* Aborting.                                                         *")
             print("*********************************************************************")
             print("")
             raise SystemExit
@@ -584,7 +606,27 @@ class ShowOCIService(object):
         except Exception:
             print("*********************************************************************")
             print("* Error obtaining instance principals certificate.                  *")
-            print("* Aboting.                                                          *")
+            print("* Aborting.                                                         *")
+            print("*********************************************************************")
+            print("")
+            raise SystemExit
+
+        # generate config info from signer
+        self.config = {'region': self.signer.region, 'tenancy': self.signer.tenancy_id}
+
+    ##########################################################################
+    # Generate Signer from resource_principals
+    ###########################################################################
+    def generate_signer_from_resource_principals(self):
+
+        try:
+            # get signer from instance principals token
+            self.signer = oci.auth.signers.get_resource_principals_signer()
+
+        except Exception:
+            print("*********************************************************************")
+            print("* Error obtaining resource principals certificate.                  *")
+            print("* Aborting.                                                         *")
             print("*********************************************************************")
             print("")
             raise SystemExit
@@ -622,7 +664,7 @@ class ShowOCIService(object):
             print("* Key Error obtaining delegation_token_file")
             print("* Config  File = " + self.flags.config_file)
             print("* Section File = " + self.flags.config_section)
-            print("* Aborting.                                                          *")
+            print("* Aborting.                                                         *")
             print("*********************************************************************")
             print("")
             raise SystemExit
@@ -631,7 +673,7 @@ class ShowOCIService(object):
             print("*********************************************************************")
             print("* Error obtaining instance principals certificate                   *")
             print("* with delegation token                                             *")
-            print("* Aborting.                                                          *")
+            print("* Aborting.                                                         *")
             print("*********************************************************************")
             print("")
             raise SystemExit
@@ -661,6 +703,26 @@ class ShowOCIService(object):
     ##########################################################################
     def get_tenancy(self):
         return self.data[self.C_IDENTITY][self.C_IDENTITY_TENANCY]
+
+    ##########################################################################
+    # get value from service
+    ##########################################################################
+    def get_value(self, in_value, trim_date=False):
+        try:
+            out_value = ""
+            if in_value:
+                if str(in_value).lower() == "false" or str(in_value).lower() == "true":
+                    out_value = str(in_value).capitalize()
+                elif str(in_value).lower() == "none":
+                    out_value = ""
+                else:
+                    out_value = str(in_value)
+            if trim_date:
+                out_value = out_value[0:16]
+            return out_value
+
+        except Exception as e:
+            self.__print_error("get_value", e)
 
     ##########################################################################
     # get tenancy id from file or override
@@ -839,7 +901,7 @@ class ShowOCIService(object):
         return not (lifecycle_state == 'DELETED' or lifecycle_state == 'DELETING' or
                     lifecycle_state == 'TERMINATED' or lifecycle_state == 'TERMINATING' or
                     lifecycle_state == 'UNAVAILABLE' or
-                    lifecycle_state == 'MIGRATED' or lifecycle_state == 'FAILED')
+                    lifecycle_state == 'MIGRATED')
 
     ##########################################################################
     # find shape info
@@ -945,7 +1007,7 @@ class ShowOCIService(object):
                     print("Please use below command to upgrade OCI SDK:")
                     print("   python -m pip install --upgrade oci")
                     print("")
-                    print("Aboting.")
+                    print("Aborting.")
                     print("*********************************************************************")
                     print("")
                     raise SystemExit
@@ -1024,25 +1086,45 @@ class ShowOCIService(object):
             self.data[module][section] = []
 
     ##########################################################################
-    # print status message
+    # print status message with Threads
     ##########################################################################
-    def __load_print_status(self, msg):
-        print("--> " + msg.ljust(27) + "<-- ", end="")
+    def __load_print_status_with_threads(self, msg):
+        if self.flags.skip_threads:
+            print("--> " + msg.ljust(32) + "<-- ", end="")
+        # else:
+            # print("=== Running " + msg + "...")
+
+    ##########################################################################
+    # Print Section Time
+    ##########################################################################
+    def __load_print_section_time(self, section_start_time):
+        et = time.time() - section_start_time
+        print("Section Elapsed Time " + '{:02d}:{:02d}:{:02d}'.format(round(et // 3600), (round(et % 3600 // 60)), round(et % 60)))
 
     ##########################################################################
     # print print error
     ##########################################################################
-    def __print_error(self, msg, e):
-        classname = type(self).__name__
+    def __print_error(self, msg, e, compartment=[]):
 
-        if 'TooManyRequests' in str(e):
-            print(" - TooManyRequests Err in " + msg)
-        elif isinstance(e, KeyError):
-            print("\nError in " + classname + ":" + msg + ": KeyError " + str(e.args))
-        else:
-            print("\nError in " + classname + ":" + msg + ": " + str(e))
+        try:
+            classname = type(self).__name__
+            compartment_info = ""
 
-        self.error += 1
+            if compartment:
+                if 'name' in compartment:
+                    compartment_info = " in compartment " + compartment['name']
+
+            if 'TooManyRequests' in str(e):
+                print(" - TooManyRequests Err in " + msg + compartment_info)
+            elif isinstance(e, KeyError):
+                print("\nError in " + classname + ":" + msg + ": KeyError " + str(e.args) + compartment_info)
+            else:
+                print("\nError in " + classname + ":" + msg + ": " + str(e) + compartment_info)
+
+            self.error += 1
+
+        except Exception as e:
+            print("\nError in __print_error " + str(e))
 
     ##########################################################################
     # check service error to warn instead of error
@@ -1055,6 +1137,7 @@ class ShowOCIService(object):
                 'notfound' in str(code).lower() or
                 'closed connection' in str(code).lower() or
                 code == 'Forbidden' or
+                code == 'KmsKeyDisabled' or
                 code == 'TooManyRequests' or
                 code == 'NotAuthorizedOrNotFound' or
                 code == 'IncorrectState' or
@@ -1098,19 +1181,31 @@ class ShowOCIService(object):
         return name == "ManagedCompartmentForPaaS"
 
     ##########################################################################
-    # print count result
+    # print count result for Thread
     ##########################################################################
-    def __load_print_cnt(self, cnt, start_time):
+    def __load_print_thread_cnt(self, header, cnt, start_time, errstr):
+
         et = time.time() - start_time
-        print(" (" + str(cnt) + ") - "'{:02d}:{:02d}:{:02d}'.format(round(et // 3600), (round(et % 3600 // 60)), round(et % 60)))
+        str_time = '{:02d}:{:02d}:{:02d}'.format(round(et // 3600), (round(et % 3600 // 60)), round(et % 60))
+        str_cnt = str("(" + str(cnt) + ")").ljust(7)
+
+        if self.flags.skip_threads:
+            print(" " + str_cnt + " - " + str_time)
+        else:
+            # lock for printing
+            with self.thread_lock:
+                str1 = "--> " + header.ljust(32) + "<-- "
+                str2 = str_cnt + " - " + str_time + ((" - " + errstr) if errstr else "")
+                print(str1 + str2)
 
     ##########################################################################
     # print auth warning
     ##########################################################################
-    def __load_print_auth_warning(self, special_char="a", increase_warning=True):
+    def __load_print_auth_warning(self, special_char="a", increase_warning=True, to_print=True):
         if increase_warning:
             self.warning += 1
-        print(special_char, end="")
+        if to_print:
+            print(special_char, end="")
 
     ##########################################################################
     # Main procedure to read data to the data
@@ -1138,7 +1233,7 @@ class ShowOCIService(object):
             print("")
 
             # load identity
-            self.__load_identity_main()
+            self.__load_section_identity_main()
 
             # set tenant home region
             self.config['region'] = self.tenancy_home_region
@@ -1214,95 +1309,39 @@ class ShowOCIService(object):
 
         # load ADs
         if self.flags.is_load_basic_network():
-            self.__load_identity_availability_domain(region_name)
+            self.__load_section_identity_availability_domain(region_name)
 
-        # Load Network
+        # Load Network (Threaded) includes load balancers
         if self.flags.is_load_basic_network():
-            if self.check_if_service_available(region_name, self.C_NETWORK):
-                self.__load_core_network_main()
+            self.__load_section_core_network_main()
 
-        # if load compute
-        if self.flags.read_compute:
-            if self.check_if_service_available(region_name, self.C_COMPUTE):
-                self.__load_core_compute_main()
+        # if load compute (Threaded)
+        if self.flags.read_compute or self.flags.read_containers:
+            self.__load_section_core_compute_main()
 
-        # database
+        # database (Threaded)
         if self.flags.read_database:
-            if self.check_if_service_available(region_name, self.C_DATABASE):
-                self.__load_database_main()
+            self.__load_section_database_main()
 
-        # load balancers
-        if self.flags.read_load_balancer:
-            if self.check_if_service_available(region_name, self.C_LB):
-                self.__load_load_balancer_main()
+        # Native, data and ai (Threaded)
+        if self.flags.read_paas_native or self.flags.read_data_ai:
+            self.__load_section_native_data_ai_main()
 
-        # object storage
-        if self.flags.read_object_storage:
-            if self.check_if_service_available(region_name, self.C_OS):
-                self.__load_object_storage_main()
-
-        # file storage
-        if self.flags.read_file_storage:
-            if self.check_if_service_available(region_name, self.C_FILE_STORAGE):
-                self.__load_file_storage_main()
-
-        # containers
-        if self.flags.read_containers:
-            if self.check_if_service_available(region_name, self.C_CONTAINER):
-                self.__load_container_main()
-
-        # resource management
-        if self.flags.read_resource_management:
-            if self.check_if_service_available(region_name, self.C_ORM):
-                self.__load_resource_management_main()
-
-        # if streams
-        if self.flags.read_streams_queues:
-            if self.check_if_service_available(region_name, self.C_STREAMS):
-                self.__load_streams_queues_main()
-
-        # if budgets
-        if self.flags.read_budgets:
-            if self.check_if_service_available(region_name, self.C_BUDGETS):
-                self.__load_budgets_main()
-
-        # if monitoring
+        # if monitoring, security, limits, quotas, email and budget (Threaded)
         if self.flags.read_monitoring_notifications:
-            if self.check_if_service_available(region_name, self.C_NOTIFICATIONS):
-                self.__load_monitor_notification_main()
+            self.__load_section_monitor_notification_security_quotas_main()
 
+        # if streams, api, fun, orm, queues... (Threaded)
+        if self.flags.read_streams_queues or self.flags.read_resource_management or self.flags.read_api or self.flags.read_function:
+            self.__load_section_streams_queues_api_fun_orm_main()
+
+        # object storage and File Storage (Thread)
+        if self.flags.read_object_storage or self.flags.read_file_storage:
+            self.__load_section_object_storage_file_storage_main()
+
+        # if Edge (Thread)
         if self.flags.read_edge:
-            if self.check_if_service_available(region_name, self.C_EDGE):
-                self.__load_edge_services_main()
-
-        # email distributions
-        if self.flags.read_email_distribution:
-            if self.check_if_service_available(region_name, self.C_EMAIL):
-                self.__load_email_main()
-
-        # if limits
-        if self.flags.read_limits:
-            self.__load_limits_main()
-
-        # paas native
-        if self.flags.read_paas_native:
-            self.__load_paas_native_main()
-
-        # data and ai
-        if self.flags.read_data_ai:
-            self.__load_data_ai_main()
-
-        # api gateways
-        if self.flags.read_api:
-            self.__load_api_main()
-
-        # functions
-        if self.flags.read_function:
-            self.__load_functions_main()
-
-        # Security and Logging
-        if self.flags.read_security:
-            self.__load_security_main()
+            self.__load_section_edge_services_main()
 
         et = time.time() - region_start_time
         print("*** Elapsed Region '" + region_name + "' - " + '{:02d}:{:02d}:{:02d}'.format(round(et // 3600), (round(et % 3600 // 60)), round(et % 60)) + " ***")
@@ -1310,9 +1349,10 @@ class ShowOCIService(object):
     ##########################################################################
     # Identity Module
     ##########################################################################
-    def __load_identity_main(self):
+    def __load_section_identity_main(self):
         try:
-            print("Identity...")
+            print("Identity... (Main)")
+            section_start_time = time.time()
 
             # create identity object
             identity = oci.identity.IdentityClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
@@ -1334,31 +1374,65 @@ class ShowOCIService(object):
 
             # if loading the full identity - load the rest
             if self.flags.read_identity:
-                self.__load_identity_network_sources(identity, tenancy_id)
-                self.__load_identity_policies(identity)
-                self.__load_identity_cost_tracking_tags(identity, tenancy_id)
-                self.__load_identity_tag_namespace(identity)
 
                 # Load Identity Domains
                 print("")
-                showoci_domains = ShowOCIDomains(self.config, self.signer, self.flags.proxy, self.flags.read_timeout, self.flags.connection_timeout)
+                showoci_domains = ShowOCIDomains(self.config, self.signer, self.flags)
                 domains_data = showoci_domains.load_identity_domains_main()
                 self.error += showoci_domains.error
                 self.warning += showoci_domains.warning
                 self.data[self.C_IDENTITY][self.C_IDENTITY_DOMAINS] = domains_data
 
-                if not domains_data:
+                # if identity domain
+                if domains_data:
+                    print("Identity (Common)...")
+                    self.__load_identity_network_sources(identity, tenancy_id)
+                    self.__load_identity_policies(identity)
+                    self.__load_identity_cost_tracking_tags(identity, tenancy_id)
+                    self.__load_identity_tag_namespace(identity)
+
+                # if no identity domains
+                else:
                     print("\nIdentity (No Domains)...")
-                    self.__load_identity_users_groups(identity, tenancy_id)
-                    self.__load_identity_dynamic_groups(identity, tenancy_id)
+                    ################
+                    # if Serial
+                    ################
+                    if self.flags.skip_threads:
+                        self.__load_identity_users_groups(identity, tenancy_id)
+                        self.__load_identity_dynamic_groups(identity, tenancy_id)
+                        self.__load_identity_network_sources(identity, tenancy_id)
+                        self.__load_identity_policies(identity)
+                        self.__load_identity_cost_tracking_tags(identity, tenancy_id)
+                        self.__load_identity_tag_namespace(identity)
+
+                    ################
+                    # Threads
+                    ################
+                    else:
+                        with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                            future_use = executor.submit(self.__load_identity_users_groups, identity, tenancy_id)
+                            future_dyn = executor.submit(self.__load_identity_dynamic_groups, identity, tenancy_id)
+                            future_net = executor.submit(self.__load_identity_network_sources, identity, tenancy_id)
+                            future_pol = executor.submit(self.__load_identity_policies, identity)
+                            future_cos = executor.submit(self.__load_identity_cost_tracking_tags, identity, tenancy_id)
+                            future_tag = executor.submit(self.__load_identity_tag_namespace, identity)
+
+                            as_completed([future_use])
+                            as_completed([future_dyn])
+                            as_completed([future_net])
+                            as_completed([future_pol])
+                            as_completed([future_cos])
+                            as_completed([future_tag])
 
             print("")
+            self.__load_print_section_time(section_start_time)
+
         except oci.exceptions.RequestException:
             raise
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_identity_main: ", e)
+            self.__print_error("__load_section_identity_main: ", e)
 
     ##########################################################################
     # Load Tenancy
@@ -1366,7 +1440,9 @@ class ShowOCIService(object):
     ##########################################################################
 
     def __load_identity_tenancy(self, identity, tenancy_id):
-        self.__load_print_status("Tenancy")
+        errstr = ""
+        header = "Tenancy"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
         try:
             tenancy = identity.get_tenancy(tenancy_id).data
@@ -1378,12 +1454,12 @@ class ShowOCIService(object):
                 if password_policy_data:
                     ppd = password_policy_data.password_policy
                     password_policy = {
-                        'is_lowercase_characters_required': str(ppd.is_lowercase_characters_required),
-                        'is_numeric_characters_required': str(ppd.is_numeric_characters_required),
-                        'is_special_characters_required': str(ppd.is_special_characters_required),
-                        'is_uppercase_characters_required': str(ppd.is_uppercase_characters_required),
-                        'is_username_containment_allowed': str(ppd.is_username_containment_allowed),
-                        'minimum_password_length': str(ppd.minimum_password_length)
+                        'is_lowercase_characters_required': self.get_value(ppd.is_lowercase_characters_required),
+                        'is_numeric_characters_required': self.get_value(ppd.is_numeric_characters_required),
+                        'is_special_characters_required': self.get_value(ppd.is_special_characters_required),
+                        'is_uppercase_characters_required': self.get_value(ppd.is_uppercase_characters_required),
+                        'is_username_containment_allowed': self.get_value(ppd.is_username_containment_allowed),
+                        'minimum_password_length': self.get_value(ppd.minimum_password_length)
                     }
 
             except oci.exceptions.ServiceError as e:
@@ -1399,7 +1475,8 @@ class ShowOCIService(object):
                 data_subs = [str(es.region_name) for es in sub_regions]
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
@@ -1419,7 +1496,8 @@ class ShowOCIService(object):
                     self.tenancy_home_region = str(reg.region_name)
 
             self.data[self.C_IDENTITY][self.C_IDENTITY_TENANCY] = data
-            self.__load_print_cnt(1, start_time)
+            cnt = 1
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException:
             raise
@@ -1427,7 +1505,7 @@ class ShowOCIService(object):
             print("\n*********************************************************************")
             print("* Error Authenticating in __load_identity_tenancy:")
             print("* " + str(e.message))
-            print("* Aborting.                                                          *")
+            print("* Aborting.                                                         *")
             print("*********************************************************************")
             print("")
             raise SystemExit
@@ -1440,7 +1518,9 @@ class ShowOCIService(object):
     def __load_identity_compartments(self, identity):
 
         compartments = []
-        self.__load_print_status("Compartments")
+        errstr = ""
+        header = "Compartments"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         try:
@@ -1459,7 +1539,8 @@ class ShowOCIService(object):
 
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
@@ -1479,11 +1560,11 @@ class ShowOCIService(object):
                             cvalue = {
                                 'id': str(c.id),
                                 'name': str(c.name),
-                                'description': str(c.description),
-                                'time_created': str(c.time_created),
-                                'is_accessible': str(c.is_accessible),
-                                'lifecycle_state': str(c.lifecycle_state),
-                                'inactive_status': str(c.inactive_status),
+                                'description': self.get_value(c.description),
+                                'time_created': self.get_value(c.time_created),
+                                'is_accessible': self.get_value(c.is_accessible),
+                                'lifecycle_state': self.get_value(c.lifecycle_state),
+                                'inactive_status': self.get_value(c.inactive_status),
                                 'path': path + str(c.name),
                                 'defined_tags': [] if c.defined_tags is None else c.defined_tags,
                                 'freeform_tags': [] if c.freeform_tags is None else c.freeform_tags
@@ -1504,9 +1585,9 @@ class ShowOCIService(object):
                         cvalue = {
                             'id': str(tenc.id),
                             'name': str(tenc.name),
-                            'description': str(tenc.description),
-                            'time_created': str(tenc.time_created),
-                            'is_accessible': str(tenc.is_accessible),
+                            'description': self.get_value(tenc.description),
+                            'time_created': self.get_value(tenc.time_created),
+                            'is_accessible': self.get_value(tenc.is_accessible),
                             'lifecycle_state': 'ACTIVE',
                             'inactive_status': "",
                             'path': "/ " + str(tenc.name) + " (root)",
@@ -1526,7 +1607,8 @@ class ShowOCIService(object):
             # if not filtered by compartment return
             if not (self.flags.filter_by_compartment or self.flags.filter_by_compartment_path or self.flags.filter_by_compartment_recursive):
                 self.data[self.C_IDENTITY][self.C_IDENTITY_COMPARTMENTS] = sorted_compartments
-                self.__load_print_cnt(len(compartments), start_time)
+                cnt = len(compartments)
+                self.__load_print_thread_cnt(header, cnt, start_time, errstr)
                 return
 
             filtered_compart = []
@@ -1550,7 +1632,8 @@ class ShowOCIService(object):
 
             # add to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_COMPARTMENTS] = filtered_compart
-            self.__load_print_cnt(len(filtered_compart), start_time)
+            cnt = len(filtered_compart)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException:
             raise
@@ -1562,7 +1645,9 @@ class ShowOCIService(object):
     ##########################################################################
     def __load_identity_single_compartments(self, identity):
 
-        self.__load_print_status("Compartments")
+        errstr = ""
+        header = "Compartments"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         compartments = []
@@ -1574,7 +1659,8 @@ class ShowOCIService(object):
                 compartment = identity.get_compartment(self.flags.filter_by_compartment).data
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
@@ -1582,11 +1668,11 @@ class ShowOCIService(object):
                 cvalue = {
                     'id': str(compartment.id),
                     'name': str(compartment.name),
-                    'description': str(compartment.description),
-                    'time_created': str(compartment.time_created),
-                    'is_accessible': str(compartment.is_accessible),
-                    'lifecycle_state': str(compartment.lifecycle_state),
-                    'inactive_status': str(compartment.inactive_status),
+                    'description': self.get_value(compartment.description),
+                    'time_created': self.get_value(compartment.time_created),
+                    'is_accessible': self.get_value(compartment.is_accessible),
+                    'lifecycle_state': self.get_value(compartment.lifecycle_state),
+                    'inactive_status': self.get_value(compartment.inactive_status),
                     'path': str(compartment.name),
                     'defined_tags': [] if compartment.defined_tags is None else compartment.defined_tags,
                     'freeform_tags': [] if compartment.freeform_tags is None else compartment.freeform_tags
@@ -1594,7 +1680,8 @@ class ShowOCIService(object):
                 compartments.append(cvalue)
 
             self.data[self.C_IDENTITY][self.C_IDENTITY_COMPARTMENTS] = compartments
-            self.__load_print_cnt(len(compartments), start_time)
+            cnt = len(compartments)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException:
             raise
@@ -1608,8 +1695,11 @@ class ShowOCIService(object):
     def __load_identity_users_groups(self, identity, tenancy_id):
         datauser = []
         datagroup = []
+        cnt = 0
 
-        self.__load_print_status("Groups")
+        errstr = ""
+        header = "Groups"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         try:
@@ -1621,7 +1711,8 @@ class ShowOCIService(object):
                 groups = oci.pagination.list_call_get_all_results(identity.list_groups, tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
             except oci.exceptions.ServiceError as item:
                 if 'auth' in item.code.lower() or item.code == 'Forbidden':
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
@@ -1631,7 +1722,12 @@ class ShowOCIService(object):
             # add groups
             ##########################
             for group in groups:
-                print(".", end="")
+
+                if self.flags.skip_threads:
+                    if cnt % 10 == 0:
+                        print("g", end="")
+                cnt += 1
+
                 try:
                     user_group_memberships = oci.pagination.list_call_get_all_results(
                         identity.list_user_group_memberships, tenancy_id, group_id=group.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
@@ -1646,23 +1742,32 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as error:
                     if 'auth' in error.code.lower() or error.code == 'Forbidden':
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
             # load to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_GROUPS] = datagroup
-            self.__load_print_cnt(len(datagroup), start_time)
+            cnt = len(datagroup)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
             ##########################
             # add users
             ##########################
-            self.__load_print_status("Users")
+            errstr = ""
+            header = "Users"
+            self.__load_print_status_with_threads(header)
             start_time = time.time()
+            cnt = 0
+
             for user in users:
 
                 group_users = []
-                print(".", end="")
+                if self.flags.skip_threads:
+                    if cnt % 10 == 0:
+                        print("u", end="")
+                cnt += 1
 
                 # find the group users
                 for ugm in [e['group_id'] for e in members if user.id == e['user_id']]:
@@ -1672,46 +1777,59 @@ class ShowOCIService(object):
                 user_data = {
                     'id': user.id,
                     'name': str(user.name),
-                    'description': str(user.description),
-                    'is_mfa_activated': str(user.is_mfa_activated),
-                    'lifecycle_state': str(user.lifecycle_state),
-                    'inactive_status': str(user.inactive_status),
-                    'time_created': str(user.time_created),
+                    'description': self.get_value(user.description),
+                    'is_mfa_activated': self.get_value(user.is_mfa_activated),
+                    'lifecycle_state': self.get_value(user.lifecycle_state),
+                    'inactive_status': self.get_value(user.inactive_status),
+                    'time_created': self.get_value(user.time_created),
                     'identity_provider_id': "",
                     'identity_provider_name': "",
-                    'email': str(user.email),
-                    'email_verified': str(user.email_verified),
-                    'external_identifier': str(user.external_identifier),
-                    'last_successful_login_time': str(user.last_successful_login_time),
-                    'previous_successful_login_time': str(user.previous_successful_login_time),
+                    'email': self.get_value(user.email),
+                    'email_verified': self.get_value(user.email_verified),
+                    'external_identifier': self.get_value(user.external_identifier),
+                    'last_successful_login_time': self.get_value(user.last_successful_login_time),
+                    'previous_successful_login_time': self.get_value(user.previous_successful_login_time),
                     'groups': ', '.join(x for x in group_users),
-                    'capabilities': {}
+                    'capabilities': user.capabilities
                 }
 
                 if user.capabilities:
                     user_data['capabilities'] = {
-                        'can_use_console_password': user.capabilities.can_use_console_password,
-                        'can_use_api_keys': user.capabilities.can_use_api_keys,
-                        'can_use_auth_tokens': user.capabilities.can_use_auth_tokens,
-                        'can_use_smtp_credentials': user.capabilities.can_use_smtp_credentials,
-                        'can_use_customer_secret_keys': user.capabilities.can_use_customer_secret_keys,
-                        'can_use_o_auth2_client_credentials': user.capabilities.can_use_o_auth2_client_credentials
+                        'can_use_console_password': self.get_value(user.capabilities.can_use_console_password),
+                        'can_use_api_keys': self.get_value(user.capabilities.can_use_api_keys),
+                        'can_use_auth_tokens': self.get_value(user.capabilities.can_use_auth_tokens),
+                        'can_use_smtp_credentials': self.get_value(user.capabilities.can_use_smtp_credentials),
+                        'can_use_customer_secret_keys': self.get_value(user.capabilities.can_use_customer_secret_keys),
+                        'can_use_o_auth2_client_credentials': self.get_value(user.capabilities.can_use_o_auth2_client_credentials)
                     }
 
                 # get the credential for the user
                 if not self.flags.skip_identity_user_credential:
-                    datauserapikey, datauserauthtoken, datausersecretkey, datausersmtpcred = self.__load_identity_user_credentials(identity, user)
-                    user_data['api_keys'] = datauserapikey
-                    user_data['auth_token'] = datauserauthtoken
-                    user_data['secret_key'] = datausersecretkey
-                    user_data['smtp_cred'] = datausersmtpcred
+                    if self.flags.skip_threads:
+                        user_data['api_keys'] = self.__load_identity_user_credentials_apikey(identity, user)
+                        user_data['auth_token'] = self.__load_identity_user_credentials_token(identity, user)
+                        user_data['secret_key'] = self.__load_identity_user_credentials_secret(identity, user)
+                        user_data['smtp_cred'] = self.__load_identity_user_credentials_smtp(identity, user)
+                    else:
+                        # if parallel execution
+                        with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                            future_api_keys = executor.submit(self.__load_identity_user_credentials_apikey, identity, user)
+                            future_auth_token = executor.submit(self.__load_identity_user_credentials_token, identity, user)
+                            future_secret_key = executor.submit(self.__load_identity_user_credentials_secret, identity, user)
+                            future_smtp_cred = executor.submit(self.__load_identity_user_credentials_smtp, identity, user)
+
+                            user_data['api_keys'] = next(as_completed([future_api_keys])).result()
+                            user_data['auth_token'] = next(as_completed([future_auth_token])).result()
+                            user_data['secret_key'] = next(as_completed([future_secret_key])).result()
+                            user_data['smtp_cred'] = next(as_completed([future_smtp_cred])).result()
 
                 datauser.append(user_data)
 
             # load to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_USERS] = datauser
+            cnt = len(datauser)
 
-            self.__load_print_cnt(len(datauser), start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException:
             raise
@@ -1720,146 +1838,181 @@ class ShowOCIService(object):
 
     ########################################################
     # Contributed by J.Hammer
-    # Add User API Keys, Tokens, Secrets, SMTP Creds
+    # Add User API Keys
     ########################################################
-    def __load_identity_user_credentials(self, identity, user):
+    def __load_identity_user_credentials_apikey(self, identity, user):
 
         datauserapikey = []
+
+        try:
+            user_api_keys = oci.pagination.list_call_get_all_results(
+                identity.list_api_keys,
+                user.id,
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
+
+            # add user api keys
+            if user_api_keys:
+                for api_key in user_api_keys:
+                    datauserapikey.append({
+                        'id': api_key.key_id,
+                        'inactive_status': self.get_value(api_key.inactive_status),
+                        'lifecycle_state': self.get_value(api_key.lifecycle_state),
+                        'time_created': self.get_value(api_key.time_created)
+                    })
+
+            # return the data
+            return datauserapikey
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                if self.flags.skip_threads:
+                    self.__load_print_auth_warning('c')
+                pass
+            else:
+                raise
+
+        except Exception as e:
+            self.__print_error("__load_identity_user_credentials_apikey", e)
+
+    ########################################################
+    # Contributed by J.Hammer
+    # Add User Tokens
+    ########################################################
+    def __load_identity_user_credentials_token(self, identity, user):
+
         datauserauthtoken = []
+
+        ##################
+        # Auth Token
+        ##################
+        try:
+            user_auth_tokens = oci.pagination.list_call_get_all_results(
+                identity.list_auth_tokens,
+                user.id,
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
+
+            # add user auth tokens
+            if user_auth_tokens:
+                for token in user_auth_tokens:
+                    datauserauthtoken.append({
+                        'id': token.id,
+                        'description': token.description,
+                        'lifecycle_state': self.get_value(token.lifecycle_state),
+                        'inactive_status': self.get_value(token.inactive_status),
+                        'time_created': self.get_value(token.time_created),
+                        'time_expires': self.get_value(token.time_expires),
+                        'token': token.token
+                    })
+
+            return datauserauthtoken
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                if self.flags.skip_threads:
+                    self.__load_print_auth_warning('c')
+                pass
+            else:
+                raise
+
+        except Exception as e:
+            self.__print_error("__load_identity_user_credentials_token", e)
+
+    ########################################################
+    # Contributed by J.Hammer
+    # Add User Secrets
+    ########################################################
+    def __load_identity_user_credentials_secret(self, identity, user):
+
         datausersecretkey = []
+
+        try:
+            user_secret_keys = oci.pagination.list_call_get_all_results(
+                identity.list_customer_secret_keys,
+                user.id,
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
+
+            # add user secret keys
+            if user_secret_keys:
+                for secret in user_secret_keys:
+                    datausersecretkey.append({
+                        'id': secret.id,
+                        'display_name': secret.display_name,
+                        'lifecycle_state': self.get_value(secret.lifecycle_state),
+                        'inactive_status': self.get_value(secret.inactive_status),
+                        'time_created': self.get_value(secret.time_created),
+                        'time_expires': self.get_value(secret.time_expires)
+                    })
+            return datausersecretkey
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                if self.flags.skip_threads:
+                    self.__load_print_auth_warning('c')
+                pass
+            else:
+                raise
+
+        except Exception as e:
+            self.__print_error("__load_identity_user_credentials_secret", e)
+
+    ########################################################
+    # Contributed by J.Hammer
+    # Add User SMTP Creds
+    ########################################################
+    def __load_identity_user_credentials_smtp(self, identity, user):
+
         datausersmtpcred = []
 
         try:
-            ##################
-            # API_KEYS
-            ##################
-            try:
-                user_api_keys = oci.pagination.list_call_get_all_results(
-                    identity.list_api_keys,
-                    user.id,
-                    retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                ).data
+            user_smtp_creds = oci.pagination.list_call_get_all_results(
+                identity.list_smtp_credentials,
+                user.id,
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
 
-                # add user api keys
-                if user_api_keys:
-                    for api_key in user_api_keys:
-                        datauserapikey.append({
-                            'id': api_key.key_id,
-                            'inactive_status': str(api_key.inactive_status),
-                            'lifecycle_state': str(api_key.lifecycle_state),
-                            'time_created': str(api_key.time_created)
-                        })
-            except oci.exceptions.ServiceError as e:
-                if self.__check_service_error(e.code):
+            # add user secret keys
+            if user_smtp_creds:
+                for smtp_creds in user_smtp_creds:
+                    datausersmtpcred.append({
+                        'id': smtp_creds.id,
+                        'description': smtp_creds.description,
+                        'lifecycle_state': self.get_value(smtp_creds.lifecycle_state),
+                        'inactive_status': self.get_value(smtp_creds.inactive_status),
+                        'time_created': self.get_value(smtp_creds.time_created),
+                        'time_expires': self.get_value(smtp_creds.time_expires),
+                        'username': smtp_creds.username
+                    })
+
+            return datausersmtpcred
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                if self.flags.skip_threads:
                     self.__load_print_auth_warning('c')
-                else:
-                    raise
-
-            ##################
-            # Auth Token
-            ##################
-            try:
-                user_auth_tokens = oci.pagination.list_call_get_all_results(
-                    identity.list_auth_tokens,
-                    user.id,
-                    retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                ).data
-
-                # add user auth tokens
-                if user_auth_tokens:
-                    for token in user_auth_tokens:
-                        datauserauthtoken.append({
-                            'id': token.id,
-                            'description': token.description,
-                            'lifecycle_state': str(token.lifecycle_state),
-                            'inactive_status': str(token.inactive_status),
-                            'time_created': str(token.time_created),
-                            'time_expires': str(token.time_expires),
-                            'token': token.token
-                        })
-
-            except oci.exceptions.ServiceError as e:
-                if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning('c')
-                else:
-                    raise
-
-            ##################
-            # Secrets
-            ##################
-            try:
-                user_secret_keys = oci.pagination.list_call_get_all_results(
-                    identity.list_customer_secret_keys,
-                    user.id,
-                    retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                ).data
-
-                # add user secret keys
-                if user_secret_keys:
-                    for secret in user_secret_keys:
-                        datausersecretkey.append({
-                            'id': secret.id,
-                            'display_name': secret.display_name,
-                            'lifecycle_state': str(secret.lifecycle_state),
-                            'inactive_status': str(secret.inactive_status),
-                            'time_created': str(secret.time_created),
-                            'time_expires': str(secret.time_expires)
-                        })
-
-            except oci.exceptions.ServiceError as e:
-                if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning('c')
-                else:
-                    raise
-
-            ##################
-            # SMTP CRED
-            ##################
-            try:
-                user_smtp_creds = oci.pagination.list_call_get_all_results(
-                    identity.list_smtp_credentials,
-                    user.id,
-                    retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                ).data
-
-                # add user secret keys
-                if user_smtp_creds:
-                    for smtp_creds in user_smtp_creds:
-                        datausersmtpcred.append({
-                            'id': smtp_creds.id,
-                            'description': smtp_creds.description,
-                            'lifecycle_state': str(smtp_creds.lifecycle_state),
-                            'inactive_status': str(smtp_creds.inactive_status),
-                            'time_created': str(smtp_creds.time_created),
-                            'time_expires': str(smtp_creds.time_expires),
-                            'username': smtp_creds.username
-                        })
-
-            except oci.exceptions.ServiceError as e:
-                if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning('c')
-                else:
-                    raise
-
-            # return the data
-            return datauserapikey, datauserauthtoken, datausersecretkey, datausersmtpcred
+                pass
+            else:
+                raise
 
         except Exception as e:
-            self.__print_error("__load_identity_users_groups", e)
+            self.__print_error("__load_identity_user_credentials_smtp", e)
 
     ##########################################################################
     # Print Identity Policies
     ##########################################################################
     def __load_identity_policies(self, identity):
         data = []
-        self.__load_print_status("Policies")
+        errstr = ""
+        header = "Policies"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         try:
             compartments = self.data[self.C_IDENTITY][self.C_IDENTITY_COMPARTMENTS]
 
             for c in compartments:
-                print(".", end="")
                 if self.__if_managed_paas_compartment(c['name']) and not self.flags.read_ManagedCompartmentForPaaS:
                     continue
 
@@ -1869,7 +2022,11 @@ class ShowOCIService(object):
                     if policies:
                         datapol = []
                         for policy in policies:
-                            datapol.append({'name': policy.name, 'statements': [str(e) for e in policy.statements]})
+                            datapol.append({
+                                'name': policy.name,
+                                'id': policy.id,
+                                'statements': [str(e) for e in policy.statements]
+                            })
 
                         dataval = {
                             'compartment_id': str(c['id']),
@@ -1881,13 +2038,15 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
             # add to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_POLICIES] = data
-            self.__load_print_cnt(len(data), start_time)
+            cnt = len(data)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException as e:
             if self.__check_request_error(e):
@@ -1902,7 +2061,9 @@ class ShowOCIService(object):
     def __load_identity_dynamic_groups(self, identity, tenancy_id):
 
         data = []
-        self.__load_print_status("Dynamic Groups")
+        errstr = ""
+        header = "Dynamic Groups"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         try:
@@ -1911,12 +2072,13 @@ class ShowOCIService(object):
                 dynamic_groups = oci.pagination.list_call_get_all_results(identity.list_dynamic_groups, tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
             for dg in dynamic_groups:
-                print(".", end="")
+                # print(".", end="")
                 data.append({
                     'id': str(dg.id),
                     'name': str(dg.name),
@@ -1926,7 +2088,8 @@ class ShowOCIService(object):
 
             # add to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_DYNAMIC_GROUPS] = data
-            self.__load_print_cnt(len(data), start_time)
+            cnt = len(data)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException as e:
             if self.__check_request_error(e):
@@ -1941,7 +2104,9 @@ class ShowOCIService(object):
     def __load_identity_network_sources(self, identity, tenancy_id):
 
         data = []
-        self.__load_print_status("Network Sources")
+        errstr = ""
+        header = "Network Sources"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         try:
@@ -1950,13 +2115,14 @@ class ShowOCIService(object):
                 network_sources = oci.pagination.list_call_get_all_results(identity.list_network_sources, tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
             # oci.identity.models.NetworkSourcesSummary
             for ns in network_sources:
-                print(".", end="")
+                #   print(".", end="")
 
                 # compile vcn ip list
                 vcn_list = []
@@ -1978,7 +2144,8 @@ class ShowOCIService(object):
 
             # add to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_NETWORK_SOURCES] = data
-            self.__load_print_cnt(len(data), start_time)
+            cnt = len(data)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException as e:
             if self.__check_request_error(e):
@@ -1993,7 +2160,9 @@ class ShowOCIService(object):
     def __load_identity_cost_tracking_tags(self, identity, tenancy_id):
 
         data = []
-        self.__load_print_status("Cost Tracking Tags")
+        errstr = ""
+        header = "Cost Tracking Tags"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         try:
@@ -2002,7 +2171,8 @@ class ShowOCIService(object):
                 tags = oci.pagination.list_call_get_all_results(identity.list_cost_tracking_tags, tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
@@ -2012,16 +2182,17 @@ class ShowOCIService(object):
                            'tag_namespace_name': str(tag.tag_namespace_name),
                            'id': str(tag.id),
                            'name': str(tag.name),
-                           'description': str(tag.description),
-                           'is_retired': str(tag.is_retired),
-                           'time_created': str(tag.time_created),
-                           'is_cost_tracking': str(tag.is_cost_tracking)
+                           'description': self.get_value(tag.description),
+                           'is_retired': self.get_value(tag.is_retired),
+                           'time_created': self.get_value(tag.time_created),
+                           'is_cost_tracking': self.get_value(tag.is_cost_tracking)
                            }
                 data.append(dataval)
 
             # add to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_COST_TRACKING_TAGS] = data
-            self.__load_print_cnt(len(data), start_time)
+            cnt = len(data)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException as e:
             if self.__check_request_error(e):
@@ -2035,14 +2206,16 @@ class ShowOCIService(object):
     ##########################################################################
     def __load_identity_tag_namespace(self, identity):
         data = []
-        self.__load_print_status("Tag Namespace")
+        errstr = ""
+        header = "Tag Namespace"
+        self.__load_print_status_with_threads(header)
         start_time = time.time()
 
         try:
             compartments = self.data[self.C_IDENTITY][self.C_IDENTITY_COMPARTMENTS]
 
             for c in compartments:
-                print(".", end="")
+                #   print(".", end="")
                 if self.__if_managed_paas_compartment(c['name']) and not self.flags.read_ManagedCompartmentForPaaS:
                     continue
 
@@ -2067,10 +2240,10 @@ class ShowOCIService(object):
                             val = {
                                 'id': tag.id,
                                 'name': str(tag.name),
-                                'description': str(tag.description),
-                                'is_retired': str(tag.is_retired),
-                                'lifecycle_state': str(tag.lifecycle_state),
-                                'time_created': str(tag.time_created),
+                                'description': self.get_value(tag.description),
+                                'is_retired': self.get_value(tag.is_retired),
+                                'lifecycle_state': self.get_value(tag.lifecycle_state),
+                                'time_created': self.get_value(tag.time_created),
                                 'defined_tags': [] if tag.defined_tags is None else tag.defined_tags,
                                 'freeform_tags': [] if tag.freeform_tags is None else tag.freeform_tags
                             }
@@ -2081,13 +2254,15 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
             # add to data
             self.data[self.C_IDENTITY][self.C_IDENTITY_TAG_NAMESPACE] = data
-            self.__load_print_cnt(len(data), start_time)
+            cnt = len(data)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
         except oci.exceptions.RequestException as e:
             if self.__check_request_error(e):
@@ -2099,7 +2274,7 @@ class ShowOCIService(object):
     ##########################################################################
     # Load Identity Availability Domains
     ##########################################################################
-    def __load_identity_availability_domain(self, region_name):
+    def __load_section_identity_availability_domain(self, region_name):
 
         try:
             print("Identity...")
@@ -2109,7 +2284,9 @@ class ShowOCIService(object):
             if self.flags.proxy:
                 identity.base_client.session.proxies = {'https': self.flags.proxy}
 
-            self.__load_print_status("Availability Domains")
+            errstr = ""
+            header = "Availability Domains"
+            self.__load_print_status_with_threads(header)
             start_time = time.time()
 
             # initalize the key
@@ -2121,7 +2298,8 @@ class ShowOCIService(object):
                 availability_domains = identity.list_availability_domains(self.get_tenancy_id()).data
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
@@ -2135,7 +2313,8 @@ class ShowOCIService(object):
             self.data[self.C_IDENTITY][self.C_IDENTITY_ADS] += data
 
             # mark count
-            self.__load_print_cnt(len(data), start_time)
+            cnt = len(data)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
 
             print("")
 
@@ -2144,45 +2323,38 @@ class ShowOCIService(object):
                 return
             raise
         except Exception as e:
-            self.__print_error("__load_identity_availability_domains", e)
+            self.__print_error("__load_section_identity_availability_domain", e)
 
     ##########################################################################
     # Load all networks to data
     ##########################################################################
-    #
-    # class oci.core.virtual_network_client.virtual_networkClient(config, **kwargs)
-    #
-    #    Not done APIs:
-    #    list_allowed_peer_regions_for_remote_peering(**kwargs)
-    #    list_public_ips(scope, compartment_id, **kwargs)
-    #    list_cross_connect_groups(compartment_id, **kwargs)
-    #    list_cross_connect_locations(compartment_id, **kwargs)
-    #    list_cross_connects(compartment_id, **kwargs)
-    #    list_crossconnect_port_speed_shapes(compartment_id, **kwargs)
-    #
-    ##########################################################################
-    def __load_core_network_main(self):
+    def __load_section_core_network_main(self):
 
         try:
+            # if to exclude network
+            if self.EXCLUDE_NETWORK in self.flags.exclude:
+                return
+
             print("Network...")
+
+            section_start_time = time.time()
 
             # Open connectivity to OCI
             virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            dns_client = oci.dns.DnsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            nwf_client = oci.network_firewall.NetworkFirewallClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            load_balancer = oci.load_balancer.LoadBalancerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            network_load_balancer = oci.network_load_balancer.NetworkLoadBalancerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             if self.flags.proxy:
                 virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # Open connectivity to OCI
-            dns_client = oci.dns.DnsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 dns_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # Open connectivity to OCI
-            nwf_client = oci.network_firewall.NetworkFirewallClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 nwf_client.base_client.session.proxies = {'https': self.flags.proxy}
+                load_balancer.base_client.session.proxies = {'https': self.flags.proxy}
+                network_load_balancer.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
-            compartments = self.data[self.C_IDENTITY][self.C_IDENTITY_COMPARTMENTS]
+            compartments = self.get_compartment()
 
             # add the key to the network if not exists
             self.__initialize_data_key(self.C_NETWORK, self.C_NETWORK_VCN)
@@ -2191,6 +2363,7 @@ class ShowOCIService(object):
 
             # if to load all network resources initialize the keys
             if self.flags.read_network:
+
                 # add the key to the network if not exists
                 self.__initialize_data_key(self.C_NETWORK, self.C_NETWORK_SUBNET_PIP)
                 self.__initialize_data_key(self.C_NETWORK, self.C_NETWORK_VLAN)
@@ -2212,31 +2385,37 @@ class ShowOCIService(object):
                 self.__initialize_data_key(self.C_NETWORK, self.C_NETWORK_DNS_RESOLVERS)
                 self.__initialize_data_key(self.C_NETWORK, self.C_NETWORK_FIREWALL)
                 self.__initialize_data_key(self.C_NETWORK, self.C_NETWORK_FIREWALL_POLICY)
+                self.__initialize_data_key(self.C_LB, self.C_LB_LOAD_BALANCERS)
+                self.__initialize_data_key(self.C_LB, self.C_LB_BACKEND_SETS)
+                self.__initialize_data_key(self.C_LB, self.C_LB_NETWORK_LOAD_BALANCERS)
+                self.__initialize_data_key(self.C_LB, self.C_LB_NETWORK_BACKEND_SETS)
 
-            # reference to network:
+            # reference to network and initial variables:
             network = self.data[self.C_NETWORK]
 
-            # append the data for vcns
-            vcns = self.__load_core_network_vcn(virtual_network, compartments)
-            network[self.C_NETWORK_VCN] += vcns
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
+                vcns = self.__load_core_network_vcn(virtual_network, compartments)
+                subnets = self.__load_core_network_subnet(virtual_network, compartments)
+                nsg = self.__load_core_network_nsg(virtual_network, compartments)
 
-            # mark if vcn exist for this regiot
-            self.is_vcn_exist_for_region = (len(vcns) > 0)
-
-            # read network resources only if there are vcns
-            if self.is_vcn_exist_for_region:
-
-                # append the data for subnets
-                subnets = self.__load_core_network_subnet(virtual_network, compartments, network[self.C_NETWORK_VCN])
+                network[self.C_NETWORK_VCN] += vcns
                 network[self.C_NETWORK_SUBNET] += subnets
-                network[self.C_NETWORK_NSG] += self.__load_core_network_nsg(virtual_network, compartments)
+                network[self.C_NETWORK_NSG] += nsg
 
-                # if to load all network resources
-                if self.flags.read_network:
+                # merge vcn info to subnets
+                self.__load_core_network_subnet_add_vcn_info()
 
-                    # append the data
+                # mark if vcn exist for this regiot
+                self.is_vcn_exist_for_region = (len(vcns) > 0)
+
+                # read network resources only if there are vcns
+                if self.is_vcn_exist_for_region and self.flags.read_network:
+
                     network[self.C_NETWORK_SUBNET_PIP] += self.__load_core_network_subnet_private_ip(virtual_network, subnets)
-                    network[self.C_NETWORK_VLAN] += self.__load_core_network_vlan(virtual_network, compartments, vcns)
+                    network[self.C_NETWORK_VLAN] += self.__load_core_network_vlan(virtual_network, compartments)
                     network[self.C_NETWORK_LPG] += self.__load_core_network_lpg(virtual_network, compartments)
                     network[self.C_NETWORK_SGW] += self.__load_core_network_sgw(virtual_network, compartments)
                     network[self.C_NETWORK_NAT] += self.__load_core_network_nat(virtual_network, compartments)
@@ -2257,13 +2436,132 @@ class ShowOCIService(object):
                     network[self.C_NETWORK_ROUTE] += routes
                     network[self.C_NETWORK_PRIVATEIP] += self.__load_core_network_privateip(virtual_network, routes)
 
+                    lb = self.data[self.C_LB]
+                    lb[self.C_LB_LOAD_BALANCERS] += self.__load_load_balancers(load_balancer, compartments)
+                    lb[self.C_LB_BACKEND_SETS] += self.__load_load_balancer_backendset(load_balancer)
+                    lb[self.C_LB_NETWORK_LOAD_BALANCERS] += self.__load_load_balancers_network(network_load_balancer, compartments)
+                    lb[self.C_LB_NETWORK_BACKEND_SETS] += self.__load_load_balancer_backendset_network(network_load_balancer)
+
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                    future_vcn = executor.submit(self.__load_core_network_vcn, virtual_network, compartments)
+                    future_subnet = executor.submit(self.__load_core_network_subnet, virtual_network, compartments)
+                    future_nsg = executor.submit(self.__load_core_network_nsg, virtual_network, compartments)
+
+                    # Wait for completion
+                    vcns = next(as_completed([future_vcn])).result()
+                    subnets = next(as_completed([future_subnet])).result()
+                    nsg = next(as_completed([future_nsg])).result()
+
+                    network[self.C_NETWORK_VCN] += vcns
+                    network[self.C_NETWORK_SUBNET] += subnets
+                    network[self.C_NETWORK_NSG] += nsg
+
+                    # merge vcn info to subnets
+                    self.__load_core_network_subnet_add_vcn_info()
+
+                    # mark if vcn exist for this region
+                    self.is_vcn_exist_for_region = (len(vcns) > 0)
+
+                    future_network_routes = None
+                    future_network_vir = None
+                    future_network_dns = None
+                    future_network_igw = None
+                    future_network_pip = None
+                    future_network_vlan = None
+                    future_network_lpg = None
+                    future_network_sgw = None
+                    future_network_nat = None
+                    future_network_dra = None
+                    future_network_drg = None
+                    future_network_cpe = None
+                    future_network_ips = None
+                    future_network_rpc = None
+                    future_network_slt = None
+                    future_network_dhcp = None
+                    future_network_fwp = None
+                    future_network_fw = None
+                    future_LB_LOAD_BALANCERS = None
+                    future_LB_NETWORK_LOAD_BALANCERS = None
+                    future_LB_BACKEND_SETS = None
+                    future_LB_NETWORK_BACKEND_SETS = None
+
+                    # read network resources only if there are vcns
+                    if self.is_vcn_exist_for_region and self.flags.read_network:
+
+                        # Run in parallel
+                        future_network_routes = executor.submit(self.__load_core_network_routet, virtual_network, compartments)
+                        future_network_vir = executor.submit(self.__load_core_network_vc, virtual_network, compartments)
+                        future_network_dns = executor.submit(self.__load_core_network_dns_resolvers, dns_client, compartments)
+                        future_network_igw = executor.submit(self.__load_core_network_igw, virtual_network, compartments)
+                        future_network_subip = executor.submit(self.__load_core_network_subnet_private_ip, virtual_network, subnets)
+                        future_network_vlan = executor.submit(self.__load_core_network_vlan, virtual_network, compartments)
+                        future_network_lpg = executor.submit(self.__load_core_network_lpg, virtual_network, compartments)
+                        future_network_sgw = executor.submit(self.__load_core_network_sgw, virtual_network, compartments)
+                        future_network_nat = executor.submit(self.__load_core_network_nat, virtual_network, compartments)
+                        future_network_dra = executor.submit(self.__load_core_network_dra, virtual_network, compartments)
+                        future_network_drg = executor.submit(self.__load_core_network_drg, virtual_network, compartments)
+                        future_network_cpe = executor.submit(self.__load_core_network_cpe, virtual_network, compartments)
+                        future_network_ips = executor.submit(self.__load_core_network_ips, virtual_network, compartments)
+                        future_network_rpc = executor.submit(self.__load_core_network_rpc, virtual_network, compartments)
+                        future_network_slt = executor.submit(self.__load_core_network_seclst, virtual_network, compartments)
+                        future_network_dhcp = executor.submit(self.__load_core_network_dhcpop, virtual_network, compartments)
+                        future_network_fwp = executor.submit(self.__load_core_network_firewall_policy, nwf_client, compartments)
+                        future_network_fw = executor.submit(self.__load_core_network_firewall, nwf_client, compartments)
+
+                        future_LB_LOAD_BALANCERS = executor.submit(self.__load_load_balancers, load_balancer, compartments)
+                        future_LB_NETWORK_LOAD_BALANCERS = executor.submit(self.__load_load_balancers_network, network_load_balancer, compartments)
+
+                        # Wait for completion
+                        routes = next(as_completed([future_network_routes])).result()
+                        network[self.C_NETWORK_ROUTE] += routes
+
+                        # depends on routes execute now
+                        future_network_pip = executor.submit(self.__load_core_network_privateip, virtual_network, routes)
+
+                        lb = self.data[self.C_LB]
+                        lb[self.C_LB_LOAD_BALANCERS] += next(as_completed([future_LB_LOAD_BALANCERS])).result()
+                        lb[self.C_LB_NETWORK_LOAD_BALANCERS] += next(as_completed([future_LB_NETWORK_LOAD_BALANCERS])).result()
+
+                        # Pending main load balancers
+                        future_LB_BACKEND_SETS = executor.submit(self.__load_load_balancer_backendset, load_balancer)
+                        future_LB_NETWORK_BACKEND_SETS = executor.submit(self.__load_load_balancer_backendset_network, network_load_balancer)
+
+                        # Wait for completion
+                        network[self.C_NETWORK_SUBNET_PIP] += next(as_completed([future_network_subip])).result()
+                        network[self.C_NETWORK_VLAN] += next(as_completed([future_network_vlan])).result()
+                        network[self.C_NETWORK_LPG] += next(as_completed([future_network_lpg])).result()
+                        network[self.C_NETWORK_SGW] += next(as_completed([future_network_sgw])).result()
+                        network[self.C_NETWORK_NAT] += next(as_completed([future_network_nat])).result()
+                        network[self.C_NETWORK_DRG_AT] += next(as_completed([future_network_dra])).result()
+                        network[self.C_NETWORK_DRG] += next(as_completed([future_network_drg])).result()
+                        network[self.C_NETWORK_CPE] += next(as_completed([future_network_cpe])).result()
+                        network[self.C_NETWORK_IPS] += next(as_completed([future_network_ips])).result()
+                        network[self.C_NETWORK_RPC] += next(as_completed([future_network_rpc])).result()
+                        network[self.C_NETWORK_VC] += next(as_completed([future_network_vir])).result()
+                        network[self.C_NETWORK_IGW] += next(as_completed([future_network_igw])).result()
+                        network[self.C_NETWORK_SLIST] += next(as_completed([future_network_slt])).result()
+                        network[self.C_NETWORK_DHCP] += next(as_completed([future_network_dhcp])).result()
+                        network[self.C_NETWORK_DNS_RESOLVERS] += next(as_completed([future_network_dns])).result()
+                        network[self.C_NETWORK_FIREWALL_POLICY] += next(as_completed([future_network_fwp])).result()
+                        network[self.C_NETWORK_FIREWALL] += next(as_completed([future_network_fw])).result()
+                        network[self.C_NETWORK_PRIVATEIP] += next(as_completed([future_network_pip])).result()
+
+                        lb[self.C_LB_BACKEND_SETS] += next(as_completed([future_LB_BACKEND_SETS])).result()
+                        lb[self.C_LB_NETWORK_BACKEND_SETS] += next(as_completed([future_LB_NETWORK_BACKEND_SETS])).result()
+
+            self.__load_print_section_time(section_start_time)
             print("")
+
         except oci.exceptions.RequestException:
             raise
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_main", e)
+            self.__print_error("__load_section_core_network_main", e)
             raise
 
     ##########################################################################
@@ -2275,8 +2573,9 @@ class ShowOCIService(object):
         cnt = 0
         start_time = time.time()
         try:
-
-            self.__load_print_status("Virtual Cloud Networks")
+            errstr = ""
+            header = "Virtual Cloud Networks"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -2294,10 +2593,12 @@ class ShowOCIService(object):
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
                         self.__load_print_auth_warning()
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on the array
                 # vcn = oci.core.models.Vcn()
@@ -2306,17 +2607,17 @@ class ShowOCIService(object):
                         'id': str(vcn.id),
                         'name': str(', '.join(x for x in vcn.cidr_blocks)) + " - " + str(vcn.display_name) + " - " + str(vcn.vcn_domain_name),
                         'display_name': str(vcn.display_name),
-                        'cidr_block': str(vcn.cidr_block),
+                        'cidr_block': '',
                         'cidr_blocks': vcn.cidr_blocks,
                         'ipv6_private_cidr_blocks': vcn.ipv6_private_cidr_blocks,
                         'ipv6_cidr_blocks': vcn.ipv6_cidr_blocks,
                         'byoipv6_cidr_blocks': vcn.byoipv6_cidr_blocks,
-                        'default_dhcp_options_id': str(vcn.default_dhcp_options_id),
-                        'default_route_table_id': str(vcn.default_route_table_id),
-                        'default_security_list_id': str(vcn.default_security_list_id),
-                        'dns_label': str(vcn.dns_label),
-                        'time_created': str(vcn.time_created),
-                        'vcn_domain_name': str(vcn.vcn_domain_name),
+                        'default_dhcp_options_id': self.get_value(vcn.default_dhcp_options_id),
+                        'default_route_table_id': self.get_value(vcn.default_route_table_id),
+                        'default_security_list_id': self.get_value(vcn.default_security_list_id),
+                        'dns_label': self.get_value(vcn.dns_label),
+                        'time_created': self.get_value(vcn.time_created),
+                        'vcn_domain_name': self.get_value(vcn.vcn_domain_name),
                         'compartment_name': str(compartment['name']),
                         'compartment_path': str(compartment['path']),
                         'defined_tags': [] if vcn.defined_tags is None else vcn.defined_tags,
@@ -2326,7 +2627,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2335,13 +2637,13 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_vcn", e)
+            self.__print_error("__load_core_network_vcn", e, compartment)
             return data
 
     ##########################################################################
     # __load_core_network_vlan
     ##########################################################################
-    def __load_core_network_vlan(self, virtual_network, compartments, vcns):
+    def __load_core_network_vlan(self, virtual_network, compartments):
 
         cnt = 0
         data = []
@@ -2349,10 +2651,13 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("VLANs")
+            errstr = ""
+            header = "VLANs"
+            self.__load_print_status_with_threads(header)
 
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 vlans = []
                 try:
@@ -2368,7 +2673,8 @@ class ShowOCIService(object):
                         print(" tenant not enabled for this region, skipped.")
                         return data
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning('a', False)
+                        self.__load_print_auth_warning('a', False, to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -2376,15 +2682,15 @@ class ShowOCIService(object):
                 for vlan in vlans:
                     val = {'id': str(vlan.id),
                            'vlan': str(vlan.vlan_tag) + " - " + str(vlan.cidr_block) + " - " + str(vlan.display_name),
-                           'availability_domain': str(vlan.availability_domain),
-                           'cidr_block': str(vlan.cidr_block),
-                           'vlan_tag': str(vlan.vlan_tag),
-                           'display_name': str(vlan.display_name),
-                           'time_created': str(vlan.time_created),
-                           'lifecycle_state': str(vlan.lifecycle_state),
+                           'availability_domain': self.get_value(vlan.availability_domain),
+                           'cidr_block': self.get_value(vlan.cidr_block),
+                           'vlan_tag': self.get_value(vlan.vlan_tag),
+                           'display_name': self.get_value(vlan.display_name),
+                           'time_created': self.get_value(vlan.time_created),
+                           'lifecycle_state': self.get_value(vlan.lifecycle_state),
                            'nsg_ids': vlan.nsg_ids,
-                           'route_table_id': str(vlan.route_table_id),
-                           'vcn_id': str(vlan.vcn_id),
+                           'route_table_id': self.get_value(vlan.route_table_id),
+                           'vcn_id': self.get_value(vlan.vcn_id),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
@@ -2396,7 +2702,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2406,7 +2713,7 @@ class ShowOCIService(object):
         except Exception as e:
             if 'NotAuthorizedOrNotFound' in str(e.message):
                 return data
-            self.__print_error("__load_core_network_vlan", e)
+            self.__print_error("__load_core_network_vlan", e, compartment)
             return data
 
     ##########################################################################
@@ -2420,10 +2727,13 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Internet Gateways")
+            errstr = ""
+            header = "Internet Gateways"
+            self.__load_print_status_with_threads(header)
 
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 igws = []
                 try:
@@ -2436,16 +2746,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                     raise
 
                 for igw in igws:
                     val = {'id': str(igw.id),
                            'vcn_id': str(igw.vcn_id),
                            'name': str(igw.display_name),
-                           'is_enabled': str(igw.is_enabled),
-                           'route_table_id': str(igw.route_table_id),
-                           'time_created': str(igw.time_created),
+                           'is_enabled': self.get_value(igw.is_enabled),
+                           'route_table_id': self.get_value(igw.route_table_id),
+                           'time_created': self.get_value(igw.time_created),
                            'defined_tags': [] if igw.defined_tags is None else igw.defined_tags,
                            'freeform_tags': [] if igw.freeform_tags is None else igw.freeform_tags,
                            'compartment_name': str(compartment['name']),
@@ -2457,7 +2768,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2465,7 +2777,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_igw", e)
+            self.__print_error("__load_core_network_igw", e, compartment)
             return data
 
     ##########################################################################
@@ -2479,11 +2791,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Local Peer GWs")
+            errstr = ""
+            header = "Local Peer GWs"
+            self.__load_print_status_with_threads(header)
 
             # Loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 local_peering_gateways = []
                 try:
@@ -2494,7 +2809,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                     raise
 
                 # lpg = oci.core.models.LocalPeeringGateway()
@@ -2510,15 +2826,15 @@ class ShowOCIService(object):
                     val = {'id': str(lpg.id),
                            'vcn_id': str(lpg.vcn_id),
                            'name': str(lpg.peering_status).ljust(8) + " - " + str(lpg.display_name) + str(cidr),
-                           'peering_status': str(lpg.peering_status),
-                           'time_created': str(lpg.time_created),
-                           'display_name': str(lpg.display_name),
-                           'peer_advertised_cidr': str(lpg.peer_advertised_cidr),
-                           'is_cross_tenancy_peering': str(lpg.is_cross_tenancy_peering),
+                           'peering_status': self.get_value(lpg.peering_status),
+                           'time_created': self.get_value(lpg.time_created),
+                           'display_name': self.get_value(lpg.display_name),
+                           'peer_advertised_cidr': self.get_value(lpg.peer_advertised_cidr),
+                           'is_cross_tenancy_peering': self.get_value(lpg.is_cross_tenancy_peering),
                            'peer_advertised_cidr_details': lpg.peer_advertised_cidr_details,
-                           'route_table_id': str(lpg.route_table_id),
-                           'peer_id': str(lpg.peer_id),
-                           'peering_status_details': str(lpg.peering_status_details),
+                           'route_table_id': self.get_value(lpg.route_table_id),
+                           'peer_id': self.get_value(lpg.peer_id),
+                           'peering_status_details': self.get_value(lpg.peering_status_details),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
@@ -2528,7 +2844,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2537,7 +2854,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_lpg", e)
+            self.__print_error("__load_core_network_lpg", e, compartment)
             return data
 
     ##########################################################################
@@ -2551,7 +2868,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Remote Peer Conns")
+            errstr = ""
+            header = "Remote Peer Conns"
+            self.__load_print_status_with_threads(header)
 
             # iLoop on all compartments
             for compartment in compartments:
@@ -2566,22 +2885,28 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # rpc = oci.core.models.RemotePeeringConnection()
                 for rpc in rpcs:
                     if rpc.lifecycle_state != oci.core.models.RemotePeeringConnection.LIFECYCLE_STATE_AVAILABLE:
                         continue
 
-                    val = {'id': str(rpc.id), 'peer_id': str(rpc.peer_id), 'drg_id': str(rpc.drg_id),
-                           'name': str(rpc.display_name), 'time_created': str(rpc.time_created),
+                    val = {'id': str(rpc.id), 'peer_id': str(rpc.peer_id),
+                           'drg_id': self.get_value(rpc.drg_id),
+                           'name': self.get_value(rpc.display_name),
+                           'time_created': self.get_value(rpc.time_created),
                            'is_cross_tenancy_peering': str(rpc.is_cross_tenancy_peering),
-                           'peer_region_name': str(rpc.peer_region_name), 'peer_tenancy_id': str(rpc.peer_tenancy_id),
-                           'peering_status': str(rpc.peering_status), 'compartment_name': str(compartment['name']),
+                           'peer_region_name': self.get_value(rpc.peer_region_name),
+                           'peer_tenancy_id': self.get_value(rpc.peer_tenancy_id),
+                           'peering_status': self.get_value(rpc.peering_status),
+                           'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']), 'region_name': str(self.config['region']),
                            'drg_route_table_id': "",
@@ -2596,7 +2921,9 @@ class ShowOCIService(object):
 
                     data.append(val)
                     cnt += 1
-            self.__load_print_cnt(cnt, start_time)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2605,7 +2932,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_rpc", e)
+            self.__print_error("__load_core_network_rpc", e, compartment)
             return data
 
     ##########################################################################
@@ -2619,11 +2946,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Route Tables")
+            errstr = ""
+            header = "Route Tables"
+            self.__load_print_status_with_threads(header)
 
             # Loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 route_tables = []
                 try:
@@ -2636,7 +2966,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
@@ -2647,11 +2978,11 @@ class ShowOCIService(object):
                            'time_created': str(rt.time_created),
                            'route_rules': [
                                {
-                                   'destination': str(es.destination),
-                                   'network_entity_id': str(es.network_entity_id),
-                                   'cidr_block': "" if str(es.cidr_block) == "None" else str(es.cidr_block),
-                                   'description': "" if str(es.description) == "None" else str(es.description),
-                                   'destination_type': str(es.destination_type)
+                                   'destination': self.get_value(es.destination),
+                                   'network_entity_id': self.get_value(es.network_entity_id),
+                                   'cidr_block': self.get_value(es.cidr_block),
+                                   'description': self.get_value(es.description),
+                                   'destination_type': self.get_value(es.destination_type)
                                } for es in rt.route_rules],
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
@@ -2661,7 +2992,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2670,7 +3002,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_route", e)
+            self.__print_error("__load_core_network_route", e, compartment)
             return data
 
     ##########################################################################
@@ -2714,11 +3046,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("DHCP Options")
+            errstr = ""
+            header = "DHCP Options"
+            self.__load_print_status_with_threads(header)
 
             # Loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 dhcp_options = []
                 try:
@@ -2730,7 +3065,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
@@ -2745,9 +3081,13 @@ class ShowOCIService(object):
                             dhcp_opt.append(self.__load_core_network_dhcpop_opt(opt))
 
                     # add route info to data
-                    val = {'id': str(dhcp.id), 'vcn_id': str(dhcp.vcn_id), 'name': str(dhcp.display_name),
-                           'time_created': str(dhcp.time_created), 'options': dhcp_opt,
-                           'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
+                    val = {'id': str(dhcp.id),
+                           'vcn_id': self.get_value(dhcp.vcn_id),
+                           'name': self.get_value(dhcp.display_name),
+                           'time_created': self.get_value(dhcp.time_created),
+                           'options': dhcp_opt,
+                           'compartment_name': str(compartment['name']),
+                           'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
                            'defined_tags': [] if dhcp.defined_tags is None else dhcp.defined_tags,
                            'freeform_tags': [] if dhcp.freeform_tags is None else dhcp.freeform_tags,
@@ -2755,7 +3095,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2764,7 +3105,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_dhcpop", e)
+            self.__print_error("__load_core_network_dhcpop", e, compartment)
             return data
 
     ##########################################################################
@@ -2798,11 +3139,12 @@ class ShowOCIService(object):
             'dst_port_max': "",
             'icmp_code': "",
             'icmp_type': "",
+            'direction': direction,
             'security_alert': False
         }
 
         # Process the security rule
-        line = str(direction).ljust(7) + " : "
+        line = str(direction).ljust(7) + ": "
 
         # process the source or dest
         if isinstance(security_rule, oci.core.models.EgressSecurityRule):
@@ -2928,11 +3270,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Security Lists")
+            errstr = ""
+            header = "Security Lists"
+            self.__load_print_status_with_threads(header)
 
             # Loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 sec_lists = []
                 try:
@@ -2946,7 +3291,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
@@ -2976,7 +3322,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -2985,7 +3332,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_seclst", e)
+            self.__print_error("__load_core_network_seclst", e, compartment)
             return data
 
     ##########################################################################
@@ -3024,19 +3371,19 @@ class ShowOCIService(object):
         protocol_name = self.__load_core_network_seclst_protocl_name(str(security_rule.protocol))
         value = {
             'id': str(security_rule.id),
-            'description': ("" if security_rule.description is None else str(security_rule.description)),
-            'direction': str(security_rule.direction),
-            'destination': ("" if security_rule.destination is None else str(security_rule.destination)),
+            'description': self.get_value(security_rule.description),
+            'direction': self.get_value(security_rule.direction),
+            'destination': self.get_value(security_rule.destination),
             'destination_name': "",
-            'destination_type': ("" if security_rule.destination_type is None else str(security_rule.destination_type)),
-            'source': ("" if security_rule.source is None else str(security_rule.source)),
+            'destination_type': self.get_value(security_rule.destination_type),
+            'source': self.get_value(security_rule.source),
             'source_name': "",
-            'source_type': ("" if security_rule.source_type is None else str(security_rule.source_type)),
+            'source_type': self.get_value(security_rule.source_type),
             'is_stateless': ("False" if security_rule.is_stateless is None else str(security_rule.is_stateless)),
-            'is_valid': str(security_rule.is_valid),
-            'protocol': str(security_rule.protocol),
+            'is_valid': self.get_value(security_rule.is_valid),
+            'protocol': self.get_value(security_rule.protocol),
             'protocol_name': protocol_name,
-            'time_created': str(security_rule.time_created),
+            'time_created': self.get_value(security_rule.time_created),
             'src_port_min': "",
             'src_port_max': "",
             'dst_port_min': "",
@@ -3166,14 +3513,15 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Network Security Groups")
+            errstr = ""
+            header = "Network Security Groups"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # ngw will throw error if run on Paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 arrs = []
@@ -3187,19 +3535,21 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("n", False)
+                        self.__load_print_auth_warning("n", False, to_print=self.flags.skip_threads)
+                        errstr += "n"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.NetworkSecurityGroup
                 for arr in arrs:
                     val = {'id': str(arr.id),
-                           'name': str(arr.display_name),
-                           'vcn_id': str(arr.vcn_id),
-                           'time_created': str(arr.time_created),
+                           'name': self.get_value(arr.display_name),
+                           'vcn_id': self.get_value(arr.vcn_id),
+                           'time_created': self.get_value(arr.time_created),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
@@ -3220,7 +3570,8 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning("p", False)
+                            self.__load_print_auth_warning("p", False, to_print=self.flags.skip_threads)
+                            errstr += "n"
                         else:
                             raise
 
@@ -3231,7 +3582,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3240,13 +3591,13 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_nsg", e)
+            self.__print_error("__load_core_network_nsg", e, compartment)
             return data
 
     ##########################################################################
     # data network read subnets
     ##########################################################################
-    def __load_core_network_subnet(self, virtual_network, compartments, vcns):
+    def __load_core_network_subnet(self, virtual_network, compartments):
 
         data = []
         cnt = 0
@@ -3254,11 +3605,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Subnets")
+            errstr = ""
+            header = "Subnets"
+            self.__load_print_status_with_threads(header)
 
             # Loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 subnets = []
                 try:
@@ -3272,7 +3626,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
@@ -3288,15 +3643,15 @@ class ShowOCIService(object):
                            'vcn_domain_name': "",
                            'dns': "",
                            'name': str(subnet.display_name),
-                           'cidr_block': str(subnet.cidr_block),
+                           'cidr_block': self.get_value(subnet.cidr_block),
                            'subnet': (str(subnet.cidr_block) + "  " + availability_domain + (" (Private) " if subnet.prohibit_public_ip_on_vnic else " (Public)")),
                            'availability_domain': availability_domain,
                            'public_private': ("Private" if subnet.prohibit_public_ip_on_vnic else "Public"),
-                           'time_created': str(subnet.time_created),
+                           'time_created': self.get_value(subnet.time_created),
                            'security_list_ids': [str(es) for es in subnet.security_list_ids],
-                           'dhcp_options_id': str(subnet.dhcp_options_id),
-                           'route_table_id': str(subnet.route_table_id),
-                           'dns_label': str(subnet.dns_label),
+                           'dhcp_options_id': self.get_value(subnet.dhcp_options_id),
+                           'route_table_id': self.get_value(subnet.route_table_id),
+                           'dns_label': self.get_value(subnet.dns_label),
                            'defined_tags': [] if subnet.defined_tags is None else subnet.defined_tags,
                            'freeform_tags': [] if subnet.freeform_tags is None else subnet.freeform_tags,
                            'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
@@ -3304,18 +3659,10 @@ class ShowOCIService(object):
                            'region_name': str(self.config['region'])
                            }
 
-                    # find vcn
-                    for vcn in vcns:
-                        if str(subnet.vcn_id) == vcn['id']:
-                            val['dns'] = str(subnet.dns_label) + "." + vcn['vcn_domain_name']
-                            val['vcn_name'] = vcn['display_name']
-                            val['vcn_domain_name'] = vcn['vcn_domain_name']
-                            val['vcn_cidr'] = str(', '.join(x for x in vcn['cidr_blocks']))
-
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3324,8 +3671,34 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_slist", e)
+            self.__print_error("__load_core_network_slist", e, compartment)
             return data
+
+    ##########################################################################
+    # data network read private ip for subnet
+    ##########################################################################
+    def __load_core_network_subnet_add_vcn_info(self):
+        try:
+            if self.C_NETWORK not in self.data:
+                return
+            if self.C_NETWORK_SUBNET not in self.data[self.C_NETWORK] or self.C_NETWORK_VCN not in self.data[self.C_NETWORK]:
+                return
+
+            # loop on all subnets without vcn info
+            for subnet in self.data[self.C_NETWORK][self.C_NETWORK_SUBNET]:
+                if subnet['vcn_name']:
+                    continue
+
+                # find vcn
+                for vcn in self.data[self.C_NETWORK][self.C_NETWORK_VCN]:
+                    if subnet['vcn_id'] == vcn['id']:
+                        subnet['dns'] = subnet['dns_label'] + "." + vcn['vcn_domain_name']
+                        subnet['vcn_name'] = vcn['display_name']
+                        subnet['vcn_domain_name'] = vcn['vcn_domain_name']
+                        subnet['vcn_cidr'] = str(', '.join(x for x in vcn['cidr_blocks']))
+
+        except Exception as e:
+            self.__print_error("__load_core_network_subnet_add_vcn_info", e)
 
     ##########################################################################
     # data network read private ip for subnet
@@ -3338,7 +3711,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Subnet Private IPs")
+            errstr = ""
+            header = "Subnet Private IPs"
+            self.__load_print_status_with_threads(header)
 
             # loop on all subnets
             for subnet in subnets:
@@ -3353,28 +3728,29 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print("s", end="")
+                if self.flags.skip_threads:
+                    print("s", end="")
 
-                # loop on all sgws
-                # sgw = oci.core.models.ServiceGateway
+                # loop on private ips
                 for ip in private_ips:
                     val = {
                         'id': str(ip.id),
                         'compartment_id': str(ip.compartment_id),
                         'compartment_name': '',
                         'compartment_path': '',
-                        'display_name': str(ip.display_name),
-                        'hostname_label': str(ip.hostname_label),
-                        'ip_address': str(ip.ip_address),
-                        'is_primary': str(ip.is_primary),
-                        'vlan_id': str(ip.vlan_id),
-                        'subnet_id': str(ip.subnet_id),
-                        'time_created': str(ip.time_created)[0:16],
-                        'vnic_id': str(ip.vnic_id),
+                        'display_name': self.get_value(ip.display_name),
+                        'hostname_label': self.get_value(ip.hostname_label),
+                        'ip_address': self.get_value(ip.ip_address),
+                        'is_primary': self.get_value(ip.is_primary),
+                        'vlan_id': self.get_value(ip.vlan_id),
+                        'subnet_id': self.get_value(ip.subnet_id),
+                        'time_created': self.get_value(ip.time_created)[0:16],
+                        'vnic_id': self.get_value(ip.vnic_id),
                         'defined_tags': [] if ip.defined_tags is None else ip.defined_tags,
                         'freeform_tags': [] if ip.freeform_tags is None else ip.freeform_tags,
                         'region_name': str(self.config['region'])}
@@ -3388,7 +3764,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3411,7 +3788,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Service Gateways")
+            errstr = ""
+            header = "Service Gateways"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -3427,21 +3806,23 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on all sgws
                 # sgw = oci.core.models.ServiceGateway
                 for sgw in sgws:
                     val = {'id': str(sgw.id),
-                           'vcn_id': str(sgw.vcn_id),
-                           'name': str(sgw.display_name),
-                           'time_created': str(sgw.time_created),
-                           'block_traffic': str(sgw.block_traffic),
-                           'route_table_id': str(sgw.route_table_id),
+                           'vcn_id': self.get_value(sgw.vcn_id),
+                           'name': self.get_value(sgw.display_name),
+                           'time_created': self.get_value(sgw.time_created),
+                           'block_traffic': self.get_value(sgw.block_traffic),
+                           'route_table_id': self.get_value(sgw.route_table_id),
                            'services': str(', '.join(x.service_name for x in sgw.services)),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
@@ -3453,7 +3834,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3462,7 +3844,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_sgw", e)
+            self.__print_error("__load_core_network_sgw", e, compartment)
             return data
 
     ##########################################################################
@@ -3476,13 +3858,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("NAT Gateways")
+            errstr = ""
+            header = "NAT Gateways"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
-                # natgw will throw error if run on Paas compartment
+
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 natgws = []
@@ -3496,19 +3879,21 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on all sgws
                 # nat = oci.core.models.NatGateway.
                 for nat in natgws:
                     val = {'id': str(nat.id), 'vcn_id': str(nat.vcn_id), 'name': str(nat.display_name) + " - " + str(nat.nat_ip),
-                           'time_created': str(nat.time_created),
-                           'block_traffic': str(nat.block_traffic),
-                           'nat_ip': str(nat.nat_ip),
+                           'time_created': self.get_value(nat.time_created),
+                           'block_traffic': self.get_value(nat.block_traffic),
+                           'nat_ip': self.get_value(nat.nat_ip),
                            'display_name': str(nat.display_name),
                            'defined_tags': [] if nat.defined_tags is None else nat.defined_tags,
                            'freeform_tags': [] if nat.freeform_tags is None else nat.freeform_tags,
@@ -3521,7 +3906,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3531,7 +3917,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_nat", e)
+            self.__print_error("__load_core_network_nat", e, compartment)
             return data
 
     ##########################################################################
@@ -3545,7 +3931,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Dynamic Routing GW Attch")
+            errstr = ""
+            header = "Dynamic Routing GW Attch"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -3561,11 +3949,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.DrgAttachment
@@ -3573,14 +3963,14 @@ class ShowOCIService(object):
                     if arr.lifecycle_state == oci.core.models.DrgAttachment.LIFECYCLE_STATE_ATTACHED:
                         val = {
                             'id': str(arr.id),
-                            'vcn_id': str(arr.vcn_id),
-                            'drg_id': str(arr.drg_id),
-                            'time_created': str(arr.time_created),
-                            'display_name': str(arr.display_name),
-                            'is_cross_tenancy': str(arr.is_cross_tenancy),
-                            'export_drg_route_distribution_id': str(arr.export_drg_route_distribution_id),
-                            'drg_route_table_id': str(arr.drg_route_table_id),
-                            'route_table_id': "" if str(arr.route_table_id) == "None" else str(arr.route_table_id),
+                            'vcn_id': self.get_value(arr.vcn_id),
+                            'drg_id': self.get_value(arr.drg_id),
+                            'time_created': self.get_value(arr.time_created),
+                            'display_name': self.get_value(arr.display_name),
+                            'is_cross_tenancy': self.get_value(arr.is_cross_tenancy),
+                            'export_drg_route_distribution_id': self.get_value(arr.export_drg_route_distribution_id),
+                            'drg_route_table_id': self.get_value(arr.drg_route_table_id),
+                            'route_table_id': self.get_value(arr.route_table_id),
                             'compartment_name': str(compartment['name']),
                             'compartment_path': str(compartment['path']),
                             'compartment_id': str(compartment['id']),
@@ -3607,7 +3997,8 @@ class ShowOCIService(object):
                         data.append(val)
                         cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3617,7 +4008,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_dra", e)
+            self.__print_error("__load_core_network_dra", e, compartment)
             return data
 
     ##########################################################################
@@ -3631,7 +4022,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Dynamic Routing GWs")
+            errstr = ""
+            header = "Dynamic Routing GWs"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -3646,11 +4039,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.Drg
@@ -3658,10 +4053,10 @@ class ShowOCIService(object):
                     if arr.lifecycle_state == oci.core.models.Drg.LIFECYCLE_STATE_AVAILABLE:
                         val = {'id': str(arr.id),
                                'name': str(arr.display_name),
-                               'time_created': str(arr.time_created),
+                               'time_created': self.get_value(arr.time_created),
                                'redundancy': "",
                                'drg_route_tables': [],
-                               'default_export_drg_route_distribution_id': str(arr.default_export_drg_route_distribution_id),
+                               'default_export_drg_route_distribution_id': self.get_value(arr.default_export_drg_route_distribution_id),
                                'compartment_name': str(compartment['name']),
                                'compartment_path': str(compartment['path']),
                                'compartment_id': str(compartment['id']),
@@ -3693,10 +4088,10 @@ class ShowOCIService(object):
                                 rta = {
                                     'id': str(rt.id),
                                     'drg_id': str(arr.id),
-                                    'display_name': str(rt.display_name),
-                                    'time_created': str(rt.time_created),
+                                    'display_name': self.get_value(rt.display_name),
+                                    'time_created': self.get_value(rt.time_created),
                                     'route_rules': self.__load_core_network_drg_route_rules(virtual_network, rt.id),
-                                    'import_drg_route_distribution_id': str(rt.import_drg_route_distribution_id),
+                                    'import_drg_route_distribution_id': self.get_value(rt.import_drg_route_distribution_id),
                                     'is_ecmp_enabled': str(rt.is_ecmp_enabled),
                                     'defined_tags': [] if rt.defined_tags is None else rt.defined_tags,
                                     'freeform_tags': [] if rt.freeform_tags is None else rt.freeform_tags
@@ -3714,7 +4109,8 @@ class ShowOCIService(object):
                         data.append(val)
                         cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3724,7 +4120,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_drg", e)
+            self.__print_error("__load_core_network_drg", e, compartment)
             return data
 
     ##########################################################################
@@ -3750,16 +4146,16 @@ class ShowOCIService(object):
             # arr = oci.core.models.DrgRouteRule
             for arr in arrs:
                 val = {
-                    'name': str(arr.route_type) + " - " + str(arr.destination_type) + " : " + str(arr.destination).ljust(18, ' ') + " -> " + str(arr.route_provenance),
+                    'name': str(arr.route_type) + " - " + self.get_value(arr.destination_type) + " : " + self.get_value(arr.destination).ljust(18, ' ') + " -> " + self.get_value(arr.route_provenance),
                     'drg_route_id': drg_route_id,
-                    'destination': str(arr.destination),
-                    'destination_type': str(arr.destination_type),
-                    'next_hop_drg_attachment_id': str(arr.next_hop_drg_attachment_id),
-                    'route_type': str(arr.route_type),
-                    'is_conflict': str(arr.is_conflict),
-                    'is_blackhole': str(arr.is_blackhole),
-                    'id': str(arr.id),
-                    'route_provenance': str(arr.route_provenance)
+                    'destination': self.get_value(arr.destination),
+                    'destination_type': self.get_value(arr.destination_type),
+                    'next_hop_drg_attachment_id': self.get_value(arr.next_hop_drg_attachment_id),
+                    'route_type': self.get_value(arr.route_type),
+                    'is_conflict': self.get_value(arr.is_conflict),
+                    'is_blackhole': self.get_value(arr.is_blackhole),
+                    'id': self.get_value(arr.id),
+                    'route_provenance': self.get_value(arr.route_provenance)
                 }
 
                 # Get vcn name if VCN as destination
@@ -3790,7 +4186,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Customer Prem Equipments")
+            errstr = ""
+            header = "Customer Prem Equipments"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -3805,21 +4203,23 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.Cpe
                 for arr in arrs:
                     val = {'id': str(arr.id),
-                           'name': str(arr.display_name) + " - " + str(arr.ip_address),
-                           'display_name': str(arr.display_name),
-                           'ip_address': str(arr.ip_address),
-                           'time_created': str(arr.time_created),
-                           'cpe_device_shape_id': str(arr.cpe_device_shape_id),
+                           'name': self.get_value(arr.display_name) + " - " + self.get_value(arr.ip_address),
+                           'display_name': self.get_value(arr.display_name),
+                           'ip_address': self.get_value(arr.ip_address),
+                           'time_created': self.get_value(arr.time_created),
+                           'cpe_device_shape_id': self.get_value(arr.cpe_device_shape_id),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
@@ -3830,7 +4230,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3840,7 +4241,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_cpe", e)
+            self.__print_error("__load_core_network_cpe", e, compartment)
             return data
 
     ##########################################################################
@@ -3854,7 +4255,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Network Firewalls")
+            errstr = ""
+            header = "Network Firewalls"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -3869,11 +4272,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.network_firewall.models.NetworkFirewallSummary
@@ -3883,17 +4288,17 @@ class ShowOCIService(object):
 
                     val = {'id': str(arr.id),
                            'name': str(arr.display_name) + " - " + str(arr.ipv4_address),
-                           'display_name': str(arr.display_name),
-                           'subnet_id': str(arr.subnet_id),
+                           'display_name': self.get_value(arr.display_name),
+                           'subnet_id': self.get_value(arr.subnet_id),
                            'subnet_name': "" if arr.subnet_id is None else self.get_network_subnet(arr.subnet_id, True),
-                           'availability_domain': str(arr.availability_domain),
-                           'ipv4_address': str(arr.ipv4_address),
-                           'ipv6_address': str(arr.ipv6_address),
-                           'network_firewall_policy_id': str(arr.network_firewall_policy_id),
+                           'availability_domain': self.get_value(arr.availability_domain),
+                           'ipv4_address': self.get_value(arr.ipv4_address),
+                           'ipv6_address': self.get_value(arr.ipv6_address),
+                           'network_firewall_policy_id': self.get_value(arr.network_firewall_policy_id),
                            'network_firewall_policy_name': "",
-                           'time_created': str(arr.time_created),
-                           'time_updated': str(arr.time_updated),
-                           'lifecycle_state': str(arr.lifecycle_state),
+                           'time_created': self.get_value(arr.time_created),
+                           'time_updated': self.get_value(arr.time_updated),
+                           'lifecycle_state': self.get_value(arr.lifecycle_state),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
@@ -3910,7 +4315,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -3920,7 +4326,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_firewall", e)
+            self.__print_error("__load_core_network_firewall", e, compartment)
             return data
 
     ##########################################################################
@@ -3934,7 +4340,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Network Firewalls Policies")
+            errstr = ""
+            header = "Network Firewalls Policies"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -3949,11 +4357,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.network_firewall.models.NetworkFirewallPolicySummary
@@ -3963,9 +4373,9 @@ class ShowOCIService(object):
 
                     val = {'id': str(arr.id),
                            'display_name': str(arr.display_name),
-                           'time_created': str(arr.time_created),
-                           'time_updated': str(arr.time_updated),
-                           'lifecycle_state': str(arr.lifecycle_state),
+                           'time_created': self.get_value(arr.time_created),
+                           'time_updated': self.get_value(arr.time_updated),
+                           'lifecycle_state': self.get_value(arr.lifecycle_state),
                            'compartment_id': str(compartment['id']),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
@@ -4017,7 +4427,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -4027,7 +4438,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_firewall_policy", e)
+            self.__print_error("__load_core_network_firewall_policy", e, compartment)
             return data
 
     ##########################################################################
@@ -4036,6 +4447,9 @@ class ShowOCIService(object):
     def __load_core_network_single_privateip(self, virtual_network, ip_id, return_name=True):
 
         try:
+            if not ip_id:
+                return ""
+
             if 'privateip' not in ip_id:
                 return ""
 
@@ -4065,6 +4479,9 @@ class ShowOCIService(object):
     def __load_core_network_single_vlan(self, virtual_network, vlan_id):
 
         try:
+            if not vlan_id:
+                return ""
+
             if 'vlan' not in vlan_id:
                 return ""
 
@@ -4080,7 +4497,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError as e:
             if self.__check_service_error(e.code):
                 pass
-            raise
+            return "Error fetching VLAN info, Error: " + str(e.code)
         except Exception as e:
             self.__print_error("__load_core_network_single_vlan", e)
             return ""
@@ -4096,7 +4513,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Routed Private IPs")
+            errstr = ""
+            header = "Routed Private IPs"
+            self.__load_print_status_with_threads(header)
 
             # loop on all routes with private ips
             for route in routes:
@@ -4115,25 +4534,32 @@ class ShowOCIService(object):
                         if str(e.code) == 'NotAuthorizedOrNotFound':
                             continue
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
 
-                    print("-", end="")
+                    if self.flags.skip_threads:
+                        print("-", end="")
 
                     if arr is None:
                         continue
 
                     val = {'id': str(arr.id), 'name': str(arr.ip_address) + " - " + str(arr.display_name),
-                           'time_created': str(arr.time_created), 'availability_domain': str(arr.availability_domain),
-                           'hostname_label': str(arr.hostname_label), 'is_primary': str(arr.is_primary),
-                           'ip_address': str(arr.ip_address), 'subnet_id': str(arr.subnet_id),
-                           'compartment_id': str(arr.compartment_id), 'vnic_id': str(arr.vnic_id),
+                           'time_created': self.get_value(arr.time_created),
+                           'availability_domain': self.get_value(arr.availability_domain),
+                           'hostname_label': self.get_value(arr.hostname_label),
+                           'is_primary': self.get_value(arr.is_primary),
+                           'ip_address': self.get_value(arr.ip_address),
+                           'subnet_id': self.get_value(arr.subnet_id),
+                           'compartment_id': self.get_value(arr.compartment_id),
+                           'vnic_id': self.get_value(arr.vnic_id),
                            'region_name': str(self.config['region'])}
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -4157,7 +4583,12 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Virtual Circuits")
+            if self.EXCLUDE_VCIRCUITS in self.flags.exclude:
+                return data
+
+            errstr = ""
+            header = "Virtual Circuits"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -4171,11 +4602,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.VirtualCircuit
@@ -4189,30 +4622,30 @@ class ShowOCIService(object):
 
                     val = {'id': str(arr.id),
                            'name': str(arr.display_name),
-                           'bandwidth_shape_name': str(arr.bandwidth_shape_name),
-                           'bgp_management': str(arr.bgp_management),
-                           'bgp_session_state': str(arr.bgp_session_state),
-                           'bgp_ipv6_session_state': str(arr.bgp_ipv6_session_state),
-                           'bgp_admin_state': str(arr.bgp_admin_state),
-                           'is_bfd_enabled': str(arr.is_bfd_enabled),
-                           'customer_asn': str(arr.customer_asn),
-                           'gateway_id': str(arr.gateway_id),
-                           'provider_service_id': str(arr.provider_service_id),
-                           'provider_service_key_name': str(arr.provider_service_key_name),
+                           'bandwidth_shape_name': self.get_value(arr.bandwidth_shape_name),
+                           'bgp_management': self.get_value(arr.bgp_management),
+                           'bgp_session_state': self.get_value(arr.bgp_session_state),
+                           'bgp_ipv6_session_state': self.get_value(arr.bgp_ipv6_session_state),
+                           'bgp_admin_state': self.get_value(arr.bgp_admin_state),
+                           'is_bfd_enabled': self.get_value(arr.is_bfd_enabled),
+                           'customer_asn': self.get_value(arr.customer_asn),
+                           'gateway_id': self.get_value(arr.gateway_id),
+                           'provider_service_id': self.get_value(arr.provider_service_id),
+                           'provider_service_key_name': self.get_value(arr.provider_service_key_name),
                            'routing_policy': str(', '.join(x for x in arr.routing_policy)) if arr.routing_policy else "",
                            'public_prefixes': str(', '.join(x for x in arr.public_prefixes)) if arr.public_prefixes else "",
                            'region': arr.region,
-                           'customer_bgp_asn': str(arr.customer_bgp_asn),
-                           'drg_id': str(arr.gateway_id),
-                           'lifecycle_state': str(arr.lifecycle_state),
-                           'oracle_bgp_asn': str(arr.oracle_bgp_asn),
-                           'provider_name': str(arr.provider_name),
-                           'provider_service_name': str(arr.provider_service_name),
-                           'provider_state': str(arr.provider_state),
-                           'reference_comment': str(arr.reference_comment),
-                           'service_type': str(arr.service_type),
+                           'customer_bgp_asn': self.get_value(arr.customer_bgp_asn),
+                           'drg_id': self.get_value(arr.gateway_id),
+                           'lifecycle_state': self.get_value(arr.lifecycle_state),
+                           'oracle_bgp_asn': self.get_value(arr.oracle_bgp_asn),
+                           'provider_name': self.get_value(arr.provider_name),
+                           'provider_service_name': self.get_value(arr.provider_service_name),
+                           'provider_state': self.get_value(arr.provider_state),
+                           'reference_comment': self.get_value(arr.reference_comment),
+                           'service_type': self.get_value(arr.service_type),
                            'cross_connect_mappings': data_cc,
-                           'type': str(arr.type), 'time_created': str(arr.time_created),
+                           'type': self.get_value(arr.type), 'time_created': self.get_value(arr.time_created),
                            'compartment_name': str(compartment['name']),
                            'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
@@ -4232,7 +4665,8 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -4242,7 +4676,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_vc", e)
+            self.__print_error("__load_core_network_vc", e, compartment)
             return data
 
     ##########################################################################
@@ -4256,7 +4690,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("IPSEC tunnels")
+            errstr = ""
+            header = "IPSEC tunnels"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -4271,11 +4707,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.IPSecConnection.
@@ -4290,19 +4728,19 @@ class ShowOCIService(object):
                             tunnels_status = ""
                             for tunnel in tunnels:
                                 tun_val = {'id': str(tunnel.id),
-                                           'status': str(tunnel.status),
-                                           'ike_version': str(tunnel.ike_version),
-                                           'lifecycle_state': str(tunnel.lifecycle_state),
+                                           'status': self.get_value(tunnel.status),
+                                           'ike_version': self.get_value(tunnel.ike_version),
+                                           'lifecycle_state': self.get_value(tunnel.lifecycle_state),
                                            'status_date': tunnel.time_status_updated.strftime("%Y-%m-%d %H:%M"),
-                                           'display_name': str(tunnel.display_name),
-                                           'routing': str(tunnel.routing),
-                                           'cpe_ip': str(tunnel.cpe_ip),
-                                           'vpn_ip': str(tunnel.vpn_ip),
-                                           'time_created': str(tunnel.time_created),
-                                           'oracle_can_initiate': str(tunnel.oracle_can_initiate),
-                                           'nat_translation_enabled': str(tunnel.nat_translation_enabled),
-                                           'dpd_mode': str(tunnel.dpd_mode),
-                                           'dpd_timeout_in_sec': str(tunnel.dpd_timeout_in_sec),
+                                           'display_name': self.get_value(tunnel.display_name),
+                                           'routing': self.get_value(tunnel.routing),
+                                           'cpe_ip': self.get_value(tunnel.cpe_ip),
+                                           'vpn_ip': self.get_value(tunnel.vpn_ip),
+                                           'time_created': self.get_value(tunnel.time_created),
+                                           'oracle_can_initiate': self.get_value(tunnel.oracle_can_initiate),
+                                           'nat_translation_enabled': self.get_value(tunnel.nat_translation_enabled),
+                                           'dpd_mode': self.get_value(tunnel.dpd_mode),
+                                           'dpd_timeout_in_sec': self.get_value(tunnel.dpd_timeout_in_sec),
                                            'bgp_info': "",
                                            'encryption_domain_config_oracle': "",
                                            'encryption_domain_config_cpe': "",
@@ -4362,10 +4800,10 @@ class ShowOCIService(object):
                                'name': str(arr.display_name),
                                'drg_id': str(arr.drg_id),
                                'tunnels_status': tunnels_status,
-                               'cpe_local_identifier': str(arr.cpe_local_identifier),
-                               'cpe_local_identifier_type': str(arr.cpe_local_identifier_type),
-                               'cpe_id': str(arr.cpe_id),
-                               'time_created': str(arr.time_created),
+                               'cpe_local_identifier': self.get_value(arr.cpe_local_identifier),
+                               'cpe_local_identifier_type': self.get_value(arr.cpe_local_identifier_type),
+                               'cpe_id': self.get_value(arr.cpe_id),
+                               'time_created': self.get_value(arr.time_created),
                                'compartment_name': str(compartment['name']),
                                'compartment_id': str(compartment['id']),
                                'compartment_path': str(compartment['path']),
@@ -4387,7 +4825,8 @@ class ShowOCIService(object):
                         data.append(val)
                         cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -4397,54 +4836,158 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_network_ips", e)
+            self.__print_error("__load_core_network_ips", e, compartment)
             return data
 
     ##########################################################################
-    # __load_core_compute_block_main
+    # __load_core_network_dns_resolvers
     ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.core.ComputeClient(config, **kwargs)
-    # class oci.core.BlockstorageClient(config, **kwargs)
-    # class oci.core.ComputeManagementClient(config, **kwargs)
-    # class oci.core.VirtualNetworkClient(config, **kwargs)
-    ##########################################################################
-    def __load_core_compute_main(self):
+    def __load_core_network_dns_resolvers(self, dns_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
 
         try:
-            print("Compute...")
+            errstr = ""
+            header = "DNS Resolvers"
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
+
+                array = []
+                try:
+                    array = oci.pagination.list_call_get_all_results(
+                        dns_client.list_resolvers,
+                        compartment['id'],
+                        lifecycle_state='ACTIVE',
+                        sort_by="displayName",
+                        scope="PRIVATE",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    raise
+                except oci.exceptions.ConnectTimeout:
+                    self.__load_print_auth_warning()
+                    continue
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                # arr = oci.dns.models.ResolverSummary
+                for arrsummary in array:
+
+                    arr = []
+                    try:
+                        # get the resolver model
+                        arr = dns_client.get_resolver(arrsummary.id, scope="PRIVATE", retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+                    except oci.exceptions.ServiceError as e:
+                        if self.__check_service_error(e.code):
+                            self.__load_print_auth_warning()
+                        continue
+
+                    val = {'id': str(arr.id),
+                           'display_name': str(arr.display_name),
+                           'vcn_id': str(arr.attached_vcn_id),
+                           'vcn_name': self.get_network_vcn(arr.attached_vcn_id),
+                           'time_created': str(arr.time_created),
+                           'time_updated': str(arr.time_updated),
+                           'default_view_id': str(arr.default_view_id),
+                           'is_protected': arr.is_protected,
+                           'endpoints': [],
+                           'rules': [],
+                           'compartment_name': str(compartment['name']),
+                           'compartment_path': str(compartment['path']),
+                           'compartment_id': str(compartment['id']),
+                           'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
+                           'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
+                           'region_name': str(self.config['region'])
+                           }
+
+                    # endpoints
+                    for ep in arr.endpoints:
+                        epval = {
+                            'name': str(ep.name),
+                            'endpoint_type': str(ep.endpoint_type),
+                            'forwarding_address': str(ep.forwarding_address) if ep.forwarding_address else "",
+                            'is_forwarding': ep.is_forwarding,
+                            'is_listening': ep.is_listening,
+                            'listening_address': str(ep.listening_address) if ep.listening_address else "",
+                            'time_created': str(ep.time_created),
+                            'time_updated': str(ep.time_updated)
+                        }
+                        val['endpoints'].append(epval)
+
+                    # rules
+                    for ep in arr.rules:
+                        if ep.action == "FORWARD":
+                            epval = {
+                                'client_address_conditions': str(', '.join(x for x in ep.client_address_conditions)),
+                                'qname_cover_conditions': str(', '.join(x for x in ep.qname_cover_conditions)),
+                                'destination_addresses': str(', '.join(x for x in ep.destination_addresses)),
+                                'source_endpoint_name': str(ep.source_endpoint_name),
+                                'action': "FORWARD"
+                            }
+                        else:
+                            epval = {
+                                'client_address_conditions': str(', '.join(x for x in ep.client_address_conditions)),
+                                'qname_cover_conditions': str(', '.join(x for x in ep.qname_cover_conditions)),
+                                'action': str(ep.action)
+                            }
+                        val['rules'].append(epval)
+
+                    # add the data
+                    cnt += 1
+                    data.append(val)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_core_network_dns_resolvers", e, compartment)
+            return data
+
+    ##########################################################################
+    # __load_core_compute_main
+    ##########################################################################
+    def __load_section_core_compute_main(self):
+
+        try:
+            section_start_time = time.time()
+            print("Compute, Block Storage and Clusters (OKE)...")
 
             # BlockstorageClient
             block_storage = oci.core.BlockstorageClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            compute_manage = oci.core.ComputeManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            compute_client = oci.core.ComputeClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            plugin_client = oci.compute_instance_agent.PluginClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            auto_scaling = oci.autoscaling.AutoScalingClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            container_client = oci.container_engine.ContainerEngineClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             if self.flags.proxy:
                 block_storage.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # ComputeManagementClient
-            compute_manage = oci.core.ComputeManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 compute_manage.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # ComputeClient
-            compute_client = oci.core.ComputeClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 compute_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # compute_plugins
-            plugin_client = oci.compute_instance_agent.PluginClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 plugin_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # virtual_network - for vnics
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # auto scaling
-            auto_scaling = oci.autoscaling.AutoScalingClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 auto_scaling.base_client.session.proxies = {'https': self.flags.proxy}
+                container_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
             compartments = self.get_compartment()
@@ -4468,32 +5011,91 @@ class ShowOCIService(object):
             self.__initialize_data_key(self.C_BLOCK, self.C_BLOCK_VOLBACK)
             self.__initialize_data_key(self.C_BLOCK, self.C_BLOCK_VOLGRPBACK)
 
+            self.__initialize_data_key(self.C_CONTAINER, self.C_CONTAINER_CLUSTERS)
+            self.__initialize_data_key(self.C_CONTAINER, self.C_CONTAINER_NODE_POOLS)
+
             # reference to compute
             compute = self.data[self.C_COMPUTE]
             block = self.data[self.C_BLOCK]
+            cp = self.data[self.C_CONTAINER]
 
-            # append the data
-            compute[self.C_COMPUTE_INST] += self.__load_core_compute_instances(compute_client, compartments, plugin_client)
-            compute[self.C_COMPUTE_IMAGES] += self.__load_core_compute_images(compute_client, compartments)
-            compute[self.C_COMPUTE_BOOT_VOL_ATTACH] += self.__load_core_compute_boot_vol_attach(compute_client, compartments)
-            compute[self.C_COMPUTE_VOLUME_ATTACH] += self.__load_core_compute_vol_attach(compute_client, compartments)
-            compute[self.C_COMPUTE_VNIC_ATTACH] += self.__load_core_compute_vnic_attach(compute_client, virtual_network, compartments)
-            compute[self.C_COMPUTE_INST_CONFIG] += self.__load_core_compute_inst_config(compute_client, compute_manage, block_storage, compartments)
-            compute[self.C_COMPUTE_CAPACITY_RESERVATION] += self.__load_core_compute_capacity_reservation(compute_client, compartments)
-            compute[self.C_COMPUTE_INST_POOL] += self.__load_core_compute_inst_pool(compute_manage, compartments)
-            compute[self.C_COMPUTE_AUTOSCALING] += self.__load_core_compute_autoscaling(auto_scaling, compute_manage, compartments)
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
+                compute[self.C_COMPUTE_INST] += self.__load_core_compute_instances(compute_client, compartments, plugin_client)
+                compute[self.C_COMPUTE_IMAGES] += self.__load_core_compute_images(compute_client, compartments)
+                compute[self.C_COMPUTE_BOOT_VOL_ATTACH] += self.__load_core_compute_boot_vol_attach(compute_client, compartments)
+                compute[self.C_COMPUTE_VOLUME_ATTACH] += self.__load_core_compute_vol_attach(compute_client, compartments)
+                compute[self.C_COMPUTE_VNIC_ATTACH] += self.__load_core_compute_vnic_attach(compute_client, virtual_network, compartments)
+                compute[self.C_COMPUTE_INST_CONFIG] += self.__load_core_compute_inst_config(compute_client, compute_manage, block_storage, compartments)
+                compute[self.C_COMPUTE_CAPACITY_RESERVATION] += self.__load_core_compute_capacity_reservation(compute_client, compartments)
+                compute[self.C_COMPUTE_INST_POOL] += self.__load_core_compute_inst_pool(compute_manage, compartments)
+                compute[self.C_COMPUTE_AUTOSCALING] += self.__load_core_compute_autoscaling(auto_scaling, compute_manage, compartments)
 
-            print("")
-            print("Block Storage...")
+                block[self.C_BLOCK_VOLGRP] += self.__load_core_block_volume_group(block_storage, compartments)
+                block[self.C_BLOCK_BOOT] += self.__load_core_block_boot(block_storage, compartments)
+                block[self.C_BLOCK_VOL] += self.__load_core_block_volume(block_storage, compartments)
 
-            block[self.C_BLOCK_VOLGRP] += self.__load_core_block_volume_group(block_storage, compartments)
-            block[self.C_BLOCK_BOOT] += self.__load_core_block_boot(block_storage, compartments)
-            block[self.C_BLOCK_VOL] += self.__load_core_block_volume(block_storage, compartments)
+                if not self.flags.skip_backups:
+                    block[self.C_BLOCK_BOOTBACK] += self.__load_core_block_boot_backup(block_storage, compartments)
+                    block[self.C_BLOCK_VOLBACK] += self.__load_core_block_volume_backup(block_storage, compartments)
+                    block[self.C_BLOCK_VOLGRPBACK] += self.__load_core_block_volume_group_backup(block_storage, compartments)
 
-            if not self.flags.skip_backups:
-                block[self.C_BLOCK_BOOTBACK] += self.__load_core_block_boot_backup(block_storage, compartments)
-                block[self.C_BLOCK_VOLBACK] += self.__load_core_block_volume_backup(block_storage, compartments)
-                block[self.C_BLOCK_VOLGRPBACK] += self.__load_core_block_volume_group_backup(block_storage, compartments)
+                cp[self.C_CONTAINER_CLUSTERS] += self.__load_container_clusters(container_client, compartments)
+                cp[self.C_CONTAINER_NODE_POOLS] += self.__load_container_node_pools(container_client, compartments)
+
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+
+                    future_BLOCK_VOLGRP = executor.submit(self.__load_core_block_volume_group, block_storage, compartments)
+                    future_BLOCK_BOOT = executor.submit(self.__load_core_block_boot, block_storage, compartments)
+                    future_BLOCK_VOL = executor.submit(self.__load_core_block_volume, block_storage, compartments)
+
+                    future_COMPUTE_INST = executor.submit(self.__load_core_compute_instances, compute_client, compartments, plugin_client)
+                    future_COMPUTE_IMAGES = executor.submit(self.__load_core_compute_images, compute_client, compartments)
+                    future_COMPUTE_BOOT_VOL_ATTACH = executor.submit(self.__load_core_compute_boot_vol_attach, compute_client, compartments)
+                    future_COMPUTE_VOLUME_ATTACH = executor.submit(self.__load_core_compute_vol_attach, compute_client, compartments)
+                    future_COMPUTE_VNIC_ATTACH = executor.submit(self.__load_core_compute_vnic_attach, compute_client, virtual_network, compartments)
+                    future_COMPUTE_INST_CONFIG = executor.submit(self.__load_core_compute_inst_config, compute_client, compute_manage, block_storage, compartments)
+                    future_COMPUTE_CAPACITY_RESERVATION = executor.submit(self.__load_core_compute_capacity_reservation, compute_client, compartments)
+                    future_COMPUTE_INST_POOL = executor.submit(self.__load_core_compute_inst_pool, compute_manage, compartments)
+                    future_COMPUTE_AUTOSCALING = executor.submit(self.__load_core_compute_autoscaling, auto_scaling, compute_manage, compartments)
+
+                    future_CONTAINER_CLUSTERS = executor.submit(self.__load_container_clusters, container_client, compartments)
+                    future_CONTAINER_NODE_POOLS = executor.submit(self.__load_container_node_pools, container_client, compartments)
+
+                    # wait for main block to complete before running backups
+                    block[self.C_BLOCK_VOLGRP] += next(as_completed([future_BLOCK_VOLGRP])).result()
+                    block[self.C_BLOCK_BOOT] += next(as_completed([future_BLOCK_BOOT])).result()
+                    block[self.C_BLOCK_VOL] += next(as_completed([future_BLOCK_VOL])).result()
+
+                    # backup is dependent on block info
+                    if not self.flags.skip_backups:
+                        future_BLOCK_BOOTBACK = executor.submit(self.__load_core_block_boot_backup, block_storage, compartments)
+                        future_BLOCK_VOLBACK = executor.submit(self.__load_core_block_volume_backup, block_storage, compartments)
+                        future_BLOCK_VOLGRPBACK = executor.submit(self.__load_core_block_volume_group_backup, block_storage, compartments)
+                        block[self.C_BLOCK_BOOTBACK] += next(as_completed([future_BLOCK_BOOTBACK])).result()
+                        block[self.C_BLOCK_VOLBACK] += next(as_completed([future_BLOCK_VOLBACK])).result()
+                        block[self.C_BLOCK_VOLGRPBACK] += next(as_completed([future_BLOCK_VOLGRPBACK])).result()
+
+                    compute[self.C_COMPUTE_INST] += next(as_completed([future_COMPUTE_INST])).result()
+                    compute[self.C_COMPUTE_IMAGES] += next(as_completed([future_COMPUTE_IMAGES])).result()
+                    compute[self.C_COMPUTE_BOOT_VOL_ATTACH] += next(as_completed([future_COMPUTE_BOOT_VOL_ATTACH])).result()
+                    compute[self.C_COMPUTE_VOLUME_ATTACH] += next(as_completed([future_COMPUTE_VOLUME_ATTACH])).result()
+                    compute[self.C_COMPUTE_VNIC_ATTACH] += next(as_completed([future_COMPUTE_VNIC_ATTACH])).result()
+                    compute[self.C_COMPUTE_INST_CONFIG] += next(as_completed([future_COMPUTE_INST_CONFIG])).result()
+                    compute[self.C_COMPUTE_CAPACITY_RESERVATION] += next(as_completed([future_COMPUTE_CAPACITY_RESERVATION])).result()
+                    compute[self.C_COMPUTE_INST_POOL] += next(as_completed([future_COMPUTE_INST_POOL])).result()
+                    compute[self.C_COMPUTE_AUTOSCALING] += next(as_completed([future_COMPUTE_AUTOSCALING])).result()
+
+                    cp[self.C_CONTAINER_CLUSTERS] += next(as_completed([future_CONTAINER_CLUSTERS])).result()
+                    cp[self.C_CONTAINER_NODE_POOLS] += next(as_completed([future_CONTAINER_NODE_POOLS])).result()
+
+            self.__load_print_section_time(section_start_time)
             print("")
 
         except oci.exceptions.RequestException:
@@ -4504,7 +5106,7 @@ class ShowOCIService(object):
                 pass
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_main", e)
+            self.__print_error("__load_section_core_compute_main", e)
 
     ##########################################################################
     # data compute read instances
@@ -4517,7 +5119,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Instances")
+            errstr = ""
+            header = "Instances"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -4534,11 +5138,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.Instance
@@ -4549,14 +5155,14 @@ class ShowOCIService(object):
                     # load data
                     val = {
                         'id': str(arr.id),
-                        'display_name': str(arr.display_name),
-                        'shape': str(arr.shape),
-                        'lifecycle_state': str(arr.lifecycle_state),
-                        'availability_domain': str(arr.availability_domain),
-                        'fault_domain': str(arr.fault_domain),
-                        'time_created': str(arr.time_created),
-                        'time_maintenance_reboot_due': str(arr.time_maintenance_reboot_due),
-                        'image_id': str(arr.image_id),
+                        'display_name': self.get_value(arr.display_name),
+                        'shape': self.get_value(arr.shape),
+                        'lifecycle_state': self.get_value(arr.lifecycle_state),
+                        'availability_domain': self.get_value(arr.availability_domain),
+                        'fault_domain': self.get_value(arr.fault_domain),
+                        'time_created': self.get_value(arr.time_created),
+                        'time_maintenance_reboot_due': self.get_value(arr.time_maintenance_reboot_due),
+                        'image_id': self.get_value(arr.image_id),
                         'compartment_name': str(compartment['name']),
                         'compartment_path': str(compartment['path']),
                         'compartment_id': str(compartment['id']),
@@ -4598,40 +5204,40 @@ class ShowOCIService(object):
                         'platform_is_trusted_platform_module_enabled': '',
                         'platform_is_measured_boot_enabled': '',
                         'platform_is_memory_encryption_enabled': '',
-                        'capacity_reservation_id': str(arr.capacity_reservation_id),
-                        'dedicated_vm_host_id': str(arr.dedicated_vm_host_id),
-                        'ipxe_script': str(arr.ipxe_script),
-                        'launch_mode': str(arr.launch_mode),
-                        'is_cross_numa_node': str(arr.is_cross_numa_node),
+                        'capacity_reservation_id': self.get_value(arr.capacity_reservation_id),
+                        'dedicated_vm_host_id': self.get_value(arr.dedicated_vm_host_id),
+                        'ipxe_script': self.get_value(arr.ipxe_script),
+                        'launch_mode': self.get_value(arr.launch_mode),
+                        'is_cross_numa_node': self.get_value(arr.is_cross_numa_node),
                         'extended_metadata': arr.extended_metadata}
 
                     if arr.launch_options:
-                        val['launch_boot_volume_type'] = str(arr.launch_options.boot_volume_type) if arr.launch_options.boot_volume_type else ""
-                        val['launch_firmware'] = str(arr.launch_options.firmware) if arr.launch_options.firmware else ""
-                        val['launch_network_type'] = str(arr.launch_options.network_type) if arr.launch_options.network_type else ""
-                        val['launch_remote_data_volume_type'] = str(arr.launch_options.remote_data_volume_type) if arr.launch_options.remote_data_volume_type else ""
-                        val['launch_is_pv_encryption_in_transit_enabled'] = str(arr.launch_options.is_pv_encryption_in_transit_enabled) if arr.launch_options.is_pv_encryption_in_transit_enabled else ""
-                        val['launch_is_consistent_volume_naming_enabled'] = str(arr.launch_options.is_consistent_volume_naming_enabled) if arr.launch_options.is_consistent_volume_naming_enabled else ""
+                        val['launch_boot_volume_type'] = self.get_value(arr.launch_options.boot_volume_type)
+                        val['launch_firmware'] = self.get_value(arr.launch_options.firmware)
+                        val['launch_network_type'] = self.get_value(arr.launch_options.network_type)
+                        val['launch_remote_data_volume_type'] = self.get_value(arr.launch_options.remote_data_volume_type)
+                        val['launch_is_pv_encryption_in_transit_enabled'] = self.get_value(arr.launch_options.is_pv_encryption_in_transit_enabled)
+                        val['launch_is_consistent_volume_naming_enabled'] = self.get_value(arr.launch_options.is_consistent_volume_naming_enabled)
 
                     if arr.instance_options:
-                        val['are_legacy_imds_endpoints_disabled'] = str(arr.instance_options.are_legacy_imds_endpoints_disabled) if arr.instance_options.are_legacy_imds_endpoints_disabled else ""
+                        val['are_legacy_imds_endpoints_disabled'] = self.get_value(arr.instance_options.are_legacy_imds_endpoints_disabled)
 
                     if arr.platform_config:
-                        val['platform_type'] = str(arr.platform_config.type) if arr.platform_config.type else ""
-                        val['platform_is_secure_boot_enabled'] = str(arr.platform_config.is_secure_boot_enabled) if arr.platform_config.is_secure_boot_enabled else ""
-                        val['platform_is_trusted_platform_module_enabled'] = str(arr.platform_config.is_trusted_platform_module_enabled) if arr.platform_config.is_trusted_platform_module_enabled else ""
-                        val['platform_is_measured_boot_enabled'] = str(arr.platform_config.is_measured_boot_enabled) if arr.platform_config.is_measured_boot_enabled else ""
-                        val['platform_is_memory_encryption_enabled'] = str(arr.platform_config.is_memory_encryption_enabled) if arr.platform_config.is_memory_encryption_enabled else ""
+                        val['platform_type'] = self.get_value(arr.platform_config.type)
+                        val['platform_is_secure_boot_enabled'] = self.get_value(arr.platform_config.is_secure_boot_enabled)
+                        val['platform_is_trusted_platform_module_enabled'] = self.get_value(arr.platform_config.is_trusted_platform_module_enabled)
+                        val['platform_is_measured_boot_enabled'] = self.get_value(arr.platform_config.is_measured_boot_enabled)
+                        val['platform_is_memory_encryption_enabled'] = self.get_value(arr.platform_config.is_memory_encryption_enabled)
 
                     if arr.availability_config:
-                        val['is_live_migration_preferred'] = str(arr.availability_config.is_live_migration_preferred) if arr.availability_config.is_live_migration_preferred else ""
-                        val['recovery_action'] = str(arr.availability_config.recovery_action) if arr.availability_config.recovery_action else ""
+                        val['is_live_migration_preferred'] = self.get_value(arr.availability_config.is_live_migration_preferred)
+                        val['recovery_action'] = self.get_value(arr.availability_config.recovery_action)
 
                     # agent_config
                     if arr.agent_config:
-                        val["are_all_plugins_disabled"] = str(arr.agent_config.are_all_plugins_disabled)
-                        val["agent_is_management_disabled"] = str(arr.agent_config.is_management_disabled)
-                        val["agent_is_monitoring_disabled"] = str(arr.agent_config.is_monitoring_disabled)
+                        val["are_all_plugins_disabled"] = self.get_value(arr.agent_config.are_all_plugins_disabled)
+                        val["agent_is_management_disabled"] = self.get_value(arr.agent_config.is_management_disabled)
+                        val["agent_is_monitoring_disabled"] = self.get_value(arr.agent_config.is_monitoring_disabled)
                         plugin_config = []
                         if arr.agent_config.plugins_config:
                             for config in arr.agent_config.plugins_config:
@@ -4648,7 +5254,8 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
 
                     # console
                     consoles = []
@@ -4669,23 +5276,24 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
 
                     # check if vm has shape config
                     if arr.shape_config:
                         sc = arr.shape_config
                         val['shape_storage_tb'] = sc.local_disks_total_size_in_gbs / 1000 if sc.local_disks_total_size_in_gbs else 0
                         val['shape_ocpu'] = sc.ocpus
-                        val['shape_baseline_ocpu_utilization'] = str(sc.baseline_ocpu_utilization) if sc.baseline_ocpu_utilization else ""
+                        val['shape_baseline_ocpu_utilization'] = self.get_value(sc.baseline_ocpu_utilization)
                         val['shape_memory_gb'] = sc.memory_in_gbs
-                        val['shape_gpu_description'] = str(sc.gpu_description) if sc.gpu_description else ""
-                        val['shape_gpus'] = str(sc.gpus) if sc.gpus else ""
-                        val['shape_local_disk_description'] = str(sc.local_disk_description) if sc.local_disk_description else ""
-                        val['shape_local_disks'] = str(sc.local_disks) if sc.local_disks else ""
-                        val['shape_local_disks_total_size_in_gbs'] = str(sc.local_disks_total_size_in_gbs) if sc.local_disks_total_size_in_gbs else ""
+                        val['shape_gpu_description'] = self.get_value(sc.gpu_description)
+                        val['shape_gpus'] = self.get_value(sc.gpus)
+                        val['shape_local_disk_description'] = self.get_value(sc.local_disk_description)
+                        val['shape_local_disks'] = self.get_value(sc.local_disks)
+                        val['shape_local_disks_total_size_in_gbs'] = self.get_value(sc.local_disks_total_size_in_gbs)
                         val['shape_max_vnic_attachments'] = sc.max_vnic_attachments
                         val['shape_networking_bandwidth_in_gbps'] = sc.networking_bandwidth_in_gbps
-                        val['shape_processor_description'] = str(sc.processor_description) if sc.processor_description else ""
+                        val['shape_processor_description'] = self.get_value(sc.processor_description)
 
                     # if PaaS compartment assign Paas Image
                     if self.__if_managed_paas_compartment(compartment['name']):
@@ -4701,8 +5309,8 @@ class ShowOCIService(object):
                         # image = oci.core.models.Image
                         image = compute.get_image(arr.image_id).data
                         if image:
-                            val['image'] = str(image.display_name)
-                            val['image_os'] = str(image.operating_system)
+                            val['image'] = self.get_value(image.display_name)
+                            val['image_os'] = self.get_value(image.operating_system)
                     except Exception:
                         pass
 
@@ -4711,7 +5319,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -4721,7 +5329,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_instances", e)
+            self.__print_error("__load_core_compute_instances", e, compartment)
             return data
 
     ##########################################################################
@@ -4735,7 +5343,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Images")
+            errstr = ""
+            header = "Images"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -4752,13 +5362,16 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
                 # filter the array to only customer images
                 arrs = [i for i in images if i.compartment_id is not None]
-                print(".", end="")
+
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.Image.
@@ -4778,7 +5391,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -4788,7 +5401,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_images", e)
+            self.__print_error("__load_core_compute_images", e, compartment)
             return data
 
     ##########################################################################
@@ -4802,12 +5415,15 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Capacity Reservation")
+            errstr = ""
+            header = "Capacity Reservation"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 list_reservations = []
                 try:
@@ -4819,7 +5435,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
@@ -4830,10 +5447,10 @@ class ShowOCIService(object):
 
                     values = ({
                         'id': str(arr.id),
-                        'display_name': str(arr.display_name),
-                        'lifecycle_state': str(arr.lifecycle_state),
-                        'availability_domain': str(arr.availability_domain),
-                        'is_default_reservation': str(arr.is_default_reservation),
+                        'display_name': self.get_value(arr.display_name),
+                        'lifecycle_state': self.get_value(arr.lifecycle_state),
+                        'availability_domain': self.get_value(arr.availability_domain),
+                        'is_default_reservation': self.get_value(arr.is_default_reservation),
                         'time_created': str(arr.time_created)[0:16],
                         'reserved_instance_count': arr.reserved_instance_count,
                         'used_instance_count': arr.used_instance_count,
@@ -4866,7 +5483,7 @@ class ShowOCIService(object):
                             })
                         values['config'] = config_data
                     except Exception:
-                        print("w", end="")
+                        errstr += "w"
 
                     # retrieve the instances
                     # oci.core.models.CapacityReservationInstanceSummary
@@ -4888,12 +5505,12 @@ class ShowOCIService(object):
                             })
                         values['instances'] = instances_data
                     except Exception:
-                        print("w", end="")
+                        errstr += "w"
 
                     data.append(values)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -4903,7 +5520,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_capacity_reservation", e)
+            self.__print_error("__load_core_compute_capacity_reservation", e, compartment)
             return data
 
     ##########################################################################
@@ -4917,13 +5534,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Autoscaling")
+            errstr = ""
+            header = "Autoscaling"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 autos = []
@@ -4937,11 +5555,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.autoscaling.models.AutoScalingConfigurationSummary
@@ -4974,7 +5594,8 @@ class ShowOCIService(object):
                                 val['resource_name'] = str(pool_name)
                             except oci.exceptions.ServiceError as e:
                                 if self.__check_service_error(e.code):
-                                    self.__load_print_auth_warning("p")
+                                    self.__load_print_auth_warning("p", to_print=self.flags.skip_threads)
+                                    errstr += "p"
                                 else:
                                     raise
 
@@ -5023,14 +5644,15 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning("l")
+                            self.__load_print_auth_warning("l", to_print=self.flags.skip_threads)
+                            errstr += "l"
                         else:
                             raise
 
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5040,7 +5662,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_autoscaling", e)
+            self.__print_error("__load_core_compute_autoscaling", e, compartment)
             return data
 
     ##########################################################################
@@ -5054,14 +5676,15 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Instance Configurations")
+            errstr = ""
+            header = "Instance Configurations"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # cannot query ManagedCompartmentForPaaS
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 configs = []
@@ -5076,30 +5699,48 @@ class ShowOCIService(object):
                 # for inst pool and inst config
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # config = oci.core.models.InstanceConfigurationSummary
                 for config in configs:
-                    val = {'id': str(config.id), 'time_created': str(config.time_created),
-                           'name': str(config.display_name), 'compute_shape': "", 'compute_source': "",
-                           'compute_display_name': "", 'block_volumes': "", 'secondary_vnics': "",
-                           'compartment_id': str(compartment['id']), 'region_name': str(self.config['region'])}
+                    val = {
+                        'id': str(config.id),
+                        'time_created': str(config.time_created),
+                        'name': str(config.display_name),
+                        'compute_shape': "",
+                        'compute_source': "",
+                        'compute_display_name': "",
+                        'block_volumes': "",
+                        'secondary_vnics': "",
+                        'compartment_id': str(compartment['id']),
+                        'region_name': str(self.config['region'])}
 
                     arr = []
                     try:
                         # get info on the instance details
                         # arr = oci.core.models.InstanceConfiguration
-                        arr = compute_manage.get_instance_configuration(config.id).data
+                        arr = compute_manage.get_instance_configuration(config.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
 
                     except oci.exceptions.ServiceError as e:
+                        errstr += "Error for " + str(config.display_name)
                         if self.__check_service_error(e.code):
                             continue
+                        continue
+
+                    except Exception:
+                        errstr += "Error for " + str(config.display_name)
+                        continue
 
                     # instance_detail = oci.core.models.ComputeInstanceDetails
+                    if not arr:
+                        continue
+
                     if arr.instance_details:
                         instance_detail = arr.instance_details
 
@@ -5137,26 +5778,25 @@ class ShowOCIService(object):
                                         if isinstance(source_details, oci.core.models.InstanceConfigurationInstanceSourceViaBootVolumeDetails):
                                             if source_details.boot_volume_id:
                                                 try:
-                                                    bootvol = block_storage.get_boot_volume(source_details.boot_volume_id)
+                                                    bootvol = block_storage.get_boot_volume(source_details.boot_volume_id).data
                                                     if bootvol:
-                                                        val['compute_source'] = "Boot Volume: " + bootvol['display_name']
+                                                        val['compute_source'] = "Boot Volume: " + str(bootvol.display_name)
                                                 except oci.exceptions.ServiceError as e:
                                                     if self.__check_service_error(e.code):
                                                         val['compute_source'] = "Boot Volume"
+
                         data.append(val)
                         cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
-
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_inst_config", e)
+            self.__print_error("__load_core_compute_inst_config", e, compartment)
             return data
 
     ##########################################################################
@@ -5170,14 +5810,15 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Instance Pools")
+            errstr = ""
+            header = "Instance Pools"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # cannot query ManagedCompartmentForPaaS
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 pools = []
@@ -5192,11 +5833,14 @@ class ShowOCIService(object):
                 # for inst pool and inst config
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
+
                 # config = oci.core.models.InstancePoolSummary
                 for config in pools:
                     val = {'id': str(config.id), 'time_created': str(config.time_created),
@@ -5214,7 +5858,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5224,7 +5868,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_inst_pool", e)
+            self.__print_error("__load_core_compute_inst_pool", e, compartment)
             return data
 
     ##########################################################################
@@ -5238,11 +5882,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Boot Volumes Attached")
+            errstr = ""
+            header = "Boot Volumes Attached"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on all ads
                 ads = self.get_availability_domains(self.config['region'])
@@ -5260,7 +5907,8 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
 
@@ -5270,10 +5918,10 @@ class ShowOCIService(object):
                         val = {'id': str(arr.id), 'display_name': str(arr.display_name),
                                'boot_volume_id': str(arr.boot_volume_id),
                                'instance_id': str(arr.instance_id),
-                               'lifecycle_state': str(arr.lifecycle_state),
-                               'time_created': str(arr.time_created),
-                               'is_pv_encryption_in_transit_enabled': str(arr.is_pv_encryption_in_transit_enabled),
-                               'encryption_in_transit_type': str(arr.encryption_in_transit_type),
+                               'lifecycle_state': self.get_value(arr.lifecycle_state),
+                               'time_created': self.get_value(arr.time_created),
+                               'is_pv_encryption_in_transit_enabled': self.get_value(arr.is_pv_encryption_in_transit_enabled),
+                               'encryption_in_transit_type': self.get_value(arr.encryption_in_transit_type),
                                'compartment_name': str(compartment['name']),
                                'compartment_id': str(compartment['id']),
                                'compartment_path': str(compartment['path']),
@@ -5281,7 +5929,7 @@ class ShowOCIService(object):
                         data.append(val)
                         cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5291,7 +5939,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_boot_vol_attach", e)
+            self.__print_error("__load_core_compute_boot_vol_attach", e, compartment)
             return data
 
     ##########################################################################
@@ -5305,7 +5953,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Volumes Attached")
+            errstr = ""
+            header = "Volumes Attached"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -5319,28 +5969,30 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.VolumeAttachment
                 for arr in arrs:
                     val = {'id': str(arr.id),
-                           'display_name': str(arr.display_name),
-                           'volume_id': str(arr.volume_id),
-                           'instance_id': str(arr.instance_id),
-                           'lifecycle_state': str(arr.lifecycle_state),
-                           'time_created': str(arr.time_created),
-                           'attachment_type': str(arr.attachment_type),
-                           'device': str(arr.device),
-                           'is_read_only': str(arr.is_read_only),
-                           'is_shareable': str(arr.is_shareable),
-                           'is_pv_encryption_in_transit_enabled': str(arr.is_pv_encryption_in_transit_enabled),
-                           'is_multipath': str(arr.is_multipath),
-                           'iscsi_login_state': str(arr.iscsi_login_state),
+                           'display_name': self.get_value(arr.display_name),
+                           'volume_id': self.get_value(arr.volume_id),
+                           'instance_id': self.get_value(arr.instance_id),
+                           'lifecycle_state': self.get_value(arr.lifecycle_state),
+                           'time_created': self.get_value(arr.time_created),
+                           'attachment_type': self.get_value(arr.attachment_type),
+                           'device': self.get_value(arr.device),
+                           'is_read_only': self.get_value(arr.is_read_only),
+                           'is_shareable': self.get_value(arr.is_shareable),
+                           'is_pv_encryption_in_transit_enabled': self.get_value(arr.is_pv_encryption_in_transit_enabled),
+                           'is_multipath': self.get_value(arr.is_multipath),
+                           'iscsi_login_state': self.get_value(arr.iscsi_login_state),
                            'compartment_name': str(compartment['name']),
                            'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
@@ -5348,7 +6000,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5358,7 +6010,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_vol_attach", e)
+            self.__print_error("__load_core_compute_vol_attach", e, compartment)
             return data
 
     ##########################################################################
@@ -5378,13 +6030,13 @@ class ShowOCIService(object):
             data['private_ip'] = str(vnic.private_ip)
             data['display_name'] = (str(vnic.private_ip) + " (Prv)")
             data['public_ip'] = ""
-            data['skip_source_dest_check'] = vnic.skip_source_dest_check
-            data['is_primary'] = vnic.is_primary
+            data['skip_source_dest_check'] = self.get_value(vnic.skip_source_dest_check)
+            data['is_primary'] = self.get_value(vnic.is_primary)
             data['subnet'] = ""
-            data['hostname_label'] = str(vnic.hostname_label)
+            data['hostname_label'] = self.get_value(vnic.hostname_label)
             data['internal_fqdn'] = ""
-            data['mac_address'] = str(vnic.mac_address)
-            data['time_created'] = str(vnic.time_created)
+            data['mac_address'] = self.get_value(vnic.mac_address)
+            data['time_created'] = self.get_value(vnic.time_created)
             data['subnet_id'] = ""
             data['nsg_ids'] = [x for x in vnic.nsg_ids]
             data['nsg_names'] = self.__load_core_network_get_nsg_names(vnic.nsg_ids)
@@ -5402,8 +6054,8 @@ class ShowOCIService(object):
 
             # check vnic information
             if vnic.public_ip is not None:
-                data['display_name'] += ", " + str(vnic.public_ip) + " (Pub)"
-                data['public_ip'] = str(vnic.public_ip)
+                data['display_name'] += ", " + self.get_value(vnic.public_ip) + " (Pub)"
+                data['public_ip'] = self.get_value(vnic.public_ip)
 
             # if source dest
             if vnic.skip_source_dest_check:
@@ -5421,7 +6073,7 @@ class ShowOCIService(object):
             data['ip_addresses'] = []
             private_ip_addresses = virtual_network.list_private_ips(vnic_id=vnic_id).data
             for pip in private_ip_addresses:
-                data['ip_addresses'].append({'ip_address': str(pip.ip_address), 'id': str(pip.id), 'type': "Private"})
+                data['ip_addresses'].append({'ip_address': self.get_value(pip.ip_address), 'id': str(pip.id), 'type': "Private"})
 
                 # get public ip assigned to the private ip
                 try:
@@ -5429,17 +6081,15 @@ class ShowOCIService(object):
                     privdetails.private_ip_id = pip.id
                     pub_ip = virtual_network.get_public_ip_by_private_ip_id(privdetails)
                     if pub_ip.status == 200:
-                        data['ip_addresses'].append({'ip_address': str(pub_ip.data.ip_address), 'id': str(pub_ip.data.id), 'type': "Public"})
+                        data['ip_addresses'].append({'ip_address': self.get_value(pub_ip.data.ip_address), 'id': self.get_value(pub_ip.data.id), 'type': "Public"})
                 except Exception:
                     pass
 
             return data
 
         except oci.exceptions.RequestException as e:
-
             if self.__check_request_error(e):
                 return data
-
             raise
         except oci.exceptions.ServiceError as e:
             if self.__check_service_error(e.code):
@@ -5459,7 +6109,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Vnics Attached")
+            errstr = ""
+            header = "Vnics Attached"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -5473,11 +6125,13 @@ class ShowOCIService(object):
                     ).data
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.VnicAttachment
@@ -5485,17 +6139,22 @@ class ShowOCIService(object):
                     if str(arr.lifecycle_state) != oci.core.models.VnicAttachment.LIFECYCLE_STATE_ATTACHED:
                         continue
 
-                    val = {'id': str(arr.id), 'display_name': str(arr.display_name), 'vnic_id': str(arr.vnic_id),
+                    val = {'id': str(arr.id),
+                           'display_name': str(arr.display_name),
+                           'vnic_id': self.get_value(arr.vnic_id),
                            'vnic_details': self.__load_core_compute_vnic(virtual_network, arr.vnic_id),
-                           'instance_id': str(arr.instance_id), 'time_created': str(arr.time_created),
-                           'nic_index': str(arr.nic_index), 'subnet_id': str(arr.subnet_id),
-                           'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
+                           'instance_id': self.get_value(arr.instance_id),
+                           'time_created': self.get_value(arr.time_created),
+                           'nic_index': self.get_value(arr.nic_index),
+                           'subnet_id': self.get_value(arr.subnet_id),
+                           'compartment_name': str(compartment['name']),
+                           'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
                            'region_name': str(self.config['region'])}
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5505,7 +6164,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_compute_vnic_attach", e)
+            self.__print_error("__load_core_compute_vnic_attach", e, compartment)
             return data
 
     ##########################################################################
@@ -5520,7 +6179,8 @@ class ShowOCIService(object):
             if backup_policy_assignments:
                 for backup_policy_assignment in backup_policy_assignments:
                     bp = block_storage.get_volume_backup_policy(backup_policy_assignment.policy_id).data
-                    backupstr += bp.display_name + " "
+                    if bp:
+                        backupstr += self.get_value(bp.display_name) + " "
             return backupstr
 
         except oci.exceptions.RequestException as e:
@@ -5545,14 +6205,17 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Boot Volumes")
+            errstr = ""
+            header = "Boot Volumes"
+            self.__load_print_status_with_threads(header)
 
             # reference to volgroups
             volgroups = self.data[self.C_BLOCK][self.C_BLOCK_VOLGRP]
 
             # loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on all ads
                 availability_domains = self.get_availability_domains(self.config['region'])
@@ -5569,7 +6232,8 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
 
@@ -5578,17 +6242,21 @@ class ShowOCIService(object):
                     for arr in boot_volumes:
 
                         val = {'id': str(arr.id), 'display_name': str(arr.display_name),
-                               'size_in_gbs': str(arr.size_in_gbs),
-                               'time_created': str(arr.time_created),
-                               'kms_key_id': str(arr.kms_key_id),
-                               'vpus_per_gb': str(arr.vpus_per_gb),
-                               'is_hydrated': str(arr.is_hydrated),
-                               'volume_group_id': str(arr.volume_group_id),
-                               'volume_group_name': "", 'availability_domain': str(arr.availability_domain),
-                               'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
+                               'size_in_gbs': self.get_value(arr.size_in_gbs),
+                               'time_created': self.get_value(arr.time_created),
+                               'kms_key_id': self.get_value(arr.kms_key_id),
+                               'vpus_per_gb': self.get_value(arr.vpus_per_gb),
+                               'is_hydrated': self.get_value(arr.is_hydrated),
+                               'volume_group_id': self.get_value(arr.volume_group_id),
+                               'volume_group_name': "",
+                               'availability_domain': self.get_value(arr.availability_domain),
+                               'compartment_name': str(compartment['name']),
+                               'compartment_id': str(compartment['id']),
                                'compartment_path': str(compartment['path']),
                                'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
                                'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
+                               'is_auto_tune_enabled': self.get_value(arr.is_auto_tune_enabled),
+                               'auto_tuned_vpus_per_gb': self.get_value(arr.auto_tuned_vpus_per_gb),
                                'region_name': str(self.config['region']),
                                'backup_policy': self.__load_core_block_volume_backup_policy(block_storage, str(arr.id)),
                                'lifecycle_state': str(arr.lifecycle_state)}
@@ -5602,7 +6270,7 @@ class ShowOCIService(object):
                         data.append(val)
                         cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5612,7 +6280,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_block_boot", e)
+            self.__print_error("__load_core_block_boot", e, compartment)
             return data
 
     ##########################################################################
@@ -5626,7 +6294,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Block Volumes")
+            errstr = ""
+            header = "Block Volumes"
+            self.__load_print_status_with_threads(header)
 
             # reference to volgroups
             volgroups = self.data[self.C_BLOCK][self.C_BLOCK_VOLGRP]
@@ -5645,11 +6315,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.Volume.
@@ -5660,16 +6332,19 @@ class ShowOCIService(object):
                            'time_created': str(arr.time_created),
                            'kms_key_id': str(arr.kms_key_id),
                            'volume_group_id': str(arr.volume_group_id),
-                           'volume_group_name': "", 'availability_domain': str(arr.availability_domain),
+                           'volume_group_name': "",
+                           'availability_domain': str(arr.availability_domain),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
-                           'vpus_per_gb': str(arr.vpus_per_gb),
-                           'is_hydrated': str(arr.is_hydrated),
+                           'vpus_per_gb': self.get_value(arr.vpus_per_gb),
+                           'is_hydrated': self.get_value(arr.is_hydrated),
                            'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
                            'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
                            'region_name': str(self.config['region']),
-                           'backup_policy': self.__load_core_block_volume_backup_policy(block_storage, str(arr.id)),
+                           'is_auto_tune_enabled': self.get_value(arr.is_auto_tune_enabled),
+                           'auto_tuned_vpus_per_gb': self.get_value(arr.auto_tuned_vpus_per_gb),
+                           'backup_policy': self.get_value(self.__load_core_block_volume_backup_policy(block_storage, str(arr.id))),
                            'lifecycle_state': str(arr.lifecycle_state)}
 
                     # find vol group name
@@ -5681,7 +6356,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5689,7 +6364,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_core_block_volume", e)
+            self.__print_error("__load_core_block_volume", e, compartment)
             return data
 
     ##########################################################################
@@ -5703,13 +6378,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Block Volume Groups")
+            errstr = ""
+            header = "Block Volume Groups"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 # retrieve the data from oci
@@ -5725,31 +6401,37 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        print(".", end="")
-                        # don't cound it as error, it is showing error on old tenancies
-                        # self.__load_print_auth_warning()
+                        if self.flags.skip_threads:
+                            print(".", end="")
+                        # don't count it as error, it is showing error on old tenancies
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.VolumeGroup.
                 for arr in arrs:
-                    val = {'id': str(arr.id), 'display_name': str(arr.display_name),
-                           'size_in_gbs': str(arr.size_in_gbs), 'time_created': str(arr.time_created),
-                           'volume_ids': [str(a) for a in arr.volume_ids], 'compartment_name': str(compartment['name']),
-                           'compartment_path': str(compartment['path']),
-                           'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
-                           'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
-                           'lifecycle_state': arr.lifecycle_state,
-                           'compartment_id': str(compartment['id']), 'region_name': str(self.config['region'])}
+                    val = {
+                        'id': str(arr.id),
+                        'display_name': str(arr.display_name),
+                        'size_in_gbs': str(arr.size_in_gbs),
+                        'time_created': str(arr.time_created),
+                        'volume_ids': [str(a) for a in arr.volume_ids],
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
+                        'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
+                        'lifecycle_state': arr.lifecycle_state,
+                        'compartment_id': str(compartment['id']),
+                        'region_name': str(self.config['region'])}
 
                     # check boot volume backup policy
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5759,7 +6441,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_block_volume_group", e)
+            self.__print_error("__load_core_block_volume_group", e, compartment)
             return data
 
     ##########################################################################
@@ -5773,7 +6455,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Boot Volumes Backups")
+            errstr = ""
+            header = "Boot Volumes Backups"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -5790,24 +6474,24 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
-
-                print(".", end="")
 
                 # loop on array
                 # arr = oci.core.models.BootVolumeBackup
                 for arr in boot_volume_backups:
                     val = {'id': str(arr.id),
-                           'volume_id': str(arr.boot_volume_id),
-                           'boot_volume_id': str(arr.boot_volume_id),
-                           'type': str(arr.type),
-                           'source_type': str(arr.source_type),
-                           'time_created': str(arr.time_created),
-                           'display_name': str(arr.display_name),
-                           'size_in_gbs': str(arr.size_in_gbs),
-                           'unique_size_in_gbs': str(arr.unique_size_in_gbs),
+                           'volume_id': self.get_value(arr.boot_volume_id),
+                           'boot_volume_id': self.get_value(arr.boot_volume_id),
+                           'type': self.get_value(arr.type),
+                           'source_type': self.get_value(arr.source_type),
+                           'time_created': self.get_value(arr.time_created),
+                           'display_name': self.get_value(arr.display_name),
+                           'size_in_gbs': self.get_value(arr.size_in_gbs),
+                           'kms_key_id': self.get_value(arr.kms_key_id),
+                           'unique_size_in_gbs': self.get_value(arr.unique_size_in_gbs),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
@@ -5834,7 +6518,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5844,7 +6528,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_block_boot_backup", e)
+            self.__print_error("__load_core_block_boot_backup", e, compartment)
             return data
 
     ##########################################################################
@@ -5858,7 +6542,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Block Volumes Backups")
+            errstr = ""
+            header = "Block Volumes Backups"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -5875,7 +6561,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
@@ -5888,11 +6575,12 @@ class ShowOCIService(object):
                            'volume_id': str(arr.volume_id),
                            'backup_name': "Not Found",
                            'type': str(arr.type),
-                           'source_type': str(arr.source_type),
-                           'time_created': str(arr.time_created),
-                           'display_name': str(arr.display_name),
-                           'size_in_gbs': str(arr.size_in_gbs),
-                           'unique_size_in_gbs': str(arr.unique_size_in_gbs),
+                           'source_type': self.get_value(arr.source_type),
+                           'time_created': self.get_value(arr.time_created),
+                           'display_name': self.get_value(arr.display_name),
+                           'size_in_gbs': self.get_value(arr.size_in_gbs),
+                           'unique_size_in_gbs': self.get_value(arr.unique_size_in_gbs),
+                           'kms_key_id': self.get_value(arr.kms_key_id),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
@@ -5912,7 +6600,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -5922,7 +6610,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_block_volume_backup", e)
+            self.__print_error("__load_core_block_volume_backup", e, compartment)
             return data
 
     ##########################################################################
@@ -5936,7 +6624,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Block Volumes Grp Backups")
+            errstr = ""
+            header = "Block Volumes Grp Backups"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -5952,7 +6642,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
@@ -5967,17 +6658,18 @@ class ShowOCIService(object):
                     val = {'id': str(arr.id),
                            'volume_id': str(arr.volume_group_id),
                            'backup_name': "Not Found",
-                           'type': str(arr.type),
-                           'source_type': str(arr.source_type),
-                           'time_created': str(arr.time_created),
-                           'display_name': str(arr.display_name),
-                           'size_in_gbs': str(arr.size_in_gbs),
-                           'unique_size_in_gbs': str(arr.unique_size_in_gbs),
+                           'type': self.get_value(arr.type),
+                           'source_type': self.get_value(arr.source_type),
+                           'time_created': self.get_value(arr.time_created),
+                           'display_name': self.get_value(arr.display_name),
+                           'size_in_gbs': self.get_value(arr.size_in_gbs),
+                           'unique_size_in_gbs': self.get_value(arr.unique_size_in_gbs),
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
                            'region_name': str(self.config['region']),
                            'backup_lifecycle_state': "",
+                           'kms_key_id': "",
                            'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
                            'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
                            'expiration_time': "Keep" if arr.expiration_time is None else str(arr.expiration_time)}
@@ -5992,7 +6684,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -6002,58 +6694,8 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_core_block_volume_group_backup", e)
+            self.__print_error("__load_core_block_volume_group_backup", e, compartment)
             return data
-
-    ##########################################################################
-    # __load_core_compute_block_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.load_balancer.LoadBalancerClient(config, **kwargs)
-    # class oci.network_load_balancer.NetworkLoadBalancerClient(self.config, signer=self.signer)
-    ##########################################################################
-    def __load_load_balancer_main(self):
-
-        try:
-            print("Load Balancer...")
-
-            # LoadBalancerClient
-            load_balancer = oci.load_balancer.LoadBalancerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                load_balancer.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # NetworkLoadBalancerClient
-            network_load_balancer = oci.network_load_balancer.NetworkLoadBalancerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                network_load_balancer.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key to the network if not exists
-            self.__initialize_data_key(self.C_LB, self.C_LB_LOAD_BALANCERS)
-            self.__initialize_data_key(self.C_LB, self.C_LB_BACKEND_SETS)
-            self.__initialize_data_key(self.C_LB, self.C_LB_NETWORK_LOAD_BALANCERS)
-            self.__initialize_data_key(self.C_LB, self.C_LB_NETWORK_BACKEND_SETS)
-
-            # reference to compute
-            lb = self.data[self.C_LB]
-
-            # append the data
-            lb[self.C_LB_LOAD_BALANCERS] += self.__load_load_balancers(load_balancer, compartments)
-            lb[self.C_LB_BACKEND_SETS] += self.__load_load_balancer_backendset(load_balancer)
-            lb[self.C_LB_NETWORK_LOAD_BALANCERS] += self.__load_load_balancers_network(network_load_balancer, compartments)
-            lb[self.C_LB_NETWORK_BACKEND_SETS] += self.__load_load_balancer_backendset_network(network_load_balancer)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_load_balancer_main", e)
 
     ##########################################################################
     # data load load balancers
@@ -6066,7 +6708,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Load Balancers")
+            errstr = ""
+            header = "Load Balnacers"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -6083,11 +6727,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.load_balancer.models.LoadBalancer
@@ -6109,10 +6755,10 @@ class ShowOCIService(object):
                            'time_created': str(arr.time_created)[0:16],
                            'shape_min_mbps': "",
                            'shape_max_mbps': "",
-                           'display_name': str(arr.display_name),
-                           'is_private': str(arr.is_private),
+                           'display_name': self.get_value(arr.display_name),
+                           'is_private': self.get_value(arr.is_private),
                            'status': str(status),
-                           'ip_addresses': [(str(ip.ip_address) + " - " + ("Public" if ip.is_public else "Private") + (" Reserved" if ip.reserved_ip else "")) for ip in arr.ip_addresses],
+                           'ip_addresses': [(self.get_value(ip.ip_address) + " - " + ("Public" if ip.is_public else "Private") + (" Reserved" if ip.reserved_ip else "")) for ip in arr.ip_addresses],
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
@@ -6128,8 +6774,8 @@ class ShowOCIService(object):
 
                     # Flexible Shapes
                     if arr.shape_details:
-                        val['shape_min_mbps'] = str(arr.shape_details.minimum_bandwidth_in_mbps)
-                        val['shape_max_mbps'] = str(arr.shape_details.maximum_bandwidth_in_mbps)
+                        val['shape_min_mbps'] = self.get_value(arr.shape_details.minimum_bandwidth_in_mbps)
+                        val['shape_max_mbps'] = self.get_value(arr.shape_details.maximum_bandwidth_in_mbps)
 
                     # certificates
                     if arr.certificates:
@@ -6148,17 +6794,17 @@ class ShowOCIService(object):
                     datalis = []
                     for listener in arr.listeners:
                         lo = arr.listeners[listener]
-                        value = {'id': str(listener), 'port': str(lo.port), 'protocol': str(lo.protocol),
-                                 'default_backend_set_name': str(lo.default_backend_set_name), 'ssl_configuration': ""}
+                        value = {'id': str(listener), 'port': self.get_value(lo.port), 'protocol': self.get_value(lo.protocol),
+                                 'default_backend_set_name': self.get_value(lo.default_backend_set_name), 'ssl_configuration': ""}
 
                         # check ssl config
                         if lo.ssl_configuration:
-                            value['ssl_configuration'] = str(lo.ssl_configuration.certificate_name)
+                            value['ssl_configuration'] = self.get_value(lo.ssl_configuration.certificate_name)
 
                         # path_route_set_name
                         value['path_route_set_name'] = []
                         if lo.path_route_set_name:
-                            value['path_route_set_name'] = str(lo.path_route_set_name)
+                            value['path_route_set_name'] = self.get_value(lo.path_route_set_name)
 
                         # rule_set_names
                         value['rule_set_names'] = []
@@ -6225,7 +6871,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -6235,7 +6881,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_load_balancers", e)
+            self.__print_error("__load_load_balancers", e, compartment)
             return data
 
     ##########################################################################
@@ -6249,7 +6895,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Network Load Balancers")
+            errstr = ""
+            header = "Network Load Balancers"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -6266,11 +6914,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.network_load_balancer.models.NetworkLoadBalancerSummary
@@ -6290,16 +6940,16 @@ class ShowOCIService(object):
                     val = {'id': str(arr.id),
                            'shape_name': "Network Load Balancer",
                            'display_name': str(arr.display_name),
-                           'lifecycle_state': str(arr.lifecycle_state),
-                           'lifecycle_details': str(arr.lifecycle_details),
-                           'time_created': str(arr.time_created),
-                           'time_updated': str(arr.time_updated),
-                           'is_private': str(arr.is_private),
-                           'is_preserve_source_destination': str(arr.is_preserve_source_destination),
-                           'subnet_id': str(arr.subnet_id),
+                           'lifecycle_state': self.get_value(arr.lifecycle_state),
+                           'lifecycle_details': self.get_value(arr.lifecycle_details),
+                           'time_created': self.get_value(arr.time_created)[0:16],
+                           'time_updated': self.get_value(arr.time_updated)[0:16],
+                           'is_private': self.get_value(arr.is_private),
+                           'is_preserve_source_destination': self.get_value(arr.is_preserve_source_destination),
+                           'subnet_id': self.get_value(arr.subnet_id),
                            'subnet_name': "" if arr.subnet_id is None else self.get_network_subnet(arr.subnet_id, True),
                            'status': str(status),
-                           'ip_addresses': [(str(ip.ip_address) + " - " + ("Public" if ip.is_public else "Private") + (" Reserved" if ip.reserved_ip else "")) for ip in arr.ip_addresses],
+                           'ip_addresses': [(self.get_value(ip.ip_address) + " - " + ("Public" if ip.is_public else "Private") + (" Reserved" if ip.reserved_ip else "")) for ip in arr.ip_addresses],
                            'compartment_name': str(compartment['name']),
                            'compartment_path': str(compartment['path']),
                            'compartment_id': str(compartment['id']),
@@ -6337,7 +6987,7 @@ class ShowOCIService(object):
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -6347,7 +6997,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_network_load_balancers", e)
+            self.__print_error("__load_network_load_balancers", e, compartment)
             return data
 
     ##########################################################################
@@ -6413,7 +7063,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Backend Sets")
+            errstr = ""
+            header = "Load Balancer Backend Sets"
+            self.__load_print_status_with_threads(header)
 
             # get the load balancers for this regions
             region_name = str(self.config['region'])
@@ -6437,15 +7089,18 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
-                        self.__load_print_auth_warning("b", False)
-                        continue
+                        self.__load_print_auth_warning("b", False, to_print=self.flags.skip_threads)
+                        errstr += "b"
                         time.sleep(1)
+                        continue
 
                 # print next load balancer
-                print("L", end="")
+                if self.flags.skip_threads:
+                    print("L", end="")
 
                 # loop on backendsets
                 # bs = oci.load_balancer.models.BackendSet
@@ -6461,7 +7116,8 @@ class ShowOCIService(object):
                         if self.__check_service_error(e.code):
                             pass
                         else:
-                            self.__load_print_auth_warning("s", False)
+                            self.__load_print_auth_warning("s", False, to_print=self.flags.skip_threads)
+                            errstr += "s"
                             status = "-"
                             time.sleep(1)
 
@@ -6577,7 +7233,7 @@ class ShowOCIService(object):
 
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -6599,7 +7255,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Network LB Backend Sets")
+            errstr = ""
+            header = "Network LB Backend Sets"
+            self.__load_print_status_with_threads(header)
 
             # get the load balancers for this regions
             region_name = str(self.config['region'])
@@ -6619,15 +7277,18 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
-                        self.__load_print_auth_warning("b", False)
-                        continue
+                        self.__load_print_auth_warning("b", False, to_print=self.flags.skip_threads)
+                        errstr += "b"
                         time.sleep(1)
+                        continue
 
                 # print next load balancer
-                print("L", end="")
+                if self.flags.skip_threads:
+                    print("L", end="")
 
                 # loop on backendsets
                 if backend_sets:
@@ -6672,12 +7333,14 @@ class ShowOCIService(object):
                                 if self.__check_service_error(e.code):
                                     pass
                                 else:
-                                    self.__load_print_auth_warning("h", False)
+                                    self.__load_print_auth_warning("h", False, to_print=self.flags.skip_threads)
+                                    errstr += "h"
                                     bh_status = "-"
                                     time.sleep(1)
 
                             # add details
                             bval = {'name': str(backend.name),
+                                    'id': str(backend.name),
                                     'ip_address': str(backend.ip_address),
                                     'status': str(bh_status),
                                     'target_id': str(backend.target_id),
@@ -6710,7 +7373,7 @@ class ShowOCIService(object):
 
                         cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -6722,7 +7385,7 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_object_storage_main
+    # __load_object_storage_file_storage_main
     ##########################################################################
     #
     # OCI Classes used:
@@ -6730,27 +7393,57 @@ class ShowOCIService(object):
     # class oci.object_storage.ObjectStorageClient(config, **kwargs)
     #
     ##########################################################################
-    def __load_object_storage_main(self):
+    def __load_section_object_storage_file_storage_main(self):
 
         try:
-            print("Object Storage...")
+            print("Object and File Storage...")
 
-            # LoadBalancerClient
+            file_storage = oci.file_storage.FileStorageClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             object_storage = oci.object_storage.ObjectStorageClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             if self.flags.proxy:
+                file_storage.base_client.session.proxies = {'https': self.flags.proxy}
+                virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
                 object_storage.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
             compartments = self.get_compartment()
 
             # add the key if not exists
+            self.__initialize_data_key(self.C_FILE_STORAGE, self.C_FILE_STORAGE_FILESYSTEMS)
+            self.__initialize_data_key(self.C_FILE_STORAGE, self.C_FILE_STORAGE_EXPORTS)
+            self.__initialize_data_key(self.C_FILE_STORAGE, self.C_FILE_STORAGE_MOUNTS)
             self.__initialize_data_key(self.C_OS, self.C_OS_BUCKETS)
 
-            # reference to object storage
+            # reference to orm
+            fs = self.data[self.C_FILE_STORAGE]
             os = self.data[self.C_OS]
 
-            # append the data
-            os[self.C_OS_BUCKETS] += self.__load_object_storage_buckets(object_storage, compartments)
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
+                fs[self.C_FILE_STORAGE_FILESYSTEMS] += self.__load_file_storage_filesystems(file_storage, compartments)
+                fs[self.C_FILE_STORAGE_EXPORTS] += self.__load_file_storage_exports(file_storage, compartments)
+                fs[self.C_FILE_STORAGE_MOUNTS] += self.__load_file_storage_mount_targets(file_storage, virtual_network, compartments)
+                os[self.C_OS_BUCKETS] += self.__load_object_storage_buckets(object_storage, compartments)
+
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                    future_FILE_STORAGE_FILESYSTEMS = executor.submit(self.__load_file_storage_filesystems, file_storage, compartments)
+                    future_FILE_STORAGE_EXPORTS = executor.submit(self.__load_file_storage_exports, file_storage, compartments)
+                    future_FILE_STORAGE_MOUNTS = executor.submit(self.__load_file_storage_mount_targets, file_storage, virtual_network, compartments)
+                    future_OS_BUCKETS = executor.submit(self.__load_object_storage_buckets, object_storage, compartments)
+
+                    fs[self.C_FILE_STORAGE_FILESYSTEMS] += next(as_completed([future_FILE_STORAGE_FILESYSTEMS])).result()
+                    fs[self.C_FILE_STORAGE_EXPORTS] += next(as_completed([future_FILE_STORAGE_EXPORTS])).result()
+                    fs[self.C_FILE_STORAGE_MOUNTS] += next(as_completed([future_FILE_STORAGE_MOUNTS])).result()
+                    os[self.C_OS_BUCKETS] += next(as_completed([future_OS_BUCKETS])).result()
+
             print("")
 
         except oci.exceptions.RequestException:
@@ -6758,7 +7451,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_object_storage_main", e)
+            self.__print_error("__load_section_object_storage_file_storage_main", e)
 
     ##########################################################################
     # data load load balancers
@@ -6771,7 +7464,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Buckets")
+            errstr = ""
+            header = "Object Storage Buckets"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -6792,43 +7487,63 @@ class ShowOCIService(object):
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on array
                 # arr = oci.object_storage.models.BucketSummary
                 for arr in buckets:
+                    val = {
+                        'name': str(arr.name),
+                        'time_created': str(arr.time_created)[0:16],
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'region_name': str(self.config['region']),
+                        'namespace_name': namespace_name,
+                        'storage_tier': '',
+                        'archival_state': '',
+                        'public_access_type': '',
+                        'object_events_enabled': '',
+                        'defined_tags': [],
+                        'freeform_tags': [],
+                        'kms_key_id': '',
+                        'object_lifecycle_policy_etag': '',
+                        'replication_enabled': '',
+                        'is_read_only': '',
+                        'versioning': '',
+                        'auto_tiering': '',
+                        'id': '',
+                        'size_gb': "",
+                        'count': "",
+                        'approximate_count': "",
+                        'approximate_size': "",
+                        'object_lifecycle': "",
+                        'preauthenticated_requests': "",
+                        'error_message': ""
+                    }
+
                     try:
                         # bucket = oci.object_storage.models.Bucket
-                        bucket = object_storage.get_bucket(namespace_name, str(arr.name), fields=['approximateCount', 'approximateSize', 'autoTiering']).data
+                        bucket = object_storage.get_bucket(
+                            namespace_name=namespace_name,
+                            bucket_name=str(arr.name),
+                            fields=['approximateCount', 'approximateSize', 'autoTiering'],
+                            retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
 
                         if bucket:
-                            val = {
-                                'name': str(arr.name),
-                                'time_created': str(arr.time_created)[0:16],
-                                'compartment_name': str(compartment['name']),
-                                'compartment_path': str(compartment['path']),
-                                'compartment_id': str(compartment['id']),
-                                'region_name': str(self.config['region']),
-                                'public_access_type': str(bucket.public_access_type),
-                                'storage_tier': str(bucket.storage_tier),
-                                'object_events_enabled': str(bucket.object_events_enabled),
-                                'defined_tags': [] if bucket.defined_tags is None else bucket.defined_tags,
-                                'freeform_tags': [] if bucket.freeform_tags is None else bucket.freeform_tags,
-                                'kms_key_id': str(bucket.kms_key_id),
-                                'object_lifecycle_policy_etag': str(bucket.object_lifecycle_policy_etag),
-                                'replication_enabled': str(bucket.replication_enabled),
-                                'is_read_only': str(bucket.is_read_only),
-                                'versioning': str(bucket.versioning),
-                                'auto_tiering': str(bucket.auto_tiering) if bucket.auto_tiering else "",
-                                'id': str(bucket.id),
-                                'size_gb': "",
-                                'count': "",
-                                'approximate_count': "",
-                                'approximate_size': "",
-                                'object_lifecycle': "",
-                                'preauthenticated_requests': "",
-                                'namespace_name': namespace_name
-                            }
+                            val['storage_tier'] = self.get_value(bucket.storage_tier)
+                            val['public_access_type'] = self.get_value(bucket.public_access_type)
+                            val['object_events_enabled'] = self.get_value(bucket.object_events_enabled)
+                            val['defined_tags'] = [] if bucket.defined_tags is None else bucket.defined_tags
+                            val['freeform_tags'] = [] if bucket.freeform_tags is None else bucket.freeform_tags
+                            val['kms_key_id'] = self.get_value(bucket.kms_key_id)
+                            val['object_lifecycle_policy_etag'] = str(bucket.object_lifecycle_policy_etag)
+                            val['replication_enabled'] = self.get_value(bucket.replication_enabled)
+                            val['is_read_only'] = self.get_value(bucket.is_read_only)
+                            val['versioning'] = self.get_value(bucket.versioning)
+                            val['auto_tiering'] = self.get_value(bucket.auto_tiering)
+                            val['id'] = str(bucket.id)
                             objcnt = bucket.approximate_count
                             size = bucket.approximate_size
 
@@ -6840,11 +7555,17 @@ class ShowOCIService(object):
                                 val['count'] = objcnt
 
                     except oci.exceptions.ServiceError as e:
+                        errstr += "Issue with " + arr.name + " "
+                        val['error_message'] = str(e)
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
-                            continue
-                        else:
-                            raise
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+
+                    except Exception as e:
+                        errstr += "Issue with " + arr.name + " "
+                        val['error_message'] = str(e)
+                        if 'KmsKeyDisabled' in str(e):
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
 
                     ###############################
                     # get object lifecycle
@@ -6861,14 +7582,14 @@ class ShowOCIService(object):
                         if e.code == "LifecyclePolicyNotFound":
                             pass
                         elif self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
                         else:
                             raise
 
                     data.append(val)
                     cnt += 1
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -6882,344 +7603,6 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_resource_management_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.resource_management.ResourceManagerClient(config, **kwargs)
-    #
-    ##########################################################################
-    def __load_resource_management_main(self):
-
-        try:
-            print("Resource Management...")
-
-            # LoadBalancerClient
-            orm = oci.resource_manager.ResourceManagerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                orm.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_ORM, self.C_ORM_STACKS)
-
-            # reference to orm
-            os = self.data[self.C_ORM]
-
-            # append the data
-            os[self.C_ORM_STACKS] += self.__load_resource_management_stacks(orm, compartments)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_resource_management_main", e)
-
-    ##########################################################################
-    # __load_resource_management_stacks
-    ##########################################################################
-    def __load_resource_management_stacks(self, orm, compartments):
-
-        data = []
-        cnt = 0
-        start_time = time.time()
-
-        try:
-
-            self.__load_print_status("Stacks")
-
-            # loop on all compartments
-            for compartment in compartments:
-
-                # skip managed paas compartment
-                if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
-                    continue
-
-                stacks = []
-                try:
-                    stacks = oci.pagination.list_call_get_all_results(
-                        orm.list_stacks, compartment_id=compartment['id'],
-                        lifecycle_state=oci.resource_manager.models.Stack.LIFECYCLE_STATE_ACTIVE,
-                        sort_by="DISPLAYNAME",
-                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                    ).data
-
-                except oci.exceptions.ServiceError as e:
-                    if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
-                        continue
-                    raise
-
-                print(".", end="")
-
-                # query the stacks
-                # stack = oci.resource_manager.models.Stack
-                for stack in stacks:
-                    val = {'id': str(stack.id), 'display_name': str(stack.display_name),
-                           'description': str(stack.description), 'compartment_name': str(compartment['name']),
-                           'compartment_path': str(compartment['path']),
-                           'compartment_id': str(compartment['id']), 'region_name': str(self.config['region']),
-                           'defined_tags': [] if stack.defined_tags is None else stack.defined_tags,
-                           'freeform_tags': [] if stack.freeform_tags is None else stack.freeform_tags,
-                           'time_created': str(stack.time_created)}
-
-                    # check jobs
-                    try:
-                        jobs = oci.pagination.list_call_get_all_results(
-                            orm.list_jobs,
-                            stack_id=stack.id,
-                            sort_by="TIMECREATED",
-                            retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                        ).data
-                    except oci.exceptions.ServiceError as e:
-                        if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
-                        else:
-                            raise
-
-                    # query jobs
-                    datajob = []
-                    for job in jobs:
-                        jobval = {'id': str(job.id), 'display_name': str(job.display_name),
-                                  'operation': str(job.operation), 'lifecycle_state': str(job.lifecycle_state),
-                                  'time_finished': str(job.time_finished), 'time_created': str(job.time_created)}
-                        datajob.append(jobval)
-
-                    # add the jobs to the array
-                    val['jobs'] = datajob
-
-                    # add the stacks
-                    cnt += 1
-                    data.append(val)
-
-            self.__load_print_cnt(cnt, start_time)
-            return data
-
-        except oci.exceptions.RequestException as e:
-
-            if self.__check_request_error(e):
-                return data
-
-            raise
-        except Exception as e:
-            self.__print_error("__load_resource_management_stacks", e)
-            return data
-
-    ##########################################################################
-    # __load_email_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.email.EmailClient(config, **kwargs)
-    #
-    ##########################################################################
-    def __load_email_main(self):
-
-        try:
-            print("Email Notifications...")
-
-            # EmailClient
-            email_client = oci.email.EmailClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                email_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_EMAIL, self.C_EMAIL_SENDERS)
-            self.__initialize_data_key(self.C_EMAIL, self.C_EMAIL_SUPPRESSIONS)
-
-            # reference to orm
-            email = self.data[self.C_EMAIL]
-
-            # append the data
-            email[self.C_EMAIL_SENDERS] += self.__load_email_senders(email_client, compartments)
-            email[self.C_EMAIL_SUPPRESSIONS] += self.__load_email_suppressions(email_client, compartments)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_email_main", e)
-
-    ##########################################################################
-    # data load load __load_email_senders
-    ##########################################################################
-    def __load_email_senders(self, email, compartments):
-
-        data = []
-        cnt = 0
-        start_time = time.time()
-
-        try:
-
-            self.__load_print_status("Senders")
-
-            # loop on all compartments
-            for compartment in compartments:
-
-                senders = []
-                try:
-                    senders = oci.pagination.list_call_get_all_results(
-                        email.list_senders,
-                        compartment['id'],
-                        sort_by="EMAILADDRESS",
-                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                    ).data
-
-                except oci.exceptions.ServiceError as e:
-                    if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
-                        continue
-                    raise
-
-                print(".", end="")
-
-                # query the stacks
-                # sender = oci.email.models.Sender
-                for sender in senders:
-                    val = {'id': str(sender.id), 'email_address': str(sender.email_address),
-                           'lifecycle_state': str(sender.lifecycle_state), 'time_created': str(sender.time_created),
-                           'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
-                           'compartment_path': str(compartment['path']),
-                           'defined_tags': [] if sender.defined_tags is None else sender.defined_tags,
-                           'freeform_tags': [] if sender.freeform_tags is None else sender.freeform_tags,
-                           'region_name': str(self.config['region'])}
-
-                    # add the data
-                    cnt += 1
-                    data.append(val)
-
-            self.__load_print_cnt(cnt, start_time)
-            return data
-
-        except oci.exceptions.RequestException as e:
-            if self.__check_request_error(e):
-                return data
-            raise
-        except Exception as e:
-            self.__print_error("__load_email_senders", e)
-            return data
-
-    ##########################################################################
-    # data load load __load_email_suppressions
-    ##########################################################################
-    def __load_email_suppressions(self, email, compartments):
-
-        data = []
-        cnt = 0
-        start_time = time.time()
-
-        try:
-
-            self.__load_print_status("Suppressions")
-
-            # loop on all compartments
-            for compartment in compartments:
-
-                # suppressions is only valid in root compartment
-                if compartment['id'] != str(self.config['tenancy']):
-                    print(".", end="")
-                    continue
-
-                suppressions = []
-                try:
-                    suppressions = email.list_suppressions(compartment['id']).data
-
-                except oci.exceptions.ServiceError as e:
-                    if self.__check_request_error(e):
-                        return data
-
-                    if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
-                        continue
-                    raise
-
-                print(".", end="")
-
-                # query the stacks
-                # supp = oci.email.models.SuppressionSummary
-                for supp in suppressions:
-                    val = {'id': str(supp.id), 'email_address': str(supp.email_address),
-                           'time_created': str(supp.time_created), 'reason': str(supp.reason),
-                           'compartment_name': str(compartment['name']), 'compartment_id': str(compartment['id']),
-                           'compartment_path': str(compartment['path']),
-                           'region_name': str(self.config['region'])}
-
-                    # add the data
-                    cnt += 1
-                    data.append(val)
-
-            self.__load_print_cnt(cnt, start_time)
-            return data
-
-        except oci.exceptions.RequestException as e:
-            if self.__check_request_error(e):
-                return data
-            raise
-        except Exception as e:
-            self.__print_error("__load_email_suppressions", e)
-            return data
-
-    ##########################################################################
-    # __load_file_storage_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.file_storage.FileStorageClient(config, **kwargs)
-    #
-    ##########################################################################
-    def __load_file_storage_main(self):
-
-        try:
-            print("File Storage...")
-
-            # LoadBalancerClient
-            file_storage = oci.file_storage.FileStorageClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                file_storage.base_client.session.proxies = {'https': self.flags.proxy}
-
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_FILE_STORAGE, self.C_FILE_STORAGE_FILESYSTEMS)
-            self.__initialize_data_key(self.C_FILE_STORAGE, self.C_FILE_STORAGE_EXPORTS)
-            self.__initialize_data_key(self.C_FILE_STORAGE, self.C_FILE_STORAGE_MOUNTS)
-
-            # reference to orm
-            fs = self.data[self.C_FILE_STORAGE]
-
-            # append the data
-            fs[self.C_FILE_STORAGE_FILESYSTEMS] += self.__load_file_storage_filesystems(file_storage, compartments)
-            fs[self.C_FILE_STORAGE_EXPORTS] += self.__load_file_storage_exports(file_storage, compartments)
-            fs[self.C_FILE_STORAGE_MOUNTS] += self.__load_file_storage_mount_targets(file_storage, virtual_network,
-                                                                                     compartments)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_file_storage_main", e)
-
-    ##########################################################################
     # __load_file_storage_filesystems
     ##########################################################################
     def __load_file_storage_filesystems(self, file_storage, compartments):
@@ -7230,14 +7613,17 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("File Systems")
+            errstr = ""
+            header = "File Storage"
+            self.__load_print_status_with_threads(header)
 
             # get availability domains
             availability_domains = self.get_availability_domains(self.config['region'])
 
             # loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 for ad in availability_domains:
 
@@ -7253,7 +7639,8 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
 
@@ -7262,16 +7649,17 @@ class ShowOCIService(object):
                     for fs in file_systems:
                         val = {'id': str(fs.id),
                                'display_name': str(fs.display_name),
-                               'time_created': str(fs.time_created)[0:16],
-                               'availability_domain': str(fs.availability_domain),
+                               'time_created': self.get_value(fs.time_created)[0:16],
+                               'availability_domain': self.get_value(fs.availability_domain),
                                'size_gb': str(round(int(fs.metered_bytes) / 1024 / 1024 / 1024, 1)),
-                               'metered_bytes': str(fs.metered_bytes),
+                               'metered_bytes': self.get_value(fs.metered_bytes),
                                'snapshots': [],
                                'defined_tags': [] if fs.defined_tags is None else fs.defined_tags,
                                'freeform_tags': [] if fs.freeform_tags is None else fs.freeform_tags,
                                'compartment_name': str(compartment['name']),
                                'compartment_id': str(compartment['id']),
                                'compartment_path': str(compartment['path']),
+                               'kms_key_id': str(fs.kms_key_id),
                                'region_name': str(self.config['region'])}
 
                         # add snapshots to the file systems
@@ -7296,7 +7684,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -7318,11 +7706,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Mount Targets")
+            errstr = ""
+            header = "File Storage Mounts"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # get availability domains
                 availability_domains = self.get_availability_domains(self.config['region'])
@@ -7340,19 +7731,25 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
 
                     # query the stacks
                     # mt = oci.file_storage.models.MountTargetSummary
                     for mt in mount_targets:
-                        val = {'id': str(mt.id), 'display_name': str(mt.display_name),
-                               'export_set_id': str(mt.export_set_id), 'time_created': str(mt.time_created),
-                               'availability_domain': str(mt.availability_domain), 'private_ip_ids': [],
-                               'subnet_id': str(mt.subnet_id), 'compartment_name': str(compartment['name']),
+                        val = {'id': str(mt.id),
+                               'display_name': self.get_value(mt.display_name),
+                               'export_set_id': self.get_value(mt.export_set_id),
+                               'time_created': self.get_value(mt.time_created),
+                               'availability_domain': self.get_value(mt.availability_domain),
+                               'private_ip_ids': [],
+                               'subnet_id': self.get_value(mt.subnet_id),
+                               'compartment_name': str(compartment['name']),
                                'compartment_path': str(compartment['path']),
-                               'compartment_id': str(compartment['id']), 'region_name': str(self.config['region'])}
+                               'compartment_id': str(compartment['id']),
+                               'region_name': str(self.config['region'])}
 
                         # get private ips
                         for e in mt.private_ip_ids:
@@ -7363,7 +7760,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -7385,11 +7782,14 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Exports")
+            errstr = ""
+            header = "File Storage Exports"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 exports = []
                 try:
@@ -7403,16 +7803,20 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
                 # query the export
                 # es = oci.file_storage.models.ExportSummary
                 for es in exports:
-                    val = {'id': str(es.id), 'export_set_id': str(es.export_set_id),
-                           'file_system_id': str(es.file_system_id), 'path': str(es.path),
-                           'time_created': str(es.time_created), 'export_set': []}
+                    val = {'id': str(es.id),
+                           'export_set_id': self.get_value(es.export_set_id),
+                           'file_system_id': self.get_value(es.file_system_id),
+                           'path': self.get_value(es.path),
+                           'time_created': self.get_value(es.time_created),
+                           'export_set': []}
 
                     # export set
                     try:
@@ -7420,11 +7824,26 @@ class ShowOCIService(object):
                         if exp:
                             valexp = {'id': str(exp.id), 'compartment_id': str(exp.compartment_id),
                                       'availability_domain': str(exp.availability_domain),
-                                      'display_name': str(exp.display_name),
-                                      'lifecycle_state': str(exp.lifecycle_state),
-                                      'max_fs_stat_bytes': str(exp.max_fs_stat_bytes),
-                                      'max_fs_stat_files': str(exp.max_fs_stat_files),
-                                      'time_created': str(exp.time_created), 'vcn_id': str(exp.vcn_id)}
+                                      'display_name': self.get_value(exp.display_name),
+                                      'lifecycle_state': self.get_value(exp.lifecycle_state),
+                                      'max_fs_stat_bytes': self.get_value(exp.max_fs_stat_bytes),
+                                      'max_fs_stat_files': self.get_value(exp.max_fs_stat_files),
+                                      'time_created': str(exp.time_created),
+                                      'vcn_id': self.get_value(exp.vcn_id),
+                                      'options': []}
+                            exp_summary = file_storage.list_exports(export_set_id=exp.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+                            for e in exp_summary:
+                                xport = file_storage.get_export(e.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+                                opts = xport.export_options
+                                for opt in opts:
+                                    valexp['options'].append({
+                                        'access': opt.access,
+                                        'anonymous_gid': opt.anonymous_gid,
+                                        'anonymous_uid': opt.anonymous_uid,
+                                        'identity_squash': opt.identity_squash,
+                                        'require_privileged_source_port': opt.require_privileged_source_port,
+                                        'source': opt.source
+                                    })
                             val['export_set'] = valexp
 
                     except oci.exceptions.ServiceError as e:
@@ -7437,7 +7856,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -7451,39 +7870,28 @@ class ShowOCIService(object):
     ##########################################################################
     # __load_database_main
     ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.database.DatabaseClient(config, **kwargs)
-    # class oci.core.VirtualNetworkClient(config, **kwargs)
-    # class oci.nosql.NosqlClient(config, **kwargs)
-    # class oci.mysql.DbSystemClient
-    # class oci.golden_gate.GoldenGateClient
-    ##########################################################################
-    def __load_database_main(self):
+    def __load_section_database_main(self):
 
         try:
+            section_start_time = time.time()
             print("Database...")
 
-            # LoadBalancerClient
+            # DatabaseClient
             database_client = oci.database.DatabaseClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            nosql_client = oci.nosql.NosqlClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            mysql_client = oci.mysql.DbSystemClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            mysql_backup_client = oci.mysql.DbBackupsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            postgresql_client = oci.psql.PostgresqlClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            gg_client = oci.golden_gate.GoldenGateClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             if self.flags.proxy:
                 database_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
-
-            nosql_client = oci.nosql.NosqlClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 nosql_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            mysql_client = oci.mysql.DbSystemClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 mysql_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            gg_client = oci.golden_gate.GoldenGateClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
+                mysql_backup_client.base_client.session.proxies = {'https': self.flags.proxy}
+                postgresql_client.base_client.session.proxies = {'https': self.flags.proxy}
                 gg_client.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
@@ -7504,6 +7912,9 @@ class ShowOCIService(object):
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_ADB_D_CONTAINERS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_NOSQL)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_MYSQL)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_MYSQL_BACKUPS)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_POSTGRESQL)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_POSTGRESQL_BACKUPS)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_SOFTWARE_IMAGES)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_GG_DB_REGISTRATION)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_GG_DEPLOYMENTS)
@@ -7514,27 +7925,90 @@ class ShowOCIService(object):
             # reference to orm
             db = self.data[self.C_DATABASE]
 
-            # append the data
-            db[self.C_DATABASE_BACKUPS] += self.__load_database_standalone_backups(database_client, compartments)
-            db[self.C_DATABASE_HOMES] += self.__load_database_homes(database_client, compartments)
-            db[self.C_DATABASE_EXACC] += self.__load_database_exacc_infrastructure(database_client, virtual_network, compartments)
-            db[self.C_DATABASE_EXACC_VMS] += self.__load_database_exacc_vm_clusters(database_client, virtual_network, compartments)
-            db[self.C_DATABASE_EXACC_ADB_VMS] += self.__load_database_exacc_adb_vmclusters(database_client, compartments)
-            db[self.C_DATABASE_EXADATA] += self.__load_database_exadata_infrastructure(database_client, virtual_network, compartments)
-            db[self.C_DATABASE_EXADATA_VMS] += self.__load_database_exadata_vm_clusters(database_client, virtual_network, compartments)
-            db[self.C_DATABASE_DBSYSTEMS] += self.__load_database_dbsystems(database_client, virtual_network, compartments)
-            db[self.C_DATABASE_ADB_D_VMS] += self.__load_database_adb_d_vmclusters(database_client, compartments)
-            db[self.C_DATABASE_ADB_D_CONTAINERS] += self.__load_database_adb_d_containers(database_client, compartments)
-            db[self.C_DATABASE_ADB_DATABASE] += self.__load_database_adb_database(database_client, compartments)
-            db[self.C_DATABASE_NOSQL] += self.__load_database_nosql(nosql_client, compartments)
-            db[self.C_DATABASE_MYSQL] += self.__load_database_mysql(mysql_client, compartments)
-            db[self.C_DATABASE_SOFTWARE_IMAGES] += self.__load_database_software_images(database_client, compartments)
-            db[self.C_DATABASE_GG_DEPLOYMENTS] += self.__load_database_gg_deployments(gg_client, compartments)
-            db[self.C_DATABASE_GG_DB_REGISTRATION] += self.__load_database_gg_db_registration(gg_client, compartments)
-            db[self.C_DATABASE_EXTERNAL_CDB] += self.__load_database_external_cdb(database_client, compartments)
-            db[self.C_DATABASE_EXTERNAL_PDB] += self.__load_database_external_pdb(database_client, compartments)
-            db[self.C_DATABASE_EXTERNAL_NONPDB] += self.__load_database_external_nonpdb(database_client, compartments)
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
+                db[self.C_DATABASE_BACKUPS] += self.__load_database_standalone_backups(database_client, compartments)
+                db[self.C_DATABASE_HOMES] += self.__load_database_homes(database_client, compartments)
+                db[self.C_DATABASE_EXACC] += self.__load_database_exacc_infrastructure(database_client, virtual_network, compartments)
+                db[self.C_DATABASE_EXACC_VMS] += self.__load_database_exacc_vm_clusters(database_client, virtual_network, compartments)
+                db[self.C_DATABASE_EXACC_ADB_VMS] += self.__load_database_exacc_adb_vmclusters(database_client, compartments)
+                db[self.C_DATABASE_EXADATA] += self.__load_database_exadata_infrastructure(database_client, virtual_network, compartments)
+                db[self.C_DATABASE_EXADATA_VMS] += self.__load_database_exadata_vm_clusters(database_client, virtual_network, compartments)
+                db[self.C_DATABASE_DBSYSTEMS] += self.__load_database_dbsystems(database_client, virtual_network, compartments)
+                db[self.C_DATABASE_ADB_D_VMS] += self.__load_database_adb_d_vmclusters(database_client, compartments)
+                db[self.C_DATABASE_ADB_D_CONTAINERS] += self.__load_database_adb_d_containers(database_client, compartments)
+                db[self.C_DATABASE_ADB_DATABASE] += self.__load_database_adb_database(database_client, compartments)
+                db[self.C_DATABASE_NOSQL] += self.__load_database_nosql(nosql_client, compartments)
+                db[self.C_DATABASE_MYSQL] += self.__load_database_mysql(mysql_client, compartments)
+                db[self.C_DATABASE_MYSQL_BACKUPS] += self.__load_database_mysql_backups(mysql_backup_client, compartments)
+                db[self.C_DATABASE_POSTGRESQL] += self.__load_database_postgresql(postgresql_client, compartments)
+                db[self.C_DATABASE_POSTGRESQL_BACKUPS] += self.__load_database_postgresql_backups(postgresql_client, compartments)
+                db[self.C_DATABASE_SOFTWARE_IMAGES] += self.__load_database_software_images(database_client, compartments)
+                db[self.C_DATABASE_GG_DEPLOYMENTS] += self.__load_database_gg_deployments(gg_client, compartments)
+                db[self.C_DATABASE_GG_DB_REGISTRATION] += self.__load_database_gg_db_registration(gg_client, compartments)
+                db[self.C_DATABASE_EXTERNAL_CDB] += self.__load_database_external_cdb(database_client, compartments)
+                db[self.C_DATABASE_EXTERNAL_PDB] += self.__load_database_external_pdb(database_client, compartments)
+                db[self.C_DATABASE_EXTERNAL_NONPDB] += self.__load_database_external_nonpdb(database_client, compartments)
 
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                    future_BACKUPS = executor.submit(self.__load_database_standalone_backups, database_client, compartments)
+                    future_EXACC = executor.submit(self.__load_database_exacc_infrastructure, database_client, virtual_network, compartments)
+                    future_EXACC_ADB_VMS = executor.submit(self.__load_database_exacc_adb_vmclusters, database_client, compartments)
+                    future_EXADATA = executor.submit(self.__load_database_exadata_infrastructure, database_client, virtual_network, compartments)
+                    future_ADB_D_VMS = executor.submit(self.__load_database_adb_d_vmclusters, database_client, compartments)
+                    future_ADB_D_CONTAINERS = executor.submit(self.__load_database_adb_d_containers, database_client, compartments)
+                    future_ADB_DATABASE = executor.submit(self.__load_database_adb_database, database_client, compartments)
+                    future_NOSQL = executor.submit(self.__load_database_nosql, nosql_client, compartments)
+                    future_MYSQL = executor.submit(self.__load_database_mysql, mysql_client, compartments)
+                    future_MYSQL_BACKUPS = executor.submit(self.__load_database_mysql_backups, mysql_backup_client, compartments)
+                    future_POSTGRESQL = executor.submit(self.__load_database_postgresql, postgresql_client, compartments)
+                    future_POSTGRESQL_BACKUPS = executor.submit(self.__load_database_postgresql_backups, postgresql_client, compartments)
+                    future_SOFTWARE_IMAGES = executor.submit(self.__load_database_software_images, database_client, compartments)
+                    future_GG_DEPLOYMENTS = executor.submit(self.__load_database_gg_deployments, gg_client, compartments)
+                    future_GG_DB_REGISTRATION = executor.submit(self.__load_database_gg_db_registration, gg_client, compartments)
+                    future_EXTERNAL_CDB = executor.submit(self.__load_database_external_cdb, database_client, compartments)
+                    future_EXTERNAL_PDB = executor.submit(self.__load_database_external_pdb, database_client, compartments)
+                    future_EXTERNAL_NONPDB = executor.submit(self.__load_database_external_nonpdb, database_client, compartments)
+
+                    # db homes fetch backups which depends on standalone backups
+                    db[self.C_DATABASE_BACKUPS] += next(as_completed([future_BACKUPS])).result()
+                    future_HOMES = executor.submit(self.__load_database_homes, database_client, compartments)
+
+                    # VM Clusters and DB System depends on db homes
+                    db[self.C_DATABASE_HOMES] += next(as_completed([future_HOMES])).result()
+                    future_EXACC_VMS = executor.submit(self.__load_database_exacc_vm_clusters, database_client, virtual_network, compartments)
+                    future_EXADATA_VMS = executor.submit(self.__load_database_exadata_vm_clusters, database_client, virtual_network, compartments)
+                    future_DBSYSTEMS = executor.submit(self.__load_database_dbsystems, database_client, virtual_network, compartments)
+
+                    db[self.C_DATABASE_EXACC] += next(as_completed([future_EXACC])).result()
+                    db[self.C_DATABASE_EXACC_VMS] += next(as_completed([future_EXACC_VMS])).result()
+                    db[self.C_DATABASE_EXACC_ADB_VMS] += next(as_completed([future_EXACC_ADB_VMS])).result()
+                    db[self.C_DATABASE_EXADATA] += next(as_completed([future_EXADATA])).result()
+                    db[self.C_DATABASE_EXADATA_VMS] += next(as_completed([future_EXADATA_VMS])).result()
+                    db[self.C_DATABASE_DBSYSTEMS] += next(as_completed([future_DBSYSTEMS])).result()
+                    db[self.C_DATABASE_ADB_D_VMS] += next(as_completed([future_ADB_D_VMS])).result()
+                    db[self.C_DATABASE_ADB_D_CONTAINERS] += next(as_completed([future_ADB_D_CONTAINERS])).result()
+                    db[self.C_DATABASE_ADB_DATABASE] += next(as_completed([future_ADB_DATABASE])).result()
+                    db[self.C_DATABASE_NOSQL] += next(as_completed([future_NOSQL])).result()
+                    db[self.C_DATABASE_MYSQL] += next(as_completed([future_MYSQL])).result()
+                    db[self.C_DATABASE_MYSQL_BACKUPS] += next(as_completed([future_MYSQL_BACKUPS])).result()
+                    db[self.C_DATABASE_POSTGRESQL] += next(as_completed([future_POSTGRESQL])).result()
+                    db[self.C_DATABASE_POSTGRESQL_BACKUPS] += next(as_completed([future_POSTGRESQL_BACKUPS])).result()
+                    db[self.C_DATABASE_SOFTWARE_IMAGES] += next(as_completed([future_SOFTWARE_IMAGES])).result()
+                    db[self.C_DATABASE_GG_DEPLOYMENTS] += next(as_completed([future_GG_DEPLOYMENTS])).result()
+                    db[self.C_DATABASE_GG_DB_REGISTRATION] += next(as_completed([future_GG_DB_REGISTRATION])).result()
+                    db[self.C_DATABASE_EXTERNAL_CDB] += next(as_completed([future_EXTERNAL_CDB])).result()
+                    db[self.C_DATABASE_EXTERNAL_PDB] += next(as_completed([future_EXTERNAL_PDB])).result()
+                    db[self.C_DATABASE_EXTERNAL_NONPDB] += next(as_completed([future_EXTERNAL_NONPDB])).result()
+
+            # Complete Database
+            self.__load_print_section_time(section_start_time)
             print("")
 
         except oci.exceptions.RequestException:
@@ -7542,7 +8016,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_database_main", e)
+            self.__print_error("__load_section_database_main", e)
 
     ##########################################################################
     # __load_database_maintatance
@@ -7684,16 +8158,18 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("ExaCC Infrastructure")
+            errstr = ""
+            header = "ExaCC Infrastructure"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # list db system
                 list_exa = []
@@ -7707,7 +8183,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning("a", to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -7718,36 +8195,36 @@ class ShowOCIService(object):
                     if not self.check_lifecycle_state_active(dbs.lifecycle_state):
                         continue
 
-                    value = {'id': str(dbs.id),
-                             'display_name': str(dbs.display_name),
-                             'shape': str(dbs.shape),
-                             'time_zone': str(dbs.time_zone),
-                             'cpus_enabled': str(dbs.cpus_enabled),
-                             'max_cpu_count': str(dbs.max_cpu_count),
-                             'memory_size_in_gbs': str(dbs.memory_size_in_gbs),
-                             'max_memory_in_gbs': str(dbs.max_memory_in_gbs),
-                             'db_node_storage_size_in_gbs': str(dbs.db_node_storage_size_in_gbs),
-                             'max_db_node_storage_in_g_bs': str(dbs.max_db_node_storage_in_g_bs),
-                             'data_storage_size_in_tbs': str(dbs.data_storage_size_in_tbs),
-                             'max_data_storage_in_t_bs': str(dbs.max_data_storage_in_t_bs),
-                             'storage_count': str(dbs.storage_count) if dbs.storage_count else "",
-                             'compute_count': str(dbs.compute_count) if dbs.compute_count else "",
-                             'additional_storage_count': str(dbs.additional_storage_count),
-                             'activated_storage_count': str(dbs.activated_storage_count),
-                             'cloud_control_plane_server1': str(dbs.cloud_control_plane_server1),
-                             'cloud_control_plane_server2': str(dbs.cloud_control_plane_server2),
-                             'netmask': str(dbs.netmask),
-                             'gateway': str(dbs.gateway),
-                             'admin_network_cidr': str(dbs.admin_network_cidr),
-                             'infini_band_network_cidr': str(dbs.infini_band_network_cidr),
-                             'corporate_proxy': str(dbs.corporate_proxy),
-                             'dns_server': str(dbs.dns_server),
-                             'ntp_server': str(dbs.ntp_server),
-                             'time_created': str(dbs.time_created),
-                             'lifecycle_state': str(dbs.lifecycle_state),
-                             'lifecycle_details': str(dbs.lifecycle_details),
-                             'csi_number': str(dbs.csi_number),
-                             'maintenance_slo_status': str(dbs.maintenance_slo_status),
+                    value = {'id': self.get_value(dbs.id),
+                             'display_name': self.get_value(dbs.display_name),
+                             'shape': self.get_value(dbs.shape),
+                             'time_zone': self.get_value(dbs.time_zone),
+                             'cpus_enabled': self.get_value(dbs.cpus_enabled),
+                             'max_cpu_count': self.get_value(dbs.max_cpu_count),
+                             'memory_size_in_gbs': self.get_value(dbs.memory_size_in_gbs),
+                             'max_memory_in_gbs': self.get_value(dbs.max_memory_in_gbs),
+                             'db_node_storage_size_in_gbs': self.get_value(dbs.db_node_storage_size_in_gbs),
+                             'max_db_node_storage_in_g_bs': self.get_value(dbs.max_db_node_storage_in_g_bs),
+                             'data_storage_size_in_tbs': self.get_value(str(dbs.data_storage_size_in_tbs)),
+                             'max_data_storage_in_t_bs': self.get_value(dbs.max_data_storage_in_t_bs),
+                             'storage_count': self.get_value(dbs.storage_count),
+                             'compute_count': self.get_value(dbs.compute_count),
+                             'additional_storage_count': self.get_value(dbs.additional_storage_count),
+                             'activated_storage_count': self.get_value(dbs.activated_storage_count),
+                             'cloud_control_plane_server1': self.get_value(dbs.cloud_control_plane_server1),
+                             'cloud_control_plane_server2': self.get_value(dbs.cloud_control_plane_server2),
+                             'netmask': self.get_value(dbs.netmask),
+                             'gateway': self.get_value(dbs.gateway),
+                             'admin_network_cidr': self.get_value(dbs.admin_network_cidr),
+                             'infini_band_network_cidr': self.get_value(dbs.infini_band_network_cidr),
+                             'corporate_proxy': self.get_value(dbs.corporate_proxy),
+                             'dns_server': self.get_value(dbs.dns_server),
+                             'ntp_server': self.get_value(dbs.ntp_server),
+                             'time_created': self.get_value(dbs.time_created),
+                             'lifecycle_state': self.get_value(dbs.lifecycle_state),
+                             'lifecycle_details': self.get_value(dbs.lifecycle_details),
+                             'csi_number': self.get_value(dbs.csi_number),
+                             'maintenance_slo_status': self.get_value(dbs.maintenance_slo_status),
                              'maintenance_window': self.__load_database_maintatance_windows(dbs.maintenance_window),
                              'last_maintenance_run': self.__load_database_maintatance(database_client, dbs.last_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
                              'next_maintenance_run': self.__load_database_maintatance(database_client, dbs.next_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
@@ -7766,7 +8243,8 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -7788,17 +8266,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("ExaCC VMClusters")
+            errstr = ""
+            header = "ExaCC VMClusters"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 vms = []
                 try:
@@ -7809,7 +8289,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -7864,7 +8345,8 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
             return data
 
         except oci.exceptions.RequestException as e:
@@ -7873,7 +8355,7 @@ class ShowOCIService(object):
             raise
 
         except Exception as e:
-            self.__print_error("__load_database_exacc_vm_clusters", e)
+            self.__print_error("__load_database_exacc_vm_clusters", e, compartment)
             return data
 
     ##########################################################################
@@ -7887,16 +8369,18 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("ExaCC VMClusters ADB")
+            errstr = ""
+            header = "ExaCC VMClusters ADB"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # list_cloud_autonomous_vm_clusters
                 list_vms = []
@@ -7910,7 +8394,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -7981,7 +8466,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -7989,7 +8474,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_exacc_adb_vmclusters", e)
+            self.__print_error("__load_database_exacc_adb_vmclusters", e, compartment)
             return data
 
     ##########################################################################
@@ -8069,16 +8554,18 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Exadata Infrastructure")
+            errstr = ""
+            header = "Exadata Infrastructure"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # list db system
                 list_exa = []
@@ -8092,7 +8579,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -8156,7 +8644,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -8164,7 +8652,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_exadata_infrastructure", e)
+            self.__print_error("__load_database_exadata_infrastructure", e, compartment)
             return data
 
     ##########################################################################
@@ -8178,17 +8666,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Exadata VMClusters")
+            errstr = ""
+            header = "Exadata VMClusters"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 vms = []
                 try:
@@ -8199,7 +8689,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -8298,7 +8789,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -8312,7 +8803,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_exadata_vm_clusters", e)
+            self.__print_error("__load_database_exadata_vm_clusters", e, compartment)
             return data
 
     ##########################################################################
@@ -8325,23 +8816,24 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
+            errstr = ""
+            header = "Database Homes"
+            self.__load_print_status_with_threads(header)
+
             # if skip db homes
             if self.flags.skip_dbhomes:
-                self.__load_print_status("Database Homes")
-                print("Skipped.")
+                self.__load_print_thread_cnt(header, cnt, start_time, "Skipped.")
                 return data
-
-            self.__load_print_status("Database Homes")
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 homes = []
                 try:
@@ -8352,7 +8844,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -8389,7 +8882,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -8403,7 +8896,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_db_homes", e)
+            self.__print_error("__load_database_db_homes", e, compartment)
             return data
 
     ##########################################################################
@@ -8416,21 +8909,24 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Database Standalone Backups")
+            errstr = ""
+            header = "Database Standalone Backups"
 
             if self.flags.skip_backups:
-                print("Skipped.")
+                self.__load_print_thread_cnt(header, cnt, start_time, "Skipped.")
                 return data
+
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 backups = []
                 try:
@@ -8442,7 +8938,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -8478,7 +8975,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -8492,7 +8989,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_standalone_backups", e)
+            self.__print_error("__load_database_standalone_backups", e, compartment)
             return data
 
     ##########################################################################
@@ -8539,16 +9036,18 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("DB Systems")
+            errstr = ""
+            header = "DB Systems"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # list db system
                 list_db_systems = []
@@ -8562,7 +9061,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -8653,7 +9153,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -8661,7 +9161,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_dbsystems", e)
+            self.__print_error("__load_database_dbsystems", e, compartment)
             return data
 
     ##########################################################################
@@ -8841,6 +9341,7 @@ class ShowOCIService(object):
                     'time_created': str(db.time_created),
                     'last_backup_timestamp': str(db.last_backup_timestamp),
                     'kms_key_id': str(db.kms_key_id),
+                    'vault_id': str(db.vault_id),
                     'source_database_point_in_time_recovery_timestamp': str(db.source_database_point_in_time_recovery_timestamp),
                     'database_software_image_id': str(db.database_software_image_id),
                     'is_cdb': str(db.is_cdb),
@@ -9111,16 +9612,18 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("ADB-D VMClusters")
+            errstr = ""
+            header = "ADB-D VMClusters"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # list_cloud_autonomous_vm_clusters
                 list_vms = []
@@ -9134,7 +9637,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -9187,6 +9691,12 @@ class ShowOCIService(object):
                         'compartment_name': str(compartment['name']),
                         'compartment_path': str(compartment['path']),
                         'compartment_id': str(compartment['id']),
+                        'compute_model': str(dbs.compute_model),
+                        'is_mtls_enabled_vm_cluster': str(dbs.is_mtls_enabled_vm_cluster),
+                        'scan_listener_port_tls': str(dbs.scan_listener_port_tls),
+                        'scan_listener_port_non_tls': str(dbs.scan_listener_port_non_tls),
+                        'time_database_ssl_certificate_expires': str(dbs.time_database_ssl_certificate_expires),
+                        'time_ords_certificate_expires': str(dbs.time_ords_certificate_expires),
                         'region_name': str(self.config['region'])}
 
                     # license model
@@ -9209,7 +9719,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9217,7 +9727,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_adb_d_vmclusters", e)
+            self.__print_error("__load_database_adb_d_vmclusters", e, compartment)
             return data
 
     ##########################################################################
@@ -9231,16 +9741,18 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("ADB-D Containers")
+            errstr = ""
+            header = "ADB-D Containers"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # list_autonomous_container_databases
                 vms = []
@@ -9252,7 +9764,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -9289,6 +9802,7 @@ class ShowOCIService(object):
                         'db_version': str(arr.db_version),
                         'key_store_id': str(arr.key_store_id),
                         'key_store_wallet_name': str(arr.key_store_wallet_name),
+                        'compute_model': str(arr.compute_model),
                         'compartment_name': str(compartment['name']),
                         'compartment_path': str(compartment['path']),
                         'compartment_id': str(compartment['id']),
@@ -9299,7 +9813,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9307,7 +9821,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_adb_d_containers", e)
+            self.__print_error("__load_database_adb_d_containers", e, compartment)
             return data
 
     ##########################################################################
@@ -9321,17 +9835,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("ADB-X Databases")
+            errstr = ""
+            header = "ADB-X Databases"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 list_autos = []
                 try:
@@ -9344,7 +9860,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -9361,13 +9878,13 @@ class ShowOCIService(object):
                              'lifecycle_state': str(dbs.lifecycle_state),
                              'data_storage_size_in_tbs': str(dbs.data_storage_size_in_tbs),
                              'db_name': str(dbs.db_name),
-                             'cpu_core_count': str(dbs.cpu_core_count),
+                             'cpu_core_count': self.get_value(dbs.cpu_core_count),
                              'sum_count': ("0" if dbs.lifecycle_state == oci.database.models.AutonomousDatabaseSummary.LIFECYCLE_STATE_STOPPED else str(dbs.cpu_core_count)),
-                             'db_version': str(dbs.db_version),
-                             'service_console_url': str(dbs.service_console_url),
+                             'db_version': self.get_value(dbs.db_version),
+                             'service_console_url': self.get_value(dbs.service_console_url),
                              'connection_strings': "",
-                             'connection_urls': str(dbs.connection_urls),
-                             'time_created': str(dbs.time_created),
+                             'connection_urls': self.get_value(dbs.connection_urls),
+                             'time_created': self.get_value(dbs.time_created),
                              'compartment_name': str(compartment['name']),
                              'compartment_path': str(compartment['path']),
                              'compartment_id': str(compartment['id']),
@@ -9379,38 +9896,96 @@ class ShowOCIService(object):
                              'db_type': ("ATP" if str(dbs.db_workload) == "OLTP" else "ADWC"),
                              'is_auto_scaling_enabled': dbs.is_auto_scaling_enabled,
                              'is_dedicated': dbs.is_dedicated,
-                             'subnet_id': str(dbs.subnet_id),
-                             'data_safe_status': str(dbs.data_safe_status),
-                             'time_maintenance_begin': str(dbs.time_maintenance_begin),
-                             'time_maintenance_end': str(dbs.time_maintenance_end),
+                             'subnet_id': self.get_value(dbs.subnet_id),
+                             'data_safe_status': self.get_value(dbs.data_safe_status),
+                             'time_maintenance_begin': self.get_value(dbs.time_maintenance_begin),
+                             'time_maintenance_end': self.get_value(dbs.time_maintenance_end),
                              'nsg_ids': dbs.nsg_ids,
-                             'private_endpoint': str(dbs.private_endpoint),
-                             'private_endpoint_label': str(dbs.private_endpoint_label),
+                             'private_endpoint': self.get_value(dbs.private_endpoint),
+                             'private_endpoint_label': self.get_value(dbs.private_endpoint_label),
                              'backups': [],
-                             'autonomous_container_database_id': str(dbs.autonomous_container_database_id),
+                             'autonomous_container_database_id': self.get_value(dbs.autonomous_container_database_id),
                              'is_data_guard_enabled': dbs.is_data_guard_enabled,
                              'is_free_tier': dbs.is_free_tier,
                              'is_preview': dbs.is_preview,
-                             'infrastructure_type': str(dbs.infrastructure_type),
-                             'time_deletion_of_free_autonomous_database': str(dbs.time_deletion_of_free_autonomous_database),
-                             'time_reclamation_of_free_autonomous_database': str(dbs.time_reclamation_of_free_autonomous_database),
+                             'infrastructure_type': self.get_value(dbs.infrastructure_type),
+                             'time_deletion_of_free_autonomous_database': self.get_value(dbs.time_deletion_of_free_autonomous_database),
+                             'time_reclamation_of_free_autonomous_database': self.get_value(dbs.time_reclamation_of_free_autonomous_database),
                              'system_tags': dbs.system_tags,
-                             'time_of_last_switchover': str(dbs.time_of_last_switchover),
-                             'time_of_last_failover': str(dbs.time_of_last_failover),
-                             'failed_data_recovery_in_seconds': str(dbs.failed_data_recovery_in_seconds),
+                             'time_of_last_switchover': self.get_value(dbs.time_of_last_switchover),
+                             'time_of_last_failover': self.get_value(dbs.time_of_last_failover),
+                             'failed_data_recovery_in_seconds': self.get_value(dbs.failed_data_recovery_in_seconds),
                              'standby_lag_time_in_seconds': "",
                              'standby_lifecycle_state': "",
                              'peer_db_ids': dbs.peer_db_ids,
-                             'time_data_guard_role_changed': str(dbs.time_data_guard_role_changed),
-                             'time_local_data_guard_enabled': str(dbs.time_local_data_guard_enabled),
-                             'dataguard_region_type': str(dbs.dataguard_region_type),
+                             'time_data_guard_role_changed': self.get_value(dbs.time_data_guard_role_changed),
+                             'time_local_data_guard_enabled': self.get_value(dbs.time_local_data_guard_enabled),
+                             'dataguard_region_type': self.get_value(dbs.dataguard_region_type),
                              'customer_contacts': "" if dbs.customer_contacts is None else str(', '.join(x.email for x in dbs.customer_contacts)),
                              'supported_regions_to_clone_to': dbs.supported_regions_to_clone_to,
-                             'key_store_wallet_name': str(dbs.key_store_wallet_name),
-                             'key_store_id': str(dbs.key_store_id),
-                             'available_upgrade_versions': str(dbs.available_upgrade_versions),
-                             'role': str(dbs.role)
+                             'kms_key_id': self.get_value(dbs.kms_key_id),
+                             'vault_id': self.get_value(dbs.vault_id),
+                             'key_store_wallet_name': self.get_value(dbs.key_store_wallet_name),
+                             'key_store_id': self.get_value(dbs.key_store_id),
+                             'available_upgrade_versions': self.get_value(dbs.available_upgrade_versions),
+                             'role': self.get_value(dbs.role),
+                             'in_memory_percentage': self.get_value(dbs.in_memory_percentage),
+                             'in_memory_area_in_gbs': self.get_value(dbs.in_memory_area_in_gbs),
+                             'memory_per_oracle_compute_unit_in_gbs': self.get_value(dbs.memory_per_oracle_compute_unit_in_gbs),
+                             'next_long_term_backup_time_stamp': self.get_value(dbs.next_long_term_backup_time_stamp),
+                             'compute_model': self.get_value(dbs.compute_model),
+                             'compute_count': self.get_value(dbs.compute_count),
+                             'backup_retention_period_in_days': self.get_value(dbs.backup_retention_period_in_days),
+                             'total_backup_storage_size_in_gbs': self.get_value(dbs.total_backup_storage_size_in_gbs),
+                             'data_storage_size_in_gbs': self.get_value(dbs.data_storage_size_in_gbs),
+                             'used_data_storage_size_in_gbs': self.get_value(dbs.used_data_storage_size_in_gbs),
+                             'is_refreshable_clone': self.get_value(dbs.is_refreshable_clone),
+                             'time_of_last_refresh': self.get_value(dbs.time_of_last_refresh),
+                             'time_of_last_refresh_point': self.get_value(dbs.time_of_last_refresh_point),
+                             'time_of_next_refresh': self.get_value(dbs.time_of_next_refresh),
+                             'open_mode': self.get_value(dbs.open_mode),
+                             'refreshable_status': self.get_value(dbs.refreshable_status),
+                             'refreshable_mode': self.get_value(dbs.refreshable_mode),
+                             'permission_level': self.get_value(dbs.permission_level),
+                             'is_local_data_guard_enabled': self.get_value(dbs.is_local_data_guard_enabled),
+                             'is_remote_data_guard_enabled': self.get_value(dbs.is_remote_data_guard_enabled),
+                             'is_mtls_connection_required': self.get_value(dbs.is_mtls_connection_required),
+                             'time_until_reconnect_clone_enabled': self.get_value(dbs.time_until_reconnect_clone_enabled),
+                             'is_auto_scaling_for_storage_enabled': self.get_value(dbs.is_auto_scaling_for_storage_enabled),
+                             'allocated_storage_size_in_tbs': self.get_value(dbs.allocated_storage_size_in_tbs),
+                             'actual_used_data_storage_size_in_tbs': self.get_value(dbs.actual_used_data_storage_size_in_tbs),
+                             'max_cpu_core_count': self.get_value(dbs.max_cpu_core_count),
+                             'database_edition': self.get_value(dbs.database_edition),
+                             'local_disaster_recovery_type': self.get_value(dbs.local_disaster_recovery_type),
+                             'disaster_recovery_region_type': self.get_value(dbs.disaster_recovery_region_type),
+                             'time_disaster_recovery_role_changed': self.get_value(dbs.time_disaster_recovery_role_changed),
+                             'are_primary_whitelisted_ips_used': self.get_value(dbs.are_primary_whitelisted_ips_used),
+                             'autonomous_maintenance_schedule_type': self.get_value(dbs.autonomous_maintenance_schedule_type),
+                             'character_set': self.get_value(dbs.character_set),
+                             'ncharacter_set': self.get_value(dbs.ncharacter_set),
+                             'database_management_status': self.get_value(dbs.database_management_status),
+                             'is_access_control_enabled': self.get_value(dbs.is_access_control_enabled),
+                             'is_reconnect_clone_enabled': self.get_value(dbs.is_reconnect_clone_enabled),
+                             'kms_key_lifecycle_details': self.get_value(dbs.kms_key_lifecycle_details),
+                             'kms_key_version_id': self.get_value(dbs.kms_key_version_id),
+                             'license_model': self.get_value(dbs.license_model),
+                             'local_adg_auto_failover_max_data_loss_limit': self.get_value(dbs.local_adg_auto_failover_max_data_loss_limit),
+                             'operations_insights_status': self.get_value(dbs.operations_insights_status),
+                             'provisionable_cpus': dbs.provisionable_cpus,
+                             'source_id': self.get_value(dbs.source_id),
+                             'standby_whitelisted_ips': self.get_value(dbs.standby_whitelisted_ips),
+                             'used_data_storage_size_in_tbs': self.get_value(dbs.used_data_storage_size_in_tbs)
                              }
+
+                    # Not included:
+                    # apex_details (oci.database.models.AutonomousDatabaseApex)
+                    # db_tools_details (list[oci.database.models.DatabaseTool])
+                    # key_history_entry (list[oci.database.models.AutonomousDatabaseKeyHistoryEntry])
+                    # local_standby_db (oci.database.models.AutonomousDatabaseStandbySummary)
+                    # long_term_backup_schedule (oci.database.models.LongTermBackUpScheduleDetails)
+                    # remote_disaster_recovery_configuration (oci.database.models.DisasterRecoveryConfiguration)
+                    # scheduled_operations (list[oci.database.models.ScheduledOperationDetails])
+                    # standby_db (oci.database.models.AutonomousDatabaseStandbySummary)
 
                     # connection string
                     if dbs.connection_strings:
@@ -9439,7 +10014,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9447,7 +10022,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_autonomouns", e)
+            self.__print_error("__load_database_autonomouns", e, compartment)
             return data
 
     ##########################################################################
@@ -9461,17 +10036,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("External CDB Databases")
+            errstr = ""
+            header = "External CDB Databases"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 list_externals = []
                 try:
@@ -9484,7 +10061,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -9535,7 +10113,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9543,7 +10121,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_external_cdb", e)
+            self.__print_error("__load_database_external_cdb", e, compartment)
             return data
 
     ##########################################################################
@@ -9557,17 +10135,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("External PDB Databases")
+            errstr = ""
+            header = "External PDB Databases"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 list_externals = []
                 try:
@@ -9580,7 +10160,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -9633,7 +10214,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9641,7 +10222,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_external_pdb", e)
+            self.__print_error("__load_database_external_pdb", e, compartment)
             return data
 
     ##########################################################################
@@ -9655,17 +10236,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("External NonPDB Databases")
+            errstr = ""
+            header = "External NonPDB Databases"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 list_externals = []
                 try:
@@ -9677,7 +10260,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -9728,7 +10312,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9736,7 +10320,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_external_nonpdb", e)
+            self.__print_error("__load_database_external_nonpdb", e, compartment)
             return data
 
     ##########################################################################
@@ -9750,17 +10334,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("NOSQL Databases")
+            errstr = ""
+            header = "NOSQL Databases"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 list_tables = []
                 try:
@@ -9773,7 +10359,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         raise
@@ -9811,7 +10398,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9819,12 +10406,11 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_nosql", e)
+            self.__print_error("__load_database_nosql", e, compartment)
             return data
 
     ##########################################################################
     # __load_database_mysql
-    #   TBD - Backups
     ##########################################################################
     def __load_database_mysql(self, mysql_client, compartments):
 
@@ -9834,17 +10420,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("MYSQL Databases")
+            errstr = ""
+            header = "MYSQL Databases"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 databases = []
                 try:
@@ -9858,7 +10446,8 @@ class ShowOCIService(object):
                 # mysql throw service error often, ignoring incase it does
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("m", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         print("e - " + str(e))
@@ -9877,8 +10466,6 @@ class ShowOCIService(object):
                         'description': str(mysqls.description),
                         'is_highly_available': str(mysqls.is_highly_available),
                         'current_placement': str(mysqls.current_placement.availability_domain) if mysqls.current_placement else "",
-                        'is_analytics_cluster_attached': str(mysqls.is_analytics_cluster_attached),
-                        'analytics_cluster': str(mysqls.analytics_cluster.shape_name) + "-" + str(mysqls.analytics_cluster.cluster_size) if mysqls.analytics_cluster else "",
                         'is_heat_wave_cluster_attached': str(mysqls.is_heat_wave_cluster_attached),
                         'heat_wave_cluster': str(mysqls.heat_wave_cluster.shape_name) + "-" + str(mysqls.heat_wave_cluster.cluster_size) if mysqls.heat_wave_cluster else "",
                         'availability_domain': str(mysqls.availability_domain),
@@ -9916,6 +10503,7 @@ class ShowOCIService(object):
                         'compartment_id': str(compartment['id']),
                         'defined_tags': [] if mysqls.defined_tags is None else mysqls.defined_tags,
                         'freeform_tags': [] if mysqls.freeform_tags is None else mysqls.freeform_tags,
+                        'backups': [],
                         'region_name': str(self.config['region'])
                     }
 
@@ -9964,7 +10552,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -9972,7 +10560,340 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_mysql", e)
+            self.__print_error("__load_database_mysql", e, compartment)
+            return data
+
+    ##########################################################################
+    # __load_database_mysql_backups
+    ##########################################################################
+    def __load_database_mysql_backups(self, mysql_backup_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            errstr = ""
+            header = "MYSQL Backups"
+
+            if self.flags.skip_backups:
+                self.__load_print_thread_cnt(header, cnt, start_time, "Skipped.")
+                return data
+
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                backups = []
+                try:
+                    backups = oci.pagination.list_call_get_all_results(
+                        mysql_backup_client.list_backups,
+                        compartment_id=compartment['id'],
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    else:
+                        raise
+
+                for backup in backups:
+                    if not self.check_lifecycle_state_active(backup.lifecycle_state):
+                        continue
+
+                    value = {
+                        'id': self.get_value(backup.id),
+                        'display_name': self.get_value(backup.display_name),
+                        'description': self.get_value(backup.description),
+                        'db_system_id': self.get_value(backup.db_system_id),
+                        'time_created': self.get_value(backup.time_created, trim_date=True),
+                        'lifecycle_state': self.get_value(backup.lifecycle_state),
+                        'backup_type': self.get_value(backup.backup_type),
+                        'creation_type': self.get_value(backup.creation_type),
+                        'data_storage_size_in_gbs': self.get_value(backup.data_storage_size_in_gbs),
+                        'backup_size_in_gbs': self.get_value(backup.backup_size_in_gbs),
+                        'retention_in_days': self.get_value(backup.retention_in_days),
+                        'mysql_version': self.get_value(backup.mysql_version),
+                        'shape_name': self.get_value(backup.shape_name),
+                        'compartment_id': str(compartment['id']),
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'defined_tags': [] if backup.defined_tags is None else backup.defined_tags,
+                        'freeform_tags': [] if backup.freeform_tags is None else backup.freeform_tags,
+                        'region_name': str(self.config['region'])}
+
+                    # add to main data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                self.__load_print_auth_warning()
+                return data
+            else:
+                raise
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_database_mysql_backups", e, compartment)
+            return data
+
+    ##########################################################################
+    # __load_database_postgresql
+    ##########################################################################
+    def __load_database_postgresql(self, postgresql_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+
+            errstr = ""
+            header = "PostgreSQL Databases"
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                databases = []
+                try:
+                    databases = oci.pagination.list_call_get_all_results(
+                        postgresql_client.list_db_systems,
+                        compartment_id=compartment['id'],
+                        sort_by="displayName",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                # mysql throw service error often, ignoring incase it does
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    else:
+                        print("e - " + str(e))
+                        return data
+
+                # loop on auto
+                # databases = oci.psql.models.DbSystemSummary
+                for pg in databases:
+                    value = {}
+                    if not self.check_lifecycle_state_active(pg.lifecycle_state):
+                        continue
+
+                    value = {
+                        'id': str(pg.id),
+                        'display_name': self.get_value(pg.display_name),
+                        'time_created': self.get_value(pg.time_created)[0:16],
+                        'time_updated': self.get_value(pg.time_updated)[0:16],
+                        'lifecycle_state': self.get_value(pg.lifecycle_state),
+                        'system_type': self.get_value(pg.system_type),
+                        'instance_count': self.get_value(pg.instance_count),
+                        'instance_ocpu_count': self.get_value(pg.instance_ocpu_count),
+                        'instance_memory_size_in_gbs': self.get_value(pg.instance_memory_size_in_gbs),
+                        'db_version': self.get_value(pg.db_version),
+                        'sum_info': 'Database PostgreSQL - ' + str(pg.shape),
+                        'sum_info_storage': 'Database - Storage (GB)',
+                        'sum_size_gb': 0,
+                        'config_id': "",
+                        'shape': "",
+                        'admin_username': "",
+                        'instances': [],
+                        'storage_system_type': "",
+                        'storage_is_regionally_durable': "",
+                        'storage_availability_domain': "",
+                        'storage_iops': "",
+                        'network_subnet_id': "",
+                        'network_subnet_name': "",
+                        'network_primary_db_endpoint_private_ip': "",
+                        'network_nsg_ids': [],
+                        'network_nsg_names': [],
+                        'management_maintenance_window_start': "",
+                        'management_backup_policy': "",
+                        'source_type': "",
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'defined_tags': [] if pg.defined_tags is None else pg.defined_tags,
+                        'freeform_tags': [] if pg.freeform_tags is None else pg.freeform_tags,
+                        'backups': [],
+                        'region_name': str(self.config['region'])
+                    }
+
+                    try:
+                        # get the full DBSystem - oci.mysql.models.DbSystem
+                        pgv = postgresql_client.get_db_system(pg.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+                        if pgv:
+                            # instances
+                            for ins in pgv.instances:
+                                value['instances'].append({
+                                    'id': self.get_value(ins.id),
+                                    'display_name': self.get_value(ins.display_name),
+                                    'availability_domain': self.get_value(ins.availability_domain),
+                                    'lifecycle_state': self.get_value(ins.lifecycle_state),
+                                    'time_created': self.get_value(ins.time_created),
+                                    'time_updated': self.get_value(ins.time_updated)
+                                })
+
+                            value['admin_username'] = self.get_value(pgv.admin_username)
+                            value['shape'] = self.get_value(pgv.shape)
+                            value['shape_full'] = self.get_value(pgv.shape) + "." + self.get_value(pgv.instance_ocpu_count) + "." + self.get_value(pgv.instance_memory_size_in_gbs)
+                            value['config_id'] = self.get_value(pgv.config_id)
+                            value['sum_info'] = 'Database PostgreSQL - ' + value['shape_full']
+
+                            # storage_details
+                            if pgv.storage_details:
+                                value['storage_system_type'] = self.get_value(pgv.storage_details.system_type)
+                                value['storage_is_regionally_durable'] = self.get_value(pgv.storage_details.is_regionally_durable)
+                                value['storage_availability_domain'] = self.get_value(pgv.storage_details.availability_domain)
+                                if self.get_value(pgv.storage_details.system_type) == 'OCI_OPTIMIZED_STORAGE':
+                                    value['storage_iops'] = self.get_value(pgv.storage_details.iops)
+
+                            # network_details
+                            if pgv.network_details:
+                                value['network_subnet_id'] = self.get_value(pgv.network_details.subnet_id)
+                                value['network_primary_db_endpoint_private_ip'] = self.get_value(pgv.network_details.primary_db_endpoint_private_ip)
+                                if pgv.network_details.nsg_ids:
+                                    value['network_nsg_ids'] = pgv.network_details.nsg_ids
+                                    value['network_nsg_names'] = self.__load_core_network_get_nsg_names(pgv.network_details.nsg_ids)
+
+                            # management_policy
+                            if pgv.management_policy:
+                                value['management_maintenance_window_start'] = self.get_value(pgv.management_policy.maintenance_window_start)[0:16]
+                                value['management_backup_policy'] = self.get_value(pgv.management_policy.backup_policy.kind) if pgv.management_policy.backup_policy else ""
+
+                            # source
+                            if pgv.source:
+                                value['source_type'] = self.get_value(pgv.source.source_type)
+
+                    except Exception:
+                        print("w", end="")
+
+                    # add the data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_database_postgresql", e, compartment)
+            return data
+
+    ##########################################################################
+    # __load_database_postgresql_backups
+    ##########################################################################
+    def __load_database_postgresql_backups(self, postgresql_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            errstr = ""
+            header = "PostgreSQL Backups"
+
+            if self.flags.skip_backups:
+                self.__load_print_thread_cnt(header, cnt, start_time, "Skipped.")
+                return data
+
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                backups = []
+                try:
+                    backups = oci.pagination.list_call_get_all_results(
+                        postgresql_client.list_backups,
+                        compartment_id=compartment['id'],
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    else:
+                        raise
+
+                for backup in backups:
+                    if not self.check_lifecycle_state_active(backup.lifecycle_state):
+                        continue
+
+                    value = {
+                        'id': self.get_value(backup.id),
+                        'display_name': self.get_value(backup.display_name),
+                        'db_system_id': self.get_value(backup.db_system_id),
+                        'time_created': self.get_value(backup.time_created, trim_date=True),
+                        'time_updated': self.get_value(backup.time_updated, trim_date=True),
+                        'lifecycle_state': self.get_value(backup.lifecycle_state),
+                        'lifecycle_details': self.get_value(backup.lifecycle_details),
+                        'source_type': self.get_value(backup.source_type),
+                        'backup_size': self.get_value(backup.backup_size),
+                        'retention_period': self.get_value(backup.retention_period),
+                        'compartment_id': str(compartment['id']),
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'defined_tags': [] if backup.defined_tags is None else backup.defined_tags,
+                        'freeform_tags': [] if backup.freeform_tags is None else backup.freeform_tags,
+                        'region_name': str(self.config['region'])}
+
+                    # add to main data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                self.__load_print_auth_warning()
+                return data
+            else:
+                raise
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_database_postgresql_backups", e, compartment)
             return data
 
     ##########################################################################
@@ -9986,17 +10907,19 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Database Software Images")
+            errstr = ""
+            header = "Database Software Images"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 db_soft_images = []
                 try:
@@ -10009,7 +10932,8 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         print("e - " + str(e))
@@ -10047,7 +10971,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10055,7 +10979,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_software_images", e)
+            self.__print_error("__load_database_software_images", e, compartment)
             return data
 
     ##########################################################################
@@ -10069,7 +10993,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Golden Gate Deployments")
+            errstr = ""
+            header = "Golden Gate Deployments"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -10089,13 +11015,15 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         print("e - " + str(e))
                         return data
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on auto
                 # array = oci.golden_gate.models.DeploymentSummary
@@ -10137,7 +11065,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10145,7 +11073,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_gg_deployments", e)
+            self.__print_error("__load_database_gg_deployments", e, compartment)
             return data
 
     ##########################################################################
@@ -10159,7 +11087,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Golden Gate DB Reg.")
+            errstr = ""
+            header = "Golden Gate DB Reg."
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -10179,13 +11109,15 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     else:
                         print("e - " + str(e))
                         return data
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # loop on auto
                 # array = oci.golden_gate.models.DatabaseRegistrationSummary(*
@@ -10221,7 +11153,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(value)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10229,7 +11161,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_database_gg_deployments", e)
+            self.__print_error("__load_database_gg_deployments", e, compartment)
             return data
 
     ##########################################################################
@@ -10256,6 +11188,8 @@ class ShowOCIService(object):
                      'display_name': str(backup.display_name),
                      'is_automatic': str(backup.is_automatic),
                      'type': str(backup.type),
+                     'kms_key_id': str(backup.kms_key_id),
+                     'vault_id': str(backup.vault_id),
                      'lifecycle_state': str(backup.lifecycle_state),
                      'lifecycle_details': str(backup.lifecycle_details),
                      'time_started': str(backup.time_started),
@@ -10278,47 +11212,6 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_container_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.container_engine.ContainerEngineClient(config, **kwargs)
-    #
-    ##########################################################################
-    def __load_container_main(self):
-
-        try:
-            print("Containers...")
-
-            # ContainerEngineClient
-            container_client = oci.container_engine.ContainerEngineClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                container_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_CONTAINER, self.C_CONTAINER_CLUSTERS)
-            self.__initialize_data_key(self.C_CONTAINER, self.C_CONTAINER_NODE_POOLS)
-
-            # reference to orm
-            cp = self.data[self.C_CONTAINER]
-
-            # append the data
-            cp[self.C_CONTAINER_CLUSTERS] += self.__load_container_clusters(container_client, compartments)
-            cp[self.C_CONTAINER_NODE_POOLS] += self.__load_container_node_pools(container_client, compartments)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_container_main", e)
-
-    ##########################################################################
     # __load_container_node_pools
     ##########################################################################
     def __load_container_node_pools(self, container_client, compartments):
@@ -10329,7 +11222,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Node Pools")
+            errstr = ""
+            header = "OKE Node Pools"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -10344,11 +11239,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.container_engine.models.NodePoolSummary
                 for arr in list_clusters:
@@ -10386,7 +11283,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10396,7 +11293,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_container_node_pools", e)
+            self.__print_error("__load_container_node_pools", e, compartment)
             return data
 
     ##########################################################################
@@ -10410,7 +11307,9 @@ class ShowOCIService(object):
 
         try:
 
-            self.__load_print_status("Clusters")
+            errstr = ""
+            header = "OKE Clusters"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -10425,11 +11324,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.container_engine.models.ClusterSummary
                 for arr in list_clusters:
@@ -10438,9 +11339,9 @@ class ShowOCIService(object):
 
                     val = {'id': str(arr.id),
                            'name': str(arr.name),
-                           'lifecycle_state': str(arr.lifecycle_state),
+                           'lifecycle_state': self.get_value(arr.lifecycle_state),
                            'vcn_id': str(arr.vcn_id),
-                           'kubernetes_version': str(arr.kubernetes_version),
+                           'kubernetes_version': self.get_value(arr.kubernetes_version),
                            'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
                            'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
                            'endpoint_is_public_ip_enabled': "",
@@ -10472,8 +11373,8 @@ class ShowOCIService(object):
 
                     # endpoint_config
                     if arr.endpoint_config:
-                        val['endpoint_is_public_ip_enabled'] = arr.endpoint_config.is_public_ip_enabled
-                        val['endpoint_subnet_id'] = str(arr.endpoint_config.subnet_id)
+                        val['endpoint_is_public_ip_enabled'] = self.get_value(arr.endpoint_config.is_public_ip_enabled)
+                        val['endpoint_subnet_id'] = self.get_value(arr.endpoint_config.subnet_id)
                         if arr.endpoint_config.subnet_id:
                             val['endpoint_subnet_name'] = self.get_network_subnet(arr.endpoint_config.subnet_id)
                         val['endpoint_nsg_ids'] = arr.endpoint_config.nsg_ids
@@ -10484,34 +11385,34 @@ class ShowOCIService(object):
                     if arr.options:
                         val['option_lb_ids'] = arr.options.service_lb_subnet_ids
                         if arr.options.kubernetes_network_config:
-                            val['option_network_pods_cidr'] = str(arr.options.kubernetes_network_config.pods_cidr)
-                            val['option_network_services_cidr'] = str(arr.options.kubernetes_network_config.services_cidr)
+                            val['option_network_pods_cidr'] = self.get_value(arr.options.kubernetes_network_config.pods_cidr)
+                            val['option_network_services_cidr'] = self.get_value(arr.options.kubernetes_network_config.services_cidr)
                         if arr.options.add_ons:
-                            val['option_is_kubernetes_dashboard_enabled'] = str(arr.options.add_ons.is_kubernetes_dashboard_enabled)
-                            val['option_is_tiller_enabled'] = str(arr.options.add_ons.is_tiller_enabled)
+                            val['option_is_kubernetes_dashboard_enabled'] = self.get_value(arr.options.add_ons.is_kubernetes_dashboard_enabled)
+                            val['option_is_tiller_enabled'] = self.get_value(arr.options.add_ons.is_tiller_enabled)
                         if arr.options.admission_controller_options:
-                            val['option_is_pod_security_policy_enabled'] = str(arr.options.admission_controller_options.is_pod_security_policy_enabled)
+                            val['option_is_pod_security_policy_enabled'] = self.get_value(arr.options.admission_controller_options.is_pod_security_policy_enabled)
 
                     # metadata
                     if arr.metadata:
-                        val['time_created'] = str(arr.metadata.time_created)[0:16]
-                        val['time_deleted'] = str(arr.metadata.time_deleted)[0:16]
-                        val['time_updated'] = str(arr.metadata.time_updated)[0:16]
-                        val['created_by_user_id'] = str(arr.metadata.created_by_user_id)
-                        val['deleted_by_user_id'] = str(arr.metadata.deleted_by_user_id)
-                        val['updated_by_user_id'] = str(arr.metadata.updated_by_user_id)
+                        val['time_created'] = self.get_value(arr.metadata.time_created)[0:16]
+                        val['time_deleted'] = self.get_value(arr.metadata.time_deleted)[0:16]
+                        val['time_updated'] = self.get_value(arr.metadata.time_updated)[0:16]
+                        val['created_by_user_id'] = self.get_value(arr.metadata.created_by_user_id)
+                        val['deleted_by_user_id'] = self.get_value(arr.metadata.deleted_by_user_id)
+                        val['updated_by_user_id'] = self.get_value(arr.metadata.updated_by_user_id)
 
                     if arr.endpoints:
-                        val['endpoint_kubernetes'] = str(arr.endpoints.kubernetes)
-                        val['endpoint_public_endpoint'] = str(arr.endpoints.public_endpoint)
-                        val['endpoint_private_endpoint'] = str(arr.endpoints.private_endpoint)
-                        val['endpoint_vcn_hostname_endpoint'] = str(arr.endpoints.vcn_hostname_endpoint)
+                        val['endpoint_kubernetes'] = self.get_value(arr.endpoints.kubernetes)
+                        val['endpoint_public_endpoint'] = self.get_value(arr.endpoints.public_endpoint)
+                        val['endpoint_private_endpoint'] = self.get_value(arr.endpoints.private_endpoint)
+                        val['endpoint_vcn_hostname_endpoint'] = self.get_value(arr.endpoints.vcn_hostname_endpoint)
 
                     # add the data
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10521,7 +11422,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_container_clusters", e)
+            self.__print_error("__load_container_clusters", e, compartment)
             return data
 
     ##########################################################################
@@ -10534,20 +11435,27 @@ class ShowOCIService(object):
     # class oci.queue.QueueAdminClient(config, **kwargs)
     #
     ##########################################################################
-    def __load_streams_queues_main(self):
+    def __load_section_streams_queues_api_fun_orm_main(self):
 
         try:
-            print("Streams and Queues...")
+            section_start_time = time.time()
+            print("Streams, Queues, API GW, Functions, Resource Management...")
 
-            # StreamAdminClient
+            # initial connection
             stream_client = oci.streaming.StreamAdminClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            queue_client = oci.queue.QueueAdminClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            api_gw_client = oci.apigateway.GatewayClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            api_deployment_client = oci.apigateway.DeploymentClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            function_client = oci.functions.FunctionsManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            orm = oci.resource_manager.ResourceManagerClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             if self.flags.proxy:
                 stream_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # QueueAdminClient
-            queue_client = oci.queue.QueueAdminClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 queue_client.base_client.session.proxies = {'https': self.flags.proxy}
+                api_gw_client.base_client.session.proxies = {'https': self.flags.proxy}
+                api_deployment_client.base_client.session.proxies = {'https': self.flags.proxy}
+                function_client.base_client.session.proxies = {'https': self.flags.proxy}
+                orm.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
             compartments = self.get_compartment()
@@ -10555,14 +11463,57 @@ class ShowOCIService(object):
             # add the key if not exists
             self.__initialize_data_key(self.C_STREAMS, self.C_STREAMS_STREAMS)
             self.__initialize_data_key(self.C_STREAMS, self.C_STREAMS_QUEUES)
+            self.__initialize_data_key(self.C_API, self.C_API_GATEWAYS)
+            self.__initialize_data_key(self.C_API, self.C_API_DEPLOYMENT)
+            self.__initialize_data_key(self.C_FUNCTION, self.C_FUNCTION_APPLICATIONS)
+            self.__initialize_data_key(self.C_FUNCTION, self.C_FUNCTION_FUNCTIONS)
+            self.__initialize_data_key(self.C_ORM, self.C_ORM_STACKS)
 
-            # reference to stream
             stream = self.data[self.C_STREAMS]
+            apic = self.data[self.C_API]
+            fn = self.data[self.C_FUNCTION]
+            os = self.data[self.C_ORM]
 
-            # append the data
-            stream[self.C_STREAMS_STREAMS] += self.__load_streams_streams(stream_client, compartments)
-            stream[self.C_STREAMS_QUEUES] += self.__load_streams_queues(queue_client, compartments)
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
 
+                stream[self.C_STREAMS_STREAMS] += self.__load_streams_streams(stream_client, compartments)
+                stream[self.C_STREAMS_QUEUES] += self.__load_streams_queues(queue_client, compartments)
+                apic[self.C_API_GATEWAYS] += self.__load_api_gateways(api_gw_client, compartments)
+                apic[self.C_API_DEPLOYMENT] += self.__load_api_deployments(api_deployment_client, compartments)
+                os[self.C_ORM_STACKS] += self.__load_resource_management_stacks(orm, compartments)
+
+                applications = self.__load_functions_applications(function_client, compartments)
+                fn[self.C_FUNCTION_APPLICATIONS] += applications
+                fn[self.C_FUNCTION_FUNCTIONS] += self.__load_functions_functions(function_client, applications)
+
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                    future_STREAMS_STREAMS = executor.submit(self.__load_streams_streams, stream_client, compartments)
+                    future_STREAMS_QUEUES = executor.submit(self.__load_streams_queues, queue_client, compartments)
+                    future_API_GATEWAYS = executor.submit(self.__load_api_gateways, api_gw_client, compartments)
+                    future_API_DEPLOYMENT = executor.submit(self.__load_api_deployments, api_deployment_client, compartments)
+                    future_ORM_STACKS = executor.submit(self.__load_resource_management_stacks, orm, compartments)
+                    future_FUNCTION_APPLICATIONS = executor.submit(self.__load_functions_applications, function_client, compartments)
+
+                    # Wait for application to complete in order to run functions
+                    applications = next(as_completed([future_FUNCTION_APPLICATIONS])).result()
+                    fn[self.C_FUNCTION_APPLICATIONS] += applications
+                    future_FUNCTION_FUNCTIONS = executor.submit(self.__load_functions_functions, function_client, applications)
+
+                    stream[self.C_STREAMS_STREAMS] += next(as_completed([future_STREAMS_STREAMS])).result()
+                    stream[self.C_STREAMS_QUEUES] += next(as_completed([future_STREAMS_QUEUES])).result()
+                    apic[self.C_API_GATEWAYS] += next(as_completed([future_API_GATEWAYS])).result()
+                    apic[self.C_API_DEPLOYMENT] += next(as_completed([future_API_DEPLOYMENT])).result()
+                    os[self.C_ORM_STACKS] += next(as_completed([future_ORM_STACKS])).result()
+                    fn[self.C_FUNCTION_FUNCTIONS] += next(as_completed([future_FUNCTION_FUNCTIONS])).result()
+
+            self.__load_print_section_time(section_start_time)
             print("")
 
         except oci.exceptions.RequestException:
@@ -10570,7 +11521,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_streams_queues_main", e)
+            self.__print_error("__load_section_streams_queues_api_fun_orm_main", e)
 
     ##########################################################################
     # __load_streams_streams
@@ -10582,7 +11533,9 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Streams")
+            errstr = ""
+            header = "Streams"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -10598,11 +11551,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # stream = oci.streaming.models.StreamSummary
                 for stream in streams:
@@ -10620,7 +11575,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10629,7 +11584,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_streams_streams", e)
+            self.__print_error("__load_streams_streams", e, compartment)
             return data
 
     ##########################################################################
@@ -10642,7 +11597,9 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Queues")
+            errstr = ""
+            header = "Queues"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
@@ -10658,11 +11615,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # queue = oci.queue.models.QueueSummary
                 for queue_list in queues:
@@ -10692,7 +11651,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10701,53 +11660,8 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_streams_queues", e)
+            self.__print_error("__load_streams_queues", e, compartment)
             return data
-
-    ##########################################################################
-    # __load_api_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.apigateway.GatewayClient(config, **kwargs)
-    #
-    ##########################################################################
-
-    def __load_api_main(self):
-
-        try:
-            print("API Gateways...")
-
-            # GatewayClient and DeploymentClient
-            api_gw_client = oci.apigateway.GatewayClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            api_deployment_client = oci.apigateway.DeploymentClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-
-            if self.flags.proxy:
-                api_gw_client.base_client.session.proxies = {'https': self.flags.proxy}
-                api_deployment_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_API, self.C_API_GATEWAYS)
-            self.__initialize_data_key(self.C_API, self.C_API_DEPLOYMENT)
-
-            # reference to api
-            apic = self.data[self.C_API]
-
-            # append the data
-            apic[self.C_API_GATEWAYS] += self.__load_api_gateways(api_gw_client, compartments)
-            apic[self.C_API_DEPLOYMENT] += self.__load_api_deployments(api_deployment_client, compartments)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_api_main", e)
 
     ##########################################################################
     # __load_api_gateways
@@ -10760,12 +11674,13 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("API Gateways")
+            errstr = ""
+            header = "API Gateways"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 apigs = []
@@ -10781,11 +11696,13 @@ class ShowOCIService(object):
                         return data
 
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # load apis
                 for apig in apigs:
@@ -10793,17 +11710,17 @@ class ShowOCIService(object):
                         continue
 
                     val = {'id': str(apig.id),
-                           'display_name': str(apig.display_name),
-                           'endpoint_type': str(apig.endpoint_type),
-                           'hostname': str(apig.hostname),
-                           'subnet_id': str(apig.subnet_id),
+                           'display_name': self.get_value(apig.display_name),
+                           'endpoint_type': self.get_value(apig.endpoint_type),
+                           'hostname': self.get_value(apig.hostname),
+                           'subnet_id': self.get_value(apig.subnet_id),
                            'subnet_name': "",
-                           'nsg_ids': str(apig.network_security_group_ids),
+                           'nsg_ids': self.get_value(apig.network_security_group_ids),
                            'nsg_names': str(self.__load_core_network_get_nsg_names(apig.network_security_group_ids)) if apig.network_security_group_ids else "",
-                           'time_created': str(apig.time_created),
-                           'time_updated': str(apig.time_updated),
-                           'lifecycle_state': str(apig.lifecycle_state),
-                           'certificate_id': str(apig.certificate_id),
+                           'time_created': self.get_value(apig.time_created),
+                           'time_updated': self.get_value(apig.time_updated),
+                           'lifecycle_state': self.get_value(apig.lifecycle_state),
+                           'certificate_id': self.get_value(apig.certificate_id),
                            'compartment_name': str(compartment['name']),
                            'compartment_id': str(compartment['id']),
                            'compartment_path': str(compartment['path']),
@@ -10817,7 +11734,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10826,7 +11743,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_api_gateways", e)
+            self.__print_error("__load_api_gateways", e, compartment)
             return data
 
     ##########################################################################
@@ -10840,12 +11757,13 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("API Deployments")
+            errstr = ""
+            header = "API Deployments"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 apids = []
@@ -10860,11 +11778,13 @@ class ShowOCIService(object):
                         return data
 
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # load deployment
                 for apid in apids:
@@ -10891,7 +11811,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -10900,51 +11820,8 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_api_deployments", e)
+            self.__print_error("__load_api_deployments", e, compartment)
             return data
-
-    ##########################################################################
-    # __load_functions
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.functions.FunctionsManagementClient(config, **kwargs)
-    #
-    ##########################################################################
-
-    def __load_functions_main(self):
-
-        try:
-            print("Functions...")
-
-            # StreamAdminClient
-            function_client = oci.functions.FunctionsManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                function_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_FUNCTION, self.C_FUNCTION_APPLICATIONS)
-            self.__initialize_data_key(self.C_FUNCTION, self.C_FUNCTION_FUNCTIONS)
-
-            # reference to function
-            fn = self.data[self.C_FUNCTION]
-
-            # append the data
-            applications = self.__load_functions_applications(function_client, compartments)
-            fn[self.C_FUNCTION_APPLICATIONS] += applications
-            fn[self.C_FUNCTION_FUNCTIONS] += self.__load_functions_functions(function_client, applications)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_functions_main", e)
 
     ##########################################################################
     # __load_functions_applications
@@ -10956,12 +11833,13 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Applications")
+            errstr = ""
+            header = "Function Applications"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 apps = []
@@ -10978,11 +11856,13 @@ class ShowOCIService(object):
                         return data
 
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # fns = oci.functions.models.ApplicationSummary
                 for app in apps:
@@ -10999,7 +11879,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11008,7 +11888,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_functions_applications", e)
+            self.__print_error("__load_functions_applications", e, compartment)
             return data
 
     ##########################################################################
@@ -11021,7 +11901,9 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Functions")
+            errstr = ""
+            header = "Functions"
+            self.__load_print_status_with_threads(header)
 
             # loop on all applications
             for app in applications:
@@ -11038,11 +11920,13 @@ class ShowOCIService(object):
                         return data
 
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print("f", end="")
+                if self.flags.skip_threads:
+                    print("f", end="")
 
                 # fns = oci.functions.models.ApplicationSummary
                 for fun in funs:
@@ -11072,7 +11956,7 @@ class ShowOCIService(object):
                     data.append(val)
                     app['functions'].append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11085,43 +11969,236 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_budget_main
+    # __load_resource_management_stacks
     ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.budget.BudgetClient(config, **kwargs)
-    #
-    ##########################################################################
-    def __load_budgets_main(self):
+    def __load_resource_management_stacks(self, orm, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
 
         try:
-            print("Budgets...")
 
-            # BudgetClient
-            budget_client = oci.budget.BudgetClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                budget_client.base_client.session.proxies = {'https': self.flags.proxy}
+            errstr = ""
+            header = "ORM Stacks"
+            self.__load_print_status_with_threads(header)
 
-            # reference to tenancy
-            tenancy = self.get_tenancy()
+            # loop on all compartments
+            for compartment in compartments:
 
-            # add the key if not exists
-            self.__initialize_data_key(self.C_BUDGETS, self.C_BUDGETS_BUDGETS)
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
 
-            # reference to stream
-            budget = self.data[self.C_BUDGETS]
+                stacks = []
+                try:
+                    stacks = oci.pagination.list_call_get_all_results(
+                        orm.list_stacks, compartment_id=compartment['id'],
+                        lifecycle_state=oci.resource_manager.models.Stack.LIFECYCLE_STATE_ACTIVE,
+                        sort_by="DISPLAYNAME",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
 
-            # append the data
-            budget[self.C_BUDGETS_BUDGETS] += self.__load_budgets_budgets(budget_client, tenancy['id'])
-            print("")
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    raise
 
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                # query the stacks
+                # stack = oci.resource_manager.models.Stack
+                for stack in stacks:
+                    val = {'id': str(stack.id),
+                           'display_name': self.get_value(stack.display_name),
+                           'description': self.get_value(stack.description),
+                           'compartment_name': str(compartment['name']),
+                           'compartment_path': str(compartment['path']),
+                           'compartment_id': str(compartment['id']),
+                           'region_name': str(self.config['region']),
+                           'defined_tags': [] if stack.defined_tags is None else stack.defined_tags,
+                           'freeform_tags': [] if stack.freeform_tags is None else stack.freeform_tags,
+                           'time_created': str(stack.time_created)}
+
+                    # check jobs
+                    try:
+                        jobs = oci.pagination.list_call_get_all_results(
+                            orm.list_jobs,
+                            stack_id=stack.id,
+                            sort_by="TIMECREATED",
+                            retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                        ).data
+                    except oci.exceptions.ServiceError as e:
+                        if self.__check_service_error(e.code):
+                            self.__load_print_auth_warning()
+                        else:
+                            raise
+
+                    # query jobs
+                    datajob = []
+                    for job in jobs:
+                        jobval = {'id': str(job.id),
+                                  'display_name': str(job.display_name),
+                                  'operation': str(job.operation),
+                                  'lifecycle_state': str(job.lifecycle_state),
+                                  'time_finished': self.get_value(job.time_finished),
+                                  'time_created': self.get_value(job.time_created)}
+                        datajob.append(jobval)
+
+                    # add the jobs to the array
+                    val['jobs'] = datajob
+
+                    # add the stacks
+                    cnt += 1
+                    data.append(val)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+
+            if self.__check_request_error(e):
+                return data
+
             raise
         except Exception as e:
-            self.__print_error("__load_budgets_main", e)
+            self.__print_error("__load_resource_management_stacks", e, compartment)
+            return data
+
+    ##########################################################################
+    # data load load __load_email_senders
+    ##########################################################################
+    def __load_email_senders(self, email, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+
+            errstr = ""
+            header = "Senders"
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                senders = []
+                try:
+                    senders = oci.pagination.list_call_get_all_results(
+                        email.list_senders,
+                        compartment['id'],
+                        sort_by="EMAILADDRESS",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    raise
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                # query the stacks
+                # sender = oci.email.models.Sender
+                for sender in senders:
+                    val = {'id': str(sender.id),
+                           'email_address': self.get_value(sender.email_address),
+                           'lifecycle_state': self.get_value(sender.lifecycle_state),
+                           'time_created': self.get_value(sender.time_created),
+                           'compartment_name': str(compartment['name']),
+                           'compartment_id': str(compartment['id']),
+                           'compartment_path': str(compartment['path']),
+                           'defined_tags': [] if sender.defined_tags is None else sender.defined_tags,
+                           'freeform_tags': [] if sender.freeform_tags is None else sender.freeform_tags,
+                           'region_name': str(self.config['region'])}
+
+                    # add the data
+                    cnt += 1
+                    data.append(val)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_email_senders", e, compartment)
+            return data
+
+    ##########################################################################
+    # data load load __load_email_suppressions
+    ##########################################################################
+    def __load_email_suppressions(self, email, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+
+            errstr = ""
+            header = "Suppressions"
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # suppressions is only valid in root compartment
+                if compartment['id'] != str(self.config['tenancy']):
+                    continue
+
+                suppressions = []
+                try:
+                    suppressions = email.list_suppressions(compartment['id']).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_request_error(e):
+                        return data
+
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    raise
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                # query the stacks
+                # supp = oci.email.models.SuppressionSummary
+                for supp in suppressions:
+                    val = {'id': str(supp.id),
+                           'email_address': self.get_value(supp.email_address),
+                           'time_created': self.get_value(supp.time_created),
+                           'reason': self.get_value(supp.reason),
+                           'compartment_name': str(compartment['name']),
+                           'compartment_id': str(compartment['id']),
+                           'compartment_path': str(compartment['path']),
+                           'region_name': str(self.config['region'])}
+
+                    # add the data
+                    cnt += 1
+                    data.append(val)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_email_suppressions", e, compartment)
+            return data
 
     ##########################################################################
     # __load_budgets_budgets
@@ -11133,7 +12210,9 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Budgets")
+            errstr = ""
+            header = "Budgets"
+            self.__load_print_status_with_threads(header)
 
             budgets = []
             try:
@@ -11146,11 +12225,13 @@ class ShowOCIService(object):
 
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                 else:
                     raise
 
-            print(".", end="")
+            if self.flags.skip_threads:
+                print(".", end="")
 
             # budget = oci.budget.models.BudgetSummary
             for budget in budgets:
@@ -11181,7 +12262,7 @@ class ShowOCIService(object):
                 cnt += 1
                 data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11195,76 +12276,141 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_monitoring_main
+    # __load_monitor_notification_security_quotas_main
     ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # class oci.monitoring.MonitoringClient(config, **kwargs)
-    # class oci.ons.NotificationControlPlaneClient(config, **kwargs)
-    # class oci.ons.NotificationDataPlaneClient(config, **kwargs)
-    # class oci.events.EventsClient(config, **kwargs)
-    # class oci.management_agent.ManagementAgentClient(config, **kwargs)
-    # class oci.database_management.DbManagementClient(config, **kwargs)
-    #
-    ##########################################################################
-    def __load_monitor_notification_main(self):
+    def __load_section_monitor_notification_security_quotas_main(self):
 
         try:
-            print("Monitoring, Notifications and Events...")
+            section_start_time = time.time()
+            print("Monitoring, Notifications, Events, Bastion, Logging, KMS, Limits, Quotas, E-Mail, Budget...")
 
-            # MonitoringClient
             monitor_client = oci.monitoring.MonitoringClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            ons_cp_client = oci.ons.NotificationControlPlaneClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            ons_dp_client = oci.ons.NotificationDataPlaneClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            event_client = oci.events.EventsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            management_agent_client = oci.management_agent.ManagementAgentClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            db_management_client = oci.database_management.DbManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            bs_client = oci.bastion.BastionClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            cg_client = oci.cloud_guard.CloudGuardClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            log_client = oci.logging.LoggingManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            kms_client = oci.key_management.KmsVaultClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            limits_client = oci.limits.LimitsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            quotas_client = oci.limits.QuotasClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            email_client = oci.email.EmailClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            budget_client = oci.budget.BudgetClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             if self.flags.proxy:
                 monitor_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # NotificationControlPlaneClient
-            ons_cp_client = oci.ons.NotificationControlPlaneClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 ons_cp_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # NotificationDataPlaneClient
-            ons_dp_client = oci.ons.NotificationDataPlaneClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 ons_dp_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # oci.events.EventsClient
-            event_client = oci.events.EventsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 event_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # oci.management_agent.ManagementAgentClient
-            management_agent_client = oci.management_agent.ManagementAgentClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 event_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # oci.database_management.DbManagementClient
-            db_management_client = oci.database_management.DbManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 db_management_client.base_client.session.proxies = {'https': self.flags.proxy}
+                cg_client.base_client.session.proxies = {'https': self.flags.proxy}
+                log_client.base_client.session.proxies = {'https': self.flags.proxy}
+                bs_client.base_client.session.proxies = {'https': self.flags.proxy}
+                kms_client.base_client.session.proxies = {'https': self.flags.proxy}
+                limits_client.base_client.session.proxies = {'https': self.flags.proxy}
+                quotas_client.base_client.session.proxies = {'https': self.flags.proxy}
+                email_client.base_client.session.proxies = {'https': self.flags.proxy}
+                budget_client.base_client.session.proxies = {'https': self.flags.proxy}
+
+            # reference to tenancy
+            tenancy = self.get_tenancy()
 
             # reference to compartments
             compartments = self.get_compartment()
 
             # add the key if not exists
+            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_BASTION)
+            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_CLOUD_GUARD)
+            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_LOGGING_UA)
+            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_LOGGING)
+            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_VAULTS)
             self.__initialize_data_key(self.C_MONITORING, self.C_MONITORING_ALARMS)
             self.__initialize_data_key(self.C_MONITORING, self.C_MONITORING_EVENTS)
             self.__initialize_data_key(self.C_MONITORING, self.C_MONITORING_AGENTS)
             self.__initialize_data_key(self.C_MONITORING, self.C_MONITORING_DB_MANAGEMENT)
             self.__initialize_data_key(self.C_NOTIFICATIONS, self.C_NOTIFICATIONS_TOPICS)
             self.__initialize_data_key(self.C_NOTIFICATIONS, self.C_NOTIFICATIONS_SUBSCRIPTIONS)
+            self.__initialize_data_key(self.C_LIMITS, self.C_LIMITS_SERVICES)
+            self.__initialize_data_key(self.C_LIMITS, self.C_LIMITS_QUOTAS)
+            self.__initialize_data_key(self.C_EMAIL, self.C_EMAIL_SENDERS)
+            self.__initialize_data_key(self.C_EMAIL, self.C_EMAIL_SUPPRESSIONS)
+            self.__initialize_data_key(self.C_BUDGETS, self.C_BUDGETS_BUDGETS)
 
-            # append the data for monitoring
             monitor = self.data[self.C_MONITORING]
-            monitor[self.C_MONITORING_ALARMS] += self.__load_monitoring_alarms(monitor_client, compartments)
-            monitor[self.C_MONITORING_EVENTS] += self.__load_monitoring_events(event_client, compartments)
-            monitor[self.C_MONITORING_AGENTS] += self.__load_monitoring_agents(management_agent_client, compartments)
-            monitor[self.C_MONITORING_DB_MANAGEMENT] += self.__load_monitoring_database_management(db_management_client, compartments)
-
-            # append the data for notifications
             notifications = self.data[self.C_NOTIFICATIONS]
-            notifications[self.C_NOTIFICATIONS_TOPICS] += self.__load_notifications_topics(ons_cp_client, compartments)
-            notifications[self.C_NOTIFICATIONS_SUBSCRIPTIONS] += self.__load_notifications_subscriptions(ons_dp_client, compartments)
+            sec = self.data[self.C_SECURITY]
+            limits = self.data[self.C_LIMITS]
+            email = self.data[self.C_EMAIL]
+            budget = self.data[self.C_BUDGETS]
+
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
+                monitor[self.C_MONITORING_ALARMS] += self.__load_monitoring_alarms(monitor_client, compartments)
+                monitor[self.C_MONITORING_EVENTS] += self.__load_monitoring_events(event_client, compartments)
+                monitor[self.C_MONITORING_AGENTS] += self.__load_monitoring_agents(management_agent_client, compartments)
+                monitor[self.C_MONITORING_DB_MANAGEMENT] += self.__load_monitoring_database_management(db_management_client, compartments)
+
+                notifications[self.C_NOTIFICATIONS_TOPICS] += self.__load_notifications_topics(ons_cp_client, compartments)
+                notifications[self.C_NOTIFICATIONS_SUBSCRIPTIONS] += self.__load_notifications_subscriptions(ons_dp_client, compartments)
+
+                sec[self.C_SECURITY_BASTION] += self.__load_security_bastions(bs_client, compartments)
+                sec[self.C_SECURITY_LOGGING_UA] += self.__load_security_log_unified_agents(bs_client, compartments)
+                sec[self.C_SECURITY_LOGGING] += self.__load_security_log_groups(log_client, compartments)
+                sec[self.C_SECURITY_VAULTS] += self.__load_security_kms_vaults(kms_client, compartments)
+                sec[self.C_SECURITY_CLOUD_GUARD] += self.__load_security_cloud_guard(cg_client, compartments)
+
+                email[self.C_EMAIL_SENDERS] += self.__load_email_senders(email_client, compartments)
+                email[self.C_EMAIL_SUPPRESSIONS] += self.__load_email_suppressions(email_client, compartments)
+                budget[self.C_BUDGETS_BUDGETS] += self.__load_budgets_budgets(budget_client, tenancy['id'])
+
+                limits[self.C_LIMITS_SERVICES] += self.__load_limits(limits_client, tenancy['id'], compartments)
+                limits[self.C_LIMITS_QUOTAS] += self.__load_quotas(quotas_client, compartments)
+
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                    future_MONITORING_ALARMS = executor.submit(self.__load_monitoring_alarms, monitor_client, compartments)
+                    future_MONITORING_EVENTS = executor.submit(self.__load_monitoring_events, event_client, compartments)
+                    future_MONITORING_AGENTS = executor.submit(self.__load_monitoring_agents, management_agent_client, compartments)
+                    future_MONITORING_DB_MANAGEMENT = executor.submit(self.__load_monitoring_database_management, db_management_client, compartments)
+                    future_NOTIFICATIONS_TOPICS = executor.submit(self.__load_notifications_topics, ons_cp_client, compartments)
+                    future_NOTIFICATIONS_SUBSCRIPTIONS = executor.submit(self.__load_notifications_subscriptions, ons_dp_client, compartments)
+                    future_SECURITY_BASTION = executor.submit(self.__load_security_bastions, bs_client, compartments)
+                    future_SECURITY_LOGGING = executor.submit(self.__load_security_log_groups, log_client, compartments)
+                    future_SECURITY_LOGGING_UA = executor.submit(self.__load_security_log_unified_agents, log_client, compartments)
+                    future_SECURITY_VAULTS = executor.submit(self.__load_security_kms_vaults, kms_client, compartments)
+                    future_SECURITY_CLOUD_GUARD = executor.submit(self.__load_security_cloud_guard, cg_client, compartments)
+                    future_EMAIL_SENDERS = executor.submit(self.__load_email_senders, email_client, compartments)
+                    future_EMAIL_SUPPRESSIONS = executor.submit(self.__load_email_suppressions, email_client, compartments)
+                    future_BUDGETS_BUDGETS = executor.submit(self.__load_budgets_budgets, budget_client, tenancy['id'])
+                    future_LIMITS_SERVICES = executor.submit(self.__load_limits, limits_client, tenancy['id'], compartments)
+                    future_LIMITS_QUOTAS = executor.submit(self.__load_quotas, quotas_client, compartments)
+
+                    monitor[self.C_MONITORING_ALARMS] += next(as_completed([future_MONITORING_ALARMS])).result()
+                    monitor[self.C_MONITORING_EVENTS] += next(as_completed([future_MONITORING_EVENTS])).result()
+                    monitor[self.C_MONITORING_AGENTS] += next(as_completed([future_MONITORING_AGENTS])).result()
+                    monitor[self.C_MONITORING_DB_MANAGEMENT] += next(as_completed([future_MONITORING_DB_MANAGEMENT])).result()
+                    notifications[self.C_NOTIFICATIONS_TOPICS] += next(as_completed([future_NOTIFICATIONS_TOPICS])).result()
+                    notifications[self.C_NOTIFICATIONS_SUBSCRIPTIONS] += next(as_completed([future_NOTIFICATIONS_SUBSCRIPTIONS])).result()
+                    sec[self.C_SECURITY_BASTION] += next(as_completed([future_SECURITY_BASTION])).result()
+                    sec[self.C_SECURITY_LOGGING] += next(as_completed([future_SECURITY_LOGGING])).result()
+                    sec[self.C_SECURITY_LOGGING_UA] += next(as_completed([future_SECURITY_LOGGING_UA])).result()
+                    sec[self.C_SECURITY_VAULTS] += next(as_completed([future_SECURITY_VAULTS])).result()
+                    sec[self.C_SECURITY_CLOUD_GUARD] += next(as_completed([future_SECURITY_CLOUD_GUARD])).result()
+                    email[self.C_EMAIL_SENDERS] += next(as_completed([future_EMAIL_SENDERS])).result()
+                    email[self.C_EMAIL_SUPPRESSIONS] += next(as_completed([future_EMAIL_SUPPRESSIONS])).result()
+                    budget[self.C_BUDGETS_BUDGETS] += next(as_completed([future_BUDGETS_BUDGETS])).result()
+                    limits[self.C_LIMITS_SERVICES] += next(as_completed([future_LIMITS_SERVICES])).result()
+                    limits[self.C_LIMITS_QUOTAS] += next(as_completed([future_LIMITS_QUOTAS])).result()
+
+            self.__load_print_section_time(section_start_time)
             print("")
 
         except oci.exceptions.RequestException:
@@ -11272,7 +12418,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_monitor_notification_main", e)
+            self.__print_error("__load_section_monitor_notification_security_quotas_main", e)
 
     ##########################################################################
     # __load_monitoring_events
@@ -11284,14 +12430,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Events")
+            errstr = ""
+            header = "Events"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 rules = []
@@ -11306,11 +12453,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # event = oci.events.models.RuleSummary
                 for rule in rules:
@@ -11358,7 +12507,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11368,7 +12517,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_monitoring_events", e)
+            self.__print_error("__load_monitoring_events", e, compartment)
             return data
 
     ##########################################################################
@@ -11381,14 +12530,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Management Agents")
+            errstr = ""
+            header = "Management Agents"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 agents = []
@@ -11403,11 +12553,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # event = oci.management_agent.models.ManagementAgentSummary
                 for agent in agents:
@@ -11438,7 +12590,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11448,7 +12600,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_monitoring_agents", e)
+            self.__print_error("__load_monitoring_agents", e, compartment)
             return data
 
     ##########################################################################
@@ -11461,14 +12613,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("DB Managements")
+            errstr = ""
+            header = "DB Management"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 db_managements = []
@@ -11482,11 +12635,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # event = oci.database_management.models.ManagedDatabase
                 for agent in db_managements:
@@ -11512,7 +12667,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11522,7 +12677,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_monitoring_database_management", e)
+            self.__print_error("__load_monitoring_database_management", e, compartment)
             return data
 
     ##########################################################################
@@ -11535,14 +12690,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Alarms")
+            errstr = ""
+            header = "Alarms"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 alarms = []
@@ -11557,11 +12713,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # alarm = oci.monitoring.models.AlarmSummary
                 for alarm in alarms:
@@ -11584,7 +12742,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11594,7 +12752,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_monitoring_alarms", e)
+            self.__print_error("__load_monitoring_alarms", e, compartment)
             return data
 
     ##########################################################################
@@ -11607,14 +12765,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Topics")
+            errstr = ""
+            header = "Topics"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 topics = []
@@ -11629,11 +12788,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # topic = oci.ons.models.NotificationTopicSummary
                 for topic in topics:
@@ -11654,7 +12815,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11664,7 +12825,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_notifications_topics", e)
+            self.__print_error("__load_notifications_topics", e, compartment)
             return data
 
     ##########################################################################
@@ -11677,14 +12838,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Subscriptions")
+            errstr = ""
+            header = "Subscriptions"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 subs = []
@@ -11697,11 +12859,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # sub = oci.ons.models.SubscriptionSummary
                 for sub in subs:
@@ -11725,7 +12889,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11735,7 +12899,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_notifications_subscriptions", e)
+            self.__print_error("__load_notifications_subscriptions", e, compartment)
             return data
 
     ##########################################################################
@@ -11749,29 +12913,20 @@ class ShowOCIService(object):
     # class oci.waas.WaasClient(config, **kwargs)
     #
     ##########################################################################
-    def __load_edge_services_main(self):
+    def __load_section_edge_services_main(self):
 
         try:
             print("Edge Services...")
 
-            # BudgetClient
             healthcheck_client = oci.healthchecks.HealthChecksClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            dns = oci.dns.DnsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            waas = oci.waas.WaasClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            waf = oci.waf.WafClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             if self.flags.proxy:
                 healthcheck_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # Open connectivity to OCI
-            dns = oci.dns.DnsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 dns.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # Open connectivity to OCI - Waas
-            waas = oci.waas.WaasClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 waas.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # Open connectivity to OCI - Waas
-            waf = oci.waf.WafClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
                 waf.base_client.session.proxies = {'https': self.flags.proxy}
 
             # reference to compartments
@@ -11788,13 +12943,42 @@ class ShowOCIService(object):
             # reference to stream
             edge = self.data[self.C_EDGE]
 
-            # append the data
-            edge[self.C_EDGE_HEALTHCHECK_PING] += self.__load_edge_healthchecks_ping(healthcheck_client, compartments)
-            edge[self.C_EDGE_HEALTHCHECK_HTTP] += self.__load_edge_healthchecks_http(healthcheck_client, compartments)
-            edge[self.C_EDGE_DNS_ZONE] += self.__load_edge_dns_zone(dns, compartments)
-            edge[self.C_EDGE_DNS_STEERING] += self.__load_edge_dns_steering(dns, compartments)
-            edge[self.C_EDGE_WAAS_POLICIES] += self.__load_edge_waas_policies(waas, compartments)
-            edge[self.C_EDGE_WAF] += self.__load_edge_waf(waf, compartments)
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
+                edge[self.C_EDGE_HEALTHCHECK_PING] += self.__load_edge_healthchecks_ping(healthcheck_client, compartments)
+                edge[self.C_EDGE_HEALTHCHECK_HTTP] += self.__load_edge_healthchecks_http(healthcheck_client, compartments)
+                edge[self.C_EDGE_DNS_STEERING] += self.__load_edge_dns_steering(dns, compartments)
+                edge[self.C_EDGE_WAAS_POLICIES] += self.__load_edge_waas_policies(waas, compartments)
+                edge[self.C_EDGE_WAF] += self.__load_edge_waf(waf, compartments)
+
+                # DNS Zone is the slowest API option to skip
+                if self.EXCLUDE_DNSZONE not in self.flags.exclude:
+                    edge[self.C_EDGE_DNS_ZONE] += self.__load_edge_dns_zone(dns, compartments)
+
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                    future_EDGE_HEALTHCHECK_PING = executor.submit(self.__load_edge_healthchecks_ping, healthcheck_client, compartments)
+                    future_EDGE_HEALTHCHECK_HTTP = executor.submit(self.__load_edge_healthchecks_http, healthcheck_client, compartments)
+                    future_EDGE_DNS_STEERING = executor.submit(self.__load_edge_dns_steering, dns, compartments)
+                    future_EDGE_WAAS_POLICIES = executor.submit(self.__load_edge_waas_policies, waas, compartments)
+                    future_EDGE_WAF = executor.submit(self.__load_edge_waf, waf, compartments)
+
+                    # DNS Zone is the slowest API option to skip
+                    if self.EXCLUDE_DNSZONE not in self.flags.exclude:
+                        future_EDGE_DNS_ZONE = executor.submit(self.__load_edge_dns_zone, dns, compartments)
+                        edge[self.C_EDGE_DNS_ZONE] += next(as_completed([future_EDGE_DNS_ZONE])).result()
+
+                    edge[self.C_EDGE_HEALTHCHECK_PING] += next(as_completed([future_EDGE_HEALTHCHECK_PING])).result()
+                    edge[self.C_EDGE_HEALTHCHECK_HTTP] += next(as_completed([future_EDGE_HEALTHCHECK_HTTP])).result()
+                    edge[self.C_EDGE_DNS_STEERING] += next(as_completed([future_EDGE_DNS_STEERING])).result()
+                    edge[self.C_EDGE_WAAS_POLICIES] += next(as_completed([future_EDGE_WAAS_POLICIES])).result()
+                    edge[self.C_EDGE_WAF] += next(as_completed([future_EDGE_WAF])).result()
+
             print("")
 
         except oci.exceptions.RequestException:
@@ -11802,7 +12986,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_edge_services_main", e)
+            self.__print_error("__load_section_edge_services_main", e)
 
     ##########################################################################
     # __load_edge_healthchecks_ping
@@ -11814,14 +12998,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Healthcheck Ping")
+            errstr = ""
+            header = "Healthcheck Ping"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 healthchecks = []
@@ -11835,11 +13020,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # healthcheck = oci.healthchecks.models.PingMonitorSummary
                 for healthcheck in healthchecks:
@@ -11851,7 +13038,8 @@ class ShowOCIService(object):
                         health = healthcheck_client.get_ping_monitor(healthcheck.id).data
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
                     val = {'id': str(health.id),
@@ -11877,7 +13065,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11885,7 +13073,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_edge_healthchecks_ping", e)
+            self.__print_error("__load_edge_healthchecks_ping", e, compartment)
             return data
 
     ##########################################################################
@@ -11898,14 +13086,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Healthcheck HTTP")
+            errstr = ""
+            header = "Healthcheck HTTP"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 healthchecks = []
@@ -11919,11 +13108,13 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # health = oci.healthchecks.models.HttpMonitorSummary
                 for healthcheck in healthchecks:
@@ -11935,7 +13126,8 @@ class ShowOCIService(object):
                         health = healthcheck_client.get_http_monitor(healthcheck.id).data
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
                     except oci.exceptions.ConnectTimeout:
@@ -11966,7 +13158,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -11976,7 +13168,7 @@ class ShowOCIService(object):
 
             raise
         except Exception as e:
-            self.__print_error("__load_edge_healthchecks_http", e)
+            self.__print_error("__load_edge_healthchecks_http", e, compartment)
             return data
 
     ##########################################################################
@@ -11989,14 +13181,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("DNS Zones")
+            errstr = ""
+            header = "DNS Zone"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -12011,14 +13204,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.dns.models.ZoneSummary
                 for arr in array:
@@ -12041,7 +13237,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12049,7 +13245,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_edge_dns_zone", e)
+            self.__print_error("__load_edge_dns_zone", e, compartment)
             return data
 
     ##########################################################################
@@ -12062,14 +13258,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("DNS Steering Policies")
+            errstr = ""
+            header = "DNS Steering Policies"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -12084,14 +13281,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.dns.models.SteeringPolicySummary
                 for arr in array:
@@ -12114,7 +13314,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12122,126 +13322,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_edge_dns_zone", e)
-            return data
-
-    ##########################################################################
-    # __load_core_network_dns_resolvers
-    ##########################################################################
-    def __load_core_network_dns_resolvers(self, dns_client, compartments):
-
-        data = []
-        cnt = 0
-        start_time = time.time()
-
-        try:
-            self.__load_print_status("DNS Resolvers")
-
-            # loop on all compartments
-            for compartment in compartments:
-
-                # skip managed paas compartment
-                if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
-                    continue
-
-                array = []
-                try:
-                    array = oci.pagination.list_call_get_all_results(
-                        dns_client.list_resolvers,
-                        compartment['id'],
-                        lifecycle_state='ACTIVE',
-                        sort_by="displayName",
-                        scope="PRIVATE",
-                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
-                    ).data
-
-                except oci.exceptions.ServiceError as e:
-                    if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
-                        continue
-                    raise
-                except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
-                    continue
-
-                print(".", end="")
-
-                # arr = oci.dns.models.ResolverSummary
-                for arrsummary in array:
-
-                    arr = []
-                    try:
-                        # get the resolver model
-                        arr = dns_client.get_resolver(arrsummary.id, scope="PRIVATE", retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
-                    except oci.exceptions.ServiceError as e:
-                        if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
-                        continue
-
-                    val = {'id': str(arr.id),
-                           'display_name': str(arr.display_name),
-                           'vcn_id': str(arr.attached_vcn_id),
-                           'vcn_name': self.get_network_vcn(arr.attached_vcn_id),
-                           'time_created': str(arr.time_created),
-                           'time_updated': str(arr.time_updated),
-                           'default_view_id': str(arr.default_view_id),
-                           'is_protected': arr.is_protected,
-                           'endpoints': [],
-                           'rules': [],
-                           'compartment_name': str(compartment['name']),
-                           'compartment_path': str(compartment['path']),
-                           'compartment_id': str(compartment['id']),
-                           'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
-                           'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
-                           'region_name': str(self.config['region'])
-                           }
-
-                    # endpoints
-                    for ep in arr.endpoints:
-                        epval = {
-                            'name': str(ep.name),
-                            'endpoint_type': str(ep.endpoint_type),
-                            'forwarding_address': str(ep.forwarding_address) if ep.forwarding_address else "",
-                            'is_forwarding': ep.is_forwarding,
-                            'is_listening': ep.is_listening,
-                            'listening_address': str(ep.listening_address) if ep.listening_address else "",
-                            'time_created': str(ep.time_created),
-                            'time_updated': str(ep.time_updated)
-                        }
-                        val['endpoints'].append(epval)
-
-                    # rules
-                    for ep in arr.rules:
-                        if ep.action == "FORWARD":
-                            epval = {
-                                'client_address_conditions': str(', '.join(x for x in ep.client_address_conditions)),
-                                'qname_cover_conditions': str(', '.join(x for x in ep.qname_cover_conditions)),
-                                'destination_addresses': str(', '.join(x for x in ep.destination_addresses)),
-                                'source_endpoint_name': str(ep.source_endpoint_name),
-                                'action': "FORWARD"
-                            }
-                        else:
-                            epval = {
-                                'client_address_conditions': str(', '.join(x for x in ep.client_address_conditions)),
-                                'qname_cover_conditions': str(', '.join(x for x in ep.qname_cover_conditions)),
-                                'action': str(ep.action)
-                            }
-                        val['rules'].append(epval)
-
-                    # add the data
-                    cnt += 1
-                    data.append(val)
-
-            self.__load_print_cnt(cnt, start_time)
-            return data
-
-        except oci.exceptions.RequestException as e:
-            if self.__check_request_error(e):
-                return data
-            raise
-        except Exception as e:
-            self.__print_error("__load_core_network_dns_resolvers", e)
+            self.__print_error("__load_edge_dns_zone", e, compartment)
             return data
 
     ##########################################################################
@@ -12254,14 +13335,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("WAAS Policies")
+            errstr = ""
+            header = "WAAS Policies"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -12275,14 +13357,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.waas.models.WaasPolicySummary
                 for arr in array:
@@ -12307,7 +13392,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12315,7 +13400,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_edge_waas_policies", e)
+            self.__print_error("__load_edge_waas_policies", e, compartment)
             return data
 
     ##########################################################################
@@ -12328,14 +13413,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("WAF")
+            errstr = ""
+            header = "WAF"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -12349,14 +13435,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.waf.models.WebAppFirewallSummary
                 for arr in array:
@@ -12383,7 +13472,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12391,27 +13480,30 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_edge_waf", e)
+            self.__print_error("__load_edge_waf", e, compartment)
             return data
 
     ##########################################################################
-    # __load_data_ai_main
+    # __load_native_data_ai_main
     ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # oci.data_catalog.DataCatalogClient
-    # oci.data_science.DataScienceClient
-    # oci.data_flow.DataFlowClient
-    # oci.oda.OdaClient
-    # oci.bds.BdsClient
-    ##########################################################################
-    def __load_data_ai_main(self):
+    def __load_section_native_data_ai_main(self):
 
         try:
-            print("Data and AI Services...")
+            section_start_time = time.time()
+            print("Native, Data and AI ...")
 
-            # clients
+            # For Native
+            oic_client = oci.integration.IntegrationInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            oac_client = oci.analytics.AnalyticsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            oce_client = oci.oce.OceInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            ocvs_client = oci.ocvp.SddcClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            esxi_client = oci.ocvp.EsxiHostClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            cluster_client = oci.ocvp.ClusterClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            vb_client = oci.visual_builder.VbInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            opensearch_client = oci.opensearch.OpensearchClusterClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            devops_client = oci.devops.DevopsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+
             ds_client = oci.data_science.DataScienceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             dc_client = oci.data_catalog.DataCatalogClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
             df_client = oci.data_flow.DataFlowClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
@@ -12420,6 +13512,17 @@ class ShowOCIService(object):
             di_client = oci.data_integration.DataIntegrationClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
 
             if self.flags.proxy:
+                oic_client.base_client.session.proxies = {'https': self.flags.proxy}
+                oac_client.base_client.session.proxies = {'https': self.flags.proxy}
+                oce_client.base_client.session.proxies = {'https': self.flags.proxy}
+                ocvs_client.base_client.session.proxies = {'https': self.flags.proxy}
+                vb_client.base_client.session.proxies = {'https': self.flags.proxy}
+                esxi_client.base_client.session.proxies = {'https': self.flags.proxy}
+                cluster_client.base_client.session.proxies = {'https': self.flags.proxy}
+                virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
+                opensearch_client.base_client.session.proxies = {'https': self.flags.proxy}
+                devops_client.base_client.session.proxies = {'https': self.flags.proxy}
+
                 ds_client.base_client.session.proxies = {'https': self.flags.proxy}
                 dc_client.base_client.session.proxies = {'https': self.flags.proxy}
                 df_client.base_client.session.proxies = {'https': self.flags.proxy}
@@ -12430,7 +13533,14 @@ class ShowOCIService(object):
             # reference to compartments
             compartments = self.get_compartment()
 
-            # add the key if not exists
+            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OAC)
+            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OIC)
+            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OCE)
+            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OCVS)
+            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_VB)
+            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_DEVOPS)
+            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OPEN_SEARCH)
+
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_CATALOG)
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_DCREGISTRY)
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_FLOW)
@@ -12439,16 +13549,65 @@ class ShowOCIService(object):
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_DI)
             self.__initialize_data_key(self.C_DATA_AI, self.C_DATA_AI_BDS)
 
-            # reference to data_ai
-            data_ai = self.data[self.C_DATA_AI]
+            ##########################
+            # if serial execution
+            ##########################
+            if self.flags.skip_threads:
+                paas = self.data[self.C_PAAS_NATIVE]
+                paas[self.C_PAAS_NATIVE_OCVS] += self.__load_paas_ocvs(ocvs_client, cluster_client, esxi_client, virtual_network, compartments)
+                paas[self.C_PAAS_NATIVE_OIC] += self.__load_paas_oic(oic_client, compartments)
+                paas[self.C_PAAS_NATIVE_OCE] += self.__load_paas_oce(oce_client, compartments)
+                paas[self.C_PAAS_NATIVE_OAC] += self.__load_paas_oac(oac_client, compartments)
+                paas[self.C_PAAS_NATIVE_VB] += self.__load_paas_visualbuilder(vb_client, compartments)
+                paas[self.C_PAAS_NATIVE_DEVOPS] += self.__load_paas_devops(devops_client, compartments)
+                paas[self.C_PAAS_NATIVE_OPEN_SEARCH] += self.__load_paas_open_search(opensearch_client, compartments)
 
-            # append the data
-            data_ai[self.C_DATA_AI_CATALOG] += self.__load_data_ai_catalog(dc_client, compartments)
-            data_ai[self.C_DATA_AI_FLOW] += self.__load_data_ai_flow(df_client, compartments)
-            data_ai[self.C_DATA_AI_SCIENCE] += self.__load_data_ai_science(ds_client, compartments)
-            data_ai[self.C_DATA_AI_ODA] += self.__load_data_ai_oda(oda_client, compartments)
-            data_ai[self.C_DATA_AI_BDS] += self.__load_data_ai_bds(bds_client, compartments)
-            data_ai[self.C_DATA_AI_DI] += self.__load_data_ai_data_integration(di_client, compartments)
+                data_ai = self.data[self.C_DATA_AI]
+                data_ai[self.C_DATA_AI_CATALOG] += self.__load_data_ai_catalog(dc_client, compartments)
+                data_ai[self.C_DATA_AI_FLOW] += self.__load_data_ai_flow(df_client, compartments)
+                data_ai[self.C_DATA_AI_SCIENCE] += self.__load_data_ai_science(ds_client, compartments)
+                data_ai[self.C_DATA_AI_ODA] += self.__load_data_ai_oda(oda_client, compartments)
+                data_ai[self.C_DATA_AI_BDS] += self.__load_data_ai_bds(bds_client, compartments)
+                data_ai[self.C_DATA_AI_DI] += self.__load_data_ai_data_integration(di_client, compartments)
+
+            ##########################
+            # if parallel execution
+            ##########################
+            else:
+                with ThreadPoolExecutor(max_workers=self.flags.threads) as executor:
+                    future_PAAS_NATIVE_OCVS = executor.submit(self.__load_paas_ocvs, ocvs_client, cluster_client, esxi_client, virtual_network, compartments)
+                    future_PAAS_NATIVE_OIC = executor.submit(self.__load_paas_oic, oic_client, compartments)
+                    future_PAAS_NATIVE_OCE = executor.submit(self.__load_paas_oce, oce_client, compartments)
+                    future_PAAS_NATIVE_OAC = executor.submit(self.__load_paas_oac, oac_client, compartments)
+                    future_PAAS_NATIVE_VB = executor.submit(self.__load_paas_visualbuilder, vb_client, compartments)
+                    future_PAAS_NATIVE_DEVOPS = executor.submit(self.__load_paas_devops, devops_client, compartments)
+                    future_PAAS_NATIVE_OPEN_SEARCH = executor.submit(self.__load_paas_open_search, opensearch_client, compartments)
+
+                    future_DATA_AI_CATALOG = executor.submit(self.__load_data_ai_catalog, dc_client, compartments)
+                    future_DATA_AI_FLOW = executor.submit(self.__load_data_ai_flow, df_client, compartments)
+                    future_DATA_AI_SCIENCE = executor.submit(self.__load_data_ai_science, ds_client, compartments)
+                    future_DATA_AI_ODA = executor.submit(self.__load_data_ai_oda, oda_client, compartments)
+                    future_DATA_AI_BDS = executor.submit(self.__load_data_ai_bds, bds_client, compartments)
+                    future_DATA_AI_DI = executor.submit(self.__load_data_ai_data_integration, di_client, compartments)
+
+                    paas = self.data[self.C_PAAS_NATIVE]
+                    paas[self.C_PAAS_NATIVE_OCVS] += next(as_completed([future_PAAS_NATIVE_OCVS])).result()
+                    paas[self.C_PAAS_NATIVE_OIC] += next(as_completed([future_PAAS_NATIVE_OIC])).result()
+                    paas[self.C_PAAS_NATIVE_OCE] += next(as_completed([future_PAAS_NATIVE_OCE])).result()
+                    paas[self.C_PAAS_NATIVE_OAC] += next(as_completed([future_PAAS_NATIVE_OAC])).result()
+                    paas[self.C_PAAS_NATIVE_VB] += next(as_completed([future_PAAS_NATIVE_VB])).result()
+                    paas[self.C_PAAS_NATIVE_DEVOPS] += next(as_completed([future_PAAS_NATIVE_DEVOPS])).result()
+                    paas[self.C_PAAS_NATIVE_OPEN_SEARCH] += next(as_completed([future_PAAS_NATIVE_OPEN_SEARCH])).result()
+
+                    data_ai = self.data[self.C_DATA_AI]
+                    data_ai[self.C_DATA_AI_CATALOG] += next(as_completed([future_DATA_AI_CATALOG])).result()
+                    data_ai[self.C_DATA_AI_FLOW] += next(as_completed([future_DATA_AI_FLOW])).result()
+                    data_ai[self.C_DATA_AI_SCIENCE] += next(as_completed([future_DATA_AI_SCIENCE])).result()
+                    data_ai[self.C_DATA_AI_ODA] += next(as_completed([future_DATA_AI_ODA])).result()
+                    data_ai[self.C_DATA_AI_BDS] += next(as_completed([future_DATA_AI_BDS])).result()
+                    data_ai[self.C_DATA_AI_DI] += next(as_completed([future_DATA_AI_DI])).result()
+
+            self.__load_print_section_time(section_start_time)
             print("")
 
         except oci.exceptions.RequestException:
@@ -12456,7 +13615,7 @@ class ShowOCIService(object):
         except oci.exceptions.ServiceError:
             raise
         except Exception as e:
-            self.__print_error("__load_data_ai_main", e)
+            self.__print_error("__load_section_native_data_ai_main", e)
 
     ##########################################################################
     # __load_data_ai_catalog
@@ -12468,14 +13627,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Data Catalog")
+            errstr = ""
+            header = "Data Catalog"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -12489,14 +13649,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.data_catalog.models.CatalogSummary
                 for arr in array:
@@ -12505,12 +13668,12 @@ class ShowOCIService(object):
 
                     val = {
                         'id': str(arr.id),
-                        'display_name': str(arr.display_name),
-                        'time_created': str(arr.time_created),
-                        'time_updated': str(arr.time_updated),
-                        'number_of_objects': str(arr.number_of_objects),
-                        'lifecycle_state': str(arr.lifecycle_state),
-                        'lifecycle_details': str(arr.lifecycle_details),
+                        'display_name': self.get_value(arr.display_name),
+                        'time_created': self.get_value(arr.time_created),
+                        'time_updated': self.get_value(arr.time_updated),
+                        'number_of_objects': self.get_value(arr.number_of_objects),
+                        'lifecycle_state': self.get_value(arr.lifecycle_state),
+                        'lifecycle_details': self.get_value(arr.lifecycle_details),
                         'attached_catalog_private_endpoints': str(', '.join(x for x in arr.attached_catalog_private_endpoints)) if arr.attached_catalog_private_endpoints else "",
                         'sum_info': "Data Catalog",
                         'sum_size_gb': str("1"),
@@ -12525,7 +13688,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12533,7 +13696,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_data_ai_catalog", e)
+            self.__print_error("__load_data_ai_catalog", e, compartment)
             return data
 
     ##########################################################################
@@ -12546,14 +13709,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Data Science")
+            errstr = ""
+            header = "Data Science"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -12567,14 +13731,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.data_science.models.ProjectSummary
                 for arr in array:
@@ -12583,11 +13750,11 @@ class ShowOCIService(object):
 
                     val = {
                         'id': str(arr.id),
-                        'display_name': str(arr.display_name),
-                        'time_created': str(arr.time_created),
-                        'description': str(arr.description),
-                        'created_by': str(arr.created_by),
-                        'lifecycle_state': str(arr.lifecycle_state),
+                        'display_name': self.get_value(arr.display_name),
+                        'time_created': self.get_value(arr.time_created),
+                        'description': self.get_value(arr.description),
+                        'created_by': self.get_value(arr.created_by),
+                        'lifecycle_state': self.get_value(arr.lifecycle_state),
                         'sum_info': "Data Science",
                         'sum_size_gb': str("1"),
                         'compartment_name': str(compartment['name']),
@@ -12601,7 +13768,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12609,7 +13776,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_data_ai_science", e)
+            self.__print_error("__load_data_ai_science", e, compartment)
             return data
 
     ##########################################################################
@@ -12622,14 +13789,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Data Flow")
+            errstr = ""
+            header = "Data Flow"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -12643,14 +13811,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.data_flow.models.ApplicationSummary
                 for arr in array:
@@ -12659,15 +13830,15 @@ class ShowOCIService(object):
 
                     val = {
                         'id': str(arr.id),
-                        'display_name': str(arr.display_name),
-                        'time_created': str(arr.time_created),
-                        'time_updated': str(arr.time_updated),
-                        'language': str(arr.language),
-                        'lifecycle_state': str(arr.lifecycle_state),
-                        'owner_principal_id': str(arr.owner_principal_id),
-                        'owner_user_name': str(arr.owner_user_name),
-                        'spark_version': str(arr.spark_version),
-                        'type': str(arr.type),
+                        'display_name': self.get_value(arr.display_name),
+                        'time_created': self.get_value(arr.time_created),
+                        'time_updated': self.get_value(arr.time_updated),
+                        'language': self.get_value(arr.language),
+                        'lifecycle_state': self.get_value(arr.lifecycle_state),
+                        'owner_principal_id': self.get_value(arr.owner_principal_id),
+                        'owner_user_name': self.get_value(arr.owner_user_name),
+                        'spark_version': self.get_value(arr.spark_version),
+                        'type': self.get_value(arr.type),
                         'sum_info': "Data Flow",
                         'sum_size_gb': str("1"),
                         'compartment_name': str(compartment['name']),
@@ -12681,7 +13852,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12689,7 +13860,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_data_ai_flow", e)
+            self.__print_error("__load_data_ai_flow", e, compartment)
             return data
 
     ##########################################################################
@@ -12702,14 +13873,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Data Assistant")
+            errstr = ""
+            header = "Data Assistant"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 odas = []
@@ -12722,14 +13894,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # oda = oci.oda.models.OdaInstanceSummary
                 for oda in odas:
@@ -12737,16 +13912,16 @@ class ShowOCIService(object):
                         continue
                     val = {
                         'id': str(oda.id),
-                        'display_name': str(oda.display_name),
-                        'description': str(oda.description),
-                        'shape_name': str(oda.shape_name),
-                        'time_created': str(oda.time_created),
-                        'time_updated': str(oda.time_updated),
-                        'lifecycle_state': str(oda.lifecycle_state),
-                        'lifecycle_sub_state': str(oda.lifecycle_sub_state),
-                        'state_message': str(oda.state_message),
-                        'is_role_based_access': str(oda.is_role_based_access),
-                        'identity_domain': str(oda.identity_domain),
+                        'display_name': self.get_value(oda.display_name),
+                        'description': self.get_value(oda.description),
+                        'shape_name': self.get_value(oda.shape_name),
+                        'time_created': self.get_value(oda.time_created),
+                        'time_updated': self.get_value(oda.time_updated),
+                        'lifecycle_state': self.get_value(oda.lifecycle_state),
+                        'lifecycle_sub_state': self.get_value(oda.lifecycle_sub_state),
+                        'state_message': self.get_value(oda.state_message),
+                        'is_role_based_access': self.get_value(oda.is_role_based_access),
+                        'identity_domain': self.get_value(oda.identity_domain),
                         'imported_package_names': str(', '.join(x for x in oda.imported_package_names)) if oda.imported_package_names else "",
                         'attachment_types': str(', '.join(x for x in oda.attachment_types)) if oda.attachment_types else "",
                         'sum_info': "Digital Assistant " + str(oda.shape_name),
@@ -12762,7 +13937,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12770,7 +13945,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_data_ai_oda", e)
+            self.__print_error("__load_data_ai_oda", e, compartment)
             return data
 
     ##########################################################################
@@ -12783,14 +13958,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Big Data Services")
+            errstr = ""
+            header = "Big Data Service"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 bdss = []
@@ -12804,14 +13980,17 @@ class ShowOCIService(object):
                 # TBD: don't add warning count until GA on the service
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning("a", False)
+                    self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # bds = bds.models.BdsInstanceSummary
                 for bds in bdss:
@@ -12820,29 +13999,152 @@ class ShowOCIService(object):
 
                     val = {
                         'id': str(bds.id),
-                        'display_name': str(bds.display_name),
-                        'number_of_nodes': str(bds.number_of_nodes),
-                        'cluster_version': str(bds.cluster_version),
-                        'is_high_availability': str(bds.is_high_availability),
-                        'is_secure': str(bds.is_secure),
-                        'cluster_profile': str(bds.cluster_profile),
-                        'lifecycle_state': str(bds.lifecycle_state),
-                        'is_cloud_sql_configured': str(bds.is_cloud_sql_configured),
-                        'time_created': str(bds.time_created),
+                        'display_name': self.get_value(bds.display_name),
+                        'number_of_nodes': self.get_value(bds.number_of_nodes),
+                        'cluster_version': self.get_value(bds.cluster_version),
+                        'is_high_availability': self.get_value(bds.is_high_availability),
+                        'is_secure': self.get_value(bds.is_secure),
+                        'cluster_profile': self.get_value(bds.cluster_profile),
+                        'lifecycle_state': self.get_value(bds.lifecycle_state),
+                        'is_cloud_sql_configured': self.get_value(bds.is_cloud_sql_configured),
+                        'time_created': self.get_value(bds.time_created),
                         'compartment_name': str(compartment['name']),
                         'compartment_path': str(compartment['path']),
                         'compartment_id': str(compartment['id']),
                         'sum_info': "Big Data Service (Nodes)",
-                        'sum_size_gb': str(bds.number_of_nodes),
+                        'sum_size_gb': self.get_value(bds.number_of_nodes),
+                        'number_of_nodes_requiring_maintenance_reboot': self.get_value(bds.number_of_nodes_requiring_maintenance_reboot),
+                        'is_kafka_configured': self.get_value(bds.is_kafka_configured),
                         'defined_tags': [] if bds.defined_tags is None else bds.defined_tags,
                         'freeform_tags': [] if bds.freeform_tags is None else bds.freeform_tags,
+                        'error_message': "",
+                        'network_cidr_block': "",
+                        'network_is_nat_gateway_required': "",
+                        'cluster_details_bda_version': "",
+                        'cluster_details_bdm_version': "",
+                        'cluster_details_bds_version': "",
+                        'cluster_details_os_version': "",
+                        'cluster_details_db_version': "",
+                        'cluster_details_bd_cell_version': "",
+                        'cluster_details_csql_cell_version': "",
+                        'cluster_details_time_refreshed': "",
+                        'cluster_details_c_manager_url': "",
+                        'cluster_details_ambari_url': "",
+                        'cluster_details_big_data_manager_url': "",
+                        'cluster_details_hue_server_url': "",
+                        'cluster_details_odh_version': "",
+                        'cluster_details_jupyter_hub_url': "",
+                        'cloud_sql_details_shape': "",
+                        'cloud_sql_details_block_volume_size_in_gbs': "",
+                        'cloud_sql_details_is_kerberos_mapped_to_database_users': "",
+                        'cloud_sql_details_ip_address': "",
+                        'created_by': "",
+                        'kms_key_id': "",
+                        'nodes': [],
+                        'autoscale': [],
                         'region_name': str(self.config['region'])}
+
+                    # Get extra details
+                    try:
+                        # bds.models.BdsInstance
+                        ext = bds_client.get_bds_instance(
+                            bds.id,
+                            retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+
+                        if ext:
+                            if ext.network_config:
+                                val['network_cidr_block'] = self.get_value(ext.network_config.cidr_block)
+                                val['network_is_nat_gateway_required'] = self.get_value(ext.network_config.is_nat_gateway_required)
+
+                            if ext.cluster_details:
+                                val['cluster_details_bda_version'] = self.get_value(ext.cluster_details.bda_version)
+                                val['cluster_details_bdm_version'] = self.get_value(ext.cluster_details.bdm_version)
+                                val['cluster_details_bds_version'] = self.get_value(ext.cluster_details.bds_version)
+                                val['cluster_details_os_version'] = self.get_value(ext.cluster_details.os_version)
+                                val['cluster_details_db_version'] = self.get_value(ext.cluster_details.db_version)
+                                val['cluster_details_bd_cell_version'] = self.get_value(ext.cluster_details.bd_cell_version)
+                                val['cluster_details_csql_cell_version'] = self.get_value(ext.cluster_details.csql_cell_version)
+                                val['cluster_details_time_refreshed'] = self.get_value(ext.cluster_details.time_refreshed)
+                                val['cluster_details_c_manager_url'] = self.get_value(ext.cluster_details.cloudera_manager_url)
+                                val['cluster_details_ambari_url'] = self.get_value(ext.cluster_details.ambari_url)
+                                val['cluster_details_big_data_manager_url'] = self.get_value(ext.cluster_details.big_data_manager_url)
+                                val['cluster_details_hue_server_url'] = self.get_value(ext.cluster_details.hue_server_url)
+                                val['cluster_details_odh_version'] = self.get_value(ext.cluster_details.odh_version)
+                                val['cluster_details_jupyter_hub_url'] = self.get_value(ext.cluster_details.jupyter_hub_url)
+
+                            nodes = []
+                            for nd in ext.nodes:
+                                nodes.append({
+                                    'instance_id': self.get_value(nd.instance_id),
+                                    'display_name': self.get_value(nd.display_name),
+                                    'lifecycle_state': self.get_value(nd.lifecycle_state),
+                                    'node_type': self.get_value(nd.node_type),
+                                    'shape': self.get_value(nd.shape),
+                                    'subnet_id': self.get_value(nd.subnet_id),
+                                    'subnet_name': self.get_network_subnet(nd.subnet_id, False),
+                                    'subnet_name_detailed': self.get_network_subnet(nd.subnet_id, True),
+                                    'ip_address': self.get_value(nd.ip_address),
+                                    'hostname': self.get_value(nd.hostname),
+                                    'image_id': self.get_value(nd.image_id),
+                                    'availability_domain': self.get_value(nd.availability_domain),
+                                    'fault_domain': self.get_value(nd.fault_domain),
+                                    'time_created': self.get_value(nd.time_created),
+                                    'time_updated': self.get_value(nd.time_updated),
+                                    'ocpus': self.get_value(nd.ocpus),
+                                    'memory_in_gbs': self.get_value(nd.memory_in_gbs),
+                                    'nvmes': self.get_value(nd.nvmes),
+                                    'attached_block_volumes_ids': [bd.volume_attachment_id for bd in nd.attached_block_volumes],
+                                    'attached_block_volumes_gbs': [bd.volume_size_in_gbs for bd in nd.attached_block_volumes],
+                                    'local_disks_total_size_in_gbs': self.get_value(nd.local_disks_total_size_in_gbs),
+                                    'time_maintenance_reboot_due': self.get_value(nd.time_maintenance_reboot_due)})
+
+                            # Added the nodes to the main array
+                            val['nodes'] = nodes
+                            if ext.cloud_sql_details:
+                                val['cloud_sql_details_shape'] = self.get_value(ext.cloud_sql_details.shape)
+                                val['cloud_sql_details_block_volume_size_in_gbs'] = self.get_value(ext.cloud_sql_details.block_volume_size_in_gbs)
+                                val['cloud_sql_details_is_kerberos_mapped_to_database_users'] = self.get_value(ext.cloud_sql_details.is_kerberos_mapped_to_database_users)
+                                val['cloud_sql_details_ip_address'] = self.get_value(ext.cloud_sql_details.ip_address)
+                            val['created_by'] = self.get_value(ext.created_by)
+                            val['kms_key_id'] = self.get_value(ext.kms_key_id)
+
+                    except Exception as e:
+                        errstr += "Issue with " + str(bds.display_name) + " "
+                        val['error_message'] = str(e)
+                        self.__load_print_auth_warning("", True, to_print=self.flags.skip_threads)
+
+                    # get Autoscale configuration
+                    try:
+                        # bds.models.BdsInstance
+                        ext = bds_client.list_auto_scaling_configurations(
+                            compartment_id=bds.compartment_id,
+                            bds_instance_id=bds.id,
+                            retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+
+                        autoscale = []
+                        for ats in ext:
+                            autoscale.append({
+                                'display_name': self.get_value(ats.display_name),
+                                'lifecycle_state': self.get_value(ats.lifecycle_state),
+                                'node_type': self.get_value(ats.node_type),
+                                'time_created': self.get_value(ats.time_created),
+                                'time_updated': self.get_value(ats.time_updated),
+                                'policy_type': self.get_value(ats.policy_details.policy_type) if ats.policy_details else "",
+                                'policy_trigger_type': self.get_value(ats.policy_details.trigger_type) if ats.policy_details else "",
+                                'policy_action_type': self.get_value(ats.policy_details.action_type) if ats.policy_details else "",
+                            })
+                        val['autoscale'] = autoscale
+
+                    except Exception as e:
+                        errstr += "Issue with " + str(bds.display_name) + " Autoscale "
+                        val['error_message'] = str(e)
+                        self.__load_print_auth_warning("", True, to_print=self.flags.skip_threads)
 
                     # add the data
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12850,7 +14152,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_data_ai_bds", e)
+            self.__print_error("__load_data_ai_bds", e, compartment)
             return data
 
     ##########################################################################
@@ -12863,14 +14165,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Data Integrations")
+            errstr = ""
+            header = "Data Integration"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 dis = []
@@ -12883,14 +14186,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning("a", False)
+                        self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning("a", False)
+                    self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # di = oci.data_integration.models.WorkspaceSummary
                 for di in dis:
@@ -12899,11 +14205,11 @@ class ShowOCIService(object):
 
                     val = {
                         'id': str(di.id),
-                        'description': str(di.description),
-                        'display_name': str(di.display_name),
-                        'lifecycle_state': str(di.lifecycle_state),
-                        'time_created': str(di.time_created),
-                        'time_updated': str(di.time_updated),
+                        'description': self.get_value(di.description),
+                        'display_name': self.get_value(di.display_name),
+                        'lifecycle_state': self.get_value(di.lifecycle_state),
+                        'time_created': self.get_value(di.time_created),
+                        'time_updated': self.get_value(di.time_updated),
                         'compartment_name': str(compartment['name']),
                         'compartment_path': str(compartment['path']),
                         'compartment_id': str(compartment['id']),
@@ -12917,7 +14223,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -12925,78 +14231,8 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_data_ai_data_integration", e)
+            self.__print_error("__load_data_ai_data_integration", e, compartment)
             return data
-
-    ##########################################################################
-    # __load_paas_native_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # oci.integration.IntegrationInstanceClient
-    # oci.analytics.AnalyticsClient
-    # oci.oce.OceInstanceClient
-    # Comment OAC until OAC go live, to avoid timeout
-    ##########################################################################
-    def __load_paas_native_main(self):
-
-        try:
-            print("PaaS Native Services...")
-
-            # clients
-            oic_client = oci.integration.IntegrationInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            oac_client = oci.analytics.AnalyticsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            oce_client = oci.oce.OceInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            ocvs_client = oci.ocvp.SddcClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            esxi_client = oci.ocvp.EsxiHostClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            vb_client = oci.visual_builder.VbInstanceClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            opensearch_client = oci.opensearch.OpensearchClusterClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            virtual_network = oci.core.VirtualNetworkClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            devops_client = oci.devops.DevopsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-
-            if self.flags.proxy:
-                oic_client.base_client.session.proxies = {'https': self.flags.proxy}
-                oac_client.base_client.session.proxies = {'https': self.flags.proxy}
-                oce_client.base_client.session.proxies = {'https': self.flags.proxy}
-                ocvs_client.base_client.session.proxies = {'https': self.flags.proxy}
-                vb_client.base_client.session.proxies = {'https': self.flags.proxy}
-                esxi_client.base_client.session.proxies = {'https': self.flags.proxy}
-                virtual_network.base_client.session.proxies = {'https': self.flags.proxy}
-                opensearch_client.base_client.session.proxies = {'https': self.flags.proxy}
-                devops_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OAC)
-            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OIC)
-            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OCE)
-            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OCVS)
-            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_VB)
-            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_DEVOPS)
-            self.__initialize_data_key(self.C_PAAS_NATIVE, self.C_PAAS_NATIVE_OPEN_SEARCH)
-
-            # reference to paas
-            paas = self.data[self.C_PAAS_NATIVE]
-
-            # append the data
-            paas[self.C_PAAS_NATIVE_OCVS] += self.__load_paas_ocvs(ocvs_client, esxi_client, virtual_network, compartments)
-            paas[self.C_PAAS_NATIVE_OIC] += self.__load_paas_oic(oic_client, compartments)
-            paas[self.C_PAAS_NATIVE_OCE] += self.__load_paas_oce(oce_client, compartments)
-            paas[self.C_PAAS_NATIVE_OAC] += self.__load_paas_oac(oac_client, compartments)
-            paas[self.C_PAAS_NATIVE_VB] += self.__load_paas_visualbuilder(vb_client, compartments)
-            paas[self.C_PAAS_NATIVE_DEVOPS] += self.__load_paas_devops(devops_client, compartments)
-            paas[self.C_PAAS_NATIVE_OPEN_SEARCH] += self.__load_paas_open_search(opensearch_client, compartments)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_paas_native_main", e)
 
     ##########################################################################
     # __load_paas_oic
@@ -13008,14 +14244,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("OIC Native")
+            errstr = ""
+            header = "OIC Native"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 oics = []
@@ -13029,14 +14266,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # oic = oci.integration.models.IntegrationInstanceSummary
                 for oic in oics:
@@ -13076,7 +14316,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13084,27 +14324,28 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_paas_oic", e)
+            self.__print_error("__load_paas_oic", e, compartment)
             return data
 
     ##########################################################################
     # __load_paas_osvc - vmware
     ##########################################################################
-    def __load_paas_ocvs(self, ocvs_client, esxi_client, virtual_network, compartments):
+    def __load_paas_ocvs(self, ocvs_client, cluster_client, esxi_client, virtual_network, compartments):
 
         data = []
         cnt = 0
         start_time = time.time()
 
         try:
-            self.__load_print_status("OCVS Native - VMWare")
+            errstr = ""
+            header = "OCVS Native - VMWare"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 ocvs = []
@@ -13118,121 +14359,211 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # vmware_summary = oci.ocvp.models.SddcSummary
                 for vmware_summary in ocvs:
                     if not self.check_lifecycle_state_active(vmware_summary.lifecycle_state):
                         continue
+                    if vmware_summary.lifecycle_state == 'FAILED':
+                        continue
 
                     # get vmware object with more details
                     # vmware = oci.ocvp.models.Sddc
                     vmware = ocvs_client.get_sddc(vmware_summary.id).data
-
+                    sddc_ocpus = 0
                     val = {
-                        'id': str(vmware.id),
-                        'display_name': str(vmware.display_name),
-                        'compute_availability_domain': str(vmware.compute_availability_domain),
-                        'instance_display_name_prefix': str(vmware.instance_display_name_prefix),
-                        'vmware_software_version': str(vmware.vmware_software_version),
-                        'esxi_hosts_count': str(vmware.esxi_hosts_count),
-                        'nsx_manager_fqdn': str(vmware.nsx_manager_fqdn),
-                        'nsx_manager_private_ip_id': str(vmware.nsx_manager_private_ip_id),
-                        'nsx_manager_private_ip': self.__load_core_network_single_privateip(virtual_network, vmware.nsx_manager_private_ip_id, False),
-                        'nsx_manager_username': str(vmware.nsx_manager_username),
-                        'nsx_manager_initial_password': str(vmware.nsx_manager_initial_password),
-                        'vcenter_fqdn': str(vmware.vcenter_fqdn),
-                        'vcenter_username': str(vmware.vcenter_username),
-                        'vcenter_private_ip_id': str(vmware.vcenter_private_ip_id),
+                        'id': self.get_value(vmware.id),
+                        'display_name': self.get_value(vmware.display_name),
+                        'sddc_ocpus': 0,
+                        'vmware_software_version': self.get_value(vmware.vmware_software_version),
+                        'esxi_software_version': self.get_value(vmware.esxi_software_version),
+                        'clusters_count': self.get_value(vmware.clusters_count),
+                        'vcenter_fqdn': self.get_value(vmware.vcenter_fqdn),
+                        'nsx_manager_fqdn': self.get_value(vmware.nsx_manager_fqdn),
+                        'vcenter_private_ip_id': self.get_value(vmware.vcenter_private_ip_id),
                         'vcenter_private_ip': self.__load_core_network_single_privateip(virtual_network, vmware.vcenter_private_ip_id, False),
-                        'vcenter_initial_password': str(vmware.vcenter_initial_password),
-                        'workload_network_cidr': str(vmware.workload_network_cidr),
-                        'nsx_overlay_segment_name': str(vmware.nsx_overlay_segment_name),
-                        'nsx_edge_uplink_ip_id': str(vmware.nsx_edge_uplink_ip_id),
+                        'nsx_manager_private_ip_id': self.get_value(vmware.nsx_manager_private_ip_id),
+                        'nsx_manager_private_ip': self.__load_core_network_single_privateip(virtual_network, vmware.nsx_manager_private_ip_id, False),
+                        'vcenter_username': self.get_value(vmware.vcenter_username),
+                        'nsx_manager_username': self.get_value(vmware.nsx_manager_username),
+                        'nsx_edge_uplink_ip_id': self.get_value(vmware.nsx_edge_uplink_ip_id),
                         'nsx_edge_uplink_ip': self.__load_core_network_single_privateip(virtual_network, vmware.nsx_edge_uplink_ip_id, True),
-                        'provisioning_subnet_id': str(vmware.provisioning_subnet_id),
-                        'provisioning_subnet': self.get_network_subnet(vmware.provisioning_subnet_id, True),
-                        'vsphere_vlan_id': str(vmware.vsphere_vlan_id),
-                        'vsphere_vlan': self.__load_core_network_single_vlan(virtual_network, vmware.vsphere_vlan_id),
-                        'vmotion_vlan_id': str(vmware.vmotion_vlan_id),
-                        'vmotion_vlan': self.__load_core_network_single_vlan(virtual_network, vmware.vmotion_vlan_id),
-                        'vsan_vlan_id': str(vmware.vsan_vlan_id),
-                        'vsan_vlan': self.__load_core_network_single_vlan(virtual_network, vmware.vsan_vlan_id),
-                        'nsx_v_tep_vlan_id': str(vmware.nsx_v_tep_vlan_id),
-                        'nsx_v_tep_vlan': self.__load_core_network_single_vlan(virtual_network, vmware.nsx_v_tep_vlan_id),
-                        'nsx_edge_v_tep_vlan_id': str(vmware.nsx_edge_v_tep_vlan_id),
-                        'nsx_edge_v_tep_vlan': self.__load_core_network_single_vlan(virtual_network, vmware.nsx_edge_v_tep_vlan_id),
-                        'nsx_edge_uplink1_vlan_id': str(vmware.nsx_edge_uplink1_vlan_id),
-                        'nsx_edge_uplink1_vlan': self.__load_core_network_single_vlan(virtual_network, vmware.nsx_edge_uplink1_vlan_id),
-                        'nsx_edge_uplink2_vlan_id': str(vmware.nsx_edge_uplink2_vlan_id),
-                        'nsx_edge_uplink2_vlan': self.__load_core_network_single_vlan(virtual_network, vmware.nsx_edge_uplink2_vlan_id),
-                        'hcx_private_ip_id': str(vmware.hcx_private_ip_id),
-                        'hcx_fqdn': str(vmware.hcx_fqdn),
-                        'hcx_initial_password': str(vmware.hcx_initial_password),
-                        'hcx_vlan_id': str(vmware.hcx_vlan_id),
-                        'hcx_on_prem_key': str(vmware.hcx_on_prem_key),
-                        'is_hcx_enabled': str(vmware.is_hcx_enabled),
-                        'time_created': str(vmware.time_created),
-                        'time_updated': str(vmware.time_updated),
-                        'lifecycle_state': str(vmware.lifecycle_state),
-                        'sum_info': "PaaS OCVS VMWare ESXi Servers",
-                        'sum_size_gb': str(vmware.esxi_hosts_count),
+                        'hcx_private_ip_id': self.get_value(vmware.hcx_private_ip_id),
+                        'hcx_private_ip': self.__load_core_network_single_privateip(virtual_network, vmware.hcx_private_ip_id, True),
+                        'hcx_fqdn': self.get_value(vmware.hcx_fqdn),
+                        'hcx_mode': self.get_value(vmware.hcx_mode),
+                        'is_hcx_pending_downgrade': self.get_value(vmware.is_hcx_pending_downgrade),
+                        'time_hcx_billing_cycle_end': self.get_value(vmware.time_hcx_billing_cycle_end),
+                        'time_hcx_license_status_updated': self.get_value(vmware.time_hcx_license_status_updated),
+                        'is_single_host_sddc': self.get_value(vmware.is_single_host_sddc) if vmware.is_single_host_sddc else "False",
+                        'time_created': self.get_value(vmware.time_created, trim_date=True),
+                        'time_updated': self.get_value(vmware.time_updated, trim_date=True),
+                        'lifecycle_state': self.get_value(vmware.lifecycle_state),
+                        'sum_info': "PaaS OCVS SDDC Clusters",
+                        'sum_size_gb': self.get_value(vmware.clusters_count),
                         'compartment_name': str(compartment['name']),
                         'compartment_path': str(compartment['path']),
                         'compartment_id': str(compartment['id']),
                         'defined_tags': [] if vmware.defined_tags is None else vmware.defined_tags,
                         'freeform_tags': [] if vmware.freeform_tags is None else vmware.freeform_tags,
-                        'esxihosts': [],
+                        'initial_configuration': [{
+                            'vsphere_type': self.get_value(icfg.vsphere_type),
+                            'compute_availability_domain': self.get_value(icfg.compute_availability_domain),
+                            'display_name': self.get_value(icfg.display_name),
+                            'instance_display_name_prefix': self.get_value(icfg.instance_display_name_prefix),
+                            'esxi_hosts_count': self.get_value(icfg.esxi_hosts_count),
+                            'initial_commitment': self.get_value(icfg.initial_commitment),
+                            'workload_network_cidr': self.get_value(icfg.workload_network_cidr),
+                            'initial_host_shape_name': self.get_value(icfg.initial_host_shape_name),
+                            'initial_host_ocpu_count': self.get_value(icfg.initial_host_ocpu_count),
+                            'is_shielded_instance_enabled': self.get_value(icfg.is_shielded_instance_enabled),
+                            'capacity_reservation_id': self.get_value(icfg.capacity_reservation_id),
+                            'network_configuration': self.__load_paas_ocvs_network_configuration(icfg.network_configuration, virtual_network),
+                            'datastores': [{
+                                'block_volume_ids': x.block_volume_ids,
+                                'datastore_type': self.get_value(x.datastore_type)
+                            } for x in icfg.datastores] if icfg.datastores else [],
+                        } for icfg in vmware.initial_configuration.initial_cluster_configurations] if vmware.initial_configuration and vmware.initial_configuration.initial_cluster_configurations else [],
+                        'clusters': [],
+                        'cluster_query_error': "",
                         'region_name': str(self.config['region'])}
 
                     #######################
-                    # get the esxi hosts
+                    # get the Clusters
                     #######################
-                    esxis = []
+                    clusters = []
                     try:
-                        esxis = esxi_client.list_esxi_hosts(
+                        clusters = cluster_client.list_clusters(
+                            compartment_id=vmware.compartment_id,
                             sddc_id=vmware.id,
                             sort_by="displayName",
                             retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
                         ).data
 
-                    except oci.exceptions.ServiceError:
-                        pass
-                    except oci.exceptions.ConnectTimeout:
-                        pass
+                    except oci.exceptions.ServiceError as e:
+                        val['cluster_query_error'] += str(e)
+                        errstr += "c"
+                    except oci.exceptions.ConnectTimeout as e:
+                        val['cluster_query_error'] += str(e)
+                        errstr += "c"
 
-                    # esxi = classoci.ocvp.models.EsxiHostSummary
-                    if esxis:
-                        for esxi in esxis.items:
-                            if self.check_lifecycle_state_active(esxi.lifecycle_state):
-                                val['esxihosts'].append(
-                                    {
-                                        'id': str(esxi.id),
-                                        'display_name': str(esxi.display_name),
-                                        'compute_instance_id': str(esxi.compute_instance_id),
-                                        'billing_contract_end_date': str(esxi.billing_contract_end_date),
-                                        'current_sku': str(esxi.current_sku),
-                                        'next_sku': str(esxi.next_sku),
-                                        'time_created': str(esxi.time_created),
-                                        'time_updated': str(esxi.time_updated),
-                                        'lifecycle_state': str(esxi.lifecycle_state),
-                                        'defined_tags': [] if esxi.defined_tags is None else esxi.defined_tags,
-                                        'freeform_tags': [] if esxi.freeform_tags is None else esxi.freeform_tags
-                                    }
-                                )
+                    # esxi = oci.ocvp.models.ClusterSummary
+                    if clusters:
+                        for cluster in clusters.items:
+
+                            # oci.ocvp.models.Cluster
+                            cl = cluster_client.get_cluster(cluster_id=cluster.id).data
+                            cluster_ocpus = 0
+                            cldata = {
+                                'id': self.get_value(cl.id),
+                                'compute_availability_domain': self.get_value(cl.compute_availability_domain),
+                                'display_name': self.get_value(cl.display_name),
+                                'cluster_ocpus': 0,
+                                'instance_display_name_prefix': self.get_value(cl.instance_display_name_prefix),
+                                'vmware_software_version': self.get_value(cl.vmware_software_version),
+                                'esxi_software_version': self.get_value(cl.esxi_software_version),
+                                'esxi_hosts_count': self.get_value(cl.esxi_hosts_count),
+                                'initial_commitment': self.get_value(cl.initial_commitment),
+                                'workload_network_cidr': self.get_value(cl.workload_network_cidr),
+                                'time_created': self.get_value(cl.time_created, trim_date=True),
+                                'time_updated': self.get_value(cl.time_updated, trim_date=True),
+                                'lifecycle_state': self.get_value(cl.lifecycle_state),
+                                'initial_host_shape_name': self.get_value(cl.initial_host_shape_name),
+                                'initial_host_ocpu_count': self.get_value(cl.initial_host_ocpu_count),
+                                'is_shielded_instance_enabled': self.get_value(cl.is_shielded_instance_enabled),
+                                'capacity_reservation_id': self.get_value(cl.capacity_reservation_id),
+                                'vsphere_type': self.get_value(cl.vsphere_type),
+                                'datastores': [{
+                                    'block_volume_ids': x.block_volume_ids,
+                                    'capacity': self.get_value(x.capacity),
+                                    'datastore_type': self.get_value(x.datastore_type)
+                                } for x in cl.datastores] if cl.datastores else [],
+                                'network_configuration': self.__load_paas_ocvs_network_configuration(cl.network_configuration, virtual_network),
+                                'esxihosts': [],
+                                'esxi_query_error': "",
+                                'defined_tags': [] if cl.defined_tags is None else cl.defined_tags,
+                                'freeform_tags': [] if cl.freeform_tags is None else cl.freeform_tags
+                            }
+
+                            #################################################
+                            # get the esxi hosts that belongs to the cluster
+                            #################################################
+                            esxis = []
+                            try:
+                                esxis = esxi_client.list_esxi_hosts(
+                                    cluster_id=cl.id,
+                                    sort_by="displayName",
+                                    retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                                ).data
+
+                            except oci.exceptions.ServiceError as e:
+                                val['esxi_query_error'] += str(e)
+                                errstr += "x"
+                            except oci.exceptions.ConnectTimeout as e:
+                                val['esxi_query_error'] += str(e)
+                                errstr += "x"
+
+                            # esxi = oci.ocvp.models.EsxiHostSummary
+                            if esxis:
+                                for esxi in esxis.items:
+                                    if self.check_lifecycle_state_active(esxi.lifecycle_state):
+                                        exidata = {
+                                            'id': self.get_value(esxi.id),
+                                            'cluster_id': self.get_value(esxi.cluster_id),
+                                            'display_name': self.get_value(esxi.display_name),
+                                            'compute_instance_id': self.get_value(esxi.compute_instance_id),
+                                            'time_created': self.get_value(esxi.time_created, trim_date=True),
+                                            'time_updated': self.get_value(esxi.time_updated, trim_date=True),
+                                            'lifecycle_state': self.get_value(esxi.lifecycle_state),
+                                            'current_commitment': self.get_value(esxi.current_commitment),
+                                            'next_commitment': self.get_value(esxi.next_commitment),
+                                            'billing_contract_end_date': self.get_value(esxi.billing_contract_end_date),
+                                            'failed_esxi_host_id': self.get_value(esxi.failed_esxi_host_id),
+                                            'replacement_esxi_host_id': self.get_value(esxi.replacement_esxi_host_id),
+                                            'grace_period_end_date': self.get_value(esxi.grace_period_end_date, trim_date=True),
+                                            'vmware_software_version': self.get_value(esxi.vmware_software_version),
+                                            'non_upgraded_esxi_host_id': self.get_value(esxi.non_upgraded_esxi_host_id),
+                                            'upgraded_replacement_esxi_host_id': self.get_value(esxi.upgraded_replacement_esxi_host_id),
+                                            'compute_availability_domain': self.get_value(esxi.compute_availability_domain),
+                                            'host_shape_name': self.get_value(esxi.host_shape_name),
+                                            'host_ocpu_count': self.get_value(esxi.host_ocpu_count),
+                                            'billing_donor_host_id': self.get_value(esxi.billing_donor_host_id),
+                                            'swap_billing_host_id': self.get_value(esxi.swap_billing_host_id),
+                                            'is_billing_continuation_in_progress': self.get_value(esxi.is_billing_continuation_in_progress),
+                                            'is_billing_swapping_in_progress': self.get_value(esxi.is_billing_swapping_in_progress),
+                                            'defined_tags': [] if esxi.defined_tags is None else esxi.defined_tags,
+                                            'freeform_tags': [] if esxi.freeform_tags is None else esxi.freeform_tags
+                                        }
+
+                                    # add the esxi to the cluster
+                                    cldata['esxihosts'].append(exidata)
+
+                                    # count ocpus
+                                    if esxi.host_ocpu_count and str(esxi.host_ocpu_count).replace(".", "").isnumeric():
+                                        cluster_ocpus += esxi.host_ocpu_count
+                                        sddc_ocpus += esxi.host_ocpu_count
+
+                            # add the clusters to the vmware
+                            cldata['cluster_ocpus'] = str(cluster_ocpus)
+                            val['clusters'].append(cldata)
 
                     # add the data
                     cnt += 1
+                    val['sddc_ocpus'] = str(sddc_ocpus)
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13240,7 +14571,62 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_paas_ocvs", e)
+            self.__print_error("__load_paas_ocvs", e, compartment)
+            return data
+
+    ##########################################################################
+    # __load_paas_oac
+    ##########################################################################
+    def __load_paas_ocvs_network_configuration(self, network_configuration, virtual_network):
+        try:
+            net = network_configuration
+            data = {
+                'provisioning_subnet_id': "",
+                'provisioning_subnet': "",
+                'vsphere_vlan_id': "",
+                'vsphere_vlan': "",
+                'vmotion_vlan_id': "",
+                'vmotion_vlan': "",
+                'vsan_vlan_id': "",
+                'vsan_vlan': "",
+                'nsx_v_tep_vlan_id': "",
+                'nsx_v_tep_vlan': "",
+                'nsx_edge_v_tep_vlan_id': "",
+                'nsx_edge_v_tep_vlan': "",
+                'nsx_edge_uplink1_vlan_id': "",
+                'nsx_edge_uplink1_vlan': "",
+                'nsx_edge_uplink2_vlan_id': "",
+                'nsx_edge_uplink2_vlan': "",
+                'provisioning_vlan_id': "",
+                'provisioning_vlan': "",
+                'hcx_vlan_id': "",
+                'hcx_vlan': ""
+            }
+            if net:
+                data['provisioning_subnet_id'] = self.get_value(net.provisioning_subnet_id)
+                data['provisioning_subnet'] = self.get_network_subnet(net.provisioning_subnet_id, True)
+                data['vsphere_vlan_id'] = self.get_value(net.vsphere_vlan_id)
+                data['vsphere_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.vsphere_vlan_id)
+                data['vmotion_vlan_id'] = self.get_value(net.vmotion_vlan_id)
+                data['vmotion_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.vmotion_vlan_id)
+                data['vsan_vlan_id'] = self.get_value(net.vsan_vlan_id)
+                data['vsan_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.vsan_vlan_id)
+                data['nsx_v_tep_vlan_id'] = self.get_value(net.nsx_v_tep_vlan_id)
+                data['nsx_v_tep_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.nsx_v_tep_vlan_id)
+                data['nsx_edge_v_tep_vlan_id'] = self.get_value(net.nsx_edge_v_tep_vlan_id)
+                data['nsx_edge_v_tep_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.nsx_edge_v_tep_vlan_id)
+                data['nsx_edge_uplink1_vlan_id'] = self.get_value(net.nsx_edge_uplink1_vlan_id)
+                data['nsx_edge_uplink1_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.nsx_edge_uplink1_vlan_id)
+                data['nsx_edge_uplink2_vlan_id'] = self.get_value(net.nsx_edge_uplink2_vlan_id)
+                data['nsx_edge_uplink2_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.nsx_edge_uplink2_vlan_id)
+                data['provisioning_vlan_id'] = self.get_value(net.provisioning_vlan_id)
+                data['provisioning_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.provisioning_vlan_id)
+                data['hcx_vlan_id'] = self.get_value(net.hcx_vlan_id)
+                data['hcx_vlan'] = self.__load_core_network_single_vlan(virtual_network, net.hcx_vlan_id)
+            return data
+
+        except Exception as e:
+            self.__print_error("__load_paas_ocvs_network_configuration", e)
             return data
 
     ##########################################################################
@@ -13253,14 +14639,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("OAC Native")
+            errstr = ""
+            header = "OAC Native"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 oacs = []
@@ -13274,15 +14661,18 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     # for OAC skip this region
                     break
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # oac = oci.analytics.models.AnalyticsInstanceSummary
                 for oac in oacs:
@@ -13330,7 +14720,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13338,7 +14728,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_paas_oac", e)
+            self.__print_error("__load_paas_oac", e, compartment)
             return data
 
     ##########################################################################
@@ -13351,14 +14741,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("OCE Native")
+            errstr = ""
+            header = "OCE Native"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 oces = []
@@ -13372,14 +14763,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # oce = oci.oce.models.OceInstanceSummary
                 for oce in oces:
@@ -13413,7 +14807,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13421,7 +14815,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_paas_oce", e)
+            self.__print_error("__load_paas_oce", e, compartment)
             return data
 
     ##########################################################################
@@ -13434,14 +14828,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Visual Builder")
+            errstr = ""
+            header = "Visual Builder"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 vbs = []
@@ -13455,14 +14850,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # vbs = oci.visual_builder.models.VbInstanceSummary
                 for vb in vbs:
@@ -13493,7 +14891,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13501,7 +14899,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_paas_visualbuilder", e)
+            self.__print_error("__load_paas_visualbuilder", e, compartment)
             return data
 
     ##########################################################################
@@ -13514,14 +14912,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Open Search Cluster")
+            errstr = ""
+            header = "Open Search Cluster"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 opens = []
@@ -13535,14 +14934,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.opensearch.models.OpensearchClusterSummary
                 for arr in opens:
@@ -13637,7 +15039,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13645,7 +15047,7 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_paas_open_search", e)
+            self.__print_error("__load_paas_open_search", e, compartment)
             return data
 
     ##########################################################################
@@ -13658,14 +15060,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("DevOPS Projects")
+            errstr = ""
+            header = "DevOps Project"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -13679,14 +15082,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # arr = oci.devops.models.ProjectSummary
                 for arr in array:
@@ -13717,7 +15123,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13729,158 +15135,6 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_announcement_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # oci.announcements_service.AnnouncementClient
-    #
-    ##########################################################################
-    def __load_announcement_main(self):
-        try:
-            print("Announcements...")
-
-            # AnnouncementClient
-            announcement_client = oci.announcements_service.AnnouncementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                announcement_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to tenancy
-            tenancy = self.get_tenancy()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_ANNOUNCEMENT, self.C_ANNOUNCEMENT_ANNOUNCEMENT)
-
-            # reference to stream
-            announcement = self.data[self.C_ANNOUNCEMENT]
-
-            # append the data
-            announcement[self.C_ANNOUNCEMENT_ANNOUNCEMENT] += self.__load_announcements(announcement_client, tenancy['id'])
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_announcement_main", e)
-
-    ##########################################################################
-    # __load_announcements
-    ##########################################################################
-    def __load_announcements(self, announcement_client, tenancy_id):
-        data = []
-        cnt = 0
-        start_time = time.time()
-
-        try:
-            self.__load_print_status("Announcement Items")
-
-            announcements = []
-            try:
-                announcements = oci.pagination.list_call_get_all_results(
-                    announcement_client.list_announcements,
-                    tenancy_id,
-                    sort_by="timeCreated"
-                ).data
-
-            except oci.exceptions.ServiceError as e:
-                if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
-                else:
-                    raise
-
-            print(".", end="")
-
-            if announcements:
-
-                # oci.announcements_service.models.AnnouncementsCollection
-                # oci.announcements_service.models.AnnouncementSummary
-                for ann in announcements:
-                    val = {'id': str(ann.id),
-                           'type': str(ann.type),
-                           'lifecycle_state': str(ann.lifecycle_state),
-                           'reference_ticket_number': str(ann.reference_ticket_number),
-                           'summary': str(ann.summary),
-                           'time_one_title': str(ann.time_one_title),
-                           'time_one_value': str(ann.time_one_value),
-                           'time_two_title': str(ann.time_two_title),
-                           'time_two_value': str(ann.time_two_value),
-                           'services': str(ann.services),
-                           'affected_regions': str(', '.join(x for x in ann.affected_regions)),
-                           'announcement_type': str(ann.announcement_type),
-                           'is_banner': ann.is_banner,
-                           'time_created': str(ann.time_created),
-                           'time_updated': str(ann.time_updated),
-                           'region_name': str(self.config['region'])}
-
-                    # add the data
-                    cnt += 1
-                    data.append(val)
-
-            self.__load_print_cnt(cnt, start_time)
-            return data
-
-        except oci.exceptions.RequestException as e:
-
-            if self.__check_request_error(e):
-                return data
-
-            raise
-        except Exception as e:
-            self.__print_error("__load_announcements", e)
-            return data
-
-    ##########################################################################
-    # __load_limits_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # oci.limits.LimitsClient
-    #
-    ##########################################################################
-    def __load_limits_main(self):
-        try:
-            print("Limits and Quotas...")
-
-            # LimitsClient
-            limits_client = oci.limits.LimitsClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                limits_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # QuotasClient
-            quotas_client = oci.limits.QuotasClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            if self.flags.proxy:
-                quotas_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to tenancy
-            tenancy = self.get_tenancy()
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_LIMITS, self.C_LIMITS_SERVICES)
-            self.__initialize_data_key(self.C_LIMITS, self.C_LIMITS_QUOTAS)
-
-            # reference to limits
-            limits = self.data[self.C_LIMITS]
-
-            # append the data
-            limits[self.C_LIMITS_SERVICES] += self.__load_limits(limits_client, tenancy['id'], compartments)
-            limits[self.C_LIMITS_QUOTAS] += self.__load_quotas(quotas_client, compartments)
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_limits_main", e)
-
-    ##########################################################################
     # __load_limits
     ##########################################################################
     def __load_limits(self, limits_client, tenancy_id, compartments):
@@ -13888,8 +15142,13 @@ class ShowOCIService(object):
         cnt = 0
         start_time = time.time()
 
+        if self.EXCLUDE_LIMITS in self.flags.exclude:
+            return data
+
         try:
-            self.__load_print_status("Limits")
+            errstr = ""
+            header = "Limits"
+            self.__load_print_status_with_threads(header)
 
             services = []
             try:
@@ -13908,7 +15167,8 @@ class ShowOCIService(object):
 
                 # oci.limits.models.ServiceSummary
                 for service in services:
-                    print(".", end="")
+                    if self.flags.skip_threads:
+                        print(".", end="")
 
                     # get the limits per service
                     limits = []
@@ -13922,7 +15182,8 @@ class ShowOCIService(object):
                         ).data
                     except oci.exceptions.Exception as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning("a", False)
+                            self.__load_print_auth_warning("a", False, to_print=self.flags.skip_threads)
+                            errstr += "a"
                         else:
                             raise
 
@@ -13974,7 +15235,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -13994,14 +15255,18 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Quotas")
+            if self.EXCLUDE_QUOTAS in self.flags.exclude:
+                return data
+
+            errstr = ""
+            header = "Quotas"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip Paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 # skip if not root compartment
@@ -14018,14 +15283,17 @@ class ShowOCIService(object):
                     ).data
                 except oci.exceptions.ServiceError as e:
                     if 'go to your home region' in str(e):
-                        print("Service can only run at home region, skipping")
+                        errstr = "Can run on home region only, skipping."
+                        self.__load_print_thread_cnt(header, cnt, start_time, errstr)
                         return data
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                     else:
                         raise
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 if quotas:
 
@@ -14058,7 +15326,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -14070,60 +15338,6 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
-    # __load_security_main
-    ##########################################################################
-    #
-    # OCI Classes used:
-    #
-    # oci.cloud_guard.CloudGuardClient(config, **kwargs)
-    # oci.logging.LoggingManagementClient(config, **kwargs)
-    #
-    ##########################################################################
-    def __load_security_main(self):
-
-        try:
-            print("Security and Logging Services...")
-
-            # clients
-            bs_client = oci.bastion.BastionClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            cg_client = oci.cloud_guard.CloudGuardClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            log_client = oci.logging.LoggingManagementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-            kms_client = oci.key_management.KmsVaultClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
-
-            if self.flags.proxy:
-                cg_client.base_client.session.proxies = {'https': self.flags.proxy}
-                log_client.base_client.session.proxies = {'https': self.flags.proxy}
-                bs_client.base_client.session.proxies = {'https': self.flags.proxy}
-                kms_client.base_client.session.proxies = {'https': self.flags.proxy}
-
-            # reference to compartments
-            compartments = self.get_compartment()
-
-            # add the key if not exists
-            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_BASTION)
-            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_CLOUD_GUARD)
-            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_LOGGING)
-            self.__initialize_data_key(self.C_SECURITY, self.C_SECURITY_VAULTS)
-
-            # reference to paas
-            sec = self.data[self.C_SECURITY]
-
-            # append the data
-            sec[self.C_SECURITY_BASTION] += self.__load_security_bastions(bs_client, compartments)
-            sec[self.C_SECURITY_LOGGING] += self.__load_security_log_groups(log_client, compartments)
-            sec[self.C_SECURITY_VAULTS] += self.__load_security_kms_vaults(kms_client, compartments)
-            sec[self.C_SECURITY_CLOUD_GUARD] += self.__load_security_cloud_guard(cg_client, compartments)
-
-            print("")
-
-        except oci.exceptions.RequestException:
-            raise
-        except oci.exceptions.ServiceError:
-            raise
-        except Exception as e:
-            self.__print_error("__load_security_main", e)
-
-    ##########################################################################
     # __load_security_cloud_guard
     ##########################################################################
     def __load_security_cloud_guard(self, cg_client, compartments):
@@ -14133,14 +15347,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Cloud Guard")
+            errstr = ""
+            header = "Cloud Guard"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -14154,14 +15369,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # item = oci.cloud_guard.models.TargetSummary
                 for item in array:
@@ -14249,7 +15467,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -14312,14 +15530,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Key Vaults")
+            errstr = ""
+            header = "Key Vaults"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -14333,14 +15552,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # item = oci.key_management.models.VaultSummary
                 for item in array:
@@ -14402,7 +15624,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -14422,7 +15644,9 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Risk Scores")
+            errstr = ""
+            header = "Risk Scores"
+            self.__load_print_status_with_threads(header)
 
             array = []
             try:
@@ -14440,7 +15664,8 @@ class ShowOCIService(object):
                     return data
                 raise
             except oci.exceptions.ConnectTimeout:
-                self.__load_print_auth_warning()
+                self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                errstr += "a"
                 return data
 
             # item = oci.cloud_guard.models.TargetSummary
@@ -14450,7 +15675,8 @@ class ShowOCIService(object):
 
                 data.append(val)
 
-            self.__load_print_cnt(1, start_time)
+            cnt = 1
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -14470,7 +15696,9 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Security Scores")
+            errstr = ""
+            header = "Security Scores"
+            self.__load_print_status_with_threads(header)
 
             array = []
             try:
@@ -14484,11 +15712,13 @@ class ShowOCIService(object):
                     print(" Not Enabled")
                     return data
                 if self.__check_service_error(e.code):
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     return data
                 raise
             except oci.exceptions.ConnectTimeout:
-                self.__load_print_auth_warning()
+                self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                errstr += "a"
                 return data
 
             for item in array.items:
@@ -14498,7 +15728,8 @@ class ShowOCIService(object):
 
                 data.append(val)
 
-            self.__load_print_cnt(1, start_time)
+            cnt = 1
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -14519,14 +15750,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Logging Groups")
+            errstr = ""
+            header = "Logging Groups"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 array = []
@@ -14540,14 +15772,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     continue
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # item = oci.logging.models.LogGroupSummary
                 for item in array:
@@ -14582,11 +15817,13 @@ class ShowOCIService(object):
 
                     except oci.exceptions.ServiceError as e:
                         if self.__check_service_error(e.code):
-                            self.__load_print_auth_warning()
+                            self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                            errstr += "a"
                             continue
                         raise
                     except oci.exceptions.ConnectTimeout:
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
 
                     # log_item = oci.logging.models.LogSummary
@@ -14644,7 +15881,7 @@ class ShowOCIService(object):
                     cnt += 1
                     data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -14652,7 +15889,127 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_security_log_groups", e)
+            self.__print_error("__load_security_log_groups", e, compartment)
+            return data
+
+    ##########################################################################
+    # __load_security_log_unified_agents
+    ##########################################################################
+    def __load_security_log_unified_agents(self, log_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            errstr = ""
+            header = "Logging Unified Agenets"
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
+
+                array = []
+                try:
+                    array = oci.pagination.list_call_get_all_results(
+                        log_client.list_unified_agent_configurations,
+                        compartment['id'],
+                        sort_by="displayName",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e.code):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    raise
+                except oci.exceptions.ConnectTimeout:
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
+                    continue
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                # item = oci.logging.models.UnifiedAgentConfigurationSummary
+                for item in array:
+                    val = {
+                        'id': str(item.id),
+                        'display_name': self.get_value(item.display_name),
+                        'description': self.get_value(item.description),
+                        'time_created': self.get_value(item.time_created),
+                        'time_last_modified': self.get_value(item.time_last_modified),
+                        'is_enabled': self.get_value(item.is_enabled),
+                        'configuration_type': self.get_value(item.configuration_type),
+                        'configuration_state': self.get_value(item.configuration_state),
+                        'sum_info': "Log Unified Agents",
+                        'sum_size_gb': str(1),
+                        'defined_tags': [] if item.defined_tags is None else item.defined_tags,
+                        'freeform_tags': [] if item.freeform_tags is None else item.freeform_tags,
+                        'service_configuration_source': [],
+                        'service_configuration_dest': '',
+                        'group_association': [],
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'region_name': str(self.config['region'])
+                    }
+
+                    # item2 = oci.logging.models.UnifiedAgentConfiguration
+                    try:
+                        item2 = log_client.get_unified_agent_configuration(
+                            item.id,
+                            retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                        ).data
+
+                        # service_configuration
+                        if item2.service_configuration.configuration_type:
+                            if item2.service_configuration.configuration_type == 'LOGGING':
+                                for src in item2.service_configuration.sources:
+                                    if src.source_type == "LOG_TAIL":
+                                        val['service_configuration_source'].append({
+                                            'name': src.name,
+                                            'source_type': src.source_type,
+                                            'paths': src.paths,
+                                            'parser_type': src.parser.parser_type if src.parser else ""})
+                                    elif src.source_type == "WINDOWS_EVENT_LOG":
+                                        val['service_configuration_source'].append({
+                                            'name': src.name,
+                                            'source_type': src.source_type,
+                                            'channels': src.channels})
+                                    else:
+                                        val['service_configuration_source'].append({'name': src.name, 'source_type': src.source_type})
+
+                                if item2.service_configuration.destination:
+                                    val['service_configuration_dest'] = item2.service_configuration.destination.log_object_id
+
+                        # group_association
+                        if item2.group_association:
+                            val['service_configuration_dest'] = item2.group_association.group_list
+
+                    except oci.exceptions.ServiceError:
+                        errstr += "a"
+                    except oci.exceptions.ConnectTimeout:
+                        errstr += "a"
+
+                    # add the data
+                    cnt += 1
+                    data.append(val)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            raise
+        except Exception as e:
+            self.__print_error("__load_security_log_unified_agents", e, compartment)
             return data
 
     ##########################################################################
@@ -14664,14 +16021,15 @@ class ShowOCIService(object):
         start_time = time.time()
 
         try:
-            self.__load_print_status("Bastions")
+            errstr = ""
+            header = "Bastions"
+            self.__load_print_status_with_threads(header)
 
             # loop on all compartments
             for compartment in compartments:
 
                 # skip managed paas compartment
                 if self.__if_managed_paas_compartment(compartment['name']):
-                    print(".", end="")
                     continue
 
                 bastions = []
@@ -14684,14 +16042,17 @@ class ShowOCIService(object):
 
                 except oci.exceptions.ServiceError as e:
                     if self.__check_service_error(e.code):
-                        self.__load_print_auth_warning()
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
                         continue
                     raise
                 except oci.exceptions.ConnectTimeout:
-                    self.__load_print_auth_warning()
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
                     break
 
-                print(".", end="")
+                if self.flags.skip_threads:
+                    print(".", end="")
 
                 # bs = oci.bastion.models.BastionSummary
                 for bs in bastions:
@@ -14721,7 +16082,7 @@ class ShowOCIService(object):
                         cnt += 1
                         data.append(val)
 
-            self.__load_print_cnt(cnt, start_time)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -14729,7 +16090,109 @@ class ShowOCIService(object):
                 return data
             raise
         except Exception as e:
-            self.__print_error("__load_security_bastions", e)
+            self.__print_error("__load_security_bastions", e, compartment)
+            return data
+
+    ##########################################################################
+    # __load_announcement_main
+    ##########################################################################
+    def __load_announcement_main(self):
+        try:
+            print("Announcements...")
+
+            # AnnouncementClient
+            announcement_client = oci.announcements_service.AnnouncementClient(self.config, signer=self.signer, timeout=(self.flags.connection_timeout, self.flags.read_timeout))
+            if self.flags.proxy:
+                announcement_client.base_client.session.proxies = {'https': self.flags.proxy}
+
+            # reference to tenancy
+            tenancy = self.get_tenancy()
+
+            # add the key if not exists
+            self.__initialize_data_key(self.C_ANNOUNCEMENT, self.C_ANNOUNCEMENT_ANNOUNCEMENT)
+
+            # reference to stream
+            announcement = self.data[self.C_ANNOUNCEMENT]
+
+            # append the data
+            announcement[self.C_ANNOUNCEMENT_ANNOUNCEMENT] += self.__load_announcements(announcement_client, tenancy['id'])
+            print("")
+
+        except oci.exceptions.RequestException:
+            raise
+        except oci.exceptions.ServiceError:
+            raise
+        except Exception as e:
+            self.__print_error("__load_announcement_main", e)
+
+    ##########################################################################
+    # __load_announcements
+    ##########################################################################
+    def __load_announcements(self, announcement_client, tenancy_id):
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+            errstr = ""
+            header = "Announcement Items"
+            self.__load_print_status_with_threads(header)
+
+            announcements = []
+            try:
+                announcements = oci.pagination.list_call_get_all_results(
+                    announcement_client.list_announcements,
+                    tenancy_id,
+                    sort_by="timeCreated"
+                ).data
+
+            except oci.exceptions.ServiceError as e:
+                if self.__check_service_error(e.code):
+                    self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                    errstr += "a"
+                else:
+                    raise
+
+            if self.flags.skip_threads:
+                print(".", end="")
+
+            if announcements:
+
+                # oci.announcements_service.models.AnnouncementsCollection
+                # oci.announcements_service.models.AnnouncementSummary
+                for ann in announcements:
+                    val = {'id': str(ann.id),
+                           'type': str(ann.type),
+                           'lifecycle_state': str(ann.lifecycle_state),
+                           'reference_ticket_number': str(ann.reference_ticket_number),
+                           'summary': str(ann.summary),
+                           'time_one_title': str(ann.time_one_title),
+                           'time_one_value': str(ann.time_one_value),
+                           'time_two_title': str(ann.time_two_title),
+                           'time_two_value': str(ann.time_two_value),
+                           'services': str(ann.services),
+                           'affected_regions': str(', '.join(x for x in ann.affected_regions)),
+                           'announcement_type': str(ann.announcement_type),
+                           'is_banner': ann.is_banner,
+                           'time_created': str(ann.time_created),
+                           'time_updated': str(ann.time_updated),
+                           'region_name': str(self.config['region'])}
+
+                    # add the data
+                    cnt += 1
+                    data.append(val)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+
+            if self.__check_request_error(e):
+                return data
+
+            raise
+        except Exception as e:
+            self.__print_error("__load_announcements", e)
             return data
 
 
@@ -14753,19 +16216,21 @@ class ShowOCIFlags(object):
     read_budgets = False
     read_monitoring_notifications = False
     read_edge = False
-    read_security = False
     read_announcement = False
     read_ManagedCompartmentForPaaS = True
     read_root_compartment = True
-    read_limits = False
     read_paas_native = False
+    read_security = False
     read_function = False
     read_api = False
+    read_limits = False
     read_data_ai = False
     skip_identity_user_credential = False
     skip_backups = False
+    skip_threads = False
+    threads = 8
     skip_dbhomes = False
-    pause = False
+    exclude = []
     connection_timeout = 20
     read_timeout = 150
 
@@ -14786,6 +16251,7 @@ class ShowOCIFlags(object):
     config_file = oci.config.DEFAULT_LOCATION
     config_section = oci.config.DEFAULT_PROFILE
     use_instance_principals = False
+    use_resource_principals = False
     use_delegation_token = False
     use_security_token = False
 
@@ -14818,13 +16284,11 @@ class ShowOCIFlags(object):
                 self.read_streams_queues or
                 self.read_budgets or
                 self.read_monitoring_notifications or
+                self.read_data_ai or
                 self.read_edge or
                 self.read_paas_native or
-                self.read_limits or
                 self.read_api or
-                self.read_function or
-                self.read_data_ai or
-                self.read_security)
+                self.read_function)
 
     ############################################
     # check if to load basic network (vcn+subnets)
@@ -14850,6 +16314,7 @@ class ShowOCIFlags(object):
 # list_kmsi_settings
 # list_identity_providers
 # list_authentication_factor_settings
+# list_password_policies
 ##########################################################################
 class ShowOCIDomains(object):
 
@@ -14861,18 +16326,24 @@ class ShowOCIDomains(object):
     warning = 0
     read_timeout = 30
     connection_timeout = 30
+    skip_identity_user_credential = False
+    skip_threads = False
+    thread_lock = threading.Lock()
 
     ##########################################################################
     # init class
     # Creates a new data object
     ##########################################################################
-    def __init__(self, config, signer, proxy=None, read_timeout=30, connection_timeout=30):
+    def __init__(self, config, signer, flags):
+
         self.data = []
         self.config = config
         self.signer = signer
-        self.read_timeout = read_timeout
-        self.connection_timeout = connection_timeout
-        self.proxy = proxy
+        self.read_timeout = flags.read_timeout
+        self.connection_timeout = flags.connection_timeout
+        self.skip_identity_user_credential = flags.skip_identity_user_credential
+        self.proxy = flags.proxy
+        self.skip_threads = flags.skip_threads
 
     ##################################################################################
     # get_value function
@@ -14904,18 +16375,169 @@ class ShowOCIDomains(object):
             return ""
         return str(val)[0:16].replace("T", " ")
 
-    ##########################################################################
-    # print count result
-    ##########################################################################
-    def __load_print_cnt(self, cnt, start_time):
-        et = time.time() - start_time
-        print(" (" + str(cnt) + ") - "'{:02d}:{:02d}:{:02d}'.format(round(et // 3600), (round(et % 3600 // 60)), round(et % 60)))
+    ##################################################################################
+    # __get_api_keys
+    ##################################################################################
+    def __get_api_keys(self, identity_domain_client, ocid, ext_credential):
+        keys = []
+        try:
+            if ext_credential is not None:
+                search_request = oci.identity_domains.models.ApiKeySearchRequest(filter='user.ocid eq "' + self.get_value(ocid) + '"', schemas=["urn:ietf:params:scim:api:messages:2.0:SearchRequest"])
+                result = identity_domain_client.search_api_keys(api_key_search_request=search_request)
+                for r in result.data.resources:
+                    k = {
+                        "ocid": r.ocid,
+                        "fingerprint": r.fingerprint,
+                        "time_created": self.get_date(r.meta.created),
+                    }
+                    keys.append(k)
+            return keys
+        except Exception as e:
+            self.__print_error("__get_api_keys", e)
+            return keys
+
+    ##################################################################################
+    # __get_auth_tokens
+    ##################################################################################
+    def __get_auth_tokens(self, identity_domain_client, ocid, ext_credential):
+        keys = []
+        try:
+            if ext_credential is not None:
+                search_request = oci.identity_domains.models.AuthTokenSearchRequest(filter='user.ocid eq "' + self.get_value(ocid) + '"', schemas=["urn:ietf:params:scim:api:messages:2.0:SearchRequest"])
+                result = identity_domain_client.search_auth_tokens(auth_token_search_request=search_request)
+                for r in result.data.resources:
+                    k = {
+                        "ocid": r.ocid,
+                        "status": r.status,
+                        "time_created": self.get_date(r.meta.created),
+                        "expires_on": r.expires_on
+                    }
+                    keys.append(k)
+            return keys
+        except Exception as e:
+            self.__print_error("__get_auth_tokens", e)
+            return keys
+
+    ##################################################################################
+    # __get_customer_secret_keys
+    ##################################################################################
+    def __get_customer_secret_keys(self, identity_domain_client, ocid, ext_credential):
+        keys = []
+        try:
+            if ext_credential is not None:
+                search_request = oci.identity_domains.models.CustomerSecretKeySearchRequest(filter='user.ocid eq "' + self.get_value(ocid) + '"', schemas=["urn:ietf:params:scim:api:messages:2.0:SearchRequest"])
+                result = identity_domain_client.search_customer_secret_keys(customer_secret_key_search_request=search_request)
+                for r in result.data.resources:
+                    k = {
+                        "ocid": r.ocid,
+                        "display_name": r.display_name,
+                        "description": r.description,
+                        "status": r.status,
+                        "time_created": self.get_date(r.meta.created),
+                        "expires_on": r.expires_on
+                    }
+                    keys.append(k)
+            return keys
+        except Exception as e:
+            self.__print_error("__get_customer_secret_keys", e)
+            return keys
+
+    ##################################################################################
+    # __get_o_auth2_client_credentials
+    ##################################################################################
+    def __get_o_auth2_client_credentials(self, identity_domain_client, ocid, ext_credential):
+        keys = []
+        try:
+            if ext_credential is not None:
+                search_request = oci.identity_domains.models.OAuth2ClientCredentialSearchRequest(filter='user.ocid eq "' + self.get_value(ocid) + '"', schemas=["urn:ietf:params:scim:api:messages:2.0:SearchRequest"])
+                result = identity_domain_client.search_o_auth2_client_credentials(o_auth2_client_credential_search_request=search_request)
+                for r in result.data.resources:
+                    print(">> " + str(r))
+                    k = {
+                        "ocid": r.ocid,
+                        "description": r.description,
+                        "status": r.status,
+                        "time_created": self.get_date(r.meta.created),
+                        "expires_on": r.expires_on
+                    }
+                    keys.append(k)
+            return keys
+        except Exception as e:
+            self.__print_error("__get_o_auth2_client_credentials", e)
+            return keys
+
+    ##################################################################################
+    # __get_smtp_credentials
+    ##################################################################################
+    def __get_smtp_credentials(self, identity_domain_client, ocid, ext_credential):
+        keys = []
+        try:
+            if ext_credential is not None:
+                search_request = oci.identity_domains.models.SmtpCredentialSearchRequest(filter='user.ocid eq "' + self.get_value(ocid) + '"', schemas=["urn:ietf:params:scim:api:messages:2.0:SearchRequest"])
+                result = identity_domain_client.search_smtp_credentials(smtp_credential_search_request=search_request)
+                for r in result.data.resources:
+                    k = {
+                        "ocid": r.ocid,
+                        "description": r.description,
+                        "status": r.status,
+                        "time_created": self.get_date(r.meta.created),
+                        "expires_on": r.expires_on
+                    }
+                    keys.append(k)
+            return keys
+        except Exception as e:
+            self.__print_error("__get_smtp_credentials", e)
+            return keys
+
+    ##################################################################################
+    # __get_user_db_credentials
+    ##################################################################################
+    def __get_user_db_credentials(self, identity_domain_client, ocid, ext_credential):
+        keys = []
+        try:
+            if ext_credential is not None:
+                search_request = oci.identity_domains.models.UserDbCredentialsSearchRequest(filter='user.ocid eq "' + self.get_value(ocid) + '"', schemas=["urn:ietf:params:scim:api:messages:2.0:SearchRequest"])
+                result = identity_domain_client.search_user_db_credentials(user_db_credentials_search_request=search_request)
+                for r in result.data.resources:
+                    k = {
+                        "ocid": r.ocid,
+                        "description": r.description,
+                        "status": r.status,
+                        "time_created": self.get_date(r.meta.created),
+                        "expires_on": r.expires_on
+                    }
+                    keys.append(k)
+            return keys
+        except Exception as e:
+            self.__print_error("__get_user_db_credentials", e)
+            return keys
 
     ##########################################################################
-    # print status message
+    # print count result for Thread
     ##########################################################################
-    def __load_print_status(self, msg):
-        print("--> " + msg.ljust(27) + "<-- ", end="")
+    def __load_print_thread_cnt(self, header, cnt, start_time, errstr):
+
+        et = time.time() - start_time
+        str_time = '{:02d}:{:02d}:{:02d}'.format(round(et // 3600), (round(et % 3600 // 60)), round(et % 60))
+        str_cnt = str("(" + str(cnt) + ")").ljust(7)
+
+        if self.skip_threads:
+            print(str_cnt + " - " + str_time)
+        else:
+            # lock for printing
+            with self.thread_lock:
+                str1 = "--> " + header.ljust(32) + "<-- " + errstr
+                str2 = str_cnt + " - " + str_time
+                print(str1 + str2)
+
+    ##########################################################################
+    # print status message with Threads
+    ##########################################################################
+    def __load_print_status_with_threads(self, msg):
+        if self.skip_threads:
+            print("--> " + msg.ljust(32) + "<-- ", end="")
+        # else:
+            # print("=== Running " + msg + "...")
 
     ##########################################################################
     # get_tags
@@ -15078,9 +16700,12 @@ class ShowOCIDomains(object):
 # load_identity_domain_users
 ##################################################################################
     def __load_identity_domain_users(self, identity_domain_client, domain_name):
-        data = []
 
-        self.__load_print_status(domain_name[0:10] + ".Users")
+        data = []
+        errstr = ""
+        header = domain_name[0:10] + ".Users"
+        self.__load_print_status_with_threads(header)
+
         start_time = time.time()
 
         try:
@@ -15097,21 +16722,10 @@ class ShowOCIDomains(object):
                 if var.delete_in_progress:
                     continue
 
-                print(".", end="")
+                if self.skip_threads:
+                    print(".", end="")
 
-                ext_password = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_password_state_user
-                ext_mfa = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_mfa_user
-                ext_user = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_user
-                ext_user_state = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_state_user
-                ext_posix = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_posix_user
-                ext_adaptive = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_adaptive_user
-                ext_db_user = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_db_user_user
-                ext_db_user_credential = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_db_credentials_user
-                ext_credential = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_credentials_user
-                ext_capabilities = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user
-                ext_self_change = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_self_change_user
-
-                data.append({
+                user_value = {
                     'id': self.get_value(var.id),
                     'ocid': self.get_value(var.ocid),
                     'display_name': self.get_value(var.display_name),
@@ -15151,95 +16765,38 @@ class ShowOCIDomains(object):
                         'ocid': self.get_value(x.ocid),
                         'date_added': self.get_date(x.date_added)
                     } for x in var.groups] if var.groups else [],
-                    'ext_user': {
-                        'is_federated_user': self.get_value(ext_user.is_federated_user) if ext_user else "",
-                        'is_authentication_delegated': self.get_value(ext_user.is_authentication_delegated) if ext_user else "",
-                        'status': self.get_value(ext_user.status) if ext_user else "",
-                        'provider': self.get_value(ext_user.provider) if ext_user else "",
-                        'creation_mechanism': self.get_value(ext_user.creation_mechanism) if ext_user else "",
-                        'do_not_show_getting_started': self.get_value(ext_user.do_not_show_getting_started) if ext_user else "",
-                        'bypass_notification': self.get_value(ext_user.bypass_notification) if ext_user else "",
-                        'is_account_recovery_enrolled': self.get_value(ext_user.is_account_recovery_enrolled) if ext_user else "",
-                        'account_recovery_required': self.get_value(ext_user.account_recovery_required) if ext_user else "",
-                        'user_flow_controlled_by_external_client': self.get_value(ext_user.user_flow_controlled_by_external_client) if ext_user else "",
-                        'is_group_membership_normalized': self.get_value(ext_user.is_group_membership_normalized) if ext_user else "",
-                        'is_group_membership_synced_to_users_groups': self.get_value(ext_user.is_group_membership_synced_to_users_groups) if ext_user else ""
-                    },
-                    'ext_password': {
-                        'last_successful_set_date': self.get_date(ext_password.last_successful_set_date) if ext_password else "",
-                        'cant_change': self.get_value(ext_password.cant_change) if ext_password else "",
-                        'cant_expire': self.get_value(ext_password.cant_expire) if ext_password else "",
-                        'must_change': self.get_value(ext_password.must_change) if ext_password else "",
-                        'expired': self.get_value(ext_password.expired) if ext_password else "",
-                        'last_successful_validation_date': self.get_date(ext_password.last_successful_validation_date) if ext_password else "",
-                        'last_failed_validation_date': self.get_date(ext_password.last_failed_validation_date) if ext_password else "",
-                        'applicable_password_policy': self.get_value(ext_password.applicable_password_policy.value) if ext_password and ext_password.applicable_password_policy else ""
-                    },
-                    'ext_user_state': {
-                        'last_successful_login_date': self.get_date(ext_user_state.last_successful_login_date) if ext_user_state else "",
-                        'previous_successful_login_date': self.get_date(ext_user_state.previous_successful_login_date) if ext_user_state else "",
-                        'last_failed_login_date': self.get_date(ext_user_state.last_failed_login_date) if ext_user_state else "",
-                        'login_attempts': self.get_value(ext_user_state.login_attempts) if ext_user_state else "",
-                        'recovery_attempts': self.get_value(ext_user_state.recovery_attempts) if ext_user_state else "",
-                        'recovery_enroll_attempts': self.get_value(ext_user_state.recovery_enroll_attempts) if ext_user_state else "",
-                        'max_concurrent_sessions': self.get_value(ext_user_state.max_concurrent_sessions) if ext_user_state else "",
-                        'recovery_locked_date': self.get_date(ext_user_state.recovery_locked.lock_date) if ext_user_state and ext_user_state.recovery_locked else "",
-                        'recovery_locked_on': self.get_value(ext_user_state.recovery_locked.on) if ext_user_state and ext_user_state.recovery_locked else "",
-                        'locked_date': self.get_date(ext_user_state.locked.lock_date) if ext_user_state and ext_user_state.locked else "",
-                        'locked_expired': self.get_date(ext_user_state.locked.on) if ext_user_state and ext_user_state.locked else "",
-                        'locked_on': self.get_value(ext_user_state.locked.on) if ext_user_state and ext_user_state.locked else "",
-                        'locked_reason': self.get_value(ext_user_state.locked.reason) if ext_user_state and ext_user_state.locked else ""
-                    },
-                    'ext_mfa': {
-                        'preferred_authentication_factor': self.get_value(ext_mfa.preferred_authentication_factor) if ext_mfa else "",
-                        'mfa_status': self.get_value(ext_mfa.mfa_status) if ext_mfa else "",
-                        'preferred_third_party_vendor': self.get_value(ext_mfa.preferred_third_party_vendor) if ext_mfa else "",
-                        'preferred_authentication_method': self.get_value(ext_mfa.preferred_authentication_method) if ext_mfa else "",
-                        'login_attempts': self.get_value(ext_mfa.login_attempts) if ext_mfa else "",
-                        'mfa_enabled_on': self.get_value(ext_mfa.mfa_enabled_on) if ext_mfa else "",
-                        'mfa_ignored_apps': str(','.join(self.get_value(x) for x in ext_mfa.mfa_ignored_apps)) if ext_mfa and ext_mfa.mfa_ignored_apps else ""
-                    },
-                    'ext_posix': {
-                        'uid_number': self.get_value(ext_posix.uid_number) if ext_posix else "",
-                        'gid_number': self.get_value(ext_posix.gid_number) if ext_posix else "",
-                        'gecos': self.get_value(ext_posix.gecos) if ext_posix else "",
-                        'home_directory': self.get_value(ext_posix.home_directory) if ext_posix else "",
-                        'login_shell': self.get_value(ext_posix.login_shell) if ext_posix else ""
-                    },
-                    'ext_adaptive': {
-                        'risk_level': self.get_value(ext_adaptive.risk_level) if ext_adaptive else "",
-                        'risk_scores': str(','.join(self.get_value(x.value) for x in ext_adaptive.risk_scores)) if ext_adaptive and ext_adaptive.risk_scores else ""
-                    },
-                    'ext_db_user': {
-                        'is_db_user': self.get_value(ext_db_user.is_db_user) if ext_db_user else "",
-                        'domain_level_schema': self.get_value(ext_db_user.domain_level_schema) if ext_db_user else "",
-                        'instance_level_schema': self.get_value(ext_db_user.instance_level_schema) if ext_db_user else "",
-                        'db_global_roles': str(','.join(x for x in ext_db_user.db_global_roles)) if ext_db_user else ""
-                    },
-                    'ext_db_user_credential': {
-                        'db_user_name': self.get_value(ext_db_user_credential.db_user_name) if ext_db_user_credential else "",
-                        'db_login_attempts': self.get_value(ext_db_user_credential.db_login_attempts) if ext_db_user_credential else ""
-                    },
-                    'ext_capabilities': {
-                        'can_use_api_keys': self.get_value(ext_capabilities.can_use_api_keys) if ext_capabilities else "",
-                        'can_use_auth_tokens': self.get_value(ext_capabilities.can_use_auth_tokens) if ext_capabilities else "",
-                        'can_use_console_password': self.get_value(ext_capabilities.can_use_console_password) if ext_capabilities else "",
-                        'can_use_customer_secret_keys': self.get_value(ext_capabilities.can_use_customer_secret_keys) if ext_capabilities else "",
-                        'can_use_o_auth2_client_credentials': self.get_value(ext_capabilities.can_use_o_auth2_client_credentials) if ext_capabilities else "",
-                        'can_use_smtp_credentials': self.get_value(ext_capabilities.can_use_smtp_credentials) if ext_capabilities else "",
-                        'can_use_db_credentials': self.get_value(ext_capabilities.can_use_db_credentials) if ext_capabilities else ""
-                    },
+                    'ext_user': self.load_identity_domain_users_ext_user(var),
+                    'ext_password': self.load_identity_domain_users_ext_password(var),
+                    'ext_user_state': self.load_identity_domain_users_ext_user_state(var),
+                    'ext_mfa': self.load_identity_domain_users_ext_mfa(var),
+                    'ext_posix': self.load_identity_domain_users_ext_posix(var),
+                    'ext_adaptive': self.load_identity_domain_users_ext_adaptive(var),
+                    'ext_db_user': self.load_identity_domain_users_ext_db_user(var),
+                    'ext_db_user_credential': self.load_identity_domain_users_ext_db_user_credential(var),
+                    'ext_capabilities': self.load_identity_domain_users_ext_capabilities(var),
                     'roles': [{'value': x.value, 'type': x.type} for x in var.roles] if var.roles else [],
-                    'api_keys': self.get_value_ocid_ref(ext_credential.api_keys) if ext_credential else [],
-                    'customer_secret_keys': self.get_value_ocid_ref(ext_credential.customer_secret_keys) if ext_credential else [],
-                    'auth_tokens': self.get_value_ocid_ref(ext_credential.auth_tokens) if ext_credential else [],
-                    'smtp_credentials': self.get_value_ocid_ref(ext_credential.smtp_credentials) if ext_credential else [],
-                    'o_auth2_client_credentials': self.get_value_ocid_ref(ext_credential.o_auth2_client_credentials) if ext_credential else [],
-                    'db_credentials': self.get_value_ocid_ref(ext_credential.db_credentials) if ext_credential else [],
-                    'allow_self_change': self.get_value(ext_self_change.allow_self_change) if ext_self_change else ""
-                })
+                    'api_keys': [],
+                    'customer_secret_keys': [],
+                    'auth_tokens': [],
+                    'smtp_credentials': [],
+                    'o_auth2_client_credentials': [],
+                    'db_credentials': [],
+                    'allow_self_change': self.load_identity_domain_users_ext_self_change(var)
+                }
 
-            self.__load_print_cnt(len(data), start_time)
+                ext_credential = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_credentials_user
+
+                if ext_credential and not self.skip_identity_user_credential:
+                    user_value['api_keys'] = self.__get_api_keys(identity_domain_client, var.ocid, ext_credential)
+                    user_value['customer_secret_keys'] = self.__get_customer_secret_keys(identity_domain_client, var.ocid, ext_credential)
+                    user_value['auth_tokens'] = self.__get_auth_tokens(identity_domain_client, var.ocid, ext_credential)
+                    user_value['smtp_credentials'] = self.__get_smtp_credentials(identity_domain_client, var.ocid, ext_credential)
+                    user_value['o_auth2_client_credentials'] = self.__get_o_auth2_client_credentials(identity_domain_client, var.ocid, ext_credential)
+                    user_value['db_credentials'] = self.__get_user_db_credentials(identity_domain_client, var.ocid, ext_credential)
+
+                data.append(user_value)
+
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -15257,12 +16814,328 @@ class ShowOCIDomains(object):
             self.__print_error("__load_identity_domain_users", e)
 
 ##################################################################################
-# load_identity_domain_users
+# load_identity_domain_users_ext_password
+##################################################################################
+    def load_identity_domain_users_ext_self_change(self, var):
+        data = ""
+        try:
+            ext_self_change = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_self_change_user
+
+            if ext_self_change:
+                data = self.get_date(ext_self_change.allow_self_change)
+
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_self_change", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_password
+##################################################################################
+    def load_identity_domain_users_ext_password(self, var):
+
+        try:
+            data = {
+                'last_successful_set_date': "",
+                'cant_change': "",
+                'cant_expire': "",
+                'must_change': "",
+                'expired': "",
+                'last_successful_validation_date': "",
+                'last_failed_validation_date': "",
+                'applicable_password_policy': ""
+            }
+            ext_password = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_password_state_user
+
+            if ext_password:
+                data['last_successful_set_date'] = self.get_date(ext_password.last_successful_set_date)
+                data['cant_change'] = self.get_value(ext_password.cant_change)
+                data['cant_expire'] = self.get_value(ext_password.cant_expire)
+                data['must_change'] = self.get_value(ext_password.must_change)
+                data['expired'] = self.get_value(ext_password.expired)
+                data['last_successful_validation_date'] = self.get_date(ext_password.last_successful_validation_date)
+                data['last_failed_validation_date'] = self.get_date(ext_password.last_failed_validation_date)
+
+                if ext_password.applicable_password_policy:
+                    data['applicable_password_policy'] = self.get_value(ext_password.applicable_password_policy.value)
+
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_password", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_db_user_credential
+##################################################################################
+    def load_identity_domain_users_ext_db_user_credential(self, var):
+
+        try:
+            data = {
+                'db_user_name': "",
+                'db_login_attempts': ""
+            }
+            ext_db_user_credential = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_db_credentials_user
+
+            if ext_db_user_credential:
+                data['db_user_name'] = self.get_value(ext_db_user_credential.db_user_name)
+                data['db_login_attempts'] = self.get_value(ext_db_user_credential.db_login_attempts)
+
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_db_user_credential", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_adaptive
+##################################################################################
+    def load_identity_domain_users_ext_adaptive(self, var):
+
+        try:
+            data = {
+                'risk_level': "",
+                'risk_scores': ""
+            }
+            ext_adaptive = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_adaptive_user
+
+            if ext_adaptive:
+                data['risk_level'] = self.get_value(ext_adaptive.risk_level)
+
+                if ext_adaptive.risk_scores:
+                    data['risk_scores'] = str(','.join(self.get_value(x.value) for x in ext_adaptive.risk_scores))
+
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_adaptive", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_posix
+##################################################################################
+    def load_identity_domain_users_ext_posix(self, var):
+
+        try:
+            data = {
+                'uid_number': "",
+                'gid_number': "",
+                'gecos': "",
+                'home_directory': "",
+                'login_shell': ""
+            }
+            ext_posix = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_posix_user
+
+            if ext_posix:
+                data = {
+                    'uid_number': self.get_value(ext_posix.uid_number),
+                    'gid_number': self.get_value(ext_posix.gid_number),
+                    'gecos': self.get_value(ext_posix.gecos),
+                    'home_directory': self.get_value(ext_posix.home_directory),
+                    'login_shell': self.get_value(ext_posix.login_shell)
+                }
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_posix", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_db_user
+##################################################################################
+    def load_identity_domain_users_ext_db_user(self, var):
+
+        try:
+            data = {
+                'is_db_user': "",
+                'domain_level_schema': "",
+                'instance_level_schema': "",
+                'db_global_roles': ""
+            }
+            ext_db_user = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_db_user_user
+
+            if ext_db_user:
+                data = {
+                    'is_db_user': self.get_value(ext_db_user.is_db_user),
+                    'domain_level_schema': self.get_value(ext_db_user.domain_level_schema),
+                    'instance_level_schema': self.get_value(ext_db_user.instance_level_schema),
+                    'db_global_roles': str(','.join(x for x in ext_db_user.db_global_roles)) if ext_db_user.db_global_roles else ""
+                }
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_db_user", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_user_state
+##################################################################################
+    def load_identity_domain_users_ext_user_state(self, var):
+
+        try:
+            data = {
+                'last_successful_login_date': "",
+                'previous_successful_login_date': "",
+                'last_failed_login_date': "",
+                'login_attempts': "",
+                'recovery_attempts': "",
+                'recovery_enroll_attempts': "",
+                'max_concurrent_sessions': "",
+                'recovery_locked_date': "",
+                'recovery_locked_on': "",
+                'locked_date': "",
+                'locked_expired': "",
+                'locked_on': "",
+                'locked_reason': ""
+            }
+            ext_user_state = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_state_user
+
+            if ext_user_state:
+                data['last_successful_login_date'] = self.get_date(ext_user_state.last_successful_login_date)
+                data['previous_successful_login_date'] = self.get_date(ext_user_state.previous_successful_login_date)
+                data['last_failed_login_date'] = self.get_date(ext_user_state.last_failed_login_date)
+                data['login_attempts'] = self.get_value(ext_user_state.login_attempts)
+                data['recovery_attempts'] = self.get_value(ext_user_state.recovery_attempts)
+                data['recovery_enroll_attempts'] = self.get_value(ext_user_state.recovery_enroll_attempts)
+                data['max_concurrent_sessions'] = self.get_value(ext_user_state.max_concurrent_sessions)
+
+                if ext_user_state.recovery_locked:
+                    data['recovery_locked_date'] = self.get_date(ext_user_state.recovery_locked.lock_date)
+                    data['recovery_locked_on'] = self.get_value(ext_user_state.recovery_locked.on)
+
+                if ext_user_state.locked:
+                    data['locked_date'] = self.get_date(ext_user_state.locked.lock_date)
+                    data['locked_expired'] = self.get_date(ext_user_state.locked.on)
+                    data['locked_on'] = self.get_value(ext_user_state.locked.on)
+                    data['locked_reason'] = self.get_value(ext_user_state.locked.reason)
+
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_user_state", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_mfa
+##################################################################################
+    def load_identity_domain_users_ext_mfa(self, var):
+
+        try:
+            data = {
+                'preferred_authentication_factor': "",
+                'mfa_status': "",
+                'preferred_third_party_vendor': "",
+                'preferred_authentication_method': "",
+                'login_attempts': "",
+                'mfa_enabled_on': "",
+                'mfa_ignored_apps': ""
+            }
+            ext_mfa = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_mfa_user
+
+            if ext_mfa:
+                data['preferred_authentication_factor'] = self.get_value(ext_mfa.preferred_authentication_factor)
+                data['mfa_status'] = self.get_value(ext_mfa.mfa_status)
+                data['preferred_third_party_vendor'] = self.get_value(ext_mfa.preferred_third_party_vendor)
+                data['preferred_authentication_method'] = self.get_value(ext_mfa.preferred_authentication_method)
+                data['login_attempts'] = self.get_value(ext_mfa.login_attempts)
+                data['mfa_enabled_on'] = self.get_value(ext_mfa.mfa_enabled_on)
+
+                if ext_mfa.mfa_ignored_apps:
+                    data['mfa_ignored_apps'] = str(','.join(self.get_value(x) for x in ext_mfa.mfa_ignored_apps))
+
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_mfa", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_capabilities
+##################################################################################
+    def load_identity_domain_users_ext_capabilities(self, var):
+
+        try:
+            data = {
+                'can_use_api_keys': "",
+                'can_use_auth_tokens': "",
+                'can_use_console_password': "",
+                'can_use_customer_secret_keys': "",
+                'can_use_o_auth2_client_credentials': "",
+                'can_use_smtp_credentials': "",
+                'can_use_db_credentials': ""
+            }
+            ext_capabilities = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_capabilities_user
+
+            if ext_capabilities:
+                data = {
+                    'can_use_api_keys': self.get_value(ext_capabilities.can_use_api_keys),
+                    'can_use_auth_tokens': self.get_value(ext_capabilities.can_use_auth_tokens),
+                    'can_use_console_password': self.get_value(ext_capabilities.can_use_console_password),
+                    'can_use_customer_secret_keys': self.get_value(ext_capabilities.can_use_customer_secret_keys),
+                    'can_use_o_auth2_client_credentials': self.get_value(ext_capabilities.can_use_o_auth2_client_credentials),
+                    'can_use_smtp_credentials': self.get_value(ext_capabilities.can_use_smtp_credentials),
+                    'can_use_db_credentials': self.get_value(ext_capabilities.can_use_db_credentials)
+                }
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_capabilities", e)
+            return data
+
+##################################################################################
+# load_identity_domain_users_ext_user
+##################################################################################
+    def load_identity_domain_users_ext_user(self, var):
+        data = {}
+        try:
+            data = {
+                'is_federated_user': "",
+                'is_authentication_delegated': "",
+                'status': "",
+                'provider': "",
+                'creation_mechanism': "",
+                'do_not_show_getting_started': "",
+                'bypass_notification': "",
+                'is_account_recovery_enrolled': "",
+                'account_recovery_required': "",
+                'user_flow_controlled_by_external_client': "",
+                'is_group_membership_normalized': "",
+                'is_group_membership_synced_to_users_groups': ""
+            }
+
+            ext_user = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_user_user
+            if ext_user:
+                data = {
+                    'is_federated_user': self.get_value(ext_user.is_federated_user),
+                    'is_authentication_delegated': self.get_value(ext_user.is_authentication_delegated),
+                    'status': self.get_value(ext_user.status),
+                    'provider': self.get_value(ext_user.provider),
+                    'creation_mechanism': self.get_value(ext_user.creation_mechanism),
+                    'do_not_show_getting_started': self.get_value(ext_user.do_not_show_getting_started),
+                    'bypass_notification': self.get_value(ext_user.bypass_notification),
+                    'is_account_recovery_enrolled': self.get_value(ext_user.is_account_recovery_enrolled),
+                    'account_recovery_required': self.get_value(ext_user.account_recovery_required),
+                    'user_flow_controlled_by_external_client': self.get_value(ext_user.user_flow_controlled_by_external_client),
+                    'is_group_membership_normalized': self.get_value(ext_user.is_group_membership_normalized),
+                    'is_group_membership_synced_to_users_groups': self.get_value(ext_user.is_group_membership_synced_to_users_groups)
+                }
+            return data
+
+        except Exception as e:
+            self.__print_error("load_identity_domain_users_ext_capabilities", e)
+            return data
+
+##################################################################################
+# load_identity_domain_groups
 ##################################################################################
     def __load_identity_domain_groups(self, identity_domain_client, domain_name):
         data = []
 
-        self.__load_print_status(domain_name[0:10] + ".Groups")
+        errstr = ""
+        header = domain_name[0:10] + ".Groups"
+        self.__load_print_status_with_threads(header)
+
         start_time = time.time()
 
         try:
@@ -15278,7 +17151,8 @@ class ShowOCIDomains(object):
             for var in groups:
                 if var.delete_in_progress:
                     continue
-                print(".", end="")
+                if self.skip_threads:
+                    print(".", end="")
 
                 ext_group = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_group_group
                 ext_posix = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_posix_group
@@ -15335,7 +17209,7 @@ class ShowOCIDomains(object):
                     'requestable_group': self.get_value(ext_req_group.requestable) if ext_req_group else ""
                 })
 
-            self.__load_print_cnt(len(data), start_time)
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
             return data
 
         except oci.exceptions.RequestException as e:
@@ -15351,7 +17225,10 @@ class ShowOCIDomains(object):
     def __load_identity_domain_dynamic_resource_groups(self, identity_domain_client, domain_name):
         data = []
 
-        self.__load_print_status(domain_name[0:10] + ".Dynamic Groups")
+        errstr = ""
+        header = domain_name[0:10] + ".Dynamic Groups"
+        self.__load_print_status_with_threads(header)
+
         start_time = time.time()
 
         try:
@@ -15366,7 +17243,8 @@ class ShowOCIDomains(object):
             for var in groups:
                 if var.delete_in_progress:
                     continue
-                print(".", end="")
+                if self.skip_threads:
+                    print(".", end="")
 
                 data.append({
                     'id': self.get_value(var.id),
@@ -15401,7 +17279,7 @@ class ShowOCIDomains(object):
                     'defined_tags': self.__get_tags(var.urn_ietf_params_scim_schemas_oracle_idcs_extension_oci_tags, True)
                 })
 
-            self.__load_print_cnt(len(data), start_time)
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -15424,7 +17302,10 @@ class ShowOCIDomains(object):
     def __load_identity_domain_identity_providers(self, identity_domain_client, domain_name):
         data = []
 
-        self.__load_print_status(domain_name[0:10] + ".IDPs")
+        errstr = ""
+        header = domain_name[0:10] + ".IDPs"
+        self.__load_print_status_with_threads(header)
+
         start_time = time.time()
 
         try:
@@ -15438,7 +17319,9 @@ class ShowOCIDomains(object):
             for var in groups:
                 if var.delete_in_progress:
                     continue
-                print(".", end="")
+
+                if self.skip_threads:
+                    print(".", end="")
 
                 ext_social_idp = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider
                 ext_x509_idp = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_x509_identity_provider
@@ -15537,7 +17420,7 @@ class ShowOCIDomains(object):
                     }
                 })
 
-            self.__load_print_cnt(len(data), start_time)
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -15560,7 +17443,10 @@ class ShowOCIDomains(object):
     def __load_identity_domain_kmsi_setting(self, identity_domain_client, domain_name):
         data = []
 
-        self.__load_print_status(domain_name[0:10] + ".Kmsi Setting")
+        errstr = ""
+        header = domain_name[0:10] + ".Kmsi Setting"
+        self.__load_print_status_with_threads(header)
+
         start_time = time.time()
 
         try:
@@ -15574,7 +17460,8 @@ class ShowOCIDomains(object):
             for var in groups:
                 if var.delete_in_progress:
                     continue
-                print(".", end="")
+                if self.skip_threads:
+                    print(".", end="")
 
                 data.append({
                     'id': self.get_value(var.id),
@@ -15597,7 +17484,7 @@ class ShowOCIDomains(object):
                     'last_enabled_on': self.get_date(var.last_enabled_on)
                 })
 
-            self.__load_print_cnt(len(data), start_time)
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -15620,7 +17507,10 @@ class ShowOCIDomains(object):
     def __load_identity_domain_authentication_factor_settings(self, identity_domain_client, domain_name):
         data = []
 
-        self.__load_print_status(domain_name[0:10] + ".Kmsi Setting")
+        errstr = ""
+        header = domain_name[0:10] + ".AuthN Factors"
+        self.__load_print_status_with_threads(header)
+
         start_time = time.time()
 
         try:
@@ -15634,10 +17524,11 @@ class ShowOCIDomains(object):
             for var in groups:
                 if var.delete_in_progress:
                     continue
-                print(".", end="")
+                if self.skip_threads:
+                    print(".", end="")
 
-                ext_third_party_auth_factor = var.urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings
-                ext_fido_auth_factor = var.urnietfparamsscimschemasoracleidcsextensionfido_authentication_factor_settings
+                ext_third_party_auth_factor = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_third_party_authentication_factor_settings
+                ext_fido_auth_factor = var.urn_ietf_params_scim_schemas_oracle_idcs_extension_fido_authentication_factor_settings
 
                 data.append({
                     'id': self.get_value(var.id),
@@ -15730,7 +17621,7 @@ class ShowOCIDomains(object):
                     }
                 })
 
-            self.__load_print_cnt(len(data), start_time)
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
             return data
 
         except oci.exceptions.ServiceError as e:
@@ -15746,6 +17637,104 @@ class ShowOCIDomains(object):
             raise
         except Exception as e:
             self.__print_error("__load_identity_domain_authentication_factor_settings", e)
+
+##################################################################################
+# __load_identity_domain_password_policies
+##################################################################################
+    def __load_identity_domain_password_policies(self, identity_domain_client, domain_name):
+
+        data = []
+
+        errstr = ""
+        header = domain_name[0:10] + ".Password Policies"
+        self.__load_print_status_with_threads(header)
+
+        start_time = time.time()
+        try:
+            policies = self.__list_call_get_all_results(
+                identity_domain_client.list_password_policies,
+                attribute_sets=["all"],
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
+            # oci.identity_domains.models.PasswordPolicy
+            for var in policies:
+                if var.delete_in_progress:
+                    continue
+
+                if self.skip_threads:
+                    print(".", end="")
+
+                data.append({
+                    'id': self.get_value(var.id),
+                    'ocid': self.get_value(var.ocid),
+                    'schemas': str(','.join(x for x in var.schemas)) if var.schemas else "",
+                    'meta': self.__load_identity_meta_info(var.meta),
+                    'idcs_created_by': var.idcs_created_by.value if var.idcs_created_by else "",
+                    'idcs_last_modified_by': var.idcs_last_modified_by.value if var.idcs_last_modified_by else "",
+                    'idcs_prevented_operations': str(','.join(x for x in var.idcs_prevented_operations)) if var.idcs_prevented_operations else "",
+                    'tags': [{'key': x.key, 'value': x.value} for x in var.tags] if var.tags else [],
+                    'idcs_last_upgraded_in_release': self.get_value(var.idcs_last_upgraded_in_release),
+                    'compartment_ocid': self.get_value(var.compartment_ocid),
+                    'domain_ocid': self.get_value(var.domain_ocid),
+                    'external_id': self.get_value(var.external_id),
+                    'name': self.get_value(var.name),
+                    'description': self.get_value(var.description),
+                    'allowed_chars': self.get_value(var.allowed_chars),
+                    'configured_password_policy_rules': [{
+                        'key': x.key,
+                        'value': x.value
+                    } for x in var.configured_password_policy_rules] if var.configured_password_policy_rules else [],
+                    'dictionary_delimiter': self.get_value(var.dictionary_delimiter),
+                    'dictionary_location': self.get_value(var.dictionary_location),
+                    'dictionary_word_disallowed': self.get_value(var.dictionary_word_disallowed),
+                    'disallowed_chars': self.get_value(var.disallowed_chars),
+                    'disallowed_substrings': self.get_value(var.disallowed_substrings),
+                    'first_name_disallowed': self.get_value(var.first_name_disallowed),
+                    'force_password_reset': self.get_value(var.force_password_reset),
+                    'groups': [{
+                        'display': x.display,
+                        'ref': x.ref,
+                        'value': x.value
+                    } for x in var.groups] if var.groups else [],
+                    'last_name_disallowed': self.get_value(var.last_name_disallowed),
+                    'lockout_duration': self.get_value(var.lockout_duration),
+                    'max_incorrect_attempts': self.get_value(var.max_incorrect_attempts),
+                    'max_length': self.get_value(var.max_length),
+                    'max_repeated_chars': self.get_value(var.max_repeated_chars),
+                    'max_special_chars': self.get_value(var.max_special_chars),
+                    'min_alpha_numerals': self.get_value(var.min_alpha_numerals),
+                    'min_alphas': self.get_value(var.min_alphas),
+                    'min_length': self.get_value(var.min_length),
+                    'min_lower_case': self.get_value(var.min_lower_case),
+                    'min_numerals': self.get_value(var.min_numerals),
+                    'min_password_age': self.get_value(var.min_password_age),
+                    'min_special_chars': self.get_value(var.min_special_chars),
+                    'min_unique_chars': self.get_value(var.min_unique_chars),
+                    'min_upper_case': self.get_value(var.min_upper_case),
+                    'num_passwords_in_history': self.get_value(var.num_passwords_in_history),
+                    'password_expire_warning': self.get_value(var.password_expire_warning),
+                    'password_expires_after': self.get_value(var.password_expires_after),
+                    'password_strength': self.get_value(var.password_strength),
+                    'priority': self.get_value(var.priority),
+                    'required_chars': self.get_value(var.required_chars),
+                    'starts_with_alphabet': self.get_value(var.starts_with_alphabet),
+                    'user_name_disallowed': self.get_value(var.user_name_disallowed)
+                })
+
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
+            return data
+
+        except oci.exceptions.ServiceError as e:
+            if self.__check_service_error(e.code):
+                self.__load_print_auth_warning()
+            else:
+                raise
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
+            raise
+        except Exception as e:
+            self.__print_error("__load_identity_domain_password_policies", e)
 
     ##########################################################################
     # Identity Module
@@ -15801,13 +17790,47 @@ class ShowOCIDomains(object):
                     'defined_tags': [] if domain.defined_tags is None else domain.defined_tags,
                     'freeform_tags': [] if domain.freeform_tags is None else domain.freeform_tags,
                     'replica_regions': str(','.join(x.region for x in domain.replica_regions)) if domain.replica_regions else "",
-                    'users': self.__load_identity_domain_users(identity_domain_client, domain.display_name),
-                    'groups': self.__load_identity_domain_groups(identity_domain_client, domain.display_name),
-                    'dynamic_groups': self.__load_identity_domain_dynamic_resource_groups(identity_domain_client, domain.display_name),
-                    'kmsi_setting': self.__load_identity_domain_kmsi_setting(identity_domain_client, domain.display_name),
-                    'identity_providers': self.__load_identity_domain_identity_providers(identity_domain_client, domain.display_name),
-                    'authentication_factor_settings': self.__load_identity_domain_authentication_factor_settings(identity_domain_client, domain.display_name)
+                    'users': [],
+                    'groups': [],
+                    'dynamic_groups': [],
+                    'kmsi_setting': [],
+                    'identity_providers': [],
+                    'authentication_factor_settings': [],
+                    'password_policies': []
                 }
+
+                ##########################
+                # if serial execution
+                ##########################
+                if self.skip_threads:
+                    domain_data['users'] = self.__load_identity_domain_users(identity_domain_client, domain.display_name)
+                    domain_data['groups'] = self.__load_identity_domain_groups(identity_domain_client, domain.display_name)
+                    domain_data['dynamic_groups'] = self.__load_identity_domain_dynamic_resource_groups(identity_domain_client, domain.display_name)
+                    domain_data['kmsi_setting'] = self.__load_identity_domain_kmsi_setting(identity_domain_client, domain.display_name)
+                    domain_data['identity_providers'] = self.__load_identity_domain_identity_providers(identity_domain_client, domain.display_name)
+                    domain_data['authentication_factor_settings'] = self.__load_identity_domain_authentication_factor_settings(identity_domain_client, domain.display_name)
+                    domain_data['password_policies'] = self.__load_identity_domain_password_policies(identity_domain_client, domain.display_name)
+
+                ##########################
+                # if parallel execution
+                ##########################
+                else:
+                    with ThreadPoolExecutor(max_workers=8) as executor:
+                        future_users = executor.submit(self.__load_identity_domain_users, identity_domain_client, domain.display_name)
+                        future_groups = executor.submit(self.__load_identity_domain_groups, identity_domain_client, domain.display_name)
+                        future_dynamic_groups = executor.submit(self.__load_identity_domain_dynamic_resource_groups, identity_domain_client, domain.display_name)
+                        future_kmsi_setting = executor.submit(self.__load_identity_domain_kmsi_setting, identity_domain_client, domain.display_name)
+                        future_identity_providers = executor.submit(self.__load_identity_domain_identity_providers, identity_domain_client, domain.display_name)
+                        future_authentication_factor_settings = executor.submit(self.__load_identity_domain_authentication_factor_settings, identity_domain_client, domain.display_name)
+                        future_password_policies = executor.submit(self.__load_identity_domain_password_policies, identity_domain_client, domain.display_name)
+
+                        domain_data['users'] = next(as_completed([future_users])).result()
+                        domain_data['groups'] = next(as_completed([future_groups])).result()
+                        domain_data['dynamic_groups'] = next(as_completed([future_dynamic_groups])).result()
+                        domain_data['kmsi_setting'] = next(as_completed([future_kmsi_setting])).result()
+                        domain_data['identity_providers'] = next(as_completed([future_identity_providers])).result()
+                        domain_data['authentication_factor_settings'] = next(as_completed([future_authentication_factor_settings])).result()
+                        domain_data['password_policies'] = next(as_completed([future_password_policies])).result()
 
                 self.data.append(domain_data)
 

@@ -23,6 +23,8 @@ Apm Synthetics
     oci.apm_synthetics.models.AggregatedNetworkDataResult
     oci.apm_synthetics.models.AvailabilityConfiguration
     oci.apm_synthetics.models.BrowserMonitorConfiguration
+    oci.apm_synthetics.models.ClientCertificate
+    oci.apm_synthetics.models.ClientCertificateDetails
     oci.apm_synthetics.models.CreateDedicatedVantagePointDetails
     oci.apm_synthetics.models.CreateMonitorDetails
     oci.apm_synthetics.models.CreateScriptDetails
@@ -45,8 +47,10 @@ Apm Synthetics
     oci.apm_synthetics.models.MonitorStatusCountMap
     oci.apm_synthetics.models.MonitorSummary
     oci.apm_synthetics.models.NetworkConfiguration
+    oci.apm_synthetics.models.NetworkMonitorConfiguration
     oci.apm_synthetics.models.Node
     oci.apm_synthetics.models.OracleRMStack
+    oci.apm_synthetics.models.PrivateKey
     oci.apm_synthetics.models.PublicVantagePointCollection
     oci.apm_synthetics.models.PublicVantagePointSummary
     oci.apm_synthetics.models.RequestAuthenticationDetails

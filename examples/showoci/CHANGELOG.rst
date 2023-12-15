@@ -5,6 +5,87 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 =====================
+23.12.12 - 23.12.12
+=====================
+* Added PostgreSQL
+* Added MYSQL Backups
+* Fixed support for OCVS VMWare clusters
+
+=====================
+23.12.05 - 23.12.05
+=====================
+* Remove space from Compute CSV which produce empty column
+
+=====================
+23.11.28 - 23.11.28
+=====================
+* Simmplify the Identity Domains User Extract
+
+=====================
+23.10.31 - 23.10.31
+=====================
+* Added additional information to Big Data Cloud Service
+* Extract FAILED status as well.
+
+=====================
+23.10.24 - 23.10.24
+=====================
+* Fix bug with instance configuration and object storage csv
+
+=====================
+23.10.17 - 23.10.17
+=====================
+* Fix bug with resource principle authentication
+
+=====================
+23.09.26 - 23.09.26
+=====================
+* Added network load balancers to the CSV
+
+=====================
+23.09.19 - 23.09.19
+=====================
+* Added resource principle authentication with -rp
+* Added log unified agents configuration
+
+=====================
+23.09.05 - 23.09.05
+=====================
+* Added Autonomous database ECPU
+* emptied vcn_cidr in csv files, vcn_cidrs should be used
+
+=====================
+23.08.15 - 23.08.15
+=====================
+* Performance improvments using Thread enabled
+* Migrating the application to parallel execution using Threads
+* Added -noparallel to run serial and -threads for thread numbers
+* Combined PaaS Native and Data and AI to one group - Native Data and AI
+* Combined Monitoring, Security and Limits to one group
+* Combined OKE clusters with Compute
+* Combined Load Balanacers and Network to one group
+* Combined File Storage and Object Storage to one group
+* Added OKE Container Summary
+* Added NETWORK,LIMITS,QUOTAS,DNSZONE,VCIRCUITS to the -exclude
+
+=====================
+23.07.26 - 23.07.26
+=====================
+* Added support for identity domain password policies, can be skipped using -isc flag
+* Added more information to database service (vault_id) and other areas
+
+=====================
+23.07.19 - 23.07.19
+=====================
+* Added additional attributes for compute csv extract
+* reform output of False and True and None 50% completed (up to line 7500)
+
+=====================
+23.07.04 - 23.07.04
+=====================
+* Added flag -exclude with options to exclude Services currently support - NETWORK 
+
+=====================
 23.06.06 - 23.06.06
 =====================
 * Added Load Balancer Cipher Suites and Routing Policies

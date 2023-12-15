@@ -6,6 +6,8 @@ API Reference
 * :doc:`Access Governance Cp <access_governance_cp/client/oci.access_governance_cp.AccessGovernanceCPClient>`
 * :doc:`Access Requests <operator_access_control/client/oci.operator_access_control.AccessRequestsClient>`
 * :doc:`Account <marketplace/client/oci.marketplace.AccountClient>`
+* :doc:`Address Rule Service <osp_gateway/client/oci.osp_gateway.AddressRuleServiceClient>`
+* :doc:`Address Service <osp_gateway/client/oci.osp_gateway.AddressServiceClient>`
 * :doc:`Ai Service Document <ai_document/client/oci.ai_document.AIServiceDocumentClient>`
 * :doc:`Ai Service Language <ai_language/client/oci.ai_language.AIServiceLanguageClient>`
 * :doc:`Ai Service Speech <ai_speech/client/oci.ai_speech.AIServiceSpeechClient>`
@@ -36,10 +38,12 @@ API Reference
 * :doc:`Certificates Management <certificates_management/client/oci.certificates_management.CertificatesManagementClient>`
 * :doc:`Channels <mysql/client/oci.mysql.ChannelsClient>`
 * :doc:`Cloud Guard <cloud_guard/client/oci.cloud_guard.CloudGuardClient>`
+* :doc:`Cluster <ocvp/client/oci.ocvp.ClusterClient>`
 * :doc:`Commitment <osub_subscription/client/oci.osub_subscription.CommitmentClient>`
 * :doc:`Commitment <osub_subscription/client/oci.osub_subscription.CommitmentClient>`
 * :doc:`Common <cloud_bridge/client/oci.cloud_bridge.CommonClient>`
 * :doc:`Compute <core/client/oci.core.ComputeClient>`
+* :doc:`Compute Cloud At Customer <compute_cloud_at_customer/client/oci.compute_cloud_at_customer.ComputeCloudAtCustomerClient>`
 * :doc:`Compute Instance Agent <compute_instance_agent/client/oci.compute_instance_agent.ComputeInstanceAgentClient>`
 * :doc:`Compute Management <core/client/oci.core.ComputeManagementClient>`
 * :doc:`Computed Usage <osub_usage/client/oci.osub_usage.ComputedUsageClient>`
@@ -73,12 +77,14 @@ API Reference
 * :doc:`Discovery <cloud_bridge/client/oci.cloud_bridge.DiscoveryClient>`
 * :doc:`Domain <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.DomainClient>`
 * :doc:`Domain Governance <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.DomainGovernanceClient>`
+* :doc:`Ekm <key_management/client/oci.key_management.EkmClient>`
 * :doc:`Em Warehouse <em_warehouse/client/oci.em_warehouse.EmWarehouseClient>`
 * :doc:`Email <email/client/oci.email.EmailClient>`
 * :doc:`Esxi Host <ocvp/client/oci.ocvp.EsxiHostClient>`
 * :doc:`Event <os_management/client/oci.os_management.EventClient>`
 * :doc:`Events <events/client/oci.events.EventsClient>`
 * :doc:`File Storage <file_storage/client/oci.file_storage.FileStorageClient>`
+* :doc:`Fleet Software Update <fleet_software_update/client/oci.fleet_software_update.FleetSoftwareUpdateClient>`
 * :doc:`Functions Invoke <functions/client/oci.functions.FunctionsInvokeClient>`
 * :doc:`Functions Management <functions/client/oci.functions.FunctionsManagementClient>`
 * :doc:`Fusion Applications <fusion_apps/client/oci.fusion_apps.FusionApplicationsClient>`
@@ -95,6 +101,7 @@ API Reference
 * :doc:`Inventory <cloud_bridge/client/oci.cloud_bridge.InventoryClient>`
 * :doc:`Invoice Service <osp_gateway/client/oci.osp_gateway.InvoiceServiceClient>`
 * :doc:`Invoice Summary <onesubscription/client/oci.onesubscription.InvoiceSummaryClient>`
+* :doc:`Java Download <jms_java_downloads/client/oci.jms_java_downloads.JavaDownloadClient>`
 * :doc:`Java Management Service <jms/client/oci.jms.JavaManagementServiceClient>`
 * :doc:`Kms Crypto <key_management/client/oci.key_management.KmsCryptoClient>`
 * :doc:`Kms Management <key_management/client/oci.key_management.KmsManagementClient>`
@@ -111,10 +118,12 @@ API Reference
 * :doc:`Logging Management <logging/client/oci.logging.LoggingManagementClient>`
 * :doc:`Managed Instance <os_management_hub/client/oci.os_management_hub.ManagedInstanceClient>`
 * :doc:`Managed Instance Group <os_management_hub/client/oci.os_management_hub.ManagedInstanceGroupClient>`
+* :doc:`Managed My Sql Databases <database_management/client/oci.database_management.ManagedMySqlDatabasesClient>`
 * :doc:`Management <oda/client/oci.oda.ManagementClient>`
 * :doc:`Management Agent <management_agent/client/oci.management_agent.ManagementAgentClient>`
 * :doc:`Management Station <os_management_hub/client/oci.os_management_hub.ManagementStationClient>`
 * :doc:`Marketplace <marketplace/client/oci.marketplace.MarketplaceClient>`
+* :doc:`Marketplace Publisher <marketplace_publisher/client/oci.marketplace_publisher.MarketplacePublisherClient>`
 * :doc:`Media Services <media_services/client/oci.media_services.MediaServicesClient>`
 * :doc:`Media Stream <media_services/client/oci.media_services.MediaStreamClient>`
 * :doc:`Migration <cloud_migrations/client/oci.cloud_migrations.MigrationClient>`
@@ -145,8 +154,10 @@ API Reference
 * :doc:`Organization Subscription <osub_organization_subscription/client/oci.osub_organization_subscription.OrganizationSubscriptionClient>`
 * :doc:`Organization Subscription <osub_organization_subscription/client/oci.osub_organization_subscription.OrganizationSubscriptionClient>`
 * :doc:`Os Management <os_management/client/oci.os_management.OsManagementClient>`
+* :doc:`Perfhub <database_management/client/oci.database_management.PerfhubClient>`
 * :doc:`Plugin <compute_instance_agent/client/oci.compute_instance_agent.PluginClient>`
 * :doc:`Pluginconfig <compute_instance_agent/client/oci.compute_instance_agent.PluginconfigClient>`
+* :doc:`Postgresql <psql/client/oci.psql.PostgresqlClient>`
 * :doc:`Query <apm_traces/client/oci.apm_traces.QueryClient>`
 * :doc:`Queue <queue/client/oci.queue.QueueClient>`
 * :doc:`Queue Admin <queue/client/oci.queue.QueueAdminClient>`
@@ -155,6 +166,7 @@ API Reference
 * :doc:`Ratecard <osub_subscription/client/oci.osub_subscription.RatecardClient>`
 * :doc:`Recipient Invitation <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.RecipientInvitationClient>`
 * :doc:`Redirect <waas/client/oci.waas.RedirectClient>`
+* :doc:`Redis Cluster <redis/client/oci.redis.RedisClusterClient>`
 * :doc:`Replicas <mysql/client/oci.mysql.ReplicasClient>`
 * :doc:`Reporting Managed Instance <os_management_hub/client/oci.os_management_hub.ReportingManagedInstanceClient>`
 * :doc:`Resource Manager <resource_manager/client/oci.resource_manager.ResourceManagerClient>`
@@ -196,7 +208,6 @@ API Reference
 * :doc:`Usage Plans <apigateway/client/oci.apigateway.UsagePlansClient>`
 * :doc:`Usageapi <usage_api/client/oci.usage_api.UsageapiClient>`
 * :doc:`Usagelimits <usage/client/oci.usage.UsagelimitsClient>`
-* :doc:`User <cims/client/oci.cims.UserClient>`
 * :doc:`Vaults <vault/client/oci.vault.VaultsClient>`
 * :doc:`Vb Instance <visual_builder/client/oci.visual_builder.VbInstanceClient>`
 * :doc:`Vbs Instance <vbs_inst/client/oci.vbs_inst.VbsInstanceClient>`
@@ -263,6 +274,7 @@ API Reference
     cloud_bridge
     cloud_guard
     cloud_migrations
+    compute_cloud_at_customer
     compute_instance_agent
     container_engine
     container_instances
@@ -287,6 +299,7 @@ API Reference
     email
     events
     file_storage
+    fleet_software_update
     functions
     fusion_apps
     generic_artifacts_content
@@ -298,6 +311,7 @@ API Reference
     identity_domains
     integration
     jms
+    jms_java_downloads
     key_management
     license_manager
     limits
@@ -310,6 +324,7 @@ API Reference
     management_agent
     management_dashboard
     marketplace
+    marketplace_publisher
     media_services
     monitoring
     mysql
@@ -335,8 +350,10 @@ API Reference
     osub_organization_subscription
     osub_subscription
     osub_usage
+    psql
     queue
     recovery
+    redis
     resource_manager
     resource_search
     rover

@@ -24,10 +24,12 @@ Bds
     oci.bds.models.AddBlockStorageDetails
     oci.bds.models.AddCloudSqlDetails
     oci.bds.models.AddKafkaDetails
+    oci.bds.models.AddMasterNodesDetails
     oci.bds.models.AddMetricBasedHorizontalScalingPolicyDetails
     oci.bds.models.AddMetricBasedVerticalScalingPolicyDetails
     oci.bds.models.AddScheduleBasedHorizontalScalingPolicyDetails
     oci.bds.models.AddScheduleBasedVerticalScalingPolicyDetails
+    oci.bds.models.AddUtilityNodesDetails
     oci.bds.models.AddWorkerNodesDetails
     oci.bds.models.AutoScalePolicy
     oci.bds.models.AutoScalePolicyDetails
@@ -41,6 +43,8 @@ Bds
     oci.bds.models.BdsInstanceSummary
     oci.bds.models.BdsMetastoreConfiguration
     oci.bds.models.BdsMetastoreConfigurationSummary
+    oci.bds.models.CertificateServiceInfoDetails
+    oci.bds.models.CertificateServiceInfoSummary
     oci.bds.models.ChangeBdsInstanceCompartmentDetails
     oci.bds.models.ChangeShapeDetails
     oci.bds.models.ChangeShapeNodes
@@ -53,8 +57,13 @@ Bds
     oci.bds.models.DayBasedHorizontalScalingScheduleDetails
     oci.bds.models.DayBasedVerticalScalingScheduleDetails
     oci.bds.models.DefaultError
+    oci.bds.models.DisableCertificateDetails
+    oci.bds.models.EnableCertificateDetails
     oci.bds.models.ExecuteBootstrapScriptDetails
     oci.bds.models.HorizontalScalingScheduleDetails
+    oci.bds.models.HostCertDetails
+    oci.bds.models.HostSpecificCertificateDetails
+    oci.bds.models.InstallOsPatchDetails
     oci.bds.models.InstallPatchDetails
     oci.bds.models.KerberosDetails
     oci.bds.models.MetricBasedHorizontalScaleInConfig
@@ -66,12 +75,16 @@ Bds
     oci.bds.models.MetricThresholdRule
     oci.bds.models.NetworkConfig
     oci.bds.models.Node
+    oci.bds.models.OsPatchDetails
+    oci.bds.models.OsPatchPackageSummary
+    oci.bds.models.OsPatchSummary
     oci.bds.models.PatchHistorySummary
     oci.bds.models.PatchSummary
     oci.bds.models.RemoveAutoScalingConfigurationDetails
     oci.bds.models.RemoveCloudSqlDetails
     oci.bds.models.RemoveKafkaDetails
     oci.bds.models.RemoveNodeDetails
+    oci.bds.models.RenewCertificateDetails
     oci.bds.models.RestartNodeDetails
     oci.bds.models.ScheduleBasedHorizontalScalingPolicyDetails
     oci.bds.models.ScheduleBasedVerticalScalingPolicyDetails

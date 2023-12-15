@@ -5,6 +5,7 @@
 # showoci_data.py
 #
 # @author: Adi Zohar
+# @contributors: Olaf Heimburger
 #
 # Supports Python 3 and above
 #
@@ -18,7 +19,7 @@ from showoci_service import ShowOCIService, ShowOCIFlags
 
 
 class ShowOCIData(object):
-    version = "23.06.06"
+    version = "23.12.12"
 
     ############################################
     # ShowOCIService - Service object to query
@@ -132,7 +133,7 @@ class ShowOCIData(object):
         data = {
             'program': "showoci.py",
             'author': "Adi Zohar",
-            'contributers': "",
+            'contributors': "Olaf Heimburger",
             'disclaimer': "This is not an official Oracle application, it is not supported by Oracle. It should NOT be used for utilization calculation purposes. If you run into issues using this, please file an issue at https://github.com/oracle/oci-python-sdk/issues rather than contacting support",
             'config_file': self.service.flags.config_file,
             'config_profile': self.service.flags.config_section,
@@ -146,6 +147,7 @@ class ShowOCIData(object):
             'datetime': start_time,
             'machine': self.service.flags.machine,
             'python': self.service.flags.python,
+            'threads': "False" if self.service.flags.skip_threads else "True with " + str(self.service.flags.threads) + " threads",
             'cmdline': cmdline,
             'oci_sdk_version': self.service.get_oci_version()
         }
@@ -672,7 +674,6 @@ class ShowOCIData(object):
         except Exception as e:
             self.__print_error("__get_core_network_vcn_subnets", e)
             return data
-            pass
 
     ##########################################################################
     # __get_core_network_vcn_vlans
@@ -735,7 +736,6 @@ class ShowOCIData(object):
         except Exception as e:
             self.__print_error("__get_core_network_vcn_vlans", e)
             return data
-            pass
 
     ##########################################################################
     # Print Network vcn security list
@@ -993,7 +993,7 @@ class ShowOCIData(object):
                     'id': vcn['id'],
                     'name': vcn['name'],
                     'display_name': vcn['display_name'],
-                    'cidr_block': vcn['cidr_block'],
+                    'cidr_block': "",
                     'cidr_blocks': vcn['cidr_blocks'],
                     'ipv6_private_cidr_blocks': vcn['ipv6_private_cidr_blocks'],
                     'ipv6_cidr_blocks': vcn['ipv6_cidr_blocks'],
@@ -1490,6 +1490,8 @@ class ShowOCIData(object):
                     'is_hydrated': bv['is_hydrated'],
                     'encryption_in_transit_type': bva['encryption_in_transit_type'],
                     'is_pv_encryption_in_transit_enabled': bva['is_pv_encryption_in_transit_enabled'],
+                    'is_auto_tune_enabled': bv['is_auto_tune_enabled'],
+                    'auto_tuned_vpus_per_gb': bv['auto_tuned_vpus_per_gb'],
                     'time_created': bv['time_created'],
                     'display_name': bv['display_name'],
                     'defined_tags': bv['defined_tags'],
@@ -1534,7 +1536,7 @@ class ShowOCIData(object):
                     'compartment_name': bv['compartment_name'],
                     'compartment_path': bv['compartment_path'],
                     'compartment_id': bv['compartment_id'],
-                    'backup_policy': "None" if bv['backup_policy'] == "" else bv['backup_policy'],
+                    'backup_policy': bv['backup_policy'],
                     'display_name': bv['display_name'],
                     'vpus_per_gb': bv['vpus_per_gb'],
                     'volume_group_name': bv['volume_group_name'],
@@ -1543,7 +1545,10 @@ class ShowOCIData(object):
                     'is_read_only': str(bva['is_read_only']),
                     'is_shareable': str(bva['is_shareable']),
                     'is_pv_encryption_in_transit_enabled': str(bva['is_pv_encryption_in_transit_enabled']),
+                    'attachment_type': str(bva['attachment_type']),
                     'is_multipath': str(bva['is_multipath']),
+                    'is_auto_tune_enabled': bv['is_auto_tune_enabled'],
+                    'auto_tuned_vpus_per_gb': bv['auto_tuned_vpus_per_gb'],
                     'iscsi_login_state': str(bva['iscsi_login_state']),
                     'defined_tags': bv['defined_tags'],
                     'freeform_tags': bv['freeform_tags']
@@ -1579,6 +1584,7 @@ class ShowOCIData(object):
                 value['volume_id'] = backup['volume_id']
                 value['source_name'] = backup['backup_name']
                 value['backup_type'] = backup['type']
+                value['kms_key_id'] = backup['kms_key_id']
                 value['schedule_type'] = backup['source_type']
                 value['time_created'] = backup['time_created'][0:16]
                 value['expiration_time'] = backup['expiration_time'][0:16]
@@ -1713,25 +1719,30 @@ class ShowOCIData(object):
             volgroups = self.service.search_multi_items(self.service.C_BLOCK, self.service.C_BLOCK_VOLGRP, 'region_name', region_name, 'compartment_id', compartment['id'])
 
             for vplgrp in volgroups:
-                value = {'id': vplgrp['id'], 'name': vplgrp['display_name'], 'size_in_gbs': vplgrp['size_in_gbs'],
+                value = {'id': vplgrp['id'],
+                         'name': vplgrp['display_name'],
+                         'size_in_gbs': vplgrp['size_in_gbs'],
                          'compartment_name': str(vplgrp['compartment_name']),
                          'compartment_path': str(vplgrp['compartment_path']),
                          'volumes': [],
                          'time_created': vplgrp['time_created'],
                          'defined_tags': vplgrp['defined_tags'],
                          'freeform_tags': vplgrp['freeform_tags']}
-
-                # check volumes
                 for vol_id in vplgrp['volume_ids']:
                     vol = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_VOL, 'id', vol_id)
-                    if vol:
-                        value['volumes'].append(vol['display_name'] + " - " + vol['size_in_gbs'] + "GB")
 
-                # check boot vol
-                for vol_id in vplgrp['volume_ids']:
-                    vol = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_BOOT, 'id', vol_id)
-                    if vol:
-                        value['volumes'].append(vol['display_name'] + " - " + vol['size_in_gbs'] + "GB")
+                    # if Not a volume, try boot volume
+                    if vol is None:
+                        vol = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_BOOT, 'id', vol_id)
+
+                    # if None continue
+                    if vol is None:
+                        continue
+                    value['volumes'].append({
+                        'id': vol['id'],
+                        'display_name': vol['display_name'],
+                        'desc': vol['display_name'] + " - " + vol['size_in_gbs'] + 'GB'
+                    })
 
                 data.append(value)
 
@@ -2222,6 +2233,7 @@ class ShowOCIData(object):
                          'connection_strings_cdb': db['connection_strings_cdb'],
                          'source_database_point_in_time_recovery_timestamp': db['source_database_point_in_time_recovery_timestamp'],
                          'kms_key_id': db['kms_key_id'],
+                         'vault_id': db['vault_id'],
                          'last_backup_timestamp': db['last_backup_timestamp'],
                          'id': db['id']
                          }
@@ -2653,6 +2665,7 @@ class ShowOCIData(object):
                     'is_mtls_enabled': vm['is_mtls_enabled'],
                     'defined_tags': vm['defined_tags'],
                     'freeform_tags': vm['freeform_tags'],
+                    'compute_model': vm['compute_model'],
                     'sum_info': 'Database ExaCC ADB VM ' + vm['license_model'],
                     'sum_info_storage': 'Database - Storage (GB)',
                     'sum_size_gb': vm['db_node_storage_size_in_gbs'],
@@ -2672,8 +2685,7 @@ class ShowOCIData(object):
                     databases = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_ADB_DATABASE, 'autonomous_container_database_id', ct['id'])
                     for arr in databases:
                         db = self.__get_database_adb_database_info(arr)
-                        db['name'] = str(db['db_name'] + " (" + db['display_name'] + ") - " + vm['license_model'] + " - " + db['lifecycle_state'] + " (" + str(db['sum_count']) + " OCPUs" + (" AutoScale" if db['is_auto_scaling_enabled'] else "") + ") - " + db['db_workload'])
-                        db['sum_info'] = "Autonomous Database Dedicated " + str(db['db_workload']) + " (OCPUs) - " + vm['license_model']
+                        db['sum_info'] = "Autonomous Database Dedicated " + str(db['db_workload']) + " (" + db['compute_model'] + "s) - " + vm['license_model']
                         db['sum_info_stopped'] = "Stopped Autonomous Database Dedicated " + str(db['db_workload']) + " (Count) - " + vm['license_model']
                         db['sum_info_count'] = "Autonomous Database Dedicated " + str(db['db_workload']) + " (Count) - " + vm['license_model']
                         db['sum_info_storage'] = "Autonomous Database Dedicated (TB)"
@@ -2829,6 +2841,8 @@ class ShowOCIData(object):
                         'lifecycle_state': backup['lifecycle_state'],
                         'type': backup['type'],
                         'id': backup['id'],
+                        'kms_key_id': backup['kms_key_id'],
+                        'vault_id': backup['vault_id'],
                         'is_automatic': backup['is_automatic']
                     }
                 )
@@ -2846,9 +2860,14 @@ class ShowOCIData(object):
         try:
             freemsg = ",  FreeTier" if dbs['is_free_tier'] else ""
             freesum = "Free " if dbs['is_free_tier'] else ""
+            role = (" - " + dbs['role']) if dbs['role'] else ""
+            open_mode = (" - " + dbs['open_mode']) if dbs['open_mode'] else ""
+            lifecycle = (" - " + dbs['lifecycle_state']) if dbs['lifecycle_state'] else ""
+            autoscale = (" AutoScale" if dbs['is_auto_scaling_enabled'] else "")
+            compute_count = str(dbs['compute_count']) + " " + dbs['compute_model']
             value = {
                 'id': str(dbs['id']),
-                'name': str(dbs['db_name']) + " (" + (str(dbs['display_name']) + ") - " + str(dbs['license_model']) + " - " + str(dbs['role']) + " - " + str(dbs['lifecycle_state']) + " (" + str(dbs['sum_count']) + " OCPUs" + (" AutoScale" if dbs['is_auto_scaling_enabled'] else "") + ") - " + dbs['db_workload'] + " - " + dbs['db_type'] + freemsg),
+                'name': str(dbs['db_name']) + " (" + (str(dbs['display_name']) + ") - " + str(dbs['license_model']) + open_mode + role + lifecycle + " (" + compute_count + autoscale + ") - " + dbs['db_workload'] + " - " + dbs['db_type'] + freemsg),
                 'display_name': dbs['display_name'],
                 'license_model': dbs['license_model'],
                 'lifecycle_state': dbs['lifecycle_state'],
@@ -2862,10 +2881,10 @@ class ShowOCIData(object):
                 'time_created': str(dbs['time_created'])[0:16],
                 'connection_strings': str(dbs['connection_strings']),
                 'connection_urls': str(dbs['connection_urls']),
-                'sum_info': "Autonomous Database " + freesum + str(dbs['db_workload']) + " (OCPUs) - " + dbs['license_model'],
+                'sum_info': "Autonomous Database " + freesum + str(dbs['db_workload']) + " " + dbs['compute_model'] + " - " + dbs['license_model'],
                 'sum_info_stopped': "Stopped Autonomous Database " + freesum + str(dbs['db_workload']) + " (Count) - " + dbs['license_model'],
                 'sum_info_count': "Autonomous Database " + freesum + str(dbs['db_workload']) + " (Count) - " + dbs['license_model'],
-                'sum_count': str(dbs['sum_count']),
+                'sum_count': str(dbs['compute_count']),
                 'sum_info_storage': "Autonomous Database " + freesum + "(TB)",
                 'sum_size_tb': str(dbs['data_storage_size_in_tbs']),
                 'whitelisted_ips': dbs['whitelisted_ips'],
@@ -2904,9 +2923,56 @@ class ShowOCIData(object):
                 'dataguard_region_type': dbs['dataguard_region_type'],
                 'customer_contacts': dbs['customer_contacts'],
                 'supported_regions_to_clone_to': dbs['supported_regions_to_clone_to'],
+                'kms_key_id': dbs['kms_key_id'],
+                'vault_id': dbs['vault_id'],
                 'key_store_wallet_name': dbs['key_store_wallet_name'],
                 'key_store_id': dbs['key_store_id'],
+                'in_memory_percentage': dbs['in_memory_percentage'],
                 'role': dbs['role'],
+                'in_memory_area_in_gbs': dbs['in_memory_area_in_gbs'],
+                'memory_per_oracle_compute_unit_in_gbs': dbs['memory_per_oracle_compute_unit_in_gbs'],
+                'next_long_term_backup_time_stamp': dbs['next_long_term_backup_time_stamp'],
+                'compute_model': dbs['compute_model'],
+                'compute_count': dbs['compute_count'],
+                'backup_retention_period_in_days': dbs['backup_retention_period_in_days'],
+                'total_backup_storage_size_in_gbs': dbs['total_backup_storage_size_in_gbs'],
+                'data_storage_size_in_gbs': dbs['data_storage_size_in_gbs'],
+                'used_data_storage_size_in_gbs': dbs['used_data_storage_size_in_gbs'],
+                'used_data_storage_size_in_tbs': dbs['used_data_storage_size_in_tbs'],
+                'is_refreshable_clone': dbs['is_refreshable_clone'],
+                'time_of_last_refresh': dbs['time_of_last_refresh'],
+                'time_of_last_refresh_point': dbs['time_of_last_refresh_point'],
+                'time_of_next_refresh': dbs['time_of_next_refresh'],
+                'open_mode': dbs['open_mode'],
+                'refreshable_status': dbs['refreshable_status'],
+                'refreshable_mode': dbs['refreshable_mode'],
+                'permission_level': dbs['permission_level'],
+                'is_local_data_guard_enabled': dbs['is_local_data_guard_enabled'],
+                'is_remote_data_guard_enabled': dbs['is_remote_data_guard_enabled'],
+                'is_mtls_connection_required': dbs['is_mtls_connection_required'],
+                'time_until_reconnect_clone_enabled': dbs['time_until_reconnect_clone_enabled'],
+                'is_auto_scaling_for_storage_enabled': dbs['is_auto_scaling_for_storage_enabled'],
+                'allocated_storage_size_in_tbs': dbs['allocated_storage_size_in_tbs'],
+                'actual_used_data_storage_size_in_tbs': dbs['actual_used_data_storage_size_in_tbs'],
+                'max_cpu_core_count': dbs['max_cpu_core_count'],
+                'database_edition': dbs['database_edition'],
+                'local_disaster_recovery_type': dbs['local_disaster_recovery_type'],
+                'disaster_recovery_region_type': dbs['disaster_recovery_region_type'],
+                'time_disaster_recovery_role_changed': dbs['time_disaster_recovery_role_changed'],
+                'are_primary_whitelisted_ips_used': dbs['are_primary_whitelisted_ips_used'],
+                'autonomous_maintenance_schedule_type': dbs['autonomous_maintenance_schedule_type'],
+                'character_set': dbs['character_set'],
+                'ncharacter_set': dbs['ncharacter_set'],
+                'database_management_status': dbs['database_management_status'],
+                'is_access_control_enabled': dbs['is_access_control_enabled'],
+                'is_reconnect_clone_enabled': dbs['is_reconnect_clone_enabled'],
+                'kms_key_lifecycle_details': dbs['kms_key_lifecycle_details'],
+                'kms_key_version_id': dbs['kms_key_version_id'],
+                'local_adg_auto_failover_max_data_loss_limit': dbs['local_adg_auto_failover_max_data_loss_limit'],
+                'operations_insights_status': dbs['operations_insights_status'],
+                'provisionable_cpus': dbs['provisionable_cpus'],
+                'source_id': dbs['source_id'],
+                'standby_whitelisted_ips': dbs['standby_whitelisted_ips'],
                 'backups': self.__get_database_adb_databases_backups(dbs['backups'])
             }
 
@@ -3004,6 +3070,12 @@ class ShowOCIData(object):
                     'compartment_path': vm['compartment_path'],
                     'compartment_id': vm['compartment_id'],
                     'region_name': vm['region_name'],
+                    'compute_model': vm['compute_model'],
+                    'is_mtls_enabled_vm_cluster': vm['is_mtls_enabled_vm_cluster'],
+                    'scan_listener_port_tls': vm['scan_listener_port_tls'],
+                    'scan_listener_port_non_tls': vm['scan_listener_port_non_tls'],
+                    'time_database_ssl_certificate_expires': vm['time_database_ssl_certificate_expires'],
+                    'time_ords_certificate_expires': vm['time_ords_certificate_expires'],
                     'containers': []}
 
                 # fetch the containers
@@ -3016,8 +3088,7 @@ class ShowOCIData(object):
                     databases = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_ADB_DATABASE, 'autonomous_container_database_id', ct['id'])
                     for arr in databases:
                         db = self.__get_database_adb_database_info(arr)
-                        db['name'] = str(db['db_name'] + " (" + db['display_name'] + ") - " + vm['license_model'] + " - " + db['lifecycle_state'] + " (" + str(db['sum_count']) + " OCPUs" + (" AutoScale" if db['is_auto_scaling_enabled'] else "") + ") - " + db['db_workload'])
-                        db['sum_info'] = "Autonomous Database Dedicated " + str(db['db_workload']) + " (OCPUs) - " + vm['license_model']
+                        db['sum_info'] = "Autonomous Database Dedicated " + str(db['db_workload']) + " (" + db['compute_model'] + "s) - " + vm['license_model']
                         db['sum_info_stopped'] = "Stopped Autonomous Database Dedicated " + str(db['db_workload']) + " (Count) - " + vm['license_model']
                         db['sum_info_count'] = "Autonomous Database Dedicated " + str(db['db_workload']) + " (Count) - " + vm['license_model']
                         db['sum_info_storage'] = "Autonomous Database Dedicated (TB)"
@@ -3061,6 +3132,12 @@ class ShowOCIData(object):
             mysql = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_MYSQL, 'region_name', region_name, 'compartment_id', compartment['id'])
             if mysql:
                 for dbs in mysql:
+
+                    # Add backup
+                    backups = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_MYSQL_BACKUPS, 'region_name', region_name, 'db_system_id', dbs['id'])
+                    if backups:
+                        dbs['backups'] = backups
+
                     # Add subnet
                     if dbs['subnet_id'] != 'None':
                         dbs['subnet_name'] = self.__get_core_network_subnet_name(dbs['subnet_id'])
@@ -3071,6 +3148,80 @@ class ShowOCIData(object):
 
         except Exception as e:
             self.__print_error("__get_database_mysql", e)
+            return data
+
+    ##########################################################################
+    # __get_database_mysql_standalone_backups
+    ##########################################################################
+    def __get_database_mysql_standalone_backups(self, region_name, compartment):
+
+        data = []
+        try:
+            backups = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_MYSQL_BACKUPS, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if backups:
+                for bck in backups:
+
+                    # check if db_system_id exist, if exist skip
+                    dbs = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_MYSQL, 'region_name', region_name, 'id', bck['db_system_id'])
+                    if dbs:
+                        continue
+
+                    data.append(bck)
+            return data
+
+        except Exception as e:
+            self.__print_error("__get_database_mysql_standalone_backups", e)
+            return data
+
+    ##########################################################################
+    # __get_database_postgresql
+    ##########################################################################
+    def __get_database_postgresql(self, region_name, compartment):
+
+        data = []
+        try:
+            pg = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_POSTGRESQL, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if pg:
+                for dbs in pg:
+
+                    # Add backup
+                    backups = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_POSTGRESQL_BACKUPS, 'region_name', region_name, 'db_system_id', dbs['id'])
+                    if backups:
+                        dbs['backups'] = backups
+
+                    # Add subnet
+                    if dbs['network_subnet_id']:
+                        dbs['network_subnet_name'] = self.__get_core_network_subnet_name(dbs['network_subnet_id'])
+                    else:
+                        dbs['network_subnet_name'] = ""
+                    data.append(dbs)
+            return data
+
+        except Exception as e:
+            self.__print_error("__get_database_postgresql", e)
+            return data
+
+    ##########################################################################
+    # __get_database_postgresql_standalone_backups
+    ##########################################################################
+    def __get_database_postgresql_standalone_backups(self, region_name, compartment):
+
+        data = []
+        try:
+            backups = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_POSTGRESQL_BACKUPS, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if backups:
+                for bck in backups:
+
+                    # check if db_system_id exist, if exist skip
+                    dbs = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_POSTGRESQL, 'region_name', region_name, 'id', bck['db_system_id'])
+                    if dbs:
+                        continue
+
+                    data.append(bck)
+            return data
+
+        except Exception as e:
+            self.__print_error("__get_database_postgresql_standalone_backups", e)
             return data
 
     ##########################################################################
@@ -3184,6 +3335,21 @@ class ShowOCIData(object):
                 if len(data) > 0:
                     return_data['mysql'] = data
 
+            data = self.__get_database_mysql_standalone_backups(region_name, compartment)
+            if data:
+                if len(data) > 0:
+                    return_data['mysql_standalone_backups'] = data
+
+            data = self.__get_database_postgresql(region_name, compartment)
+            if data:
+                if len(data) > 0:
+                    return_data['postgresql'] = data
+
+            data = self.__get_database_postgresql_standalone_backups(region_name, compartment)
+            if data:
+                if len(data) > 0:
+                    return_data['postgresql_standalone_backups'] = data
+
             data = self.__get_database_software_images(region_name, compartment)
             if data:
                 if len(data) > 0:
@@ -3278,8 +3444,13 @@ class ShowOCIData(object):
             exports = self.service.search_multi_items(self.service.C_FILE_STORAGE, self.service.C_FILE_STORAGE_EXPORTS, 'file_system_id', file_system_id)
 
             for export in exports:
-                dataval = {'id': export['id'], 'file_system_id': export['file_system_id'],
-                           'time_created': export['time_created'], 'path': export['path'], 'exportset': ""}
+                dataval = {
+                    'id': export['id'],
+                    'file_system_id': export['file_system_id'],
+                    'time_created': export['time_created'],
+                    'path': export['path'],
+                    'exportset': "",
+                    'options': []}
 
                 # export set
                 if export['export_set']:
@@ -3287,7 +3458,11 @@ class ShowOCIData(object):
                     dataval['exportset'] = str(exp['display_name']) + ", " + str(exp['availability_domain']) + ", Limits: " + self.__get_file_storage_limits(exp)
                     dataval['display_name'] = str(exp['display_name'])
                     dataval['availability_domain'] = str(exp['availability_domain'])
-
+                    for opt in exp['options']:
+                        v = {}
+                        for k in opt.keys():
+                            v[k] = opt[k]
+                        dataval['options'].append(v)
                 # Mount Target
                 dataval['mount_target'] = self.__get_file_storage_mount_target(export['export_set_id'])
                 data.append(dataval)
@@ -3326,6 +3501,7 @@ class ShowOCIData(object):
                            'compartment_name': fs['compartment_name'],
                            'compartment_path': fs['compartment_path'],
                            'compartment_id': fs['compartment_id'],
+                           'kms_key_id': fs['kms_key_id'],
                            'region_name': region_name,
                            'exports': self.__get_file_storage_exports(fs['id'])}
                 data.append(dataval)
@@ -3378,6 +3554,8 @@ class ShowOCIData(object):
                          'id': bucket['id'],
                          'defined_tags': bucket['defined_tags'],
                          'freeform_tags': bucket['freeform_tags'],
+                         'error_message': bucket['error_message'],
+                         'archival_state': bucket['archival_state'],
                          'logs': self.service.get_logging_log(bucket['name'])
                          }
 
@@ -3599,6 +3777,9 @@ class ShowOCIData(object):
             data['name'] = str(lb['display_name']) + " - " + str(lb['shape_name']) + " - " + ("(Private)" if lb['is_private'] else "(Public)")
             data['status'] = lb['status']
             data['display_name'] = lb['display_name']
+            data['time_created'] = lb['time_created']
+            data['time_updated'] = lb['time_updated']
+            data['is_preserve_source_destination'] = lb['is_preserve_source_destination']
             data['is_private'] = lb['is_private']
             data['ips'] = lb['ip_addresses']
             data['nsg_ids'] = lb['nsg_ids']
@@ -3616,8 +3797,10 @@ class ShowOCIData(object):
             for lo in lb['listeners']:
                 value = {
                     'port': str(lo['port']) + "/" + str(lo['protocol']),
+                    'id': str(lo['id']),
                     'default_backend_set_name': str(lo['default_backend_set_name']),
-                    'desc': (lo['id'].ljust(20) + " - " + str(lo['port']) + "/" + str(lo['protocol']) + " - BS: " + str(lo['default_backend_set_name']))
+                    'desc': (lo['id'].ljust(20) + " - " + str(lo['port']) + "/" + str(lo['protocol']) + " - BS: " + str(lo['default_backend_set_name'])),
+                    'csvname': (lo['id'] + " - " + str(lo['port']) + "/" + str(lo['protocol']) + " - BS: " + str(lo['default_backend_set_name']))
                 }
                 datalis.append(value)
             data['listeners'] = datalis
@@ -3730,6 +3913,8 @@ class ShowOCIData(object):
                 for container in containers:
                     val = {'id': container['id'],
                            'name': container['name'],
+                           'sum_info': "OKE Clusters",
+                           'sum_size_gb': str("1"),
                            'lifecycle_state': container['lifecycle_state'],
                            'kubernetes_version': container['kubernetes_version'],
                            'compartment_name': container['compartment_name'],
@@ -4147,6 +4332,11 @@ class ShowOCIData(object):
             log = self.service.search_multi_items(self.service.C_SECURITY, self.service.C_SECURITY_LOGGING, 'region_name', region_name, 'compartment_id', compartment['id'])
             if log:
                 security_services['logging'] = log
+
+            # logging unified agenets
+            logua = self.service.search_multi_items(self.service.C_SECURITY, self.service.C_SECURITY_LOGGING_UA, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if log:
+                security_services['logging_unified_agenets'] = logua
 
             # kms_vaults
             vaults = self.service.search_multi_items(self.service.C_SECURITY, self.service.C_SECURITY_VAULTS, 'region_name', region_name, 'compartment_id', compartment['id'])

@@ -1,14 +1,14 @@
-## showoci - Oracle Cloud Infrastructure Reporting Tool
+# showoci - Oracle Cloud Infrastructure Reporting Tool
 
 SHOWOCI is a reporting tool which uses the Python SDK to extract list of resources from your tenant.
 It covers most of OCI components,  Authentication by User or Compute using instance principals,
 Output can be printer friendly, CSV files or JSON file with an option to load the CSV files to Autonomous DB.
 
-**DISCLAIMER – This is not an official Oracle application,  It does not supported by Oracle Support, It should NOT be used for utilization calculation purposes, and rather OCI's official 
-[cost analysis](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm) 
-and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/usagereportsoverview.htm) features should be used instead.**
+**DISCLAIMER – This is not an official Oracle application,  It does not supported by Oracle Support, It should NOT be used for utilization calculation purposes, and rather OCI's official
+ [cost analysis](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/costanalysisoverview.htm)
+ and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/usagereportsoverview.htm) features should be used instead.**
 
-**Developed by Adi Zohar, 2018-2023, Contributers: Olaf Heimburger**
+Developed by Adi Zohar, 2018-2023, Contributers: Olaf Heimburger
 
 ## Content
 
@@ -30,12 +30,11 @@ and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/
 
 [9. Example of ShowOCI Reports](#9-example-of-showoci-reports)
 
-
-![](img/screen_xls.png)
-![](img/screen_scr1.png)
-![](img/screen_scr2.png)
-![](img/screen_json1.png)
-![](img/screen_json2.png)
+![xls](img/screen_xls.png)
+![screen1](img/screen_scr1.png)
+![screen2](img/screen_scr2.png)
+![json1](img/screen_json1.png)
+![json2](img/screen_json2.png)
 
 ## 1. Requirement and Modules Included
 
@@ -46,7 +45,7 @@ and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/
 3. Python3, tested on 3.9
 4. OCI SDK Python Packages - oci
 
-### Modules Included:
+### Modules Included
 
 - oci.core.VirtualNetworkClient
 - oci.core.ComputeClient
@@ -95,6 +94,7 @@ and [usage reports](https://docs.oracle.com/en-us/iaas/Content/Billing/Concepts/
 - oci.identity_domains.IdentityDomainsClient
 - oci.network_firewall.NetworkFirewallClient
 - oci.opensearch.OpensearchClusterClient
+- oci.psql.PostgresqlClient
 
 ## 2. Executing using Cloud Shell
 
@@ -102,26 +102,26 @@ Cloud Shell has 20 minutes timeout, for large extract, I would recommend to use 
 
 Step 1 - Clone from OCI Python SDK Repo and Create symbolink link
 
-```
+```text
 git clone https://github.com/oracle/oci-python-sdk
 ln -s oci-python-sdk/examples/showoci .
 ```
 
 Or Install using Bash
 
-```
+```text
 bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-python-sdk/master/examples/showoci/showoci_upgrade.sh)"    
 ```
 
 Step 2 - Change Dir to ShowOCI
 
-```
+```text
 cd showoci
 ```
 
 ## 3. Executing ShowOCI using different options
 
-```
+```text
 # Run report for all resources except identity from Cloud Shell
 python3 showoci.py -dt -ani
 
@@ -146,28 +146,29 @@ python3 showoci.py -paas -js
 
 For Instance Principals - Create Dynamic Group ShowOCIDynamicGroup:
 
-```
+```text
 any {ALL {instance.id = 'ocid1.instance.oc1.xxxxxxxxxx'}}
 ```
 
 Add Policy:
-```
+
+```text
 allow dynamic-group ShowOCIDynamicGroup to read all-resources in tenancy
 ```
 
 For User Authenticaiton - Required OCI IAM user with read only privileges (Inspect can used with reduce info)
 
-```
+```text
 ALLOW GROUP ReadOnlyUsers to read all-resources IN TENANCY
 ```
 
 Use 'oci setup config' to configure the user on VM
- 
 
 ## 5. Step by Step installation Guide on OCI VM
 
 ### 5.1 Deploy VM Compute instance to run the python script
-```
+
+```text
 OCI -> Menu -> Compute -> Instances
 Create Instance
 --> Name = ShowOCIVM
@@ -185,7 +186,7 @@ Copy Instance Info:
 
 ### 5.2. Create Dynamic Group for Instance Principles
 
-```
+```text
 OCI -> Menu -> Identity -> Dynamic Groups -> Create Dynamic Group
 --> Name = ShowOCIDynamicGroup 
 --> Desc = Dynamic Group for the showoci VM
@@ -194,7 +195,7 @@ OCI -> Menu -> Identity -> Dynamic Groups -> Create Dynamic Group
 
 ### 5.3. Create Policy to allow the Dynamic Group to run showoci report
 
-```
+```text
 OCI -> Menu -> Identity -> Policies
 Choose Root Compartment
 Create Policy
@@ -205,14 +206,14 @@ Create Policy
 
 ### 5.4. Login to Linux Machine
 
-```
+```text
 Using the SSH key you provided, SSH to the linux machine from step #1
 ssh opc@UsageVM
 ```
 
 ### 5.5. Install Python 3.9, GIT and OCI packages
 
-```
+```text
 sudo yum -y update
 sudo yum -y git
 sudo dnf -y module install python39
@@ -226,7 +227,7 @@ python3 -m pip install --upgrade oracledb
 
 Test instance principle is working using oci-cli
 
-```
+```text
 oci os ns get --auth instance_principal
 ```
 
@@ -234,20 +235,20 @@ oci os ns get --auth instance_principal
 
 Clone from OCI SDK Repo and Create symbolink link
 
-```
+```text
 git clone https://github.com/oracle/oci-python-sdk
 ln -s oci-python-sdk/examples/showoci .
 ```
 
 Or Install using Bash from private repo
 
-```
+```text
 bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-python-sdk/master/examples/showoci/showoci_upgrade.sh)"    
 ```
 
 ### 5.7. Execute the python script - showoci.py
 
-```
+```text
 cd showoci
 python3 showoci.py -ip -ani
 ```
@@ -256,55 +257,47 @@ python3 showoci.py -ip -ani
 
 Run on OCI VM:
 
-```
+```text
 bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-python-sdk/master/examples/showoci/showoci_upgrade.sh)"    
 ```
 
 ## 7. How to upgrade OCI SDK drivers
 
-```
+```text
 python3 -m pip install --upgrade oci oci-cli oracledb pip
 ```
 
 ## 8. ShowOCI Execution Flags
 
-```
+```text
 $ python3 showoci.py  
 
-usage: showoci.py [-h] [-a] [-ani] [-an] [-api] [-b] [-c] [-cn] [-d] [-e] [-edge] [-f] [-fun] [-i] [-ic] [-isc] [-l] [-lq] [-m]
-                  [-n] [-o] [-paas] [-dataai] [-rm] [-s] [-sec] [-nobackups] [-skipdbhomes] [-readtimeout READTIMEOUT]
-                  [-conntimeout CONNTIMEOUT] [-so] [-mc] [-nr] [-ip] [-is] [-dt] [-t PROFILE] [-p PROXY] [-pause] [-rg REGION]
+usage: showoci.py [-h] [-a] [-ani] [-an] [-c] [-d] [-edge] [-f] [-i] [-ic] [-isc] [-s] [-m] [-paas] [-n] [-exclude EXCLUDE]
+                  [-noparallel] [-threads THREADS] [-nobackups] [-skipdbhomes] [-readtimeout READTIMEOUT]
+                  [-conntimeout CONNTIMEOUT] [-so] [-mc] [-nr] [-ip] [-is] [-dt] [-t PROFILE] [-p PROXY] [-rg REGION]
                   [-rgn NOT_REGION] [-cp COMPART] [-cpr COMPART_RECUR] [-cpath COMPARTPATH] [-tenantid TENANTID] [-cf CONFIG]
                   [-csv CSV] [-csvcol CSVCOL] [-csv_nodate] [-csv_notagstocols] [-jf JOUTFILE] [-js] [-sjf SJOUTFILE]
                   [-cachef SERVICEFILE] [-caches] [--version]
 
-optional arguments:
+options:
   -h, --help                show this help message and exit
   -a                        Print All Resources
   -ani                      Print All Resources but identity
   -an                       Print Announcements
-  -api                      Print API Gateways
-  -b                        Print Budgets
-  -c                        Print Compute
-  -cn                       Print Containers
+  -c, -cn                   Print Compute and Containers
   -d                        Print Database
-  -e                        Print EMail
-  -edge                     Print Edge, DNS Services and WAAS policies
-  -f                        Print File Storage
-  -fun                      Print Functions
+  -edge                     Print Edge, DNS Services and WAAS policies, DNS Zone is slow can be excluded using -exclude DNSZONE
+  -f, -o                    Print File and Object Storage
   -i                        Print Identity and Identity Domains
   -ic                       Print Identity Compartments only
   -isc                      Skip Identity User Credential extract
-  -l                        Print Load Balancer
-  -lq                       Print Limits and Quotas
-  -m                        Print Monitoring, Notifications, Events, Agents
-  -n                        Print Network
-  -o                        Print Object Storage
-  -paas                     Print PaaS Platform Services - OIC OAC OCE OCVS
-  -dataai                   Print - D.Science, D.Catalog, D.Flow, ODA, BDS, DI
-  -rm                       Print Resource management
-  -s                        Print Streams and Queues
-  -sec                      Print Security, Logging, Vaults
+  -s, -api, -rm, -fun       Print API, Functions, Resource management, Gateways, Streams and Queues
+  -m, -sec, -lq, -e, -b     Print Monitor, Events, Agents, Security, Quotas, E-Mail, Limits...
+  -paas, -dataai            Print Native, Data and AI
+  -n, -l                    Print Network
+  -exclude EXCLUDE          Exclude Services, Currently support NETWORK, QUOTAS, LIMITS, DNSZONE
+  -noparallel               Do not run in parallel processing (Threads)
+  -threads THREADS          Threads Processes when running with Threads (Default=8)
   -nobackups                Do not process backups
   -skipdbhomes              Do not process Database Homes and Below
   -readtimeout READTIMEOUT  Timeout for REST API Connection (Default=20)
@@ -317,7 +310,6 @@ optional arguments:
   -dt                       Use Delegation Token (Cloud shell)
   -t PROFILE                Config file section to use (tenancy profile)
   -p PROXY                  Set Proxy (i.e. www-proxy-server.com:80)
-  -pause                    Pause before Processing
   -rg REGION                Filter by Region, partial name or comma seperated
   -rgn NOT_REGION           Filter by Region, do not include region partial name or comma seperated
   -cp COMPART               Filter by Compartment Name or OCID
@@ -339,7 +331,7 @@ optional arguments:
 
 ## 9. Example of ShowOCI Reports
 
-```
+```text
 ############################################################
 #                  Start Extracting Data                   #
 ############################################################
@@ -696,7 +688,7 @@ Compartment gse00000000 (root):
 --> RPC    Name  : AdiRemotePeer
            DRG   : drg
            Status: PEERED
-		   Peer  : PhxRemotePeer - us-phoenix-1
+           Peer  : PhxRemotePeer - us-phoenix-1
 
 ############################################################
 #                    Compartment Oracle                    #
@@ -869,7 +861,7 @@ Compartment gse00000000 (root):
     Status     : OK
     Subnet     : 172.27.131.0/25  EBSNP (Public)
     SecGrp     : AdiSecurityGRoup1
-	IP         : 172.27.131.13 - Private
+    IP         : 172.27.131.13 - Private
     Listener   : cnvappl - 8010/HTTP
     Listener   : cvnappl1 - 80/HTTP
     Hostname   : cnvapph - cnvapp
@@ -1030,9 +1022,9 @@ Object Storage - Buckets (gb)             -       6368
 Object Storage - Images (gb)              -       1862
 ```
   
-## Below example JSON report on us-ashburn-1 region, compartment Adi without identity 
+## Below example JSON report on us-ashburn-1 region, compartment Adi without identity
 
-```
+```text
 > showoci -t gse00015259 -ani -js -rg us-ashburn-1 -cp Adi
 
 ############################################################
@@ -1808,8 +1800,7 @@ Processing...
 
 ```
 
-## License:
+## License
 
 Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
-This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
-
+This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at [https://oss.oracle.com/licenses/upl](https://oss.oracle.com/licenses/upl) or Apache License 2.0 as shown at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0). You may choose either license.

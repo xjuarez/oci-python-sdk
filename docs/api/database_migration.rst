@@ -31,6 +31,7 @@ Database Migration
     oci.database_migration.models.AgentImageCollection
     oci.database_migration.models.AgentImageSummary
     oci.database_migration.models.AgentSummary
+    oci.database_migration.models.AwsS3DataTransferMediumDetails
     oci.database_migration.models.AwsS3Details
     oci.database_migration.models.ChangeAgentCompartmentDetails
     oci.database_migration.models.ChangeConnectionCompartmentDetails
@@ -58,6 +59,7 @@ Database Migration
     oci.database_migration.models.CreateExtract
     oci.database_migration.models.CreateGoldenGateDetails
     oci.database_migration.models.CreateGoldenGateHub
+    oci.database_migration.models.CreateGoldenGateServiceDetails
     oci.database_migration.models.CreateGoldenGateSettings
     oci.database_migration.models.CreateHostDumpTransferDetails
     oci.database_migration.models.CreateMigrationDetails
@@ -74,16 +76,21 @@ Database Migration
     oci.database_migration.models.DataPumpParameters
     oci.database_migration.models.DataPumpSettings
     oci.database_migration.models.DataTransferMediumDetails
+    oci.database_migration.models.DataTransferMediumDetailsV2
+    oci.database_migration.models.DatabaseCredentials
     oci.database_migration.models.DatabaseLinkDetails
     oci.database_migration.models.DatabaseObject
+    oci.database_migration.models.DbLinkDataTransferMediumDetails
     oci.database_migration.models.DiagnosticsResult
     oci.database_migration.models.DirectoryObject
     oci.database_migration.models.DumpTransferDetails
     oci.database_migration.models.ExcludedObjectSummary
     oci.database_migration.models.ExcludedObjectSummaryCollection
     oci.database_migration.models.Extract
+    oci.database_migration.models.GgsDeployment
     oci.database_migration.models.GoldenGateDetails
     oci.database_migration.models.GoldenGateHub
+    oci.database_migration.models.GoldenGateServiceDetails
     oci.database_migration.models.GoldenGateSettings
     oci.database_migration.models.HostDumpTransferDetails
     oci.database_migration.models.Job
@@ -104,8 +111,10 @@ Database Migration
     oci.database_migration.models.MigrationPhaseCollection
     oci.database_migration.models.MigrationPhaseSummary
     oci.database_migration.models.MigrationSummary
+    oci.database_migration.models.NfsDataTransferMediumDetails
     oci.database_migration.models.NonADBAutoCreateTablespaceDetails
     oci.database_migration.models.NonADBRemapTablespaceDetails
+    oci.database_migration.models.ObjectStorageDataTransferMediumDetails
     oci.database_migration.models.ObjectStoreBucket
     oci.database_migration.models.OciCliDumpTransferDetails
     oci.database_migration.models.PhaseExtractEntry
@@ -137,6 +146,7 @@ Database Migration
     oci.database_migration.models.UpdateExtract
     oci.database_migration.models.UpdateGoldenGateDetails
     oci.database_migration.models.UpdateGoldenGateHub
+    oci.database_migration.models.UpdateGoldenGateServiceDetails
     oci.database_migration.models.UpdateGoldenGateSettings
     oci.database_migration.models.UpdateHostDumpTransferDetails
     oci.database_migration.models.UpdateJobDetails

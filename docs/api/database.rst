@@ -18,6 +18,7 @@ Database
     :nosignatures:
     :template: autosummary/model_class.rst
 
+    oci.database.models.AcdAvmResourceStats
     oci.database.models.ActivateExadataInfrastructureDetails
     oci.database.models.AddVirtualMachineToCloudVmClusterDetails
     oci.database.models.AddVirtualMachineToVmClusterDetails
@@ -29,6 +30,7 @@ Database
     oci.database.models.AutonomousContainerDatabase
     oci.database.models.AutonomousContainerDatabaseBackupConfig
     oci.database.models.AutonomousContainerDatabaseDataguardAssociation
+    oci.database.models.AutonomousContainerDatabaseResourceUsage
     oci.database.models.AutonomousContainerDatabaseSummary
     oci.database.models.AutonomousContainerDatabaseVersionSummary
     oci.database.models.AutonomousDataWarehouse
@@ -60,7 +62,10 @@ Database
     oci.database.models.AutonomousVirtualMachineSummary
     oci.database.models.AutonomousVmCluster
     oci.database.models.AutonomousVmClusterResourceDetails
+    oci.database.models.AutonomousVmClusterResourceUsage
     oci.database.models.AutonomousVmClusterSummary
+    oci.database.models.AutonomousVmResourceUsage
+    oci.database.models.AvmAcdResourceStats
     oci.database.models.Backup
     oci.database.models.BackupDestination
     oci.database.models.BackupDestinationDetails
@@ -79,6 +84,7 @@ Database
     oci.database.models.ChangeVmClusterCompartmentDetails
     oci.database.models.CloudAutonomousVmCluster
     oci.database.models.CloudAutonomousVmClusterResourceDetails
+    oci.database.models.CloudAutonomousVmClusterResourceUsage
     oci.database.models.CloudAutonomousVmClusterSummary
     oci.database.models.CloudDatabaseManagementConfig
     oci.database.models.CloudDbServerDetails
@@ -90,11 +96,17 @@ Database
     oci.database.models.CompleteExternalBackupJobDetails
     oci.database.models.ComputePerformanceSummary
     oci.database.models.ConfigureAutonomousDatabaseVaultKeyDetails
+    oci.database.models.ConfigureSaasAdminUserDetails
     oci.database.models.ConsoleConnection
     oci.database.models.ConsoleConnectionSummary
+    oci.database.models.ConsoleHistory
+    oci.database.models.ConsoleHistoryCollection
+    oci.database.models.ConsoleHistorySummary
     oci.database.models.ConvertToPdbDetails
     oci.database.models.ConvertToPdbTargetBase
+    oci.database.models.ConvertToRegularPluggableDatabaseDetails
     oci.database.models.CreateApplicationVipDetails
+    oci.database.models.CreateAutonomousContainerDatabaseDataguardAssociationDetails
     oci.database.models.CreateAutonomousContainerDatabaseDetails
     oci.database.models.CreateAutonomousDatabaseBackupDetails
     oci.database.models.CreateAutonomousDatabaseBase
@@ -109,6 +121,7 @@ Database
     oci.database.models.CreateCloudExadataInfrastructureDetails
     oci.database.models.CreateCloudVmClusterDetails
     oci.database.models.CreateConsoleConnectionDetails
+    oci.database.models.CreateConsoleHistoryDetails
     oci.database.models.CreateCrossRegionAutonomousDatabaseDataGuardDetails
     oci.database.models.CreateCrossRegionDisasterRecoveryDetails
     oci.database.models.CreateDataGuardAssociationDetails
@@ -141,10 +154,16 @@ Database
     oci.database.models.CreateExternalNonContainerDatabaseDetails
     oci.database.models.CreateExternalPluggableDatabaseDetails
     oci.database.models.CreateKeyStoreDetails
+    oci.database.models.CreateMaintenanceRunDetails
     oci.database.models.CreateNFSBackupDestinationDetails
     oci.database.models.CreateNewDatabaseDetails
     oci.database.models.CreateOneoffPatchDetails
+    oci.database.models.CreatePluggableDatabaseCreationTypeDetails
     oci.database.models.CreatePluggableDatabaseDetails
+    oci.database.models.CreatePluggableDatabaseFromLocalCloneDetails
+    oci.database.models.CreatePluggableDatabaseFromRelocateDetails
+    oci.database.models.CreatePluggableDatabaseFromRemoteCloneDetails
+    oci.database.models.CreatePluggableDatabaseRefreshableCloneDetails
     oci.database.models.CreateRecoveryApplianceBackupDestinationDetails
     oci.database.models.CreateRefreshableAutonomousDatabaseCloneDetails
     oci.database.models.CreateVmClusterDetails
@@ -284,6 +303,8 @@ Database
     oci.database.models.PluggableDatabase
     oci.database.models.PluggableDatabaseConnectionStrings
     oci.database.models.PluggableDatabaseManagementConfig
+    oci.database.models.PluggableDatabaseNodeLevelDetails
+    oci.database.models.PluggableDatabaseRefreshableCloneConfig
     oci.database.models.PluggableDatabaseSummary
     oci.database.models.RefreshableCloneCollection
     oci.database.models.RefreshableCloneSummary
@@ -293,18 +314,25 @@ Database
     oci.database.models.RemoveVirtualMachineFromCloudVmClusterDetails
     oci.database.models.RemoveVirtualMachineFromVmClusterDetails
     oci.database.models.ResizeVmClusterNetworkDetails
+    oci.database.models.ResourcePoolShapeCollection
+    oci.database.models.ResourcePoolShapeSummary
+    oci.database.models.ResourcePoolSummary
     oci.database.models.RestoreAutonomousDatabaseDetails
     oci.database.models.RestoreDatabaseDetails
     oci.database.models.RotateAutonomousVmClusterOrdsCertsDetails
     oci.database.models.RotateAutonomousVmClusterSslCertsDetails
     oci.database.models.RotateCloudAutonomousVmClusterOrdsCertsDetails
     oci.database.models.RotateCloudAutonomousVmClusterSslCertsDetails
+    oci.database.models.SaasAdminUserConfiguration
+    oci.database.models.SaasAdminUserStatus
     oci.database.models.ScanDetails
     oci.database.models.ScheduledOperationDetails
     oci.database.models.SelfMountDetails
     oci.database.models.StackMonitoringConfig
     oci.database.models.StoragePerformanceDetails
     oci.database.models.SwitchoverDataGuardAssociationDetails
+    oci.database.models.SystemVersionCollection
+    oci.database.models.SystemVersionSummary
     oci.database.models.Update
     oci.database.models.UpdateAutonomousContainerDatabaseDataGuardAssociationDetails
     oci.database.models.UpdateAutonomousContainerDatabaseDetails
@@ -318,6 +346,7 @@ Database
     oci.database.models.UpdateCloudExadataInfrastructureDetails
     oci.database.models.UpdateCloudVmClusterDetails
     oci.database.models.UpdateConsoleConnectionDetails
+    oci.database.models.UpdateConsoleHistoryDetails
     oci.database.models.UpdateDataGuardAssociationDetails
     oci.database.models.UpdateDatabaseDetails
     oci.database.models.UpdateDatabaseSoftwareImageDetails

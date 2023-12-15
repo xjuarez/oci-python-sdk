@@ -23,6 +23,7 @@ Data Science
     oci.data_science.models.ArtifactImportDetails
     oci.data_science.models.ArtifactImportDetailsObjectStorage
     oci.data_science.models.CategoryLogDetails
+    oci.data_science.models.ChangeDataSciencePrivateEndpointCompartmentDetails
     oci.data_science.models.ChangeJobCompartmentDetails
     oci.data_science.models.ChangeJobRunCompartmentDetails
     oci.data_science.models.ChangeModelCompartmentDetails
@@ -32,6 +33,7 @@ Data Science
     oci.data_science.models.ChangePipelineCompartmentDetails
     oci.data_science.models.ChangePipelineRunCompartmentDetails
     oci.data_science.models.ChangeProjectCompartmentDetails
+    oci.data_science.models.CreateDataSciencePrivateEndpointDetails
     oci.data_science.models.CreateJobDetails
     oci.data_science.models.CreateJobRunDetails
     oci.data_science.models.CreateModelDeploymentDetails
@@ -42,10 +44,13 @@ Data Science
     oci.data_science.models.CreatePipelineDetails
     oci.data_science.models.CreatePipelineRunDetails
     oci.data_science.models.CreateProjectDetails
+    oci.data_science.models.DataSciencePrivateEndpoint
+    oci.data_science.models.DataSciencePrivateEndpointSummary
     oci.data_science.models.DefaultJobConfigurationDetails
     oci.data_science.models.DefaultModelDeploymentEnvironmentConfigurationDetails
     oci.data_science.models.ExportModelArtifactDetails
     oci.data_science.models.FastLaunchJobConfigSummary
+    oci.data_science.models.FileStorageMountConfigurationDetails
     oci.data_science.models.FixedSizeScalingPolicy
     oci.data_science.models.ImportModelArtifactDetails
     oci.data_science.models.InstanceConfiguration
@@ -83,6 +88,7 @@ Data Science
     oci.data_science.models.NotebookSessionShapeConfigDetails
     oci.data_science.models.NotebookSessionShapeSummary
     oci.data_science.models.NotebookSessionSummary
+    oci.data_science.models.ObjectStorageMountConfigurationDetails
     oci.data_science.models.OcirModelDeploymentEnvironmentConfigurationDetails
     oci.data_science.models.Pipeline
     oci.data_science.models.PipelineConfigurationDetails
@@ -110,7 +116,9 @@ Data Science
     oci.data_science.models.ScalingPolicy
     oci.data_science.models.SingleModelDeploymentConfigurationDetails
     oci.data_science.models.StandaloneJobInfrastructureConfigurationDetails
+    oci.data_science.models.StorageMountConfigurationDetails
     oci.data_science.models.UpdateCategoryLogDetails
+    oci.data_science.models.UpdateDataSciencePrivateEndpointDetails
     oci.data_science.models.UpdateDefaultModelDeploymentEnvironmentConfigurationDetails
     oci.data_science.models.UpdateJobDetails
     oci.data_science.models.UpdateJobRunDetails
