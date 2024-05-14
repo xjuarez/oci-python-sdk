@@ -18,8 +18,11 @@ Ai Language
     :nosignatures:
     :template: autosummary/model_class.rst
 
+    oci.ai_language.models.AssertionDetails
     oci.ai_language.models.BatchDetectDominantLanguageDetails
     oci.ai_language.models.BatchDetectDominantLanguageResult
+    oci.ai_language.models.BatchDetectHealthEntityDetails
+    oci.ai_language.models.BatchDetectHealthEntityResult
     oci.ai_language.models.BatchDetectLanguageEntitiesDetails
     oci.ai_language.models.BatchDetectLanguageEntitiesResult
     oci.ai_language.models.BatchDetectLanguageKeyPhrasesDetails
@@ -35,14 +38,17 @@ Ai Language
     oci.ai_language.models.Capabilities
     oci.ai_language.models.Capability
     oci.ai_language.models.ChangeEndpointCompartmentDetails
+    oci.ai_language.models.ChangeJobCompartmentDetails
     oci.ai_language.models.ChangeModelCompartmentDetails
     oci.ai_language.models.ChangeProjectCompartmentDetails
     oci.ai_language.models.ClassMetrics
     oci.ai_language.models.ClassificationMultiClassModeDetails
     oci.ai_language.models.ClassificationMultiLabelModeDetails
     oci.ai_language.models.ClassificationType
+    oci.ai_language.models.ConfigurationDetails
     oci.ai_language.models.ConfusionMatrixDetails
     oci.ai_language.models.CreateEndpointDetails
+    oci.ai_language.models.CreateJobDetails
     oci.ai_language.models.CreateModelDetails
     oci.ai_language.models.CreateProjectDetails
     oci.ai_language.models.DataScienceLabelingDataset
@@ -59,6 +65,7 @@ Ai Language
     oci.ai_language.models.DetectLanguageTextClassificationResult
     oci.ai_language.models.DetectedLanguage
     oci.ai_language.models.DocumentError
+    oci.ai_language.models.DocumentsConfiguration
     oci.ai_language.models.DominantLanguageDocument
     oci.ai_language.models.DominantLanguageDocumentResult
     oci.ai_language.models.Endpoint
@@ -72,13 +79,23 @@ Ai Language
     oci.ai_language.models.EvaluationResultCollection
     oci.ai_language.models.EvaluationResultSummary
     oci.ai_language.models.EvaluationResults
+    oci.ai_language.models.HealthEntity
+    oci.ai_language.models.HealthEntityDocumentResult
     oci.ai_language.models.HierarchicalEntity
+    oci.ai_language.models.InputConfiguration
+    oci.ai_language.models.InputLocation
+    oci.ai_language.models.Job
+    oci.ai_language.models.JobCollection
+    oci.ai_language.models.JobSummary
     oci.ai_language.models.KeyPhrase
     oci.ai_language.models.KeyPhraseDocumentResult
     oci.ai_language.models.LocationDetails
+    oci.ai_language.models.MelConcept
+    oci.ai_language.models.MelConceptDetails
     oci.ai_language.models.Model
     oci.ai_language.models.ModelCollection
     oci.ai_language.models.ModelDetails
+    oci.ai_language.models.ModelMetadataDetails
     oci.ai_language.models.ModelSummary
     oci.ai_language.models.ModelTypeInfo
     oci.ai_language.models.NamedEntityRecognitionEvaluationResult
@@ -86,27 +103,34 @@ Ai Language
     oci.ai_language.models.NamedEntityRecognitionModelDetails
     oci.ai_language.models.NamedEntityRecognitionModelMetrics
     oci.ai_language.models.ObjectListDataset
+    oci.ai_language.models.ObjectPrefixOutputLocation
     oci.ai_language.models.ObjectStorageDataset
+    oci.ai_language.models.ObjectStorageFileNameLocation
+    oci.ai_language.models.ObjectStoragePrefixLocation
     oci.ai_language.models.PiiEntity
     oci.ai_language.models.PiiEntityDocumentResult
     oci.ai_language.models.PiiEntityMask
     oci.ai_language.models.PiiEntityMasking
     oci.ai_language.models.PiiEntityRemove
     oci.ai_language.models.PiiEntityReplace
+    oci.ai_language.models.PiiModelDetails
     oci.ai_language.models.PreDeployedLanguageModels
     oci.ai_language.models.PreTrainedHealthNluModelDetails
     oci.ai_language.models.PreTrainedKeyPhraseExtractionModelDetails
     oci.ai_language.models.PreTrainedLanguageDetectionModelDetails
     oci.ai_language.models.PreTrainedNamedEntityRecognitionModelDetails
-    oci.ai_language.models.PreTrainedPhiModelDetails
     oci.ai_language.models.PreTrainedPiiModelDetails
     oci.ai_language.models.PreTrainedSentimentAnalysisModelDetails
     oci.ai_language.models.PreTrainedSummarization
     oci.ai_language.models.PreTrainedTextClassificationModelDetails
     oci.ai_language.models.PreTrainedUniversalModel
+    oci.ai_language.models.Profile
     oci.ai_language.models.Project
     oci.ai_language.models.ProjectCollection
     oci.ai_language.models.ProjectSummary
+    oci.ai_language.models.RelationEntity
+    oci.ai_language.models.ResolvedEntities
+    oci.ai_language.models.ResolvedEntity
     oci.ai_language.models.SentimentAspect
     oci.ai_language.models.SentimentDocumentResult
     oci.ai_language.models.SentimentSentence
@@ -121,6 +145,7 @@ Ai Language
     oci.ai_language.models.TextDocument
     oci.ai_language.models.TranslationDocumentResult
     oci.ai_language.models.UpdateEndpointDetails
+    oci.ai_language.models.UpdateJobDetails
     oci.ai_language.models.UpdateModelDetails
     oci.ai_language.models.UpdateProjectDetails
     oci.ai_language.models.WorkRequest

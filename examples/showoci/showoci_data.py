@@ -1,5 +1,5 @@
 ##########################################################################
-# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2024, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # showoci_data.py
@@ -16,10 +16,11 @@
 ##########################################################################
 from __future__ import print_function
 from showoci_service import ShowOCIService, ShowOCIFlags
+import sys
 
 
 class ShowOCIData(object):
-    version = "23.12.12"
+    version = "24.05.17"
 
     ############################################
     # ShowOCIService - Service object to query
@@ -27,6 +28,7 @@ class ShowOCIData(object):
     ###########################################
     service = None
     error = 0
+    error_array = []
 
     # OCI Processed data
     data = []
@@ -45,6 +47,10 @@ class ShowOCIData(object):
 
         # Initiate data list everytime class is instantiated
         self.data = []
+
+        # if exclude list requested
+        if flags.excludelist:
+            self.service.generate_exclude_list()
 
     ############################################
     # get service data
@@ -68,7 +74,7 @@ class ShowOCIData(object):
         return self.service.load_service_data()
 
     ##########################################################################
-    # get_oci_main_data
+    # process_oci_data
     ##########################################################################
     def process_oci_data(self):
 
@@ -88,7 +94,7 @@ class ShowOCIData(object):
                 announcement_data = {'type': "announcement", 'data': self.service.get_announcement()}
                 self.data.append(announcement_data)
 
-            # run on announcement module
+            # run on security_scores module
             if self.service.flags.read_security:
                 security_scores_data = {'type': "security_scores", 'data': self.service.get_security_scores()}
                 self.data.append(security_scores_data)
@@ -102,12 +108,12 @@ class ShowOCIData(object):
                 # run on each subscribed region
                 for region_name in tenancy['list_region_subscriptions']:
 
-                    # if filtered by region skip if not cmd.region
-                    if self.service.flags.filter_by_region and self.service.flags.filter_by_region not in region_name:
+                    # check if filter by region
+                    if not self.service.oci_region_name_filter(region_name):
                         continue
 
-                    limits_data = []
                     # limits services which regional but not compartment
+                    limits_data = []
                     if self.service.flags.read_limits:
                         limits_data = self.__get_limits_main(region_name)
 
@@ -118,6 +124,11 @@ class ShowOCIData(object):
                     if value or limits_data:
                         region_data = ({'type': "region", 'region': region_name, 'data': value, 'limits': limits_data})
                         self.data.append(region_data)
+
+            # Append Error Array
+            self.error_array += self.service.error_array
+            error_data = {'type': "errors", 'data': self.error_array}
+            self.data.append(error_data)
 
             # return the json data
             return self.data
@@ -134,7 +145,8 @@ class ShowOCIData(object):
             'program': "showoci.py",
             'author': "Adi Zohar",
             'contributors': "Olaf Heimburger",
-            'disclaimer': "This is not an official Oracle application, it is not supported by Oracle. It should NOT be used for utilization calculation purposes. If you run into issues using this, please file an issue at https://github.com/oracle/oci-python-sdk/issues rather than contacting support",
+            'disclaimer1': "This is not an official Oracle application, it is not supported by Oracle. It should NOT be used for utilization calculation purposes.",
+            'disclaimer2': "If you run into issues using this, please file an issue at https://github.com/oracle/oci-python-sdk/issues rather than contacting support",
             'config_file': self.service.flags.config_file,
             'config_profile': self.service.flags.config_section,
             'connection_timeout': self.service.flags.connection_timeout,
@@ -187,15 +199,39 @@ class ShowOCIData(object):
     ##########################################################################
     # print print error
     ##########################################################################
-    def __print_error(self, msg, e):
-        classname = type(self).__name__
+    def __print_error(self, e):
+        try:
+            classname = type(self).__name__
+            caller_function = sys._getframe(1).f_code.co_name
 
-        if isinstance(e, KeyError):
-            print("\nError in " + classname + ":" + msg + ": KeyError " + str(e.args))
-        else:
-            print("\nError in " + classname + ":" + msg + ": " + str(e))
+            if isinstance(e, KeyError):
+                print("\nError in " + classname + ":" + caller_function + ": KeyError " + str(e.args))
+            else:
+                print("\nError in " + classname + ":" + caller_function + ": " + str(e))
 
-        self.error += 1
+            self.error += 1
+            self.__add_to_error_array(classname, caller_function, "", e)
+
+        except Exception as e:
+            print("\nError in __print_error " + str(e))
+
+    ##########################################################################
+    # __add_to_error_array
+    ##########################################################################
+    def __add_to_error_array(self, classname, caller_function, compartment_name, err, warning=False):
+
+        try:
+            error_info = {
+                'class': classname,
+                'function': caller_function,
+                'compartment': compartment_name,
+                'error': str(err),
+                'is_warning': str(warning)
+            }
+            self.error_array.append(error_info)
+
+        except Exception as e:
+            print("\nError in __add_to_error_array " + str(e))
 
     ##########################################################################
     # run on Region
@@ -208,7 +244,7 @@ class ShowOCIData(object):
         try:
 
             # Loop on Compartments and call services
-            compartments = self.service.get_compartment()
+            compartments = self.service.get_compartments()
 
             # Loop on all relevant compartments
             print("\nProcessing...")
@@ -395,7 +431,7 @@ class ShowOCIData(object):
             return ret_var
 
         except Exception as e:
-            self.__print_error("get_oci_region_data", e)
+            self.__print_error(e)
 
     ##########################################################################
     # Print Network VCN NAT
@@ -421,7 +457,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_nat", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -455,7 +491,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_igw", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -492,7 +528,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_sgw", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -535,7 +571,7 @@ class ShowOCIData(object):
             return retStr, name, route_table
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_drg_details", e)
+            self.__print_error(e)
             return retStr, name
 
     ##########################################################################
@@ -566,7 +602,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_drg_attached", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -605,7 +641,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_local_peering", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -672,7 +708,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_subnets", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -734,7 +770,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_vlans", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -761,7 +797,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_security_lists", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -825,7 +861,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_security_lists", e)
+            self.__print_error(e)
             return data
 
     ###########################################################################
@@ -898,7 +934,7 @@ class ShowOCIData(object):
             return line + network_dest
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_route_rule", e)
+            self.__print_error(e)
             return line
 
     ########################################################################
@@ -934,7 +970,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_route_tables", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -959,7 +995,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_dhcp_options", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1026,7 +1062,7 @@ class ShowOCIData(object):
             return vcn_data
 
         except BaseException as e:
-            self.__print_error("__get_core_network_vcn", e)
+            self.__print_error(e)
             return vcn_data
 
     ##########################################################################
@@ -1039,7 +1075,7 @@ class ShowOCIData(object):
             return cpes
 
         except Exception as e:
-            self.__print_error("__get_core_network_cpe", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1052,7 +1088,7 @@ class ShowOCIData(object):
             return nfw
 
         except Exception as e:
-            self.__print_error("__get_core_network_firewall", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1065,7 +1101,7 @@ class ShowOCIData(object):
             return nfw
 
         except Exception as e:
-            self.__print_error("__get_core_network_firewall_policies", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1113,7 +1149,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_drg", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1128,7 +1164,7 @@ class ShowOCIData(object):
             return ""
 
         except Exception as e:
-            self.__print_error("__get_core_network_drg_route", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get dRG details
@@ -1143,7 +1179,7 @@ class ShowOCIData(object):
             return ""
 
         except Exception as e:
-            self.__print_error("__get_core_network_drg_name", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get cpe name
@@ -1157,7 +1193,7 @@ class ShowOCIData(object):
                 return "CPE - " + cpe['name']
 
         except Exception as e:
-            self.__print_error("__get_core_network_cpe_name", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get vcn name
@@ -1170,7 +1206,7 @@ class ShowOCIData(object):
                 return vcn['name']
 
         except Exception as e:
-            self.__print_error("__get_core_network_vcn_name", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get rfc name
@@ -1185,7 +1221,7 @@ class ShowOCIData(object):
             return ""
 
         except Exception as e:
-            self.__print_error("__get_core_network_rpc_name", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get Subnet Name
@@ -1200,7 +1236,7 @@ class ShowOCIData(object):
                 return ""
 
         except Exception as e:
-            self.__print_error("__get_core_network_subnet_name", e)
+            self.__print_error(e)
 
     ##########################################################################
     # print network remote peering
@@ -1235,7 +1271,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_remote_peering", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1277,7 +1313,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_ipsec", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1340,7 +1376,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_network_virtual_circuit", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1356,7 +1392,7 @@ class ShowOCIData(object):
             return ""
 
         except Exception as e:
-            self.__print_error("__get_core_network_local_peering", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get Network route
@@ -1370,7 +1406,7 @@ class ShowOCIData(object):
             return ""
 
         except Exception as e:
-            self.__print_error("__get_core_network_route", e)
+            self.__print_error(e)
 
     ##########################################################################
     # self.__get_core_network_private_ip
@@ -1385,7 +1421,7 @@ class ShowOCIData(object):
             return " Not Exist"
 
         except Exception as e:
-            self.__print_error("__get_core_network_private_ip", e)
+            self.__print_error(e)
 
     ##########################################################################
     # Network Main
@@ -1430,7 +1466,7 @@ class ShowOCIData(object):
             return return_data
 
         except Exception as e:
-            self.__print_error("__get_core_network_main", e)
+            self.__print_error(e)
             return return_data
 
     ##########################################################################
@@ -1449,7 +1485,7 @@ class ShowOCIData(object):
             return backupstr
 
         except Exception as e:
-            self.__print_error("__get_core_block_volume_backup_policy", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get Core Block boot volume
@@ -1482,7 +1518,7 @@ class ShowOCIData(object):
                     'sum_size_gb': bv['size_in_gbs'],
                     'size': bv['size_in_gbs'],
                     'desc': (str(bv['size_in_gbs']) + "GB - " + str(bv['display_name']) + " (" + bv['vpus_per_gb'] + " vpus) " + bv['backup_policy'] + volume_group + comp_text + encrypted),
-                    'backup_policy': "None" if bv['backup_policy'] == "" else bv['backup_policy'],
+                    'backup_policy': bv['backup_policy'],
                     'vpus_per_gb': bv['vpus_per_gb'],
                     'volume_group_name': bv['volume_group_name'],
                     'compartment_name': bv['compartment_name'],
@@ -1494,13 +1530,18 @@ class ShowOCIData(object):
                     'auto_tuned_vpus_per_gb': bv['auto_tuned_vpus_per_gb'],
                     'time_created': bv['time_created'],
                     'display_name': bv['display_name'],
+                    'bv_volume_replicas': bv['bv_volume_replicas'],
+                    'autotune_policies': bv['autotune_policies'],
+                    'kms_key_id': bv['kms_key_id'],
+                    'kms_key_name': self.__get_vault_key_name(bv['kms_key_id']),
+                    'image_id': bv['image_id'],
                     'defined_tags': bv['defined_tags'],
                     'freeform_tags': bv['freeform_tags']
                 }
             return value
 
         except Exception as e:
-            self.__print_error("__get_core_block_volume_boot", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get Core Block boot volume
@@ -1550,13 +1591,17 @@ class ShowOCIData(object):
                     'is_auto_tune_enabled': bv['is_auto_tune_enabled'],
                     'auto_tuned_vpus_per_gb': bv['auto_tuned_vpus_per_gb'],
                     'iscsi_login_state': str(bva['iscsi_login_state']),
+                    'bv_volume_replicas': bv['bv_volume_replicas'],
+                    'autotune_policies': bv['autotune_policies'],
+                    'kms_key_id': bv['kms_key_id'],
+                    'kms_key_name': self.__get_vault_key_name(bv['kms_key_id']),
                     'defined_tags': bv['defined_tags'],
                     'freeform_tags': bv['freeform_tags']
                 }
             return value
 
         except Exception as e:
-            self.__print_error("__get_core_block_volume", e)
+            self.__print_error(e)
 
     ##########################################################################
     # get compute boot volume or volume
@@ -1585,6 +1630,7 @@ class ShowOCIData(object):
                 value['source_name'] = backup['backup_name']
                 value['backup_type'] = backup['type']
                 value['kms_key_id'] = backup['kms_key_id']
+                value['kms_key_name'] = self.__get_vault_key_name(backup['kms_key_id'])
                 value['schedule_type'] = backup['source_type']
                 value['time_created'] = backup['time_created'][0:16]
                 value['expiration_time'] = backup['expiration_time'][0:16]
@@ -1601,7 +1647,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_block_volume_boot_backup", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1642,6 +1688,9 @@ class ShowOCIData(object):
                         'compartment_path': compartment['path'],
                         'volume_group_name': vol['volume_group_name'],
                         'vpus_per_gb': vol['vpus_per_gb'],
+                        'kms_key_id': vol['kms_key_id'],
+                        'kms_key_name': self.__get_vault_key_name(vol['kms_key_id']),
+                        'bv_volume_replicas': vol['bv_volume_replicas'],
                         'sum_info': 'Compute - Block Storage (GB)',
                         'sum_size_gb': vol['size_in_gbs'],
                         'defined_tags': vol['defined_tags'],
@@ -1653,7 +1702,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_block_volume_not_attached", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1689,6 +1738,9 @@ class ShowOCIData(object):
                         'display_name': vol['display_name'],
                         'availability_domain': vol['availability_domain'],
                         'size': vol['size_in_gbs'],
+                        'kms_key_id': vol['kms_key_id'],
+                        'kms_key_name': self.__get_vault_key_name(vol['kms_key_id']),
+                        'bv_volume_replicas': vol['bv_volume_replicas'],
                         'backup_policy': vol['backup_policy'],
                         'vpus_per_gb': vol['vpus_per_gb'],
                         'compartment_name': compartment['name'],
@@ -1706,7 +1758,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_block_boot_not_attached", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1719,15 +1771,20 @@ class ShowOCIData(object):
             volgroups = self.service.search_multi_items(self.service.C_BLOCK, self.service.C_BLOCK_VOLGRP, 'region_name', region_name, 'compartment_id', compartment['id'])
 
             for vplgrp in volgroups:
-                value = {'id': vplgrp['id'],
-                         'name': vplgrp['display_name'],
-                         'size_in_gbs': vplgrp['size_in_gbs'],
-                         'compartment_name': str(vplgrp['compartment_name']),
-                         'compartment_path': str(vplgrp['compartment_path']),
-                         'volumes': [],
-                         'time_created': vplgrp['time_created'],
-                         'defined_tags': vplgrp['defined_tags'],
-                         'freeform_tags': vplgrp['freeform_tags']}
+                value = {
+                    'id': vplgrp['id'],
+                    'name': vplgrp['display_name'],
+                    'size_in_gbs': vplgrp['size_in_gbs'],
+                    'compartment_name': str(vplgrp['compartment_name']),
+                    'compartment_path': str(vplgrp['compartment_path']),
+                    'volumes': [],
+                    'bv_volume_replicas': vplgrp['bv_volume_replicas'],
+                    'is_hydrated': vplgrp['is_hydrated'],
+                    'time_created': vplgrp['time_created'],
+                    'defined_tags': vplgrp['defined_tags'],
+                    'freeform_tags': vplgrp['freeform_tags']
+                }
+
                 for vol_id in vplgrp['volume_ids']:
                     vol = self.service.search_unique_item(self.service.C_BLOCK, self.service.C_BLOCK_VOL, 'id', vol_id)
 
@@ -1738,6 +1795,7 @@ class ShowOCIData(object):
                     # if None continue
                     if vol is None:
                         continue
+
                     value['volumes'].append({
                         'id': vol['id'],
                         'display_name': vol['display_name'],
@@ -1751,7 +1809,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_block_volume_groups", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1839,7 +1897,8 @@ class ShowOCIData(object):
                     'ipxe_script': instance['ipxe_script'],
                     'launch_mode': instance['launch_mode'],
                     'is_cross_numa_node': instance['is_cross_numa_node'],
-                    'logs': self.service.get_logging_log(instance['id'])}
+                    'logs': self.service.get_logging_log(instance['id'])
+                }
 
                 # boot volumes attachments
                 boot_vol_attachement = self.service.search_multi_items(self.service.C_COMPUTE, self.service.C_COMPUTE_BOOT_VOL_ATTACH, 'instance_id', instance['id'])
@@ -1905,7 +1964,7 @@ class ShowOCIData(object):
             return data
 
         except BaseException as e:
-            self.__print_error("__get_core_compute_instances", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1935,7 +1994,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_compute_images", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -1970,7 +2029,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_compute_capacity_reservation", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2002,7 +2061,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_compute_instance_configuration", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2025,7 +2084,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_compute_instance_pool", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2055,7 +2114,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_core_compute_autoscaling", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2121,7 +2180,7 @@ class ShowOCIData(object):
             return return_data
 
         except Exception as e:
-            self.__print_error("__get_core_compute_main", e)
+            self.__print_error(e)
             return return_data
 
     ##########################################################################
@@ -2133,12 +2192,17 @@ class ShowOCIData(object):
         try:
             for db_node in db_nodes:
 
-                vnic_desc = ""
+                ip_desc = ""
                 nsg_names = ""
                 nsg_ids = ""
+                if 'host_ip' in db_node:
+                    if db_node['host_ip']:
+                        ip_desc = " - " + db_node['host_ip']
+
                 if 'vnic_details' in db_node:
-                    if 'dbdesc' in db_node['vnic_details']:
-                        vnic_desc = " - " + db_node['vnic_details']['dbdesc']
+
+                    if 'dbdesc' in db_node['vnic_details'] and not ip_desc:
+                        ip_desc = " - " + db_node['vnic_details']['dbdesc']
 
                     if 'nsg_names' in db_node['vnic_details']:
                         nsg_names = db_node['vnic_details']['nsg_names']
@@ -2146,26 +2210,39 @@ class ShowOCIData(object):
                     if 'nsg_ids' in db_node['vnic_details']:
                         nsg_ids = db_node['vnic_details']['nsg_ids']
 
-                value = {'desc': "",
-                         'software_storage_size_in_gb': db_node['software_storage_size_in_gb'],
-                         'lifecycle_state': db_node['lifecycle_state'],
-                         'hostname': db_node['hostname'],
-                         'nsg_names': nsg_names,
-                         'nsg_ids': nsg_ids,
-                         'vnic_id': db_node['vnic_id'],
-                         'backup_vnic_id': ("" if db_node['backup_vnic_id'] == "None" else db_node['backup_vnic_id']),
-                         'vnic_details': db_node['vnic_details'],
-                         'backup_vnic_details': db_node['backup_vnic_details'],
-                         'maintenance_type': db_node['maintenance_type'],
-                         'time_maintenance_window_start': db_node['time_maintenance_window_start'],
-                         'time_maintenance_window_end': db_node['time_maintenance_window_end'],
-                         'fault_domain': ("" if db_node['fault_domain'] == "None" else db_node['fault_domain']),
-                         'cpu_core_count': db_node['cpu_core_count'],
-                         'memory_size_in_gbs': db_node['memory_size_in_gbs'],
-                         'db_node_storage_size_in_gbs': db_node['db_node_storage_size_in_gbs'],
-                         'db_server_id': str(db_node['db_server_id']),
-                         'db_server_name': ""
-                         }
+                value = {
+                    'desc': "",
+                    'software_storage_size_in_gb': db_node['software_storage_size_in_gb'],
+                    'lifecycle_state': db_node['lifecycle_state'],
+                    'hostname': db_node['hostname'],
+                    'nsg_names': nsg_names,
+                    'nsg_ids': nsg_ids,
+                    'vnic_id': db_node['vnic_id'],
+                    'backup_vnic_id': db_node['backup_vnic_id'],
+                    'vnic_details': db_node['vnic_details'],
+                    'backup_vnic_details': db_node['backup_vnic_details'],
+                    'maintenance_type': db_node['maintenance_type'],
+                    'time_maintenance_window_start': db_node['time_maintenance_window_start'],
+                    'time_maintenance_window_end': db_node['time_maintenance_window_end'],
+                    'fault_domain': db_node['fault_domain'],
+                    'cpu_core_count': db_node['cpu_core_count'],
+                    'memory_size_in_gbs': db_node['memory_size_in_gbs'],
+                    'db_node_storage_size_in_gbs': db_node['db_node_storage_size_in_gbs'],
+                    'db_server_id': str(db_node['db_server_id']),
+                    'db_server_name': "",
+                    # Added 4/5/2024
+                    'host_ip_id': db_node['host_ip_id'],
+                    'host_ip': db_node['host_ip'],
+                    'backup_ip_id': db_node['backup_ip_id'],
+                    'backup_ip': db_node['backup_ip'],
+                    'vnic2_id': db_node['vnic2_id'],
+                    'vnic2_details': db_node['vnic2_details'],
+                    'backup_vnic2_id': db_node['backup_vnic2_id'],
+                    'backup_vnic2_details': db_node['backup_vnic2_details'],
+                    'time_created': db_node['time_created'],
+                    'defined_tags': db_node['defined_tags'],
+                    'freeform_tags': db_node['freeform_tags']
+                }
 
                 # get db server name
                 dbserver_info = ""
@@ -2177,25 +2254,25 @@ class ShowOCIData(object):
 
                 # cpu + mem
                 cpu_info = ""
-                if db_node['cpu_core_count'] != 'None':
+                if db_node['cpu_core_count']:
                     cpu_info = " - Cores: " + db_node['cpu_core_count']
-                if db_node['memory_size_in_gbs'] != 'None':
+                if db_node['memory_size_in_gbs']:
                     cpu_info += " - Mem: " + db_node['memory_size_in_gbs']
-                if db_node['db_node_storage_size_in_gbs'] != 'None':
+                if db_node['db_node_storage_size_in_gbs']:
                     cpu_info += " - Disk: " + db_node['db_node_storage_size_in_gbs']
 
                 lifecycle = (" - " + str(db_node['lifecycle_state'])) if db_node['lifecycle_state'] else ""
-                fault_domain = ("" if db_node['fault_domain'] == "None" else " - " + str(db_node['fault_domain']))
+                fault_domain = ("" if db_node['fault_domain'] == "" else " - " + str(db_node['fault_domain']))
 
                 # desc
-                value['desc'] = str(db_node['hostname']) + dbserver_info + lifecycle + cpu_info + vnic_desc + fault_domain
+                value['desc'] = str(db_node['hostname']) + dbserver_info + lifecycle + cpu_info + ip_desc + fault_domain + " - " + db_node['time_created']
 
                 data.append(value)
 
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_nodes", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2233,6 +2310,7 @@ class ShowOCIData(object):
                          'connection_strings_cdb': db['connection_strings_cdb'],
                          'source_database_point_in_time_recovery_timestamp': db['source_database_point_in_time_recovery_timestamp'],
                          'kms_key_id': db['kms_key_id'],
+                         'kms_key_name': self.__get_vault_key_name(db['kms_key_id']),
                          'vault_id': db['vault_id'],
                          'last_backup_timestamp': db['last_backup_timestamp'],
                          'id': db['id']
@@ -2242,7 +2320,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_databases", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2257,7 +2335,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_patches", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2272,7 +2350,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_patches_history", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2303,6 +2381,7 @@ class ShowOCIData(object):
                         'shape': backup['shape'],
                         'version': backup['version'],
                         'kms_key_id': backup['kms_key_id'],
+                        'kms_key_name': self.__get_vault_key_name(backup['kms_key_id']),
                         'kms_key_version_id': backup['kms_key_version_id'],
                         'vault_id': backup['vault_id'],
                         'type': backup['type'],
@@ -2316,7 +2395,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_backups", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2330,21 +2409,26 @@ class ShowOCIData(object):
             for pdb in pdbs:
                 data.append(
                     {
+                        'id': pdb['id'],
                         'name': pdb['pdb_name'],
                         'desc': pdb['pdb_name'] + " " + pdb['open_mode'],
                         'lifecycle_state': pdb['lifecycle_state'],
                         'open_mode': pdb['open_mode'],
+                        'connection_strings': pdb['connection_strings'],
                         'is_restricted': pdb['is_restricted'],
+                        'management_status': pdb['management_status'],
+                        'is_refreshable_clone': pdb['is_refreshable_clone'],
+                        'time_created': pdb['time_created'],
                         'defined_tags': pdb['defined_tags'],
                         'freeform_tags': pdb['freeform_tags']})
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_pdbs", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
-    # __load_database_dbsystems_dbnodes
+    # __get_database_db_homes
     ##########################################################################
     def __get_database_db_homes(self, db_homes):
 
@@ -2365,11 +2449,11 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_homes", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
-    # __load_database_dbsystems_dbnodes
+    # __get_database_db_dataguard
     ##########################################################################
     def __get_database_db_dataguard(self, dataguards):
 
@@ -2397,7 +2481,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_dataguard", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2509,7 +2593,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_exadata", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2618,7 +2702,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_exacc", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2673,7 +2757,8 @@ class ShowOCIData(object):
                     'compartment_path': vm['compartment_path'],
                     'compartment_id': vm['compartment_id'],
                     'region_name': vm['region_name'],
-                    'containers': []}
+                    'containers': []
+                }
 
                 # fetch the containers
                 containers = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_ADB_D_CONTAINERS, 'autonomous_vm_cluster_id', vm['id'])
@@ -2700,7 +2785,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_adb_dedicated", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2713,60 +2798,74 @@ class ShowOCIData(object):
             list_db_systems = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_DBSYSTEMS, 'region_name', region_name, 'compartment_id', compartment['id'])
 
             for dbs in list_db_systems:
-                value = {'id': dbs['id'],
-                         'name': dbs['display_name'] + " - " + dbs['shape'] + " - " + dbs['lifecycle_state'],
-                         'shape': dbs['shape'],
-                         'shape_ocpu': dbs['shape_ocpu'],
-                         'shape_memory_gb': dbs['shape_memory_gb'],
-                         'shape_storage_tb': dbs['shape_storage_tb'],
-                         'display_name': dbs['display_name'],
-                         'lifecycle_state': dbs['lifecycle_state'],
-                         'sum_info': 'Database ' + dbs['database_edition_short'] + " - " + dbs['shape'] + " - " + dbs['license_model'],
-                         'sum_info_storage': 'Database - Storage (GB)',
-                         'sum_size_gb': dbs['data_storage_size_in_gbs'],
-                         'database_edition': dbs['database_edition'],
-                         'database_edition_short': dbs['database_edition_short'],
-                         'license_model': dbs['license_model'],
-                         'database_version': dbs['version'],
-                         'availability_domain': dbs['availability_domain'],
-                         'cpu_core_count': dbs['cpu_core_count'],
-                         'node_count': dbs['node_count'],
-                         'version': (dbs['version'] + " - ") if dbs['version'] != "None" else "" + ((dbs['database_edition'] + " - ") if dbs['database_edition'] != "None" else "") + dbs['license_model'],
-                         'version_only': dbs['version'],
-                         'version_date': dbs['version_date'],
-                         'host': dbs['hostname'],
-                         'domain': dbs['domain'],
-                         'data_subnet': dbs['data_subnet'],
-                         'data_subnet_id': dbs['data_subnet_id'],
-                         'backup_subnet': dbs['backup_subnet'],
-                         'backup_subnet_id': dbs['backup_subnet_id'],
-                         'scan_dns': dbs['scan_dns_record_id'],
-                         'scan_ips': dbs['scan_ips'],
-                         'data_storage_size_in_gbs': dbs['data_storage_size_in_gbs'],
-                         'reco_storage_size_in_gb': dbs['reco_storage_size_in_gb'],
-                         'sparse_diskgroup': dbs['sparse_diskgroup'],
-                         'storage_management': dbs['storage_management'],
-                         'vip_ips': dbs['vip_ips'],
-                         'zone_id': dbs['zone_id'],
-                         'scan_dns_name': dbs['scan_dns_name'],
-                         'compartment_name': dbs['compartment_name'],
-                         'compartment_path': dbs['compartment_path'],
-                         'compartment_id': dbs['compartment_id'],
-                         'cluster_name': dbs['cluster_name'],
-                         'time_created': dbs['time_created'],
-                         'defined_tags': dbs['defined_tags'],
-                         'freeform_tags': dbs['freeform_tags'],
-                         'listener_port': dbs['listener_port'],
-                         'last_maintenance_run': dbs['last_maintenance_run'],
-                         'next_maintenance_run': dbs['next_maintenance_run'],
-                         'maintenance_window': dbs['maintenance_window'],
-                         'patches': self.__get_database_db_patches(dbs['patches']),
-                         'db_homes': self.__get_database_db_homes(dbs['db_homes']),
-                         'db_nodes': self.__get_database_db_nodes(dbs['db_nodes'])
-                         }
+                value = {
+                    'id': dbs['id'],
+                    'name': dbs['display_name'] + " - " + dbs['shape'] + " - " + dbs['lifecycle_state'],
+                    'shape': dbs['shape'],
+                    'shape_ocpu': dbs['shape_ocpu'],
+                    'shape_memory_gb': dbs['shape_memory_gb'],
+                    'shape_storage_tb': dbs['shape_storage_tb'],
+                    'display_name': dbs['display_name'],
+                    'lifecycle_state': dbs['lifecycle_state'],
+                    'sum_info': 'Database ' + dbs['database_edition_short'] + " - " + dbs['shape'] + " - " + dbs['license_model'],
+                    'sum_info_storage': 'Database - Storage (GB)',
+                    'sum_size_gb': dbs['data_storage_size_in_gbs'],
+                    'database_edition': dbs['database_edition'],
+                    'database_edition_short': dbs['database_edition_short'],
+                    'license_model': dbs['license_model'],
+                    'database_version': dbs['version'],
+                    'availability_domain': dbs['availability_domain'],
+                    'cpu_core_count': dbs['cpu_core_count'],
+                    'node_count': dbs['node_count'],
+                    'version': (dbs['version'] + " - ") if dbs['version'] != "None" else "" + ((dbs['database_edition'] + " - ") if dbs['database_edition'] != "None" else "") + dbs['license_model'],
+                    'version_only': dbs['version'],
+                    'version_date': dbs['version_date'],
+                    'host': dbs['hostname'],
+                    'domain': dbs['domain'],
+                    'data_subnet': dbs['data_subnet'],
+                    'data_subnet_id': dbs['data_subnet_id'],
+                    'backup_subnet': dbs['backup_subnet'],
+                    'backup_subnet_id': dbs['backup_subnet_id'],
+                    'scan_dns': dbs['scan_dns_record_id'],
+                    'scan_ips': dbs['scan_ips'],
+                    'data_storage_size_in_gbs': dbs['data_storage_size_in_gbs'],
+                    'reco_storage_size_in_gb': dbs['reco_storage_size_in_gb'],
+                    'sparse_diskgroup': dbs['sparse_diskgroup'],
+                    'storage_management': dbs['storage_management'],
+                    'vip_ips': dbs['vip_ips'],
+                    'zone_id': dbs['zone_id'],
+                    'scan_dns_name': dbs['scan_dns_name'],
+                    'compartment_name': dbs['compartment_name'],
+                    'compartment_path': dbs['compartment_path'],
+                    'compartment_id': dbs['compartment_id'],
+                    'cluster_name': dbs['cluster_name'],
+                    'time_created': dbs['time_created'],
+                    'defined_tags': dbs['defined_tags'],
+                    'freeform_tags': dbs['freeform_tags'],
+                    'listener_port': dbs['listener_port'],
+                    'last_maintenance_run': dbs['last_maintenance_run'],
+                    'next_maintenance_run': dbs['next_maintenance_run'],
+                    'maintenance_window': dbs['maintenance_window'],
+                    'nsg_ids': dbs['nsg_ids'],
+                    'nsg_ids_names': dbs['nsg_ids_names'],
+                    'backup_network_nsg_ids': dbs['backup_network_nsg_ids'],
+                    'backup_network_nsg_ids_names': dbs['backup_network_nsg_ids_names'],
+                    'fault_domains': dbs['fault_domains'],
+                    'memory_size_in_gbs': dbs['memory_size_in_gbs'],
+                    'storage_volume_performance_mode': dbs['storage_volume_performance_mode'],
+                    'time_zone': dbs['time_zone'],
+                    'kms_key_id': dbs['kms_key_id'],
+                    'kms_key_name': self.__get_vault_key_name(dbs['kms_key_id']),
+                    'os_version': dbs['os_version'],
+                    'disk_redundancy': dbs['disk_redundancy'],
+                    'point_in_time_data_disk_clone_timestamp': dbs['point_in_time_data_disk_clone_timestamp'],
+                    'patches': self.__get_database_db_patches(dbs['patches']),
+                    'db_homes': self.__get_database_db_homes(dbs['db_homes']),
+                    'db_nodes': self.__get_database_db_nodes(dbs['db_nodes'])
+                }
 
                 if dbs['data_storage_size_in_gbs']:
-                    value['data'] = str(dbs['data_storage_size_in_gbs']) + "GB - " + str(dbs['data_storage_percentage']) + "%" + (" - " + dbs['storage_management'] if dbs['storage_management'] else "")
+                    value['data'] = str(dbs['data_storage_size_in_gbs']) + "GB - " + str(dbs['data_storage_percentage']) + "%" + (" - " + dbs['storage_management'] if dbs['storage_management'] else "") + (" - Reco: " + dbs['reco_storage_size_in_gb'] + "GB" if dbs['reco_storage_size_in_gb'] else "")
                 else:
                     value['data'] = str(dbs['data_storage_percentage']) + "%" + (" - " + dbs['storage_management'] if dbs['storage_management'] else "")
 
@@ -2774,7 +2873,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_systems", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2807,6 +2906,7 @@ class ShowOCIData(object):
                         'shape': backup['shape'],
                         'version': backup['version'],
                         'kms_key_id': backup['kms_key_id'],
+                        'kms_key_name': self.__get_vault_key_name(backup['kms_key_id']),
                         'kms_key_version_id': backup['kms_key_version_id'],
                         'vault_id': backup['vault_id'],
                         'type': backup['type'],
@@ -2816,11 +2916,12 @@ class ShowOCIData(object):
                         'compartment_id': backup['compartment_id'],
                         'region_name': backup['region_name'],
                         'sum_info': 'Object Storage - DB Backup (GB)',
-                        'sum_size_gb': ssize})
+                        'sum_size_gb': ssize
+                    })
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_db_all_backups", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2842,6 +2943,7 @@ class ShowOCIData(object):
                         'type': backup['type'],
                         'id': backup['id'],
                         'kms_key_id': backup['kms_key_id'],
+                        'kms_key_name': self.__get_vault_key_name(backup['kms_key_id']),
                         'vault_id': backup['vault_id'],
                         'is_automatic': backup['is_automatic']
                     }
@@ -2849,7 +2951,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_autonomous_backups", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -2924,6 +3026,7 @@ class ShowOCIData(object):
                 'customer_contacts': dbs['customer_contacts'],
                 'supported_regions_to_clone_to': dbs['supported_regions_to_clone_to'],
                 'kms_key_id': dbs['kms_key_id'],
+                'kms_key_name': self.__get_vault_key_name(dbs['kms_key_id']),
                 'vault_id': dbs['vault_id'],
                 'key_store_wallet_name': dbs['key_store_wallet_name'],
                 'key_store_id': dbs['key_store_id'],
@@ -2954,7 +3057,6 @@ class ShowOCIData(object):
                 'is_auto_scaling_for_storage_enabled': dbs['is_auto_scaling_for_storage_enabled'],
                 'allocated_storage_size_in_tbs': dbs['allocated_storage_size_in_tbs'],
                 'actual_used_data_storage_size_in_tbs': dbs['actual_used_data_storage_size_in_tbs'],
-                'max_cpu_core_count': dbs['max_cpu_core_count'],
                 'database_edition': dbs['database_edition'],
                 'local_disaster_recovery_type': dbs['local_disaster_recovery_type'],
                 'disaster_recovery_region_type': dbs['disaster_recovery_region_type'],
@@ -2990,7 +3092,7 @@ class ShowOCIData(object):
             return value
 
         except Exception as e:
-            self.__print_error("__get_database_adb_database_info", e)
+            self.__print_error(e)
             return {}
 
     ##########################################################################
@@ -3012,7 +3114,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_autonomous_databases", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3103,7 +3205,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_adb_dedicated", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3119,7 +3221,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_nosql", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3147,7 +3249,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_mysql", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3170,7 +3272,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_mysql_standalone_backups", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3198,7 +3300,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_postgresql", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3221,7 +3323,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_database_postgresql_standalone_backups", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3235,7 +3337,7 @@ class ShowOCIData(object):
             return database_software_images
 
         except Exception as e:
-            self.__print_error("__get_database_software_images", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3259,7 +3361,7 @@ class ShowOCIData(object):
             return return_data
 
         except Exception as e:
-            self.__print_error("__get_database_goldengate", e)
+            self.__print_error(e)
             return return_data
 
     ##########################################################################
@@ -3273,7 +3375,7 @@ class ShowOCIData(object):
             return database_gg_deployments
 
         except Exception as e:
-            self.__print_error("__get_database_goldengate_deployments", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3287,7 +3389,7 @@ class ShowOCIData(object):
             return database_gg_db_registrations
 
         except Exception as e:
-            self.__print_error("__get_database_goldengate_db_registration", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3313,12 +3415,12 @@ class ShowOCIData(object):
             data = self.__get_database_db_exadata(region_name, compartment)
             if data:
                 if len(data) > 0:
-                    return_data['exadata_infrustructure'] = data
+                    return_data['exadata_infrastructure'] = data
 
             data = self.__get_database_db_exacc(region_name, compartment)
             if data:
                 if len(data) > 0:
-                    return_data['exacc_infrustructure'] = data
+                    return_data['exacc_infrastructure'] = data
 
             data = self.__get_database_adb_databases(region_name, compartment)
             if data:
@@ -3378,10 +3480,24 @@ class ShowOCIData(object):
                 if len(data) > 0:
                     return_data['db_external_nonpdb'] = data
 
+            # Data Safe
+            data = self.service.search_multi_items(self.service.C_DATABASE, self.service.C_DATABASE_DATASAFE, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if data and len(data) > 0:
+
+                # add resource name
+                for db in data:
+                    for tg in db['targets']:
+                        for asst in tg['associated_resource_ids']:
+                            name = self.service.get_resource_name_by_id(asst)
+                            if name:
+                                tg['associated_resource_names'].append(name)
+
+                return_data["datasafe"] = data
+
             return return_data
 
         except Exception as e:
-            self.__print_error("__get_database_main", e)
+            self.__print_error(e)
             return return_data
 
     ##########################################################################
@@ -3402,7 +3518,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_file_storage_mount_target", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3431,7 +3547,7 @@ class ShowOCIData(object):
 
             return bytes_details + ", " + file_details
         except Exception as e:
-            self.__print_error("__get_file_storage_limits", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -3469,7 +3585,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_file_storage_exports", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -3502,6 +3618,7 @@ class ShowOCIData(object):
                            'compartment_path': fs['compartment_path'],
                            'compartment_id': fs['compartment_id'],
                            'kms_key_id': fs['kms_key_id'],
+                           'kms_key_name': self.__get_vault_key_name(fs['kms_key_id']),
                            'region_name': region_name,
                            'exports': self.__get_file_storage_exports(fs['id'])}
                 data.append(dataval)
@@ -3509,7 +3626,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("oci_file_storage: ", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3546,6 +3663,7 @@ class ShowOCIData(object):
                          'storage_tier': bucket['storage_tier'],
                          'object_events_enabled': bucket['object_events_enabled'],
                          'kms_key_id': bucket['kms_key_id'],
+                         'kms_key_name': self.__get_vault_key_name(bucket['kms_key_id']),
                          'object_lifecycle_policy_etag': bucket['object_lifecycle_policy_etag'],
                          'replication_enabled': bucket['replication_enabled'],
                          'is_read_only': bucket['is_read_only'],
@@ -3579,7 +3697,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_object_storage_main", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3609,7 +3727,7 @@ class ShowOCIData(object):
                             "RegEx=" + str(h['response_body_regex']) + ", " +
                             "url_path =" + str(h['url_path']))
         except Exception as e:
-            self.__print_error("__get_load_balancer_bs_healthchecker", e)
+            self.__print_error(e)
             return ""
 
     ##########################################################################
@@ -3639,7 +3757,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_load_balancer_backendset", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3709,7 +3827,7 @@ class ShowOCIData(object):
 
             return data
         except Exception as e:
-            self.__print_error("__get_load_balancer_details", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3733,7 +3851,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_load_balancer_main", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3763,7 +3881,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_load_balancer_backendset_network", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3780,6 +3898,8 @@ class ShowOCIData(object):
             data['time_created'] = lb['time_created']
             data['time_updated'] = lb['time_updated']
             data['is_preserve_source_destination'] = lb['is_preserve_source_destination']
+            data['nlb_ip_version'] = lb['nlb_ip_version']
+            data['is_symmetric_hash_enabled'] = lb['is_symmetric_hash_enabled']
             data['is_private'] = lb['is_private']
             data['ips'] = lb['ip_addresses']
             data['nsg_ids'] = lb['nsg_ids']
@@ -3807,7 +3927,7 @@ class ShowOCIData(object):
 
             return data
         except Exception as e:
-            self.__print_error("__get_load_balancer_network_details", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3828,7 +3948,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_load_balancer_main", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3859,7 +3979,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_resource_management_main", e)
+            self.__print_error(e)
             return data
 
     ##########################################################################
@@ -3898,7 +4018,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_email_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -3981,7 +4101,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_container_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4004,7 +4124,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_streams_queues_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4012,24 +4132,33 @@ class ShowOCIData(object):
     ##########################################################################
     def __get_functions_main(self, region_name, compartment):
         try:
-            functions = self.service.search_multi_items(self.service.C_FUNCTION, self.service.C_FUNCTION_APPLICATIONS, 'region_name', region_name, 'compartment_id', compartment['id'])
+            functions_apps = self.service.search_multi_items(self.service.C_FUNCTION, self.service.C_FUNCTION_APPLICATIONS, 'region_name', region_name, 'compartment_id', compartment['id'])
 
             data = []
-            if functions:
-                for fn in functions:
-                    val = {'id': fn['id'],
-                           'display_name': fn['display_name'],
-                           'subnets': [],
-                           'subnet_ids': fn['subnet_ids'],
-                           'time_created': fn['time_created'],
-                           'defined_tags': fn['defined_tags'],
-                           'freeform_tags': fn['freeform_tags'],
-                           'functions': fn['functions'],
-                           'compartment_name': fn['compartment_name'],
-                           'compartment_path': fn['compartment_path'],
-                           'compartment_id': fn['compartment_id'],
-                           'region_name': fn['region_name']
-                           }
+            if functions_apps:
+                for fn in functions_apps:
+                    val = {
+                        'id': fn['id'],
+                        'display_name': fn['display_name'],
+                        'lifecycle_state': fn['lifecycle_state'],
+                        'subnets': [],
+                        'subnet_ids': fn['subnet_ids'],
+                        'network_security_group_ids': fn['network_security_group_ids'],
+                        'network_security_group_names': fn['network_security_group_names'],
+                        'shape': fn['shape'],
+                        'trace_config_is_enabled': fn['trace_config_is_enabled'],
+                        'trace_config_domain_id': fn['trace_config_domain_id'],
+                        'image_policy_is_enabled': fn['image_policy_is_enabled'],
+                        'time_created': fn['time_created'],
+                        'time_updated': fn['time_updated'],
+                        'defined_tags': fn['defined_tags'],
+                        'freeform_tags': fn['freeform_tags'],
+                        'functions': fn['functions'],
+                        'compartment_name': fn['compartment_name'],
+                        'compartment_path': fn['compartment_path'],
+                        'compartment_id': fn['compartment_id'],
+                        'region_name': fn['region_name']
+                    }
 
                     # subnets
                     for sub in fn['subnet_ids']:
@@ -4039,7 +4168,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_functions_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4068,7 +4197,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_apigateway_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4119,7 +4248,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_monitoring_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4135,7 +4264,7 @@ class ShowOCIData(object):
                     return topic['name']
             return topic_id
         except Exception as e:
-            self.__print_error("__get_notification_topic_name", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4148,7 +4277,7 @@ class ShowOCIData(object):
                 return stream['name']
             return stream_id
         except Exception as e:
-            self.__print_error("__get_streaming_stream_name", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4161,7 +4290,7 @@ class ShowOCIData(object):
                 return function['display_name']
             return function_id
         except Exception as e:
-            self.__print_error("__get_function_name", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4193,7 +4322,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_notifications_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4228,7 +4357,7 @@ class ShowOCIData(object):
             return data
 
         except Exception as e:
-            self.__print_error("__get_load_edge_main", e)
+            self.__print_error(e)
             return []
 
     ##########################################################################
@@ -4244,7 +4373,7 @@ class ShowOCIData(object):
             return
 
         except Exception as e:
-            self.__print_error("__get_limits_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4259,7 +4388,7 @@ class ShowOCIData(object):
             return
 
         except Exception as e:
-            self.__print_error("__get_quotas_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4307,8 +4436,24 @@ class ShowOCIData(object):
             return paas_services
 
         except Exception as e:
-            self.__print_error("__get_paas_native_main", e)
+            self.__print_error(e)
             pass
+
+    ##########################################################################
+    # get key name
+    ##########################################################################
+    def __get_vault_key_name(self, key_id):
+
+        data = ""
+        try:
+            if key_id:
+                key = self.service.search_unique_item(self.service.C_SECURITY, self.service.C_SECURITY_KEYS, 'id', key_id)
+                if key:
+                    data = key['name']
+            return data
+
+        except Exception as e:
+            self.__print_error(e)
 
     ##########################################################################
     # Security and Logging
@@ -4333,20 +4478,60 @@ class ShowOCIData(object):
             if log:
                 security_services['logging'] = log
 
-            # logging unified agenets
+            # logging unified agents
             logua = self.service.search_multi_items(self.service.C_SECURITY, self.service.C_SECURITY_LOGGING_UA, 'region_name', region_name, 'compartment_id', compartment['id'])
             if log:
-                security_services['logging_unified_agenets'] = logua
+                security_services['logging_unified_agents'] = logua
 
             # kms_vaults
             vaults = self.service.search_multi_items(self.service.C_SECURITY, self.service.C_SECURITY_VAULTS, 'region_name', region_name, 'compartment_id', compartment['id'])
             if vaults:
                 security_services['kms_vaults'] = vaults
 
+            # kms_keys
+            keys = self.service.search_multi_items(self.service.C_SECURITY, self.service.C_SECURITY_KEYS, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if keys:
+                security_services['kms_keys'] = keys
+
+            # certificate
+            certificates = self.service.search_multi_items(self.service.C_CERTIFICATE, self.service.C_CERTIFICATE_CERTIFICATES, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if certificates:
+                for crt in certificates:
+                    assoc = self.service.search_multi_items(self.service.C_CERTIFICATE, self.service.C_CERTIFICATE_ASSOCIATIONS, 'region_name', region_name, 'certificates_resource_id', crt['id'])
+                    if assoc:
+                        crt['associated_resource_ids'] = ','.join(x['associated_resource_id'] for x in assoc)
+                        crt['associated_resource_names'] = ','.join(self.service.get_resource_name_by_id(x['associated_resource_id']) for x in assoc)
+                security_services['certificates'] = certificates
+
+            # certificate associations
+            certificate_associations = self.service.search_multi_items(self.service.C_CERTIFICATE, self.service.C_CERTIFICATE_ASSOCIATIONS, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if certificate_associations:
+                security_services['certificate_associations'] = certificate_associations
+
+            # certificate ca bundle
+            certificate_ca_bundles = self.service.search_multi_items(self.service.C_CERTIFICATE, self.service.C_CERTIFICATE_CA_BUNDLES, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if certificate_ca_bundles:
+                for crt in certificate_ca_bundles:
+                    assoc = self.service.search_multi_items(self.service.C_CERTIFICATE, self.service.C_CERTIFICATE_ASSOCIATIONS, 'region_name', region_name, 'certificates_resource_id', crt['id'])
+                    if assoc:
+                        crt['associated_resource_ids'] = ','.join(x['associated_resource_id'] for x in assoc)
+                        crt['associated_resource_names'] = ','.join(self.service.get_resource_name_by_id(x['associated_resource_id']) for x in assoc)
+                security_services['certificate_ca_bundles'] = certificate_ca_bundles
+
+            # certificate authorities
+            certificate_authorities = self.service.search_multi_items(self.service.C_CERTIFICATE, self.service.C_CERTIFICATE_AUTHORITIES, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if certificate_authorities:
+                for crt in certificate_authorities:
+                    assoc = self.service.search_multi_items(self.service.C_CERTIFICATE, self.service.C_CERTIFICATE_ASSOCIATIONS, 'region_name', region_name, 'certificates_resource_id', crt['id'])
+                    if assoc:
+                        crt['associated_resource_ids'] = ','.join(x['associated_resource_id'] for x in assoc)
+                        crt['associated_resource_names'] = ','.join(self.service.get_resource_name_by_id(x['associated_resource_id']) for x in assoc)
+                security_services['certificate_authorities'] = certificate_authorities
+
             return security_services
 
         except Exception as e:
-            self.__print_error("__get_security_main", e)
+            self.__print_error(e)
             pass
 
     ##########################################################################
@@ -4386,8 +4571,13 @@ class ShowOCIData(object):
             if di:
                 data_ai['data_integration'] = di
 
+            # Gen AI
+            di = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_GENAI, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if di:
+                data_ai['genai'] = di
+
             return data_ai
 
         except Exception as e:
-            self.__print_error("__get_data_ai_main", e)
+            self.__print_error(e)
             pass

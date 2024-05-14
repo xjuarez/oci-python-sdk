@@ -5,6 +5,83 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 =====================
+24.05.17 - 24.05.17
+=====================
+* Added pdb csvs
+* Added function csvs - functions_apps and functions_fns
+
+=====================
+24.04.23 - 24.04.23
+=====================
+* Added flag -iold to extract identity with old APIs
+* Added error handling for domains
+
+=====================
+24.04.16 - 24.04.16
+=====================
+* Added more details to DBNode of database areas
+
+=====================
+24.04.09 - 24.04.09
+=====================
+* Exclude GENAI until the service deployed on all regions to avoid process hung
+
+=====================
+24.04.02 - 24.04.02
+=====================
+* Added is_symmetric_hash_enabled flag for network load balancers
+
+=====================
+24.04.02 - 24.04.02
+=====================
+* Added support for IAM Domains across different compartments
+
+=====================
+24.03.19 - 24.03.19
+=====================
+* Added -excludelist to generate exclude filter flags
+* Added certificates, certificate authorities, certificate ca bundle which are part of -sec
+* Added Data Safe information including assessments (use -dsa for report), assessments extract to JSON or CSV
+* Added description for network security rules and security groups
+
+=====================
+24.03.12 - 24.03.12
+=====================
+* Added exclude for GENAI and OCE
+* Factor Client Creation for rest of services
+
+=====================
+24.03.03 - 24.03.03
+=====================
+* Remove max_cpu_core_count from Autonomous Database
+
+=====================
+24.03.02 - 24.03.02
+=====================
+* Added CSV Resources with all resources
+* Added Error array to Output CSV
+* Factor client creation
+
+=====================
+24.02.20 - 24.02.20
+=====================
+* Added additional parameters to Boot and Block Volumes
+
+=====================
+24.02.06 - 24.02.06
+=====================
+* Added Gen AI
+* Fixed cores count for RAC Base database
+
+=====================
+23.12.20 - 23.12.20
+=====================
+* Added CSV for Announcements
+* Added -andays flag to extract last XX Days of announcement, default 30
+* Amend error control on showoci_service.py
+* Added errors csv for service and processing errors and warnings
+
+=====================
 23.12.12 - 23.12.12
 =====================
 * Added PostgreSQL

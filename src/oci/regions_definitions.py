@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2024, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 REGIONS_SHORT_NAMES = {
@@ -40,6 +40,7 @@ REGIONS_SHORT_NAMES = {
     'mty': 'mx-monterrey-1',
     'aga': 'us-saltlake-2',
     'bog': 'sa-bogota-1',
+    'vap': 'sa-valparaiso-1',
     'lfi': 'us-langley-1',
     'luf': 'us-luke-1',
     'ric': 'us-gov-ashburn-1',
@@ -57,10 +58,13 @@ REGIONS_SHORT_NAMES = {
     'dtm': 'eu-dcc-rating-2',
     'dus': 'eu-dcc-rating-1',
     'ork': 'eu-dcc-dublin-1',
+    'dac': 'ap-dcc-gazipur-1',
     'vll': 'eu-madrid-2',
     'str': 'eu-frankfurt-2',
     'beg': 'eu-jovanovac-1',
-    'avz': 'eu-dcc-zurich-1'
+    'doh': 'me-dcc-doha-1',
+    'avz': 'eu-dcc-zurich-1',
+    'ahu': 'me-abudhabi-3'
 }
 REGION_REALMS = {
     'ap-chuncheon-1': 'oc1',
@@ -100,6 +104,7 @@ REGION_REALMS = {
     'mx-monterrey-1': 'oc1',
     'us-saltlake-2': 'oc1',
     'sa-bogota-1': 'oc1',
+    'sa-valparaiso-1': 'oc1',
 
     'us-langley-1': 'oc2',
     'us-luke-1': 'oc2',
@@ -125,12 +130,18 @@ REGION_REALMS = {
     'eu-dcc-rating-1': 'oc14',
     'eu-dcc-dublin-1': 'oc14',
 
+    'ap-dcc-gazipur-1': 'oc15',
+
     'eu-madrid-2': 'oc19',
     'eu-frankfurt-2': 'oc19',
 
     'eu-jovanovac-1': 'oc20',
 
-    'eu-dcc-zurich-1': 'oc24'
+    'me-dcc-doha-1': 'oc21',
+
+    'eu-dcc-zurich-1': 'oc24',
+
+    'me-abudhabi-3': 'oc26'
 }
 REALMS = {
     'oc1': 'oraclecloud.com',
@@ -141,9 +152,12 @@ REALMS = {
     'oc9': 'oraclecloud9.com',
     'oc10': 'oraclecloud10.com',
     'oc14': 'oraclecloud14.com',
+    'oc15': 'oraclecloud15.com',
     'oc19': 'oraclecloud.eu',
     'oc20': 'oraclecloud20.com',
-    'oc24': 'oraclecloud24.com'
+    'oc21': 'oraclecloud21.com',
+    'oc24': 'oraclecloud24.com',
+    'oc26': 'oraclecloud26.com'
 }
 REGIONS = [
     'ap-chuncheon-1',
@@ -183,6 +197,7 @@ REGIONS = [
     'mx-monterrey-1',
     'us-saltlake-2',
     'sa-bogota-1',
+    'sa-valparaiso-1',
     'us-langley-1',
     'us-luke-1',
     'us-gov-ashburn-1',
@@ -200,8 +215,11 @@ REGIONS = [
     'eu-dcc-rating-2',
     'eu-dcc-rating-1',
     'eu-dcc-dublin-1',
+    'ap-dcc-gazipur-1',
     'eu-madrid-2',
     'eu-frankfurt-2',
     'eu-jovanovac-1',
-    'eu-dcc-zurich-1'
+    'me-dcc-doha-1',
+    'eu-dcc-zurich-1',
+    'me-abudhabi-3'
 ]

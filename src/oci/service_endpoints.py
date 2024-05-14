@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2024, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 SERVICE_ENDPOINTS = {
@@ -21,6 +21,7 @@ SERVICE_ENDPOINTS = {
     "health_checks": "https://healthchecks.{domain}",
     "identity": "https://identity.{domain}",
     "kms_crypto": "https://kms.{domain}",
+    "kms_hsm_cluster": "https://kms.{domain}",
     "kms_management": "https://kms.{domain}",
     "kms_vault": "https://kms.{domain}",
     "load_balancer": "https://iaas.{domain}",

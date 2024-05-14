@@ -79,6 +79,8 @@ Database Management
     oci.database_management.models.AwrDbWaitEventCollection
     oci.database_management.models.AwrDbWaitEventSummary
     oci.database_management.models.AwrQueryResult
+    oci.database_management.models.BasicDatabaseConnectionStringDetails
+    oci.database_management.models.BasicNamedCredentialContent
     oci.database_management.models.BasicPreferredCredential
     oci.database_management.models.ChangeDatabaseParameterDetails
     oci.database_management.models.ChangeDatabaseParametersDetails
@@ -87,6 +89,7 @@ Database Management
     oci.database_management.models.ChangeExternalExadataInfrastructureCompartmentDetails
     oci.database_management.models.ChangeJobCompartmentDetails
     oci.database_management.models.ChangeManagedDatabaseGroupCompartmentDetails
+    oci.database_management.models.ChangeNamedCredentialCompartmentDetails
     oci.database_management.models.ChangePlanRetentionDetails
     oci.database_management.models.ChangeSpaceBudgetDetails
     oci.database_management.models.ChangeSqlPlanBaselinesAttributesDetails
@@ -95,6 +98,7 @@ Database Management
     oci.database_management.models.ClusterCacheMetric
     oci.database_management.models.ConfigureAutomaticCaptureFiltersDetails
     oci.database_management.models.ConfigureAutomaticSpmEvolveAdvisorTaskDetails
+    oci.database_management.models.ConnectorDetails
     oci.database_management.models.ConsumerGroupPrivilegeCollection
     oci.database_management.models.ConsumerGroupPrivilegeSummary
     oci.database_management.models.CpuUtilizationAggregateMetrics
@@ -107,6 +111,7 @@ Database Management
     oci.database_management.models.CreateExternalExadataStorageConnectorDetails
     oci.database_management.models.CreateJobDetails
     oci.database_management.models.CreateManagedDatabaseGroupDetails
+    oci.database_management.models.CreateNamedCredentialDetails
     oci.database_management.models.CreateSqlJobDetails
     oci.database_management.models.CreateSqlTuningSetDetails
     oci.database_management.models.CreateTablespaceDetails
@@ -117,19 +122,29 @@ Database Management
     oci.database_management.models.DatabaseConnectionCredentailsByName
     oci.database_management.models.DatabaseConnectionCredentials
     oci.database_management.models.DatabaseConnectionCredentialsByDetails
+    oci.database_management.models.DatabaseConnectionDetails
     oci.database_management.models.DatabaseConnectionString
+    oci.database_management.models.DatabaseConnectionStringDetails
+    oci.database_management.models.DatabaseCredentialDetails
     oci.database_management.models.DatabaseCredentials
+    oci.database_management.models.DatabaseDiagnosticsAndManagementFeatureConfiguration
+    oci.database_management.models.DatabaseDiagnosticsAndManagementFeatureDetails
+    oci.database_management.models.DatabaseFeatureConfiguration
+    oci.database_management.models.DatabaseFeatureDetails
     oci.database_management.models.DatabaseFleetHealthMetrics
     oci.database_management.models.DatabaseHomeMetricDefinition
     oci.database_management.models.DatabaseHomeMetrics
     oci.database_management.models.DatabaseIOAggregateMetrics
     oci.database_management.models.DatabaseInstanceHomeMetricsDefinition
     oci.database_management.models.DatabaseManagementConfig
+    oci.database_management.models.DatabaseNamedCredentialDetails
     oci.database_management.models.DatabaseParameterSummary
     oci.database_management.models.DatabaseParameterUpdateStatus
     oci.database_management.models.DatabaseParametersCollection
+    oci.database_management.models.DatabasePasswordCredentialDetails
     oci.database_management.models.DatabasePlan
     oci.database_management.models.DatabasePlanDirective
+    oci.database_management.models.DatabaseSecretCredentialDetails
     oci.database_management.models.DatabaseSslConnectionCredentials
     oci.database_management.models.DatabaseStorageAggregateMetrics
     oci.database_management.models.DatabaseTimeAggregateMetrics
@@ -142,7 +157,12 @@ Database Management
     oci.database_management.models.DbmResource
     oci.database_management.models.DisableAutomaticInitialPlanCaptureDetails
     oci.database_management.models.DisableAutomaticSpmEvolveAdvisorTaskDetails
+    oci.database_management.models.DisableDatabaseManagementFeatureDetails
+    oci.database_management.models.DisableExternalContainerDatabaseManagementFeatureDetails
+    oci.database_management.models.DisableExternalNonContainerDatabaseManagementFeatureDetails
+    oci.database_management.models.DisableExternalPluggableDatabaseManagementFeatureDetails
     oci.database_management.models.DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskDetails
+    oci.database_management.models.DisablePluggableDatabaseManagementFeatureDetails
     oci.database_management.models.DisableSqlPlanBaselinesUsageDetails
     oci.database_management.models.DiscoverExternalExadataInfrastructureDetails
     oci.database_management.models.DiscoveredExternalAsm
@@ -162,10 +182,15 @@ Database Management
     oci.database_management.models.DropTablespaceDetails
     oci.database_management.models.EnableAutomaticInitialPlanCaptureDetails
     oci.database_management.models.EnableAutomaticSpmEvolveAdvisorTaskDetails
+    oci.database_management.models.EnableDatabaseManagementFeatureDetails
+    oci.database_management.models.EnableExternalContainerDatabaseManagementFeatureDetails
     oci.database_management.models.EnableExternalDbSystemDatabaseManagementDetails
     oci.database_management.models.EnableExternalDbSystemStackMonitoringDetails
     oci.database_management.models.EnableExternalExadataInfrastructureManagementDetails
+    oci.database_management.models.EnableExternalNonContainerDatabaseManagementFeatureDetails
+    oci.database_management.models.EnableExternalPluggableDatabaseManagementFeatureDetails
     oci.database_management.models.EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskDetails
+    oci.database_management.models.EnablePluggableDatabaseManagementFeatureDetails
     oci.database_management.models.EnableSqlPlanBaselinesUsageDetails
     oci.database_management.models.EntityDiscovered
     oci.database_management.models.ExecutionPlanStatsComparision
@@ -192,8 +217,11 @@ Database Management
     oci.database_management.models.ExternalClusterScanListenerConfiguration
     oci.database_management.models.ExternalClusterSummary
     oci.database_management.models.ExternalClusterVipConfiguration
+    oci.database_management.models.ExternalConnectorDetails
     oci.database_management.models.ExternalDatabaseCollection
     oci.database_management.models.ExternalDatabaseConnectionInfo
+    oci.database_management.models.ExternalDatabaseDiagnosticsAndManagementFeatureDetails
+    oci.database_management.models.ExternalDatabaseFeatureDetails
     oci.database_management.models.ExternalDatabaseInstance
     oci.database_management.models.ExternalDatabaseSummary
     oci.database_management.models.ExternalDatabaseSystemDiscoverySummary
@@ -245,6 +273,8 @@ Database Management
     oci.database_management.models.ExternalListenerSummary
     oci.database_management.models.ExternalListenerTcpEndpoint
     oci.database_management.models.ExternalListenerTcpsEndpoint
+    oci.database_management.models.ExternalPluggableDatabaseDiagnosticsAndManagementFeatureDetails
+    oci.database_management.models.ExternalPluggableDatabaseFeatureDetails
     oci.database_management.models.ExternalServicedAsm
     oci.database_management.models.ExternalServicedDatabase
     oci.database_management.models.ExternalStorageGridDiscoverySummary
@@ -256,6 +286,13 @@ Database Management
     oci.database_management.models.FleetMetricSummaryDefinition
     oci.database_management.models.FleetStatusByCategory
     oci.database_management.models.FleetSummary
+    oci.database_management.models.HeatWaveClusterUsageMetrics
+    oci.database_management.models.HeatWaveFleetByCategory
+    oci.database_management.models.HeatWaveFleetMetricDefinition
+    oci.database_management.models.HeatWaveFleetMetricSummaryDefinition
+    oci.database_management.models.HeatWaveFleetMetrics
+    oci.database_management.models.HeatWaveFleetSummary
+    oci.database_management.models.HeatWaveNode
     oci.database_management.models.HistoricAddmResult
     oci.database_management.models.ImplementOptimizerStatisticsAdvisorRecommendationsDetails
     oci.database_management.models.ImplementOptimizerStatisticsAdvisorRecommendationsJob
@@ -283,6 +320,7 @@ Database Management
     oci.database_management.models.LoadSqlPlanBaselinesFromAwrDetails
     oci.database_management.models.LoadSqlPlanBaselinesFromCursorCacheDetails
     oci.database_management.models.LoadSqlTuningSetDetails
+    oci.database_management.models.MacsConnectorDetails
     oci.database_management.models.ManagedDatabase
     oci.database_management.models.ManagedDatabaseCollection
     oci.database_management.models.ManagedDatabaseCredential
@@ -301,6 +339,8 @@ Database Management
     oci.database_management.models.MetricStatisticsDefinition
     oci.database_management.models.MetricsAggregationRange
     oci.database_management.models.MetricsAggregationRangeCollection
+    oci.database_management.models.ModifyDatabaseManagementFeatureDetails
+    oci.database_management.models.ModifyPluggableDatabaseManagementFeatureDetails
     oci.database_management.models.ModifySnapshotSettingsDetails
     oci.database_management.models.MySqlConfigurationDataCollection
     oci.database_management.models.MySqlConfigurationDataSummary
@@ -312,6 +352,11 @@ Database Management
     oci.database_management.models.MySqlFleetMetricSummaryDefinition
     oci.database_management.models.MySqlFleetMetrics
     oci.database_management.models.MySqlFleetSummary
+    oci.database_management.models.NamedCredential
+    oci.database_management.models.NamedCredentialCollection
+    oci.database_management.models.NamedCredentialContent
+    oci.database_management.models.NamedCredentialSummary
+    oci.database_management.models.NamedPreferredCredential
     oci.database_management.models.ObjectPrivilegeCollection
     oci.database_management.models.ObjectPrivilegeSummary
     oci.database_management.models.ObjectStorageJobExecutionResultDetails
@@ -339,6 +384,7 @@ Database Management
     oci.database_management.models.PreferredCredential
     oci.database_management.models.PreferredCredentialCollection
     oci.database_management.models.PreferredCredentialSummary
+    oci.database_management.models.PrivateEndPointConnectorDetails
     oci.database_management.models.ProxiedForUserCollection
     oci.database_management.models.ProxiedForUserSummary
     oci.database_management.models.ProxyUserCollection
@@ -419,6 +465,9 @@ Database Management
     oci.database_management.models.TablespaceStorageSize
     oci.database_management.models.TablespaceSummary
     oci.database_management.models.TestBasicPreferredCredentialDetails
+    oci.database_management.models.TestNamedCredentialDetails
+    oci.database_management.models.TestNamedCredentialStatus
+    oci.database_management.models.TestNamedPreferredCredentialDetails
     oci.database_management.models.TestPreferredCredentialDetails
     oci.database_management.models.TestPreferredCredentialStatus
     oci.database_management.models.TimeSeriesMetricDataPoint
@@ -428,8 +477,10 @@ Database Management
     oci.database_management.models.UpdateDatabaseParametersResult
     oci.database_management.models.UpdateDbManagementPrivateEndpointDetails
     oci.database_management.models.UpdateExternalAsmDetails
+    oci.database_management.models.UpdateExternalAsmInstanceDetails
     oci.database_management.models.UpdateExternalClusterDetails
     oci.database_management.models.UpdateExternalClusterInstanceDetails
+    oci.database_management.models.UpdateExternalDbHomeDetails
     oci.database_management.models.UpdateExternalDbNodeDetails
     oci.database_management.models.UpdateExternalDbSystemConnectorDetails
     oci.database_management.models.UpdateExternalDbSystemDetails
@@ -437,9 +488,14 @@ Database Management
     oci.database_management.models.UpdateExternalDbSystemMacsConnectorDetails
     oci.database_management.models.UpdateExternalExadataInfrastructureDetails
     oci.database_management.models.UpdateExternalExadataStorageConnectorDetails
+    oci.database_management.models.UpdateExternalExadataStorageGridDetails
+    oci.database_management.models.UpdateExternalExadataStorageServerDetails
     oci.database_management.models.UpdateExternalListenerDetails
     oci.database_management.models.UpdateJobDetails
+    oci.database_management.models.UpdateManagedDatabaseDetails
     oci.database_management.models.UpdateManagedDatabaseGroupDetails
+    oci.database_management.models.UpdateNamedCredentialDetails
+    oci.database_management.models.UpdateNamedPreferredCredentialDetails
     oci.database_management.models.UpdatePreferredCredentialDetails
     oci.database_management.models.UpdateSqlJobDetails
     oci.database_management.models.UpdateTablespaceDetails

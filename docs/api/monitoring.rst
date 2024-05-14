@@ -24,10 +24,19 @@ Monitoring
     oci.monitoring.models.AlarmDimensionStatesEntry
     oci.monitoring.models.AlarmHistoryCollection
     oci.monitoring.models.AlarmHistoryEntry
+    oci.monitoring.models.AlarmOverride
     oci.monitoring.models.AlarmStatusSummary
     oci.monitoring.models.AlarmSummary
+    oci.monitoring.models.AlarmSuppression
+    oci.monitoring.models.AlarmSuppressionAlarmTarget
+    oci.monitoring.models.AlarmSuppressionCollection
+    oci.monitoring.models.AlarmSuppressionHistoryItem
+    oci.monitoring.models.AlarmSuppressionHistoryItemCollection
+    oci.monitoring.models.AlarmSuppressionSummary
+    oci.monitoring.models.AlarmSuppressionTarget
     oci.monitoring.models.ChangeAlarmCompartmentDetails
     oci.monitoring.models.CreateAlarmDetails
+    oci.monitoring.models.CreateAlarmSuppressionDetails
     oci.monitoring.models.Datapoint
     oci.monitoring.models.FailedMetricRecord
     oci.monitoring.models.ListMetricsDetails
@@ -37,6 +46,7 @@ Monitoring
     oci.monitoring.models.PostMetricDataDetails
     oci.monitoring.models.PostMetricDataResponseDetails
     oci.monitoring.models.RetrieveDimensionStatesDetails
+    oci.monitoring.models.SummarizeAlarmSuppressionHistoryDetails
     oci.monitoring.models.SummarizeMetricsDataDetails
     oci.monitoring.models.Suppression
     oci.monitoring.models.UpdateAlarmDetails

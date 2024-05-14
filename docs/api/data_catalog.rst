@@ -19,6 +19,8 @@ Data Catalog
     :template: autosummary/model_class.rst
 
     oci.data_catalog.models.AddResourceLockDetails
+    oci.data_catalog.models.AsynchronousExportDataAssetDetails
+    oci.data_catalog.models.AsynchronousExportDataAssetResult
     oci.data_catalog.models.AsynchronousExportGlossaryDetails
     oci.data_catalog.models.AsynchronousExportGlossaryResult
     oci.data_catalog.models.AsynchronousExportRequestDetails
@@ -111,6 +113,8 @@ Data Catalog
     oci.data_catalog.models.ImportDataAssetDetails
     oci.data_catalog.models.ImportDataAssetJobResult
     oci.data_catalog.models.ImportGlossaryDetails
+    oci.data_catalog.models.ImportLineageDetails
+    oci.data_catalog.models.ImportLineageJobResult
     oci.data_catalog.models.Job
     oci.data_catalog.models.JobCollection
     oci.data_catalog.models.JobDefinition

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ##########################################################################
-# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2024, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # showoci.py
@@ -14,7 +14,7 @@
 ##########################################################################
 # OCI Report Tool SHOWOCI:
 #
-# require OCI read only user with OCI authentication:
+# Requires OCI read only user with OCI authentication:
 #    ALLOW GROUP ReadOnlyUsers to read all-resources IN TENANCY
 #
 # Recommend to set below for display interactive
@@ -76,6 +76,9 @@
 # - oci.network_firewall.NetworkFirewallClient
 # - oci.opensearch.OpensearchClusterClient
 # - oci.psql.PostgresqlClient
+# - oci.generative_ai.GenerativeAiClient
+# - oci.certificates_management.CertificatesManagementClient
+# - oci.data_safe.DataSafeClient
 #
 # Modules without CSV yet:
 # - datasciencemodeldeployment
@@ -95,11 +98,9 @@
 # - oci.appmgmt_control.AppmgmtControlClient
 # - oci.application_migration.ApplicationMigrationClient
 # - oci.artifacts.ArtifactsClient
-# - oci.certificates_management.CertificatesManagementClient
 # - oci.cloud_migrations.MigrationClient
 # - oci.container_instances.ContainerInstanceClient
 # - oci.data_labeling_service.DataLabelingManagementClient
-# - oci.data_safe.DataSafeClient
 # - oci.disaster_recovery.DisasterRecoveryClient
 # - oci.fusion_apps.FusionApplicationsClient
 # - oci.jms.JavaManagementServiceClient
@@ -127,16 +128,16 @@ import contextlib
 import os
 import time
 
-version = "23.12.12"
+version = "24.05.17"
 
 ##########################################################################
 # check OCI version
 ##########################################################################
 if sys.version_info.major < 3:
-    python_version = str(sys.version_info.major) + "." + str(sys.version_info.minor)
+    python_version = str(sys.version_info.major) + '.' + str(sys.version_info.minor)
     print("******************************************************")
     print("***    Showoci only supports Python 3 or Above     ***")
-    print("***             Current Version = " + python_version.ljust(16) + " ***")
+    print(f"***             Current Version = {python_version.ljust(16)} ***")
     print("******************************************************")
     sys.exit()
 
@@ -146,12 +147,12 @@ if sys.version_info.major < 3:
 if version != ShowOCIData.version or version != ShowOCIService.version or version != ShowOCIOutput.version:
     print("******************************************************")
     print("***    Showoci files have different versions       ***")
-    print("***    showoci.py         - " + version + "               ***")
-    print("***    showoci_data.py    - " + ShowOCIData.version + "               ***")
-    print("***    showoci_output.py  - " + ShowOCIOutput.version + "               ***")
-    print("***    showoci_service.py - " + ShowOCIService.version + "               ***")
+    print(f"***    showoci.py         - {version}               ***")
+    print(f"***    showoci_data.py    - {ShowOCIData.version}               ***")
+    print(f"***    showoci_output.py  - {ShowOCIOutput.version}               ***")
+    print(f"***    showoci_service.py - {ShowOCIService.version}               ***")
     print("******************************************************")
-    print("Abort !")
+    print("Aborting!")
     sys.exit()
 
 
@@ -176,6 +177,8 @@ def execute_extract():
     # create data instance
     ############################################
     data = ShowOCIData(flags)
+    if flags.excludelist:
+        return
 
     ############################################
     # output and summary instances
@@ -330,55 +333,59 @@ def return_error_message(service_error, service_warning, data_error, output_erro
 ##########################################################################
 def set_parser_arguments(argsList=[]):
     parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80, width=130))
-    parser.add_argument('-a', action='store_true', default=False, dest='all', help='Print All Resources')
-    parser.add_argument('-ani', action='store_true', default=False, dest='allnoiam', help='Print All Resources but identity')
-    parser.add_argument('-an', action='store_true', default=False, dest='announcement', help='Print Announcements')
-    parser.add_argument('-c', '-cn', action='store_true', default=False, dest='compute', help='Print Compute and Containers')
-    parser.add_argument('-d', action='store_true', default=False, dest='database', help='Print Database')
-    parser.add_argument('-edge', action='store_true', default=False, dest='edge', help='Print Edge, DNS Services and WAAS policies, DNS Zone is slow can be excluded using -exclude DNSZONE')
-    parser.add_argument('-f', '-o', action='store_true', default=False, dest='file', help='Print File and Object Storage')
-    parser.add_argument('-i', action='store_true', default=False, dest='identity', help='Print Identity and Identity Domains')
-    parser.add_argument('-ic', action='store_true', default=False, dest='identity_compartments', help='Print Identity Compartments only')
-    parser.add_argument('-isc', action='store_true', default=False, dest='skip_identity_user_credential', help='Skip Identity User Credential extract')
+    parser.add_argument('-a', action='store_true', default=False, dest='all', help='Print All Resources.')
+    parser.add_argument('-ani', action='store_true', default=False, dest='allnoiam', help='Print All Resources but identity.')
+    parser.add_argument('-an', action='store_true', default=False, dest='announcement', help='Print Announcements.')
+    parser.add_argument('-andays', default=30, dest='announcement_days', type=int, help='Announcement Last X Days (Default=30).')
+    parser.add_argument('-c', '-cn', action='store_true', default=False, dest='compute', help='Print Compute and Containers.')
+    parser.add_argument('-d', action='store_true', default=False, dest='database', help='Print Database.')
+    parser.add_argument('-dsa', '--datasafe-assessments', action='store_true', default=False, dest='datasafe_assessments', help='When Data Safe is implemented, get the assessments, too.')
+    parser.add_argument('-edge', action='store_true', default=False, dest='edge', help='Print Edge, DNS Services and WAAS policies, DNS Zone is slow can be excluded using -exclude DNSZONE.')
+    parser.add_argument('-f', '-o', action='store_true', default=False, dest='file', help='Print File and Object Storage.')
+    parser.add_argument('-i', action='store_true', default=False, dest='identity', help='Print Identity and Identity Domains.')
+    parser.add_argument('-iold', action='store_true', default=False, dest='identity_old', help='Print Identity from the old APIs when choosing identity extract.')
+    parser.add_argument('-ic', action='store_true', default=False, dest='identity_compartments', help='Print Identity Compartments only.')
+    parser.add_argument('-isc', action='store_true', default=False, dest='skip_identity_user_credential', help='Skip Identity User Credential extract.')
 
-    parser.add_argument('-s', '-api', '-rm', '-fun', action='store_true', default=False, dest='streams_queues', help='Print API, Functions, Resource management, Gateways, Streams and Queues')
+    parser.add_argument('-s', '-api', '-rm', '-fun', action='store_true', default=False, dest='streams_queues', help='Print API, Functions, Resource management, Gateways, Streams and Queues.')
 
-    parser.add_argument('-m', '-sec', '-lq', '-e', '-b', action='store_true', default=False, dest='monitoring', help='Print Monitor, Events, Agents, Security, Quotas, E-Mail, Limits...')
-    parser.add_argument('-paas', '-dataai', action='store_true', default=False, dest='paas_native', help='Print Native, Data and AI')
-    parser.add_argument('-n', '-l', action='store_true', default=False, dest='network', help='Print Network')
+    parser.add_argument('-m', '-sec', '-lq', '-e', '-b', action='store_true', default=False, dest='monitoring', help='Print Monitor, Events, Agents, Security, Quotas, E-Mail, Limits, Cert...')
+    parser.add_argument('-paas', '-dataai', action='store_true', default=False, dest='paas_native', help='Print Native, Data and AI.')
+    parser.add_argument('-n', '-l', action='store_true', default=False, dest='network', help='Print Network.')
 
-    parser.add_argument('-exclude', default="", dest='exclude', help='Exclude Services, Currently support NETWORK, QUOTAS, LIMITS, DNSZONE, VCIRCUITS')
-    parser.add_argument('-noparallel', action='store_true', default=False, dest='skip_threads', help='Do not run in parallel processing (Threads)')
-    parser.add_argument('-threads', default=8, dest='threads', type=int, help='Threads Processes when running with Threads (Default=8)')
-    parser.add_argument('-nobackups', action='store_true', default=False, dest='skip_backups', help='Do not process backups')
-    parser.add_argument('-skipdbhomes', action='store_true', default=False, dest='skip_dbhomes', help='Do not process Database Homes and Below')
-    parser.add_argument('-readtimeout', default=20, dest='readtimeout', type=int, help='Timeout for REST API Connection (Default=20)')
-    parser.add_argument('-conntimeout', default=150, dest='conntimeout', type=int, help='Timeout for REST API Read (Default=150)')
-    parser.add_argument('-so', action='store_true', default=False, dest='sumonly', help='Print Summary Only')
-    parser.add_argument('-mc', action='store_true', default=False, dest='mgdcompart', help='exclude ManagedCompartmentForPaaS')
-    parser.add_argument('-nr', action='store_true', default=False, dest='noroot', help='Not include root compartment')
-    parser.add_argument('-ip', action='store_true', default=False, dest='instance_principals', help='Use Instance Principals for Authentication')
-    parser.add_argument('-rp', action='store_true', default=False, dest='resource_principals', help='Use Resource Principals for Authentication')
-    parser.add_argument('-is', action='store_true', default=False, dest='security_token', help='Use Config and Security Token for Authentication')
-    parser.add_argument('-dt', action='store_true', default=False, dest='delegation_token', help='Use Delegation Token (Cloud shell)')
-    parser.add_argument('-t', default="", dest='profile', help='Config file section to use (tenancy profile)')
-    parser.add_argument('-p', default="", dest='proxy', help='Set Proxy (i.e. www-proxy-server.com:80) ')
-    parser.add_argument('-rg', default="", dest='region', help='Filter by Region, partial name or comma seperated')
-    parser.add_argument('-rgn', default="", dest='not_region', help='Filter by Region, do not include region partial name or comma seperated')
-    parser.add_argument('-cp', default="", dest='compart', help='Filter by Compartment Name or OCID')
-    parser.add_argument('-cpr', default="", dest='compart_recur', help='Filter by Comp Name Recursive')
-    parser.add_argument('-cpath', default="", dest='compartpath', help='Filter by Compartment path ,(i.e. -cpath "Adi / Sub"')
-    parser.add_argument('-tenantid', default="", dest='tenantid', help='Override confile file tenancy_id')
-    parser.add_argument('-cf', type=argparse.FileType('r'), dest='config', help="Config File (~/.oci/config)")
-    parser.add_argument('-csv', default="", dest='csv', help="Output to CSV files, Input as file header")
-    parser.add_argument('-csvcol', default="", dest='csvcol', help="Extract define tags as columns for Compute in CSV")
-    parser.add_argument('-csv_nodate', action='store_true', default=False, dest='csv_nodate', help='Do not add date field to the csv')
-    parser.add_argument('-csv_notagstocols', action='store_true', default=False, dest='csv_notagstocols', help='Do not Convert Tags to Columns in CSV Extract')
-    parser.add_argument('-jf', type=argparse.FileType('w'), dest='joutfile', help="Output to file   (JSON format)")
-    parser.add_argument('-js', action='store_true', default=False, dest='joutscr', help="Output to screen (JSON format)")
-    parser.add_argument('-sjf', type=argparse.FileType('w'), dest='sjoutfile', help="Output to screen (nice format) and JSON File")
-    parser.add_argument('-cachef', type=argparse.FileType('w'), dest='servicefile', help="Output Cache to file   (JSON format)")
-    parser.add_argument('-caches', action='store_true', default=False, dest='servicescr', help="Output Cache to screen (JSON format)")
+    parser.add_argument('-exclude', default="", dest='exclude', help='Exclude Services, use -excludelist to for list of values')
+    parser.add_argument('-excludelist', action='store_true', default=False, dest='excludelist', help='Generate Exclude List for -exclude command')
+    parser.add_argument('-noparallel', action='store_true', default=False, dest='skip_threads', help='Do not run in parallel processing (Threads).')
+    parser.add_argument('-threads', default=8, dest='threads', type=int, help='Threads Processes when running with Threads (default=8).')
+    parser.add_argument('-nobackups', action='store_true', default=False, dest='skip_backups', help='Do not process backups.')
+    parser.add_argument('-skipdbhomes', action='store_true', default=False, dest='skip_dbhomes', help='Do not process Database Homes and below.')
+    parser.add_argument('-readtimeout', default=20, dest='readtimeout', type=int, help='Timeout for REST API Connection (default=20).')
+    parser.add_argument('-conntimeout', default=150, dest='conntimeout', type=int, help='Timeout for REST API Read (default=150).')
+    parser.add_argument('-so', action='store_true', default=False, dest='sumonly', help='Print Summary Only.')
+    parser.add_argument('-mc', action='store_true', default=False, dest='mgdcompart', help='Exclude ManagedCompartmentForPaaS.')
+    parser.add_argument('-nr', action='store_true', default=False, dest='noroot', help='Not include root compartment.')
+    parser.add_argument('-ip', action='store_true', default=False, dest='instance_principals', help='Use Instance Principals for authentication.')
+    parser.add_argument('-rp', action='store_true', default=False, dest='resource_principals', help='Use Resource Principals for authentication.')
+    parser.add_argument('-is', action='store_true', default=False, dest='security_token', help='Use Config and Security Token for authentication.')
+    parser.add_argument('-dt', action='store_true', default=False, dest='delegation_token', help='Use Delegation Token (Cloud Shell).')
+    parser.add_argument('-t', default="", dest='profile', help='Config file section to use (tenancy profile).')
+    parser.add_argument('-p', default="", dest='proxy', help='Set Proxy (i.e. www-proxy-server.com:80).')
+    parser.add_argument('-rg', default="", dest='region', help='Filter by Region, partial name or comma seperated.')
+    parser.add_argument('-rgn', default="", dest='not_region', help='Filter by Region, do not include region partial name or comma seperated.')
+    parser.add_argument('-cp', default="", dest='compart', help='Filter by Compartment Name or OCID.')
+    parser.add_argument('-cpr', default="", dest='compart_recur', help='Filter by Compartment Name Recursive.')
+    parser.add_argument('-cpath', default="", dest='compartpath', help='Filter by Compartment path (i.e. -cpath "Adi / Sub").')
+    parser.add_argument('-tenantid', default="", dest='tenantid', help='Override confile file tenancy_id.')
+    parser.add_argument('-cf', type=argparse.FileType('r'), dest='config', help="Config File (~/.oci/config).")
+    parser.add_argument('-csv', default="", dest='csv', help="Output to CSV files, Input as file header.")
+    parser.add_argument('-csvcol', default="", dest='csvcol', help="Extract define tags as columns for Compute in CSV.")
+    parser.add_argument('-csv_nodate', action='store_true', default=False, dest='csv_nodate', help='Do not add date field to the CSV.')
+    parser.add_argument('-csv_notagstocols', action='store_true', default=False, dest='csv_notagstocols', help='Do not Convert Tags to Columns in CSV Extract.')
+    parser.add_argument('-jf', type=argparse.FileType('w'), dest='joutfile', help="Output to file (JSON format).")
+    parser.add_argument('-js', action='store_true', default=False, dest='joutscr', help="Output to screen (JSON format).")
+    parser.add_argument('-sjf', type=argparse.FileType('w'), dest='sjoutfile', help="Output to screen (nice format) and JSON File.")
+    parser.add_argument('-cachef', type=argparse.FileType('w'), dest='servicefile', help="Output Cache to file (JSON format).")
+    parser.add_argument('-caches', action='store_true', default=False, dest='servicescr', help="Output Cache to screen (JSON format).")
     parser.add_argument('--version', action='version', version='%(prog)s ' + version)
 
     if not argsList:
@@ -399,12 +406,12 @@ def set_parser_arguments(argsList=[]):
 
     if not (result.all or result.allnoiam or result.network or result.identity or result.identity_compartments or
             result.compute or result.database or result.file or result.streams_queues or result.monitoring or
-            result.edge or result.announcement or result.paas_native):
+            result.edge or result.announcement or result.paas_native or result.excludelist):
 
         parser.print_help()
 
         print("******************************************************")
-        print("***    You must choose at least one parameter!!    ***")
+        print("***    You must choose at least one parameter!     ***")
         print("******************************************************")
         return None
 
@@ -463,6 +470,7 @@ def set_service_extract_flags(cmd):
 
     if cmd.all or cmd.allnoiam or cmd.announcement:
         prm.read_announcement = True
+        prm.read_announcement_days = cmd.announcement_days
 
     if cmd.all or cmd.allnoiam or cmd.edge:
         prm.read_edge = True
@@ -473,6 +481,9 @@ def set_service_extract_flags(cmd):
     if cmd.skip_backups:
         prm.skip_backups = True
 
+    if cmd.datasafe_assessments:
+        prm.read_datasafe_assessments = True
+
     if cmd.skip_threads:
         prm.skip_threads = True
 
@@ -481,6 +492,9 @@ def set_service_extract_flags(cmd):
 
     if cmd.exclude:
         prm.exclude = str(cmd.exclude).split(",")
+
+    if cmd.excludelist:
+        prm.excludelist = True
 
     if cmd.conntimeout:
         prm.connection_timeout = cmd.conntimeout
@@ -524,6 +538,9 @@ def set_service_extract_flags(cmd):
 
     if cmd.security_token:
         prm.use_security_token = True
+
+    if cmd.identity_old:
+        prm.read_identity_old = True
 
     if cmd.skip_identity_user_credential:
         prm.skip_identity_user_credential = True
