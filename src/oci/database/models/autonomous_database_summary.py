@@ -476,6 +476,10 @@ class AutonomousDatabaseSummary(object):
             The value to assign to the connection_urls property of this AutonomousDatabaseSummary.
         :type connection_urls: oci.database.models.AutonomousDatabaseConnectionUrls
 
+        :param public_connection_urls:
+            The value to assign to the public_connection_urls property of this AutonomousDatabaseSummary.
+        :type public_connection_urls: oci.database.models.AutonomousDatabaseConnectionUrls
+
         :param license_model:
             The value to assign to the license_model property of this AutonomousDatabaseSummary.
             Allowed values for this property are: "LICENSE_INCLUDED", "BRING_YOUR_OWN_LICENSE", 'UNKNOWN_ENUM_VALUE'.
@@ -505,6 +509,10 @@ class AutonomousDatabaseSummary(object):
         :param private_endpoint:
             The value to assign to the private_endpoint property of this AutonomousDatabaseSummary.
         :type private_endpoint: str
+
+        :param public_endpoint:
+            The value to assign to the public_endpoint property of this AutonomousDatabaseSummary.
+        :type public_endpoint: str
 
         :param private_endpoint_label:
             The value to assign to the private_endpoint_label property of this AutonomousDatabaseSummary.
@@ -837,6 +845,7 @@ class AutonomousDatabaseSummary(object):
             'service_console_url': 'str',
             'connection_strings': 'AutonomousDatabaseConnectionStrings',
             'connection_urls': 'AutonomousDatabaseConnectionUrls',
+            'public_connection_urls': 'AutonomousDatabaseConnectionUrls',
             'license_model': 'str',
             'used_data_storage_size_in_tbs': 'int',
             'freeform_tags': 'dict(str, str)',
@@ -844,6 +853,7 @@ class AutonomousDatabaseSummary(object):
             'subnet_id': 'str',
             'nsg_ids': 'list[str]',
             'private_endpoint': 'str',
+            'public_endpoint': 'str',
             'private_endpoint_label': 'str',
             'private_endpoint_ip': 'str',
             'db_version': 'str',
@@ -953,6 +963,7 @@ class AutonomousDatabaseSummary(object):
             'service_console_url': 'serviceConsoleUrl',
             'connection_strings': 'connectionStrings',
             'connection_urls': 'connectionUrls',
+            'public_connection_urls': 'publicConnectionUrls',
             'license_model': 'licenseModel',
             'used_data_storage_size_in_tbs': 'usedDataStorageSizeInTBs',
             'freeform_tags': 'freeformTags',
@@ -960,6 +971,7 @@ class AutonomousDatabaseSummary(object):
             'subnet_id': 'subnetId',
             'nsg_ids': 'nsgIds',
             'private_endpoint': 'privateEndpoint',
+            'public_endpoint': 'publicEndpoint',
             'private_endpoint_label': 'privateEndpointLabel',
             'private_endpoint_ip': 'privateEndpointIp',
             'db_version': 'dbVersion',
@@ -1068,6 +1080,7 @@ class AutonomousDatabaseSummary(object):
         self._service_console_url = None
         self._connection_strings = None
         self._connection_urls = None
+        self._public_connection_urls = None
         self._license_model = None
         self._used_data_storage_size_in_tbs = None
         self._freeform_tags = None
@@ -1075,6 +1088,7 @@ class AutonomousDatabaseSummary(object):
         self._subnet_id = None
         self._nsg_ids = None
         self._private_endpoint = None
+        self._public_endpoint = None
         self._private_endpoint_label = None
         self._private_endpoint_ip = None
         self._db_version = None
@@ -1909,6 +1923,10 @@ class AutonomousDatabaseSummary(object):
         **[Required]** Gets the data_storage_size_in_tbs of this AutonomousDatabaseSummary.
         The quantity of data in the database, in terabytes.
 
+        The following points apply to Autonomous Databases on Serverless Infrastructure:
+        - This is an integer field whose value remains null when the data size is in GBs and cannot be converted to TBs (by dividing the GB value by 1024) without rounding error.
+        - To get the exact value of data storage size without rounding error, please see `dataStorageSizeInGBs` of Autonomous Database.
+
 
         :return: The data_storage_size_in_tbs of this AutonomousDatabaseSummary.
         :rtype: int
@@ -1920,6 +1938,10 @@ class AutonomousDatabaseSummary(object):
         """
         Sets the data_storage_size_in_tbs of this AutonomousDatabaseSummary.
         The quantity of data in the database, in terabytes.
+
+        The following points apply to Autonomous Databases on Serverless Infrastructure:
+        - This is an integer field whose value remains null when the data size is in GBs and cannot be converted to TBs (by dividing the GB value by 1024) without rounding error.
+        - To get the exact value of data storage size without rounding error, please see `dataStorageSizeInGBs` of Autonomous Database.
 
 
         :param data_storage_size_in_tbs: The data_storage_size_in_tbs of this AutonomousDatabaseSummary.
@@ -1957,6 +1979,8 @@ class AutonomousDatabaseSummary(object):
         Gets the data_storage_size_in_gbs of this AutonomousDatabaseSummary.
         The quantity of data in the database, in gigabytes.
 
+        For Autonomous Transaction Processing databases using ECPUs on Serverless Infrastructure, this value is always populated. In all the other cases, this value will be null and `dataStorageSizeInTBs` will be populated instead.
+
 
         :return: The data_storage_size_in_gbs of this AutonomousDatabaseSummary.
         :rtype: int
@@ -1968,6 +1992,8 @@ class AutonomousDatabaseSummary(object):
         """
         Sets the data_storage_size_in_gbs of this AutonomousDatabaseSummary.
         The quantity of data in the database, in gigabytes.
+
+        For Autonomous Transaction Processing databases using ECPUs on Serverless Infrastructure, this value is always populated. In all the other cases, this value will be null and `dataStorageSizeInTBs` will be populated instead.
 
 
         :param data_storage_size_in_gbs: The data_storage_size_in_gbs of this AutonomousDatabaseSummary.
@@ -2202,6 +2228,30 @@ class AutonomousDatabaseSummary(object):
         self._connection_urls = connection_urls
 
     @property
+    def public_connection_urls(self):
+        """
+        Gets the public_connection_urls of this AutonomousDatabaseSummary.
+        The Public URLs of Private Endpoint database for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN.
+
+
+        :return: The public_connection_urls of this AutonomousDatabaseSummary.
+        :rtype: oci.database.models.AutonomousDatabaseConnectionUrls
+        """
+        return self._public_connection_urls
+
+    @public_connection_urls.setter
+    def public_connection_urls(self, public_connection_urls):
+        """
+        Sets the public_connection_urls of this AutonomousDatabaseSummary.
+        The Public URLs of Private Endpoint database for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN.
+
+
+        :param public_connection_urls: The public_connection_urls of this AutonomousDatabaseSummary.
+        :type: oci.database.models.AutonomousDatabaseConnectionUrls
+        """
+        self._public_connection_urls = public_connection_urls
+
+    @property
     def license_model(self):
         """
         Gets the license_model of this AutonomousDatabaseSummary.
@@ -2251,7 +2301,7 @@ class AutonomousDatabaseSummary(object):
     def used_data_storage_size_in_tbs(self):
         """
         Gets the used_data_storage_size_in_tbs of this AutonomousDatabaseSummary.
-        The amount of storage that has been used, in terabytes.
+        The amount of storage that has been used for Autonomous Databases in dedicated infrastructure, in terabytes.
 
 
         :return: The used_data_storage_size_in_tbs of this AutonomousDatabaseSummary.
@@ -2263,7 +2313,7 @@ class AutonomousDatabaseSummary(object):
     def used_data_storage_size_in_tbs(self, used_data_storage_size_in_tbs):
         """
         Sets the used_data_storage_size_in_tbs of this AutonomousDatabaseSummary.
-        The amount of storage that has been used, in terabytes.
+        The amount of storage that has been used for Autonomous Databases in dedicated infrastructure, in terabytes.
 
 
         :param used_data_storage_size_in_tbs: The used_data_storage_size_in_tbs of this AutonomousDatabaseSummary.
@@ -2438,6 +2488,30 @@ class AutonomousDatabaseSummary(object):
         :type: str
         """
         self._private_endpoint = private_endpoint
+
+    @property
+    def public_endpoint(self):
+        """
+        Gets the public_endpoint of this AutonomousDatabaseSummary.
+        The public endpoint for the private endpoint enabled resource.
+
+
+        :return: The public_endpoint of this AutonomousDatabaseSummary.
+        :rtype: str
+        """
+        return self._public_endpoint
+
+    @public_endpoint.setter
+    def public_endpoint(self, public_endpoint):
+        """
+        Sets the public_endpoint of this AutonomousDatabaseSummary.
+        The public endpoint for the private endpoint enabled resource.
+
+
+        :param public_endpoint: The public_endpoint of this AutonomousDatabaseSummary.
+        :type: str
+        """
+        self._public_endpoint = public_endpoint
 
     @property
     def private_endpoint_label(self):

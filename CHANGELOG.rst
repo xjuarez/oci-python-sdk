@@ -4,6 +4,141 @@ All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 ====================
+2.129.3 - 2024-07-16
+====================
+
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the me-abudhabi-2 region
+ 
+====================
+2.129.2 - 2024-07-09
+====================
+
+Added
+-----
+* Support for cost management of shared resources in the Usage service
+* Support for creating new databases with oracle key vault on Exadata Cloud at Customer in the Database service
+* Support for confirming key store details on Exadata Cloud at Customer in the Database service
+* Support for Download Manager in the Object Storage service
+
+====================
+2.129.1 - 2024-07-02
+====================
+
+Added
+-----
+* Support for calling Oracle Cloud Infrastructure services in the `ap-singapore-2` region
+* Support for additional parameters in list and delete operations in the File Storage service
+* Support for host capacity planning to analyze disabled and deleted resources in the Operations Insights service
+* Support for title and description updates in the Capacity Management service
+* Support for listing parameters for migrations in the Database Migration service
+* Support for Oracle exadata database service on exascale Infrastructure (ExaDB-XS) in the Database service
+ 
+====================
+2.129.0 - 2024-06-25
+====================
+
+Added
+-----
+* Support for MySQL to MySQL homogeneous migrations in the Database Migration service
+* Support for manual cross-region backups in the MySQL Heatwave service
+  
+Breaking
+--------
+* The models AdvisorSettings, Agent, AgentCollection, AgentImageCollection, AgentImageSummary, AgentSummary, AwsS3DataTransferMediumDetails, AwsS3Details, ChangeAgentCompartmentDetails, ConnectDescriptor, CreateAdvisorSettings, CreateAwsS3Details, CreateConnectDescriptor, CreateDataPumpSettings, CreateDataTransferMediumDetails, CreateDatabaseLinkDetails, CreateDumpTransferDetails, CreateGoldenGateDetails, CreateGoldenGateHub, CreateGoldenGateServiceDetails, CreateGoldenGateServiceDetails, CreatePrivateEndpoint, CreateSshDetails, CreateVaultDetails, DataPumpSettings, DataTransferMediumDetails, DataTransferMediumDetailsV2, DatabaseCredentials, DatabaseLinkDetails, DatabaseObject, DbLinkDataTransferMediumDetails, DumpTransferDetails, GoldenGateDetails, GoldenGateHub, GoldenGateServiceDetails, GoldenGateSettings, MigrationObjectSummary, NfsDataTransferMediumDetails, ObjectStorageDataTransferMediumDetails, PrivateEndpointDetails, SshDetails, UpdateAdvisorSettings, UpdateAgentDetails, UpdateAwsS3Details, UpdateConnectDescriptor, UpdateDataPumpSettings, UpdateDataTransferMediumDetails, UpdateDatabaseLinkDetails, UpdateDumpTransferDetails, UpdateGoldenGateDetails, UpdateGoldenGateHub, UpdateGoldenGateServiceDetails, UpdateGoldenGateSettings, UpdatePrivateEndpoint, UpdateSshDetails, UpdateVaultDetails, VaultDetails were removed in the Database Migration service
+* The operations change_agent_compartment, delete_agent, get_agent, list_agent_images, list_agents, and update_agent were removed in the Database Migration service
+* The composite operations delete_agent_and_wait_for_state and update_agent_and_wait_for_state were removed in the Database Migration service
+* The properties `agent_id`, `source_container_database_connection_id`, `exclude_objects`, `include_objects` and `vault_details` were removed from the model `CloneMigrationDetails` in the Database Migration service
+* The properties `admin_credentials`, `connect_descriptor`, `certificate_tdn`, `credentials_secret_id`, `database_id`, `database_type`, `is_dedicated`, `manual_database_sub_type`, `private_endpoint`, `replication_credentials`, `ssh_details` and `vault_details` were removed in the model `Connection` in the Database Migration service
+* The properties `database_id`, `database_type`, `is_dedicated`, and `manual_database_sub_type` were removed in the model `ConnectionSummary` in the Database Migration service
+* The properties `admin_credentials`, `certificate_tdn`, `connect_descriptor`, `database_id`, `database_type`, `manual_database_sub_type`, `private_endpoint`, `replication_credentials`, `ssh_details`, `tls_keystore`, `tls_wallet` and `vault_details` were removed from the model `CreateConnectionDetails` in the Database Migration service
+* The properties `advisor_settings`, `agent_id`, `csv_text`, `data_transfer_medium_details`, `data_transfer_medium_details_v2`, `datapump_settings`, `dump_transfer_details`, `exclude_objects`, `golden_gate_details`, `golden_gate_service_details`, `include_objects`, `source_container_database_connection_id` and `vault_details` were removed in the model `CreateMigrationDetails` in the Database Migration service
+* The properties `map_parallelism`, `max_apply_parallelism`, and `min_apply_parallelism` were removed in the models `Replicat`, `UpdateReplicat`, and `CreateReplicat` in the Database Migration service
+* The properties `advisor_settings`, `agent_id`, `credentials_secret_id`, `data_transfer_medium_details`, `data_transfer_medium_details_v2`, `datapump_settings`, `dump_transfer_details`, `exclude_objects`, `golden_gate_details`, `golden_gate_service_details`, `include_objects`, `source_container_database_connection_id` and `vault_details` were removed in the model `Migration` in the Database Migration service
+* The properties `csv_text` and `items` were removed in the model `MigrationObjectCollection` in the Database Migration service
+* The properties `agent_id`, `source_container_database_connection_id` and `vault_details` were removed in the model `MigrationSummary` in the Database Migration service
+* The properties `admin_credentials`, `certificate_tdn`, `connect_descriptor`, `database_id`, `private_endpoint`, `replication_credentials`, `ssh_details`, `tls_keystore`, `tls_wallet` and `vault_details` were removed from the model `UpdateConnectionDetails` in the Database Migration service
+* The properties `advisor_settings`, `agent_id`, `data_transfer_medium_details`, `data_transfer_medium_details_v2`, `datapump_settings`, `dump_transfer_details`, `exclude_objects`, `golden_gate_details`, `golden_gate_service_details`, `include_objects`, `source_container_database_connection_id` and `vault_details` were removed in the model `UpdateMigrationDetails` in the Database Migration service
+* Allowed values `ODMS_VALIDATE_GG_SERVICE` and `ODMS_INITIALIZE_GGS` were removed from property `wait_after` in the models `StartMigrationDetails` and `ResumeJobDetails` in the Database Migration service
+* Allowed values `ODMS_VALIDATE_GG_SERVICE` and `ODMS_INITIALIZE_GGS` were removed from property `current_phase` in the model `MigrationJobProgressResource` in the Database Migration service
+* Allowed values `ODMS_VALIDATE_GG_SERVICE` and `ODMS_INITIALIZE_GGS` were removed from property `current_phase` in the model `MigrationJobProgressSummary` in the Database Migration service
+* Allowed values `ODMS_VALIDATE_GG_SERVICE` and `ODMS_INITIALIZE_GGS` were removed from property `name` in the models `MigrationPhaseSummary` and `PhaseStatus` in the Database Migration service
+* Allowed values `ODMS_VALIDATE_GG_SERVICE` and `ODMS_INITIALIZE_GGS` were removed from property `wait_after` in the model `Migration` in the Database Migration service
+ 
+====================
+2.128.2 - 2024-06-18
+====================
+
+Added
+-----
+* Support for public connection urls and public endpoints for autonomous databases in the Database service
+* Support for insurance claim document type in the AI Document service
+* Support for Microsoft IIS discovery and monitoring in the Stack Monitoring service
+ 
+====================
+2.128.1 - 2024-06-11
+====================
+
+Added
+-----
+* Support for 23ai based databases in Globally Distributed Database service
+* Support for testing span enrichment groups in Application Performance Monitoring service
+* Support for subscription suspension and termination orders in Fusion Apps as a Service
+* Support for time first occurred and time last occurred for resource sightings in Cloud Guard service
+* Support for alarm summary, notification title, and slack duration on create and update operations in Monitoring service
+* Support for message creation timestamp in Queue service
+ 
+====================
+2.128.0 - 2024-06-04
+====================
+
+Added
+-----
+* Support for creating cross-region autonomous data guards in the Database service
+* Support for listing autonomous database peers in the Database service
+* Support for dedicated AI clusters in the Generative AI service
+* Support for Llama chat and Lora Fine-Tuning method in the Generative AI service
+* Support for adding and removing locks for connections, deployments, and deployment backups in the GoldenGate service
+* Support for additional connection types for deployments and connections in the GoldenGate service
+ 
+Breaking
+--------
+* The possible allowed values `OPENAI` and `DALLE3` were removed from the property runtime_type in the models LlmInferenceResponse, CohereLlmInferenceResponse, and LlamaLlmInferenceResponse in the Generative AI service
+* The property message was removed from the model CohereMessage in the Generative AI service
+* The property chat_request was made required in the model ChatDetails in the Generative AI service
+ 
+====================
+2.127.0 - 2024-05-28
+====================
+
+Added
+-----
+* Support for Demand Signal service
+* Support for external database connectors in the Database service
+* Support for monitoring standby databases in the Database Management service
+* Support for resource overviews in the Capacity Management service
+* Support for optional parameters in the download API in the Java Management Service Downloads service
+ 
+Breaking
+--------
+* The operation list_occ_availabilities can return any string for the params resource_type and workload_type in the OCI Control Center service
+* The model OccCapacityRequestComputeDetails has been removed in the OCI Control Center service
+* The params resource_type and workload_type can accept any string in the models OccAvailabilitySummary and OccCapacityRequestBaseDetails in the OCI Control Center service
+ 
+====================
+2.126.4 - 2024-05-21
+====================
+
+Added
+-----
+* Support for the Resource Scheduler service
+* Support for Bring Your Own Container (BYOC), custom networking and graceful termination of pipelines in the Data Science service
+* Support for backup and replacement of master, utility, and edge nodes in the Big Data service
+* Support for nested resource principal in the Data Science service
+ 
+====================
 2.126.3 - 2024-05-14
 ====================
 

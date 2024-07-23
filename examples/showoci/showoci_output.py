@@ -22,7 +22,7 @@ import sys
 
 
 class ShowOCIOutput(object):
-    version = "24.05.17"
+    version = "24.07.02"
 
     ##########################################################################
     # spaces for align
@@ -257,6 +257,8 @@ class ShowOCIOutput(object):
                     self.__print_identity_domains_dynamic_groups(domain['display_name'], domain['dynamic_groups'])
                 if 'identity_providers' in domain and domain['identity_providers']:
                     self.__print_identity_domains_idps(domain['display_name'], domain['identity_providers'])
+                if 'policies' in domain and domain['policies']:
+                    self.__print_identity_domains_policies(domain['display_name'], domain['policies'])
 
         except Exception as e:
             self.__print_error("__print_identity_domains", e)
@@ -347,6 +349,38 @@ class ShowOCIOutput(object):
 
         except Exception as e:
             self.__print_error("__print_identity_domains_idps", e)
+
+    ##########################################################################
+    # Print Identity Domains Policies
+    ##########################################################################
+    def __print_identity_domains_policies(self, domain_name, policies):
+        try:
+            header = domain_name + ":Policies"
+            self.print_header(header, 2)
+
+            for val in policies:
+                print(self.taba + val['id'])
+                print(self.tabs + "Name: " + val['name'])
+                if val['policy_type']['value']:
+                    print(self.tabs + "Type: " + val['policy_type']['value'])
+                if val['description']:
+                    print(self.tabs + "Desc: " + val['description'])
+                for rl in val['rules']:
+                    print(self.tabs + "Rule: " + rl['name'] + " - " + rl['value'])
+                    print(self.tabs + "      Position  : " + rl['position'])
+                    for rt in rl['rule_return']:
+                        print(self.tabs + "      Rule Ret  : " + rt['name'] + " - " + rt['value'])
+                    if rl['condition_group']:
+                        cn = rl['condition_group']
+                        if 'name' in cn and 'description' in cn:
+                            print(self.tabs + "      Condition : " + cn['name'] + " - " + cn['description'])
+                        if 'attribute_name' in cn and 'operator' in cn and 'attribute_value' in cn:
+                            if cn['attribute_name'] or cn['operator'] or cn['attribute_value']:
+                                print(self.tabs + "      Attribute : " + cn['attribute_name'] + " - " + cn['operator'] + " - " + cn['attribute_value'])
+                print("")
+
+        except Exception as e:
+            self.__print_error("__print_identity_domains_policies", e)
 
     ##########################################################################
     # Print Identity Groups
@@ -735,10 +769,16 @@ class ShowOCIOutput(object):
                 for index, arr in enumerate(drg['ip_sec_connections'], start=1):
                     drg_route_table = ", DRG Route: " + arr['drg_route_table'] if arr['drg_route_table'] else ""
                     print(self.tabs + "      IPSEC " + str(index) + "   : " + arr['name'] + " (" + arr['tunnels_status'] + ")" + drg_route_table)
+                    if 'logs' in arr:
+                        for log in arr['logs']:
+                            print(self.tabs + self.tabs + "Log : " + log['name'] + " - " + log['source_service'])
 
                 for index, arr in enumerate(drg['virtual_circuits'], start=1):
                     drg_route_table = ", DRG Route: " + arr['drg_route_table'] if arr['drg_route_table'] else ""
                     print(self.tabs + "      VC " + str(index) + "      : " + arr['name'] + " (" + arr['bgp_session_state'] + ")" + drg_route_table)
+                    if 'logs' in arr:
+                        for log in arr['logs']:
+                            print(self.tabs + self.tabs + "Log : " + log['name'] + " - " + log['source_service'])
 
                 for index, arr in enumerate(drg['remote_peerings'], start=1):
                     drg_route_table = ", DRG Route: " + arr['drg_route_table'] if arr['drg_route_table'] else ""
@@ -1904,7 +1944,7 @@ class ShowOCIOutput(object):
                 print("")
 
             if 'db_system' in list_databases:
-                self.print_header("Databases DB Systems", 2)
+                self.print_header("Databases DB Base", 2)
                 self.__print_database_db_system(list_databases['db_system'])
                 print("")
 
@@ -4211,6 +4251,8 @@ class ShowOCICSV(object):
     csv_identity_domains_dyngroups = []
     csv_identity_domains_kmsi_setting = []
     csv_identity_domains_password_policies = []
+    csv_identity_domains_policies = []
+    csv_identity_domains_rules = []
     csv_identity_domains_idps = []
     csv_identity_domains_auth_factors = []
     csv_compute = []
@@ -4382,6 +4424,8 @@ class ShowOCICSV(object):
             self.__export_to_csv_file("identity_domains_idps", self.csv_identity_domains_idps)
             self.__export_to_csv_file("identity_domains_auth", self.csv_identity_domains_auth_factors)
             self.__export_to_csv_file("identity_domains_pwd_policies", self.csv_identity_domains_password_policies)
+            self.__export_to_csv_file("identity_domains_policies", self.csv_identity_domains_policies)
+            self.__export_to_csv_file("identity_domains_rules", self.csv_identity_domains_rules)
 
             self.__export_to_csv_file("functions_apps", self.csv_functions_apps)
             self.__export_to_csv_file("functions_fns", self.csv_functions_fns)
@@ -4792,6 +4836,12 @@ class ShowOCICSV(object):
                 if var['password_policies']:
                     self.__csv_identity_domains_password_policies(var['password_policies'], var['display_name'], var['id'])
 
+                if var['policies']:
+                    self.__csv_identity_domains_policies(var['policies'], var['display_name'], var['id'])
+
+                if var['rules']:
+                    self.__csv_identity_domains_rules(var['rules'], var['display_name'], var['id'])
+
         except Exception as e:
             self.__print_error("__csv_identity_domains", e)
 
@@ -4922,6 +4972,8 @@ class ShowOCICSV(object):
     def __csv_identity_domains_groups(self, groups, domain_name, domain_id):
         try:
             for var in groups:
+                members = "Over 200 members" if len(var['members']) > 200 else str(','.join(x['name'] for x in var['members']))
+                members_ids = "Over 200 members" if len(var['members']) > 200 else str(','.join(x['ocid'] for x in var['members']))
                 data = {
                     'domain_id': domain_id,
                     'domain_name': domain_name,
@@ -4944,8 +4996,8 @@ class ShowOCICSV(object):
                     'tags': str(','.join(x['key'] + "=" + x['value'] for x in var['tags'])),
                     'freeform_tags': self.__get_freeform_tags(var['freeform_tags']),
                     'defined_tags': self.__get_defined_tags(var['defined_tags']),
-                    'members': str(','.join(x['name'] for x in var['members'])),
-                    'members_ids': str(','.join(x['ocid'] for x in var['members'])),
+                    'members': members,
+                    'members_ids': members_ids,
                     'description': var['ext_group']['description'],
                     'creation_mechanism': var['ext_group']['creation_mechanism'],
                     'password_policy': var['ext_group']['password_policy'],
@@ -5311,6 +5363,121 @@ class ShowOCICSV(object):
             self.__print_error("__csv_identity_domains_password_policies", e)
 
     ##########################################################################
+    # CSV Identity Domain Policies
+    ##########################################################################
+    def __csv_identity_domains_policies(self, policies, domain_name, domain_id):
+        try:
+            for var in policies:
+
+                # Generate Rule String
+                rule_string = ""
+                for rl in var['rules']:
+                    rule_string += "Rule: " + rl['name'] + " - " + rl['value'] + "\n"
+                    for rt in rl['rule_return']:
+                        rule_string += "      Rule Ret  : " + rt['name'] + " - " + rt['value'] + "\n"
+                    if rl['condition_group']:
+                        cn = rl['condition_group']
+                        if 'name' in cn and 'description' in cn:
+                            rule_string += "      Condition : " + cn['name'] + " - " + cn['description'] + "\n"
+                        if 'attribute_name' in cn and 'operator' in cn and 'attribute_value' in cn:
+                            if cn['attribute_name'] or cn['operator'] or cn['attribute_value']:
+                                rule_string += "      Attribute : " + cn['attribute_name'] + " - " + cn['operator'] + " - " + cn['attribute_value'] + "\n"
+
+                data = {
+                    'domain_id': domain_id,
+                    'domain_name': domain_name,
+                    'id': var['id'],
+                    'ocid': var['ocid'],
+                    'schemas': var['schemas'],
+                    'meta_resource_type': var['meta']['resource_type'],
+                    'meta_created': var['meta']['created'],
+                    'meta_last_modified': var['meta']['last_modified'],
+                    'meta_location': var['meta']['location'],
+                    'meta_version': var['meta']['version'],
+                    'idcs_created_by': str(var['idcs_created_by']),
+                    'idcs_last_modified_by': str(var['idcs_last_modified_by']),
+                    'idcs_last_upgraded_in_release': str(var['idcs_last_upgraded_in_release']),
+                    'idcs_prevented_operations': str(var['idcs_prevented_operations']),
+                    'tags': str(','.join(x['key'] + "=" + x['value'] for x in var['tags'])),
+                    'compartment_ocid': var['compartment_ocid'],
+                    'domain_ocid': var['domain_ocid'],
+                    'external_id': var['external_id'],
+                    'name': var['name'],
+                    'description': var['description'],
+                    'active': var['active'],
+                    'policy_groovy': var['policy_groovy'],
+                    'rules': str(','.join(x['ref'] + ':' + x['name'] + ':' + x['value'] for x in var['rules'])),
+                    'rule_string': rule_string,
+                    'policy_type_value': var['policy_type']['value'] if var['policy_type'] else "",
+                    'policy_type_ref': var['policy_type']['ref'] if var['policy_type'] else ""
+                }
+                self.csv_identity_domains_policies.append(data)
+
+        except Exception as e:
+            self.__print_error("__csv_identity_domains_policies", e)
+
+    ##########################################################################
+    # CSV Identity Domain Rules
+    ##########################################################################
+    def __csv_identity_domains_rules(self, rules, domain_name, domain_id):
+        try:
+            for var in rules:
+                data = {
+                    'domain_id': domain_id,
+                    'domain_name': domain_name,
+                    'id': var['id'],
+                    'ocid': var['ocid'],
+                    'schemas': var['schemas'],
+                    'meta_resource_type': var['meta']['resource_type'],
+                    'meta_created': var['meta']['created'],
+                    'meta_last_modified': var['meta']['last_modified'],
+                    'meta_location': var['meta']['location'],
+                    'meta_version': var['meta']['version'],
+                    'idcs_created_by': str(var['idcs_created_by']),
+                    'idcs_last_modified_by': str(var['idcs_last_modified_by']),
+                    'idcs_last_upgraded_in_release': str(var['idcs_last_upgraded_in_release']),
+                    'idcs_prevented_operations': str(var['idcs_prevented_operations']),
+                    'tags': str(','.join(x['key'] + "=" + x['value'] for x in var['tags'])),
+                    'compartment_ocid': var['compartment_ocid'],
+                    'domain_ocid': var['domain_ocid'],
+                    'external_id': var['external_id'],
+                    'name': var['name'],
+                    'description': var['description'],
+                    'active': var['active'],
+                    'locked': var['locked'],
+                    'rule_groovy': var['rule_groovy'],
+                    'rule_return': str(','.join(x['name'] + ':' + x['value'] for x in var['rule_return'])),
+                    'policy_ids': str(','.join(x for x in var['policy_ids'])),
+                    'policy_ids_position': str(','.join(x for x in var['policy_ids_position'])),
+                    'policy_names': str(','.join(x for x in var['policy_names'])),
+                    'policy_type_ref': var['policy_type']['ref'] if var['policy_type'] else "",
+                    'policy_type_value': var['policy_type']['value'] if var['policy_type'] else "",
+                    'condition_value': "",
+                    'condition_type': "",
+                    'condition_name': "",
+                    'condition_desc': "",
+                    'condition_attribute_name': "",
+                    'condition_operator': "",
+                    'condition_attribute_value': "",
+                    'condition_evaluate_condition_if': ""
+                }
+                if var['condition_group']:
+                    vr = var['condition_group']
+                    data['condition_value'] = vr['value']
+                    data['condition_name'] = vr['name']
+                    data['condition_type'] = vr['type']
+                    data['condition_desc'] = vr['description']
+                    data['condition_attribute_name'] = vr['attribute_name']
+                    data['condition_operator'] = vr['operator']
+                    data['condition_attribute_value'] = vr['attribute_value']
+                    data['condition_evaluate_condition_if'] = vr['evaluate_condition_if']
+
+                self.csv_identity_domains_rules.append(data)
+
+        except Exception as e:
+            self.__print_error("__csv_identity_domains_rules", e)
+
+    ##########################################################################
     # CSV Identity Compartments
     ##########################################################################
 
@@ -5540,7 +5707,42 @@ class ShowOCICSV(object):
 
             for sl in sec_lists:
                 if len(sl['sec_rules']) == 0:
-                    data = {'region_name': region_name,
+                    data = {
+                        'region_name': region_name,
+                        'vcn_name': vcn['display_name'],
+                        'vcn_cidr': "",
+                        'vcn_cidrs': str(','.join(x for x in vcn['cidr_blocks'])),
+                        'vcn_compartment': vcn['compartment_name'],
+                        'vcn_compartment_path': vcn['compartment_path'],
+                        'sec_name': sl['name'],
+                        'sec_compartment': sl['compartment_name'],
+                        'sec_compartment_path': sl['compartment_path'],
+                        'sec_rules': "Empty",
+                        'direction': "",
+                        'is_stateless': "",
+                        'source': "",
+                        'destination': "",
+                        'protocol': "",
+                        'sec_protocol': "",
+                        'src_port_min': "",
+                        'src_port_max': "",
+                        'dst_port_min': "",
+                        'dst_port_max': "",
+                        'icmp_code': "",
+                        'icmp_type': "",
+                        'description': "",
+                        'security_alert': "FALSE",
+                        'time_created': sl['time_created'][0:16],
+                        'vcn_id': vcn['id'],
+                        'sec_id': sl['id'],
+                        'id': sl['id'] + ":" + str(hash("Empty"))
+                    }
+                    self.csv_network_security_list.append(data)
+
+                else:
+                    for slr in sl['sec_rules']:
+                        data = {
+                            'region_name': region_name,
                             'vcn_name': vcn['display_name'],
                             'vcn_cidr': "",
                             'vcn_cidrs': str(','.join(x for x in vcn['cidr_blocks'])),
@@ -5549,37 +5751,26 @@ class ShowOCICSV(object):
                             'sec_name': sl['name'],
                             'sec_compartment': sl['compartment_name'],
                             'sec_compartment_path': sl['compartment_path'],
-                            'sec_protocol': "",
-                            'is_stateless': "",
-                            'description': "",
-                            'sec_rules': "Empty",
-                            'time_created': sl['time_created'][0:16],
+                            'sec_rules': slr['desc'],
+                            'direction': slr['direction'],
+                            'is_stateless': slr['is_stateless'],
+                            'source': slr['source'],
+                            'destination': slr['destination'],
+                            'protocol': slr['protocol'],
+                            'sec_protocol': slr['protocol_name'],
+                            'src_port_min': slr['src_port_min'],
+                            'src_port_max': slr['src_port_max'],
+                            'dst_port_min': slr['dst_port_min'],
+                            'dst_port_max': slr['dst_port_max'],
+                            'icmp_code': slr['icmp_code'],
+                            'icmp_type': slr['icmp_type'],
+                            'security_alert': slr['security_alert'],
+                            'description': slr['description'],
+                            'time_created': sl['time_created'],
                             'vcn_id': vcn['id'],
                             'sec_id': sl['id'],
-                            'id': sl['id'] + ":" + str(hash("Empty"))
-                            }
-                    self.csv_network_security_list.append(data)
-
-                else:
-                    for slr in sl['sec_rules']:
-                        data = {'region_name': region_name,
-                                'vcn_name': vcn['display_name'],
-                                'vcn_cidr': "",
-                                'vcn_cidrs': str(','.join(x for x in vcn['cidr_blocks'])),
-                                'vcn_compartment': vcn['compartment_name'],
-                                'vcn_compartment_path': vcn['compartment_path'],
-                                'sec_name': sl['name'],
-                                'sec_compartment': sl['compartment_name'],
-                                'sec_compartment_path': sl['compartment_path'],
-                                'sec_protocol': slr['protocol_name'],
-                                'is_stateless': slr['is_stateless'],
-                                'description': slr['description'],
-                                'sec_rules': slr['desc'],
-                                'time_created': sl['time_created'],
-                                'vcn_id': vcn['id'],
-                                'sec_id': sl['id'],
-                                'id': sl['id'] + ":" + str(hash(slr['desc']))
-                                }
+                            'id': sl['id'] + ":" + str(hash(slr['desc']))
+                        }
                         # check if id is in the list already
                         item_exists = False
                         for ls in self.csv_network_security_list:
@@ -5649,6 +5840,7 @@ class ShowOCICSV(object):
                         'cpe_local_identifier': arr['cpe_local_identifier'],
                         'cpe_time_created': arr['time_created'][0:16],
                         'routes': str(', '.join(x for x in arr['routes'])),
+                        'logs': str(', '.join(x['name'] for x in arr['logs'])),
                         'drg_id': arr['drg_id'],
                         'cpe_id': arr['cpe_id'],
                         'ipsec_id': arr['id'],
@@ -5700,6 +5892,7 @@ class ShowOCICSV(object):
                     'cross_connect_mappings': arr['cross_connect_mappings'],
                     'type': arr['type'],
                     'drg_route_table': arr['drg_route_table'],
+                    'logs': str(', '.join(x['name'] for x in arr['logs'])),
                     'drg_id': arr['drg_id'],
                     'drg_route_table_id': arr['drg_route_table_id'],
                     'time_created': arr['time_created'],
@@ -5783,7 +5976,49 @@ class ShowOCICSV(object):
 
             for sl in nsg:
                 if len(sl['sec_rules']) == 0:
-                    data = {'region_name': region_name,
+                    data = {
+                        'region_name': region_name,
+                        'vcn_name': vcn['display_name'],
+                        'vcn_cidr': "",
+                        'vcn_cidrs': str(','.join(x for x in vcn['cidr_blocks'])),
+                        'vcn_compartment': vcn['compartment_name'],
+                        'vcn_compartment_path': vcn['compartment_path'],
+                        'sec_name': sl['name'],
+                        'sec_compartment': sl['compartment_name'],
+                        'sec_compartment_path': sl['compartment_path'],
+                        'rule_id': '',
+                        'sec_rules': "Empty",
+                        'direction': '',
+                        'is_stateless': '',
+                        'is_valid': '',
+                        'source': '',
+                        'source_name': '',
+                        'source_type': '',
+                        'destination': '',
+                        'destination_name': '',
+                        'destination_type': '',
+                        'protocol': '',
+                        'sec_protocol': '',
+                        'src_port_min': '',
+                        'src_port_max': '',
+                        'dst_port_min': '',
+                        'dst_port_max': '',
+                        'icmp_code': '',
+                        'icmp_type': '',
+                        'sec_time_created': '',
+                        'security_alert': "FALSE",
+                        'description': '',
+                        'time_created': sl['time_created'],
+                        'vcn_id': vcn['id'],
+                        'sec_id': sl['id'],
+                        'id': sl['id'] + ":Empty"
+                    }
+                    self.csv_network_security_group.append(data)
+
+                else:
+                    for slr in sl['sec_rules']:
+                        data = {
+                            'region_name': region_name,
                             'vcn_name': vcn['display_name'],
                             'vcn_cidr': "",
                             'vcn_cidrs': str(','.join(x for x in vcn['cidr_blocks'])),
@@ -5792,37 +6027,33 @@ class ShowOCICSV(object):
                             'sec_name': sl['name'],
                             'sec_compartment': sl['compartment_name'],
                             'sec_compartment_path': sl['compartment_path'],
-                            'sec_protocol': "",
-                            'is_stateless': "",
-                            'description': "",
-                            'sec_rules': "Empty",
+                            'rule_id': slr['id'],
+                            'sec_rules': slr['desc'],
+                            'direction': slr['direction'],
+                            'protocol': slr['protocol'],
+                            'sec_protocol': slr['protocol_name'],
+                            'is_stateless': slr['is_stateless'],
+                            'is_valid': slr['is_valid'],
+                            'source': slr['source'],
+                            'source_name': slr['source_name'],
+                            'source_type': slr['source_type'],
+                            'destination': slr['destination'],
+                            'destination_name': slr['destination_name'],
+                            'destination_type': slr['destination_type'],
+                            'src_port_min': slr['src_port_min'],
+                            'src_port_max': slr['src_port_max'],
+                            'dst_port_min': slr['dst_port_min'],
+                            'dst_port_max': slr['dst_port_max'],
+                            'icmp_code': slr['icmp_code'],
+                            'icmp_type': slr['icmp_type'],
+                            'description': slr['description'],
+                            'security_alert': slr['security_alert'],
+                            'sec_time_created': slr['time_created'],
                             'time_created': sl['time_created'],
                             'vcn_id': vcn['id'],
                             'sec_id': sl['id'],
-                            'id': sl['id'] + ":Empty"
-                            }
-                    self.csv_network_security_group.append(data)
-
-                else:
-                    for slr in sl['sec_rules']:
-                        data = {'region_name': region_name,
-                                'vcn_name': vcn['display_name'],
-                                'vcn_cidr': "",
-                                'vcn_cidrs': str(','.join(x for x in vcn['cidr_blocks'])),
-                                'vcn_compartment': vcn['compartment_name'],
-                                'vcn_compartment_path': vcn['compartment_path'],
-                                'sec_name': sl['name'],
-                                'sec_compartment': sl['compartment_name'],
-                                'sec_compartment_path': sl['compartment_path'],
-                                'sec_protocol': slr['protocol_name'],
-                                'is_stateless': slr['is_stateless'],
-                                'description': slr['description'],
-                                'sec_rules': slr['desc'],
-                                'time_created': sl['time_created'],
-                                'vcn_id': vcn['id'],
-                                'sec_id': sl['id'],
-                                'id': sl['id'] + ":" + slr['id']
-                                }
+                            'id': sl['id'] + ":" + slr['id']
+                        }
 
                         # check if id is in the list already
                         item_exists = False
@@ -6101,7 +6332,11 @@ class ShowOCICSV(object):
                         'database_edition': dbs['database_edition_short'],
                         'license_model': dbs['license_model'],
                         'data_subnet': dbs['data_subnet'],
+                        'data_subnet_name': dbs['data_subnet_name'],
+                        'data_vcn_name': dbs['data_vcn_name'],
                         'backup_subnet': dbs['backup_subnet'],
+                        'backup_subnet_name': dbs['backup_subnet_name'],
+                        'backup_vcn_name': dbs['backup_vcn_name'],
                         'scan_ips': str(', '.join(x for x in dbs['scan_ips'])),
                         'vip_ips': str(', '.join(x for x in dbs['vip_ips'])),
                         'cluster_name': dbs['cluster_name'],
@@ -6164,7 +6399,11 @@ class ShowOCICSV(object):
                             'database_edition': dbs['database_edition_short'],
                             'license_model': dbs['license_model'],
                             'data_subnet': dbs['data_subnet'],
+                            'data_subnet_name': dbs['data_subnet_name'],
+                            'data_vcn_name': dbs['data_vcn_name'],
                             'backup_subnet': dbs['backup_subnet'],
+                            'backup_subnet_name': dbs['backup_subnet_name'],
+                            'backup_vcn_name': dbs['backup_vcn_name'],
                             'scan_ips': str(', '.join(x for x in dbs['scan_ips'])),
                             'vip_ips': str(', '.join(x for x in dbs['vip_ips'])),
                             'pdbs': str(', '.join(x['name'] for x in db['pdbs'])),
@@ -6329,7 +6568,11 @@ class ShowOCICSV(object):
                             'database_edition': 'XP',
                             'license_model': vm['license_model'],
                             'data_subnet': vm['data_subnet'],
+                            'data_subnet_name': vm['data_subnet_name'],
+                            'data_vcn_name': vm['data_vcn_name'],
                             'backup_subnet': vm['backup_subnet'],
+                            'backup_subnet_name': vm['backup_subnet_name'],
+                            'backup_vcn_name': vm['backup_vcn_name'],
                             'scan_ips': str(', '.join(x for x in vm['scan_ips'])),
                             'vip_ips': str(', '.join(x for x in vm['vip_ips'])),
                             'cluster_name': vm['cluster_name'],
@@ -6378,7 +6621,11 @@ class ShowOCICSV(object):
                                     'database_edition': 'XP',
                                     'license_model': vm['license_model'],
                                     'data_subnet': vm['data_subnet'],
+                                    'data_subnet_name': vm['data_subnet_name'],
+                                    'data_vcn_name': vm['data_vcn_name'],
                                     'backup_subnet': vm['backup_subnet'],
+                                    'backup_subnet_name': vm['backup_subnet_name'],
+                                    'backup_vcn_name': vm['backup_vcn_name'],
                                     'scan_ips': str(', '.join(x for x in vm['scan_ips'])),
                                     'vip_ips': str(', '.join(x for x in vm['vip_ips'])),
                                     'pdbs': str(', '.join(x['name'] for x in db['pdbs'])),
@@ -6475,8 +6722,6 @@ class ShowOCICSV(object):
                         'cluster_count': len(dbs['vm_clusters']),
                         'cluster_names': str(', '.join(x['display_name'] for x in dbs['vm_clusters'])),
                         'time_created': dbs['time_created'],
-                        'kms_key_id': dbs['kms_key_id'],
-                        'vault_id': dbs['vault_id'],
                         'freeform_tags': self.__get_freeform_tags(dbs['freeform_tags']),
                         'defined_tags': self.__get_defined_tags(dbs['defined_tags']),
                         'maintenance_window': dbs['maintenance_window']['display'] if dbs['maintenance_window'] else "",
@@ -6513,7 +6758,11 @@ class ShowOCICSV(object):
                             'database_edition': 'XP',
                             'license_model': vm['license_model'],
                             'data_subnet': "",
+                            'data_subnet_name': "",
+                            'data_vcn_name': "",
                             'backup_subnet': "",
+                            'backup_subnet_name': "",
+                            'backup_vcn_name': "",
                             'scan_ips': "",
                             'vip_ips': "",
                             'cluster_name': vm['display_name'],
@@ -6564,7 +6813,11 @@ class ShowOCICSV(object):
                                     'database_edition': 'XP',
                                     'license_model': vm['license_model'],
                                     'data_subnet': "",
+                                    'data_subnet_name': "",
+                                    'data_vcn_name': "",
                                     'backup_subnet': "",
+                                    'backup_subnet_name': "",
+                                    'backup_vcn_name': "",
                                     'scan_ips': "",
                                     'vip_ips': "",
                                     'pdbs': str(', '.join(x['name'] for x in db['pdbs'])),
@@ -6592,7 +6845,7 @@ class ShowOCICSV(object):
                             for pdb in db['pdbs']:
                                 data = {
                                     'region_name': region_name,
-                                    'availability_domain': dbs['availability_domain'],
+                                    'availability_domain': 'ExaCC',
                                     'compartment_name': dbs['compartment_name'],
                                     'compartment_path': dbs['compartment_path'],
                                     'name': pdb['name'],
@@ -6703,7 +6956,11 @@ class ShowOCICSV(object):
                         'database_edition': 'ADB',
                         'license_model': dbs['license_model'],
                         'data_subnet': "",
+                        'data_subnet_name': "",
+                        'data_vcn_name': "",
                         'backup_subnet': "",
+                        'backup_subnet_name': "",
+                        'backup_vcn_name': "",
                         'scan_ips': "",
                         'vip_ips': "",
                         'pdbs': "",
@@ -6830,8 +7087,12 @@ class ShowOCICSV(object):
                                     'database': db['name'],
                                     'database_edition': 'ADB-D',
                                     'license_model': vm['license_model'],
-                                    'data_subnet': vm['subnet_name'],
+                                    'data_subnet': vm['subnet_name_full'],
+                                    'data_subnet_name': vm['subnet_name'],
+                                    'data_vcn_name': vm['vcn_name'],
                                     'backup_subnet': "",
+                                    'backup_subnet_name': "",
+                                    'backup_vcn_name': "",
                                     'scan_ips': "",
                                     'vip_ips': "",
                                     'pdbs': "",
@@ -6886,10 +7147,10 @@ class ShowOCICSV(object):
                                     'data_safe_status': db['data_safe_status'],
                                     'time_maintenance_begin': db['time_maintenance_begin'],
                                     'time_maintenance_end': db['time_maintenance_end'],
-                                    'subnet_id': vm['subnet_id'] if vm['subnet_id'] != "None" else "",
-                                    'subnet_name': vm['subnet_name'] if vm['subnet_name'] != "None" else "",
-                                    'private_endpoint': db['private_endpoint'] if db['private_endpoint'] != "None" else "",
-                                    'private_endpoint_label': db['private_endpoint_label'] if db['private_endpoint_label'] != "None" else "",
+                                    'subnet_id': vm['subnet_id'],
+                                    'subnet_name': vm['subnet_name'],
+                                    'private_endpoint': db['private_endpoint'],
+                                    'private_endpoint_label': db['private_endpoint_label'],
                                     'nsg_ids': "",
                                     'nsg_names': "",
                                     'whitelisted_ips': db['whitelisted_ips'],

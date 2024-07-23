@@ -147,6 +147,7 @@ API Reference
 * :doc:`Notification Data Plane <ons/client/oci.ons.NotificationDataPlaneClient>`
 * :doc:`Object Storage <object_storage/client/oci.object_storage.ObjectStorageClient>`
 * :doc:`Ocb Agent Svc <cloud_bridge/client/oci.cloud_bridge.OcbAgentSvcClient>`
+* :doc:`Occ Demand Signal <demand_signal/client/oci.demand_signal.OccDemandSignalClient>`
 * :doc:`Occ Metrics <oci_control_center/client/oci.oci_control_center.OccMetricsClient>`
 * :doc:`Oce Instance <oce/client/oci.oce.OceInstanceClient>`
 * :doc:`Oda <oda/client/oci.oda.OdaClient>`
@@ -190,6 +191,7 @@ API Reference
 * :doc:`Rover Cluster <rover/client/oci.rover.RoverClusterClient>`
 * :doc:`Rover Entitlement <rover/client/oci.rover.RoverEntitlementClient>`
 * :doc:`Rover Node <rover/client/oci.rover.RoverNodeClient>`
+* :doc:`Schedule <resource_scheduler/client/oci.resource_scheduler.ScheduleClient>`
 * :doc:`Scheduled Job <os_management_hub/client/oci.os_management_hub.ScheduledJobClient>`
 * :doc:`Sddc <ocvp/client/oci.ocvp.SddcClient>`
 * :doc:`Secrets <secrets/client/oci.secrets.SecretsClient>`
@@ -306,6 +308,7 @@ API Reference
     database_management
     database_migration
     database_tools
+    demand_signal
     desktops
     devops
     disaster_recovery
@@ -376,6 +379,7 @@ API Reference
     recovery
     redis
     resource_manager
+    resource_scheduler
     resource_search
     rover
     sch

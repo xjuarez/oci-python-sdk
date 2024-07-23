@@ -41,6 +41,7 @@ REGIONS_SHORT_NAMES = {
     'aga': 'us-saltlake-2',
     'bog': 'sa-bogota-1',
     'vap': 'sa-valparaiso-1',
+    'xsp': 'ap-singapore-2',
     'lfi': 'us-langley-1',
     'luf': 'us-luke-1',
     'ric': 'us-gov-ashburn-1',
@@ -64,7 +65,8 @@ REGIONS_SHORT_NAMES = {
     'beg': 'eu-jovanovac-1',
     'doh': 'me-dcc-doha-1',
     'avz': 'eu-dcc-zurich-1',
-    'ahu': 'me-abudhabi-3'
+    'ahu': 'me-abudhabi-3',
+    'rkt': 'me-abudhabi-2'
 }
 REGION_REALMS = {
     'ap-chuncheon-1': 'oc1',
@@ -105,6 +107,7 @@ REGION_REALMS = {
     'us-saltlake-2': 'oc1',
     'sa-bogota-1': 'oc1',
     'sa-valparaiso-1': 'oc1',
+    'ap-singapore-2': 'oc1',
 
     'us-langley-1': 'oc2',
     'us-luke-1': 'oc2',
@@ -141,7 +144,9 @@ REGION_REALMS = {
 
     'eu-dcc-zurich-1': 'oc24',
 
-    'me-abudhabi-3': 'oc26'
+    'me-abudhabi-3': 'oc26',
+
+    'me-abudhabi-2': 'oc29'
 }
 REALMS = {
     'oc1': 'oraclecloud.com',
@@ -157,7 +162,8 @@ REALMS = {
     'oc20': 'oraclecloud20.com',
     'oc21': 'oraclecloud21.com',
     'oc24': 'oraclecloud24.com',
-    'oc26': 'oraclecloud26.com'
+    'oc26': 'oraclecloud26.com',
+    'oc29': 'oraclecloud29.com'
 }
 REGIONS = [
     'ap-chuncheon-1',
@@ -198,6 +204,7 @@ REGIONS = [
     'us-saltlake-2',
     'sa-bogota-1',
     'sa-valparaiso-1',
+    'ap-singapore-2',
     'us-langley-1',
     'us-luke-1',
     'us-gov-ashburn-1',
@@ -221,5 +228,6 @@ REGIONS = [
     'eu-jovanovac-1',
     'me-dcc-doha-1',
     'eu-dcc-zurich-1',
-    'me-abudhabi-3'
+    'me-abudhabi-3',
+    'me-abudhabi-2'
 ]

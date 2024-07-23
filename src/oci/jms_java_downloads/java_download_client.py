@@ -22,7 +22,7 @@ missing = Sentinel("Missing")
 
 class JavaDownloadClient(object):
     """
-    The APIs for the download engine of the Java Management Service.
+    The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
     """
 
     def __init__(self, config, **kwargs):
@@ -157,7 +157,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/workRequests/{workRequestId}"
         method = "DELETE"
         operation_name = "cancel_work_request"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequest/CancelWorkRequest"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -263,7 +263,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadReports"
         method = "POST"
         operation_name = "create_java_download_report"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/CreateJavaDownloadReport"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -321,6 +321,7 @@ class JavaDownloadClient(object):
     def create_java_download_token(self, create_java_download_token_details, **kwargs):
         """
         Creates a new JavaDownloadToken in the tenancy with specified attributes.
+        Ensure that you review the license terms before token generation. Visit the <a href=\"https://www.oracle.com/java/technologies/downloads\"/>Oracle Java Downloads</a> page to understand the license terms of the Java version for which you are generating a token. By generating a token, you agree to the associated license terms. See <a href=\"https://www.oracle.com/cis/java/technologies/javase/jdk-faqs.html\">Oracle JDK Licensing - FAQs</a> for detailed information.
 
 
         :param oci.jms_java_downloads.models.CreateJavaDownloadTokenDetails create_java_download_token_details: (required)
@@ -359,7 +360,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadTokens"
         method = "POST"
         operation_name = "create_java_download_token"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/CreateJavaDownloadToken"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -457,7 +458,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaLicenseAcceptanceRecords"
         method = "POST"
         operation_name = "create_java_license_acceptance_record"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/CreateJavaLicenseAcceptanceRecord"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -555,7 +556,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadReports/{javaDownloadReportId}"
         method = "DELETE"
         operation_name = "delete_java_download_report"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/DeleteJavaDownloadReport"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -660,7 +661,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadTokens/{javaDownloadTokenId}"
         method = "DELETE"
         operation_name = "delete_java_download_token"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/DeleteJavaDownloadToken"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -765,7 +766,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaLicenseAcceptanceRecords/{javaLicenseAcceptanceRecordId}"
         method = "DELETE"
         operation_name = "delete_java_license_acceptance_record"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/DeleteJavaLicenseAcceptanceRecord"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -868,7 +869,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/actions/generateArtifactDownloadUrl"
         method = "POST"
         operation_name = "generate_artifact_download_url"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/DownloadUrl/GenerateArtifactDownloadUrl"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -956,7 +957,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadReports/{javaDownloadReportId}"
         method = "GET"
         operation_name = "get_java_download_report"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/GetJavaDownloadReport"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1054,7 +1055,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadReports/{javaDownloadReportId}/content"
         method = "GET"
         operation_name = "get_java_download_report_content"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/GetJavaDownloadReportContent"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1152,7 +1153,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadTokens/{javaDownloadTokenId}"
         method = "GET"
         operation_name = "get_java_download_token"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/GetJavaDownloadToken"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1252,7 +1253,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaLicenses/{licenseType}"
         method = "GET"
         operation_name = "get_java_license"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicense/GetJavaLicense"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1350,7 +1351,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaLicenseAcceptanceRecords/{javaLicenseAcceptanceRecordId}"
         method = "GET"
         operation_name = "get_java_license_acceptance_record"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/GetJavaLicenseAcceptanceRecord"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1448,7 +1449,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/workRequests/{workRequestId}"
         method = "GET"
         operation_name = "get_work_request"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequest/GetWorkRequest"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1591,7 +1592,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadRecords"
         method = "GET"
         operation_name = "list_java_download_records"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadRecord/ListJavaDownloadRecords"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1749,7 +1750,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadReports"
         method = "GET"
         operation_name = "list_java_download_reports"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadReport/ListJavaDownloadReports"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -1917,7 +1918,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadTokens"
         method = "GET"
         operation_name = "list_java_download_tokens"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/ListJavaDownloadTokens"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -2087,7 +2088,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaLicenseAcceptanceRecords"
         method = "GET"
         operation_name = "list_java_license_acceptance_records"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/ListJavaLicenseAcceptanceRecords"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -2245,7 +2246,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaLicenses"
         method = "GET"
         operation_name = "list_java_licenses"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicense/ListJavaLicenses"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -2386,7 +2387,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/workRequests/{workRequestId}/errors"
         method = "GET"
         operation_name = "list_work_request_errors"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequestError/ListWorkRequestErrors"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -2528,7 +2529,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/workRequests/{workRequestId}/logs"
         method = "GET"
         operation_name = "list_work_request_logs"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequestLogEntry/ListWorkRequestLogs"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -2683,7 +2684,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/workRequests"
         method = "GET"
         operation_name = "list_work_requests"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/WorkRequest/ListWorkRequests"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -2811,7 +2812,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/actions/requestSummarizedJavaDownloadCounts"
         method = "POST"
         operation_name = "request_summarized_java_download_counts"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadCountAggregation/RequestSummarizedJavaDownloadCounts"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -2909,7 +2910,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaDownloadTokens/{javaDownloadTokenId}"
         method = "PUT"
         operation_name = "update_java_download_token"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaDownloadToken/UpdateJavaDownloadToken"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -3019,7 +3020,7 @@ class JavaDownloadClient(object):
         resource_path = "/20230601/javaLicenseAcceptanceRecords/{javaLicenseAcceptanceRecordId}"
         method = "PUT"
         operation_name = "update_java_license_acceptance_record"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms-java-download/20230601/JavaLicenseAcceptanceRecord/UpdateJavaLicenseAcceptanceRecord"
+        api_reference_link = ""
 
         # Don't accept unknown kwargs
         expected_kwargs = [
