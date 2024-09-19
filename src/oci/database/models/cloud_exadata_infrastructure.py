@@ -60,6 +60,10 @@ class CloudExadataInfrastructure(object):
             The value to assign to the cluster_placement_group_id property of this CloudExadataInfrastructure.
         :type cluster_placement_group_id: str
 
+        :param subscription_id:
+            The value to assign to the subscription_id property of this CloudExadataInfrastructure.
+        :type subscription_id: str
+
         :param lifecycle_state:
             The value to assign to the lifecycle_state property of this CloudExadataInfrastructure.
             Allowed values for this property are: "PROVISIONING", "AVAILABLE", "UPDATING", "TERMINATING", "TERMINATED", "FAILED", "MAINTENANCE_IN_PROGRESS", 'UNKNOWN_ENUM_VALUE'.
@@ -190,11 +194,16 @@ class CloudExadataInfrastructure(object):
             The value to assign to the defined_file_system_configurations property of this CloudExadataInfrastructure.
         :type defined_file_system_configurations: list[oci.database.models.DefinedFileSystemConfiguration]
 
+        :param is_scheduling_policy_associated:
+            The value to assign to the is_scheduling_policy_associated property of this CloudExadataInfrastructure.
+        :type is_scheduling_policy_associated: bool
+
         """
         self.swagger_types = {
             'id': 'str',
             'compartment_id': 'str',
             'cluster_placement_group_id': 'str',
+            'subscription_id': 'str',
             'lifecycle_state': 'str',
             'display_name': 'str',
             'shape': 'str',
@@ -226,13 +235,15 @@ class CloudExadataInfrastructure(object):
             'db_server_version': 'str',
             'monthly_storage_server_version': 'str',
             'monthly_db_server_version': 'str',
-            'defined_file_system_configurations': 'list[DefinedFileSystemConfiguration]'
+            'defined_file_system_configurations': 'list[DefinedFileSystemConfiguration]',
+            'is_scheduling_policy_associated': 'bool'
         }
 
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
             'cluster_placement_group_id': 'clusterPlacementGroupId',
+            'subscription_id': 'subscriptionId',
             'lifecycle_state': 'lifecycleState',
             'display_name': 'displayName',
             'shape': 'shape',
@@ -264,12 +275,14 @@ class CloudExadataInfrastructure(object):
             'db_server_version': 'dbServerVersion',
             'monthly_storage_server_version': 'monthlyStorageServerVersion',
             'monthly_db_server_version': 'monthlyDbServerVersion',
-            'defined_file_system_configurations': 'definedFileSystemConfigurations'
+            'defined_file_system_configurations': 'definedFileSystemConfigurations',
+            'is_scheduling_policy_associated': 'isSchedulingPolicyAssociated'
         }
 
         self._id = None
         self._compartment_id = None
         self._cluster_placement_group_id = None
+        self._subscription_id = None
         self._lifecycle_state = None
         self._display_name = None
         self._shape = None
@@ -302,6 +315,7 @@ class CloudExadataInfrastructure(object):
         self._monthly_storage_server_version = None
         self._monthly_db_server_version = None
         self._defined_file_system_configurations = None
+        self._is_scheduling_policy_associated = None
 
     @property
     def id(self):
@@ -386,6 +400,34 @@ class CloudExadataInfrastructure(object):
         :type: str
         """
         self._cluster_placement_group_id = cluster_placement_group_id
+
+    @property
+    def subscription_id(self):
+        """
+        Gets the subscription_id of this CloudExadataInfrastructure.
+        The `OCID`__ of the subscription with which resource needs to be associated with.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The subscription_id of this CloudExadataInfrastructure.
+        :rtype: str
+        """
+        return self._subscription_id
+
+    @subscription_id.setter
+    def subscription_id(self, subscription_id):
+        """
+        Sets the subscription_id of this CloudExadataInfrastructure.
+        The `OCID`__ of the subscription with which resource needs to be associated with.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param subscription_id: The subscription_id of this CloudExadataInfrastructure.
+        :type: str
+        """
+        self._subscription_id = subscription_id
 
     @property
     def lifecycle_state(self):
@@ -1198,6 +1240,30 @@ class CloudExadataInfrastructure(object):
         :type: list[oci.database.models.DefinedFileSystemConfiguration]
         """
         self._defined_file_system_configurations = defined_file_system_configurations
+
+    @property
+    def is_scheduling_policy_associated(self):
+        """
+        Gets the is_scheduling_policy_associated of this CloudExadataInfrastructure.
+        If true, the infrastructure is using granular maintenance scheduling preference.
+
+
+        :return: The is_scheduling_policy_associated of this CloudExadataInfrastructure.
+        :rtype: bool
+        """
+        return self._is_scheduling_policy_associated
+
+    @is_scheduling_policy_associated.setter
+    def is_scheduling_policy_associated(self, is_scheduling_policy_associated):
+        """
+        Sets the is_scheduling_policy_associated of this CloudExadataInfrastructure.
+        If true, the infrastructure is using granular maintenance scheduling preference.
+
+
+        :param is_scheduling_policy_associated: The is_scheduling_policy_associated of this CloudExadataInfrastructure.
+        :type: bool
+        """
+        self._is_scheduling_policy_associated = is_scheduling_policy_associated
 
     def __repr__(self):
         return formatted_flat_dict(self)

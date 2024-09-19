@@ -39,8 +39,8 @@ import threading
 # class ShowOCIService
 ##########################################################################
 class ShowOCIService(object):
-    version = "24.07.02"
-    oci_compatible_version = "2.125.0"
+    version = "24.08.27"
+    oci_compatible_version = "2.129.4"
     thread_lock = threading.Lock()
     collection_ljust = 40
 
@@ -90,6 +90,7 @@ class ShowOCIService(object):
     C_IDENTITY_COMPARTMENTS = 'compartments'
     C_IDENTITY_REGIONS = 'regions'
     C_IDENTITY_PROVIDERS = 'providers'
+    C_IDENTITY_PROVIDERS_MAPPING = 'providers_mapping'
     C_IDENTITY_DYNAMIC_GROUPS = 'dynamic_groups'
     C_IDENTITY_NETWORK_SOURCES = 'network_sources'
     C_IDENTITY_USERS_GROUPS_MEMBERSHIP = 'users_groups_membership'
@@ -147,6 +148,8 @@ class ShowOCIService(object):
     C_DATABASE_HOMES = "dhomes"
     C_DATABASE_BACKUPS = "backups"
     C_DATABASE_DBSYSTEMS = "dbsystems"
+    C_DATABASE_EXASCALE_VAULT = "exascale_vault"
+    C_DATABASE_EXASCALE_VMS = "exascale_vmclusters"
     C_DATABASE_EXADATA = "exadata"
     C_DATABASE_EXADATA_VMS = "exadata_vmclusters"
     C_DATABASE_EXACC_ADB_VMS = "exadata_adb_vmclusters"
@@ -1627,6 +1630,7 @@ class ShowOCIService(object):
                         print("\nIdentity Old API (Users and Groups) as requesed...")
                         self.__load_identity_users_groups(identity, tenancy_id)
                         self.__load_identity_dynamic_groups(identity, tenancy_id)
+                        self.__load_identity_providers(identity, tenancy_id)
 
                 # if no identity domains
                 else:
@@ -1639,6 +1643,7 @@ class ShowOCIService(object):
                         self.__load_identity_dynamic_groups(identity, tenancy_id)
                         self.__load_identity_network_sources(identity, tenancy_id)
                         self.__load_identity_policies(identity)
+                        self.__load_identity_providers(identity, tenancy_id)
                         self.__load_identity_cost_tracking_tags(identity, tenancy_id)
                         self.__load_identity_tag_namespace(identity)
 
@@ -1651,6 +1656,7 @@ class ShowOCIService(object):
                             future_dyn = executor.submit(self.__load_identity_dynamic_groups, identity, tenancy_id)
                             future_net = executor.submit(self.__load_identity_network_sources, identity, tenancy_id)
                             future_pol = executor.submit(self.__load_identity_policies, identity)
+                            future_prv = executor.submit(self.__load_identity_providers, identity, tenancy_id)
                             future_cos = executor.submit(self.__load_identity_cost_tracking_tags, identity, tenancy_id)
                             future_tag = executor.submit(self.__load_identity_tag_namespace, identity)
 
@@ -1658,8 +1664,14 @@ class ShowOCIService(object):
                             as_completed([future_dyn])
                             as_completed([future_net])
                             as_completed([future_pol])
+                            as_completed([future_prv])
                             as_completed([future_cos])
                             as_completed([future_tag])
+
+                ####################
+                # Merge IDP Mapping
+                ####################
+                self.__load_identity_merge_idp_mapping()
 
             print("")
             self.__load_print_section_time(section_start_time)
@@ -2290,6 +2302,124 @@ class ShowOCIService(object):
             self.__print_error(e)
 
     ##########################################################################
+    # Print Identity Providers
+    ##########################################################################
+    def __load_identity_providers(self, identity, tenancy_id):
+        provider_data = []
+        mapping_data = []
+        errstr = ""
+        header = "Identity Providers (Old)"
+        self.__load_print_status_with_threads(header)
+        start_time = time.time()
+
+        try:
+            identity_providers = identity.list_identity_providers(
+                "SAML2",
+                tenancy_id,
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
+
+            for provider in identity_providers:
+
+                provider_data.append({
+                    'id': self.get_value(provider.id),
+                    'name': self.get_value(provider.name),
+                    'description': self.get_value(provider.description),
+                    'product_type': self.get_value(provider.product_type),
+                    'protocol': self.get_value(provider.protocol),
+                    'redirect_url': self.get_value(provider.redirect_url),
+                    'metadata_url': self.get_value(provider.metadata_url)
+                })
+
+                # get identity providers mapping groups
+                try:
+                    igm = oci.pagination.list_call_get_all_results(
+                        identity.list_idp_group_mappings,
+                        provider.id,
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                    for ig in igm:
+                        mapping_data.append({
+                            'id': self.get_value(ig.id),
+                            'provider_id': self.get_value(provider.id),
+                            'provider_name': self.get_value(provider.name),
+                            'provider_group_name': self.get_value(ig.idp_group_name),
+                            'domain_name': "",
+                            'oci_group_id': self.get_value(ig.group_id),
+                            'oci_group_name': "",
+                            'time_created': self.get_value(ig.time_created, trim_date=True),
+                            'lifecycle_state': self.get_value(ig.lifecycle_state)
+                        })
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                    else:
+                        self.__load_print_error(e)
+                        errstr += "e"
+
+            # add to data
+            self.data[self.C_IDENTITY][self.C_IDENTITY_PROVIDERS] = provider_data
+            self.data[self.C_IDENTITY][self.C_IDENTITY_PROVIDERS_MAPPING] = mapping_data
+
+            cnt = len(provider_data)
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return
+            else:
+                self.__load_print_error(e)
+        except Exception as e:
+            self.__print_error(e)
+
+    ##########################################################################
+    # Merge IDP Mapping
+    ##########################################################################
+    def __load_identity_merge_idp_mapping(self):
+        try:
+            header = "Identity Providers Mapping Merge (Old)"
+            start_time = time.time()
+            mapping_data = []
+            oci_native_groups = []
+            domains = []
+
+            if self.C_IDENTITY_PROVIDERS_MAPPING in self.data[self.C_IDENTITY]:
+                mapping_data = self.data[self.C_IDENTITY][self.C_IDENTITY_PROVIDERS_MAPPING]
+            if self.C_IDENTITY_GROUPS in self.data[self.C_IDENTITY]:
+                oci_native_groups = self.data[self.C_IDENTITY][self.C_IDENTITY_GROUPS]
+            if self.C_IDENTITY_DOMAINS in self.data[self.C_IDENTITY]:
+                domains = self.data[self.C_IDENTITY][self.C_IDENTITY_DOMAINS]
+
+            cnt = len(mapping_data)
+
+            for map in mapping_data:
+                oci_group_id = map['oci_group_id']
+
+                # find in domains
+                found = False
+                if not found:
+                    for domain in domains:
+                        for grp in domain['groups']:
+                            if grp['ocid'] == oci_group_id:
+                                map['oci_group_name'] = grp['display_name']
+                                map['domain_name'] = domain['display_name']
+                                found = True
+
+                # find in oci native groups
+                for grp in oci_native_groups:
+                    if grp['id'] == oci_group_id:
+                        map['oci_group_name'] = grp['name']
+
+            if cnt > 0:
+                self.__load_print_thread_cnt(header, cnt, start_time, "")
+
+        except Exception as e:
+            self.__print_error(e)
+
+    ##########################################################################
     # Print Dynamic Groups
     ##########################################################################
     def __load_identity_dynamic_groups(self, identity, tenancy_id):
@@ -2348,7 +2478,12 @@ class ShowOCIService(object):
         try:
             network_sources = []
             try:
-                network_sources = oci.pagination.list_call_get_all_results(identity.list_network_sources, tenancy_id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+                network_sources = oci.pagination.list_call_get_all_results(
+                    identity.list_network_sources,
+                    tenancy_id,
+                    retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                ).data
+
             except oci.exceptions.ServiceError as e:
                 if self.__check_service_error(e):
                     self.__load_print_auth_warning(to_print=self.flags.skip_threads)
@@ -2369,13 +2504,15 @@ class ShowOCIService(object):
                     })
 
                 data.append({
-                    'id': str(ns.id),
-                    'name': str(ns.name),
-                    'description': str(ns.description),
+                    'id': self.get_value(ns.id),
+                    'name': self.get_value(ns.name),
+                    'description': self.get_value(ns.description),
                     'virtual_source_list': vcn_list,
                     'public_source_list': ns.public_source_list,
                     'services': ns.services,
-                    'time_created': str(ns.time_created)
+                    'time_created': self.get_value(ns.time_created, trim_date=True),
+                    'defined_tags': [] if ns.defined_tags is None else ns.defined_tags,
+                    'freeform_tags': [] if ns.freeform_tags is None else ns.freeform_tags
                 })
 
             # add to data
@@ -2416,15 +2553,16 @@ class ShowOCIService(object):
 
             # tag = oci.identity.models.Tag
             for tag in tags:
-                dataval = {'tag_namespace_id': str(tag.tag_namespace_id),
-                           'tag_namespace_name': str(tag.tag_namespace_name),
-                           'id': str(tag.id),
-                           'name': str(tag.name),
-                           'description': self.get_value(tag.description),
-                           'is_retired': self.get_value(tag.is_retired),
-                           'time_created': self.get_value(tag.time_created),
-                           'is_cost_tracking': self.get_value(tag.is_cost_tracking)
-                           }
+                dataval = {
+                    'tag_namespace_id': str(tag.tag_namespace_id),
+                    'tag_namespace_name': str(tag.tag_namespace_name),
+                    'id': str(tag.id),
+                    'name': str(tag.name),
+                    'description': self.get_value(tag.description),
+                    'is_retired': self.get_value(tag.is_retired),
+                    'time_created': self.get_value(tag.time_created),
+                    'is_cost_tracking': self.get_value(tag.is_cost_tracking)
+                }
                 data.append(dataval)
 
             # add to data
@@ -8525,6 +8663,7 @@ class ShowOCIService(object):
 
     ##########################################################################
     # __load_section_database_main
+    # Todo ExaScale: list_exascale_db_storage_vaults
     ##########################################################################
     def __load_section_database_main(self):
 
@@ -8569,6 +8708,8 @@ class ShowOCIService(object):
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXTERNAL_PDB)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXTERNAL_NONPDB)
             self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_DATASAFE)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXASCALE_VAULT)
+            self.__initialize_data_key(self.C_DATABASE, self.C_DATABASE_EXASCALE_VMS)
 
             # reference to orm
             db = self.data[self.C_DATABASE]
@@ -8600,6 +8741,8 @@ class ShowOCIService(object):
                 db[self.C_DATABASE_EXTERNAL_PDB] += self.__load_database_external_pdb(database_client, compartments)
                 db[self.C_DATABASE_EXTERNAL_NONPDB] += self.__load_database_external_nonpdb(database_client, compartments)
                 db[self.C_DATABASE_DATASAFE] += self.__load_datasafe_main(datasafe_client, compartments)
+                db[self.C_DATABASE_EXASCALE_VAULT] += self.__load_database_exascale_vault(database_client, compartments)
+                db[self.C_DATABASE_EXASCALE_VMS] += self.__load_database_exascale_vms(database_client, virtual_network, compartments)
 
             ##########################
             # if parallel execution
@@ -8625,6 +8768,8 @@ class ShowOCIService(object):
                     future_EXTERNAL_PDB = executor.submit(self.__load_database_external_pdb, database_client, compartments)
                     future_EXTERNAL_NONPDB = executor.submit(self.__load_database_external_nonpdb, database_client, compartments)
                     future_DATASAFE = executor.submit(self.__load_datasafe_main, datasafe_client, compartments)
+                    future_EXASCALE_VAULT = executor.submit(self.__load_database_exascale_vault, database_client, compartments)
+                    future_EXASCALE_VMS = executor.submit(self.__load_database_exascale_vms, database_client, virtual_network, compartments)
 
                     # db homes fetch backups which depends on standalone backups
                     db[self.C_DATABASE_BACKUPS] += next(as_completed([future_BACKUPS])).result()
@@ -8657,6 +8802,8 @@ class ShowOCIService(object):
                     db[self.C_DATABASE_EXTERNAL_PDB] += next(as_completed([future_EXTERNAL_PDB])).result()
                     db[self.C_DATABASE_EXTERNAL_NONPDB] += next(as_completed([future_EXTERNAL_NONPDB])).result()
                     db[self.C_DATABASE_DATASAFE] += next(as_completed([future_DATASAFE])).result()
+                    db[self.C_DATABASE_EXASCALE_VAULT] += next(as_completed([future_EXASCALE_VAULT])).result()
+                    db[self.C_DATABASE_EXASCALE_VMS] += next(as_completed([future_EXASCALE_VMS])).result()
 
             # Complete Database
             self.__load_print_section_time(section_start_time)
@@ -9217,6 +9364,254 @@ class ShowOCIService(object):
             return data
 
     ##########################################################################
+    # __load_database_exascale_vault
+    ##########################################################################
+
+    def __load_database_exascale_vault(self, database_client, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+
+            errstr = ""
+            header = "Exascale Vaults"
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                # list db system
+                list_exa = []
+                try:
+                    list_exa = oci.pagination.list_call_get_all_results(
+                        database_client.list_exascale_db_storage_vaults,
+                        compartment['id'],
+                        sort_by="DISPLAYNAME",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e, compartment):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    else:
+                        self.__load_print_error(e, compartment)
+                        errstr += "e"
+                        continue
+
+                except Exception as e:
+                    self.__load_print_error(e, compartment)
+                    errstr += "e"
+                    continue
+
+                # dbs = oci.database.models.ExascaleDbStorageVaultSummary
+                for dbs in list_exa:
+                    if not self.check_lifecycle_state_active(dbs.lifecycle_state):
+                        continue
+
+                    value = {
+                        'id': self.get_value(dbs.id),
+                        'display_name': self.get_value(dbs.display_name),
+                        'description': self.get_value(dbs.description),
+                        'availability_domain': self.get_value(dbs.availability_domain),
+                        'time_zone': self.get_value(dbs.time_zone),
+                        'lifecycle_state': self.get_value(dbs.lifecycle_state),
+                        'time_created': self.get_value(dbs.time_created, trim_date=True),
+                        'lifecycle_details': self.get_value(dbs.lifecycle_details),
+                        'total_size_in_gbs': self.get_value(dbs.high_capacity_database_storage.total_size_in_gbs) if dbs.high_capacity_database_storage else "",
+                        'available_size_in_gbs': self.get_value(dbs.high_capacity_database_storage.available_size_in_gbs) if dbs.high_capacity_database_storage else "",
+                        'additional_flash_cache_in_percent': self.get_value(dbs.additional_flash_cache_in_percent),
+                        'vm_cluster_count': self.get_value(dbs.vm_cluster_count),
+                        'sum_info': 'Database Exascale Vault',
+                        'sum_size_gb': self.get_value(dbs.high_capacity_database_storage.total_size_in_gbs) if dbs.high_capacity_database_storage else "",
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'vm_clusters': [],
+                        'defined_tags': [] if dbs.defined_tags is None else dbs.defined_tags,
+                        'freeform_tags': [] if dbs.freeform_tags is None else dbs.freeform_tags,
+                        'region_name': str(self.config['region'])
+                    }
+
+                    # add the data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            else:
+                self.__load_print_error(e)
+                return data
+        except Exception as e:
+            self.__print_error(e)
+            return data
+
+    ##########################################################################
+    # __load_database_exascale_vms
+    ##########################################################################
+
+    def __load_database_exascale_vms(self, database_client, virtual_network, compartments):
+
+        data = []
+        cnt = 0
+        start_time = time.time()
+
+        try:
+
+            errstr = ""
+            header = "Exascale VMClusters"
+            self.__load_print_status_with_threads(header)
+
+            # loop on all compartments
+            for compartment in compartments:
+                # skip managed paas compartment
+                if self.__if_managed_paas_compartment(compartment['name']):
+                    continue
+
+                if self.flags.skip_threads:
+                    print(".", end="")
+
+                # list db system
+                list_vms = []
+                try:
+                    list_vms = oci.pagination.list_call_get_all_results(
+                        database_client.list_exadb_vm_clusters,
+                        compartment['id'],
+                        sort_by="DISPLAYNAME",
+                        retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+                    ).data
+
+                except oci.exceptions.ServiceError as e:
+                    if self.__check_service_error(e, compartment):
+                        self.__load_print_auth_warning(to_print=self.flags.skip_threads)
+                        errstr += "a"
+                        continue
+                    else:
+                        self.__load_print_error(e, compartment)
+                        errstr += "e"
+                        continue
+
+                except Exception as e:
+                    self.__load_print_error(e, compartment)
+                    errstr += "e"
+                    continue
+
+                # dbs = oci.database.models.ExadbVmClusterSummary
+                for arr in list_vms:
+                    if not self.check_lifecycle_state_active(arr.lifecycle_state):
+                        continue
+
+                    value = {
+                        'id': self.get_value(arr.id),
+                        'availability_domain': self.get_value(arr.availability_domain),
+                        'data_subnet_id': self.get_value(arr.subnet_id),
+                        'data_subnet': self.get_network_subnet(str(arr.subnet_id), True),
+                        'data_subnet_name': self.get_network_subnet(str(arr.subnet_id)),
+                        'data_vcn_name': self.get_network_subnet(str(arr.subnet_id), vcn_name_only=True),
+                        'backup_subnet_id': self.get_value(arr.backup_subnet_id),
+                        'backup_subnet': "" if arr.backup_subnet_id is None else self.get_network_subnet(str(arr.backup_subnet_id), True),
+                        'backup_subnet_name': "" if arr.backup_subnet_id is None else self.get_network_subnet(str(arr.backup_subnet_id)),
+                        'backup_vcn_name': "" if arr.backup_subnet_id is None else self.get_network_subnet(str(arr.backup_subnet_id), vcn_name_only=True),
+                        'nsg_ids': arr.nsg_ids,
+                        'backup_network_nsg_ids': self.get_value(arr.backup_network_nsg_ids),
+                        'last_update_history_entry_id': self.get_value(arr.last_update_history_entry_id),
+                        'listener_port': self.get_value(arr.listener_port),
+                        'lifecycle_state': self.get_value(arr.lifecycle_state),
+                        'node_count': self.get_value(arr.node_count),
+                        'shape': self.get_value(arr.shape),
+                        'display_name': self.get_value(arr.display_name),
+                        'time_created': self.get_value(arr.time_created),
+                        'lifecycle_details': self.get_value(arr.lifecycle_details),
+                        'time_zone': self.get_value(arr.time_zone),
+                        'hostname': self.get_value(arr.hostname),
+                        'domain': self.get_value(arr.domain),
+                        'cluster_name': self.get_value(arr.cluster_name),
+                        'gi_version': self.get_value(arr.gi_version),
+                        'grid_image_id': self.get_value(arr.grid_image_id),
+                        'grid_image_type': self.get_value(arr.grid_image_type),
+                        'system_version': self.get_value(arr.system_version),
+                        'ssh_public_keys': self.get_value(arr.ssh_public_keys),
+                        'license_model': self.get_value(arr.license_model),
+                        'scan_ip_ids': self.get_value(arr.scan_ip_ids),
+                        'vip_ids': self.get_value(arr.vip_ids),
+                        'scan_dns_record_id': self.get_value(arr.scan_dns_record_id),
+                        'scan_dns_name': self.get_value(arr.scan_dns_name),
+                        'zone_id': self.get_value(arr.zone_id),
+                        'scan_listener_port_tcp_ssl': self.get_value(arr.scan_listener_port_tcp_ssl),
+                        'scan_listener_port_tcp': self.get_value(arr.scan_listener_port_tcp),
+                        'private_zone_id': self.get_value(arr.private_zone_id),
+                        'total_e_cpu_count': self.get_value(arr.total_e_cpu_count),
+                        'enabled_e_cpu_count': self.get_value(arr.enabled_e_cpu_count),
+                        'vm_file_system_storage_in_gbs': self.get_value(arr.vm_file_system_storage.total_size_in_gbs) if arr.vm_file_system_storage else "",
+                        'snapshot_file_system_storage_in_gbs': self.get_value(arr.snapshot_file_system_storage.total_size_in_gbs) if arr.snapshot_file_system_storage else "",
+                        'total_file_system_storage_in_gbs': self.get_value(arr.total_file_system_storage.total_size_in_gbs) if arr.total_file_system_storage else "",
+                        'exascale_db_storage_vault_id': self.get_value(arr.exascale_db_storage_vault_id),
+                        'memory_size_in_gbs': self.get_value(arr.memory_size_in_gbs),
+                        'db_homes': self.__load_database_dbsystems_dbhomes(arr.id, exa=True),
+                        'db_nodes': self.__load_database_dbsystems_dbnodes(database_client, virtual_network, compartment, arr.id, exa=True),
+                        'region_name': str(self.config['region']),
+                        'scan_ips': [],
+                        'vip_ips': [],
+                        'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
+                        'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id'])
+                    }
+
+                    # license model
+                    if arr.license_model == oci.database.models.CloudVmClusterSummary.LICENSE_MODEL_LICENSE_INCLUDED:
+                        value['license_model'] = "INCL"
+                    elif arr.license_model == oci.database.models.CloudVmClusterSummary.LICENSE_MODEL_BRING_YOUR_OWN_LICENSE:
+                        value['license_model'] = "BYOL"
+                    else:
+                        value['license_model'] = str(arr.license_model)
+
+                    # scan IPs
+                    if arr.scan_ip_ids is not None:
+                        scan_ips = []
+                        for scan_ip in arr.scan_ip_ids:
+                            scan_ips.append(self.__load_core_network_single_privateip(virtual_network, scan_ip))
+                        value['scan_ips'] = scan_ips
+
+                    # VIPs
+                    if arr.vip_ids is not None:
+                        vip_ips = []
+                        for vipip in arr.vip_ids:
+                            vip_ips.append(self.__load_core_network_single_privateip(virtual_network, vipip))
+                        value['vip_ips'] = vip_ips
+
+                    # add the data
+                    cnt += 1
+                    data.append(value)
+
+            self.__load_print_thread_cnt(header, cnt, start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            else:
+                self.__load_print_error(e)
+                return data
+        except Exception as e:
+            self.__print_error(e)
+            return data
+
+    ##########################################################################
     # __load_database_exadata_infrastructure
     ##########################################################################
 
@@ -9272,33 +9667,58 @@ class ShowOCIService(object):
                     if not self.check_lifecycle_state_active(dbs.lifecycle_state):
                         continue
 
-                    value = {'id': str(dbs.id),
-                             'display_name': str(dbs.display_name),
-                             'shape': str(dbs.shape),
-                             'shape_ocpu': 0,
-                             'shape_memory_gb': 0,
-                             'shape_storage_tb': 0,
-                             'version': 'XP',
-                             'lifecycle_state': str(dbs.lifecycle_state),
-                             'lifecycle_details': str(dbs.lifecycle_details),
-                             'availability_domain': str(dbs.availability_domain),
-                             'storage_count': str(dbs.storage_count) if dbs.storage_count else "",
-                             'compute_count': str(dbs.compute_count) if dbs.compute_count else "",
-                             'total_storage_size_in_gbs': str(dbs.total_storage_size_in_gbs),
-                             'available_storage_size_in_gbs': str(dbs.available_storage_size_in_gbs),
-                             'compartment_name': str(compartment['name']),
-                             'compartment_path': str(compartment['path']),
-                             'compartment_id': str(compartment['id']),
-                             'time_created': str(dbs.time_created),
-                             'last_maintenance_run': self.__load_database_maintenance(database_client, dbs.last_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
-                             'next_maintenance_run': self.__load_database_maintenance(database_client, dbs.next_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
-                             'maintenance_window': self.__load_database_maintenance_windows(dbs.maintenance_window),
-                             'defined_tags': [] if dbs.defined_tags is None else dbs.defined_tags,
-                             'freeform_tags': [] if dbs.freeform_tags is None else dbs.freeform_tags,
-                             'region_name': str(self.config['region']),
-                             'vm_clusters': [],
-                             'db_servers': self.__load_database_exacc_dbservers(database_client, compartment, dbs.id)
-                             }
+                    value = {
+                        'id': self.get_value(dbs.id),
+                        'display_name': self.get_value(dbs.display_name),
+                        'shape': self.get_value(dbs.shape),
+                        'shape_ocpu': 0,
+                        'shape_memory_gb': 0,
+                        'shape_storage_tb': 0,
+                        'version': 'XP',
+                        'lifecycle_state': self.get_value(dbs.lifecycle_state),
+                        'lifecycle_details': self.get_value(dbs.lifecycle_details),
+                        'availability_domain': self.get_value(dbs.availability_domain),
+                        'storage_count': self.get_value(dbs.storage_count),
+                        'compute_count': self.get_value(dbs.compute_count),
+                        'total_storage_size_in_gbs': self.get_value(dbs.total_storage_size_in_gbs),
+                        'available_storage_size_in_gbs': self.get_value(dbs.available_storage_size_in_gbs),
+                        'time_created': self.get_value(dbs.time_created),
+                        # Added 7/29/2024
+                        'cluster_placement_group_id': self.get_value(dbs.cluster_placement_group_id),
+                        'subscription_id': self.get_value(dbs.subscription_id),
+                        'cpu_count': self.get_value(dbs.cpu_count),
+                        'max_cpu_count': self.get_value(dbs.max_cpu_count),
+                        'memory_size_in_gbs': self.get_value(dbs.memory_size_in_gbs),
+                        'db_node_storage_size_in_gbs': self.get_value(dbs.db_node_storage_size_in_gbs),
+                        'max_db_node_storage_in_gbs': self.get_value(dbs.max_db_node_storage_in_gbs),
+                        'data_storage_size_in_tbs': self.get_value(dbs.data_storage_size_in_tbs),
+                        'max_data_storage_in_tbs': self.get_value(dbs.max_data_storage_in_tbs),
+                        'additional_storage_count': self.get_value(dbs.additional_storage_count),
+                        'activated_storage_count': self.get_value(dbs.activated_storage_count),
+                        'storage_server_version': self.get_value(dbs.storage_server_version),
+                        'db_server_version': self.get_value(dbs.db_server_version),
+                        'monthly_storage_server_version': self.get_value(dbs.monthly_storage_server_version),
+                        'monthly_db_server_version': self.get_value(dbs.monthly_db_server_version),
+                        'customer_contacts': [x.email for x in dbs.customer_contacts] if dbs.customer_contacts else [],
+                        'defined_file_system_configurations': [{
+                            'mount_point': self.get_value(x.mount_point),
+                            'min_size_gb': self.get_value(x.min_size_gb),
+                            'is_resizable': self.get_value(x.is_resizable),
+                            'is_backup_partition': self.get_value(x.is_backup_partition)
+                        } for x in dbs.defined_file_system_configurations] if dbs.defined_file_system_configurations else [],
+                        # End Added 7/29/2024
+                        'compartment_name': str(compartment['name']),
+                        'compartment_path': str(compartment['path']),
+                        'compartment_id': str(compartment['id']),
+                        'last_maintenance_run': self.__load_database_maintenance(database_client, dbs.last_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
+                        'next_maintenance_run': self.__load_database_maintenance(database_client, dbs.next_maintenance_run_id, str(dbs.display_name) + " - " + str(dbs.shape)),
+                        'maintenance_window': self.__load_database_maintenance_windows(dbs.maintenance_window),
+                        'defined_tags': [] if dbs.defined_tags is None else dbs.defined_tags,
+                        'freeform_tags': [] if dbs.freeform_tags is None else dbs.freeform_tags,
+                        'region_name': str(self.config['region']),
+                        'vm_clusters': [],
+                        'db_servers': self.__load_database_exacc_dbservers(database_client, compartment, dbs.id)
+                    }
 
                     # get shape
                     if dbs.shape:
@@ -9431,6 +9851,19 @@ class ShowOCIService(object):
                         'scan_ip_ids': self.get_value(arr.scan_ip_ids),
                         'vip_ids': self.get_value(arr.vip_ids),
                         'scan_dns_record_id': self.get_value(arr.scan_dns_record_id),
+                        # Added 7/29/2024
+                        'subscription_id': self.get_value(arr.subscription_id),
+                        'is_diagnostics_events_enabled': self.get_value(arr.data_collection_options.is_diagnostics_events_enabled) if arr.data_collection_options else "",
+                        'is_health_monitoring_enabled': self.get_value(arr.data_collection_options.is_health_monitoring_enabled) if arr.data_collection_options else "",
+                        'is_incident_logs_enabled': self.get_value(arr.data_collection_options.is_incident_logs_enabled) if arr.data_collection_options else "",
+                        'gi_software_image_id': self.get_value(arr.gi_software_image_id),
+                        'scan_listener_port_tcp_ssl': self.get_value(arr.scan_listener_port_tcp_ssl),
+                        'scan_listener_port_tcp': self.get_value(arr.scan_listener_port_tcp),
+                        'file_system_configuration_details': [{
+                            'mount_point': self.get_value(x.mount_point),
+                            'file_system_size_gb': self.get_value(x.file_system_size_gb)
+                        } for x in arr.file_system_configuration_details] if arr.file_system_configuration_details else [],
+                        # End Added 7/29/2024
                         'defined_tags': [] if arr.defined_tags is None else arr.defined_tags,
                         'freeform_tags': [] if arr.freeform_tags is None else arr.freeform_tags,
                         'patches': [],
@@ -9795,10 +10228,18 @@ class ShowOCIService(object):
                     continue
 
                 # loop on the db systems
-                # dbs = oci.database.models.DbSystemSummary
-                for dbs in list_db_systems:
-                    if not self.check_lifecycle_state_active(dbs.lifecycle_state):
+                # dbssummary = oci.database.models.DbSystemSummary
+                for dbssummary in list_db_systems:
+                    if not self.check_lifecycle_state_active(dbssummary.lifecycle_state):
                         continue
+
+                    dbs = None
+                    # get the db system for other attributes (like memory is not filled with suymmary)
+                    # dbs = oci.database.models.DbSystemSummary
+                    try:
+                        dbs = database_client.get_db_system(dbssummary.id, retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY).data
+                    except Exception:
+                        dbs = dbssummary
 
                     value = {
                         'id': str(dbs.id),
@@ -10216,6 +10657,9 @@ class ShowOCIService(object):
             else:
                 # Added in order to avoid internal error which happen often here
                 if 'InternalError' in str(e.code):
+                    print('p', end='')
+                    return data
+                if 'NotAuthorizedOrNotFound' in str(e.code):
                     print('p', end='')
                     return data
                 if 'Aborted' in str(e.code):
@@ -20028,6 +20472,65 @@ class ShowOCIDomains(object):
             self.__print_error(e)
 
     ##################################################################################
+    # load_identity_domain_network_perimeters
+    ##################################################################################
+    def __load_identity_domain_network_perimeters(self, identity_domain_client, domain_name):
+        data = []
+
+        errstr = ""
+        header = domain_name[0:21] + ".NetworkPerimeters"
+        self.__load_print_status_with_threads(header)
+
+        start_time = time.time()
+
+        try:
+            nets = self.__list_call_get_all_results(
+                identity_domain_client.list_network_perimeters,
+                count=500,
+                retry_strategy=oci.retry.DEFAULT_RETRY_STRATEGY
+            ).data
+
+            # oci.identity_domains.models.Group
+            for var in nets:
+                if var.delete_in_progress:
+                    continue
+                if self.skip_threads:
+                    print(".", end="")
+
+                data.append({
+                    'id': self.get_value(var.id),
+                    'ocid': self.get_value(var.ocid),
+                    'name': self.get_value(var.name),
+                    'description': self.get_value(var.description),
+                    'schemas': str(','.join(x for x in var.schemas)) if var.schemas else "",
+                    'meta': self.__load_identity_meta_info(var.meta),
+                    'idcs_created_by': var.idcs_created_by.value if var.idcs_created_by else "",
+                    'idcs_last_modified_by': var.idcs_last_modified_by.value if var.idcs_last_modified_by else "",
+                    'idcs_prevented_operations': str(','.join(x for x in var.idcs_prevented_operations)) if var.idcs_prevented_operations else "",
+                    'idcs_last_upgraded_in_release': self.get_value(var.idcs_last_upgraded_in_release),
+                    'external_id': self.get_value(var.external_id),
+                    'compartment_ocid': self.get_value(var.compartment_ocid),
+                    'tags': [{'key': x.key, 'value': x.value} for x in var.tags] if var.tags else [],
+                    'ip_addresses': [{
+                        'type': self.get_value(x.type),
+                        'value': self.get_value(x.value),
+                        'version': self.get_value(x.version)
+                    } for x in var.ip_addresses]
+                })
+
+            self.__load_print_thread_cnt(header, len(data), start_time, errstr)
+            return data
+
+        except oci.exceptions.RequestException as e:
+            if self.__check_request_error(e):
+                return data
+            else:
+                self.__load_print_error(e)
+                return data
+        except Exception as e:
+            self.__print_error(e)
+
+    ##################################################################################
     # __load_identity_domain_dynamic_resource_groups
     ##################################################################################
     def __load_identity_domain_dynamic_resource_groups(self, identity_domain_client, domain_name):
@@ -20879,6 +21382,7 @@ class ShowOCIDomains(object):
                             domain_data['users'] = self.__load_identity_domain_users(identity_domain_client, domain.display_name)
                             domain_data['groups'] = self.__load_identity_domain_groups(identity_domain_client, domain.display_name)
                             domain_data['dynamic_groups'] = self.__load_identity_domain_dynamic_resource_groups(identity_domain_client, domain.display_name)
+                            domain_data['network_perimeters'] = self.__load_identity_domain_network_perimeters(identity_domain_client, domain.display_name)
                             domain_data['kmsi_setting'] = self.__load_identity_domain_kmsi_setting(identity_domain_client, domain.display_name)
                             domain_data['identity_providers'] = self.__load_identity_domain_identity_providers(identity_domain_client, domain.display_name)
                             domain_data['authentication_factor_settings'] = self.__load_identity_domain_authentication_factor_settings(identity_domain_client, domain.display_name)
@@ -20902,6 +21406,7 @@ class ShowOCIDomains(object):
                                 future_policies = executor.submit(self.__load_identity_domain_policies, identity_domain_client, domain.display_name)
                                 future_rules = executor.submit(self.__load_identity_domain_rules, identity_domain_client, domain.display_name)
                                 future_conditions = executor.submit(self.__load_identity_domain_conditions, identity_domain_client, domain.display_name)
+                                future_network_perimeter = executor.submit(self.__load_identity_domain_network_perimeters, identity_domain_client, domain.display_name)
 
                                 domain_data['users'] = next(as_completed([future_users])).result()
                                 domain_data['groups'] = next(as_completed([future_groups])).result()
@@ -20913,6 +21418,7 @@ class ShowOCIDomains(object):
                                 domain_data['policies'] = next(as_completed([future_policies])).result()
                                 domain_data['rules'] = next(as_completed([future_rules])).result()
                                 domain_data['conditions'] = next(as_completed([future_conditions])).result()
+                                domain_data['network_perimeters'] = next(as_completed([future_network_perimeter])).result()
 
                     self.__load_identity_users_to_group_members(domain_data['users'], domain_data['groups'])
                     self.__load_identity_conditions_to_rules(domain_data['rules'], domain_data['conditions'])

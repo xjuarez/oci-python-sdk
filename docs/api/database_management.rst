@@ -54,6 +54,9 @@ Database Management
     oci.database_management.models.AttentionLogSummary
     oci.database_management.models.AutomaticCaptureFilter
     oci.database_management.models.AutomaticCaptureFilterDetails
+    oci.database_management.models.AutonomousDatabaseDiagnosticsAndManagementFeatureDetails
+    oci.database_management.models.AutonomousDatabaseFeatureDetails
+    oci.database_management.models.AutonomousDatabaseSqlWatchFeatureDetails
     oci.database_management.models.AwrDbCollection
     oci.database_management.models.AwrDbCpuUsageCollection
     oci.database_management.models.AwrDbCpuUsageSummary
@@ -137,7 +140,10 @@ Database Management
     oci.database_management.models.DatabaseHomeMetrics
     oci.database_management.models.DatabaseIOAggregateMetrics
     oci.database_management.models.DatabaseInstanceHomeMetricsDefinition
+    oci.database_management.models.DatabaseLifecycleFeatureConfiguration
+    oci.database_management.models.DatabaseLifecycleManagementFeatureDetails
     oci.database_management.models.DatabaseManagementConfig
+    oci.database_management.models.DatabaseNamedCredentialConnectionDetails
     oci.database_management.models.DatabaseNamedCredentialDetails
     oci.database_management.models.DatabaseParameterSummary
     oci.database_management.models.DatabaseParameterUpdateStatus
@@ -146,6 +152,8 @@ Database Management
     oci.database_management.models.DatabasePlan
     oci.database_management.models.DatabasePlanDirective
     oci.database_management.models.DatabaseSecretCredentialDetails
+    oci.database_management.models.DatabaseSqlWatchFeatureConfiguration
+    oci.database_management.models.DatabaseSqlWatchFeatureDetails
     oci.database_management.models.DatabaseSslConnectionCredentials
     oci.database_management.models.DatabaseStorageAggregateMetrics
     oci.database_management.models.DatabaseTimeAggregateMetrics
@@ -157,8 +165,10 @@ Database Management
     oci.database_management.models.DbManagementPrivateEndpointCollection
     oci.database_management.models.DbManagementPrivateEndpointSummary
     oci.database_management.models.DbmResource
+    oci.database_management.models.DirectConnectorDetails
     oci.database_management.models.DisableAutomaticInitialPlanCaptureDetails
     oci.database_management.models.DisableAutomaticSpmEvolveAdvisorTaskDetails
+    oci.database_management.models.DisableAutonomousDatabaseManagementFeatureDetails
     oci.database_management.models.DisableDatabaseManagementFeatureDetails
     oci.database_management.models.DisableExternalContainerDatabaseManagementFeatureDetails
     oci.database_management.models.DisableExternalNonContainerDatabaseManagementFeatureDetails
@@ -184,6 +194,7 @@ Database Management
     oci.database_management.models.DropTablespaceDetails
     oci.database_management.models.EnableAutomaticInitialPlanCaptureDetails
     oci.database_management.models.EnableAutomaticSpmEvolveAdvisorTaskDetails
+    oci.database_management.models.EnableAutonomousDatabaseManagementFeatureDetails
     oci.database_management.models.EnableDatabaseManagementFeatureDetails
     oci.database_management.models.EnableExternalContainerDatabaseManagementFeatureDetails
     oci.database_management.models.EnableExternalDbSystemDatabaseManagementDetails
@@ -225,6 +236,8 @@ Database Management
     oci.database_management.models.ExternalDatabaseDiagnosticsAndManagementFeatureDetails
     oci.database_management.models.ExternalDatabaseFeatureDetails
     oci.database_management.models.ExternalDatabaseInstance
+    oci.database_management.models.ExternalDatabaseLifecycleManagementFeatureDetails
+    oci.database_management.models.ExternalDatabaseSqlWatchFeatureDetails
     oci.database_management.models.ExternalDatabaseSummary
     oci.database_management.models.ExternalDatabaseSystemDiscoverySummary
     oci.database_management.models.ExternalDbHome
@@ -277,6 +290,8 @@ Database Management
     oci.database_management.models.ExternalListenerTcpsEndpoint
     oci.database_management.models.ExternalPluggableDatabaseDiagnosticsAndManagementFeatureDetails
     oci.database_management.models.ExternalPluggableDatabaseFeatureDetails
+    oci.database_management.models.ExternalPluggableDatabaseLifecycleManagementFeatureDetails
+    oci.database_management.models.ExternalPluggableDatabaseSqlWatchFeatureDetails
     oci.database_management.models.ExternalServicedAsm
     oci.database_management.models.ExternalServicedDatabase
     oci.database_management.models.ExternalStorageGridDiscoverySummary
@@ -341,6 +356,7 @@ Database Management
     oci.database_management.models.MetricStatisticsDefinition
     oci.database_management.models.MetricsAggregationRange
     oci.database_management.models.MetricsAggregationRangeCollection
+    oci.database_management.models.ModifyAutonomousDatabaseManagementFeatureDetails
     oci.database_management.models.ModifyDatabaseManagementFeatureDetails
     oci.database_management.models.ModifyPluggableDatabaseManagementFeatureDetails
     oci.database_management.models.ModifySnapshotSettingsDetails

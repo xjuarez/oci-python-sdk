@@ -88,6 +88,10 @@ class CreateDbSystemDetails(object):
             The value to assign to the data_storage_size_in_gbs property of this CreateDbSystemDetails.
         :type data_storage_size_in_gbs: int
 
+        :param data_storage:
+            The value to assign to the data_storage property of this CreateDbSystemDetails.
+        :type data_storage: oci.mysql.models.DataStorageDetails
+
         :param hostname_label:
             The value to assign to the hostname_label property of this CreateDbSystemDetails.
         :type hostname_label: str
@@ -142,6 +146,10 @@ class CreateDbSystemDetails(object):
             The value to assign to the secure_connections property of this CreateDbSystemDetails.
         :type secure_connections: oci.mysql.models.SecureConnectionDetails
 
+        :param customer_contacts:
+            The value to assign to the customer_contacts property of this CreateDbSystemDetails.
+        :type customer_contacts: list[oci.mysql.models.CustomerContact]
+
         """
         self.swagger_types = {
             'display_name': 'str',
@@ -157,6 +165,7 @@ class CreateDbSystemDetails(object):
             'admin_username': 'str',
             'admin_password': 'str',
             'data_storage_size_in_gbs': 'int',
+            'data_storage': 'DataStorageDetails',
             'hostname_label': 'str',
             'ip_address': 'str',
             'port': 'int',
@@ -169,7 +178,8 @@ class CreateDbSystemDetails(object):
             'deletion_policy': 'CreateDeletionPolicyDetails',
             'crash_recovery': 'str',
             'database_management': 'str',
-            'secure_connections': 'SecureConnectionDetails'
+            'secure_connections': 'SecureConnectionDetails',
+            'customer_contacts': 'list[CustomerContact]'
         }
 
         self.attribute_map = {
@@ -186,6 +196,7 @@ class CreateDbSystemDetails(object):
             'admin_username': 'adminUsername',
             'admin_password': 'adminPassword',
             'data_storage_size_in_gbs': 'dataStorageSizeInGBs',
+            'data_storage': 'dataStorage',
             'hostname_label': 'hostnameLabel',
             'ip_address': 'ipAddress',
             'port': 'port',
@@ -198,7 +209,8 @@ class CreateDbSystemDetails(object):
             'deletion_policy': 'deletionPolicy',
             'crash_recovery': 'crashRecovery',
             'database_management': 'databaseManagement',
-            'secure_connections': 'secureConnections'
+            'secure_connections': 'secureConnections',
+            'customer_contacts': 'customerContacts'
         }
 
         self._display_name = None
@@ -214,6 +226,7 @@ class CreateDbSystemDetails(object):
         self._admin_username = None
         self._admin_password = None
         self._data_storage_size_in_gbs = None
+        self._data_storage = None
         self._hostname_label = None
         self._ip_address = None
         self._port = None
@@ -227,6 +240,7 @@ class CreateDbSystemDetails(object):
         self._crash_recovery = None
         self._database_management = None
         self._secure_connections = None
+        self._customer_contacts = None
 
     @property
     def display_name(self):
@@ -593,6 +607,26 @@ class CreateDbSystemDetails(object):
         self._data_storage_size_in_gbs = data_storage_size_in_gbs
 
     @property
+    def data_storage(self):
+        """
+        Gets the data_storage of this CreateDbSystemDetails.
+
+        :return: The data_storage of this CreateDbSystemDetails.
+        :rtype: oci.mysql.models.DataStorageDetails
+        """
+        return self._data_storage
+
+    @data_storage.setter
+    def data_storage(self, data_storage):
+        """
+        Sets the data_storage of this CreateDbSystemDetails.
+
+        :param data_storage: The data_storage of this CreateDbSystemDetails.
+        :type: oci.mysql.models.DataStorageDetails
+        """
+        self._data_storage = data_storage
+
+    @property
     def hostname_label(self):
         """
         Gets the hostname_label of this CreateDbSystemDetails.
@@ -921,6 +955,34 @@ class CreateDbSystemDetails(object):
         :type: oci.mysql.models.SecureConnectionDetails
         """
         self._secure_connections = secure_connections
+
+    @property
+    def customer_contacts(self):
+        """
+        Gets the customer_contacts of this CreateDbSystemDetails.
+        The list of customer email addresses that receive information from Oracle about the specified OCI DB System resource.
+        Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
+        Up to 10 email addresses can be added to the customer contacts for a DB System.
+
+
+        :return: The customer_contacts of this CreateDbSystemDetails.
+        :rtype: list[oci.mysql.models.CustomerContact]
+        """
+        return self._customer_contacts
+
+    @customer_contacts.setter
+    def customer_contacts(self, customer_contacts):
+        """
+        Sets the customer_contacts of this CreateDbSystemDetails.
+        The list of customer email addresses that receive information from Oracle about the specified OCI DB System resource.
+        Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
+        Up to 10 email addresses can be added to the customer contacts for a DB System.
+
+
+        :param customer_contacts: The customer_contacts of this CreateDbSystemDetails.
+        :type: list[oci.mysql.models.CustomerContact]
+        """
+        self._customer_contacts = customer_contacts
 
     def __repr__(self):
         return formatted_flat_dict(self)

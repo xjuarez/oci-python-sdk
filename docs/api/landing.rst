@@ -75,6 +75,7 @@ API Reference
 * :doc:`Db Backups <mysql/client/oci.mysql.DbBackupsClient>`
 * :doc:`Db Management <database_management/client/oci.database_management.DbManagementClient>`
 * :doc:`Db System <mysql/client/oci.mysql.DbSystemClient>`
+* :doc:`Delegate Access Control <delegate_access_control/client/oci.delegate_access_control.DelegateAccessControlClient>`
 * :doc:`Deployment <apigateway/client/oci.apigateway.DeploymentClient>`
 * :doc:`Desktop Service <desktops/client/oci.desktops.DesktopServiceClient>`
 * :doc:`Devops <devops/client/oci.devops.DevopsClient>`
@@ -92,6 +93,11 @@ API Reference
 * :doc:`Event <os_management_hub/client/oci.os_management_hub.EventClient>`
 * :doc:`Events <events/client/oci.events.EventsClient>`
 * :doc:`File Storage <file_storage/client/oci.file_storage.FileStorageClient>`
+* :doc:`Fleet Apps Management <fleet_apps_management/client/oci.fleet_apps_management.FleetAppsManagementClient>`
+* :doc:`Fleet Apps Management Admin <fleet_apps_management/client/oci.fleet_apps_management.FleetAppsManagementAdminClient>`
+* :doc:`Fleet Apps Management Maintenance Window <fleet_apps_management/client/oci.fleet_apps_management.FleetAppsManagementMaintenanceWindowClient>`
+* :doc:`Fleet Apps Management Operations <fleet_apps_management/client/oci.fleet_apps_management.FleetAppsManagementOperationsClient>`
+* :doc:`Fleet Apps Management Runbooks <fleet_apps_management/client/oci.fleet_apps_management.FleetAppsManagementRunbooksClient>`
 * :doc:`Fleet Software Update <fleet_software_update/client/oci.fleet_software_update.FleetSoftwareUpdateClient>`
 * :doc:`Functions Invoke <functions/client/oci.functions.FunctionsInvokeClient>`
 * :doc:`Functions Management <functions/client/oci.functions.FunctionsManagementClient>`
@@ -196,6 +202,7 @@ API Reference
 * :doc:`Sddc <ocvp/client/oci.ocvp.SddcClient>`
 * :doc:`Secrets <secrets/client/oci.secrets.SecretsClient>`
 * :doc:`Sender Invitation <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SenderInvitationClient>`
+* :doc:`Service <announcements_service/client/oci.announcements_service.ServiceClient>`
 * :doc:`Service Catalog <service_catalog/client/oci.service_catalog.ServiceCatalogClient>`
 * :doc:`Service Connector <sch/client/oci.sch.ServiceConnectorClient>`
 * :doc:`Service Manager Proxy <service_manager_proxy/client/oci.service_manager_proxy.ServiceManagerProxyClient>`
@@ -233,6 +240,7 @@ API Reference
 * :doc:`Waa <waa/client/oci.waa.WaaClient>`
 * :doc:`Waas <waas/client/oci.waas.WaasClient>`
 * :doc:`Waf <waf/client/oci.waf.WafClient>`
+* :doc:`Work Request <work_requests/client/oci.work_requests.WorkRequestClient>`
 * :doc:`Work Request <work_requests/client/oci.work_requests.WorkRequestClient>`
 * :doc:`Work Request <work_requests/client/oci.work_requests.WorkRequestClient>`
 * :doc:`Work Request <work_requests/client/oci.work_requests.WorkRequestClient>`
@@ -308,6 +316,7 @@ API Reference
     database_management
     database_migration
     database_tools
+    delegate_access_control
     demand_signal
     desktops
     devops
@@ -319,6 +328,7 @@ API Reference
     email_data_plane
     events
     file_storage
+    fleet_apps_management
     fleet_software_update
     functions
     fusion_apps

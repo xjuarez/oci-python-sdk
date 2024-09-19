@@ -22,7 +22,7 @@ missing = Sentinel("Missing")
 
 class JavaManagementServiceClient(object):
     """
-    API for the Java Management Service. Use this API to view, create, and manage Fleets.
+    The APIs for the [Fleet Management](https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
     """
 
     def __init__(self, config, **kwargs):
@@ -584,7 +584,7 @@ class JavaManagementServiceClient(object):
 
     def create_drs_file(self, fleet_id, create_drs_file_details, **kwargs):
         """
-        Request to perform validaition of the DRS file and create the file to the Object Storage.
+        Request to perform validation of the DRS file and create the file to the Object Storage.
 
 
         :param str fleet_id: (required)
@@ -803,6 +803,106 @@ class JavaManagementServiceClient(object):
                 method=method,
                 header_params=header_params,
                 body=create_fleet_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def create_jms_plugin(self, create_jms_plugin_details, **kwargs):
+        """
+        Registers an agent's JmsPlugin, optionally attaching to an existing fleet of the tenancy.
+        JmsPlugins registered fleet-less are created with lifecycle state INACTIVE.
+        For the operation to be authorized, the agent must exist, and the authorized user requires JMS_PLUGIN_CREATE permission for the agent's compartment.
+
+
+        :param oci.jms.models.CreateJmsPluginDetails create_jms_plugin_details: (required)
+            Details for the new JmsPlugin.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.JmsPlugin`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/create_jms_plugin.py.html>`__ to see an example of how to use create_jms_plugin API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/jmsPlugins"
+        method = "POST"
+        operation_name = "create_jms_plugin"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/CreateJmsPlugin"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_retry_token",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"create_jms_plugin got unknown kwargs: {extra_kwargs!r}")
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_jms_plugin_details,
+                response_type="JmsPlugin",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_jms_plugin_details,
+                response_type="JmsPlugin",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,
@@ -1359,6 +1459,114 @@ class JavaManagementServiceClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def delete_jms_plugin(self, jms_plugin_id, **kwargs):
+        """
+        Deletes a JmsPlugin. The JmsPlugin may be visible for some time with state DELETED.
+        Deleted plugins will not be able to communicate with the JMS service.
+
+
+        :param str jms_plugin_id: (required)
+            The `OCID`__ of the JmsPlugin.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            ETag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the ETag you
+            provide matches the resource's current ETag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/delete_jms_plugin.py.html>`__ to see an example of how to use delete_jms_plugin API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['jmsPluginId']
+        resource_path = "/jmsPlugins/{jmsPluginId}"
+        method = "DELETE"
+        operation_name = "delete_jms_plugin"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/DeleteJmsPlugin"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"delete_jms_plugin got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "jmsPluginId": jms_plugin_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def delete_performance_tuning_analysis_result(self, fleet_id, performance_tuning_analysis_result_id, **kwargs):
         """
         Deletes only the metadata of the Performance Tuning Analysis result, but the file remains in the object storage.
@@ -1819,6 +2027,199 @@ class JavaManagementServiceClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def generate_agent_installer_configuration(self, generate_agent_installer_configuration_details, **kwargs):
+        """
+        Generates the agent installer configuration using the information provided.
+
+
+        :param oci.jms.models.GenerateAgentInstallerConfigurationDetails generate_agent_installer_configuration_details: (required)
+            Details that are used to generate the installer configuration for a fleet.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type stream
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/generate_agent_installer_configuration.py.html>`__ to see an example of how to use generate_agent_installer_configuration API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/agentInstallers/actions/generateAgentInstallerConfiguration"
+        method = "POST"
+        operation_name = "generate_agent_installer_configuration"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AgentInstallerSummary/GenerateAgentInstallerConfiguration"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"generate_agent_installer_configuration got unknown kwargs: {extra_kwargs!r}")
+
+        header_params = {
+            "accept": "text/plain",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=generate_agent_installer_configuration_details,
+                response_type="stream",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=generate_agent_installer_configuration_details,
+                response_type="stream",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def generate_load_pipeline_script(self, fleet_id, generate_load_pipeline_script_details, **kwargs):
+        """
+        Generates Load Pipeline Script
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.jms.models.GenerateLoadPipelineScriptDetails generate_load_pipeline_script_details: (required)
+            Attributes to generate the load pipeline script.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type stream
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/generate_load_pipeline_script.py.html>`__ to see an example of how to use generate_load_pipeline_script API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/actions/generateLoadPipelineScript"
+        method = "POST"
+        operation_name = "generate_load_pipeline_script"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/GenerateLoadPipelineScript"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"generate_load_pipeline_script got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "text/plain",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=generate_load_pipeline_script_details,
+                response_type="stream",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=generate_load_pipeline_script_details,
+                response_type="stream",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def get_crypto_analysis_result(self, fleet_id, crypto_analysis_result_id, **kwargs):
         """
         Retrieve the metadata for the result of a Crypto event analysis.
@@ -2040,7 +2441,7 @@ class JavaManagementServiceClient(object):
 
     def get_export_setting(self, fleet_id, **kwargs):
         """
-        Returns export setting for the specified Fleet.
+        Returns export setting for the specified fleet.
 
 
         :param str fleet_id: (required)
@@ -2140,7 +2541,7 @@ class JavaManagementServiceClient(object):
 
     def get_export_status(self, fleet_id, **kwargs):
         """
-        Returns last export status for the specified Fleet.
+        Returns last export status for the specified fleet.
 
 
         :param str fleet_id: (required)
@@ -2847,6 +3248,106 @@ class JavaManagementServiceClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def get_jms_plugin(self, jms_plugin_id, **kwargs):
+        """
+        Returns the JmsPlugin.
+
+
+        :param str jms_plugin_id: (required)
+            The `OCID`__ of the JmsPlugin.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.JmsPlugin`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/get_jms_plugin.py.html>`__ to see an example of how to use get_jms_plugin API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['jmsPluginId']
+        resource_path = "/jmsPlugins/{jmsPluginId}"
+        method = "GET"
+        operation_name = "get_jms_plugin"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/GetJmsPlugin"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"get_jms_plugin got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "jmsPluginId": jms_plugin_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="JmsPlugin",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="JmsPlugin",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def get_performance_tuning_analysis_result(self, fleet_id, performance_tuning_analysis_result_id, **kwargs):
         """
         Retrieve metadata of the Performance Tuning Analysis result.
@@ -3046,6 +3547,175 @@ class JavaManagementServiceClient(object):
                 path_params=path_params,
                 header_params=header_params,
                 response_type="WorkRequest",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_agent_installers(self, **kwargs):
+        """
+        Returns a list of the agent installer information.
+
+
+        :param str compartment_id: (optional)
+            The `OCID`__ of the compartment in which to list resources.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str fleet_id: (optional)
+            The ID of the Fleet.
+
+        :param str platform_architecture: (optional)
+            The platform architecture for the agent installer.
+
+            Allowed values are: "X86_64", "X86", "AARCH64"
+
+        :param str os_family: (optional)
+            The OS family for the agent installer.
+
+            Allowed values are: "LINUX", "WINDOWS", "MACOS", "UNKNOWN"
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str sort_order: (optional)
+            The sort order, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            The field to sort the agent installer. Only one sort order can be provided.
+            Default order for _agentInstallerId_, _osFamily_, _platformArchitecture_ is **ascending**.
+            If no value is specified _agentInstallerId_ is default.
+
+            Allowed values are: "agentInstallerId", "osFamily", "platformArchitecture"
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.AgentInstallerCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_agent_installers.py.html>`__ to see an example of how to use list_agent_installers API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/agentInstallers"
+        method = "GET"
+        operation_name = "list_agent_installers"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AgentInstallerSummary/ListAgentInstallers"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "compartment_id",
+            "fleet_id",
+            "platform_architecture",
+            "os_family",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_agent_installers got unknown kwargs: {extra_kwargs!r}")
+
+        if 'platform_architecture' in kwargs:
+            platform_architecture_allowed_values = ["X86_64", "X86", "AARCH64"]
+            if kwargs['platform_architecture'] not in platform_architecture_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `platform_architecture`, must be one of { platform_architecture_allowed_values }"
+                )
+
+        if 'os_family' in kwargs:
+            os_family_allowed_values = ["LINUX", "WINDOWS", "MACOS", "UNKNOWN"]
+            if kwargs['os_family'] not in os_family_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `os_family`, must be one of { os_family_allowed_values }"
+                )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_order`, must be one of { sort_order_allowed_values }"
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["agentInstallerId", "osFamily", "platformArchitecture"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
+                )
+
+        query_params = {
+            "compartmentId": kwargs.get("compartment_id", missing),
+            "fleetId": kwargs.get("fleet_id", missing),
+            "platformArchitecture": kwargs.get("platform_architecture", missing),
+            "osFamily": kwargs.get("os_family", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AgentInstallerCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AgentInstallerCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,
@@ -3381,6 +4051,33 @@ class JavaManagementServiceClient(object):
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the related managed instance.
 
+        :param str host_name: (optional)
+            The host `OCID`__ of the managed instance.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param int non_compliant_finding_count: (optional)
+            Non Compliant Finding Count of CryptoAnalysis Report.
+
+        :param int non_compliant_finding_count_greater_than: (optional)
+            Non Compliant Finding Count of CryptoAnalysis Report.
+
+        :param int finding_count: (optional)
+            FindingCount of CryptoAnalysis Report.
+
+        :param int finding_count_greater_than: (optional)
+            FindingCount of CryptoAnalysis Report.
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
         :param int limit: (optional)
             The maximum number of items to return.
 
@@ -3402,16 +4099,6 @@ class JavaManagementServiceClient(object):
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
-
-        :param datetime time_start: (optional)
-            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
-
-            __ https://datatracker.ietf.org/doc/html/rfc3339
-
-        :param datetime time_end: (optional)
-            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
-
-            __ https://datatracker.ietf.org/doc/html/rfc3339
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -3444,13 +4131,18 @@ class JavaManagementServiceClient(object):
             "retry_strategy",
             "aggregation_mode",
             "managed_instance_id",
+            "host_name",
+            "non_compliant_finding_count",
+            "non_compliant_finding_count_greater_than",
+            "finding_count",
+            "finding_count_greater_than",
+            "time_start",
+            "time_end",
             "limit",
             "page",
             "sort_order",
             "sort_by",
-            "opc_request_id",
-            "time_start",
-            "time_end"
+            "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -3491,12 +4183,17 @@ class JavaManagementServiceClient(object):
         query_params = {
             "aggregationMode": kwargs.get("aggregation_mode", missing),
             "managedInstanceId": kwargs.get("managed_instance_id", missing),
+            "hostName": kwargs.get("host_name", missing),
+            "nonCompliantFindingCount": kwargs.get("non_compliant_finding_count", missing),
+            "nonCompliantFindingCountGreaterThan": kwargs.get("non_compliant_finding_count_greater_than", missing),
+            "findingCount": kwargs.get("finding_count", missing),
+            "findingCountGreaterThan": kwargs.get("finding_count_greater_than", missing),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing),
             "limit": kwargs.get("limit", missing),
             "page": kwargs.get("page", missing),
             "sortOrder": kwargs.get("sort_order", missing),
-            "sortBy": kwargs.get("sort_by", missing),
-            "timeStart": kwargs.get("time_start", missing),
-            "timeEnd": kwargs.get("time_end", missing)
+            "sortBy": kwargs.get("sort_by", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -3817,7 +4514,7 @@ class JavaManagementServiceClient(object):
             __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
-            The ID of the Fleet.
+            The ID.
 
         :param str lifecycle_state: (optional)
             The state of the lifecycle.
@@ -4354,6 +5051,24 @@ class JavaManagementServiceClient(object):
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the related managed instance.
 
+        :param str host_name: (optional)
+            The host `OCID`__ of the managed instance.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str application_name: (optional)
+            The name of the application.
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
         :param int limit: (optional)
             The maximum number of items to return.
 
@@ -4374,16 +5089,6 @@ class JavaManagementServiceClient(object):
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
-
-        :param datetime time_start: (optional)
-            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
-
-            __ https://datatracker.ietf.org/doc/html/rfc3339
-
-        :param datetime time_end: (optional)
-            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
-
-            __ https://datatracker.ietf.org/doc/html/rfc3339
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4415,13 +5120,15 @@ class JavaManagementServiceClient(object):
             "allow_control_chars",
             "retry_strategy",
             "managed_instance_id",
+            "host_name",
+            "application_name",
+            "time_start",
+            "time_end",
             "limit",
             "page",
             "sort_order",
             "sort_by",
-            "opc_request_id",
-            "time_start",
-            "time_end"
+            "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -4454,12 +5161,14 @@ class JavaManagementServiceClient(object):
 
         query_params = {
             "managedInstanceId": kwargs.get("managed_instance_id", missing),
+            "hostName": kwargs.get("host_name", missing),
+            "applicationName": kwargs.get("application_name", missing),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing),
             "limit": kwargs.get("limit", missing),
             "page": kwargs.get("page", missing),
             "sortOrder": kwargs.get("sort_order", missing),
-            "sortBy": kwargs.get("sort_by", missing),
-            "timeStart": kwargs.get("time_start", missing),
-            "timeEnd": kwargs.get("time_end", missing)
+            "sortBy": kwargs.get("sort_by", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -4685,6 +5394,213 @@ class JavaManagementServiceClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def list_jms_plugins(self, **kwargs):
+        """
+        Lists the JmsPlugins.
+
+
+        :param str compartment_id: (optional)
+            The `OCID`__ of the compartment in which to list resources.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param bool compartment_id_in_subtree: (optional)
+            Flag to determine whether the info should be gathered only in the compartment or in the compartment and its subcompartments.
+
+        :param str id: (optional)
+            The `OCID`__ of the JmsPlugin.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str fleet_id: (optional)
+            The ID of the Fleet.
+
+        :param str agent_id: (optional)
+            The ManagementAgent (OMA) or Instance (OCA) `OCID`__ that identifies the Agent.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str lifecycle_state: (optional)
+            Filter JmsPlugin with its lifecycle state.
+
+            Allowed values are: "ACTIVE", "INACTIVE", "NEEDS_ATTENTION", "DELETED"
+
+        :param str availability_status: (optional)
+            Filter JmsPlugin with its availability status.
+
+            Allowed values are: "ACTIVE", "SILENT", "NOT_AVAILABLE"
+
+        :param datetime time_registered_less_than_or_equal_to: (optional)
+            If present, only plugins with a registration time before this parameter are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_last_seen_less_than_or_equal_to: (optional)
+            If present, only plugins with a last seen time before this parameter are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. The token is usually retrieved from a previous list call.
+
+        :param str sort_order: (optional)
+            The sort order, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str sort_by: (optional)
+            The field to sort JmsPlugin. Only one sort order may be provided.
+            Default order is **descending**.
+            If no value is specified _timeLastSeen_ is default.
+
+            Allowed values are: "id", "timeLastSeen", "timeRegistered", "hostname", "agentId", "agentType", "lifecycleState", "availabilityStatus", "fleetId", "compartmentId", "osFamily", "osArchitecture", "osDistribution", "pluginVersion"
+
+        :param str hostname_contains: (optional)
+            Filter the list with hostname contains the given value.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.JmsPluginCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/list_jms_plugins.py.html>`__ to see an example of how to use list_jms_plugins API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/jmsPlugins"
+        method = "GET"
+        operation_name = "list_jms_plugins"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/ListJmsPlugins"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "compartment_id",
+            "compartment_id_in_subtree",
+            "id",
+            "fleet_id",
+            "agent_id",
+            "lifecycle_state",
+            "availability_status",
+            "time_registered_less_than_or_equal_to",
+            "time_last_seen_less_than_or_equal_to",
+            "limit",
+            "page",
+            "sort_order",
+            "sort_by",
+            "hostname_contains",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_jms_plugins got unknown kwargs: {extra_kwargs!r}")
+
+        if 'lifecycle_state' in kwargs:
+            lifecycle_state_allowed_values = ["ACTIVE", "INACTIVE", "NEEDS_ATTENTION", "DELETED"]
+            if kwargs['lifecycle_state'] not in lifecycle_state_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `lifecycle_state`, must be one of { lifecycle_state_allowed_values }"
+                )
+
+        if 'availability_status' in kwargs:
+            availability_status_allowed_values = ["ACTIVE", "SILENT", "NOT_AVAILABLE"]
+            if kwargs['availability_status'] not in availability_status_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `availability_status`, must be one of { availability_status_allowed_values }"
+                )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_order`, must be one of { sort_order_allowed_values }"
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["id", "timeLastSeen", "timeRegistered", "hostname", "agentId", "agentType", "lifecycleState", "availabilityStatus", "fleetId", "compartmentId", "osFamily", "osArchitecture", "osDistribution", "pluginVersion"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
+                )
+
+        query_params = {
+            "compartmentId": kwargs.get("compartment_id", missing),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing),
+            "id": kwargs.get("id", missing),
+            "fleetId": kwargs.get("fleet_id", missing),
+            "agentId": kwargs.get("agent_id", missing),
+            "lifecycleState": kwargs.get("lifecycle_state", missing),
+            "availabilityStatus": kwargs.get("availability_status", missing),
+            "timeRegisteredLessThanOrEqualTo": kwargs.get("time_registered_less_than_or_equal_to", missing),
+            "timeLastSeenLessThanOrEqualTo": kwargs.get("time_last_seen_less_than_or_equal_to", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "hostnameContains": kwargs.get("hostname_contains", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="JmsPluginCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="JmsPluginCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def list_jre_usage(self, **kwargs):
         """
         List Java Runtime usage in a specified host filtered by query parameters.
@@ -4871,6 +5787,21 @@ class JavaManagementServiceClient(object):
         :param str application_id: (optional)
             The Fleet-unique identifier of the related application.
 
+        :param str host_name: (optional)
+            The host `OCID`__ of the managed instance.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param datetime time_start: (optional)
+            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
+        :param datetime time_end: (optional)
+            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
+
+            __ https://datatracker.ietf.org/doc/html/rfc3339
+
         :param int limit: (optional)
             The maximum number of items to return.
 
@@ -4888,20 +5819,10 @@ class JavaManagementServiceClient(object):
             Default order for _managedInstanceId_, _jreDistribution_, _jreVendor_ and _osName_ is **ascending**.
             If no value is specified _timeCreated_ is default.
 
-            Allowed values are: "timeCreated", "managedInstanceId", "workRequestId"
+            Allowed values are: "timeCreated", "managedInstanceId", "workRequestId", "warningCount"
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
-
-        :param datetime time_start: (optional)
-            The start of the time period during which resources are searched (formatted according to `RFC3339`__).
-
-            __ https://datatracker.ietf.org/doc/html/rfc3339
-
-        :param datetime time_end: (optional)
-            The end of the time period during which resources are searched (formatted according to `RFC3339`__).
-
-            __ https://datatracker.ietf.org/doc/html/rfc3339
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4934,13 +5855,14 @@ class JavaManagementServiceClient(object):
             "retry_strategy",
             "managed_instance_id",
             "application_id",
+            "host_name",
+            "time_start",
+            "time_end",
             "limit",
             "page",
             "sort_order",
             "sort_by",
-            "opc_request_id",
-            "time_start",
-            "time_end"
+            "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -4965,7 +5887,7 @@ class JavaManagementServiceClient(object):
                 )
 
         if 'sort_by' in kwargs:
-            sort_by_allowed_values = ["timeCreated", "managedInstanceId", "workRequestId"]
+            sort_by_allowed_values = ["timeCreated", "managedInstanceId", "workRequestId", "warningCount"]
             if kwargs['sort_by'] not in sort_by_allowed_values:
                 raise ValueError(
                     f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
@@ -4974,12 +5896,13 @@ class JavaManagementServiceClient(object):
         query_params = {
             "managedInstanceId": kwargs.get("managed_instance_id", missing),
             "applicationId": kwargs.get("application_id", missing),
+            "hostName": kwargs.get("host_name", missing),
+            "timeStart": kwargs.get("time_start", missing),
+            "timeEnd": kwargs.get("time_end", missing),
             "limit": kwargs.get("limit", missing),
             "page": kwargs.get("page", missing),
             "sortOrder": kwargs.get("sort_order", missing),
-            "sortBy": kwargs.get("sort_by", missing),
-            "timeStart": kwargs.get("time_start", missing),
-            "timeEnd": kwargs.get("time_end", missing)
+            "sortBy": kwargs.get("sort_by", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -5404,6 +6327,16 @@ class JavaManagementServiceClient(object):
         :param str managed_instance_id: (optional)
             The Fleet-unique identifier of the managed instance.
 
+        :param str operation_type: (optional)
+            The operation type of the work request.
+
+            Allowed values are: "CREATE_FLEET", "DELETE_FLEET", "MOVE_FLEET", "UPDATE_FLEET", "UPDATE_FLEET_AGENT_CONFIGURATION", "DELETE_JAVA_INSTALLATION", "CREATE_JAVA_INSTALLATION", "COLLECT_JFR", "REQUEST_CRYPTO_EVENT_ANALYSIS", "REQUEST_PERFORMANCE_TUNING_ANALYSIS", "REQUEST_JAVA_MIGRATION_ANALYSIS", "DELETE_JMS_REPORT", "SCAN_JAVA_SERVER_USAGE", "SCAN_LIBRARY_USAGE", "EXPORT_DATA_CSV", "CREATE_DRS_FILE", "UPDATE_DRS_FILE", "DELETE_DRS_FILE", "ENABLE_DRS", "DISABLE_DRS"
+
+        :param list[str] status: (optional)
+            The status of the work request.
+
+            Allowed values are: "ACCEPTED", "CANCELED", "CANCELING", "FAILED", "IN_PROGRESS", "SUCCEEDED"
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -5439,12 +6372,29 @@ class JavaManagementServiceClient(object):
             "opc_request_id",
             "page",
             "limit",
-            "managed_instance_id"
+            "managed_instance_id",
+            "operation_type",
+            "status"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
             raise ValueError(
                 f"list_work_requests got unknown kwargs: {extra_kwargs!r}")
+
+        if 'operation_type' in kwargs:
+            operation_type_allowed_values = ["CREATE_FLEET", "DELETE_FLEET", "MOVE_FLEET", "UPDATE_FLEET", "UPDATE_FLEET_AGENT_CONFIGURATION", "DELETE_JAVA_INSTALLATION", "CREATE_JAVA_INSTALLATION", "COLLECT_JFR", "REQUEST_CRYPTO_EVENT_ANALYSIS", "REQUEST_PERFORMANCE_TUNING_ANALYSIS", "REQUEST_JAVA_MIGRATION_ANALYSIS", "DELETE_JMS_REPORT", "SCAN_JAVA_SERVER_USAGE", "SCAN_LIBRARY_USAGE", "EXPORT_DATA_CSV", "CREATE_DRS_FILE", "UPDATE_DRS_FILE", "DELETE_DRS_FILE", "ENABLE_DRS", "DISABLE_DRS"]
+            if kwargs['operation_type'] not in operation_type_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `operation_type`, must be one of { operation_type_allowed_values }"
+                )
+
+        if 'status' in kwargs:
+            status_allowed_values = ["ACCEPTED", "CANCELED", "CANCELING", "FAILED", "IN_PROGRESS", "SUCCEEDED"]
+            for status_item in kwargs['status']:
+                if status_item not in status_allowed_values:
+                    raise ValueError(
+                        f"Invalid value for `status`, must be one of { status_allowed_values }"
+                    )
 
         query_params = {
             "compartmentId": kwargs.get("compartment_id", missing),
@@ -5452,7 +6402,9 @@ class JavaManagementServiceClient(object):
             "fleetId": kwargs.get("fleet_id", missing),
             "page": kwargs.get("page", missing),
             "limit": kwargs.get("limit", missing),
-            "managedInstanceId": kwargs.get("managed_instance_id", missing)
+            "managedInstanceId": kwargs.get("managed_instance_id", missing),
+            "operationType": kwargs.get("operation_type", missing),
+            "status": self.base_client.generate_collection_format_param(kwargs.get("status", missing), 'multi')
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -5717,6 +6669,110 @@ class JavaManagementServiceClient(object):
                 path_params=path_params,
                 header_params=header_params,
                 body=request_crypto_analyses_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def request_deployed_application_migration_analyses(self, fleet_id, request_deployed_application_migration_analyses_details, **kwargs):
+        """
+        Request to perform a deployed Java migration analyses. The results of the deployed Java migration analyses will be uploaded to the
+        Object Storage bucket that you designate when you enable the Java Migration Analyses feature.
+
+
+        :param str fleet_id: (required)
+            The `OCID`__ of the Fleet.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.jms.models.RequestDeployedApplicationMigrationAnalysesDetails request_deployed_application_migration_analyses_details: (required)
+            Detail information that starts the deployed Java migration analyses
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/request_deployed_application_migration_analyses.py.html>`__ to see an example of how to use request_deployed_application_migration_analyses API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['fleetId']
+        resource_path = "/fleets/{fleetId}/actions/requestDeployedApplicationMigrationAnalyses"
+        method = "POST"
+        operation_name = "request_deployed_application_migration_analyses"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestDeployedApplicationMigrationAnalyses"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"request_deployed_application_migration_analyses got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "fleetId": fleet_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=request_deployed_application_migration_analyses_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=request_deployed_application_migration_analyses_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,
@@ -6356,7 +7412,7 @@ class JavaManagementServiceClient(object):
             Default order for _displayName_, _installationPath_ and _osName_ is **ascending**.
             If no value is specified _timeLastSeen_ is default.
 
-            Allowed values are: "timeFirstSeen", "timeLastSeen", "displayName", "installationPath", "osName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount"
+            Allowed values are: "timeFirstSeen", "timeLastSeen", "displayName", "installationPath", "osName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount", "approximateLibraryCount"
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -6442,7 +7498,7 @@ class JavaManagementServiceClient(object):
                 )
 
         if 'sort_by' in kwargs:
-            sort_by_allowed_values = ["timeFirstSeen", "timeLastSeen", "displayName", "installationPath", "osName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount"]
+            sort_by_allowed_values = ["timeFirstSeen", "timeLastSeen", "displayName", "installationPath", "osName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount", "approximateLibraryCount"]
             if kwargs['sort_by'] not in sort_by_allowed_values:
                 raise ValueError(
                     f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
@@ -6583,7 +7639,7 @@ class JavaManagementServiceClient(object):
             Default order for _displayName_ and _osName_ is **ascending**.
             If no value is specified _timeLastSeen_ is default.
 
-            Allowed values are: "timeFirstSeen", "timeLastSeen", "displayName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount", "osName"
+            Allowed values are: "timeFirstSeen", "timeLastSeen", "displayName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount", "approximateLibraryCount", "osName"
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -6679,7 +7735,7 @@ class JavaManagementServiceClient(object):
                 )
 
         if 'sort_by' in kwargs:
-            sort_by_allowed_values = ["timeFirstSeen", "timeLastSeen", "displayName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount", "osName"]
+            sort_by_allowed_values = ["timeFirstSeen", "timeLastSeen", "displayName", "approximateJreCount", "approximateInstallationCount", "approximateManagedInstanceCount", "approximateLibraryCount", "osName"]
             if kwargs['sort_by'] not in sort_by_allowed_values:
                 raise ValueError(
                     f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
@@ -6820,7 +7876,7 @@ class JavaManagementServiceClient(object):
             The field to sort the deployed application installations. Only one sort order can be provided.
             If no value is specified _timeLastSeen_ is default.
 
-            Allowed values are: "applicationName", "applicationType", "applicationSourcePath", "isClustered", "javaServerInstanceCount", "timeFirstSeen", "timeLastSeen"
+            Allowed values are: "applicationName", "applicationType", "applicationSourcePath", "isClustered", "javaServerInstanceCount", "approximateJavaServerInstanceCount", "approximateLibraryCount", "timeFirstSeen", "timeLastSeen"
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -6894,7 +7950,7 @@ class JavaManagementServiceClient(object):
                 )
 
         if 'sort_by' in kwargs:
-            sort_by_allowed_values = ["applicationName", "applicationType", "applicationSourcePath", "isClustered", "javaServerInstanceCount", "timeFirstSeen", "timeLastSeen"]
+            sort_by_allowed_values = ["applicationName", "applicationType", "applicationSourcePath", "isClustered", "javaServerInstanceCount", "approximateJavaServerInstanceCount", "approximateLibraryCount", "timeFirstSeen", "timeLastSeen"]
             if kwargs['sort_by'] not in sort_by_allowed_values:
                 raise ValueError(
                     f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
@@ -7018,7 +8074,7 @@ class JavaManagementServiceClient(object):
             The field to sort the deployed applications. Only one sort order can be provided.
             If no value is specified _timeLastSeen_ is default.
 
-            Allowed values are: "applicationName", "applicationType", "isClustered", "javaServerInstanceCount", "timeFirstSeen", "timeLastSeen"
+            Allowed values are: "applicationName", "applicationType", "isClustered", "javaServerInstanceCount", "approximateJavaServerInstanceCount", "approximateLibraryCount", "timeFirstSeen", "timeLastSeen"
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -7090,7 +8146,7 @@ class JavaManagementServiceClient(object):
                 )
 
         if 'sort_by' in kwargs:
-            sort_by_allowed_values = ["applicationName", "applicationType", "isClustered", "javaServerInstanceCount", "timeFirstSeen", "timeLastSeen"]
+            sort_by_allowed_values = ["applicationName", "applicationType", "isClustered", "javaServerInstanceCount", "approximateJavaServerInstanceCount", "approximateLibraryCount", "timeFirstSeen", "timeLastSeen"]
             if kwargs['sort_by'] not in sort_by_allowed_values:
                 raise ValueError(
                     f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
@@ -8024,6 +9080,12 @@ class JavaManagementServiceClient(object):
         :param str library_name: (optional)
             The library name.
 
+        :param int cvss_score_greater_than: (optional)
+            Total Common Vulnerability Scoring System (CVSS) Score reported by the analysis.
+
+        :param int cvss_score_less_than: (optional)
+            Total Common Vulnerability Scoring System (CVSS) Score reported by the analysis.
+
         :param datetime time_start: (optional)
             The start of the time period during which resources are searched (formatted according to `RFC3339`__).
 
@@ -8089,6 +9151,8 @@ class JavaManagementServiceClient(object):
             "library_key",
             "library_name_contains",
             "library_name",
+            "cvss_score_greater_than",
+            "cvss_score_less_than",
             "time_start",
             "time_end",
             "limit",
@@ -8133,6 +9197,8 @@ class JavaManagementServiceClient(object):
             "libraryKey": kwargs.get("library_key", missing),
             "libraryNameContains": kwargs.get("library_name_contains", missing),
             "libraryName": kwargs.get("library_name", missing),
+            "cvssScoreGreaterThan": kwargs.get("cvss_score_greater_than", missing),
+            "cvssScoreLessThan": kwargs.get("cvss_score_less_than", missing),
             "timeStart": kwargs.get("time_start", missing),
             "timeEnd": kwargs.get("time_end", missing),
             "limit": kwargs.get("limit", missing),
@@ -8201,7 +9267,7 @@ class JavaManagementServiceClient(object):
         :param str managed_instance_type: (optional)
             The type of the managed instance.
 
-            Allowed values are: "ORACLE_MANAGEMENT_AGENT"
+            Allowed values are: "ORACLE_MANAGEMENT_AGENT", "ORACLE_CLOUD_AGENT"
 
         :param str jre_vendor: (optional)
             The vendor of the related Java Runtime.
@@ -8333,7 +9399,7 @@ class JavaManagementServiceClient(object):
                 raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
 
         if 'managed_instance_type' in kwargs:
-            managed_instance_type_allowed_values = ["ORACLE_MANAGEMENT_AGENT"]
+            managed_instance_type_allowed_values = ["ORACLE_MANAGEMENT_AGENT", "ORACLE_CLOUD_AGENT"]
             if kwargs['managed_instance_type'] not in managed_instance_type_allowed_values:
                 raise ValueError(
                     f"Invalid value for `managed_instance_type`, must be one of { managed_instance_type_allowed_values }"
@@ -8545,7 +9611,7 @@ class JavaManagementServiceClient(object):
 
     def update_drs_file(self, fleet_id, update_drs_file_details, drs_file_key, **kwargs):
         """
-        Request to perform validaition of the DRS file and update the existing file in the Object Storage.
+        Request to perform validation of the DRS file and update the existing file in the Object Storage.
 
 
         :param str fleet_id: (required)
@@ -8671,7 +9737,7 @@ class JavaManagementServiceClient(object):
 
     def update_export_setting(self, fleet_id, update_export_setting_details, **kwargs):
         """
-        Updates existing export setting for the specified Fleet.
+        Updates existing export setting for the specified fleet.
 
 
         :param str fleet_id: (required)
@@ -8680,7 +9746,7 @@ class JavaManagementServiceClient(object):
             __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
 
         :param oci.jms.models.UpdateExportSettingDetails update_export_setting_details: (required)
-            The new details for the Export setting.
+            The new details for the export setting.
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -9127,6 +10193,120 @@ class JavaManagementServiceClient(object):
                 path_params=path_params,
                 header_params=header_params,
                 body=update_fleet_agent_configuration_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def update_jms_plugin(self, jms_plugin_id, update_jms_plugin_details, **kwargs):
+        """
+        Updates the Fleet of a JmsPlugin.
+
+
+        :param str jms_plugin_id: (required)
+            The `OCID`__ of the JmsPlugin.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.jms.models.UpdateJmsPluginDetails update_jms_plugin_details: (required)
+            The new details for the JmsPlugin.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            ETag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the ETag you
+            provide matches the resource's current ETag value.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.jms.models.JmsPlugin`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/jms/update_jms_plugin.py.html>`__ to see an example of how to use update_jms_plugin API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['jmsPluginId']
+        resource_path = "/jmsPlugins/{jmsPluginId}"
+        method = "PUT"
+        operation_name = "update_jms_plugin"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/UpdateJmsPlugin"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "if_match",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"update_jms_plugin got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "jmsPluginId": jms_plugin_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "if-match": kwargs.get("if_match", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=update_jms_plugin_details,
+                response_type="JmsPlugin",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=update_jms_plugin_details,
+                response_type="JmsPlugin",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,

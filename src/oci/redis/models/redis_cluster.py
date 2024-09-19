@@ -12,9 +12,9 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class RedisCluster(object):
     """
-    A Redis cluster is a memory-based storage solution. For more information, see `OCI Caching Service with Redis`__.
+    An OCI Cache cluster is a memory-based storage solution. For more information, see `OCI Cache`__.
 
-    __ https://docs.cloud.oracle.com/iaas/Content/redis/home.htm
+    __ https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm
     """
 
     #: A constant which can be used with the lifecycle_state property of a RedisCluster.
@@ -44,6 +44,18 @@ class RedisCluster(object):
     #: A constant which can be used with the software_version property of a RedisCluster.
     #: This constant has a value of "V7_0_5"
     SOFTWARE_VERSION_V7_0_5 = "V7_0_5"
+
+    #: A constant which can be used with the software_version property of a RedisCluster.
+    #: This constant has a value of "REDIS_7_0"
+    SOFTWARE_VERSION_REDIS_7_0 = "REDIS_7_0"
+
+    #: A constant which can be used with the cluster_mode property of a RedisCluster.
+    #: This constant has a value of "SHARDED"
+    CLUSTER_MODE_SHARDED = "SHARDED"
+
+    #: A constant which can be used with the cluster_mode property of a RedisCluster.
+    #: This constant has a value of "NONSHARDED"
+    CLUSTER_MODE_NONSHARDED = "NONSHARDED"
 
     def __init__(self, **kwargs):
         """
@@ -98,7 +110,7 @@ class RedisCluster(object):
 
         :param software_version:
             The value to assign to the software_version property of this RedisCluster.
-            Allowed values for this property are: "V7_0_5", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "V7_0_5", "REDIS_7_0", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type software_version: str
 
@@ -117,6 +129,16 @@ class RedisCluster(object):
         :param node_collection:
             The value to assign to the node_collection property of this RedisCluster.
         :type node_collection: oci.redis.models.NodeCollection
+
+        :param cluster_mode:
+            The value to assign to the cluster_mode property of this RedisCluster.
+            Allowed values for this property are: "SHARDED", "NONSHARDED", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type cluster_mode: str
+
+        :param shard_count:
+            The value to assign to the shard_count property of this RedisCluster.
+        :type shard_count: int
 
         :param nsg_ids:
             The value to assign to the nsg_ids property of this RedisCluster.
@@ -152,6 +174,8 @@ class RedisCluster(object):
             'time_created': 'datetime',
             'time_updated': 'datetime',
             'node_collection': 'NodeCollection',
+            'cluster_mode': 'str',
+            'shard_count': 'int',
             'nsg_ids': 'list[str]',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
@@ -175,6 +199,8 @@ class RedisCluster(object):
             'time_created': 'timeCreated',
             'time_updated': 'timeUpdated',
             'node_collection': 'nodeCollection',
+            'cluster_mode': 'clusterMode',
+            'shard_count': 'shardCount',
             'nsg_ids': 'nsgIds',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
@@ -197,6 +223,8 @@ class RedisCluster(object):
         self._time_created = None
         self._time_updated = None
         self._node_collection = None
+        self._cluster_mode = None
+        self._shard_count = None
         self._nsg_ids = None
         self._freeform_tags = None
         self._defined_tags = None
@@ -206,7 +234,7 @@ class RedisCluster(object):
     def id(self):
         """
         **[Required]** Gets the id of this RedisCluster.
-        The `OCID`__ of the Redis cluster.
+        The `OCID`__ of the cluster.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle
 
@@ -220,7 +248,7 @@ class RedisCluster(object):
     def id(self, id):
         """
         Sets the id of this RedisCluster.
-        The `OCID`__ of the Redis cluster.
+        The `OCID`__ of the cluster.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle
 
@@ -258,7 +286,7 @@ class RedisCluster(object):
     def compartment_id(self):
         """
         **[Required]** Gets the compartment_id of this RedisCluster.
-        The `OCID`__ of the compartment that contains the Redis cluster.
+        The `OCID`__ of the compartment that contains the cluster.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle
 
@@ -272,7 +300,7 @@ class RedisCluster(object):
     def compartment_id(self, compartment_id):
         """
         Sets the compartment_id of this RedisCluster.
-        The `OCID`__ of the compartment that contains the Redis cluster.
+        The `OCID`__ of the compartment that contains the cluster.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle
 
@@ -286,7 +314,7 @@ class RedisCluster(object):
     def lifecycle_state(self):
         """
         Gets the lifecycle_state of this RedisCluster.
-        The current state of the Redis cluster.
+        The current state of the cluster.
 
         Allowed values for this property are: "CREATING", "UPDATING", "ACTIVE", "DELETING", "DELETED", "FAILED", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -301,7 +329,7 @@ class RedisCluster(object):
     def lifecycle_state(self, lifecycle_state):
         """
         Sets the lifecycle_state of this RedisCluster.
-        The current state of the Redis cluster.
+        The current state of the cluster.
 
 
         :param lifecycle_state: The lifecycle_state of this RedisCluster.
@@ -340,7 +368,7 @@ class RedisCluster(object):
     def node_count(self):
         """
         **[Required]** Gets the node_count of this RedisCluster.
-        The number of nodes in the Redis cluster.
+        The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
 
 
         :return: The node_count of this RedisCluster.
@@ -352,7 +380,7 @@ class RedisCluster(object):
     def node_count(self, node_count):
         """
         Sets the node_count of this RedisCluster.
-        The number of nodes in the Redis cluster.
+        The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
 
 
         :param node_count: The node_count of this RedisCluster.
@@ -364,7 +392,7 @@ class RedisCluster(object):
     def node_memory_in_gbs(self):
         """
         **[Required]** Gets the node_memory_in_gbs of this RedisCluster.
-        The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
+        The amount of memory allocated to the cluster's nodes, in gigabytes.
 
 
         :return: The node_memory_in_gbs of this RedisCluster.
@@ -376,7 +404,7 @@ class RedisCluster(object):
     def node_memory_in_gbs(self, node_memory_in_gbs):
         """
         Sets the node_memory_in_gbs of this RedisCluster.
-        The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
+        The amount of memory allocated to the cluster's nodes, in gigabytes.
 
 
         :param node_memory_in_gbs: The node_memory_in_gbs of this RedisCluster.
@@ -388,7 +416,7 @@ class RedisCluster(object):
     def primary_fqdn(self):
         """
         **[Required]** Gets the primary_fqdn of this RedisCluster.
-        The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's primary node.
+        The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 
 
         :return: The primary_fqdn of this RedisCluster.
@@ -400,7 +428,7 @@ class RedisCluster(object):
     def primary_fqdn(self, primary_fqdn):
         """
         Sets the primary_fqdn of this RedisCluster.
-        The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's primary node.
+        The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 
 
         :param primary_fqdn: The primary_fqdn of this RedisCluster.
@@ -412,7 +440,7 @@ class RedisCluster(object):
     def primary_endpoint_ip_address(self):
         """
         **[Required]** Gets the primary_endpoint_ip_address of this RedisCluster.
-        The private IP address of the API endpoint for the Redis cluster's primary node.
+        The private IP address of the API endpoint for the cluster's primary node.
 
 
         :return: The primary_endpoint_ip_address of this RedisCluster.
@@ -424,7 +452,7 @@ class RedisCluster(object):
     def primary_endpoint_ip_address(self, primary_endpoint_ip_address):
         """
         Sets the primary_endpoint_ip_address of this RedisCluster.
-        The private IP address of the API endpoint for the Redis cluster's primary node.
+        The private IP address of the API endpoint for the cluster's primary node.
 
 
         :param primary_endpoint_ip_address: The primary_endpoint_ip_address of this RedisCluster.
@@ -436,7 +464,7 @@ class RedisCluster(object):
     def replicas_fqdn(self):
         """
         **[Required]** Gets the replicas_fqdn of this RedisCluster.
-        The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's replica nodes.
+        The fully qualified domain name (FQDN) of the API endpoint for the cluster's replica nodes.
 
 
         :return: The replicas_fqdn of this RedisCluster.
@@ -448,7 +476,7 @@ class RedisCluster(object):
     def replicas_fqdn(self, replicas_fqdn):
         """
         Sets the replicas_fqdn of this RedisCluster.
-        The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's replica nodes.
+        The fully qualified domain name (FQDN) of the API endpoint for the cluster's replica nodes.
 
 
         :param replicas_fqdn: The replicas_fqdn of this RedisCluster.
@@ -460,7 +488,7 @@ class RedisCluster(object):
     def replicas_endpoint_ip_address(self):
         """
         **[Required]** Gets the replicas_endpoint_ip_address of this RedisCluster.
-        The private IP address of the API endpoint for the Redis cluster's replica nodes.
+        The private IP address of the API endpoint for the cluster's replica nodes.
 
 
         :return: The replicas_endpoint_ip_address of this RedisCluster.
@@ -472,7 +500,7 @@ class RedisCluster(object):
     def replicas_endpoint_ip_address(self, replicas_endpoint_ip_address):
         """
         Sets the replicas_endpoint_ip_address of this RedisCluster.
-        The private IP address of the API endpoint for the Redis cluster's replica nodes.
+        The private IP address of the API endpoint for the cluster's replica nodes.
 
 
         :param replicas_endpoint_ip_address: The replicas_endpoint_ip_address of this RedisCluster.
@@ -484,9 +512,9 @@ class RedisCluster(object):
     def software_version(self):
         """
         **[Required]** Gets the software_version of this RedisCluster.
-        The Redis version that the cluster is running.
+        The OCI Cache engine version that the cluster is running.
 
-        Allowed values for this property are: "V7_0_5", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "V7_0_5", "REDIS_7_0", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -499,13 +527,13 @@ class RedisCluster(object):
     def software_version(self, software_version):
         """
         Sets the software_version of this RedisCluster.
-        The Redis version that the cluster is running.
+        The OCI Cache engine version that the cluster is running.
 
 
         :param software_version: The software_version of this RedisCluster.
         :type: str
         """
-        allowed_values = ["V7_0_5"]
+        allowed_values = ["V7_0_5", "REDIS_7_0"]
         if not value_allowed_none_or_none_sentinel(software_version, allowed_values):
             software_version = 'UNKNOWN_ENUM_VALUE'
         self._software_version = software_version
@@ -514,7 +542,7 @@ class RedisCluster(object):
     def subnet_id(self):
         """
         **[Required]** Gets the subnet_id of this RedisCluster.
-        The `OCID`__ of the Redis cluster's subnet.
+        The `OCID`__ of the cluster's subnet.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle
 
@@ -528,7 +556,7 @@ class RedisCluster(object):
     def subnet_id(self, subnet_id):
         """
         Sets the subnet_id of this RedisCluster.
-        The `OCID`__ of the Redis cluster's subnet.
+        The `OCID`__ of the cluster's subnet.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle
 
@@ -542,7 +570,7 @@ class RedisCluster(object):
     def time_created(self):
         """
         Gets the time_created of this RedisCluster.
-        The date and time the Redis cluster was created. An `RFC3339`__ formatted datetime string.
+        The date and time the cluster was created. An `RFC3339`__ formatted datetime string.
 
         __ https://datatracker.ietf.org/doc/html/rfc3339
 
@@ -556,7 +584,7 @@ class RedisCluster(object):
     def time_created(self, time_created):
         """
         Sets the time_created of this RedisCluster.
-        The date and time the Redis cluster was created. An `RFC3339`__ formatted datetime string.
+        The date and time the cluster was created. An `RFC3339`__ formatted datetime string.
 
         __ https://datatracker.ietf.org/doc/html/rfc3339
 
@@ -570,7 +598,7 @@ class RedisCluster(object):
     def time_updated(self):
         """
         Gets the time_updated of this RedisCluster.
-        The date and time the Redis cluster was updated. An `RFC3339`__ formatted datetime string.
+        The date and time the cluster was updated. An `RFC3339`__ formatted datetime string.
 
         __ https://datatracker.ietf.org/doc/html/rfc3339
 
@@ -584,7 +612,7 @@ class RedisCluster(object):
     def time_updated(self, time_updated):
         """
         Sets the time_updated of this RedisCluster.
-        The date and time the Redis cluster was updated. An `RFC3339`__ formatted datetime string.
+        The date and time the cluster was updated. An `RFC3339`__ formatted datetime string.
 
         __ https://datatracker.ietf.org/doc/html/rfc3339
 
@@ -615,10 +643,69 @@ class RedisCluster(object):
         self._node_collection = node_collection
 
     @property
+    def cluster_mode(self):
+        """
+        Gets the cluster_mode of this RedisCluster.
+        Specifies whether the cluster is sharded or non-sharded.
+
+        Allowed values for this property are: "SHARDED", "NONSHARDED", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The cluster_mode of this RedisCluster.
+        :rtype: str
+        """
+        return self._cluster_mode
+
+    @cluster_mode.setter
+    def cluster_mode(self, cluster_mode):
+        """
+        Sets the cluster_mode of this RedisCluster.
+        Specifies whether the cluster is sharded or non-sharded.
+
+
+        :param cluster_mode: The cluster_mode of this RedisCluster.
+        :type: str
+        """
+        allowed_values = ["SHARDED", "NONSHARDED"]
+        if not value_allowed_none_or_none_sentinel(cluster_mode, allowed_values):
+            cluster_mode = 'UNKNOWN_ENUM_VALUE'
+        self._cluster_mode = cluster_mode
+
+    @property
+    def shard_count(self):
+        """
+        Gets the shard_count of this RedisCluster.
+        The number of shards in a sharded cluster. Only applicable when clusterMode is SHARDED.
+
+
+        :return: The shard_count of this RedisCluster.
+        :rtype: int
+        """
+        return self._shard_count
+
+    @shard_count.setter
+    def shard_count(self, shard_count):
+        """
+        Sets the shard_count of this RedisCluster.
+        The number of shards in a sharded cluster. Only applicable when clusterMode is SHARDED.
+
+
+        :param shard_count: The shard_count of this RedisCluster.
+        :type: int
+        """
+        self._shard_count = shard_count
+
+    @property
     def nsg_ids(self):
         """
         Gets the nsg_ids of this RedisCluster.
-        OCIDs of the NSGs to control access in the customer network
+        A list of Network Security Group (NSG) `OCIDs`__
+        associated with this cluster. For more information,
+        see `Using an NSG for Clusters`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup
 
 
         :return: The nsg_ids of this RedisCluster.
@@ -630,7 +717,12 @@ class RedisCluster(object):
     def nsg_ids(self, nsg_ids):
         """
         Sets the nsg_ids of this RedisCluster.
-        OCIDs of the NSGs to control access in the customer network
+        A list of Network Security Group (NSG) `OCIDs`__
+        associated with this cluster. For more information,
+        see `Using an NSG for Clusters`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup
 
 
         :param nsg_ids: The nsg_ids of this RedisCluster.

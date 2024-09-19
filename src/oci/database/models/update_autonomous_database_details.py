@@ -161,6 +161,10 @@ class UpdateAutonomousDatabaseDetails(object):
             Allowed values for this property are: "LICENSE_INCLUDED", "BRING_YOUR_OWN_LICENSE"
         :type license_model: str
 
+        :param byol_compute_count_limit:
+            The value to assign to the byol_compute_count_limit property of this UpdateAutonomousDatabaseDetails.
+        :type byol_compute_count_limit: float
+
         :param is_access_control_enabled:
             The value to assign to the is_access_control_enabled property of this UpdateAutonomousDatabaseDetails.
         :type is_access_control_enabled: bool
@@ -305,6 +309,7 @@ class UpdateAutonomousDatabaseDetails(object):
             'defined_tags': 'dict(str, dict(str, object))',
             'db_workload': 'str',
             'license_model': 'str',
+            'byol_compute_count_limit': 'float',
             'is_access_control_enabled': 'bool',
             'whitelisted_ips': 'list[str]',
             'are_primary_whitelisted_ips_used': 'bool',
@@ -357,6 +362,7 @@ class UpdateAutonomousDatabaseDetails(object):
             'defined_tags': 'definedTags',
             'db_workload': 'dbWorkload',
             'license_model': 'licenseModel',
+            'byol_compute_count_limit': 'byolComputeCountLimit',
             'is_access_control_enabled': 'isAccessControlEnabled',
             'whitelisted_ips': 'whitelistedIps',
             'are_primary_whitelisted_ips_used': 'arePrimaryWhitelistedIpsUsed',
@@ -408,6 +414,7 @@ class UpdateAutonomousDatabaseDetails(object):
         self._defined_tags = None
         self._db_workload = None
         self._license_model = None
+        self._byol_compute_count_limit = None
         self._is_access_control_enabled = None
         self._whitelisted_ips = None
         self._are_primary_whitelisted_ips_used = None
@@ -604,9 +611,7 @@ class UpdateAutonomousDatabaseDetails(object):
     def is_dev_tier(self):
         """
         Gets the is_dev_tier of this UpdateAutonomousDatabaseDetails.
-        Autonomous Database for Developers are free Autonomous Databases that developers can use to build and test new applications.With Autonomous these database instancess instances, you can try new Autonomous Database features for free and apply them to ongoing or new development projects. Developer database comes with limited resources and is, therefore, not suitable for large-scale testing and production deployments. When you need more compute or storage resources, you can transition to a paid database licensing by cloning your developer database into a regular Autonomous Database. See `Autonomous Database documentation`__ for more details.
-
-        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/eddjo/index.html
+        Autonomous Database for Developers are fixed-shape Autonomous Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database.
 
 
         :return: The is_dev_tier of this UpdateAutonomousDatabaseDetails.
@@ -618,9 +623,7 @@ class UpdateAutonomousDatabaseDetails(object):
     def is_dev_tier(self, is_dev_tier):
         """
         Sets the is_dev_tier of this UpdateAutonomousDatabaseDetails.
-        Autonomous Database for Developers are free Autonomous Databases that developers can use to build and test new applications.With Autonomous these database instancess instances, you can try new Autonomous Database features for free and apply them to ongoing or new development projects. Developer database comes with limited resources and is, therefore, not suitable for large-scale testing and production deployments. When you need more compute or storage resources, you can transition to a paid database licensing by cloning your developer database into a regular Autonomous Database. See `Autonomous Database documentation`__ for more details.
-
-        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/eddjo/index.html
+        Autonomous Database for Developers are fixed-shape Autonomous Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database.
 
 
         :param is_dev_tier: The is_dev_tier of this UpdateAutonomousDatabaseDetails.
@@ -1045,6 +1048,30 @@ class UpdateAutonomousDatabaseDetails(object):
                 f"Invalid value for `license_model`, must be None or one of {allowed_values}"
             )
         self._license_model = license_model
+
+    @property
+    def byol_compute_count_limit(self):
+        """
+        Gets the byol_compute_count_limit of this UpdateAutonomousDatabaseDetails.
+        The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
+
+
+        :return: The byol_compute_count_limit of this UpdateAutonomousDatabaseDetails.
+        :rtype: float
+        """
+        return self._byol_compute_count_limit
+
+    @byol_compute_count_limit.setter
+    def byol_compute_count_limit(self, byol_compute_count_limit):
+        """
+        Sets the byol_compute_count_limit of this UpdateAutonomousDatabaseDetails.
+        The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
+
+
+        :param byol_compute_count_limit: The byol_compute_count_limit of this UpdateAutonomousDatabaseDetails.
+        :type: float
+        """
+        self._byol_compute_count_limit = byol_compute_count_limit
 
     @property
     def is_access_control_enabled(self):
