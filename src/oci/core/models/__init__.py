@@ -62,6 +62,7 @@ from .boot_volume_replica import BootVolumeReplica
 from .boot_volume_replica_details import BootVolumeReplicaDetails
 from .boot_volume_replica_info import BootVolumeReplicaInfo
 from .boot_volume_source_details import BootVolumeSourceDetails
+from .boot_volume_source_from_boot_volume_backup_delta_details import BootVolumeSourceFromBootVolumeBackupDeltaDetails
 from .boot_volume_source_from_boot_volume_backup_details import BootVolumeSourceFromBootVolumeBackupDetails
 from .boot_volume_source_from_boot_volume_details import BootVolumeSourceFromBootVolumeDetails
 from .boot_volume_source_from_boot_volume_replica_details import BootVolumeSourceFromBootVolumeReplicaDetails
@@ -397,16 +398,20 @@ from .ipsec_tunnel_drg_attachment_network_details import IpsecTunnelDrgAttachmen
 from .ipv6 import Ipv6
 from .ipv6_address_ipv6_subnet_cidr_pair_details import Ipv6AddressIpv6SubnetCidrPairDetails
 from .launch_attach_i_scsi_volume_details import LaunchAttachIScsiVolumeDetails
+from .launch_attach_paravirtualized_volume_details import LaunchAttachParavirtualizedVolumeDetails
 from .launch_attach_volume_details import LaunchAttachVolumeDetails
 from .launch_create_volume_details import LaunchCreateVolumeDetails
 from .launch_create_volume_from_attributes import LaunchCreateVolumeFromAttributes
 from .launch_instance_agent_config_details import LaunchInstanceAgentConfigDetails
 from .launch_instance_availability_config_details import LaunchInstanceAvailabilityConfigDetails
 from .launch_instance_details import LaunchInstanceDetails
+from .launch_instance_licensing_config import LaunchInstanceLicensingConfig
 from .launch_instance_platform_config import LaunchInstancePlatformConfig
 from .launch_instance_shape_config_details import LaunchInstanceShapeConfigDetails
+from .launch_instance_windows_licensing_config import LaunchInstanceWindowsLicensingConfig
 from .launch_options import LaunchOptions
 from .letter_of_authority import LetterOfAuthority
+from .licensing_config import LicensingConfig
 from .list_ip_inventory_details import ListIpInventoryDetails
 from .local_peering_gateway import LocalPeeringGateway
 from .loop_back_drg_attachment_network_details import LoopBackDrgAttachmentNetworkDetails
@@ -530,6 +535,7 @@ from .update_instance_availability_config_details import UpdateInstanceAvailabil
 from .update_instance_configuration_details import UpdateInstanceConfigurationDetails
 from .update_instance_console_connection_details import UpdateInstanceConsoleConnectionDetails
 from .update_instance_details import UpdateInstanceDetails
+from .update_instance_licensing_config import UpdateInstanceLicensingConfig
 from .update_instance_maintenance_event_details import UpdateInstanceMaintenanceEventDetails
 from .update_instance_platform_config import UpdateInstancePlatformConfig
 from .update_instance_pool_details import UpdateInstancePoolDetails
@@ -538,6 +544,7 @@ from .update_instance_shape_config_details import UpdateInstanceShapeConfigDetai
 from .update_instance_source_details import UpdateInstanceSourceDetails
 from .update_instance_source_via_boot_volume_details import UpdateInstanceSourceViaBootVolumeDetails
 from .update_instance_source_via_image_details import UpdateInstanceSourceViaImageDetails
+from .update_instance_windows_licensing_config import UpdateInstanceWindowsLicensingConfig
 from .update_internet_gateway_details import UpdateInternetGatewayDetails
 from .update_ipv6_details import UpdateIpv6Details
 from .update_launch_options import UpdateLaunchOptions
@@ -582,6 +589,7 @@ from .virtual_circuit_associated_tunnel_details import VirtualCircuitAssociatedT
 from .virtual_circuit_bandwidth_shape import VirtualCircuitBandwidthShape
 from .virtual_circuit_drg_attachment_network_details import VirtualCircuitDrgAttachmentNetworkDetails
 from .virtual_circuit_public_prefix import VirtualCircuitPublicPrefix
+from .virtual_circuit_redundancy_metadata import VirtualCircuitRedundancyMetadata
 from .vlan import Vlan
 from .vnic import Vnic
 from .vnic_attachment import VnicAttachment
@@ -604,6 +612,7 @@ from .volume_group_source_from_volumes_details import VolumeGroupSourceFromVolum
 from .volume_kms_key import VolumeKmsKey
 from .volume_source_details import VolumeSourceDetails
 from .volume_source_from_block_volume_replica_details import VolumeSourceFromBlockVolumeReplicaDetails
+from .volume_source_from_volume_backup_delta_details import VolumeSourceFromVolumeBackupDeltaDetails
 from .volume_source_from_volume_backup_details import VolumeSourceFromVolumeBackupDetails
 from .volume_source_from_volume_details import VolumeSourceFromVolumeDetails
 from .vtap import Vtap
@@ -667,6 +676,7 @@ core_type_mapping = {
     "BootVolumeReplicaDetails": BootVolumeReplicaDetails,
     "BootVolumeReplicaInfo": BootVolumeReplicaInfo,
     "BootVolumeSourceDetails": BootVolumeSourceDetails,
+    "BootVolumeSourceFromBootVolumeBackupDeltaDetails": BootVolumeSourceFromBootVolumeBackupDeltaDetails,
     "BootVolumeSourceFromBootVolumeBackupDetails": BootVolumeSourceFromBootVolumeBackupDetails,
     "BootVolumeSourceFromBootVolumeDetails": BootVolumeSourceFromBootVolumeDetails,
     "BootVolumeSourceFromBootVolumeReplicaDetails": BootVolumeSourceFromBootVolumeReplicaDetails,
@@ -1002,16 +1012,20 @@ core_type_mapping = {
     "Ipv6": Ipv6,
     "Ipv6AddressIpv6SubnetCidrPairDetails": Ipv6AddressIpv6SubnetCidrPairDetails,
     "LaunchAttachIScsiVolumeDetails": LaunchAttachIScsiVolumeDetails,
+    "LaunchAttachParavirtualizedVolumeDetails": LaunchAttachParavirtualizedVolumeDetails,
     "LaunchAttachVolumeDetails": LaunchAttachVolumeDetails,
     "LaunchCreateVolumeDetails": LaunchCreateVolumeDetails,
     "LaunchCreateVolumeFromAttributes": LaunchCreateVolumeFromAttributes,
     "LaunchInstanceAgentConfigDetails": LaunchInstanceAgentConfigDetails,
     "LaunchInstanceAvailabilityConfigDetails": LaunchInstanceAvailabilityConfigDetails,
     "LaunchInstanceDetails": LaunchInstanceDetails,
+    "LaunchInstanceLicensingConfig": LaunchInstanceLicensingConfig,
     "LaunchInstancePlatformConfig": LaunchInstancePlatformConfig,
     "LaunchInstanceShapeConfigDetails": LaunchInstanceShapeConfigDetails,
+    "LaunchInstanceWindowsLicensingConfig": LaunchInstanceWindowsLicensingConfig,
     "LaunchOptions": LaunchOptions,
     "LetterOfAuthority": LetterOfAuthority,
+    "LicensingConfig": LicensingConfig,
     "ListIpInventoryDetails": ListIpInventoryDetails,
     "LocalPeeringGateway": LocalPeeringGateway,
     "LoopBackDrgAttachmentNetworkDetails": LoopBackDrgAttachmentNetworkDetails,
@@ -1135,6 +1149,7 @@ core_type_mapping = {
     "UpdateInstanceConfigurationDetails": UpdateInstanceConfigurationDetails,
     "UpdateInstanceConsoleConnectionDetails": UpdateInstanceConsoleConnectionDetails,
     "UpdateInstanceDetails": UpdateInstanceDetails,
+    "UpdateInstanceLicensingConfig": UpdateInstanceLicensingConfig,
     "UpdateInstanceMaintenanceEventDetails": UpdateInstanceMaintenanceEventDetails,
     "UpdateInstancePlatformConfig": UpdateInstancePlatformConfig,
     "UpdateInstancePoolDetails": UpdateInstancePoolDetails,
@@ -1143,6 +1158,7 @@ core_type_mapping = {
     "UpdateInstanceSourceDetails": UpdateInstanceSourceDetails,
     "UpdateInstanceSourceViaBootVolumeDetails": UpdateInstanceSourceViaBootVolumeDetails,
     "UpdateInstanceSourceViaImageDetails": UpdateInstanceSourceViaImageDetails,
+    "UpdateInstanceWindowsLicensingConfig": UpdateInstanceWindowsLicensingConfig,
     "UpdateInternetGatewayDetails": UpdateInternetGatewayDetails,
     "UpdateIpv6Details": UpdateIpv6Details,
     "UpdateLaunchOptions": UpdateLaunchOptions,
@@ -1187,6 +1203,7 @@ core_type_mapping = {
     "VirtualCircuitBandwidthShape": VirtualCircuitBandwidthShape,
     "VirtualCircuitDrgAttachmentNetworkDetails": VirtualCircuitDrgAttachmentNetworkDetails,
     "VirtualCircuitPublicPrefix": VirtualCircuitPublicPrefix,
+    "VirtualCircuitRedundancyMetadata": VirtualCircuitRedundancyMetadata,
     "Vlan": Vlan,
     "Vnic": Vnic,
     "VnicAttachment": VnicAttachment,
@@ -1209,6 +1226,7 @@ core_type_mapping = {
     "VolumeKmsKey": VolumeKmsKey,
     "VolumeSourceDetails": VolumeSourceDetails,
     "VolumeSourceFromBlockVolumeReplicaDetails": VolumeSourceFromBlockVolumeReplicaDetails,
+    "VolumeSourceFromVolumeBackupDeltaDetails": VolumeSourceFromVolumeBackupDeltaDetails,
     "VolumeSourceFromVolumeBackupDetails": VolumeSourceFromVolumeBackupDetails,
     "VolumeSourceFromVolumeDetails": VolumeSourceFromVolumeDetails,
     "Vtap": Vtap,

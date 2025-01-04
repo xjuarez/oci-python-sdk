@@ -48,6 +48,10 @@ class Ticket(object):
     LIFECYCLE_DETAILS_PENDING_WITH_CUSTOMER = "PENDING_WITH_CUSTOMER"
 
     #: A constant which can be used with the lifecycle_details property of a Ticket.
+    #: This constant has a value of "PENDING_WITH_SUPPORT"
+    LIFECYCLE_DETAILS_PENDING_WITH_SUPPORT = "PENDING_WITH_SUPPORT"
+
+    #: A constant which can be used with the lifecycle_details property of a Ticket.
     #: This constant has a value of "CLOSE_REQUESTED"
     LIFECYCLE_DETAILS_CLOSE_REQUESTED = "CLOSE_REQUESTED"
 
@@ -98,7 +102,7 @@ class Ticket(object):
 
         :param lifecycle_details:
             The value to assign to the lifecycle_details property of this Ticket.
-            Allowed values for this property are: "PENDING_WITH_ORACLE", "PENDING_WITH_CUSTOMER", "CLOSE_REQUESTED", "CLOSED", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "PENDING_WITH_ORACLE", "PENDING_WITH_CUSTOMER", "PENDING_WITH_SUPPORT", "CLOSE_REQUESTED", "CLOSED", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type lifecycle_details: str
 
@@ -267,7 +271,7 @@ class Ticket(object):
     def time_created(self):
         """
         Gets the time_created of this Ticket.
-        The time when the ticket was created, in milliseconds since epoch time.
+        The time when the ticket was created, in seconds since epoch time.
 
 
         :return: The time_created of this Ticket.
@@ -279,7 +283,7 @@ class Ticket(object):
     def time_created(self, time_created):
         """
         Sets the time_created of this Ticket.
-        The time when the ticket was created, in milliseconds since epoch time.
+        The time when the ticket was created, in seconds since epoch time.
 
 
         :param time_created: The time_created of this Ticket.
@@ -291,7 +295,7 @@ class Ticket(object):
     def time_updated(self):
         """
         Gets the time_updated of this Ticket.
-        The time when the ticket was updated, in milliseconds since epoch time.
+        The time when the ticket was updated, in seconds since epoch time.
 
 
         :return: The time_updated of this Ticket.
@@ -303,7 +307,7 @@ class Ticket(object):
     def time_updated(self, time_updated):
         """
         Sets the time_updated of this Ticket.
-        The time when the ticket was updated, in milliseconds since epoch time.
+        The time when the ticket was updated, in seconds since epoch time.
 
 
         :param time_updated: The time_updated of this Ticket.
@@ -347,7 +351,7 @@ class Ticket(object):
         Gets the lifecycle_details of this Ticket.
         Additional information about the current `lifecycleState`.
 
-        Allowed values for this property are: "PENDING_WITH_ORACLE", "PENDING_WITH_CUSTOMER", "CLOSE_REQUESTED", "CLOSED", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "PENDING_WITH_ORACLE", "PENDING_WITH_CUSTOMER", "PENDING_WITH_SUPPORT", "CLOSE_REQUESTED", "CLOSED", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -366,7 +370,7 @@ class Ticket(object):
         :param lifecycle_details: The lifecycle_details of this Ticket.
         :type: str
         """
-        allowed_values = ["PENDING_WITH_ORACLE", "PENDING_WITH_CUSTOMER", "CLOSE_REQUESTED", "CLOSED"]
+        allowed_values = ["PENDING_WITH_ORACLE", "PENDING_WITH_CUSTOMER", "PENDING_WITH_SUPPORT", "CLOSE_REQUESTED", "CLOSED"]
         if not value_allowed_none_or_none_sentinel(lifecycle_details, allowed_values):
             lifecycle_details = 'UNKNOWN_ENUM_VALUE'
         self._lifecycle_details = lifecycle_details

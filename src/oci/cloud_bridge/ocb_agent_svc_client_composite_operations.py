@@ -633,7 +633,7 @@ class OcbAgentSvcClientCompositeOperations(object):
 
     def update_plugin_and_wait_for_state(self, agent_id, plugin_name, update_plugin_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
         """
-        Calls :py:func:`~oci.cloud_bridge.OcbAgentSvcClient.update_plugin` and waits for the :py:class:`~oci.cloud_bridge.models.Plugin` acted upon
+        Calls :py:func:`~oci.cloud_bridge.OcbAgentSvcClient.update_plugin` and waits for the :py:class:`~oci.cloud_bridge.models.WorkRequest`
         to enter the given state(s).
 
         :param str agent_id: (required)
@@ -646,7 +646,7 @@ class OcbAgentSvcClientCompositeOperations(object):
             The information to be updated.
 
         :param list[str] wait_for_states:
-            An array of states to wait on. These should be valid values for :py:attr:`~oci.cloud_bridge.models.Plugin.lifecycle_state`
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.cloud_bridge.models.WorkRequest.status`
 
         :param dict operation_kwargs:
             A dictionary of keyword arguments to pass to :py:func:`~oci.cloud_bridge.OcbAgentSvcClient.update_plugin`
@@ -659,22 +659,19 @@ class OcbAgentSvcClientCompositeOperations(object):
         if not wait_for_states:
             return operation_result
         lowered_wait_for_states = [w.lower() for w in wait_for_states]
-        agent_id = operation_result.data.id
+        if 'opc-work-request-id' not in operation_result.headers:
+            return operation_result
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
 
         try:
             waiter_result = oci.wait_until(
                 self.client,
-                self.client.get_plugin(agent_id, plugin_name),  # noqa: F821
-                evaluate_response=lambda r: getattr(r.data, 'lifecycle_state') and getattr(r.data, 'lifecycle_state').lower() in lowered_wait_for_states,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
                 **waiter_kwargs
             )
             result_to_return = waiter_result
 
             return result_to_return
-        except (NameError, TypeError) as e:
-            if not e.args:
-                e.args = ('',)
-            e.args = e.args + ('This composite operation is currently not supported in the SDK. Please use the operation from the service client and use waiters as an alternative. For more information on waiters, visit: "https://docs.oracle.com/en-us/iaas/tools/python/latest/api/waiters.html"', )
-            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
         except Exception as e:
             raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)

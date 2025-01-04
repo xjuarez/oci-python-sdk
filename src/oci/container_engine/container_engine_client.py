@@ -22,9 +22,9 @@ missing = Sentinel("Missing")
 
 class ContainerEngineClient(object):
     """
-    API for the Container Engine for Kubernetes service. Use this API to build, deploy,
+    API for the Kubernetes Engine service (also known as the Container Engine for Kubernetes service). Use this API to build, deploy,
     and manage cloud-native applications. For more information, see
-    [Overview of Container Engine for Kubernetes](/iaas/Content/ContEng/Concepts/contengoverview.htm).
+    [Overview of Kubernetes Engine](/iaas/Content/ContEng/Concepts/contengoverview.htm).
     """
 
     def __init__(self, config, **kwargs):
@@ -1209,11 +1209,11 @@ class ContainerEngineClient(object):
             Oracle about a particular request, please provide the request ID.
 
         :param str override_eviction_grace_duration_vnp: (optional)
-            Duration after which Sk8s will give up eviction of the pods on the node.
+            Duration after which SKE will give up eviction of the pods on the node.
             PT0M will indicate you want to delete the virtual node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
 
         :param bool is_force_deletion_after_override_grace_duration_vnp: (optional)
-            If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
+            If the underlying virtual node should be force deleted if all the pods are not evicted in the evictionGraceDuration.
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -3184,7 +3184,9 @@ class ContainerEngineClient(object):
             The OCID of the compartment.
 
         :param list[str] lifecycle_state: (optional)
-            A cluster lifecycle state to filter on. Can have multiple parameters of this name.
+            A cluster lifecycle state to filter on. Can have multiple parameters of this name. For more information, see `Monitoring Clusters`__
+
+            __ https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm
 
             Allowed values are: "CREATING", "ACTIVE", "FAILED", "DELETING", "DELETED", "UPDATING"
 
@@ -3376,7 +3378,9 @@ class ContainerEngineClient(object):
             Oracle about a particular request, please provide the request ID.
 
         :param list[str] lifecycle_state: (optional)
-            A list of nodepool lifecycle states on which to filter on, matching any of the list items (OR logic). eg. [ACTIVE, DELETING]
+            A list of nodepool lifecycle states on which to filter on, matching any of the list items (OR logic). eg. `ACTIVE, DELETING]. For more information, see [Monitoring Clusters`__
+
+            __ https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm
 
             Allowed values are: "DELETED", "CREATING", "ACTIVE", "UPDATING", "DELETING", "FAILED", "INACTIVE", "NEEDS_ATTENTION"
 
@@ -4410,7 +4414,7 @@ class ContainerEngineClient(object):
         resource_path = "/clusters/{clusterId}/workloadMappings"
         method = "GET"
         operation_name = "list_workload_mappings"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkloadMappingSummary/ListWorkloadMappings"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/WorkloadMapping/ListWorkloadMappings"
 
         # Don't accept unknown kwargs
         expected_kwargs = [

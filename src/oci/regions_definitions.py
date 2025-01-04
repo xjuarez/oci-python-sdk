@@ -65,11 +65,17 @@ REGIONS_SHORT_NAMES = {
     'str': 'eu-frankfurt-2',
     'beg': 'eu-jovanovac-1',
     'doh': 'me-dcc-doha-1',
+    'ebb': 'us-somerset-1',
+    'ebl': 'us-thames-1',
     'avz': 'eu-dcc-zurich-1',
     'avf': 'eu-crissier-1',
     'ahu': 'me-abudhabi-3',
+    'rba': 'me-alain-1',
     'rkt': 'me-abudhabi-2',
-    'shj': 'me-abudhabi-4'
+    'shj': 'me-abudhabi-4',
+    'dtz': 'ap-seoul-2',
+    'dln': 'ap-suwon-1',
+    'bno': 'ap-chuncheon-2'
 }
 REGION_REALMS = {
     'ap-chuncheon-1': 'oc1',
@@ -146,13 +152,21 @@ REGION_REALMS = {
 
     'me-dcc-doha-1': 'oc21',
 
+    'us-somerset-1': 'oc23',
+    'us-thames-1': 'oc23',
+
     'eu-dcc-zurich-1': 'oc24',
     'eu-crissier-1': 'oc24',
 
     'me-abudhabi-3': 'oc26',
+    'me-alain-1': 'oc26',
 
     'me-abudhabi-2': 'oc29',
-    'me-abudhabi-4': 'oc29'
+    'me-abudhabi-4': 'oc29',
+
+    'ap-seoul-2': 'oc35',
+    'ap-suwon-1': 'oc35',
+    'ap-chuncheon-2': 'oc35'
 }
 REALMS = {
     'oc1': 'oraclecloud.com',
@@ -167,9 +181,11 @@ REALMS = {
     'oc19': 'oraclecloud.eu',
     'oc20': 'oraclecloud20.com',
     'oc21': 'oraclecloud21.com',
+    'oc23': 'oraclecloud23.com',
     'oc24': 'oraclecloud24.com',
     'oc26': 'oraclecloud26.com',
-    'oc29': 'oraclecloud29.com'
+    'oc29': 'oraclecloud29.com',
+    'oc35': 'oraclecloud35.com'
 }
 REGIONS = [
     'ap-chuncheon-1',
@@ -234,9 +250,15 @@ REGIONS = [
     'eu-frankfurt-2',
     'eu-jovanovac-1',
     'me-dcc-doha-1',
+    'us-somerset-1',
+    'us-thames-1',
     'eu-dcc-zurich-1',
     'eu-crissier-1',
     'me-abudhabi-3',
+    'me-alain-1',
     'me-abudhabi-2',
-    'me-abudhabi-4'
+    'me-abudhabi-4',
+    'ap-seoul-2',
+    'ap-suwon-1',
+    'ap-chuncheon-2'
 ]

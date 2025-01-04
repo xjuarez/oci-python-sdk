@@ -104,6 +104,8 @@ API Reference
 * :doc:`Fusion Applications <fusion_apps/client/oci.fusion_apps.FusionApplicationsClient>`
 * :doc:`Gateway <apigateway/client/oci.apigateway.GatewayClient>`
 * :doc:`Generative Ai <generative_ai/client/oci.generative_ai.GenerativeAiClient>`
+* :doc:`Generative Ai Agent <generative_ai_agent/client/oci.generative_ai_agent.GenerativeAiAgentClient>`
+* :doc:`Generative Ai Agent Runtime <generative_ai_agent_runtime/client/oci.generative_ai_agent_runtime.GenerativeAiAgentRuntimeClient>`
 * :doc:`Generative Ai Inference <generative_ai_inference/client/oci.generative_ai_inference.GenerativeAiInferenceClient>`
 * :doc:`Generic Artifacts Content <generic_artifacts_content/client/oci.generic_artifacts_content.GenericArtifactsContentClient>`
 * :doc:`Golden Gate <golden_gate/client/oci.golden_gate.GoldenGateClient>`
@@ -201,6 +203,7 @@ API Reference
 * :doc:`Scheduled Job <os_management_hub/client/oci.os_management_hub.ScheduledJobClient>`
 * :doc:`Sddc <ocvp/client/oci.ocvp.SddcClient>`
 * :doc:`Secrets <secrets/client/oci.secrets.SecretsClient>`
+* :doc:`Security Attribute <security_attribute/client/oci.security_attribute.SecurityAttributeClient>`
 * :doc:`Sender Invitation <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SenderInvitationClient>`
 * :doc:`Service <announcements_service/client/oci.announcements_service.ServiceClient>`
 * :doc:`Service Catalog <service_catalog/client/oci.service_catalog.ServiceCatalogClient>`
@@ -250,6 +253,7 @@ API Reference
 * :doc:`Work Requests <rover/client/oci.rover.WorkRequestsClient>`
 * :doc:`Work Requests <rover/client/oci.rover.WorkRequestsClient>`
 * :doc:`Work Requests <rover/client/oci.rover.WorkRequestsClient>`
+* :doc:`Zpr <zpr/client/oci.zpr.ZprClient>`
 
 .. rubric:: Other Modules
 
@@ -333,6 +337,8 @@ API Reference
     functions
     fusion_apps
     generative_ai
+    generative_ai_agent
+    generative_ai_agent_runtime
     generative_ai_inference
     generic_artifacts_content
     globally_distributed_database
@@ -394,6 +400,7 @@ API Reference
     rover
     sch
     secrets
+    security_attribute
     service_catalog
     service_manager_proxy
     service_mesh
@@ -412,6 +419,7 @@ API Reference
     waas
     waf
     work_requests
+    zpr
     config
     circuit_breaker
     exceptions

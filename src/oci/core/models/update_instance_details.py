@@ -36,6 +36,10 @@ class UpdateInstanceDetails(object):
             The value to assign to the defined_tags property of this UpdateInstanceDetails.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param security_attributes:
+            The value to assign to the security_attributes property of this UpdateInstanceDetails.
+        :type security_attributes: dict(str, dict(str, object))
+
         :param display_name:
             The value to assign to the display_name property of this UpdateInstanceDetails.
         :type display_name: str
@@ -101,10 +105,15 @@ class UpdateInstanceDetails(object):
             The value to assign to the platform_config property of this UpdateInstanceDetails.
         :type platform_config: oci.core.models.UpdateInstancePlatformConfig
 
+        :param licensing_configs:
+            The value to assign to the licensing_configs property of this UpdateInstanceDetails.
+        :type licensing_configs: list[oci.core.models.UpdateInstanceLicensingConfig]
+
         """
         self.swagger_types = {
             'capacity_reservation_id': 'str',
             'defined_tags': 'dict(str, dict(str, object))',
+            'security_attributes': 'dict(str, dict(str, object))',
             'display_name': 'str',
             'freeform_tags': 'dict(str, str)',
             'agent_config': 'UpdateInstanceAgentConfigDetails',
@@ -120,12 +129,14 @@ class UpdateInstanceDetails(object):
             'availability_config': 'UpdateInstanceAvailabilityConfigDetails',
             'time_maintenance_reboot_due': 'datetime',
             'dedicated_vm_host_id': 'str',
-            'platform_config': 'UpdateInstancePlatformConfig'
+            'platform_config': 'UpdateInstancePlatformConfig',
+            'licensing_configs': 'list[UpdateInstanceLicensingConfig]'
         }
 
         self.attribute_map = {
             'capacity_reservation_id': 'capacityReservationId',
             'defined_tags': 'definedTags',
+            'security_attributes': 'securityAttributes',
             'display_name': 'displayName',
             'freeform_tags': 'freeformTags',
             'agent_config': 'agentConfig',
@@ -141,11 +152,13 @@ class UpdateInstanceDetails(object):
             'availability_config': 'availabilityConfig',
             'time_maintenance_reboot_due': 'timeMaintenanceRebootDue',
             'dedicated_vm_host_id': 'dedicatedVmHostId',
-            'platform_config': 'platformConfig'
+            'platform_config': 'platformConfig',
+            'licensing_configs': 'licensingConfigs'
         }
 
         self._capacity_reservation_id = None
         self._defined_tags = None
+        self._security_attributes = None
         self._display_name = None
         self._freeform_tags = None
         self._agent_config = None
@@ -162,6 +175,7 @@ class UpdateInstanceDetails(object):
         self._time_maintenance_reboot_due = None
         self._dedicated_vm_host_id = None
         self._platform_config = None
+        self._licensing_configs = None
 
     @property
     def capacity_reservation_id(self):
@@ -228,6 +242,34 @@ class UpdateInstanceDetails(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def security_attributes(self):
+        """
+        Gets the security_attributes of this UpdateInstanceDetails.
+        Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+
+        Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
+
+
+        :return: The security_attributes of this UpdateInstanceDetails.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._security_attributes
+
+    @security_attributes.setter
+    def security_attributes(self, security_attributes):
+        """
+        Sets the security_attributes of this UpdateInstanceDetails.
+        Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+
+        Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
+
+
+        :param security_attributes: The security_attributes of this UpdateInstanceDetails.
+        :type: dict(str, dict(str, object))
+        """
+        self._security_attributes = security_attributes
 
     @property
     def display_name(self):
@@ -763,6 +805,30 @@ class UpdateInstanceDetails(object):
         :type: oci.core.models.UpdateInstancePlatformConfig
         """
         self._platform_config = platform_config
+
+    @property
+    def licensing_configs(self):
+        """
+        Gets the licensing_configs of this UpdateInstanceDetails.
+        The list of liscensing configurations with target update values.
+
+
+        :return: The licensing_configs of this UpdateInstanceDetails.
+        :rtype: list[oci.core.models.UpdateInstanceLicensingConfig]
+        """
+        return self._licensing_configs
+
+    @licensing_configs.setter
+    def licensing_configs(self, licensing_configs):
+        """
+        Sets the licensing_configs of this UpdateInstanceDetails.
+        The list of liscensing configurations with target update values.
+
+
+        :param licensing_configs: The licensing_configs of this UpdateInstanceDetails.
+        :type: list[oci.core.models.UpdateInstanceLicensingConfig]
+        """
+        self._licensing_configs = licensing_configs
 
     def __repr__(self):
         return formatted_flat_dict(self)

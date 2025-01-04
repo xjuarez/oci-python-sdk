@@ -106,6 +106,10 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             The value to assign to the vault_id property of this CreateCrossRegionDisasterRecoveryDetails.
         :type vault_id: str
 
+        :param encryption_key:
+            The value to assign to the encryption_key property of this CreateCrossRegionDisasterRecoveryDetails.
+        :type encryption_key: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+
         :param admin_password:
             The value to assign to the admin_password property of this CreateCrossRegionDisasterRecoveryDetails.
         :type admin_password: str
@@ -191,6 +195,10 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             The value to assign to the defined_tags property of this CreateCrossRegionDisasterRecoveryDetails.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param security_attributes:
+            The value to assign to the security_attributes property of this CreateCrossRegionDisasterRecoveryDetails.
+        :type security_attributes: dict(str, dict(str, object))
+
         :param private_endpoint_ip:
             The value to assign to the private_endpoint_ip property of this CreateCrossRegionDisasterRecoveryDetails.
         :type private_endpoint_ip: str
@@ -201,7 +209,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
 
         :param source:
             The value to assign to the source property of this CreateCrossRegionDisasterRecoveryDetails.
-            Allowed values for this property are: "NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"
+            Allowed values for this property are: "NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "UNDELETE_ADB", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"
         :type source: str
 
         :param customer_contacts:
@@ -241,6 +249,10 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             The value to assign to the db_tools_details property of this CreateCrossRegionDisasterRecoveryDetails.
         :type db_tools_details: list[oci.database.models.DatabaseTool]
 
+        :param is_backup_retention_locked:
+            The value to assign to the is_backup_retention_locked property of this CreateCrossRegionDisasterRecoveryDetails.
+        :type is_backup_retention_locked: bool
+
         :param secret_id:
             The value to assign to the secret_id property of this CreateCrossRegionDisasterRecoveryDetails.
         :type secret_id: str
@@ -279,6 +291,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             'is_free_tier': 'bool',
             'kms_key_id': 'str',
             'vault_id': 'str',
+            'encryption_key': 'AutonomousDatabaseEncryptionKeyDetails',
             'admin_password': 'str',
             'display_name': 'str',
             'license_model': 'str',
@@ -300,6 +313,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             'private_endpoint_label': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'security_attributes': 'dict(str, dict(str, object))',
             'private_endpoint_ip': 'str',
             'db_version': 'str',
             'source': 'str',
@@ -312,6 +326,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             'is_auto_scaling_for_storage_enabled': 'bool',
             'database_edition': 'str',
             'db_tools_details': 'list[DatabaseTool]',
+            'is_backup_retention_locked': 'bool',
             'secret_id': 'str',
             'secret_version_number': 'int',
             'source_id': 'str',
@@ -336,6 +351,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             'is_free_tier': 'isFreeTier',
             'kms_key_id': 'kmsKeyId',
             'vault_id': 'vaultId',
+            'encryption_key': 'encryptionKey',
             'admin_password': 'adminPassword',
             'display_name': 'displayName',
             'license_model': 'licenseModel',
@@ -357,6 +373,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             'private_endpoint_label': 'privateEndpointLabel',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'security_attributes': 'securityAttributes',
             'private_endpoint_ip': 'privateEndpointIp',
             'db_version': 'dbVersion',
             'source': 'source',
@@ -369,6 +386,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
             'is_auto_scaling_for_storage_enabled': 'isAutoScalingForStorageEnabled',
             'database_edition': 'databaseEdition',
             'db_tools_details': 'dbToolsDetails',
+            'is_backup_retention_locked': 'isBackupRetentionLocked',
             'secret_id': 'secretId',
             'secret_version_number': 'secretVersionNumber',
             'source_id': 'sourceId',
@@ -392,6 +410,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
         self._is_free_tier = None
         self._kms_key_id = None
         self._vault_id = None
+        self._encryption_key = None
         self._admin_password = None
         self._display_name = None
         self._license_model = None
@@ -413,6 +432,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
         self._private_endpoint_label = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._security_attributes = None
         self._private_endpoint_ip = None
         self._db_version = None
         self._source = None
@@ -425,6 +445,7 @@ class CreateCrossRegionDisasterRecoveryDetails(CreateAutonomousDatabaseBase):
         self._is_auto_scaling_for_storage_enabled = None
         self._database_edition = None
         self._db_tools_details = None
+        self._is_backup_retention_locked = None
         self._secret_id = None
         self._secret_version_number = None
         self._source_id = None

@@ -44,6 +44,14 @@ Cloud Bridge
     oci.cloud_bridge.models.AssetSourceCredentials
     oci.cloud_bridge.models.AssetSourceSummary
     oci.cloud_bridge.models.AssetSummary
+    oci.cloud_bridge.models.AwsAssetSource
+    oci.cloud_bridge.models.AwsAssetSourceSummary
+    oci.cloud_bridge.models.AwsEbsAsset
+    oci.cloud_bridge.models.AwsEbsAssetDetails
+    oci.cloud_bridge.models.AwsEbsProperties
+    oci.cloud_bridge.models.AwsEc2Asset
+    oci.cloud_bridge.models.AwsEc2AssetDetails
+    oci.cloud_bridge.models.AwsEc2Properties
     oci.cloud_bridge.models.ChangeAgentCompartmentDetails
     oci.cloud_bridge.models.ChangeAgentDependencyCompartmentDetails
     oci.cloud_bridge.models.ChangeAssetCompartmentDetails
@@ -56,6 +64,9 @@ Cloud Bridge
     oci.cloud_bridge.models.CreateAgentDetails
     oci.cloud_bridge.models.CreateAssetDetails
     oci.cloud_bridge.models.CreateAssetSourceDetails
+    oci.cloud_bridge.models.CreateAwsAssetSourceDetails
+    oci.cloud_bridge.models.CreateAwsEbsAssetDetails
+    oci.cloud_bridge.models.CreateAwsEc2AssetDetails
     oci.cloud_bridge.models.CreateDiscoveryScheduleDetails
     oci.cloud_bridge.models.CreateEnvironmentDetails
     oci.cloud_bridge.models.CreateInventoryDetails
@@ -70,26 +81,40 @@ Cloud Bridge
     oci.cloud_bridge.models.EnvironmentCollection
     oci.cloud_bridge.models.EnvironmentSummary
     oci.cloud_bridge.models.GpuDevice
+    oci.cloud_bridge.models.GroupIdentifier
     oci.cloud_bridge.models.HistoricalMetric
     oci.cloud_bridge.models.HistoricalMetricCollection
     oci.cloud_bridge.models.HistoricalMetricSummary
     oci.cloud_bridge.models.ImportInventoryDetails
     oci.cloud_bridge.models.ImportInventoryViaAssetsDetails
+    oci.cloud_bridge.models.InstanceNetworkInterface
+    oci.cloud_bridge.models.InstanceNetworkInterfaceAssociation
+    oci.cloud_bridge.models.InstanceNetworkInterfaceAttachment
+    oci.cloud_bridge.models.InstancePrivateIpAddress
+    oci.cloud_bridge.models.InstanceState
     oci.cloud_bridge.models.Inventory
     oci.cloud_bridge.models.InventoryCollection
     oci.cloud_bridge.models.InventorySummary
+    oci.cloud_bridge.models.MonthlyCostSummary
     oci.cloud_bridge.models.Nic
     oci.cloud_bridge.models.Nvdimm
     oci.cloud_bridge.models.NvdimmController
+    oci.cloud_bridge.models.Placement
     oci.cloud_bridge.models.Plugin
     oci.cloud_bridge.models.PluginSummary
     oci.cloud_bridge.models.RemoveAgentDependencyDetails
     oci.cloud_bridge.models.ScsiController
     oci.cloud_bridge.models.SubmitHistoricalMetricsDetails
+    oci.cloud_bridge.models.SupportedCloudRegionCollection
+    oci.cloud_bridge.models.SupportedCloudRegionSummary
+    oci.cloud_bridge.models.Tag
     oci.cloud_bridge.models.UpdateAgentDependencyDetails
     oci.cloud_bridge.models.UpdateAgentDetails
     oci.cloud_bridge.models.UpdateAssetDetails
     oci.cloud_bridge.models.UpdateAssetSourceDetails
+    oci.cloud_bridge.models.UpdateAwsAssetSourceDetails
+    oci.cloud_bridge.models.UpdateAwsEbsAssetDetails
+    oci.cloud_bridge.models.UpdateAwsEc2AssetDetails
     oci.cloud_bridge.models.UpdateDiscoveryScheduleDetails
     oci.cloud_bridge.models.UpdateEnvironmentDetails
     oci.cloud_bridge.models.UpdateInventoryDetails
@@ -104,6 +129,7 @@ Cloud Bridge
     oci.cloud_bridge.models.VmwareVCenterProperties
     oci.cloud_bridge.models.VmwareVmAsset
     oci.cloud_bridge.models.VmwareVmProperties
+    oci.cloud_bridge.models.VolumeAttachment
     oci.cloud_bridge.models.WorkRequest
     oci.cloud_bridge.models.WorkRequestError
     oci.cloud_bridge.models.WorkRequestErrorCollection

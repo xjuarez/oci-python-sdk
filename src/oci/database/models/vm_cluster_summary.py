@@ -51,6 +51,14 @@ class VmClusterSummary(object):
     #: This constant has a value of "BRING_YOUR_OWN_LICENSE"
     LICENSE_MODEL_BRING_YOUR_OWN_LICENSE = "BRING_YOUR_OWN_LICENSE"
 
+    #: A constant which can be used with the storage_management_type property of a VmClusterSummary.
+    #: This constant has a value of "ASM"
+    STORAGE_MANAGEMENT_TYPE_ASM = "ASM"
+
+    #: A constant which can be used with the storage_management_type property of a VmClusterSummary.
+    #: This constant has a value of "EXASCALE"
+    STORAGE_MANAGEMENT_TYPE_EXASCALE = "EXASCALE"
+
     def __init__(self, **kwargs):
         """
         Initializes a new VmClusterSummary object with values from keyword arguments.
@@ -180,6 +188,20 @@ class VmClusterSummary(object):
             The value to assign to the file_system_configuration_details property of this VmClusterSummary.
         :type file_system_configuration_details: list[oci.database.models.FileSystemConfigurationDetail]
 
+        :param cloud_automation_update_details:
+            The value to assign to the cloud_automation_update_details property of this VmClusterSummary.
+        :type cloud_automation_update_details: oci.database.models.CloudAutomationUpdateDetails
+
+        :param exascale_db_storage_vault_id:
+            The value to assign to the exascale_db_storage_vault_id property of this VmClusterSummary.
+        :type exascale_db_storage_vault_id: str
+
+        :param storage_management_type:
+            The value to assign to the storage_management_type property of this VmClusterSummary.
+            Allowed values for this property are: "ASM", "EXASCALE", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type storage_management_type: str
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -211,7 +233,10 @@ class VmClusterSummary(object):
             'defined_tags': 'dict(str, dict(str, object))',
             'data_collection_options': 'DataCollectionOptions',
             'gi_software_image_id': 'str',
-            'file_system_configuration_details': 'list[FileSystemConfigurationDetail]'
+            'file_system_configuration_details': 'list[FileSystemConfigurationDetail]',
+            'cloud_automation_update_details': 'CloudAutomationUpdateDetails',
+            'exascale_db_storage_vault_id': 'str',
+            'storage_management_type': 'str'
         }
 
         self.attribute_map = {
@@ -244,7 +269,10 @@ class VmClusterSummary(object):
             'defined_tags': 'definedTags',
             'data_collection_options': 'dataCollectionOptions',
             'gi_software_image_id': 'giSoftwareImageId',
-            'file_system_configuration_details': 'fileSystemConfigurationDetails'
+            'file_system_configuration_details': 'fileSystemConfigurationDetails',
+            'cloud_automation_update_details': 'cloudAutomationUpdateDetails',
+            'exascale_db_storage_vault_id': 'exascaleDbStorageVaultId',
+            'storage_management_type': 'storageManagementType'
         }
 
         self._id = None
@@ -277,6 +305,9 @@ class VmClusterSummary(object):
         self._data_collection_options = None
         self._gi_software_image_id = None
         self._file_system_configuration_details = None
+        self._cloud_automation_update_details = None
+        self._exascale_db_storage_vault_id = None
+        self._storage_management_type = None
 
     @property
     def id(self):
@@ -1049,6 +1080,84 @@ class VmClusterSummary(object):
         :type: list[oci.database.models.FileSystemConfigurationDetail]
         """
         self._file_system_configuration_details = file_system_configuration_details
+
+    @property
+    def cloud_automation_update_details(self):
+        """
+        Gets the cloud_automation_update_details of this VmClusterSummary.
+
+        :return: The cloud_automation_update_details of this VmClusterSummary.
+        :rtype: oci.database.models.CloudAutomationUpdateDetails
+        """
+        return self._cloud_automation_update_details
+
+    @cloud_automation_update_details.setter
+    def cloud_automation_update_details(self, cloud_automation_update_details):
+        """
+        Sets the cloud_automation_update_details of this VmClusterSummary.
+
+        :param cloud_automation_update_details: The cloud_automation_update_details of this VmClusterSummary.
+        :type: oci.database.models.CloudAutomationUpdateDetails
+        """
+        self._cloud_automation_update_details = cloud_automation_update_details
+
+    @property
+    def exascale_db_storage_vault_id(self):
+        """
+        Gets the exascale_db_storage_vault_id of this VmClusterSummary.
+        The `OCID`__ of the Exadata Database Storage Vault.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The exascale_db_storage_vault_id of this VmClusterSummary.
+        :rtype: str
+        """
+        return self._exascale_db_storage_vault_id
+
+    @exascale_db_storage_vault_id.setter
+    def exascale_db_storage_vault_id(self, exascale_db_storage_vault_id):
+        """
+        Sets the exascale_db_storage_vault_id of this VmClusterSummary.
+        The `OCID`__ of the Exadata Database Storage Vault.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param exascale_db_storage_vault_id: The exascale_db_storage_vault_id of this VmClusterSummary.
+        :type: str
+        """
+        self._exascale_db_storage_vault_id = exascale_db_storage_vault_id
+
+    @property
+    def storage_management_type(self):
+        """
+        Gets the storage_management_type of this VmClusterSummary.
+        Specifies whether the type of storage management for the VM cluster is ASM or Exascale.
+
+        Allowed values for this property are: "ASM", "EXASCALE", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The storage_management_type of this VmClusterSummary.
+        :rtype: str
+        """
+        return self._storage_management_type
+
+    @storage_management_type.setter
+    def storage_management_type(self, storage_management_type):
+        """
+        Sets the storage_management_type of this VmClusterSummary.
+        Specifies whether the type of storage management for the VM cluster is ASM or Exascale.
+
+
+        :param storage_management_type: The storage_management_type of this VmClusterSummary.
+        :type: str
+        """
+        allowed_values = ["ASM", "EXASCALE"]
+        if not value_allowed_none_or_none_sentinel(storage_management_type, allowed_values):
+            storage_management_type = 'UNKNOWN_ENUM_VALUE'
+        self._storage_management_type = storage_management_type
 
     def __repr__(self):
         return formatted_flat_dict(self)

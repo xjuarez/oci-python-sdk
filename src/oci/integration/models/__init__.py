@@ -6,13 +6,16 @@
 
 from __future__ import absolute_import
 
+from .add_oracle_managed_custom_endpoint_details import AddOracleManagedCustomEndpointDetails
 from .attachment_details import AttachmentDetails
 from .change_integration_instance_compartment_details import ChangeIntegrationInstanceCompartmentDetails
 from .change_integration_instance_network_endpoint_details import ChangeIntegrationInstanceNetworkEndpointDetails
 from .change_private_endpoint_outbound_connection_details import ChangePrivateEndpointOutboundConnectionDetails
 from .create_custom_endpoint_details import CreateCustomEndpointDetails
 from .create_integration_instance_details import CreateIntegrationInstanceDetails
+from .cross_region_integration_instance_details import CrossRegionIntegrationInstanceDetails
 from .custom_endpoint_details import CustomEndpointDetails
+from .disaster_recovery_details import DisasterRecoveryDetails
 from .extend_data_retention_details import ExtendDataRetentionDetails
 from .idcs_info_details import IdcsInfoDetails
 from .integration_instance import IntegrationInstance
@@ -33,13 +36,16 @@ from .work_request_summary import WorkRequestSummary
 
 # Maps type names to classes for integration services.
 integration_type_mapping = {
+    "AddOracleManagedCustomEndpointDetails": AddOracleManagedCustomEndpointDetails,
     "AttachmentDetails": AttachmentDetails,
     "ChangeIntegrationInstanceCompartmentDetails": ChangeIntegrationInstanceCompartmentDetails,
     "ChangeIntegrationInstanceNetworkEndpointDetails": ChangeIntegrationInstanceNetworkEndpointDetails,
     "ChangePrivateEndpointOutboundConnectionDetails": ChangePrivateEndpointOutboundConnectionDetails,
     "CreateCustomEndpointDetails": CreateCustomEndpointDetails,
     "CreateIntegrationInstanceDetails": CreateIntegrationInstanceDetails,
+    "CrossRegionIntegrationInstanceDetails": CrossRegionIntegrationInstanceDetails,
     "CustomEndpointDetails": CustomEndpointDetails,
+    "DisasterRecoveryDetails": DisasterRecoveryDetails,
     "ExtendDataRetentionDetails": ExtendDataRetentionDetails,
     "IdcsInfoDetails": IdcsInfoDetails,
     "IntegrationInstance": IntegrationInstance,

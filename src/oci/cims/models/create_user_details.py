@@ -180,7 +180,7 @@ class CreateUserDetails(object):
     @property
     def csi(self):
         """
-        **[Required]** Gets the csi of this CreateUserDetails.
+        Gets the csi of this CreateUserDetails.
         CSI associated with the user.
 
 
@@ -204,7 +204,7 @@ class CreateUserDetails(object):
     @property
     def phone(self):
         """
-        **[Required]** Gets the phone of this CreateUserDetails.
+        Gets the phone of this CreateUserDetails.
         Contact number of the user.
 
 
@@ -228,7 +228,7 @@ class CreateUserDetails(object):
     @property
     def timezone(self):
         """
-        **[Required]** Gets the timezone of this CreateUserDetails.
+        Gets the timezone of this CreateUserDetails.
         Timezone of the user.
 
 
@@ -252,7 +252,7 @@ class CreateUserDetails(object):
     @property
     def organization_name(self):
         """
-        **[Required]** Gets the organization_name of this CreateUserDetails.
+        Gets the organization_name of this CreateUserDetails.
         Organization of the user.
 
 
@@ -277,7 +277,17 @@ class CreateUserDetails(object):
     def problem_type(self):
         """
         **[Required]** Gets the problem_type of this CreateUserDetails.
-        The kind of support ticket, such as a technical support request or a limit increase request.
+        The kind of support ticket (type of support request).
+        For information about `ACCOUNT` support tickets, see
+        `Creating a Billing Support Request`__.
+        For information about `LIMIT` support tickets, see
+        `Creating a Service Limit Increase Request`__.
+        For information about `TECH` support tickets, see
+        `Creating a Technical Support Request`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-limit.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-technical.htm
 
         Allowed values for this property are: "LIMIT", "LEGACY_LIMIT", "TECH", "ACCOUNT", "TAXONOMY"
 
@@ -291,7 +301,17 @@ class CreateUserDetails(object):
     def problem_type(self, problem_type):
         """
         Sets the problem_type of this CreateUserDetails.
-        The kind of support ticket, such as a technical support request or a limit increase request.
+        The kind of support ticket (type of support request).
+        For information about `ACCOUNT` support tickets, see
+        `Creating a Billing Support Request`__.
+        For information about `LIMIT` support tickets, see
+        `Creating a Service Limit Increase Request`__.
+        For information about `TECH` support tickets, see
+        `Creating a Technical Support Request`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-limit.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-technical.htm
 
 
         :param problem_type: The problem_type of this CreateUserDetails.

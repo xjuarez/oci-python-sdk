@@ -132,6 +132,10 @@ class Cluster(object):
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type type: str
 
+        :param open_id_connect_discovery_endpoint:
+            The value to assign to the open_id_connect_discovery_endpoint property of this Cluster.
+        :type open_id_connect_discovery_endpoint: str
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -152,7 +156,8 @@ class Cluster(object):
             'available_kubernetes_upgrades': 'list[str]',
             'image_policy_config': 'ImagePolicyConfig',
             'cluster_pod_network_options': 'list[ClusterPodNetworkOptionDetails]',
-            'type': 'str'
+            'type': 'str',
+            'open_id_connect_discovery_endpoint': 'str'
         }
 
         self.attribute_map = {
@@ -174,7 +179,8 @@ class Cluster(object):
             'available_kubernetes_upgrades': 'availableKubernetesUpgrades',
             'image_policy_config': 'imagePolicyConfig',
             'cluster_pod_network_options': 'clusterPodNetworkOptions',
-            'type': 'type'
+            'type': 'type',
+            'open_id_connect_discovery_endpoint': 'openIdConnectDiscoveryEndpoint'
         }
 
         self._id = None
@@ -196,6 +202,7 @@ class Cluster(object):
         self._image_policy_config = None
         self._cluster_pod_network_options = None
         self._type = None
+        self._open_id_connect_discovery_endpoint = None
 
     @property
     def id(self):
@@ -507,7 +514,9 @@ class Cluster(object):
     def lifecycle_state(self):
         """
         Gets the lifecycle_state of this Cluster.
-        The state of the cluster masters.
+        The state of the cluster masters. For more information, see `Monitoring Clusters`__
+
+        __ https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm
 
         Allowed values for this property are: "CREATING", "ACTIVE", "FAILED", "DELETING", "DELETED", "UPDATING", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -522,7 +531,9 @@ class Cluster(object):
     def lifecycle_state(self, lifecycle_state):
         """
         Sets the lifecycle_state of this Cluster.
-        The state of the cluster masters.
+        The state of the cluster masters. For more information, see `Monitoring Clusters`__
+
+        __ https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm
 
 
         :param lifecycle_state: The lifecycle_state of this Cluster.
@@ -682,6 +693,30 @@ class Cluster(object):
         if not value_allowed_none_or_none_sentinel(type, allowed_values):
             type = 'UNKNOWN_ENUM_VALUE'
         self._type = type
+
+    @property
+    def open_id_connect_discovery_endpoint(self):
+        """
+        Gets the open_id_connect_discovery_endpoint of this Cluster.
+        The cluster-specific OpenID Connect Discovery endpoint
+
+
+        :return: The open_id_connect_discovery_endpoint of this Cluster.
+        :rtype: str
+        """
+        return self._open_id_connect_discovery_endpoint
+
+    @open_id_connect_discovery_endpoint.setter
+    def open_id_connect_discovery_endpoint(self, open_id_connect_discovery_endpoint):
+        """
+        Sets the open_id_connect_discovery_endpoint of this Cluster.
+        The cluster-specific OpenID Connect Discovery endpoint
+
+
+        :param open_id_connect_discovery_endpoint: The open_id_connect_discovery_endpoint of this Cluster.
+        :type: str
+        """
+        self._open_id_connect_discovery_endpoint = open_id_connect_discovery_endpoint
 
     def __repr__(self):
         return formatted_flat_dict(self)

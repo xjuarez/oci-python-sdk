@@ -948,6 +948,126 @@ class OperationsInsightsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def change_macs_managed_cloud_database_insight_connection(self, database_insight_id, change_macs_managed_cloud_database_insight_connection_details, **kwargs):
+        """
+        Change the connection details of a Cloud MACS-managed database insight. When provided, If-Match is checked against ETag values of the resource.
+
+
+        :param str database_insight_id: (required)
+            Unique database insight identifier
+
+        :param oci.opsi.models.ChangeMacsManagedCloudDatabaseInsightConnectionDetails change_macs_managed_cloud_database_insight_connection_details: (required)
+            The information to be updated.
+
+        :param str if_match: (optional)
+            Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous get, create, or update response for that resource.  The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request that can be retried in case of a timeout or
+            server error without risk of executing the same action again. Retry tokens expire after 24
+            hours.
+
+            *Note:* Retry tokens can be invalidated before the 24 hour time limit due to conflicting
+            operations, such as a resource being deleted or purged from the system.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_macs_managed_cloud_database_insight_connection.py.html>`__ to see an example of how to use change_macs_managed_cloud_database_insight_connection API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['databaseInsightId']
+        resource_path = "/databaseInsights/{databaseInsightId}/actions/changeMacsManagedCloudDatabaseInsightConnectionDetails"
+        method = "POST"
+        operation_name = "change_macs_managed_cloud_database_insight_connection"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangeMacsManagedCloudDatabaseInsightConnection"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "if_match",
+            "opc_request_id",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"change_macs_managed_cloud_database_insight_connection got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "databaseInsightId": database_insight_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "if-match": kwargs.get("if_match", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=change_macs_managed_cloud_database_insight_connection_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=change_macs_managed_cloud_database_insight_connection_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def change_news_report_compartment(self, news_report_id, change_news_report_compartment_details, **kwargs):
         """
         Moves a news report resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
@@ -10966,7 +11086,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -11087,7 +11207,7 @@ class OperationsInsightsClient(object):
                 f"list_database_configurations got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -11204,7 +11324,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -11325,7 +11445,7 @@ class OperationsInsightsClient(object):
                     )
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -11660,6 +11780,9 @@ class OperationsInsightsClient(object):
             Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
             Multiple values for different tag names are interpreted as \"AND\".
 
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
             Oracle about a particular request, please provide the request ID.
@@ -11704,6 +11827,7 @@ class OperationsInsightsClient(object):
             "freeform_tag_equals",
             "defined_tag_exists",
             "freeform_tag_exists",
+            "compartment_id_in_subtree",
             "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -11736,7 +11860,8 @@ class OperationsInsightsClient(object):
             "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
             "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
             "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
-            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi')
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -12072,7 +12197,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -12262,7 +12387,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
@@ -12537,7 +12662,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -19363,7 +19488,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -19521,7 +19646,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_capacity_trend got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -19657,7 +19782,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -19831,7 +19956,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_forecast_trend got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -19969,7 +20094,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -20137,7 +20262,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_statistics got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -20270,7 +20395,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -20398,7 +20523,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_usage got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -20509,7 +20634,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -20645,7 +20770,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_usage_trend got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -20770,7 +20895,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -20906,7 +21031,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_utilization_insight got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -21463,6 +21588,9 @@ class OperationsInsightsClient(object):
             Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
             Multiple values for different tag names are interpreted as \"AND\".
 
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
             Oracle about a particular request, please provide the request ID.
@@ -21511,6 +21639,7 @@ class OperationsInsightsClient(object):
             "freeform_tag_equals",
             "defined_tag_exists",
             "freeform_tag_exists",
+            "compartment_id_in_subtree",
             "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -21549,7 +21678,8 @@ class OperationsInsightsClient(object):
             "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
             "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
             "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
-            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi')
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -21980,6 +22110,9 @@ class OperationsInsightsClient(object):
             Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
             Multiple values for different tag names are interpreted as \"AND\".
 
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
             Oracle about a particular request, please provide the request ID.
@@ -22031,6 +22164,7 @@ class OperationsInsightsClient(object):
             "freeform_tag_equals",
             "defined_tag_exists",
             "freeform_tag_exists",
+            "compartment_id_in_subtree",
             "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -22072,7 +22206,8 @@ class OperationsInsightsClient(object):
             "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
             "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
             "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
-            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi')
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -22432,6 +22567,9 @@ class OperationsInsightsClient(object):
             Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
             Multiple values for different tag names are interpreted as \"AND\".
 
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
             Oracle about a particular request, please provide the request ID.
@@ -22481,6 +22619,7 @@ class OperationsInsightsClient(object):
             "freeform_tag_equals",
             "defined_tag_exists",
             "freeform_tag_exists",
+            "compartment_id_in_subtree",
             "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -22521,7 +22660,8 @@ class OperationsInsightsClient(object):
             "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
             "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
             "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
-            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi')
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -22658,6 +22798,9 @@ class OperationsInsightsClient(object):
             Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
             Multiple values for different tag names are interpreted as \"AND\".
 
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
             Oracle about a particular request, please provide the request ID.
@@ -22704,6 +22847,7 @@ class OperationsInsightsClient(object):
             "freeform_tag_equals",
             "defined_tag_exists",
             "freeform_tag_exists",
+            "compartment_id_in_subtree",
             "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -22727,7 +22871,8 @@ class OperationsInsightsClient(object):
             "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
             "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
             "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
-            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi')
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -22871,6 +23016,9 @@ class OperationsInsightsClient(object):
             Currently, only existence (\"true\" at the end) is supported. Absence (\"false\" at the end) is not supported.
             Multiple values for different tag names are interpreted as \"AND\".
 
+        :param bool compartment_id_in_subtree: (optional)
+            A flag to search all resources within a given compartment and all sub-compartments.
+
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
             Oracle about a particular request, please provide the request ID.
@@ -22919,6 +23067,7 @@ class OperationsInsightsClient(object):
             "freeform_tag_equals",
             "defined_tag_exists",
             "freeform_tag_exists",
+            "compartment_id_in_subtree",
             "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -22944,7 +23093,8 @@ class OperationsInsightsClient(object):
             "definedTagEquals": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_equals", missing), 'multi'),
             "freeformTagEquals": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_equals", missing), 'multi'),
             "definedTagExists": self.base_client.generate_collection_format_param(kwargs.get("defined_tag_exists", missing), 'multi'),
-            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi')
+            "freeformTagExists": self.base_client.generate_collection_format_param(kwargs.get("freeform_tag_exists", missing), 'multi'),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -23466,6 +23616,189 @@ class OperationsInsightsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def summarize_host_insight_io_usage_trend(self, compartment_id, id, **kwargs):
+        """
+        Returns response with usage time series data with breakdown by IO interface for the time period specified.
+
+
+        :param str compartment_id: (required)
+            The `OCID`__ of the compartment.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str id: (required)
+            Required `OCID`__ of the host insight resource.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str analysis_time_interval: (optional)
+            Specify time period in ISO 8601 format with respect to current time.
+            Default is last 30 days represented by P30D.
+            If timeInterval is specified, then timeIntervalStart and timeIntervalEnd will be ignored.
+            Examples  P90D (last 90 days), P4W (last 4 weeks), P2M (last 2 months), P1Y (last 12 months), . Maximum value allowed is 25 months prior to current time (P25M).
+
+        :param datetime time_interval_start: (optional)
+            Analysis start time in UTC in ISO 8601 format(inclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            The minimum allowed value is 2 years prior to the current day.
+            timeIntervalStart and timeIntervalEnd parameters are used together.
+            If analysisTimeInterval is specified, this parameter is ignored.
+
+        :param datetime time_interval_end: (optional)
+            Analysis end time in UTC in ISO 8601 format(exclusive).
+            Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
+            timeIntervalStart and timeIntervalEnd are used together.
+            If timeIntervalEnd is not specified, current time is used as timeIntervalEnd.
+
+        :param str host_id: (optional)
+            Optional `OCID`__ of the host (Compute Id)
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str page: (optional)
+            For list pagination. The value of the `opc-next-page` response header from
+            the previous \"List\" call. For important details about how pagination works,
+            see `List Pagination`__.
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param int limit: (optional)
+            For list pagination. The maximum number of results per page, or items to
+            return in a paginated \"List\" call.
+            For important details about how pagination works, see
+            `List Pagination`__.
+            Example: `50`
+
+            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+
+        :param str statistic: (optional)
+            Choose the type of statistic metric data to be used for forecasting.
+
+            Allowed values are: "AVG", "MAX"
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param list[str] status: (optional)
+            Resource Status
+
+            Allowed values are: "DISABLED", "ENABLED", "TERMINATED"
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.opsi.models.SummarizeHostInsightIoUsageTrendAggregationCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_io_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_io_usage_trend API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['compartmentId', 'id']
+        resource_path = "/hostInsights/ioUsageTrend"
+        method = "GET"
+        operation_name = "summarize_host_insight_io_usage_trend"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/HostInsights/SummarizeHostInsightIoUsageTrend"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "analysis_time_interval",
+            "time_interval_start",
+            "time_interval_end",
+            "host_id",
+            "page",
+            "limit",
+            "statistic",
+            "opc_request_id",
+            "status"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"summarize_host_insight_io_usage_trend got unknown kwargs: {extra_kwargs!r}")
+
+        if 'statistic' in kwargs:
+            statistic_allowed_values = ["AVG", "MAX"]
+            if kwargs['statistic'] not in statistic_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `statistic`, must be one of { statistic_allowed_values }"
+                )
+
+        if 'status' in kwargs:
+            status_allowed_values = ["DISABLED", "ENABLED", "TERMINATED"]
+            for status_item in kwargs['status']:
+                if status_item not in status_allowed_values:
+                    raise ValueError(
+                        f"Invalid value for `status`, must be one of { status_allowed_values }"
+                    )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "id": id,
+            "analysisTimeInterval": kwargs.get("analysis_time_interval", missing),
+            "timeIntervalStart": kwargs.get("time_interval_start", missing),
+            "timeIntervalEnd": kwargs.get("time_interval_end", missing),
+            "hostId": kwargs.get("host_id", missing),
+            "page": kwargs.get("page", missing),
+            "limit": kwargs.get("limit", missing),
+            "statistic": kwargs.get("statistic", missing),
+            "status": self.base_client.generate_collection_format_param(kwargs.get("status", missing), 'multi')
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="SummarizeHostInsightIoUsageTrendAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="SummarizeHostInsightIoUsageTrendAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def summarize_host_insight_network_usage_trend(self, compartment_id, id, **kwargs):
         """
         Returns response with usage time series data with breakdown by network interface for the time period specified.
@@ -23762,7 +24095,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -24071,7 +24404,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -24396,7 +24729,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -24676,7 +25009,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -24928,7 +25261,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -25188,7 +25521,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -25595,7 +25928,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -25792,7 +26125,7 @@ class OperationsInsightsClient(object):
 
         :param list[str] host_type: (optional)
             Filter by one or more host types.
-            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST
+            Possible values are CLOUD-HOST, EXTERNAL-HOST, COMANAGED-VM-HOST, COMANAGED-BM-HOST, COMANAGED-EXACS-HOST, COMANAGED-EXACC-HOST
 
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
@@ -26046,7 +26379,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -26187,7 +26520,7 @@ class OperationsInsightsClient(object):
                 f"summarize_sql_insights got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -26572,7 +26905,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
@@ -26747,7 +27080,7 @@ class OperationsInsightsClient(object):
                 f"summarize_sql_statistics got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "MDS-MYSQL"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -27199,6 +27532,124 @@ class OperationsInsightsClient(object):
                 query_params=query_params,
                 header_params=header_params,
                 response_type="SqlStatisticsTimeSeriesByPlanAggregationCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def test_macs_managed_cloud_database_insight_connection(self, test_macs_managed_cloud_database_insight_connection_details, **kwargs):
+        """
+        Test the connection details of a Cloud MACS-managed database.
+
+
+        :param oci.opsi.models.TestMacsManagedCloudDatabaseInsightConnectionDetails test_macs_managed_cloud_database_insight_connection_details: (required)
+            The database connection information for the Cloud MACS-managed database.
+
+        :param str database_id: (optional)
+            Optional `OCID`__ of the associated DBaaS entity.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str id: (optional)
+            `OCID`__ of the database insight resource.
+
+            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique Oracle-assigned identifier for the request. If you need to contact
+            Oracle about a particular request, please provide the request ID.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request that can be retried in case of a timeout or
+            server error without risk of executing the same action again. Retry tokens expire after 24
+            hours.
+
+            *Note:* Retry tokens can be invalidated before the 24 hour time limit due to conflicting
+            operations, such as a resource being deleted or purged from the system.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/test_macs_managed_cloud_database_insight_connection.py.html>`__ to see an example of how to use test_macs_managed_cloud_database_insight_connection API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/databaseInsights/actions/testMacsManagedCloudDatabaseInsightConnectionDetails"
+        method = "POST"
+        operation_name = "test_macs_managed_cloud_database_insight_connection"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/TestMacsManagedCloudDatabaseInsightConnection"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "database_id",
+            "id",
+            "opc_request_id",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"test_macs_managed_cloud_database_insight_connection got unknown kwargs: {extra_kwargs!r}")
+
+        query_params = {
+            "databaseId": kwargs.get("database_id", missing),
+            "id": kwargs.get("id", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                body=test_macs_managed_cloud_database_insight_connection_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                body=test_macs_managed_cloud_database_insight_connection_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,

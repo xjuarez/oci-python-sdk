@@ -151,6 +151,10 @@ class UpdateAutonomousDatabaseDetails(object):
             The value to assign to the defined_tags property of this UpdateAutonomousDatabaseDetails.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param security_attributes:
+            The value to assign to the security_attributes property of this UpdateAutonomousDatabaseDetails.
+        :type security_attributes: dict(str, dict(str, object))
+
         :param db_workload:
             The value to assign to the db_workload property of this UpdateAutonomousDatabaseDetails.
             Allowed values for this property are: "OLTP", "DW", "AJD", "APEX"
@@ -264,6 +268,10 @@ class UpdateAutonomousDatabaseDetails(object):
             The value to assign to the resource_pool_summary property of this UpdateAutonomousDatabaseDetails.
         :type resource_pool_summary: oci.database.models.ResourcePoolSummary
 
+        :param is_backup_retention_locked:
+            The value to assign to the is_backup_retention_locked property of this UpdateAutonomousDatabaseDetails.
+        :type is_backup_retention_locked: bool
+
         :param scheduled_operations:
             The value to assign to the scheduled_operations property of this UpdateAutonomousDatabaseDetails.
         :type scheduled_operations: list[oci.database.models.ScheduledOperationDetails]
@@ -288,6 +296,10 @@ class UpdateAutonomousDatabaseDetails(object):
             The value to assign to the secret_version_number property of this UpdateAutonomousDatabaseDetails.
         :type secret_version_number: int
 
+        :param encryption_key:
+            The value to assign to the encryption_key property of this UpdateAutonomousDatabaseDetails.
+        :type encryption_key: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+
         """
         self.swagger_types = {
             'backup_retention_period_in_days': 'int',
@@ -307,6 +319,7 @@ class UpdateAutonomousDatabaseDetails(object):
             'db_name': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'security_attributes': 'dict(str, dict(str, object))',
             'db_workload': 'str',
             'license_model': 'str',
             'byol_compute_count_limit': 'float',
@@ -334,12 +347,14 @@ class UpdateAutonomousDatabaseDetails(object):
             'is_mtls_connection_required': 'bool',
             'resource_pool_leader_id': 'str',
             'resource_pool_summary': 'ResourcePoolSummary',
+            'is_backup_retention_locked': 'bool',
             'scheduled_operations': 'list[ScheduledOperationDetails]',
             'is_auto_scaling_for_storage_enabled': 'bool',
             'database_edition': 'str',
             'db_tools_details': 'list[DatabaseTool]',
             'secret_id': 'str',
-            'secret_version_number': 'int'
+            'secret_version_number': 'int',
+            'encryption_key': 'AutonomousDatabaseEncryptionKeyDetails'
         }
 
         self.attribute_map = {
@@ -360,6 +375,7 @@ class UpdateAutonomousDatabaseDetails(object):
             'db_name': 'dbName',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'security_attributes': 'securityAttributes',
             'db_workload': 'dbWorkload',
             'license_model': 'licenseModel',
             'byol_compute_count_limit': 'byolComputeCountLimit',
@@ -387,12 +403,14 @@ class UpdateAutonomousDatabaseDetails(object):
             'is_mtls_connection_required': 'isMtlsConnectionRequired',
             'resource_pool_leader_id': 'resourcePoolLeaderId',
             'resource_pool_summary': 'resourcePoolSummary',
+            'is_backup_retention_locked': 'isBackupRetentionLocked',
             'scheduled_operations': 'scheduledOperations',
             'is_auto_scaling_for_storage_enabled': 'isAutoScalingForStorageEnabled',
             'database_edition': 'databaseEdition',
             'db_tools_details': 'dbToolsDetails',
             'secret_id': 'secretId',
-            'secret_version_number': 'secretVersionNumber'
+            'secret_version_number': 'secretVersionNumber',
+            'encryption_key': 'encryptionKey'
         }
 
         self._backup_retention_period_in_days = None
@@ -412,6 +430,7 @@ class UpdateAutonomousDatabaseDetails(object):
         self._db_name = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._security_attributes = None
         self._db_workload = None
         self._license_model = None
         self._byol_compute_count_limit = None
@@ -439,12 +458,14 @@ class UpdateAutonomousDatabaseDetails(object):
         self._is_mtls_connection_required = None
         self._resource_pool_leader_id = None
         self._resource_pool_summary = None
+        self._is_backup_retention_locked = None
         self._scheduled_operations = None
         self._is_auto_scaling_for_storage_enabled = None
         self._database_edition = None
         self._db_tools_details = None
         self._secret_id = None
         self._secret_version_number = None
+        self._encryption_key = None
 
     @property
     def backup_retention_period_in_days(self):
@@ -636,7 +657,7 @@ class UpdateAutonomousDatabaseDetails(object):
         """
         Gets the compute_count of this UpdateAutonomousDatabaseDetails.
         The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-        For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+        The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 
         This cannot be updated in parallel with any of the following: licenseModel, databaseEdition, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 
@@ -651,7 +672,7 @@ class UpdateAutonomousDatabaseDetails(object):
         """
         Sets the compute_count of this UpdateAutonomousDatabaseDetails.
         The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-        For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+        The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 
         This cannot be updated in parallel with any of the following: licenseModel, databaseEdition, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 
@@ -956,6 +977,38 @@ class UpdateAutonomousDatabaseDetails(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def security_attributes(self):
+        """
+        Gets the security_attributes of this UpdateAutonomousDatabaseDetails.
+        Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+        Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"audit\"}}}`
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+
+
+        :return: The security_attributes of this UpdateAutonomousDatabaseDetails.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._security_attributes
+
+    @security_attributes.setter
+    def security_attributes(self, security_attributes):
+        """
+        Sets the security_attributes of this UpdateAutonomousDatabaseDetails.
+        Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+        Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"audit\"}}}`
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+
+
+        :param security_attributes: The security_attributes of this UpdateAutonomousDatabaseDetails.
+        :type: dict(str, dict(str, object))
+        """
+        self._security_attributes = security_attributes
 
     @property
     def db_workload(self):
@@ -1869,6 +1922,30 @@ class UpdateAutonomousDatabaseDetails(object):
         self._resource_pool_summary = resource_pool_summary
 
     @property
+    def is_backup_retention_locked(self):
+        """
+        Gets the is_backup_retention_locked of this UpdateAutonomousDatabaseDetails.
+        True if the Autonomous Database is backup retention locked.
+
+
+        :return: The is_backup_retention_locked of this UpdateAutonomousDatabaseDetails.
+        :rtype: bool
+        """
+        return self._is_backup_retention_locked
+
+    @is_backup_retention_locked.setter
+    def is_backup_retention_locked(self, is_backup_retention_locked):
+        """
+        Sets the is_backup_retention_locked of this UpdateAutonomousDatabaseDetails.
+        True if the Autonomous Database is backup retention locked.
+
+
+        :param is_backup_retention_locked: The is_backup_retention_locked of this UpdateAutonomousDatabaseDetails.
+        :type: bool
+        """
+        self._is_backup_retention_locked = is_backup_retention_locked
+
+    @property
     def scheduled_operations(self):
         """
         Gets the scheduled_operations of this UpdateAutonomousDatabaseDetails.
@@ -2023,6 +2100,26 @@ class UpdateAutonomousDatabaseDetails(object):
         :type: int
         """
         self._secret_version_number = secret_version_number
+
+    @property
+    def encryption_key(self):
+        """
+        Gets the encryption_key of this UpdateAutonomousDatabaseDetails.
+
+        :return: The encryption_key of this UpdateAutonomousDatabaseDetails.
+        :rtype: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+        """
+        return self._encryption_key
+
+    @encryption_key.setter
+    def encryption_key(self, encryption_key):
+        """
+        Sets the encryption_key of this UpdateAutonomousDatabaseDetails.
+
+        :param encryption_key: The encryption_key of this UpdateAutonomousDatabaseDetails.
+        :type: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+        """
+        self._encryption_key = encryption_key
 
     def __repr__(self):
         return formatted_flat_dict(self)

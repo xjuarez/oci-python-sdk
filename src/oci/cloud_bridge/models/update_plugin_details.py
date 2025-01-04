@@ -38,7 +38,7 @@ class UpdatePluginDetails(object):
     @property
     def desired_state(self):
         """
-        Gets the desired_state of this UpdatePluginDetails.
+        **[Required]** Gets the desired_state of this UpdatePluginDetails.
         State to which the customer wants the plugin to move to.
 
 

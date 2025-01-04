@@ -80,6 +80,7 @@ Core Services
     oci.core.models.BootVolumeReplicaDetails
     oci.core.models.BootVolumeReplicaInfo
     oci.core.models.BootVolumeSourceDetails
+    oci.core.models.BootVolumeSourceFromBootVolumeBackupDeltaDetails
     oci.core.models.BootVolumeSourceFromBootVolumeBackupDetails
     oci.core.models.BootVolumeSourceFromBootVolumeDetails
     oci.core.models.BootVolumeSourceFromBootVolumeReplicaDetails
@@ -415,16 +416,20 @@ Core Services
     oci.core.models.Ipv6
     oci.core.models.Ipv6AddressIpv6SubnetCidrPairDetails
     oci.core.models.LaunchAttachIScsiVolumeDetails
+    oci.core.models.LaunchAttachParavirtualizedVolumeDetails
     oci.core.models.LaunchAttachVolumeDetails
     oci.core.models.LaunchCreateVolumeDetails
     oci.core.models.LaunchCreateVolumeFromAttributes
     oci.core.models.LaunchInstanceAgentConfigDetails
     oci.core.models.LaunchInstanceAvailabilityConfigDetails
     oci.core.models.LaunchInstanceDetails
+    oci.core.models.LaunchInstanceLicensingConfig
     oci.core.models.LaunchInstancePlatformConfig
     oci.core.models.LaunchInstanceShapeConfigDetails
+    oci.core.models.LaunchInstanceWindowsLicensingConfig
     oci.core.models.LaunchOptions
     oci.core.models.LetterOfAuthority
+    oci.core.models.LicensingConfig
     oci.core.models.ListIpInventoryDetails
     oci.core.models.LocalPeeringGateway
     oci.core.models.LoopBackDrgAttachmentNetworkDetails
@@ -548,6 +553,7 @@ Core Services
     oci.core.models.UpdateInstanceConfigurationDetails
     oci.core.models.UpdateInstanceConsoleConnectionDetails
     oci.core.models.UpdateInstanceDetails
+    oci.core.models.UpdateInstanceLicensingConfig
     oci.core.models.UpdateInstanceMaintenanceEventDetails
     oci.core.models.UpdateInstancePlatformConfig
     oci.core.models.UpdateInstancePoolDetails
@@ -556,6 +562,7 @@ Core Services
     oci.core.models.UpdateInstanceSourceDetails
     oci.core.models.UpdateInstanceSourceViaBootVolumeDetails
     oci.core.models.UpdateInstanceSourceViaImageDetails
+    oci.core.models.UpdateInstanceWindowsLicensingConfig
     oci.core.models.UpdateInternetGatewayDetails
     oci.core.models.UpdateIpv6Details
     oci.core.models.UpdateLaunchOptions
@@ -600,6 +607,7 @@ Core Services
     oci.core.models.VirtualCircuitBandwidthShape
     oci.core.models.VirtualCircuitDrgAttachmentNetworkDetails
     oci.core.models.VirtualCircuitPublicPrefix
+    oci.core.models.VirtualCircuitRedundancyMetadata
     oci.core.models.Vlan
     oci.core.models.Vnic
     oci.core.models.VnicAttachment
@@ -622,6 +630,7 @@ Core Services
     oci.core.models.VolumeKmsKey
     oci.core.models.VolumeSourceDetails
     oci.core.models.VolumeSourceFromBlockVolumeReplicaDetails
+    oci.core.models.VolumeSourceFromVolumeBackupDeltaDetails
     oci.core.models.VolumeSourceFromVolumeBackupDetails
     oci.core.models.VolumeSourceFromVolumeDetails
     oci.core.models.Vtap

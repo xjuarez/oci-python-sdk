@@ -71,6 +71,10 @@ class CreateAutonomousDatabaseBase(object):
     SOURCE_BACKUP_FROM_TIMESTAMP = "BACKUP_FROM_TIMESTAMP"
 
     #: A constant which can be used with the source property of a CreateAutonomousDatabaseBase.
+    #: This constant has a value of "UNDELETE_ADB"
+    SOURCE_UNDELETE_ADB = "UNDELETE_ADB"
+
+    #: A constant which can be used with the source property of a CreateAutonomousDatabaseBase.
     #: This constant has a value of "CLONE_TO_REFRESHABLE"
     SOURCE_CLONE_TO_REFRESHABLE = "CLONE_TO_REFRESHABLE"
 
@@ -95,6 +99,7 @@ class CreateAutonomousDatabaseBase(object):
         Initializes a new CreateAutonomousDatabaseBase object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
+        * :class:`~oci.database.models.UndeleteAutonomousDatabaseDetails`
         * :class:`~oci.database.models.CreateAutonomousDatabaseCloneDetails`
         * :class:`~oci.database.models.CreateRefreshableAutonomousDatabaseCloneDetails`
         * :class:`~oci.database.models.CreateAutonomousDatabaseFromBackupDetails`
@@ -171,6 +176,10 @@ class CreateAutonomousDatabaseBase(object):
         :param vault_id:
             The value to assign to the vault_id property of this CreateAutonomousDatabaseBase.
         :type vault_id: str
+
+        :param encryption_key:
+            The value to assign to the encryption_key property of this CreateAutonomousDatabaseBase.
+        :type encryption_key: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
 
         :param admin_password:
             The value to assign to the admin_password property of this CreateAutonomousDatabaseBase.
@@ -257,6 +266,10 @@ class CreateAutonomousDatabaseBase(object):
             The value to assign to the defined_tags property of this CreateAutonomousDatabaseBase.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param security_attributes:
+            The value to assign to the security_attributes property of this CreateAutonomousDatabaseBase.
+        :type security_attributes: dict(str, dict(str, object))
+
         :param private_endpoint_ip:
             The value to assign to the private_endpoint_ip property of this CreateAutonomousDatabaseBase.
         :type private_endpoint_ip: str
@@ -267,7 +280,7 @@ class CreateAutonomousDatabaseBase(object):
 
         :param source:
             The value to assign to the source property of this CreateAutonomousDatabaseBase.
-            Allowed values for this property are: "NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"
+            Allowed values for this property are: "NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "UNDELETE_ADB", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"
         :type source: str
 
         :param customer_contacts:
@@ -307,6 +320,10 @@ class CreateAutonomousDatabaseBase(object):
             The value to assign to the db_tools_details property of this CreateAutonomousDatabaseBase.
         :type db_tools_details: list[oci.database.models.DatabaseTool]
 
+        :param is_backup_retention_locked:
+            The value to assign to the is_backup_retention_locked property of this CreateAutonomousDatabaseBase.
+        :type is_backup_retention_locked: bool
+
         :param secret_id:
             The value to assign to the secret_id property of this CreateAutonomousDatabaseBase.
         :type secret_id: str
@@ -333,6 +350,7 @@ class CreateAutonomousDatabaseBase(object):
             'is_free_tier': 'bool',
             'kms_key_id': 'str',
             'vault_id': 'str',
+            'encryption_key': 'AutonomousDatabaseEncryptionKeyDetails',
             'admin_password': 'str',
             'display_name': 'str',
             'license_model': 'str',
@@ -354,6 +372,7 @@ class CreateAutonomousDatabaseBase(object):
             'private_endpoint_label': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'security_attributes': 'dict(str, dict(str, object))',
             'private_endpoint_ip': 'str',
             'db_version': 'str',
             'source': 'str',
@@ -366,6 +385,7 @@ class CreateAutonomousDatabaseBase(object):
             'is_auto_scaling_for_storage_enabled': 'bool',
             'database_edition': 'str',
             'db_tools_details': 'list[DatabaseTool]',
+            'is_backup_retention_locked': 'bool',
             'secret_id': 'str',
             'secret_version_number': 'int'
         }
@@ -387,6 +407,7 @@ class CreateAutonomousDatabaseBase(object):
             'is_free_tier': 'isFreeTier',
             'kms_key_id': 'kmsKeyId',
             'vault_id': 'vaultId',
+            'encryption_key': 'encryptionKey',
             'admin_password': 'adminPassword',
             'display_name': 'displayName',
             'license_model': 'licenseModel',
@@ -408,6 +429,7 @@ class CreateAutonomousDatabaseBase(object):
             'private_endpoint_label': 'privateEndpointLabel',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'security_attributes': 'securityAttributes',
             'private_endpoint_ip': 'privateEndpointIp',
             'db_version': 'dbVersion',
             'source': 'source',
@@ -420,6 +442,7 @@ class CreateAutonomousDatabaseBase(object):
             'is_auto_scaling_for_storage_enabled': 'isAutoScalingForStorageEnabled',
             'database_edition': 'databaseEdition',
             'db_tools_details': 'dbToolsDetails',
+            'is_backup_retention_locked': 'isBackupRetentionLocked',
             'secret_id': 'secretId',
             'secret_version_number': 'secretVersionNumber'
         }
@@ -440,6 +463,7 @@ class CreateAutonomousDatabaseBase(object):
         self._is_free_tier = None
         self._kms_key_id = None
         self._vault_id = None
+        self._encryption_key = None
         self._admin_password = None
         self._display_name = None
         self._license_model = None
@@ -461,6 +485,7 @@ class CreateAutonomousDatabaseBase(object):
         self._private_endpoint_label = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._security_attributes = None
         self._private_endpoint_ip = None
         self._db_version = None
         self._source = None
@@ -473,6 +498,7 @@ class CreateAutonomousDatabaseBase(object):
         self._is_auto_scaling_for_storage_enabled = None
         self._database_edition = None
         self._db_tools_details = None
+        self._is_backup_retention_locked = None
         self._secret_id = None
         self._secret_version_number = None
 
@@ -483,6 +509,9 @@ class CreateAutonomousDatabaseBase(object):
         use the info in the hash to return the class of the subtype.
         """
         type = object_dictionary['source']
+
+        if type == 'UNDELETE_ADB':
+            return 'UndeleteAutonomousDatabaseDetails'
 
         if type == 'DATABASE':
             return 'CreateAutonomousDatabaseCloneDetails'
@@ -750,7 +779,7 @@ class CreateAutonomousDatabaseBase(object):
         """
         Gets the compute_count of this CreateAutonomousDatabaseBase.
         The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-        For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+        The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 
 
         :return: The compute_count of this CreateAutonomousDatabaseBase.
@@ -763,7 +792,7 @@ class CreateAutonomousDatabaseBase(object):
         """
         Sets the compute_count of this CreateAutonomousDatabaseBase.
         The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-        For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+        The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 
 
         :param compute_count: The compute_count of this CreateAutonomousDatabaseBase.
@@ -1013,6 +1042,26 @@ class CreateAutonomousDatabaseBase(object):
         :type: str
         """
         self._vault_id = vault_id
+
+    @property
+    def encryption_key(self):
+        """
+        Gets the encryption_key of this CreateAutonomousDatabaseBase.
+
+        :return: The encryption_key of this CreateAutonomousDatabaseBase.
+        :rtype: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+        """
+        return self._encryption_key
+
+    @encryption_key.setter
+    def encryption_key(self, encryption_key):
+        """
+        Sets the encryption_key of this CreateAutonomousDatabaseBase.
+
+        :param encryption_key: The encryption_key of this CreateAutonomousDatabaseBase.
+        :type: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+        """
+        self._encryption_key = encryption_key
 
     @property
     def admin_password(self):
@@ -1684,6 +1733,38 @@ class CreateAutonomousDatabaseBase(object):
         self._defined_tags = defined_tags
 
     @property
+    def security_attributes(self):
+        """
+        Gets the security_attributes of this CreateAutonomousDatabaseBase.
+        Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+        Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"audit\"}}}`
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+
+
+        :return: The security_attributes of this CreateAutonomousDatabaseBase.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._security_attributes
+
+    @security_attributes.setter
+    def security_attributes(self, security_attributes):
+        """
+        Sets the security_attributes of this CreateAutonomousDatabaseBase.
+        Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+        Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"audit\"}}}`
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+
+
+        :param security_attributes: The security_attributes of this CreateAutonomousDatabaseBase.
+        :type: dict(str, dict(str, object))
+        """
+        self._security_attributes = security_attributes
+
+    @property
     def private_endpoint_ip(self):
         """
         Gets the private_endpoint_ip of this CreateAutonomousDatabaseBase.
@@ -1742,7 +1823,7 @@ class CreateAutonomousDatabaseBase(object):
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/clone-autonomous-database.html#GUID-D771796F-5081-4CFB-A7FF-0F893EABD7BC
 
-        Allowed values for this property are: "NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"
+        Allowed values for this property are: "NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "UNDELETE_ADB", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"
 
 
         :return: The source of this CreateAutonomousDatabaseBase.
@@ -1765,7 +1846,7 @@ class CreateAutonomousDatabaseBase(object):
         :param source: The source of this CreateAutonomousDatabaseBase.
         :type: str
         """
-        allowed_values = ["NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"]
+        allowed_values = ["NONE", "DATABASE", "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "UNDELETE_ADB", "CLONE_TO_REFRESHABLE", "CROSS_REGION_DATAGUARD", "CROSS_REGION_DISASTER_RECOVERY"]
         if not value_allowed_none_or_none_sentinel(source, allowed_values):
             raise ValueError(
                 f"Invalid value for `source`, must be None or one of {allowed_values}"
@@ -2024,6 +2105,30 @@ class CreateAutonomousDatabaseBase(object):
         :type: list[oci.database.models.DatabaseTool]
         """
         self._db_tools_details = db_tools_details
+
+    @property
+    def is_backup_retention_locked(self):
+        """
+        Gets the is_backup_retention_locked of this CreateAutonomousDatabaseBase.
+        True if the Autonomous Database is backup retention locked.
+
+
+        :return: The is_backup_retention_locked of this CreateAutonomousDatabaseBase.
+        :rtype: bool
+        """
+        return self._is_backup_retention_locked
+
+    @is_backup_retention_locked.setter
+    def is_backup_retention_locked(self, is_backup_retention_locked):
+        """
+        Sets the is_backup_retention_locked of this CreateAutonomousDatabaseBase.
+        True if the Autonomous Database is backup retention locked.
+
+
+        :param is_backup_retention_locked: The is_backup_retention_locked of this CreateAutonomousDatabaseBase.
+        :type: bool
+        """
+        self._is_backup_retention_locked = is_backup_retention_locked
 
     @property
     def secret_id(self):

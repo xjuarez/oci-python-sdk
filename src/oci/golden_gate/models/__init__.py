@@ -27,6 +27,7 @@ from .change_connection_compartment_details import ChangeConnectionCompartmentDe
 from .change_database_registration_compartment_details import ChangeDatabaseRegistrationCompartmentDetails
 from .change_deployment_backup_compartment_details import ChangeDeploymentBackupCompartmentDetails
 from .change_deployment_compartment_details import ChangeDeploymentCompartmentDetails
+from .change_pipeline_compartment_details import ChangePipelineCompartmentDetails
 from .collect_deployment_diagnostic_details import CollectDeploymentDiagnosticDetails
 from .connection import Connection
 from .connection_assignment import ConnectionAssignment
@@ -65,9 +66,11 @@ from .create_oci_object_storage_connection_details import CreateOciObjectStorage
 from .create_ogg_deployment_details import CreateOggDeploymentDetails
 from .create_oracle_connection_details import CreateOracleConnectionDetails
 from .create_oracle_nosql_connection_details import CreateOracleNosqlConnectionDetails
+from .create_pipeline_details import CreatePipelineDetails
 from .create_postgresql_connection_details import CreatePostgresqlConnectionDetails
 from .create_redis_connection_details import CreateRedisConnectionDetails
 from .create_snowflake_connection_details import CreateSnowflakeConnectionDetails
+from .create_zero_etl_pipeline_details import CreateZeroEtlPipelineDetails
 from .database_registration import DatabaseRegistration
 from .database_registration_collection import DatabaseRegistrationCollection
 from .database_registration_summary import DatabaseRegistrationSummary
@@ -77,12 +80,16 @@ from .default_cancel_deployment_backup_details import DefaultCancelDeploymentBac
 from .default_cancel_deployment_upgrade_details import DefaultCancelDeploymentUpgradeDetails
 from .default_cancel_snooze_deployment_upgrade_details import DefaultCancelSnoozeDeploymentUpgradeDetails
 from .default_deployment_wallet_exists_details import DefaultDeploymentWalletExistsDetails
+from .default_refresh_connection_details import DefaultRefreshConnectionDetails
 from .default_restore_deployment_details import DefaultRestoreDeploymentDetails
 from .default_rollback_deployment_upgrade_details import DefaultRollbackDeploymentUpgradeDetails
 from .default_snooze_deployment_upgrade_details import DefaultSnoozeDeploymentUpgradeDetails
 from .default_start_deployment_details import DefaultStartDeploymentDetails
+from .default_start_pipeline_details import DefaultStartPipelineDetails
 from .default_stop_deployment_details import DefaultStopDeploymentDetails
+from .default_stop_pipeline_details import DefaultStopPipelineDetails
 from .default_test_connection_assignment_details import DefaultTestConnectionAssignmentDetails
+from .default_test_pipeline_connection_details import DefaultTestPipelineConnectionDetails
 from .default_upgrade_deployment_upgrade_details import DefaultUpgradeDeploymentUpgradeDetails
 from .deployment import Deployment
 from .deployment_backup import DeploymentBackup
@@ -90,6 +97,8 @@ from .deployment_backup_collection import DeploymentBackupCollection
 from .deployment_backup_summary import DeploymentBackupSummary
 from .deployment_collection import DeploymentCollection
 from .deployment_diagnostic_data import DeploymentDiagnosticData
+from .deployment_environment_collection import DeploymentEnvironmentCollection
+from .deployment_environment_summary import DeploymentEnvironmentSummary
 from .deployment_message_collection import DeploymentMessageCollection
 from .deployment_summary import DeploymentSummary
 from .deployment_type_collection import DeploymentTypeCollection
@@ -116,10 +125,12 @@ from .google_big_query_connection import GoogleBigQueryConnection
 from .google_big_query_connection_summary import GoogleBigQueryConnectionSummary
 from .google_cloud_storage_connection import GoogleCloudStorageConnection
 from .google_cloud_storage_connection_summary import GoogleCloudStorageConnectionSummary
+from .group_to_roles_mapping_details import GroupToRolesMappingDetails
 from .hdfs_connection import HdfsConnection
 from .hdfs_connection_summary import HdfsConnectionSummary
 from .import_deployment_wallet_details import ImportDeploymentWalletDetails
 from .ingress_ip_details import IngressIpDetails
+from .initial_data_load import InitialDataLoad
 from .java_message_service_connection import JavaMessageServiceConnection
 from .java_message_service_connection_summary import JavaMessageServiceConnectionSummary
 from .kafka_bootstrap_server import KafkaBootstrapServer
@@ -130,6 +141,7 @@ from .kafka_schema_registry_connection_summary import KafkaSchemaRegistryConnect
 from .library_url import LibraryUrl
 from .maintenance_configuration import MaintenanceConfiguration
 from .maintenance_window import MaintenanceWindow
+from .mapping_rule import MappingRule
 from .message_summary import MessageSummary
 from .microsoft_sqlserver_connection import MicrosoftSqlserverConnection
 from .microsoft_sqlserver_connection_summary import MicrosoftSqlserverConnectionSummary
@@ -145,11 +157,27 @@ from .oracle_connection import OracleConnection
 from .oracle_connection_summary import OracleConnectionSummary
 from .oracle_nosql_connection import OracleNosqlConnection
 from .oracle_nosql_connection_summary import OracleNosqlConnectionSummary
+from .pipeline import Pipeline
+from .pipeline_collection import PipelineCollection
+from .pipeline_initialization_step import PipelineInitializationStep
+from .pipeline_initialization_steps import PipelineInitializationSteps
+from .pipeline_running_process_collection import PipelineRunningProcessCollection
+from .pipeline_running_process_summary import PipelineRunningProcessSummary
+from .pipeline_schema_collection import PipelineSchemaCollection
+from .pipeline_schema_summary import PipelineSchemaSummary
+from .pipeline_schema_table_collection import PipelineSchemaTableCollection
+from .pipeline_schema_table_summary import PipelineSchemaTableSummary
+from .pipeline_summary import PipelineSummary
 from .postgresql_connection import PostgresqlConnection
 from .postgresql_connection_summary import PostgresqlConnectionSummary
+from .process_options import ProcessOptions
+from .recipe_summary import RecipeSummary
+from .recipe_summary_collection import RecipeSummaryCollection
 from .redis_connection import RedisConnection
 from .redis_connection_summary import RedisConnectionSummary
+from .refresh_connection_details import RefreshConnectionDetails
 from .remove_resource_lock_details import RemoveResourceLockDetails
+from .replicate_schema_change import ReplicateSchemaChange
 from .reschedule_deployment_upgrade_details import RescheduleDeploymentUpgradeDetails
 from .reschedule_deployment_upgrade_to_date_details import RescheduleDeploymentUpgradeToDateDetails
 from .resource_lock import ResourceLock
@@ -158,11 +186,19 @@ from .rollback_deployment_upgrade_details import RollbackDeploymentUpgradeDetail
 from .snooze_deployment_upgrade_details import SnoozeDeploymentUpgradeDetails
 from .snowflake_connection import SnowflakeConnection
 from .snowflake_connection_summary import SnowflakeConnectionSummary
+from .source_pipeline_connection_details import SourcePipelineConnectionDetails
 from .start_deployment_details import StartDeploymentDetails
+from .start_pipeline_details import StartPipelineDetails
+from .step_message import StepMessage
 from .stop_deployment_details import StopDeploymentDetails
+from .stop_pipeline_details import StopPipelineDetails
+from .target_pipeline_connection_details import TargetPipelineConnectionDetails
 from .test_connection_assignment_details import TestConnectionAssignmentDetails
 from .test_connection_assignment_error import TestConnectionAssignmentError
 from .test_connection_assignment_result import TestConnectionAssignmentResult
+from .test_pipeline_connection_details import TestPipelineConnectionDetails
+from .test_pipeline_connection_error import TestPipelineConnectionError
+from .test_pipeline_connection_result import TestPipelineConnectionResult
 from .trail_file_collection import TrailFileCollection
 from .trail_file_summary import TrailFileSummary
 from .trail_sequence_collection import TrailSequenceCollection
@@ -182,6 +218,7 @@ from .update_generic_connection_details import UpdateGenericConnectionDetails
 from .update_golden_gate_connection_details import UpdateGoldenGateConnectionDetails
 from .update_google_big_query_connection_details import UpdateGoogleBigQueryConnectionDetails
 from .update_google_cloud_storage_connection_details import UpdateGoogleCloudStorageConnectionDetails
+from .update_group_to_roles_mapping_details import UpdateGroupToRolesMappingDetails
 from .update_hdfs_connection_details import UpdateHdfsConnectionDetails
 from .update_java_message_service_connection_details import UpdateJavaMessageServiceConnectionDetails
 from .update_kafka_connection_details import UpdateKafkaConnectionDetails
@@ -195,9 +232,11 @@ from .update_oci_object_storage_connection_details import UpdateOciObjectStorage
 from .update_ogg_deployment_details import UpdateOggDeploymentDetails
 from .update_oracle_connection_details import UpdateOracleConnectionDetails
 from .update_oracle_nosql_connection_details import UpdateOracleNosqlConnectionDetails
+from .update_pipeline_details import UpdatePipelineDetails
 from .update_postgresql_connection_details import UpdatePostgresqlConnectionDetails
 from .update_redis_connection_details import UpdateRedisConnectionDetails
 from .update_snowflake_connection_details import UpdateSnowflakeConnectionDetails
+from .update_zero_etl_pipeline_details import UpdateZeroEtlPipelineDetails
 from .upgrade_deployment_current_release_details import UpgradeDeploymentCurrentReleaseDetails
 from .upgrade_deployment_details import UpgradeDeploymentDetails
 from .upgrade_deployment_specific_release_details import UpgradeDeploymentSpecificReleaseDetails
@@ -206,6 +245,8 @@ from .work_request import WorkRequest
 from .work_request_error import WorkRequestError
 from .work_request_log_entry import WorkRequestLogEntry
 from .work_request_resource import WorkRequestResource
+from .zero_etl_pipeline import ZeroEtlPipeline
+from .zero_etl_pipeline_summary import ZeroEtlPipelineSummary
 
 # Maps type names to classes for golden_gate services.
 golden_gate_type_mapping = {
@@ -230,6 +271,7 @@ golden_gate_type_mapping = {
     "ChangeDatabaseRegistrationCompartmentDetails": ChangeDatabaseRegistrationCompartmentDetails,
     "ChangeDeploymentBackupCompartmentDetails": ChangeDeploymentBackupCompartmentDetails,
     "ChangeDeploymentCompartmentDetails": ChangeDeploymentCompartmentDetails,
+    "ChangePipelineCompartmentDetails": ChangePipelineCompartmentDetails,
     "CollectDeploymentDiagnosticDetails": CollectDeploymentDiagnosticDetails,
     "Connection": Connection,
     "ConnectionAssignment": ConnectionAssignment,
@@ -268,9 +310,11 @@ golden_gate_type_mapping = {
     "CreateOggDeploymentDetails": CreateOggDeploymentDetails,
     "CreateOracleConnectionDetails": CreateOracleConnectionDetails,
     "CreateOracleNosqlConnectionDetails": CreateOracleNosqlConnectionDetails,
+    "CreatePipelineDetails": CreatePipelineDetails,
     "CreatePostgresqlConnectionDetails": CreatePostgresqlConnectionDetails,
     "CreateRedisConnectionDetails": CreateRedisConnectionDetails,
     "CreateSnowflakeConnectionDetails": CreateSnowflakeConnectionDetails,
+    "CreateZeroEtlPipelineDetails": CreateZeroEtlPipelineDetails,
     "DatabaseRegistration": DatabaseRegistration,
     "DatabaseRegistrationCollection": DatabaseRegistrationCollection,
     "DatabaseRegistrationSummary": DatabaseRegistrationSummary,
@@ -280,12 +324,16 @@ golden_gate_type_mapping = {
     "DefaultCancelDeploymentUpgradeDetails": DefaultCancelDeploymentUpgradeDetails,
     "DefaultCancelSnoozeDeploymentUpgradeDetails": DefaultCancelSnoozeDeploymentUpgradeDetails,
     "DefaultDeploymentWalletExistsDetails": DefaultDeploymentWalletExistsDetails,
+    "DefaultRefreshConnectionDetails": DefaultRefreshConnectionDetails,
     "DefaultRestoreDeploymentDetails": DefaultRestoreDeploymentDetails,
     "DefaultRollbackDeploymentUpgradeDetails": DefaultRollbackDeploymentUpgradeDetails,
     "DefaultSnoozeDeploymentUpgradeDetails": DefaultSnoozeDeploymentUpgradeDetails,
     "DefaultStartDeploymentDetails": DefaultStartDeploymentDetails,
+    "DefaultStartPipelineDetails": DefaultStartPipelineDetails,
     "DefaultStopDeploymentDetails": DefaultStopDeploymentDetails,
+    "DefaultStopPipelineDetails": DefaultStopPipelineDetails,
     "DefaultTestConnectionAssignmentDetails": DefaultTestConnectionAssignmentDetails,
+    "DefaultTestPipelineConnectionDetails": DefaultTestPipelineConnectionDetails,
     "DefaultUpgradeDeploymentUpgradeDetails": DefaultUpgradeDeploymentUpgradeDetails,
     "Deployment": Deployment,
     "DeploymentBackup": DeploymentBackup,
@@ -293,6 +341,8 @@ golden_gate_type_mapping = {
     "DeploymentBackupSummary": DeploymentBackupSummary,
     "DeploymentCollection": DeploymentCollection,
     "DeploymentDiagnosticData": DeploymentDiagnosticData,
+    "DeploymentEnvironmentCollection": DeploymentEnvironmentCollection,
+    "DeploymentEnvironmentSummary": DeploymentEnvironmentSummary,
     "DeploymentMessageCollection": DeploymentMessageCollection,
     "DeploymentSummary": DeploymentSummary,
     "DeploymentTypeCollection": DeploymentTypeCollection,
@@ -319,10 +369,12 @@ golden_gate_type_mapping = {
     "GoogleBigQueryConnectionSummary": GoogleBigQueryConnectionSummary,
     "GoogleCloudStorageConnection": GoogleCloudStorageConnection,
     "GoogleCloudStorageConnectionSummary": GoogleCloudStorageConnectionSummary,
+    "GroupToRolesMappingDetails": GroupToRolesMappingDetails,
     "HdfsConnection": HdfsConnection,
     "HdfsConnectionSummary": HdfsConnectionSummary,
     "ImportDeploymentWalletDetails": ImportDeploymentWalletDetails,
     "IngressIpDetails": IngressIpDetails,
+    "InitialDataLoad": InitialDataLoad,
     "JavaMessageServiceConnection": JavaMessageServiceConnection,
     "JavaMessageServiceConnectionSummary": JavaMessageServiceConnectionSummary,
     "KafkaBootstrapServer": KafkaBootstrapServer,
@@ -333,6 +385,7 @@ golden_gate_type_mapping = {
     "LibraryUrl": LibraryUrl,
     "MaintenanceConfiguration": MaintenanceConfiguration,
     "MaintenanceWindow": MaintenanceWindow,
+    "MappingRule": MappingRule,
     "MessageSummary": MessageSummary,
     "MicrosoftSqlserverConnection": MicrosoftSqlserverConnection,
     "MicrosoftSqlserverConnectionSummary": MicrosoftSqlserverConnectionSummary,
@@ -348,11 +401,27 @@ golden_gate_type_mapping = {
     "OracleConnectionSummary": OracleConnectionSummary,
     "OracleNosqlConnection": OracleNosqlConnection,
     "OracleNosqlConnectionSummary": OracleNosqlConnectionSummary,
+    "Pipeline": Pipeline,
+    "PipelineCollection": PipelineCollection,
+    "PipelineInitializationStep": PipelineInitializationStep,
+    "PipelineInitializationSteps": PipelineInitializationSteps,
+    "PipelineRunningProcessCollection": PipelineRunningProcessCollection,
+    "PipelineRunningProcessSummary": PipelineRunningProcessSummary,
+    "PipelineSchemaCollection": PipelineSchemaCollection,
+    "PipelineSchemaSummary": PipelineSchemaSummary,
+    "PipelineSchemaTableCollection": PipelineSchemaTableCollection,
+    "PipelineSchemaTableSummary": PipelineSchemaTableSummary,
+    "PipelineSummary": PipelineSummary,
     "PostgresqlConnection": PostgresqlConnection,
     "PostgresqlConnectionSummary": PostgresqlConnectionSummary,
+    "ProcessOptions": ProcessOptions,
+    "RecipeSummary": RecipeSummary,
+    "RecipeSummaryCollection": RecipeSummaryCollection,
     "RedisConnection": RedisConnection,
     "RedisConnectionSummary": RedisConnectionSummary,
+    "RefreshConnectionDetails": RefreshConnectionDetails,
     "RemoveResourceLockDetails": RemoveResourceLockDetails,
+    "ReplicateSchemaChange": ReplicateSchemaChange,
     "RescheduleDeploymentUpgradeDetails": RescheduleDeploymentUpgradeDetails,
     "RescheduleDeploymentUpgradeToDateDetails": RescheduleDeploymentUpgradeToDateDetails,
     "ResourceLock": ResourceLock,
@@ -361,11 +430,19 @@ golden_gate_type_mapping = {
     "SnoozeDeploymentUpgradeDetails": SnoozeDeploymentUpgradeDetails,
     "SnowflakeConnection": SnowflakeConnection,
     "SnowflakeConnectionSummary": SnowflakeConnectionSummary,
+    "SourcePipelineConnectionDetails": SourcePipelineConnectionDetails,
     "StartDeploymentDetails": StartDeploymentDetails,
+    "StartPipelineDetails": StartPipelineDetails,
+    "StepMessage": StepMessage,
     "StopDeploymentDetails": StopDeploymentDetails,
+    "StopPipelineDetails": StopPipelineDetails,
+    "TargetPipelineConnectionDetails": TargetPipelineConnectionDetails,
     "TestConnectionAssignmentDetails": TestConnectionAssignmentDetails,
     "TestConnectionAssignmentError": TestConnectionAssignmentError,
     "TestConnectionAssignmentResult": TestConnectionAssignmentResult,
+    "TestPipelineConnectionDetails": TestPipelineConnectionDetails,
+    "TestPipelineConnectionError": TestPipelineConnectionError,
+    "TestPipelineConnectionResult": TestPipelineConnectionResult,
     "TrailFileCollection": TrailFileCollection,
     "TrailFileSummary": TrailFileSummary,
     "TrailSequenceCollection": TrailSequenceCollection,
@@ -385,6 +462,7 @@ golden_gate_type_mapping = {
     "UpdateGoldenGateConnectionDetails": UpdateGoldenGateConnectionDetails,
     "UpdateGoogleBigQueryConnectionDetails": UpdateGoogleBigQueryConnectionDetails,
     "UpdateGoogleCloudStorageConnectionDetails": UpdateGoogleCloudStorageConnectionDetails,
+    "UpdateGroupToRolesMappingDetails": UpdateGroupToRolesMappingDetails,
     "UpdateHdfsConnectionDetails": UpdateHdfsConnectionDetails,
     "UpdateJavaMessageServiceConnectionDetails": UpdateJavaMessageServiceConnectionDetails,
     "UpdateKafkaConnectionDetails": UpdateKafkaConnectionDetails,
@@ -398,9 +476,11 @@ golden_gate_type_mapping = {
     "UpdateOggDeploymentDetails": UpdateOggDeploymentDetails,
     "UpdateOracleConnectionDetails": UpdateOracleConnectionDetails,
     "UpdateOracleNosqlConnectionDetails": UpdateOracleNosqlConnectionDetails,
+    "UpdatePipelineDetails": UpdatePipelineDetails,
     "UpdatePostgresqlConnectionDetails": UpdatePostgresqlConnectionDetails,
     "UpdateRedisConnectionDetails": UpdateRedisConnectionDetails,
     "UpdateSnowflakeConnectionDetails": UpdateSnowflakeConnectionDetails,
+    "UpdateZeroEtlPipelineDetails": UpdateZeroEtlPipelineDetails,
     "UpgradeDeploymentCurrentReleaseDetails": UpgradeDeploymentCurrentReleaseDetails,
     "UpgradeDeploymentDetails": UpgradeDeploymentDetails,
     "UpgradeDeploymentSpecificReleaseDetails": UpgradeDeploymentSpecificReleaseDetails,
@@ -408,5 +488,7 @@ golden_gate_type_mapping = {
     "WorkRequest": WorkRequest,
     "WorkRequestError": WorkRequestError,
     "WorkRequestLogEntry": WorkRequestLogEntry,
-    "WorkRequestResource": WorkRequestResource
+    "WorkRequestResource": WorkRequestResource,
+    "ZeroEtlPipeline": ZeroEtlPipeline,
+    "ZeroEtlPipelineSummary": ZeroEtlPipelineSummary
 }

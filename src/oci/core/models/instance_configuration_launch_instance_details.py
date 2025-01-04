@@ -71,6 +71,10 @@ class InstanceConfigurationLaunchInstanceDetails(object):
             The value to assign to the defined_tags property of this InstanceConfigurationLaunchInstanceDetails.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param security_attributes:
+            The value to assign to the security_attributes property of this InstanceConfigurationLaunchInstanceDetails.
+        :type security_attributes: dict(str, dict(str, object))
+
         :param display_name:
             The value to assign to the display_name property of this InstanceConfigurationLaunchInstanceDetails.
         :type display_name: str
@@ -151,6 +155,10 @@ class InstanceConfigurationLaunchInstanceDetails(object):
             The value to assign to the preemptible_instance_config property of this InstanceConfigurationLaunchInstanceDetails.
         :type preemptible_instance_config: oci.core.models.PreemptibleInstanceConfigDetails
 
+        :param licensing_configs:
+            The value to assign to the licensing_configs property of this InstanceConfigurationLaunchInstanceDetails.
+        :type licensing_configs: list[oci.core.models.LaunchInstanceLicensingConfig]
+
         """
         self.swagger_types = {
             'availability_domain': 'str',
@@ -159,6 +167,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
             'cluster_placement_group_id': 'str',
             'create_vnic_details': 'InstanceConfigurationCreateVnicDetails',
             'defined_tags': 'dict(str, dict(str, object))',
+            'security_attributes': 'dict(str, dict(str, object))',
             'display_name': 'str',
             'extended_metadata': 'dict(str, object)',
             'freeform_tags': 'dict(str, str)',
@@ -177,7 +186,8 @@ class InstanceConfigurationLaunchInstanceDetails(object):
             'preferred_maintenance_action': 'str',
             'instance_options': 'InstanceConfigurationInstanceOptions',
             'availability_config': 'InstanceConfigurationAvailabilityConfig',
-            'preemptible_instance_config': 'PreemptibleInstanceConfigDetails'
+            'preemptible_instance_config': 'PreemptibleInstanceConfigDetails',
+            'licensing_configs': 'list[LaunchInstanceLicensingConfig]'
         }
 
         self.attribute_map = {
@@ -187,6 +197,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
             'cluster_placement_group_id': 'clusterPlacementGroupId',
             'create_vnic_details': 'createVnicDetails',
             'defined_tags': 'definedTags',
+            'security_attributes': 'securityAttributes',
             'display_name': 'displayName',
             'extended_metadata': 'extendedMetadata',
             'freeform_tags': 'freeformTags',
@@ -205,7 +216,8 @@ class InstanceConfigurationLaunchInstanceDetails(object):
             'preferred_maintenance_action': 'preferredMaintenanceAction',
             'instance_options': 'instanceOptions',
             'availability_config': 'availabilityConfig',
-            'preemptible_instance_config': 'preemptibleInstanceConfig'
+            'preemptible_instance_config': 'preemptibleInstanceConfig',
+            'licensing_configs': 'licensingConfigs'
         }
 
         self._availability_domain = None
@@ -214,6 +226,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         self._cluster_placement_group_id = None
         self._create_vnic_details = None
         self._defined_tags = None
+        self._security_attributes = None
         self._display_name = None
         self._extended_metadata = None
         self._freeform_tags = None
@@ -233,6 +246,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         self._instance_options = None
         self._availability_config = None
         self._preemptible_instance_config = None
+        self._licensing_configs = None
 
     @property
     def availability_domain(self):
@@ -391,6 +405,34 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def security_attributes(self):
+        """
+        Gets the security_attributes of this InstanceConfigurationLaunchInstanceDetails.
+        Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+
+        Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
+
+
+        :return: The security_attributes of this InstanceConfigurationLaunchInstanceDetails.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._security_attributes
+
+    @security_attributes.setter
+    def security_attributes(self, security_attributes):
+        """
+        Sets the security_attributes of this InstanceConfigurationLaunchInstanceDetails.
+        Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+
+        Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
+
+
+        :param security_attributes: The security_attributes of this InstanceConfigurationLaunchInstanceDetails.
+        :type: dict(str, dict(str, object))
+        """
+        self._security_attributes = security_attributes
 
     @property
     def display_name(self):
@@ -1053,6 +1095,30 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         :type: oci.core.models.PreemptibleInstanceConfigDetails
         """
         self._preemptible_instance_config = preemptible_instance_config
+
+    @property
+    def licensing_configs(self):
+        """
+        Gets the licensing_configs of this InstanceConfigurationLaunchInstanceDetails.
+        List of licensing configurations associated with target launch values.
+
+
+        :return: The licensing_configs of this InstanceConfigurationLaunchInstanceDetails.
+        :rtype: list[oci.core.models.LaunchInstanceLicensingConfig]
+        """
+        return self._licensing_configs
+
+    @licensing_configs.setter
+    def licensing_configs(self, licensing_configs):
+        """
+        Sets the licensing_configs of this InstanceConfigurationLaunchInstanceDetails.
+        List of licensing configurations associated with target launch values.
+
+
+        :param licensing_configs: The licensing_configs of this InstanceConfigurationLaunchInstanceDetails.
+        :type: list[oci.core.models.LaunchInstanceLicensingConfig]
+        """
+        self._licensing_configs = licensing_configs
 
     def __repr__(self):
         return formatted_flat_dict(self)

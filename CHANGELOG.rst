@@ -3,6 +3,248 @@ Change Log
 All notable changes to this project will be documented in this file.
 
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
+
+====================
+2.141.1 - 2024-12-20
+====================
+
+Fixed
+-----
+* `Github Issue #728 <https://github.com/oracle/oci-python-sdk/issues/728>`_ for RPv1.1
+
+====================
+2.141.0 - 2024-12-17
+====================
+
+Added 
+----- 
+* Support for backup retention locks on autonomous database create and update operations in the Database service 
+* Support for multi-modality flags in data source in the Generative AI service 
+* Support for knowledge base statistics in the Generative AI service 
+* Support for document id, title and page numbers in citations in the Generative AI service 
+* Support for creating and updating Amazon Web Services (AWS) asset-sources, EC2 and Elastic Block Store (EBS) assets in the Cloud Bridge service 
+* Support for listing Amazon Web Services (AWS) regions available for discovery and migrations in the Cloud Bridge service 
+* Support for stored video analysis in the AI Vision service 
+* Support for HTTP or REST endpoint-based metric extensions in the OCI Monitoring service 
+* Support for metric extension filter in the list metric extensions operation in the OCI Monitoring service 
+* Support for creating and updating private endpoints for model deployments in the Data Science service 
+* Support for OCI Identity user integration in the Big Data service 
+* Support for user principal session tokens in the Big Data service 
+* Support for historical cluster versions in the Big Data service 
+* Support for new SKUs for digital assets editions in the Blockchain Platform service 
+* Support for Zero ETL pipelines in the GoldenGate service   
+
+Breaking 
+-------- 
+* Removed fallback to the deprecated Instance Metadata service (IMDS) V1 endpoint 
+* `INSTANCE_METADATA_URL_CERTIFICATE_RETRIEVER_RETRY_STRATEGY` was modified to do 8 retry attempts and exponential backoff with Jitter between attempts, instead of 3 fixed interval retries  
+* Parameter `compartment_id` in operation `list_metric_extensions` was removed from the `StackMonitoringClient` in the OCI Monitoring service   
+
+====================
+2.140.0 - 2024-12-10
+====================
+
+Added 
+----- 
+* Support for Bring Your Own Key (BYOK) in the Database service 
+* Support for refreshing disaster recovery plans in the Disaster Recovery service 
+* Support for private access to service instances in the Visual Builder service 
+* Support for exadata fleet update and rollback maintenance cycle in the Fleet Application Management service 
+* Support for Bring Your Own License (BYOL) for windows virtual machines in the Compute service 
+* Support for cascading deletion of applications and runs in the Data Flow service 
+* Support for on-demand translation and auto language detection during file translation in the AI Language service 
+* Support for alias for endpoints in custom model flow and custom anonymization in the AI Language service   
+
+Breaking 
+-------- 
+* Models `IdcsInfoDetails` and `AttachmentDetails` were removed from the Visual Builder service 
+* Parameters `idcs_info` and `attachments` were removed from the model `VbInstance` in the Visual Builder service   
+
+====================
+2.139.0 - 2024-11-19
+====================
+
+Added 
+----- 
+* Support for optional parameters for unified auditing in the Database service 
+* Support for user groups for creating technical requests in the Support Management service 
+* Support for additional checksum algorithms (SHA-256, SHA-384, CRC32C) in the Object Storage service 
+* Support for single Read Only (RO) endpoint for the read replicas in the PostgreSQL service 
+* Support for exascale database vaults in the Database service 
+* Support for virtual machine clusters with database vaults in the Database service 
+* Support for N3-Gi version in the Database service   
+
+Changed 
+------- 
+* The vendored library idna was upgraded from version `2.10` to `3.10` 
+* The vendored library urllib3 was upgraded from version `1.26.9` to `1.26.20`   
+
+Breaking 
+-------- 
+* The property `sub_components` was removed from the model `SubCategories` in the Customer Incident Management Service 
+* The constants `LIMIT_STATUS_APPROVED`, `LIMIT_STATUS_PARTIALLY_APPROVED`, `LIMIT_STATUS_NOT_APPROVED`, `LIMIT_STATUS_REJECTED` were removed from the model `CreateLimitItemDetails` in the Customer Incident Management Service 
+* The property `limit_status` was removed from the model `CreateLimitItemDetails` in the Customer Incident Management Service 
+* The model `ServiceCategories` was removed from the Customer Incident Management Service   
+
+====================
+2.138.1 - 2024-11-12
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the me-alain-1 region 
+* Support for connection refresh in the GoldenGate service 
+* Support for secret compartment id in import and export operations of deployment wallet in the GoldenGate service 
+* Support for creating metadata only backups in the GoldenGate service 
+* Support for Llama 3.2 unit shape in Generative AI service 
+* Support for Llama 3.2 vision in Generative AI Inference service 
+* Support for Cohere CommandR response format in Generative AI Inference service   
+
+====================
+2.138.0 - 2024-11-05
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the ap-seoul-2 region 
+* Support for calling Oracle Cloud Infrastructure services in the ap-suwon-1 region 
+* Support for calling Oracle Cloud Infrastructure services in the ap-chuncheon-2 region 
+* Support for MFA Enablement v2 in the Identity Domains service 
+* Support for starting, stopping and updating min/max executor count for SQL Endpoints in the Data Flow service 
+* Support for customer message in the Customer Incident Management Service 
+* Support for REJECTED limitStatus in the Customer Incident Management Service   
+
+Fixed 
+----- 
+* Issue with using `OkeWorkloaIdentityResourcePrincipalSigner` after the PyJWT upgrade to 2.4.0 introduced int OCI Python SDK `2.137.1` 
+* UserWarning being emitted from Cryptography 43.x   
+
+Breaking 
+-------- 
+* The operations `get_status` and `get_csi_number` were removed from the IncidentClient in the Customer Incident Management Service 
+* The property `service_categories` was removed from the model `IncidentResourceType` in the Customer Incident Management Service 
+* The properties `service_category` and `issue_type` were removed from the model `ServiceCategories` in the Customer Incident Management Service 
+* The retry strategy for getting the X509 token from Identity service was modified and is now protected via circuit breaker   
+
+====================
+2.137.1 - 2024-10-29
+====================
+
+Added 
+----- 
+* Support for L3IP (Layer 3 IP) listeners in the Network Load Balancing service 
+* Support for overriding an existing add-on installation in the Kubernetes Engine service   
+
+====================
+2.137.0 - 2024-10-22
+====================
+
+Added 
+----- 
+* Support for resource locking in the File storage service 
+* Support for customer managed keys via Azure key vault and Amazon Web Services key vault in the Database service 
+* Support for generated tokens on create secret operations in the Identity Domains service 
+* Support for creating and updating Amazon Web Services asset-sources, EC2 and EBS assets in the Cloud Bridge service 
+* Support for listing Amazon Web Services regions which are available for discovery and migration in the Cloud Bridge service 
+* Support for model backup retention and restore in the Datascience service 
+* Support for host capacity planning for host IO metrics in the Operations Insight service 
+* Support for FastConnect redundancy in the Compute service 
+* Support for create, publish, clone and delete operations on runbooks in the Fleet Application Management service 
+* Support for platform configurations and metadata management in the Fleet Application Management service 
+* Support for management of compliance policy rules in the Fleet Application Management service 
+* Support for compliance report details based on compliance policy in the Fleet Application Management service 
+* Support for administrative settings like auto discovery frequency in the Fleet Application Management service   
+
+Changed 
+------- 
+* The vendored library PyJWT was upgraded from version `1.7.1` to version `2.4.0`   
+
+Breaking 
+-------- 
+* The operation `update_plugin` was removed from the `OcbAgentSvcClient` client in the Cloud Bridge service 
+* The property `discovery_schedule_id` was removed from the model `UpdateVmWareAssetSourceDetails` in the Cloud Bridge service 
+* The constant `METRIC_NAME_HOST_CONTAINERS` and its value `HOST_CONTAINERS` was removed from the list of allowed values for the parameter `metric_name` in the model `HostPerformanceMetricGroup` in the Operations Insight service 
+* The parent class of model `HostContainers` was changed from `HostPerformanceMetricGroup` to `HostConfigurationMetricGroup` and list of allowed values for the parameter `metric_name` was changed to `HOST_PRODUCT`, `HOST_RESOURCE_ALLOCATION`, `HOST_MEMORY_CONFIGURATION`, `HOST_HARDWARE_CONFIGURATION`, `HOST_CPU_HARDWARE_CONFIGURATION`, `HOST_NETWORK_CONFIGURATION`, `HOST_ENTITES`, `HOST_FILESYSTEM_CONFIGURATION`, `HOST_GPU_CONFIGURATION`, `HOST_CONTAINERS` in the Operations Insight service   
+
+====================
+2.136.0 - 2024-10-15
+====================
+
+Added 
+----- 
+* Support for open id connect discovery in the Oracle Kubernetes Engine service 
+* Support for DNS security extensions (DNSSEC) in the DNS service 
+* Support for restoring delta between backups to a new volume in the Block Volume service 
+* Support for cross region backup copy and replication for volumes encrypted with customer keys in the Block Volume service 
+* Support for list operation on deployment environments in the GoldenGate service 
+* Support for defining environment types for deployments in the GoldenGate service   
+
+Fixed 
+----- 
+* 
+
+Fixed an issue with decoding UTF-8 characters in response models 
+* Removed model files which were not accessible programmatically   
+
+Breaking 
+-------- 
+* Response type changed to `oci.golden_gate.models.DeploymentBackup` for operations `copy_deployment_backup` and `create_deployment_backup` in the GoldenGate service   
+
+====================
+2.135.2 - 2024-10-08
+====================
+
+Added 
+----- 
+* Support for OCI Secure Desktops service 
+* Support for window preferences on cloud automation tooling updates on ExaCC and ExaCS VM clusters in the Database service 
+* Support for maintenance windows in the Stack Monitoring service 
+* Renamed service OCI Container Engine to OCI Kubernetes Engine 
+* Support for password as an optional parameter on creating admin users in the Fusion Apps as a Service 
+* Support for IAM credentials for autonomous databases in the Operations Insights service   
+
+Security 
+------- 
+* The upper bound for `cryptography` dependency has changed to versions less than `46.0.0`   
+
+====================
+2.135.1 - 2024-10-01
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the us-somerset-1 region 
+* Support for calling Oracle Cloud Infrastructure services in the us-thames-1 region 
+* Support for Security Attribute service
+* Support for Zero Trust Packet Routing service 
+* Support for zero trust packet routing security attributes in the Database service 
+* Support for zero trust packet routing security attributes in the Networking service 
+* Support for zero trust packet routing security attributes in the Network Load Balancer service 
+* Support for disaster recovery failover in the Integration Cloud service   
+
+====================
+2.135.0 - 2024-09-24
+====================
+
+Added 
+----- 
+* Support for Generative AI Agent service 
+* Support for undeleting autonomous databases in the Database service 
+* Support for assigning key versions for the pluggable databases in the Database service 
+* Support for lifecycle states on list autonomous database operation in the Database service 
+* Support for data masking parameter on list refresh activity operation in the Fusion Application as a Service 
+* Support for configuring custom endpoints on an instance in the Integration Cloud service 
+* Support for updating channel schedules on instance create operation in the Analytics service 
+* Support for ExaCC via management agents in the Operations Insights service 
+* Support for appending and deleting allowed SQLs from SQL firewall policies in the Data Safe service 
+* Support for alarm suppressions with compartment targets and recurring schedules in the Monitoring service   
+
+Breaking 
+-------- 
+* A new value called `UNKNOWN_ENUM_VALUE` has been added to the enums of the parent class when a subclass is in the responses returned from services. If a service returns a value that cannot be recognized by the version of the SDK, then the enum will be set to this value. Previously this would throw an exception. 
+* Property `dimensions` changed from required to optional in model `AlarmSuppressionSummary` in the Monitoring service 
+* Value `STANDBY` was removed from the property `lifecycle_state` in models `IntegrationInstance` and `IntegrationInstanceSummary` in the Integration Cloud service   
+
 ====================
 2.134.0 - 2024-09-17
 ====================
@@ -1705,7 +1947,7 @@ Breaking
 * `EmDataLakeClient` was renamed to `EmWarehouseClient` in the Enterprise Manager Warehouse service
 * `EmDataLakeClientCompositeOperations` was renamed to `EmWarehouseClientCompositeOperations` in the Enterprise Manager Warehouse service
 
-=====================
+====================
 2.79.0 - 2022-08-16
 ====================
 
@@ -1830,7 +2072,7 @@ Breaking
 * Parameter `host_type` in operation `list_host_insights` in the Operations Insights service has strict value checking for allowed values. `ValueError` is raised if an invalid value is provided.
 * Parameter `preserve_data_volumes` is removed from operation `terminate_instance` in the Compute service.
  
-=====================
+====================
 2.74.0 - 2022-07-05
 ====================
 

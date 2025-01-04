@@ -50,6 +50,8 @@ Database
     oci.database.models.AutonomousDatabaseConnectionUrls
     oci.database.models.AutonomousDatabaseConsoleTokenDetails
     oci.database.models.AutonomousDatabaseDataguardAssociation
+    oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+    oci.database.models.AutonomousDatabaseEncryptionKeyHistoryEntry
     oci.database.models.AutonomousDatabaseKeyHistoryEntry
     oci.database.models.AutonomousDatabaseManualRefreshDetails
     oci.database.models.AutonomousDatabasePeerCollection
@@ -75,6 +77,8 @@ Database
     oci.database.models.AutonomousVmClusterSummary
     oci.database.models.AutonomousVmResourceUsage
     oci.database.models.AvmAcdResourceStats
+    oci.database.models.AwsKeyDetails
+    oci.database.models.AzureKeyDetails
     oci.database.models.Backup
     oci.database.models.BackupDestination
     oci.database.models.BackupDestinationDetails
@@ -118,6 +122,7 @@ Database
     oci.database.models.CompleteExternalBackupJobDetails
     oci.database.models.ComputePerformanceSummary
     oci.database.models.ConfigureAutonomousDatabaseVaultKeyDetails
+    oci.database.models.ConfigureExascaleExadataInfrastructureDetails
     oci.database.models.ConfigureSaasAdminUserDetails
     oci.database.models.ConsoleConnection
     oci.database.models.ConsoleConnectionSummary
@@ -282,6 +287,7 @@ Database
     oci.database.models.ExadbVmClusterUpdateHistoryEntry
     oci.database.models.ExadbVmClusterUpdateHistoryEntrySummary
     oci.database.models.ExadbVmClusterUpdateSummary
+    oci.database.models.ExascaleConfigDetails
     oci.database.models.ExascaleDbStorageDetails
     oci.database.models.ExascaleDbStorageInputDetails
     oci.database.models.ExascaleDbStorageVault
@@ -342,9 +348,13 @@ Database
     oci.database.models.NetworkBondingModeDetails
     oci.database.models.NodeDetails
     oci.database.models.OCPUs
+    oci.database.models.OciKeyDetails
+    oci.database.models.OciProviderSetKeyVersionDetails
+    oci.database.models.OkvKeyDetails
     oci.database.models.OneoffPatch
     oci.database.models.OneoffPatchSummary
     oci.database.models.OperationsInsightsConfig
+    oci.database.models.OracleManagedKeyDetails
     oci.database.models.Patch
     oci.database.models.PatchDetails
     oci.database.models.PatchHistoryEntry
@@ -378,6 +388,8 @@ Database
     oci.database.models.ResourcePoolSummary
     oci.database.models.RestoreAutonomousDatabaseDetails
     oci.database.models.RestoreDatabaseDetails
+    oci.database.models.RotateAutonomousContainerDatabaseEncryptionKeyDetails
+    oci.database.models.RotateAutonomousDatabaseEncryptionKeyDetails
     oci.database.models.RotateAutonomousVmClusterOrdsCertsDetails
     oci.database.models.RotateAutonomousVmClusterSslCertsDetails
     oci.database.models.RotateCloudAutonomousVmClusterOrdsCertsDetails
@@ -397,11 +409,13 @@ Database
     oci.database.models.SchedulingWindow
     oci.database.models.SchedulingWindowSummary
     oci.database.models.SelfMountDetails
+    oci.database.models.SetKeyVersionDetails
     oci.database.models.StackMonitoringConfig
     oci.database.models.StoragePerformanceDetails
     oci.database.models.SwitchoverDataGuardAssociationDetails
     oci.database.models.SystemVersionCollection
     oci.database.models.SystemVersionSummary
+    oci.database.models.UndeleteAutonomousDatabaseDetails
     oci.database.models.Update
     oci.database.models.UpdateAutonomousContainerDatabaseDataGuardAssociationDetails
     oci.database.models.UpdateAutonomousContainerDatabaseDetails

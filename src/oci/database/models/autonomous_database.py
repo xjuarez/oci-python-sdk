@@ -338,6 +338,10 @@ class AutonomousDatabase(object):
             The value to assign to the kms_key_lifecycle_details property of this AutonomousDatabase.
         :type kms_key_lifecycle_details: str
 
+        :param encryption_key:
+            The value to assign to the encryption_key property of this AutonomousDatabase.
+        :type encryption_key: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+
         :param kms_key_version_id:
             The value to assign to the kms_key_version_id property of this AutonomousDatabase.
         :type kms_key_version_id: str
@@ -393,6 +397,10 @@ class AutonomousDatabase(object):
         :param key_history_entry:
             The value to assign to the key_history_entry property of this AutonomousDatabase.
         :type key_history_entry: list[oci.database.models.AutonomousDatabaseKeyHistoryEntry]
+
+        :param encryption_key_history_entry:
+            The value to assign to the encryption_key_history_entry property of this AutonomousDatabase.
+        :type encryption_key_history_entry: list[oci.database.models.AutonomousDatabaseEncryptionKeyHistoryEntry]
 
         :param cpu_core_count:
             The value to assign to the cpu_core_count property of this AutonomousDatabase.
@@ -458,6 +466,14 @@ class AutonomousDatabase(object):
             The value to assign to the autonomous_container_database_id property of this AutonomousDatabase.
         :type autonomous_container_database_id: str
 
+        :param is_backup_retention_locked:
+            The value to assign to the is_backup_retention_locked property of this AutonomousDatabase.
+        :type is_backup_retention_locked: bool
+
+        :param time_undeleted:
+            The value to assign to the time_undeleted property of this AutonomousDatabase.
+        :type time_undeleted: datetime
+
         :param time_created:
             The value to assign to the time_created property of this AutonomousDatabase.
         :type time_created: datetime
@@ -503,6 +519,10 @@ class AutonomousDatabase(object):
         :param defined_tags:
             The value to assign to the defined_tags property of this AutonomousDatabase.
         :type defined_tags: dict(str, dict(str, object))
+
+        :param security_attributes:
+            The value to assign to the security_attributes property of this AutonomousDatabase.
+        :type security_attributes: dict(str, dict(str, object))
 
         :param subnet_id:
             The value to assign to the subnet_id property of this AutonomousDatabase.
@@ -826,6 +846,7 @@ class AutonomousDatabase(object):
             'kms_key_id': 'str',
             'vault_id': 'str',
             'kms_key_lifecycle_details': 'str',
+            'encryption_key': 'AutonomousDatabaseEncryptionKeyDetails',
             'kms_key_version_id': 'str',
             'db_name': 'str',
             'character_set': 'str',
@@ -840,6 +861,7 @@ class AutonomousDatabase(object):
             'time_deletion_of_free_autonomous_database': 'datetime',
             'backup_config': 'AutonomousDatabaseBackupConfig',
             'key_history_entry': 'list[AutonomousDatabaseKeyHistoryEntry]',
+            'encryption_key_history_entry': 'list[AutonomousDatabaseEncryptionKeyHistoryEntry]',
             'cpu_core_count': 'int',
             'local_adg_auto_failover_max_data_loss_limit': 'int',
             'compute_model': 'str',
@@ -855,6 +877,8 @@ class AutonomousDatabase(object):
             'infrastructure_type': 'str',
             'is_dedicated': 'bool',
             'autonomous_container_database_id': 'str',
+            'is_backup_retention_locked': 'bool',
+            'time_undeleted': 'datetime',
             'time_created': 'datetime',
             'display_name': 'str',
             'service_console_url': 'str',
@@ -866,6 +890,7 @@ class AutonomousDatabase(object):
             'used_data_storage_size_in_tbs': 'int',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'security_attributes': 'dict(str, dict(str, object))',
             'subnet_id': 'str',
             'nsg_ids': 'list[str]',
             'private_endpoint': 'str',
@@ -948,6 +973,7 @@ class AutonomousDatabase(object):
             'kms_key_id': 'kmsKeyId',
             'vault_id': 'vaultId',
             'kms_key_lifecycle_details': 'kmsKeyLifecycleDetails',
+            'encryption_key': 'encryptionKey',
             'kms_key_version_id': 'kmsKeyVersionId',
             'db_name': 'dbName',
             'character_set': 'characterSet',
@@ -962,6 +988,7 @@ class AutonomousDatabase(object):
             'time_deletion_of_free_autonomous_database': 'timeDeletionOfFreeAutonomousDatabase',
             'backup_config': 'backupConfig',
             'key_history_entry': 'keyHistoryEntry',
+            'encryption_key_history_entry': 'encryptionKeyHistoryEntry',
             'cpu_core_count': 'cpuCoreCount',
             'local_adg_auto_failover_max_data_loss_limit': 'localAdgAutoFailoverMaxDataLossLimit',
             'compute_model': 'computeModel',
@@ -977,6 +1004,8 @@ class AutonomousDatabase(object):
             'infrastructure_type': 'infrastructureType',
             'is_dedicated': 'isDedicated',
             'autonomous_container_database_id': 'autonomousContainerDatabaseId',
+            'is_backup_retention_locked': 'isBackupRetentionLocked',
+            'time_undeleted': 'timeUndeleted',
             'time_created': 'timeCreated',
             'display_name': 'displayName',
             'service_console_url': 'serviceConsoleUrl',
@@ -988,6 +1017,7 @@ class AutonomousDatabase(object):
             'used_data_storage_size_in_tbs': 'usedDataStorageSizeInTBs',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'security_attributes': 'securityAttributes',
             'subnet_id': 'subnetId',
             'nsg_ids': 'nsgIds',
             'private_endpoint': 'privateEndpoint',
@@ -1069,6 +1099,7 @@ class AutonomousDatabase(object):
         self._kms_key_id = None
         self._vault_id = None
         self._kms_key_lifecycle_details = None
+        self._encryption_key = None
         self._kms_key_version_id = None
         self._db_name = None
         self._character_set = None
@@ -1083,6 +1114,7 @@ class AutonomousDatabase(object):
         self._time_deletion_of_free_autonomous_database = None
         self._backup_config = None
         self._key_history_entry = None
+        self._encryption_key_history_entry = None
         self._cpu_core_count = None
         self._local_adg_auto_failover_max_data_loss_limit = None
         self._compute_model = None
@@ -1098,6 +1130,8 @@ class AutonomousDatabase(object):
         self._infrastructure_type = None
         self._is_dedicated = None
         self._autonomous_container_database_id = None
+        self._is_backup_retention_locked = None
+        self._time_undeleted = None
         self._time_created = None
         self._display_name = None
         self._service_console_url = None
@@ -1109,6 +1143,7 @@ class AutonomousDatabase(object):
         self._used_data_storage_size_in_tbs = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._security_attributes = None
         self._subnet_id = None
         self._nsg_ids = None
         self._private_endpoint = None
@@ -1396,6 +1431,26 @@ class AutonomousDatabase(object):
         :type: str
         """
         self._kms_key_lifecycle_details = kms_key_lifecycle_details
+
+    @property
+    def encryption_key(self):
+        """
+        Gets the encryption_key of this AutonomousDatabase.
+
+        :return: The encryption_key of this AutonomousDatabase.
+        :rtype: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+        """
+        return self._encryption_key
+
+    @encryption_key.setter
+    def encryption_key(self, encryption_key):
+        """
+        Sets the encryption_key of this AutonomousDatabase.
+
+        :param encryption_key: The encryption_key of this AutonomousDatabase.
+        :type: oci.database.models.AutonomousDatabaseEncryptionKeyDetails
+        """
+        self._encryption_key = encryption_key
 
     @property
     def kms_key_version_id(self):
@@ -1742,6 +1797,30 @@ class AutonomousDatabase(object):
         self._key_history_entry = key_history_entry
 
     @property
+    def encryption_key_history_entry(self):
+        """
+        Gets the encryption_key_history_entry of this AutonomousDatabase.
+        Key History Entry.
+
+
+        :return: The encryption_key_history_entry of this AutonomousDatabase.
+        :rtype: list[oci.database.models.AutonomousDatabaseEncryptionKeyHistoryEntry]
+        """
+        return self._encryption_key_history_entry
+
+    @encryption_key_history_entry.setter
+    def encryption_key_history_entry(self, encryption_key_history_entry):
+        """
+        Sets the encryption_key_history_entry of this AutonomousDatabase.
+        Key History Entry.
+
+
+        :param encryption_key_history_entry: The encryption_key_history_entry of this AutonomousDatabase.
+        :type: list[oci.database.models.AutonomousDatabaseEncryptionKeyHistoryEntry]
+        """
+        self._encryption_key_history_entry = encryption_key_history_entry
+
+    @property
     def cpu_core_count(self):
         """
         Gets the cpu_core_count of this AutonomousDatabase.
@@ -1832,7 +1911,7 @@ class AutonomousDatabase(object):
         """
         Gets the compute_count of this AutonomousDatabase.
         The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-        For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+        The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 
 
         :return: The compute_count of this AutonomousDatabase.
@@ -1845,7 +1924,7 @@ class AutonomousDatabase(object):
         """
         Sets the compute_count of this AutonomousDatabase.
         The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-        For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+        The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 
 
         :param compute_count: The compute_count of this AutonomousDatabase.
@@ -2166,6 +2245,54 @@ class AutonomousDatabase(object):
         self._autonomous_container_database_id = autonomous_container_database_id
 
     @property
+    def is_backup_retention_locked(self):
+        """
+        Gets the is_backup_retention_locked of this AutonomousDatabase.
+        Indicates if the Autonomous Database is backup retention locked.
+
+
+        :return: The is_backup_retention_locked of this AutonomousDatabase.
+        :rtype: bool
+        """
+        return self._is_backup_retention_locked
+
+    @is_backup_retention_locked.setter
+    def is_backup_retention_locked(self, is_backup_retention_locked):
+        """
+        Sets the is_backup_retention_locked of this AutonomousDatabase.
+        Indicates if the Autonomous Database is backup retention locked.
+
+
+        :param is_backup_retention_locked: The is_backup_retention_locked of this AutonomousDatabase.
+        :type: bool
+        """
+        self._is_backup_retention_locked = is_backup_retention_locked
+
+    @property
+    def time_undeleted(self):
+        """
+        Gets the time_undeleted of this AutonomousDatabase.
+        The date and time the Autonomous Database was most recently undeleted.
+
+
+        :return: The time_undeleted of this AutonomousDatabase.
+        :rtype: datetime
+        """
+        return self._time_undeleted
+
+    @time_undeleted.setter
+    def time_undeleted(self, time_undeleted):
+        """
+        Sets the time_undeleted of this AutonomousDatabase.
+        The date and time the Autonomous Database was most recently undeleted.
+
+
+        :param time_undeleted: The time_undeleted of this AutonomousDatabase.
+        :type: datetime
+        """
+        self._time_undeleted = time_undeleted
+
+    @property
     def time_created(self):
         """
         Gets the time_created of this AutonomousDatabase.
@@ -2462,6 +2589,38 @@ class AutonomousDatabase(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def security_attributes(self):
+        """
+        Gets the security_attributes of this AutonomousDatabase.
+        Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+        Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"audit\"}}}`
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+
+
+        :return: The security_attributes of this AutonomousDatabase.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._security_attributes
+
+    @security_attributes.setter
+    def security_attributes(self, security_attributes):
+        """
+        Sets the security_attributes of this AutonomousDatabase.
+        Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+        Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"audit\"}}}`
+
+        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+
+
+        :param security_attributes: The security_attributes of this AutonomousDatabase.
+        :type: dict(str, dict(str, object))
+        """
+        self._security_attributes = security_attributes
 
     @property
     def subnet_id(self):

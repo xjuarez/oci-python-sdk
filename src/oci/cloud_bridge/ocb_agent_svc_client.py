@@ -2746,7 +2746,7 @@ class OcbAgentSvcClient(object):
             allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
             By default, the response will not allow control characters in strings
 
-        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.cloud_bridge.models.Plugin`
+        :return: A :class:`~oci.response.Response` object with data of type None
         :rtype: :class:`~oci.response.Response`
 
         :example:
@@ -2808,7 +2808,6 @@ class OcbAgentSvcClient(object):
                 path_params=path_params,
                 header_params=header_params,
                 body=update_plugin_details,
-                response_type="Plugin",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,
@@ -2820,7 +2819,6 @@ class OcbAgentSvcClient(object):
                 path_params=path_params,
                 header_params=header_params,
                 body=update_plugin_details,
-                response_type="Plugin",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,

@@ -52,6 +52,10 @@ class CreateIncident(object):
             The value to assign to the csi property of this CreateIncident.
         :type csi: str
 
+        :param user_group_id:
+            The value to assign to the user_group_id property of this CreateIncident.
+        :type user_group_id: str
+
         :param problem_type:
             The value to assign to the problem_type property of this CreateIncident.
             Allowed values for this property are: "LIMIT", "LEGACY_LIMIT", "TECH", "ACCOUNT", "TAXONOMY"
@@ -70,6 +74,7 @@ class CreateIncident(object):
             'compartment_id': 'str',
             'ticket': 'CreateTicketDetails',
             'csi': 'str',
+            'user_group_id': 'str',
             'problem_type': 'str',
             'contacts': 'list[Contact]',
             'referrer': 'str'
@@ -79,6 +84,7 @@ class CreateIncident(object):
             'compartment_id': 'compartmentId',
             'ticket': 'ticket',
             'csi': 'csi',
+            'user_group_id': 'userGroupId',
             'problem_type': 'problemType',
             'contacts': 'contacts',
             'referrer': 'referrer'
@@ -87,6 +93,7 @@ class CreateIncident(object):
         self._compartment_id = None
         self._ticket = None
         self._csi = None
+        self._user_group_id = None
         self._problem_type = None
         self._contacts = None
         self._referrer = None
@@ -140,7 +147,7 @@ class CreateIncident(object):
         """
         Gets the csi of this CreateIncident.
         The Customer Support Identifier (CSI) number associated with the support account.
-        The CSI is required for technical support tickets and optional for limits and billing tickets.
+        The CSI is optional for all support request types.
 
 
         :return: The csi of this CreateIncident.
@@ -153,7 +160,7 @@ class CreateIncident(object):
         """
         Sets the csi of this CreateIncident.
         The Customer Support Identifier (CSI) number associated with the support account.
-        The CSI is required for technical support tickets and optional for limits and billing tickets.
+        The CSI is optional for all support request types.
 
 
         :param csi: The csi of this CreateIncident.
@@ -162,10 +169,44 @@ class CreateIncident(object):
         self._csi = csi
 
     @property
+    def user_group_id(self):
+        """
+        Gets the user_group_id of this CreateIncident.
+        Technical support type (`TECH`) only: The identifier of the support request's user group in My Oracle Cloud Support portal.
+
+
+        :return: The user_group_id of this CreateIncident.
+        :rtype: str
+        """
+        return self._user_group_id
+
+    @user_group_id.setter
+    def user_group_id(self, user_group_id):
+        """
+        Sets the user_group_id of this CreateIncident.
+        Technical support type (`TECH`) only: The identifier of the support request's user group in My Oracle Cloud Support portal.
+
+
+        :param user_group_id: The user_group_id of this CreateIncident.
+        :type: str
+        """
+        self._user_group_id = user_group_id
+
+    @property
     def problem_type(self):
         """
         **[Required]** Gets the problem_type of this CreateIncident.
-        The kind of support ticket, such as a technical support request or a limit increase request.
+        The kind of support ticket (type of support request).
+        For information about `ACCOUNT` support tickets, see
+        `Creating a Billing Support Request`__.
+        For information about `LIMIT` support tickets, see
+        `Creating a Service Limit Increase Request`__.
+        For information about `TECH` support tickets, see
+        `Creating a Technical Support Request`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-limit.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-technical.htm
 
         Allowed values for this property are: "LIMIT", "LEGACY_LIMIT", "TECH", "ACCOUNT", "TAXONOMY"
 
@@ -179,7 +220,17 @@ class CreateIncident(object):
     def problem_type(self, problem_type):
         """
         Sets the problem_type of this CreateIncident.
-        The kind of support ticket, such as a technical support request or a limit increase request.
+        The kind of support ticket (type of support request).
+        For information about `ACCOUNT` support tickets, see
+        `Creating a Billing Support Request`__.
+        For information about `LIMIT` support tickets, see
+        `Creating a Service Limit Increase Request`__.
+        For information about `TECH` support tickets, see
+        `Creating a Technical Support Request`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-limit.htm
+        __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-technical.htm
 
 
         :param problem_type: The problem_type of this CreateIncident.

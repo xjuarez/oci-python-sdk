@@ -38,6 +38,8 @@ from .autonomous_database_connection_strings import AutonomousDatabaseConnection
 from .autonomous_database_connection_urls import AutonomousDatabaseConnectionUrls
 from .autonomous_database_console_token_details import AutonomousDatabaseConsoleTokenDetails
 from .autonomous_database_dataguard_association import AutonomousDatabaseDataguardAssociation
+from .autonomous_database_encryption_key_details import AutonomousDatabaseEncryptionKeyDetails
+from .autonomous_database_encryption_key_history_entry import AutonomousDatabaseEncryptionKeyHistoryEntry
 from .autonomous_database_key_history_entry import AutonomousDatabaseKeyHistoryEntry
 from .autonomous_database_manual_refresh_details import AutonomousDatabaseManualRefreshDetails
 from .autonomous_database_peer_collection import AutonomousDatabasePeerCollection
@@ -63,6 +65,8 @@ from .autonomous_vm_cluster_resource_usage import AutonomousVmClusterResourceUsa
 from .autonomous_vm_cluster_summary import AutonomousVmClusterSummary
 from .autonomous_vm_resource_usage import AutonomousVmResourceUsage
 from .avm_acd_resource_stats import AvmAcdResourceStats
+from .aws_key_details import AwsKeyDetails
+from .azure_key_details import AzureKeyDetails
 from .backup import Backup
 from .backup_destination import BackupDestination
 from .backup_destination_details import BackupDestinationDetails
@@ -106,6 +110,7 @@ from .cloud_vm_cluster_summary import CloudVmClusterSummary
 from .complete_external_backup_job_details import CompleteExternalBackupJobDetails
 from .compute_performance_summary import ComputePerformanceSummary
 from .configure_autonomous_database_vault_key_details import ConfigureAutonomousDatabaseVaultKeyDetails
+from .configure_exascale_exadata_infrastructure_details import ConfigureExascaleExadataInfrastructureDetails
 from .configure_saas_admin_user_details import ConfigureSaasAdminUserDetails
 from .console_connection import ConsoleConnection
 from .console_connection_summary import ConsoleConnectionSummary
@@ -270,6 +275,7 @@ from .exadb_vm_cluster_update import ExadbVmClusterUpdate
 from .exadb_vm_cluster_update_history_entry import ExadbVmClusterUpdateHistoryEntry
 from .exadb_vm_cluster_update_history_entry_summary import ExadbVmClusterUpdateHistoryEntrySummary
 from .exadb_vm_cluster_update_summary import ExadbVmClusterUpdateSummary
+from .exascale_config_details import ExascaleConfigDetails
 from .exascale_db_storage_details import ExascaleDbStorageDetails
 from .exascale_db_storage_input_details import ExascaleDbStorageInputDetails
 from .exascale_db_storage_vault import ExascaleDbStorageVault
@@ -330,9 +336,13 @@ from .move_execution_action_member_details import MoveExecutionActionMemberDetai
 from .network_bonding_mode_details import NetworkBondingModeDetails
 from .node_details import NodeDetails
 from .ocp_us import OCPUs
+from .oci_key_details import OciKeyDetails
+from .oci_provider_set_key_version_details import OciProviderSetKeyVersionDetails
+from .okv_key_details import OkvKeyDetails
 from .oneoff_patch import OneoffPatch
 from .oneoff_patch_summary import OneoffPatchSummary
 from .operations_insights_config import OperationsInsightsConfig
+from .oracle_managed_key_details import OracleManagedKeyDetails
 from .patch import Patch
 from .patch_details import PatchDetails
 from .patch_history_entry import PatchHistoryEntry
@@ -366,6 +376,8 @@ from .resource_pool_shape_summary import ResourcePoolShapeSummary
 from .resource_pool_summary import ResourcePoolSummary
 from .restore_autonomous_database_details import RestoreAutonomousDatabaseDetails
 from .restore_database_details import RestoreDatabaseDetails
+from .rotate_autonomous_container_database_encryption_key_details import RotateAutonomousContainerDatabaseEncryptionKeyDetails
+from .rotate_autonomous_database_encryption_key_details import RotateAutonomousDatabaseEncryptionKeyDetails
 from .rotate_autonomous_vm_cluster_ords_certs_details import RotateAutonomousVmClusterOrdsCertsDetails
 from .rotate_autonomous_vm_cluster_ssl_certs_details import RotateAutonomousVmClusterSslCertsDetails
 from .rotate_cloud_autonomous_vm_cluster_ords_certs_details import RotateCloudAutonomousVmClusterOrdsCertsDetails
@@ -385,11 +397,13 @@ from .scheduling_policy_summary import SchedulingPolicySummary
 from .scheduling_window import SchedulingWindow
 from .scheduling_window_summary import SchedulingWindowSummary
 from .self_mount_details import SelfMountDetails
+from .set_key_version_details import SetKeyVersionDetails
 from .stack_monitoring_config import StackMonitoringConfig
 from .storage_performance_details import StoragePerformanceDetails
 from .switchover_data_guard_association_details import SwitchoverDataGuardAssociationDetails
 from .system_version_collection import SystemVersionCollection
 from .system_version_summary import SystemVersionSummary
+from .undelete_autonomous_database_details import UndeleteAutonomousDatabaseDetails
 from .update import Update
 from .update_autonomous_container_database_data_guard_association_details import UpdateAutonomousContainerDatabaseDataGuardAssociationDetails
 from .update_autonomous_container_database_details import UpdateAutonomousContainerDatabaseDetails
@@ -485,6 +499,8 @@ database_type_mapping = {
     "AutonomousDatabaseConnectionUrls": AutonomousDatabaseConnectionUrls,
     "AutonomousDatabaseConsoleTokenDetails": AutonomousDatabaseConsoleTokenDetails,
     "AutonomousDatabaseDataguardAssociation": AutonomousDatabaseDataguardAssociation,
+    "AutonomousDatabaseEncryptionKeyDetails": AutonomousDatabaseEncryptionKeyDetails,
+    "AutonomousDatabaseEncryptionKeyHistoryEntry": AutonomousDatabaseEncryptionKeyHistoryEntry,
     "AutonomousDatabaseKeyHistoryEntry": AutonomousDatabaseKeyHistoryEntry,
     "AutonomousDatabaseManualRefreshDetails": AutonomousDatabaseManualRefreshDetails,
     "AutonomousDatabasePeerCollection": AutonomousDatabasePeerCollection,
@@ -510,6 +526,8 @@ database_type_mapping = {
     "AutonomousVmClusterSummary": AutonomousVmClusterSummary,
     "AutonomousVmResourceUsage": AutonomousVmResourceUsage,
     "AvmAcdResourceStats": AvmAcdResourceStats,
+    "AwsKeyDetails": AwsKeyDetails,
+    "AzureKeyDetails": AzureKeyDetails,
     "Backup": Backup,
     "BackupDestination": BackupDestination,
     "BackupDestinationDetails": BackupDestinationDetails,
@@ -553,6 +571,7 @@ database_type_mapping = {
     "CompleteExternalBackupJobDetails": CompleteExternalBackupJobDetails,
     "ComputePerformanceSummary": ComputePerformanceSummary,
     "ConfigureAutonomousDatabaseVaultKeyDetails": ConfigureAutonomousDatabaseVaultKeyDetails,
+    "ConfigureExascaleExadataInfrastructureDetails": ConfigureExascaleExadataInfrastructureDetails,
     "ConfigureSaasAdminUserDetails": ConfigureSaasAdminUserDetails,
     "ConsoleConnection": ConsoleConnection,
     "ConsoleConnectionSummary": ConsoleConnectionSummary,
@@ -717,6 +736,7 @@ database_type_mapping = {
     "ExadbVmClusterUpdateHistoryEntry": ExadbVmClusterUpdateHistoryEntry,
     "ExadbVmClusterUpdateHistoryEntrySummary": ExadbVmClusterUpdateHistoryEntrySummary,
     "ExadbVmClusterUpdateSummary": ExadbVmClusterUpdateSummary,
+    "ExascaleConfigDetails": ExascaleConfigDetails,
     "ExascaleDbStorageDetails": ExascaleDbStorageDetails,
     "ExascaleDbStorageInputDetails": ExascaleDbStorageInputDetails,
     "ExascaleDbStorageVault": ExascaleDbStorageVault,
@@ -777,9 +797,13 @@ database_type_mapping = {
     "NetworkBondingModeDetails": NetworkBondingModeDetails,
     "NodeDetails": NodeDetails,
     "OCPUs": OCPUs,
+    "OciKeyDetails": OciKeyDetails,
+    "OciProviderSetKeyVersionDetails": OciProviderSetKeyVersionDetails,
+    "OkvKeyDetails": OkvKeyDetails,
     "OneoffPatch": OneoffPatch,
     "OneoffPatchSummary": OneoffPatchSummary,
     "OperationsInsightsConfig": OperationsInsightsConfig,
+    "OracleManagedKeyDetails": OracleManagedKeyDetails,
     "Patch": Patch,
     "PatchDetails": PatchDetails,
     "PatchHistoryEntry": PatchHistoryEntry,
@@ -813,6 +837,8 @@ database_type_mapping = {
     "ResourcePoolSummary": ResourcePoolSummary,
     "RestoreAutonomousDatabaseDetails": RestoreAutonomousDatabaseDetails,
     "RestoreDatabaseDetails": RestoreDatabaseDetails,
+    "RotateAutonomousContainerDatabaseEncryptionKeyDetails": RotateAutonomousContainerDatabaseEncryptionKeyDetails,
+    "RotateAutonomousDatabaseEncryptionKeyDetails": RotateAutonomousDatabaseEncryptionKeyDetails,
     "RotateAutonomousVmClusterOrdsCertsDetails": RotateAutonomousVmClusterOrdsCertsDetails,
     "RotateAutonomousVmClusterSslCertsDetails": RotateAutonomousVmClusterSslCertsDetails,
     "RotateCloudAutonomousVmClusterOrdsCertsDetails": RotateCloudAutonomousVmClusterOrdsCertsDetails,
@@ -832,11 +858,13 @@ database_type_mapping = {
     "SchedulingWindow": SchedulingWindow,
     "SchedulingWindowSummary": SchedulingWindowSummary,
     "SelfMountDetails": SelfMountDetails,
+    "SetKeyVersionDetails": SetKeyVersionDetails,
     "StackMonitoringConfig": StackMonitoringConfig,
     "StoragePerformanceDetails": StoragePerformanceDetails,
     "SwitchoverDataGuardAssociationDetails": SwitchoverDataGuardAssociationDetails,
     "SystemVersionCollection": SystemVersionCollection,
     "SystemVersionSummary": SystemVersionSummary,
+    "UndeleteAutonomousDatabaseDetails": UndeleteAutonomousDatabaseDetails,
     "Update": Update,
     "UpdateAutonomousContainerDatabaseDataGuardAssociationDetails": UpdateAutonomousContainerDatabaseDataGuardAssociationDetails,
     "UpdateAutonomousContainerDatabaseDetails": UpdateAutonomousContainerDatabaseDetails,

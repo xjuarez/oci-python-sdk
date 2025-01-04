@@ -18,13 +18,16 @@ Integration
     :nosignatures:
     :template: autosummary/model_class.rst
 
+    oci.integration.models.AddOracleManagedCustomEndpointDetails
     oci.integration.models.AttachmentDetails
     oci.integration.models.ChangeIntegrationInstanceCompartmentDetails
     oci.integration.models.ChangeIntegrationInstanceNetworkEndpointDetails
     oci.integration.models.ChangePrivateEndpointOutboundConnectionDetails
     oci.integration.models.CreateCustomEndpointDetails
     oci.integration.models.CreateIntegrationInstanceDetails
+    oci.integration.models.CrossRegionIntegrationInstanceDetails
     oci.integration.models.CustomEndpointDetails
+    oci.integration.models.DisasterRecoveryDetails
     oci.integration.models.ExtendDataRetentionDetails
     oci.integration.models.IdcsInfoDetails
     oci.integration.models.IntegrationInstance
