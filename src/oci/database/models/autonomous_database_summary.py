@@ -618,6 +618,10 @@ class AutonomousDatabaseSummary(object):
             The value to assign to the time_maintenance_end property of this AutonomousDatabaseSummary.
         :type time_maintenance_end: datetime
 
+        :param maintenance_target_component:
+            The value to assign to the maintenance_target_component property of this AutonomousDatabaseSummary.
+        :type maintenance_target_component: str
+
         :param is_refreshable_clone:
             The value to assign to the is_refreshable_clone property of this AutonomousDatabaseSummary.
         :type is_refreshable_clone: bool
@@ -838,6 +842,10 @@ class AutonomousDatabaseSummary(object):
             The value to assign to the cluster_placement_group_id property of this AutonomousDatabaseSummary.
         :type cluster_placement_group_id: str
 
+        :param clone_table_space_list:
+            The value to assign to the clone_table_space_list property of this AutonomousDatabaseSummary.
+        :type clone_table_space_list: list[int]
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -914,6 +922,7 @@ class AutonomousDatabaseSummary(object):
             'database_management_status': 'str',
             'time_maintenance_begin': 'datetime',
             'time_maintenance_end': 'datetime',
+            'maintenance_target_component': 'str',
             'is_refreshable_clone': 'bool',
             'time_of_last_refresh': 'datetime',
             'time_of_last_refresh_point': 'datetime',
@@ -963,7 +972,8 @@ class AutonomousDatabaseSummary(object):
             'remote_disaster_recovery_configuration': 'DisasterRecoveryConfiguration',
             'net_services_architecture': 'str',
             'availability_domain': 'str',
-            'cluster_placement_group_id': 'str'
+            'cluster_placement_group_id': 'str',
+            'clone_table_space_list': 'list[int]'
         }
 
         self.attribute_map = {
@@ -1041,6 +1051,7 @@ class AutonomousDatabaseSummary(object):
             'database_management_status': 'databaseManagementStatus',
             'time_maintenance_begin': 'timeMaintenanceBegin',
             'time_maintenance_end': 'timeMaintenanceEnd',
+            'maintenance_target_component': 'maintenanceTargetComponent',
             'is_refreshable_clone': 'isRefreshableClone',
             'time_of_last_refresh': 'timeOfLastRefresh',
             'time_of_last_refresh_point': 'timeOfLastRefreshPoint',
@@ -1090,7 +1101,8 @@ class AutonomousDatabaseSummary(object):
             'remote_disaster_recovery_configuration': 'remoteDisasterRecoveryConfiguration',
             'net_services_architecture': 'netServicesArchitecture',
             'availability_domain': 'availabilityDomain',
-            'cluster_placement_group_id': 'clusterPlacementGroupId'
+            'cluster_placement_group_id': 'clusterPlacementGroupId',
+            'clone_table_space_list': 'cloneTableSpaceList'
         }
 
         self._id = None
@@ -1167,6 +1179,7 @@ class AutonomousDatabaseSummary(object):
         self._database_management_status = None
         self._time_maintenance_begin = None
         self._time_maintenance_end = None
+        self._maintenance_target_component = None
         self._is_refreshable_clone = None
         self._time_of_last_refresh = None
         self._time_of_last_refresh_point = None
@@ -1217,6 +1230,7 @@ class AutonomousDatabaseSummary(object):
         self._net_services_architecture = None
         self._availability_domain = None
         self._cluster_placement_group_id = None
+        self._clone_table_space_list = None
 
     @property
     def id(self):
@@ -3281,6 +3295,30 @@ class AutonomousDatabaseSummary(object):
         self._time_maintenance_end = time_maintenance_end
 
     @property
+    def maintenance_target_component(self):
+        """
+        Gets the maintenance_target_component of this AutonomousDatabaseSummary.
+        The component chosen for maintenance.
+
+
+        :return: The maintenance_target_component of this AutonomousDatabaseSummary.
+        :rtype: str
+        """
+        return self._maintenance_target_component
+
+    @maintenance_target_component.setter
+    def maintenance_target_component(self, maintenance_target_component):
+        """
+        Sets the maintenance_target_component of this AutonomousDatabaseSummary.
+        The component chosen for maintenance.
+
+
+        :param maintenance_target_component: The maintenance_target_component of this AutonomousDatabaseSummary.
+        :type: str
+        """
+        self._maintenance_target_component = maintenance_target_component
+
+    @property
     def is_refreshable_clone(self):
         """
         Gets the is_refreshable_clone of this AutonomousDatabaseSummary.
@@ -4597,6 +4635,30 @@ class AutonomousDatabaseSummary(object):
         :type: str
         """
         self._cluster_placement_group_id = cluster_placement_group_id
+
+    @property
+    def clone_table_space_list(self):
+        """
+        Gets the clone_table_space_list of this AutonomousDatabaseSummary.
+        A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
+
+
+        :return: The clone_table_space_list of this AutonomousDatabaseSummary.
+        :rtype: list[int]
+        """
+        return self._clone_table_space_list
+
+    @clone_table_space_list.setter
+    def clone_table_space_list(self, clone_table_space_list):
+        """
+        Sets the clone_table_space_list of this AutonomousDatabaseSummary.
+        A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
+
+
+        :param clone_table_space_list: The clone_table_space_list of this AutonomousDatabaseSummary.
+        :type: list[int]
+        """
+        self._clone_table_space_list = clone_table_space_list
 
     def __repr__(self):
         return formatted_flat_dict(self)

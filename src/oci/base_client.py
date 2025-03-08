@@ -50,6 +50,7 @@ enable_expect_header = True
 expect_header_env_var = os.environ.get('OCI_PYSDK_USING_EXPECT_HEADER', True)
 if isinstance(expect_header_env_var, six.string_types) and expect_header_env_var.lower() == "false":
     enable_expect_header = False
+oke_workload_refresh_enabled = os.environ.get('OCI_OKE_WORKLOAD_REFRESH_ENABLED', "True").lower() == "true"
 
 
 def merge_type_mappings(*dictionaries):
@@ -424,7 +425,7 @@ class BaseClient(object):
                 isinstance(self.signer, signers.EphemeralResourcePrincipalSigner) or
                 isinstance(self.signer, signers.EphemeralResourcePrincipalV21Signer) or
                 isinstance(self.signer, signers.NestedResourcePrincipals) or
-                isinstance(self.signer, signers.OkeWorkloadIdentityResourcePrincipalSigner)):
+                (isinstance(self.signer, signers.OkeWorkloadIdentityResourcePrincipalSigner) and oke_workload_refresh_enabled)):
             return True
         else:
             return False
@@ -703,9 +704,9 @@ class BaseClient(object):
             timestamp = datetime.now(timezone.utc).isoformat()
 
             service_code, message, deserialized_data = self.get_deserialized_service_code_and_message(response, allow_control_chars)
-            if response.status_code == 413 and service_code == 'RequestEntityTooLarge':
+            if (response.status_code == 413 and service_code == 'RequestEntityTooLarge') or (response.status_code == 412 and service_code == 'IfNoneMatchFailed'):
                 self.logger.warning(
-                    "Recieved a 413/RequestEntityTooLarge from {}, resetting session".format(target_service))
+                    f"Received a {response.status_code}/{service_code} from {target_service}, resetting session")
                 _ = response.content  # Read the response content to enable closing the socket.
                 response.close()
                 new_session = copy.copy(self.session)

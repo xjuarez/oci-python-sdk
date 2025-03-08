@@ -5,6 +5,117 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 ====================
+2.147.0 - 2025-03-04
+====================
+
+Added 
+----- 
+* Support for user quotas on file system resources in the File Storage service 
+* Support for long term retention backups in the Autonomous Recovery service 
+* Support for Cross Region Replication(CRR) in the PostgreSQL service 
+* Support for subscriptions and cluster placement groups on exascale infrastructure in the Database service 
+* Support for multiple standby databases for autonomous dataguard associations in the Database service 
+* Support for major version upgrade of clusters in the OpenSearch service 
+* Support for Customer Service Identifier(CSI) number in list assigned subscriptions response in the Organizations service   
+
+Breaking 
+-------- 
+* Operation `create_subscription_mapping_and_wait_for_state` waits on `SubscriptionMapping.lifecycle_state` instead of `WorkRequest` in the Organizations service   
+
+====================
+2.146.0 - 2025-02-25
+====================
+
+Added 
+----- 
+* Support for Database Lifecycle Management service 
+* Support for Valkey cluster creation and Valkey migration in the OCI Cache service 
+* Support for Dataflow Steps and Storage Mounts in Pipelines in the Data Science service 
+* Support for Bring Your Own DKIM Keys in the Email Delivery service 
+* Support for OpenId Connect Multi Authentication command in the OCI Kubernetes Engine service 
+* Support for security attributes for Load Balancer resource in the Load Balancer service 
+* Support for reservation of private IP addresses in the Networking service 
+* Support for additional configuration parameters in the HeatWave service 
+* Support for private and 3rd party software repositories, and rebooting of instances in the OS Management service 
+
+Breaking 
+-------- 
+* The property `zpr_tags` was removed from models `UpdateLoadBalancerDetails`, `CreateLoadBalancerDetails` and `LoadBalancer` in the Load Balancer service 
+* The models `CreateContainerCommandHealthCheckDetails` and `ContainerCommandHealthCheck` were removed in the Container Instances service 
+* The allowed value `COMMAND` was removed from the property `health_check_type` in the models `ContainerHealthCheckType`, `ContainerHttpHealthCheck` and `ContainerTcpHealthCheck` in the Container Instances service 
+
+====================
+2.145.0 - 2025-02-18
+====================
+
+Added 
+----- 
+* Support for Customer Onboarding Success(COS) in the Java Management service 
+* Support for filtering performance tuning analysis results in the Java Management service 
+* Support for improved plugin filtering in the Java Management service 
+* Support for operating system distribution information in the Java Management service   
+
+Fixed 
+----- 
+* 
+
+Fixed an issue in RPv2.1 to read private key from a file   
+
+Breaking 
+-------- 
+* put_object failures for 412 status code have been fixed. This might be a breaking change for customers who have defined a custom exception handler for 412 status code (#622)    
+
+====================
+2.144.1 - 2025-02-11
+====================
+
+Added 
+----- 
+* Support for backups and recovery enhancements in autonomous databases in the Database service 
+* Support for IPv6 addresses on system launch in the Database service 
+* Support for enterprise edition GPU infrastructure in the Stack Monitoring service 
+* Support for monitoring templates in the Stack Monitoring service 
+* Support for IPv6 cluster creation in the Kubernetes Engine service 
+* Support for automatic and spoken punctuations in realtime in the AI Speech service 
+* Support for additional connection types for Databricks, Google PubSub and Microsoft Fabric in the GoldenGate service   
+
+====================
+2.144.0 - 2025-02-04
+====================
+
+Added 
+----- 
+* Support for Cohere Embed v3 in the Generative AI Inference service 
+* Support for Llama 3.2 tools in the Generative AI Inference service 
+* Support for nginx discovery and monitoring in the Stack Monitoring service 
+* Support for Oracle JVM runtime discovery and monitoring in the Stack Monitoring service 
+* Support for JBoss discovery and monitoring in the Stack Monitoring service 
+* Support for Service Managed Container(SMC) endpoints on list service operation in the Data Science service 
+* Support for schedulers in the Data Science service 
+* Support for DB system database and access modes in the HeatWave service 
+* Support for DB system read endpoints in the HeatWave service 
+* Support for sensitive types for data discovery in the Data Safe service 
+* Support for referential relation APIs in the Data Safe service   
+
+Breaking 
+-------- 
+* The models `CreateAuditPolicyDetails` and `CreateAuditProfileDetails` were removed in the Data Safe service   
+
+====================
+2.143.1 - 2025-01-28
+====================
+
+Added 
+----- 
+* Support for external MySQL database management in the Database Management service 
+* Support for fetching highly available metrics for managed databases in the Database Management service 
+* Support for Exadata Infrastructure on Exadata Cloud@Customer in the Database service 
+* Support for disaster recovery for cloud native applications running on OKE clusters in the Disaster Recovery service 
+* Support for subscription assignment at creation of the child tenancies in the Organizations service 
+* Support for additional actionable insights content-types for news reports in the Operations Insights service 
+* Support for MySQL Heatwave database systems in the Operations Insights service   
+
+====================
 2.143.0 - 2025-01-21
 ====================
 
@@ -20,9 +131,8 @@ Security Module (HSM) in the Database service
 * Support for configurable TCP reset in the Network Load Balancer service   
 
 Breaking 
--------- 
-
-Fixed 413 error for put operation of very large object in object storage service   
+--------
+* Fixed 413 error for put operation of very large object in object storage service
 
 ====================
 2.142.0 - 2025-01-14

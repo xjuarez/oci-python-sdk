@@ -300,6 +300,18 @@ class AutonomousContainerDatabaseSummary(object):
             The value to assign to the backup_config property of this AutonomousContainerDatabaseSummary.
         :type backup_config: oci.database.models.AutonomousContainerDatabaseBackupConfig
 
+        :param backup_destination_properties_list:
+            The value to assign to the backup_destination_properties_list property of this AutonomousContainerDatabaseSummary.
+        :type backup_destination_properties_list: list[oci.database.models.BackupDestinationProperties]
+
+        :param associated_backup_configuration_details:
+            The value to assign to the associated_backup_configuration_details property of this AutonomousContainerDatabaseSummary.
+        :type associated_backup_configuration_details: list[oci.database.models.BackupDestinationConfigurationSummary]
+
+        :param recovery_appliance_details:
+            The value to assign to the recovery_appliance_details property of this AutonomousContainerDatabaseSummary.
+        :type recovery_appliance_details: oci.database.models.RecoveryApplianceDetails
+
         :param key_store_id:
             The value to assign to the key_store_id property of this AutonomousContainerDatabaseSummary.
         :type key_store_id: str
@@ -374,6 +386,22 @@ class AutonomousContainerDatabaseSummary(object):
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type net_services_architecture: str
 
+        :param is_multiple_standby:
+            The value to assign to the is_multiple_standby property of this AutonomousContainerDatabaseSummary.
+        :type is_multiple_standby: bool
+
+        :param is_data_guard_enabled:
+            The value to assign to the is_data_guard_enabled property of this AutonomousContainerDatabaseSummary.
+        :type is_data_guard_enabled: bool
+
+        :param dataguard:
+            The value to assign to the dataguard property of this AutonomousContainerDatabaseSummary.
+        :type dataguard: oci.database.models.AutonomousContainerDatabaseDataguard
+
+        :param dataguard_group_members:
+            The value to assign to the dataguard_group_members property of this AutonomousContainerDatabaseSummary.
+        :type dataguard_group_members: list[oci.database.models.AutonomousContainerDatabaseDataguard]
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -409,6 +437,9 @@ class AutonomousContainerDatabaseSummary(object):
             'availability_domain': 'str',
             'db_version': 'str',
             'backup_config': 'AutonomousContainerDatabaseBackupConfig',
+            'backup_destination_properties_list': 'list[BackupDestinationProperties]',
+            'associated_backup_configuration_details': 'list[BackupDestinationConfigurationSummary]',
+            'recovery_appliance_details': 'RecoveryApplianceDetails',
             'key_store_id': 'str',
             'key_store_wallet_name': 'str',
             'memory_per_oracle_compute_unit_in_gbs': 'int',
@@ -425,7 +456,11 @@ class AutonomousContainerDatabaseSummary(object):
             'db_split_threshold': 'int',
             'vm_failover_reservation': 'int',
             'distribution_affinity': 'str',
-            'net_services_architecture': 'str'
+            'net_services_architecture': 'str',
+            'is_multiple_standby': 'bool',
+            'is_data_guard_enabled': 'bool',
+            'dataguard': 'AutonomousContainerDatabaseDataguard',
+            'dataguard_group_members': 'list[AutonomousContainerDatabaseDataguard]'
         }
 
         self.attribute_map = {
@@ -462,6 +497,9 @@ class AutonomousContainerDatabaseSummary(object):
             'availability_domain': 'availabilityDomain',
             'db_version': 'dbVersion',
             'backup_config': 'backupConfig',
+            'backup_destination_properties_list': 'backupDestinationPropertiesList',
+            'associated_backup_configuration_details': 'associatedBackupConfigurationDetails',
+            'recovery_appliance_details': 'recoveryApplianceDetails',
             'key_store_id': 'keyStoreId',
             'key_store_wallet_name': 'keyStoreWalletName',
             'memory_per_oracle_compute_unit_in_gbs': 'memoryPerOracleComputeUnitInGBs',
@@ -478,7 +516,11 @@ class AutonomousContainerDatabaseSummary(object):
             'db_split_threshold': 'dbSplitThreshold',
             'vm_failover_reservation': 'vmFailoverReservation',
             'distribution_affinity': 'distributionAffinity',
-            'net_services_architecture': 'netServicesArchitecture'
+            'net_services_architecture': 'netServicesArchitecture',
+            'is_multiple_standby': 'isMultipleStandby',
+            'is_data_guard_enabled': 'isDataGuardEnabled',
+            'dataguard': 'dataguard',
+            'dataguard_group_members': 'dataguardGroupMembers'
         }
 
         self._id = None
@@ -514,6 +556,9 @@ class AutonomousContainerDatabaseSummary(object):
         self._availability_domain = None
         self._db_version = None
         self._backup_config = None
+        self._backup_destination_properties_list = None
+        self._associated_backup_configuration_details = None
+        self._recovery_appliance_details = None
         self._key_store_id = None
         self._key_store_wallet_name = None
         self._memory_per_oracle_compute_unit_in_gbs = None
@@ -531,6 +576,10 @@ class AutonomousContainerDatabaseSummary(object):
         self._vm_failover_reservation = None
         self._distribution_affinity = None
         self._net_services_architecture = None
+        self._is_multiple_standby = None
+        self._is_data_guard_enabled = None
+        self._dataguard = None
+        self._dataguard_group_members = None
 
     @property
     def id(self):
@@ -1393,6 +1442,74 @@ class AutonomousContainerDatabaseSummary(object):
         self._backup_config = backup_config
 
     @property
+    def backup_destination_properties_list(self):
+        """
+        Gets the backup_destination_properties_list of this AutonomousContainerDatabaseSummary.
+        This list describes the backup destination properties associated with the Autonomous Container Database (ACD) 's preferred backup destination. The object at a given index is associated with the destination present at the same index in the backup destination details list of the ACD Backup Configuration.
+
+
+        :return: The backup_destination_properties_list of this AutonomousContainerDatabaseSummary.
+        :rtype: list[oci.database.models.BackupDestinationProperties]
+        """
+        return self._backup_destination_properties_list
+
+    @backup_destination_properties_list.setter
+    def backup_destination_properties_list(self, backup_destination_properties_list):
+        """
+        Sets the backup_destination_properties_list of this AutonomousContainerDatabaseSummary.
+        This list describes the backup destination properties associated with the Autonomous Container Database (ACD) 's preferred backup destination. The object at a given index is associated with the destination present at the same index in the backup destination details list of the ACD Backup Configuration.
+
+
+        :param backup_destination_properties_list: The backup_destination_properties_list of this AutonomousContainerDatabaseSummary.
+        :type: list[oci.database.models.BackupDestinationProperties]
+        """
+        self._backup_destination_properties_list = backup_destination_properties_list
+
+    @property
+    def associated_backup_configuration_details(self):
+        """
+        Gets the associated_backup_configuration_details of this AutonomousContainerDatabaseSummary.
+        A backup config object holds information about preferred backup destinations only. This object holds information about the associated backup destinations, such as secondary backup destinations created for local backups or remote replicated backups.
+
+
+        :return: The associated_backup_configuration_details of this AutonomousContainerDatabaseSummary.
+        :rtype: list[oci.database.models.BackupDestinationConfigurationSummary]
+        """
+        return self._associated_backup_configuration_details
+
+    @associated_backup_configuration_details.setter
+    def associated_backup_configuration_details(self, associated_backup_configuration_details):
+        """
+        Sets the associated_backup_configuration_details of this AutonomousContainerDatabaseSummary.
+        A backup config object holds information about preferred backup destinations only. This object holds information about the associated backup destinations, such as secondary backup destinations created for local backups or remote replicated backups.
+
+
+        :param associated_backup_configuration_details: The associated_backup_configuration_details of this AutonomousContainerDatabaseSummary.
+        :type: list[oci.database.models.BackupDestinationConfigurationSummary]
+        """
+        self._associated_backup_configuration_details = associated_backup_configuration_details
+
+    @property
+    def recovery_appliance_details(self):
+        """
+        Gets the recovery_appliance_details of this AutonomousContainerDatabaseSummary.
+
+        :return: The recovery_appliance_details of this AutonomousContainerDatabaseSummary.
+        :rtype: oci.database.models.RecoveryApplianceDetails
+        """
+        return self._recovery_appliance_details
+
+    @recovery_appliance_details.setter
+    def recovery_appliance_details(self, recovery_appliance_details):
+        """
+        Sets the recovery_appliance_details of this AutonomousContainerDatabaseSummary.
+
+        :param recovery_appliance_details: The recovery_appliance_details of this AutonomousContainerDatabaseSummary.
+        :type: oci.database.models.RecoveryApplianceDetails
+        """
+        self._recovery_appliance_details = recovery_appliance_details
+
+    @property
     def key_store_id(self):
         """
         Gets the key_store_id of this AutonomousContainerDatabaseSummary.
@@ -1825,6 +1942,98 @@ class AutonomousContainerDatabaseSummary(object):
         if not value_allowed_none_or_none_sentinel(net_services_architecture, allowed_values):
             net_services_architecture = 'UNKNOWN_ENUM_VALUE'
         self._net_services_architecture = net_services_architecture
+
+    @property
+    def is_multiple_standby(self):
+        """
+        Gets the is_multiple_standby of this AutonomousContainerDatabaseSummary.
+        Whether it is multiple standby Autonomous Dataguard
+
+
+        :return: The is_multiple_standby of this AutonomousContainerDatabaseSummary.
+        :rtype: bool
+        """
+        return self._is_multiple_standby
+
+    @is_multiple_standby.setter
+    def is_multiple_standby(self, is_multiple_standby):
+        """
+        Sets the is_multiple_standby of this AutonomousContainerDatabaseSummary.
+        Whether it is multiple standby Autonomous Dataguard
+
+
+        :param is_multiple_standby: The is_multiple_standby of this AutonomousContainerDatabaseSummary.
+        :type: bool
+        """
+        self._is_multiple_standby = is_multiple_standby
+
+    @property
+    def is_data_guard_enabled(self):
+        """
+        Gets the is_data_guard_enabled of this AutonomousContainerDatabaseSummary.
+        **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+
+
+        :return: The is_data_guard_enabled of this AutonomousContainerDatabaseSummary.
+        :rtype: bool
+        """
+        return self._is_data_guard_enabled
+
+    @is_data_guard_enabled.setter
+    def is_data_guard_enabled(self, is_data_guard_enabled):
+        """
+        Sets the is_data_guard_enabled of this AutonomousContainerDatabaseSummary.
+        **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
+
+
+        :param is_data_guard_enabled: The is_data_guard_enabled of this AutonomousContainerDatabaseSummary.
+        :type: bool
+        """
+        self._is_data_guard_enabled = is_data_guard_enabled
+
+    @property
+    def dataguard(self):
+        """
+        Gets the dataguard of this AutonomousContainerDatabaseSummary.
+
+        :return: The dataguard of this AutonomousContainerDatabaseSummary.
+        :rtype: oci.database.models.AutonomousContainerDatabaseDataguard
+        """
+        return self._dataguard
+
+    @dataguard.setter
+    def dataguard(self, dataguard):
+        """
+        Sets the dataguard of this AutonomousContainerDatabaseSummary.
+
+        :param dataguard: The dataguard of this AutonomousContainerDatabaseSummary.
+        :type: oci.database.models.AutonomousContainerDatabaseDataguard
+        """
+        self._dataguard = dataguard
+
+    @property
+    def dataguard_group_members(self):
+        """
+        Gets the dataguard_group_members of this AutonomousContainerDatabaseSummary.
+        Array of Dg associations.
+
+
+        :return: The dataguard_group_members of this AutonomousContainerDatabaseSummary.
+        :rtype: list[oci.database.models.AutonomousContainerDatabaseDataguard]
+        """
+        return self._dataguard_group_members
+
+    @dataguard_group_members.setter
+    def dataguard_group_members(self, dataguard_group_members):
+        """
+        Sets the dataguard_group_members of this AutonomousContainerDatabaseSummary.
+        Array of Dg associations.
+
+
+        :param dataguard_group_members: The dataguard_group_members of this AutonomousContainerDatabaseSummary.
+        :type: list[oci.database.models.AutonomousContainerDatabaseDataguard]
+        """
+        self._dataguard_group_members = dataguard_group_members
 
     def __repr__(self):
         return formatted_flat_dict(self)

@@ -79,6 +79,22 @@ class DiscoveryJobSummary(object):
     #: This constant has a value of "MICROSOFT_IIS"
     RESOURCE_TYPE_MICROSOFT_IIS = "MICROSOFT_IIS"
 
+    #: A constant which can be used with the resource_type property of a DiscoveryJobSummary.
+    #: This constant has a value of "NGINX"
+    RESOURCE_TYPE_NGINX = "NGINX"
+
+    #: A constant which can be used with the resource_type property of a DiscoveryJobSummary.
+    #: This constant has a value of "JBOSS_SERVER"
+    RESOURCE_TYPE_JBOSS_SERVER = "JBOSS_SERVER"
+
+    #: A constant which can be used with the resource_type property of a DiscoveryJobSummary.
+    #: This constant has a value of "JBOSS_DOMAIN"
+    RESOURCE_TYPE_JBOSS_DOMAIN = "JBOSS_DOMAIN"
+
+    #: A constant which can be used with the resource_type property of a DiscoveryJobSummary.
+    #: This constant has a value of "ORACLE_JVM"
+    RESOURCE_TYPE_ORACLE_JVM = "ORACLE_JVM"
+
     #: A constant which can be used with the license property of a DiscoveryJobSummary.
     #: This constant has a value of "STANDARD_EDITION"
     LICENSE_STANDARD_EDITION = "STANDARD_EDITION"
@@ -86,6 +102,10 @@ class DiscoveryJobSummary(object):
     #: A constant which can be used with the license property of a DiscoveryJobSummary.
     #: This constant has a value of "ENTERPRISE_EDITION"
     LICENSE_ENTERPRISE_EDITION = "ENTERPRISE_EDITION"
+
+    #: A constant which can be used with the license property of a DiscoveryJobSummary.
+    #: This constant has a value of "ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE"
+    LICENSE_ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE = "ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE"
 
     #: A constant which can be used with the discovery_type property of a DiscoveryJobSummary.
     #: This constant has a value of "ADD"
@@ -158,7 +178,7 @@ class DiscoveryJobSummary(object):
 
         :param resource_type:
             The value to assign to the resource_type property of this DiscoveryJobSummary.
-            Allowed values for this property are: "WEBLOGIC_DOMAIN", "EBS_INSTANCE", "SQL_SERVER", "APACHE_TOMCAT", "ORACLE_DATABASE", "OCI_ORACLE_DB", "OCI_ORACLE_CDB", "OCI_ORACLE_PDB", "HOST", "ORACLE_PSFT", "ORACLE_MFT", "APACHE_HTTP_SERVER", "ORACLE_GOLDENGATE", "CUSTOM_RESOURCE", "ORACLE_HTTP_SERVER", "MICROSOFT_IIS", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "WEBLOGIC_DOMAIN", "EBS_INSTANCE", "SQL_SERVER", "APACHE_TOMCAT", "ORACLE_DATABASE", "OCI_ORACLE_DB", "OCI_ORACLE_CDB", "OCI_ORACLE_PDB", "HOST", "ORACLE_PSFT", "ORACLE_MFT", "APACHE_HTTP_SERVER", "ORACLE_GOLDENGATE", "CUSTOM_RESOURCE", "ORACLE_HTTP_SERVER", "MICROSOFT_IIS", "NGINX", "JBOSS_SERVER", "JBOSS_DOMAIN", "ORACLE_JVM", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type resource_type: str
 
@@ -168,7 +188,7 @@ class DiscoveryJobSummary(object):
 
         :param license:
             The value to assign to the license property of this DiscoveryJobSummary.
-            Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type license: str
 
@@ -305,7 +325,7 @@ class DiscoveryJobSummary(object):
         Gets the resource_type of this DiscoveryJobSummary.
         Resource Type
 
-        Allowed values for this property are: "WEBLOGIC_DOMAIN", "EBS_INSTANCE", "SQL_SERVER", "APACHE_TOMCAT", "ORACLE_DATABASE", "OCI_ORACLE_DB", "OCI_ORACLE_CDB", "OCI_ORACLE_PDB", "HOST", "ORACLE_PSFT", "ORACLE_MFT", "APACHE_HTTP_SERVER", "ORACLE_GOLDENGATE", "CUSTOM_RESOURCE", "ORACLE_HTTP_SERVER", "MICROSOFT_IIS", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "WEBLOGIC_DOMAIN", "EBS_INSTANCE", "SQL_SERVER", "APACHE_TOMCAT", "ORACLE_DATABASE", "OCI_ORACLE_DB", "OCI_ORACLE_CDB", "OCI_ORACLE_PDB", "HOST", "ORACLE_PSFT", "ORACLE_MFT", "APACHE_HTTP_SERVER", "ORACLE_GOLDENGATE", "CUSTOM_RESOURCE", "ORACLE_HTTP_SERVER", "MICROSOFT_IIS", "NGINX", "JBOSS_SERVER", "JBOSS_DOMAIN", "ORACLE_JVM", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -324,7 +344,7 @@ class DiscoveryJobSummary(object):
         :param resource_type: The resource_type of this DiscoveryJobSummary.
         :type: str
         """
-        allowed_values = ["WEBLOGIC_DOMAIN", "EBS_INSTANCE", "SQL_SERVER", "APACHE_TOMCAT", "ORACLE_DATABASE", "OCI_ORACLE_DB", "OCI_ORACLE_CDB", "OCI_ORACLE_PDB", "HOST", "ORACLE_PSFT", "ORACLE_MFT", "APACHE_HTTP_SERVER", "ORACLE_GOLDENGATE", "CUSTOM_RESOURCE", "ORACLE_HTTP_SERVER", "MICROSOFT_IIS"]
+        allowed_values = ["WEBLOGIC_DOMAIN", "EBS_INSTANCE", "SQL_SERVER", "APACHE_TOMCAT", "ORACLE_DATABASE", "OCI_ORACLE_DB", "OCI_ORACLE_CDB", "OCI_ORACLE_PDB", "HOST", "ORACLE_PSFT", "ORACLE_MFT", "APACHE_HTTP_SERVER", "ORACLE_GOLDENGATE", "CUSTOM_RESOURCE", "ORACLE_HTTP_SERVER", "MICROSOFT_IIS", "NGINX", "JBOSS_SERVER", "JBOSS_DOMAIN", "ORACLE_JVM"]
         if not value_allowed_none_or_none_sentinel(resource_type, allowed_values):
             resource_type = 'UNKNOWN_ENUM_VALUE'
         self._resource_type = resource_type
@@ -359,7 +379,7 @@ class DiscoveryJobSummary(object):
         Gets the license of this DiscoveryJobSummary.
         License edition of the monitored resource.
 
-        Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -378,7 +398,7 @@ class DiscoveryJobSummary(object):
         :param license: The license of this DiscoveryJobSummary.
         :type: str
         """
-        allowed_values = ["STANDARD_EDITION", "ENTERPRISE_EDITION"]
+        allowed_values = ["STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_FOR_GPU_INFRASTRUCTURE"]
         if not value_allowed_none_or_none_sentinel(license, allowed_values):
             license = 'UNKNOWN_ENUM_VALUE'
         self._license = license

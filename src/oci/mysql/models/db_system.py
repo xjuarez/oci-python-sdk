@@ -59,6 +59,22 @@ class DbSystem(object):
     #: This constant has a value of "DISABLED"
     DATABASE_MANAGEMENT_DISABLED = "DISABLED"
 
+    #: A constant which can be used with the database_mode property of a DbSystem.
+    #: This constant has a value of "READ_WRITE"
+    DATABASE_MODE_READ_WRITE = "READ_WRITE"
+
+    #: A constant which can be used with the database_mode property of a DbSystem.
+    #: This constant has a value of "READ_ONLY"
+    DATABASE_MODE_READ_ONLY = "READ_ONLY"
+
+    #: A constant which can be used with the access_mode property of a DbSystem.
+    #: This constant has a value of "UNRESTRICTED"
+    ACCESS_MODE_UNRESTRICTED = "UNRESTRICTED"
+
+    #: A constant which can be used with the access_mode property of a DbSystem.
+    #: This constant has a value of "RESTRICTED"
+    ACCESS_MODE_RESTRICTED = "RESTRICTED"
+
     def __init__(self, **kwargs):
         """
         Initializes a new DbSystem object with values from keyword arguments.
@@ -194,6 +210,10 @@ class DbSystem(object):
             The value to assign to the defined_tags property of this DbSystem.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param system_tags:
+            The value to assign to the system_tags property of this DbSystem.
+        :type system_tags: dict(str, dict(str, object))
+
         :param crash_recovery:
             The value to assign to the crash_recovery property of this DbSystem.
             Allowed values for this property are: "ENABLED", "DISABLED", 'UNKNOWN_ENUM_VALUE'.
@@ -214,9 +234,25 @@ class DbSystem(object):
             The value to assign to the secure_connections property of this DbSystem.
         :type secure_connections: oci.mysql.models.SecureConnectionDetails
 
+        :param database_mode:
+            The value to assign to the database_mode property of this DbSystem.
+            Allowed values for this property are: "READ_WRITE", "READ_ONLY", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type database_mode: str
+
+        :param access_mode:
+            The value to assign to the access_mode property of this DbSystem.
+            Allowed values for this property are: "UNRESTRICTED", "RESTRICTED", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type access_mode: str
+
         :param customer_contacts:
             The value to assign to the customer_contacts property of this DbSystem.
         :type customer_contacts: list[oci.mysql.models.CustomerContact]
+
+        :param read_endpoint:
+            The value to assign to the read_endpoint property of this DbSystem.
+        :type read_endpoint: oci.mysql.models.ReadEndpointDetails
 
         """
         self.swagger_types = {
@@ -252,11 +288,15 @@ class DbSystem(object):
             'time_updated': 'datetime',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, dict(str, object))',
             'crash_recovery': 'str',
             'point_in_time_recovery_details': 'PointInTimeRecoveryDetails',
             'database_management': 'str',
             'secure_connections': 'SecureConnectionDetails',
-            'customer_contacts': 'list[CustomerContact]'
+            'database_mode': 'str',
+            'access_mode': 'str',
+            'customer_contacts': 'list[CustomerContact]',
+            'read_endpoint': 'ReadEndpointDetails'
         }
 
         self.attribute_map = {
@@ -292,11 +332,15 @@ class DbSystem(object):
             'time_updated': 'timeUpdated',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'system_tags': 'systemTags',
             'crash_recovery': 'crashRecovery',
             'point_in_time_recovery_details': 'pointInTimeRecoveryDetails',
             'database_management': 'databaseManagement',
             'secure_connections': 'secureConnections',
-            'customer_contacts': 'customerContacts'
+            'database_mode': 'databaseMode',
+            'access_mode': 'accessMode',
+            'customer_contacts': 'customerContacts',
+            'read_endpoint': 'readEndpoint'
         }
 
         self._id = None
@@ -331,11 +375,15 @@ class DbSystem(object):
         self._time_updated = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._system_tags = None
         self._crash_recovery = None
         self._point_in_time_recovery_details = None
         self._database_management = None
         self._secure_connections = None
+        self._database_mode = None
+        self._access_mode = None
         self._customer_contacts = None
+        self._read_endpoint = None
 
     @property
     def id(self):
@@ -1134,6 +1182,32 @@ class DbSystem(object):
         self._defined_tags = defined_tags
 
     @property
+    def system_tags(self):
+        """
+        Gets the system_tags of this DbSystem.
+        Usage of system tag keys. These predefined keys are scoped to namespaces.
+        Example: `{\"orcl-cloud\": {\"free-tier-retained\": \"true\"}}`
+
+
+        :return: The system_tags of this DbSystem.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._system_tags
+
+    @system_tags.setter
+    def system_tags(self, system_tags):
+        """
+        Sets the system_tags of this DbSystem.
+        Usage of system tag keys. These predefined keys are scoped to namespaces.
+        Example: `{\"orcl-cloud\": {\"free-tier-retained\": \"true\"}}`
+
+
+        :param system_tags: The system_tags of this DbSystem.
+        :type: dict(str, dict(str, object))
+        """
+        self._system_tags = system_tags
+
+    @property
     def crash_recovery(self):
         """
         Gets the crash_recovery of this DbSystem.
@@ -1236,6 +1310,88 @@ class DbSystem(object):
         self._secure_connections = secure_connections
 
     @property
+    def database_mode(self):
+        """
+        **[Required]** Gets the database_mode of this DbSystem.
+        The database mode indicating the types of statements that are allowed to run in the the DB system.
+        This mode applies only to statements run by user connections. Replicated write statements continue
+        to be allowed regardless of the DatabaseMode.
+          - READ_WRITE: allow running read and write statements on the DB system;
+          - READ_ONLY: only allow running read statements on the DB system.
+
+        Allowed values for this property are: "READ_WRITE", "READ_ONLY", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The database_mode of this DbSystem.
+        :rtype: str
+        """
+        return self._database_mode
+
+    @database_mode.setter
+    def database_mode(self, database_mode):
+        """
+        Sets the database_mode of this DbSystem.
+        The database mode indicating the types of statements that are allowed to run in the the DB system.
+        This mode applies only to statements run by user connections. Replicated write statements continue
+        to be allowed regardless of the DatabaseMode.
+          - READ_WRITE: allow running read and write statements on the DB system;
+          - READ_ONLY: only allow running read statements on the DB system.
+
+
+        :param database_mode: The database_mode of this DbSystem.
+        :type: str
+        """
+        allowed_values = ["READ_WRITE", "READ_ONLY"]
+        if not value_allowed_none_or_none_sentinel(database_mode, allowed_values):
+            database_mode = 'UNKNOWN_ENUM_VALUE'
+        self._database_mode = database_mode
+
+    @property
+    def access_mode(self):
+        """
+        **[Required]** Gets the access_mode of this DbSystem.
+        The access mode indicating if the database access is unrestricted (to all MySQL user accounts),
+        or restricted (to only certain users with specific privileges):
+         - UNRESTRICTED: the access to the database is not restricted;
+         - RESTRICTED: access allowed only to users with specific privileges;
+           RESTRICTED will correspond to setting the MySQL system variable
+           `offline_mode`__ to ON.
+
+        __ https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode
+
+        Allowed values for this property are: "UNRESTRICTED", "RESTRICTED", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The access_mode of this DbSystem.
+        :rtype: str
+        """
+        return self._access_mode
+
+    @access_mode.setter
+    def access_mode(self, access_mode):
+        """
+        Sets the access_mode of this DbSystem.
+        The access mode indicating if the database access is unrestricted (to all MySQL user accounts),
+        or restricted (to only certain users with specific privileges):
+         - UNRESTRICTED: the access to the database is not restricted;
+         - RESTRICTED: access allowed only to users with specific privileges;
+           RESTRICTED will correspond to setting the MySQL system variable
+           `offline_mode`__ to ON.
+
+        __ https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode
+
+
+        :param access_mode: The access_mode of this DbSystem.
+        :type: str
+        """
+        allowed_values = ["UNRESTRICTED", "RESTRICTED"]
+        if not value_allowed_none_or_none_sentinel(access_mode, allowed_values):
+            access_mode = 'UNKNOWN_ENUM_VALUE'
+        self._access_mode = access_mode
+
+    @property
     def customer_contacts(self):
         """
         Gets the customer_contacts of this DbSystem.
@@ -1262,6 +1418,26 @@ class DbSystem(object):
         :type: list[oci.mysql.models.CustomerContact]
         """
         self._customer_contacts = customer_contacts
+
+    @property
+    def read_endpoint(self):
+        """
+        Gets the read_endpoint of this DbSystem.
+
+        :return: The read_endpoint of this DbSystem.
+        :rtype: oci.mysql.models.ReadEndpointDetails
+        """
+        return self._read_endpoint
+
+    @read_endpoint.setter
+    def read_endpoint(self, read_endpoint):
+        """
+        Sets the read_endpoint of this DbSystem.
+
+        :param read_endpoint: The read_endpoint of this DbSystem.
+        :type: oci.mysql.models.ReadEndpointDetails
+        """
+        self._read_endpoint = read_endpoint
 
     def __repr__(self):
         return formatted_flat_dict(self)
