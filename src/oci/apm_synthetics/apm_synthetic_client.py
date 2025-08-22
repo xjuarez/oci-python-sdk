@@ -22,7 +22,7 @@ missing = Sentinel("Missing")
 
 class ApmSyntheticClient(object):
     """
-    Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see [Application Performance Monitoring](https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
+    Use the APM Availability Monitoring API to query Scripts, Monitors, Dedicated Vantage Points and On-Premise Vantage Points resources. For more information, see [Application Performance Monitoring](https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
     """
 
     def __init__(self, config, **kwargs):
@@ -1604,7 +1604,7 @@ class ApmSyntheticClient(object):
 
     def get_monitor_result(self, apm_domain_id, monitor_id, vantage_point, result_type, result_content_type, execution_time, **kwargs):
         """
-        Gets the results for a specific execution of a monitor identified by OCID. The results are in a HAR file, Screenshot, Console Log or Network details.
+        Gets the results for a specific execution of a monitor identified by OCID. The results are in a HAR file, Screenshot, Console Log, Network details, Diagnostics or Script Content.
 
 
         :param str apm_domain_id: (required)
@@ -1617,7 +1617,7 @@ class ApmSyntheticClient(object):
             The vantagePoint name.
 
         :param str result_type: (required)
-            The result type: har, screenshot, log, or network.
+            The result type: har, screenshot, log, network, diagnostics or script.
 
         :param str result_content_type: (required)
             The result content type: zip or raw.

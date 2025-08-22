@@ -58,6 +58,7 @@ Core Services
     oci.core.models.AppCatalogSubscription
     oci.core.models.AppCatalogSubscriptionSummary
     oci.core.models.AttachBootVolumeDetails
+    oci.core.models.AttachComputeHostGroupHostDetails
     oci.core.models.AttachEmulatedVolumeDetails
     oci.core.models.AttachIScsiVolumeDetails
     oci.core.models.AttachInstancePoolInstanceDetails
@@ -98,6 +99,7 @@ Core Services
     oci.core.models.ByoipRangeSummary
     oci.core.models.ByoipRangeVcnIpv6AllocationSummary
     oci.core.models.Byoipv6CidrDetails
+    oci.core.models.CapacityBin
     oci.core.models.CapacityReportInstanceShapeConfig
     oci.core.models.CapacityReportShapeAvailability
     oci.core.models.CapacityReservationInstanceSummary
@@ -113,6 +115,10 @@ Core Services
     oci.core.models.ChangeComputeCapacityReservationCompartmentDetails
     oci.core.models.ChangeComputeCapacityTopologyCompartmentDetails
     oci.core.models.ChangeComputeClusterCompartmentDetails
+    oci.core.models.ChangeComputeGpuMemoryClusterCompartmentDetails
+    oci.core.models.ChangeComputeGpuMemoryFabricCompartmentDetails
+    oci.core.models.ChangeComputeHostCompartmentDetails
+    oci.core.models.ChangeComputeHostGroupCompartmentDetails
     oci.core.models.ChangeComputeImageCapabilitySchemaCompartmentDetails
     oci.core.models.ChangeCpeCompartmentDetails
     oci.core.models.ChangeCrossConnectCompartmentDetails
@@ -152,6 +158,7 @@ Core Services
     oci.core.models.CompartmentInternal
     oci.core.models.ComputeBareMetalHost
     oci.core.models.ComputeBareMetalHostCollection
+    oci.core.models.ComputeBareMetalHostPlacementConstraintDetails
     oci.core.models.ComputeBareMetalHostSummary
     oci.core.models.ComputeCapacityReport
     oci.core.models.ComputeCapacityReservation
@@ -167,6 +174,22 @@ Core Services
     oci.core.models.ComputeGlobalImageCapabilitySchemaSummary
     oci.core.models.ComputeGlobalImageCapabilitySchemaVersion
     oci.core.models.ComputeGlobalImageCapabilitySchemaVersionSummary
+    oci.core.models.ComputeGpuMemoryCluster
+    oci.core.models.ComputeGpuMemoryClusterCollection
+    oci.core.models.ComputeGpuMemoryClusterInstanceCollection
+    oci.core.models.ComputeGpuMemoryClusterInstanceSummary
+    oci.core.models.ComputeGpuMemoryClusterSummary
+    oci.core.models.ComputeGpuMemoryFabric
+    oci.core.models.ComputeGpuMemoryFabricCollection
+    oci.core.models.ComputeGpuMemoryFabricSummary
+    oci.core.models.ComputeHost
+    oci.core.models.ComputeHostCollection
+    oci.core.models.ComputeHostConfigurationCheckDetails
+    oci.core.models.ComputeHostConfigurationData
+    oci.core.models.ComputeHostGroup
+    oci.core.models.ComputeHostGroupCollection
+    oci.core.models.ComputeHostGroupSummary
+    oci.core.models.ComputeHostSummary
     oci.core.models.ComputeHpcIsland
     oci.core.models.ComputeHpcIslandCollection
     oci.core.models.ComputeHpcIslandSummary
@@ -203,6 +226,8 @@ Core Services
     oci.core.models.CreateComputeCapacityReservationDetails
     oci.core.models.CreateComputeCapacityTopologyDetails
     oci.core.models.CreateComputeClusterDetails
+    oci.core.models.CreateComputeGpuMemoryClusterDetails
+    oci.core.models.CreateComputeHostGroupDetails
     oci.core.models.CreateComputeImageCapabilitySchemaDetails
     oci.core.models.CreateCpeDetails
     oci.core.models.CreateCrossConnectDetails
@@ -270,6 +295,7 @@ Core Services
     oci.core.models.DefaultPhaseOneParameters
     oci.core.models.DefaultPhaseTwoParameters
     oci.core.models.DeleteVirtualCircuitPublicPrefixDetails
+    oci.core.models.DetachComputeHostGroupHostDetails
     oci.core.models.DetachInstancePoolInstanceDetails
     oci.core.models.DetachLoadBalancerDetails
     oci.core.models.DetachedVolumeAutotunePolicy
@@ -288,6 +314,7 @@ Core Services
     oci.core.models.DrgAttachmentNetworkDetails
     oci.core.models.DrgAttachmentNetworkUpdateDetails
     oci.core.models.DrgAttachmentTypeDrgRouteDistributionMatchCriteria
+    oci.core.models.DrgPromotionStatusResponse
     oci.core.models.DrgRedundancyStatus
     oci.core.models.DrgRouteDistribution
     oci.core.models.DrgRouteDistributionMatchCriteria
@@ -310,6 +337,8 @@ Core Services
     oci.core.models.GetIpInventoryVcnOverlapDetails
     oci.core.models.GetPublicIpByIpAddressDetails
     oci.core.models.GetPublicIpByPrivateIpIdDetails
+    oci.core.models.HostGroupConfiguration
+    oci.core.models.HostGroupPlacementConstraintDetails
     oci.core.models.IPSecConnection
     oci.core.models.IPSecConnectionDeviceConfig
     oci.core.models.IPSecConnectionDeviceStatus
@@ -349,6 +378,7 @@ Core Services
     oci.core.models.InstanceConfigurationCreateVolumeDetails
     oci.core.models.InstanceConfigurationDetachedVolumeAutotunePolicy
     oci.core.models.InstanceConfigurationGenericBmLaunchInstancePlatformConfig
+    oci.core.models.InstanceConfigurationHostGroupPlacementConstraintDetails
     oci.core.models.InstanceConfigurationInstanceDetails
     oci.core.models.InstanceConfigurationInstanceOptions
     oci.core.models.InstanceConfigurationInstanceSourceDetails
@@ -367,6 +397,7 @@ Core Services
     oci.core.models.InstanceConfigurationLaunchOptions
     oci.core.models.InstanceConfigurationParavirtualizedAttachVolumeDetails
     oci.core.models.InstanceConfigurationPerformanceBasedAutotunePolicy
+    oci.core.models.InstanceConfigurationPlacementConstraintDetails
     oci.core.models.InstanceConfigurationSummary
     oci.core.models.InstanceConfigurationVolumeSourceDetails
     oci.core.models.InstanceConfigurationVolumeSourceFromVolumeBackupDetails
@@ -458,6 +489,7 @@ Core Services
     oci.core.models.PerformanceBasedAutotunePolicy
     oci.core.models.PhaseOneConfigDetails
     oci.core.models.PhaseTwoConfigDetails
+    oci.core.models.PlacementConstraintDetails
     oci.core.models.PlatformConfig
     oci.core.models.PortRange
     oci.core.models.PreemptibleInstanceConfigDetails
@@ -468,6 +500,7 @@ Core Services
     oci.core.models.PublicIpPoolCollection
     oci.core.models.PublicIpPoolSummary
     oci.core.models.RebootMigrateActionDetails
+    oci.core.models.RecycleDetails
     oci.core.models.RemotePeeringConnection
     oci.core.models.RemotePeeringConnectionDrgAttachmentNetworkDetails
     oci.core.models.RemoveDrgRouteDistributionStatementsDetails
@@ -535,6 +568,10 @@ Core Services
     oci.core.models.UpdateComputeCapacityReservationDetails
     oci.core.models.UpdateComputeCapacityTopologyDetails
     oci.core.models.UpdateComputeClusterDetails
+    oci.core.models.UpdateComputeGpuMemoryClusterDetails
+    oci.core.models.UpdateComputeGpuMemoryFabricDetails
+    oci.core.models.UpdateComputeHostDetails
+    oci.core.models.UpdateComputeHostGroupDetails
     oci.core.models.UpdateComputeImageCapabilitySchemaDetails
     oci.core.models.UpdateConsoleHistoryDetails
     oci.core.models.UpdateCpeDetails

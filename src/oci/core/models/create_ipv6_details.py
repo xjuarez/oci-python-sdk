@@ -44,6 +44,10 @@ class CreateIpv6Details(object):
             The value to assign to the ip_address property of this CreateIpv6Details.
         :type ip_address: str
 
+        :param cidr_prefix_length:
+            The value to assign to the cidr_prefix_length property of this CreateIpv6Details.
+        :type cidr_prefix_length: int
+
         :param vnic_id:
             The value to assign to the vnic_id property of this CreateIpv6Details.
         :type vnic_id: str
@@ -71,29 +75,30 @@ class CreateIpv6Details(object):
             'display_name': 'str',
             'freeform_tags': 'dict(str, str)',
             'ip_address': 'str',
+            'cidr_prefix_length': 'int',
             'vnic_id': 'str',
             'subnet_id': 'str',
             'lifetime': 'str',
             'route_table_id': 'str',
             'ipv6_subnet_cidr': 'str'
         }
-
         self.attribute_map = {
             'defined_tags': 'definedTags',
             'display_name': 'displayName',
             'freeform_tags': 'freeformTags',
             'ip_address': 'ipAddress',
+            'cidr_prefix_length': 'cidrPrefixLength',
             'vnic_id': 'vnicId',
             'subnet_id': 'subnetId',
             'lifetime': 'lifetime',
             'route_table_id': 'routeTableId',
             'ipv6_subnet_cidr': 'ipv6SubnetCidr'
         }
-
         self._defined_tags = None
         self._display_name = None
         self._freeform_tags = None
         self._ip_address = None
+        self._cidr_prefix_length = None
         self._vnic_id = None
         self._subnet_id = None
         self._lifetime = None
@@ -229,6 +234,30 @@ class CreateIpv6Details(object):
         self._ip_address = ip_address
 
     @property
+    def cidr_prefix_length(self):
+        """
+        Gets the cidr_prefix_length of this CreateIpv6Details.
+        Length of cidr range. Optional field to specify flexible cidr.
+
+
+        :return: The cidr_prefix_length of this CreateIpv6Details.
+        :rtype: int
+        """
+        return self._cidr_prefix_length
+
+    @cidr_prefix_length.setter
+    def cidr_prefix_length(self, cidr_prefix_length):
+        """
+        Sets the cidr_prefix_length of this CreateIpv6Details.
+        Length of cidr range. Optional field to specify flexible cidr.
+
+
+        :param cidr_prefix_length: The cidr_prefix_length of this CreateIpv6Details.
+        :type: int
+        """
+        self._cidr_prefix_length = cidr_prefix_length
+
+    @property
     def vnic_id(self):
         """
         Gets the vnic_id of this CreateIpv6Details.
@@ -293,7 +322,7 @@ class CreateIpv6Details(object):
         """
         Gets the lifetime of this CreateIpv6Details.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -310,7 +339,7 @@ class CreateIpv6Details(object):
         """
         Sets the lifetime of this CreateIpv6Details.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -330,7 +359,7 @@ class CreateIpv6Details(object):
         """
         Gets the route_table_id of this CreateIpv6Details.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -346,7 +375,7 @@ class CreateIpv6Details(object):
         """
         Sets the route_table_id of this CreateIpv6Details.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing

@@ -54,7 +54,6 @@ class FunctionsTargetDetails(TargetDetails):
             'batch_size_in_num': 'int',
             'batch_time_in_sec': 'int'
         }
-
         self.attribute_map = {
             'kind': 'kind',
             'function_id': 'functionId',
@@ -62,7 +61,6 @@ class FunctionsTargetDetails(TargetDetails):
             'batch_size_in_num': 'batchSizeInNum',
             'batch_time_in_sec': 'batchTimeInSec'
         }
-
         self._kind = None
         self._function_id = None
         self._batch_size_in_kbs = None
@@ -103,6 +101,7 @@ class FunctionsTargetDetails(TargetDetails):
         """
         Gets the batch_size_in_kbs of this FunctionsTargetDetails.
         The batch rollover size in kilobytes.
+        Only one size option can be specified: `batchSizeInKbs` or `batchSizeInNum`.
 
 
         :return: The batch_size_in_kbs of this FunctionsTargetDetails.
@@ -115,6 +114,7 @@ class FunctionsTargetDetails(TargetDetails):
         """
         Sets the batch_size_in_kbs of this FunctionsTargetDetails.
         The batch rollover size in kilobytes.
+        Only one size option can be specified: `batchSizeInKbs` or `batchSizeInNum`.
 
 
         :param batch_size_in_kbs: The batch_size_in_kbs of this FunctionsTargetDetails.
@@ -127,6 +127,7 @@ class FunctionsTargetDetails(TargetDetails):
         """
         Gets the batch_size_in_num of this FunctionsTargetDetails.
         The batch rollover size in number of messages.
+        Only one size option can be specified: `batchSizeInKbs` or `batchSizeInNum`.
 
 
         :return: The batch_size_in_num of this FunctionsTargetDetails.
@@ -139,6 +140,7 @@ class FunctionsTargetDetails(TargetDetails):
         """
         Sets the batch_size_in_num of this FunctionsTargetDetails.
         The batch rollover size in number of messages.
+        Only one size option can be specified: `batchSizeInKbs` or `batchSizeInNum`.
 
 
         :param batch_size_in_num: The batch_size_in_num of this FunctionsTargetDetails.

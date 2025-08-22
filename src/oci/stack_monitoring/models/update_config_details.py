@@ -20,9 +20,11 @@ class UpdateConfigDetails(object):
         Initializes a new UpdateConfigDetails object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
+        * :class:`~oci.stack_monitoring.models.UpdateComputeAutoActivatePluginConfigDetails`
         * :class:`~oci.stack_monitoring.models.UpdateLicenseEnterpriseExtensibilityConfigDetails`
         * :class:`~oci.stack_monitoring.models.UpdateAutoPromoteConfigDetails`
         * :class:`~oci.stack_monitoring.models.UpdateLicenseAutoAssignConfigDetails`
+        * :class:`~oci.stack_monitoring.models.UpdateOnboardConfigDetails`
 
         The following keyword arguments are supported (corresponding to the getters/setters of this class):
 
@@ -49,14 +51,12 @@ class UpdateConfigDetails(object):
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'config_type': 'configType',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
-
         self._display_name = None
         self._config_type = None
         self._freeform_tags = None
@@ -70,6 +70,9 @@ class UpdateConfigDetails(object):
         """
         type = object_dictionary['configType']
 
+        if type == 'COMPUTE_AUTO_ACTIVATE_PLUGIN':
+            return 'UpdateComputeAutoActivatePluginConfigDetails'
+
         if type == 'LICENSE_ENTERPRISE_EXTENSIBILITY':
             return 'UpdateLicenseEnterpriseExtensibilityConfigDetails'
 
@@ -78,6 +81,9 @@ class UpdateConfigDetails(object):
 
         if type == 'LICENSE_AUTO_ASSIGN':
             return 'UpdateLicenseAutoAssignConfigDetails'
+
+        if type == 'ONBOARD':
+            return 'UpdateOnboardConfigDetails'
         else:
             return 'UpdateConfigDetails'
 

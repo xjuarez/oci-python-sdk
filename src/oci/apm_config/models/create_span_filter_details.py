@@ -23,7 +23,7 @@ class CreateSpanFilterDetails(CreateConfigDetails):
 
         :param config_type:
             The value to assign to the config_type property of this CreateSpanFilterDetails.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param freeform_tags:
@@ -55,7 +55,6 @@ class CreateSpanFilterDetails(CreateConfigDetails):
             'filter_text': 'str',
             'description': 'str'
         }
-
         self.attribute_map = {
             'config_type': 'configType',
             'freeform_tags': 'freeformTags',
@@ -64,7 +63,6 @@ class CreateSpanFilterDetails(CreateConfigDetails):
             'filter_text': 'filterText',
             'description': 'description'
         }
-
         self._config_type = None
         self._freeform_tags = None
         self._defined_tags = None

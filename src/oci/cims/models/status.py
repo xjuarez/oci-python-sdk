@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class Status(object):
     """
-    Details about the status of the support ticket.
+    Details about the status of the support request.
     """
 
     def __init__(self, **kwargs):
@@ -33,12 +33,10 @@ class Status(object):
             'code': 'str',
             'message': 'str'
         }
-
         self.attribute_map = {
             'code': 'code',
             'message': 'message'
         }
-
         self._code = None
         self._message = None
 

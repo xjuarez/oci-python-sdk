@@ -67,7 +67,6 @@ class UpdatePrivateIpDetails(object):
             'lifetime': 'str',
             'route_table_id': 'str'
         }
-
         self.attribute_map = {
             'defined_tags': 'definedTags',
             'display_name': 'displayName',
@@ -77,7 +76,6 @@ class UpdatePrivateIpDetails(object):
             'lifetime': 'lifetime',
             'route_table_id': 'routeTableId'
         }
-
         self._defined_tags = None
         self._display_name = None
         self._freeform_tags = None
@@ -267,7 +265,7 @@ class UpdatePrivateIpDetails(object):
         """
         Gets the lifetime of this UpdatePrivateIpDetails.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -284,7 +282,7 @@ class UpdatePrivateIpDetails(object):
         """
         Sets the lifetime of this UpdatePrivateIpDetails.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -304,7 +302,7 @@ class UpdatePrivateIpDetails(object):
         """
         Gets the route_table_id of this UpdatePrivateIpDetails.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -320,7 +318,7 @@ class UpdatePrivateIpDetails(object):
         """
         Sets the route_table_id of this UpdatePrivateIpDetails.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing

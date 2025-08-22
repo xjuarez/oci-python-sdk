@@ -53,7 +53,6 @@ class SavedCustomTable(object):
             'compartment_depth': 'float',
             'version': 'float'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'row_group_by': 'rowGroupBy',
@@ -62,7 +61,6 @@ class SavedCustomTable(object):
             'compartment_depth': 'compartmentDepth',
             'version': 'version'
         }
-
         self._display_name = None
         self._row_group_by = None
         self._column_group_by = None
@@ -99,7 +97,7 @@ class SavedCustomTable(object):
         """
         Gets the row_group_by of this SavedCustomTable.
         The row groupBy key list.
-        example:
+        For example:
           `[\"tagNamespace\", \"tagKey\", \"tagValue\", \"service\", \"skuName\", \"skuPartNumber\", \"unit\",
             \"compartmentName\", \"compartmentPath\", \"compartmentId\", \"platform\", \"region\", \"logicalAd\",
             \"resourceId\", \"tenantId\", \"tenantName\"]`
@@ -115,7 +113,7 @@ class SavedCustomTable(object):
         """
         Sets the row_group_by of this SavedCustomTable.
         The row groupBy key list.
-        example:
+        For example:
           `[\"tagNamespace\", \"tagKey\", \"tagValue\", \"service\", \"skuName\", \"skuPartNumber\", \"unit\",
             \"compartmentName\", \"compartmentPath\", \"compartmentId\", \"platform\", \"region\", \"logicalAd\",
             \"resourceId\", \"tenantId\", \"tenantName\"]`
@@ -131,7 +129,7 @@ class SavedCustomTable(object):
         """
         Gets the column_group_by of this SavedCustomTable.
         The column groupBy key list.
-        example:
+        For example:
           `[\"tagNamespace\", \"tagKey\", \"tagValue\", \"service\", \"skuName\", \"skuPartNumber\", \"unit\",
             \"compartmentName\", \"compartmentPath\", \"compartmentId\", \"platform\", \"region\", \"logicalAd\",
             \"resourceId\", \"tenantId\", \"tenantName\"]`
@@ -147,7 +145,7 @@ class SavedCustomTable(object):
         """
         Sets the column_group_by of this SavedCustomTable.
         The column groupBy key list.
-        example:
+        For example:
           `[\"tagNamespace\", \"tagKey\", \"tagValue\", \"service\", \"skuName\", \"skuPartNumber\", \"unit\",
             \"compartmentName\", \"compartmentPath\", \"compartmentId\", \"platform\", \"region\", \"logicalAd\",
             \"resourceId\", \"tenantId\", \"tenantName\"]`

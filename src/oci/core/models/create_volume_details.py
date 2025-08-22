@@ -89,6 +89,10 @@ class CreateVolumeDetails(object):
             The value to assign to the xrc_kms_key_id property of this CreateVolumeDetails.
         :type xrc_kms_key_id: str
 
+        :param is_reservations_enabled:
+            The value to assign to the is_reservations_enabled property of this CreateVolumeDetails.
+        :type is_reservations_enabled: bool
+
         """
         self.swagger_types = {
             'availability_domain': 'str',
@@ -107,9 +111,9 @@ class CreateVolumeDetails(object):
             'is_auto_tune_enabled': 'bool',
             'block_volume_replicas': 'list[BlockVolumeReplicaDetails]',
             'autotune_policies': 'list[AutotunePolicy]',
-            'xrc_kms_key_id': 'str'
+            'xrc_kms_key_id': 'str',
+            'is_reservations_enabled': 'bool'
         }
-
         self.attribute_map = {
             'availability_domain': 'availabilityDomain',
             'backup_policy_id': 'backupPolicyId',
@@ -127,9 +131,9 @@ class CreateVolumeDetails(object):
             'is_auto_tune_enabled': 'isAutoTuneEnabled',
             'block_volume_replicas': 'blockVolumeReplicas',
             'autotune_policies': 'autotunePolicies',
-            'xrc_kms_key_id': 'xrcKmsKeyId'
+            'xrc_kms_key_id': 'xrcKmsKeyId',
+            'is_reservations_enabled': 'isReservationsEnabled'
         }
-
         self._availability_domain = None
         self._backup_policy_id = None
         self._compartment_id = None
@@ -147,6 +151,7 @@ class CreateVolumeDetails(object):
         self._block_volume_replicas = None
         self._autotune_policies = None
         self._xrc_kms_key_id = None
+        self._is_reservations_enabled = None
 
     @property
     def availability_domain(self):
@@ -635,6 +640,36 @@ class CreateVolumeDetails(object):
         :type: str
         """
         self._xrc_kms_key_id = xrc_kms_key_id
+
+    @property
+    def is_reservations_enabled(self):
+        """
+        Gets the is_reservations_enabled of this CreateVolumeDetails.
+        When set to true, enables SCSI Persistent Reservation (SCSI PR) for the volume. For more information, see
+        `Persistent Reservations`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/persistent-reservations.htm
+
+
+        :return: The is_reservations_enabled of this CreateVolumeDetails.
+        :rtype: bool
+        """
+        return self._is_reservations_enabled
+
+    @is_reservations_enabled.setter
+    def is_reservations_enabled(self, is_reservations_enabled):
+        """
+        Sets the is_reservations_enabled of this CreateVolumeDetails.
+        When set to true, enables SCSI Persistent Reservation (SCSI PR) for the volume. For more information, see
+        `Persistent Reservations`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/persistent-reservations.htm
+
+
+        :param is_reservations_enabled: The is_reservations_enabled of this CreateVolumeDetails.
+        :type: bool
+        """
+        self._is_reservations_enabled = is_reservations_enabled
 
     def __repr__(self):
         return formatted_flat_dict(self)

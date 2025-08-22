@@ -84,6 +84,10 @@ class BackupSummary(object):
     #: This constant has a value of "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
     DATABASE_EDITION_ENTERPRISE_EDITION_EXTREME_PERFORMANCE = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 
+    #: A constant which can be used with the database_edition property of a BackupSummary.
+    #: This constant has a value of "ENTERPRISE_EDITION_DEVELOPER"
+    DATABASE_EDITION_ENTERPRISE_EDITION_DEVELOPER = "ENTERPRISE_EDITION_DEVELOPER"
+
     #: A constant which can be used with the backup_destination_type property of a BackupSummary.
     #: This constant has a value of "OBJECT_STORE"
     BACKUP_DESTINATION_TYPE_OBJECT_STORE = "OBJECT_STORE"
@@ -91,6 +95,10 @@ class BackupSummary(object):
     #: A constant which can be used with the backup_destination_type property of a BackupSummary.
     #: This constant has a value of "DBRS"
     BACKUP_DESTINATION_TYPE_DBRS = "DBRS"
+
+    #: A constant which can be used with the backup_destination_type property of a BackupSummary.
+    #: This constant has a value of "AWS_S3"
+    BACKUP_DESTINATION_TYPE_AWS_S3 = "AWS_S3"
 
     def __init__(self, **kwargs):
         """
@@ -143,7 +151,7 @@ class BackupSummary(object):
 
         :param database_edition:
             The value to assign to the database_edition property of this BackupSummary.
-            Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", "ENTERPRISE_EDITION_DEVELOPER", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type database_edition: str
 
@@ -201,7 +209,7 @@ class BackupSummary(object):
 
         :param backup_destination_type:
             The value to assign to the backup_destination_type property of this BackupSummary.
-            Allowed values for this property are: "OBJECT_STORE", "DBRS", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "OBJECT_STORE", "DBRS", "AWS_S3", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type backup_destination_type: str
 
@@ -238,7 +246,6 @@ class BackupSummary(object):
             'backup_destination_type': 'str',
             'encryption_key_location_details': 'EncryptionKeyLocationDetails'
         }
-
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
@@ -267,7 +274,6 @@ class BackupSummary(object):
             'backup_destination_type': 'backupDestinationType',
             'encryption_key_location_details': 'encryptionKeyLocationDetails'
         }
-
         self._id = None
         self._compartment_id = None
         self._database_id = None
@@ -563,9 +569,10 @@ class BackupSummary(object):
     def database_edition(self):
         """
         Gets the database_edition of this BackupSummary.
-        The Oracle Database edition of the DB system from which the database backup was taken.
+        The Oracle Database Edition that applies to all the databases on the DB system.
+        Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 
-        Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", "ENTERPRISE_EDITION_DEVELOPER", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -578,13 +585,14 @@ class BackupSummary(object):
     def database_edition(self, database_edition):
         """
         Sets the database_edition of this BackupSummary.
-        The Oracle Database edition of the DB system from which the database backup was taken.
+        The Oracle Database Edition that applies to all the databases on the DB system.
+        Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 
 
         :param database_edition: The database_edition of this BackupSummary.
         :type: str
         """
-        allowed_values = ["STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"]
+        allowed_values = ["STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", "ENTERPRISE_EDITION_DEVELOPER"]
         if not value_allowed_none_or_none_sentinel(database_edition, allowed_values):
             database_edition = 'UNKNOWN_ENUM_VALUE'
         self._database_edition = database_edition
@@ -917,7 +925,7 @@ class BackupSummary(object):
         Gets the backup_destination_type of this BackupSummary.
         Type of the backup destination.
 
-        Allowed values for this property are: "OBJECT_STORE", "DBRS", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "OBJECT_STORE", "DBRS", "AWS_S3", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -936,7 +944,7 @@ class BackupSummary(object):
         :param backup_destination_type: The backup_destination_type of this BackupSummary.
         :type: str
         """
-        allowed_values = ["OBJECT_STORE", "DBRS"]
+        allowed_values = ["OBJECT_STORE", "DBRS", "AWS_S3"]
         if not value_allowed_none_or_none_sentinel(backup_destination_type, allowed_values):
             backup_destination_type = 'UNKNOWN_ENUM_VALUE'
         self._backup_destination_type = backup_destination_type

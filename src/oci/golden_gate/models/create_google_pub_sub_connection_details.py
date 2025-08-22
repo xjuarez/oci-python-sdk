@@ -23,7 +23,7 @@ class CreateGooglePubSubConnectionDetails(CreateConnectionDetails):
 
         :param connection_type:
             The value to assign to the connection_type property of this CreateGooglePubSubConnectionDetails.
-            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC"
+            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", "ICEBERG"
         :type connection_type: str
 
         :param display_name:
@@ -106,7 +106,6 @@ class CreateGooglePubSubConnectionDetails(CreateConnectionDetails):
             'service_account_key_file': 'str',
             'service_account_key_file_secret_id': 'str'
         }
-
         self.attribute_map = {
             'connection_type': 'connectionType',
             'display_name': 'displayName',
@@ -125,7 +124,6 @@ class CreateGooglePubSubConnectionDetails(CreateConnectionDetails):
             'service_account_key_file': 'serviceAccountKeyFile',
             'service_account_key_file_secret_id': 'serviceAccountKeyFileSecretId'
         }
-
         self._connection_type = None
         self._display_name = None
         self._description = None
@@ -171,7 +169,7 @@ class CreateGooglePubSubConnectionDetails(CreateConnectionDetails):
     @property
     def service_account_key_file(self):
         """
-        **[Required]** Gets the service_account_key_file of this CreateGooglePubSubConnectionDetails.
+        Gets the service_account_key_file of this CreateGooglePubSubConnectionDetails.
         The base64 encoded content of the service account key file containing
         the credentials required to use Google PubSub.
         Deprecated: This field is deprecated and replaced by \"serviceAccountKeyFileSecretId\". This field will be removed after February 15 2026.
@@ -201,7 +199,7 @@ class CreateGooglePubSubConnectionDetails(CreateConnectionDetails):
         """
         Gets the service_account_key_file_secret_id of this CreateGooglePubSubConnectionDetails.
         The `OCID`__ of the Secret where the content of the service account key file is stored,
-        which containing the credentials required to use Google PubSub.
+        which contains the credentials required to use Google PubSub.
         Note: When provided, 'serviceAccountKeyFile' field must not be provided.
 
         __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
@@ -217,7 +215,7 @@ class CreateGooglePubSubConnectionDetails(CreateConnectionDetails):
         """
         Sets the service_account_key_file_secret_id of this CreateGooglePubSubConnectionDetails.
         The `OCID`__ of the Secret where the content of the service account key file is stored,
-        which containing the credentials required to use Google PubSub.
+        which contains the credentials required to use Google PubSub.
         Note: When provided, 'serviceAccountKeyFile' field must not be provided.
 
         __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm

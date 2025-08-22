@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class CreateIssueTypeDetails(object):
     """
-    Details for creating the issue type of the support ticket.
+    Details for creating the issue type of the support request.
     """
 
     def __init__(self, **kwargs):
@@ -28,11 +28,9 @@ class CreateIssueTypeDetails(object):
         self.swagger_types = {
             'issue_type_key': 'str'
         }
-
         self.attribute_map = {
             'issue_type_key': 'issueTypeKey'
         }
-
         self._issue_type_key = None
 
     @property

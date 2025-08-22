@@ -100,6 +100,14 @@ class DbSystem(object):
             The value to assign to the subnet_id property of this DbSystem.
         :type subnet_id: str
 
+        :param nsg_ids:
+            The value to assign to the nsg_ids property of this DbSystem.
+        :type nsg_ids: list[str]
+
+        :param rest:
+            The value to assign to the rest property of this DbSystem.
+        :type rest: oci.mysql.models.RestDetails
+
         :param is_highly_available:
             The value to assign to the is_highly_available property of this DbSystem.
         :type is_highly_available: bool
@@ -234,6 +242,10 @@ class DbSystem(object):
             The value to assign to the secure_connections property of this DbSystem.
         :type secure_connections: oci.mysql.models.SecureConnectionDetails
 
+        :param encrypt_data:
+            The value to assign to the encrypt_data property of this DbSystem.
+        :type encrypt_data: oci.mysql.models.EncryptDataDetails
+
         :param database_mode:
             The value to assign to the database_mode property of this DbSystem.
             Allowed values for this property are: "READ_WRITE", "READ_ONLY", 'UNKNOWN_ENUM_VALUE'.
@@ -261,6 +273,8 @@ class DbSystem(object):
             'description': 'str',
             'compartment_id': 'str',
             'subnet_id': 'str',
+            'nsg_ids': 'list[str]',
+            'rest': 'RestDetails',
             'is_highly_available': 'bool',
             'current_placement': 'DbSystemPlacement',
             'is_heat_wave_cluster_attached': 'bool',
@@ -293,18 +307,20 @@ class DbSystem(object):
             'point_in_time_recovery_details': 'PointInTimeRecoveryDetails',
             'database_management': 'str',
             'secure_connections': 'SecureConnectionDetails',
+            'encrypt_data': 'EncryptDataDetails',
             'database_mode': 'str',
             'access_mode': 'str',
             'customer_contacts': 'list[CustomerContact]',
             'read_endpoint': 'ReadEndpointDetails'
         }
-
         self.attribute_map = {
             'id': 'id',
             'display_name': 'displayName',
             'description': 'description',
             'compartment_id': 'compartmentId',
             'subnet_id': 'subnetId',
+            'nsg_ids': 'nsgIds',
+            'rest': 'rest',
             'is_highly_available': 'isHighlyAvailable',
             'current_placement': 'currentPlacement',
             'is_heat_wave_cluster_attached': 'isHeatWaveClusterAttached',
@@ -337,17 +353,19 @@ class DbSystem(object):
             'point_in_time_recovery_details': 'pointInTimeRecoveryDetails',
             'database_management': 'databaseManagement',
             'secure_connections': 'secureConnections',
+            'encrypt_data': 'encryptData',
             'database_mode': 'databaseMode',
             'access_mode': 'accessMode',
             'customer_contacts': 'customerContacts',
             'read_endpoint': 'readEndpoint'
         }
-
         self._id = None
         self._display_name = None
         self._description = None
         self._compartment_id = None
         self._subnet_id = None
+        self._nsg_ids = None
+        self._rest = None
         self._is_highly_available = None
         self._current_placement = None
         self._is_heat_wave_cluster_attached = None
@@ -380,6 +398,7 @@ class DbSystem(object):
         self._point_in_time_recovery_details = None
         self._database_management = None
         self._secure_connections = None
+        self._encrypt_data = None
         self._database_mode = None
         self._access_mode = None
         self._customer_contacts = None
@@ -504,6 +523,50 @@ class DbSystem(object):
         :type: str
         """
         self._subnet_id = subnet_id
+
+    @property
+    def nsg_ids(self):
+        """
+        Gets the nsg_ids of this DbSystem.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :return: The nsg_ids of this DbSystem.
+        :rtype: list[str]
+        """
+        return self._nsg_ids
+
+    @nsg_ids.setter
+    def nsg_ids(self, nsg_ids):
+        """
+        Sets the nsg_ids of this DbSystem.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :param nsg_ids: The nsg_ids of this DbSystem.
+        :type: list[str]
+        """
+        self._nsg_ids = nsg_ids
+
+    @property
+    def rest(self):
+        """
+        Gets the rest of this DbSystem.
+
+        :return: The rest of this DbSystem.
+        :rtype: oci.mysql.models.RestDetails
+        """
+        return self._rest
+
+    @rest.setter
+    def rest(self, rest):
+        """
+        Sets the rest of this DbSystem.
+
+        :param rest: The rest of this DbSystem.
+        :type: oci.mysql.models.RestDetails
+        """
+        self._rest = rest
 
     @property
     def is_highly_available(self):
@@ -1308,6 +1371,26 @@ class DbSystem(object):
         :type: oci.mysql.models.SecureConnectionDetails
         """
         self._secure_connections = secure_connections
+
+    @property
+    def encrypt_data(self):
+        """
+        Gets the encrypt_data of this DbSystem.
+
+        :return: The encrypt_data of this DbSystem.
+        :rtype: oci.mysql.models.EncryptDataDetails
+        """
+        return self._encrypt_data
+
+    @encrypt_data.setter
+    def encrypt_data(self, encrypt_data):
+        """
+        Sets the encrypt_data of this DbSystem.
+
+        :param encrypt_data: The encrypt_data of this DbSystem.
+        :type: oci.mysql.models.EncryptDataDetails
+        """
+        self._encrypt_data = encrypt_data
 
     @property
     def database_mode(self):

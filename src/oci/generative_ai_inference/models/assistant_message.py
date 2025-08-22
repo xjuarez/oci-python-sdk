@@ -13,6 +13,9 @@ from oci.decorators import init_model_state_from_kwargs
 class AssistantMessage(Message):
     """
     Represents a single instance of assistant message.
+
+    Note: When responding to a tool call, set `content` to `null` (not `\"\"`).
+    This ensures the model correctly processes tool call messages in multi-step interactions.
     """
 
     def __init__(self, **kwargs):
@@ -23,7 +26,7 @@ class AssistantMessage(Message):
 
         :param role:
             The value to assign to the role property of this AssistantMessage.
-            Allowed values for this property are: "SYSTEM", "USER", "ASSISTANT", "TOOL"
+            Allowed values for this property are: "SYSTEM", "ASSISTANT", "USER", "TOOL", "DEVELOPER"
         :type role: str
 
         :param content:
@@ -34,6 +37,10 @@ class AssistantMessage(Message):
             The value to assign to the name property of this AssistantMessage.
         :type name: str
 
+        :param refusal:
+            The value to assign to the refusal property of this AssistantMessage.
+        :type refusal: str
+
         :param tool_calls:
             The value to assign to the tool_calls property of this AssistantMessage.
         :type tool_calls: list[oci.generative_ai_inference.models.ToolCall]
@@ -43,19 +50,20 @@ class AssistantMessage(Message):
             'role': 'str',
             'content': 'list[ChatContent]',
             'name': 'str',
+            'refusal': 'str',
             'tool_calls': 'list[ToolCall]'
         }
-
         self.attribute_map = {
             'role': 'role',
             'content': 'content',
             'name': 'name',
+            'refusal': 'refusal',
             'tool_calls': 'toolCalls'
         }
-
         self._role = None
         self._content = None
         self._name = None
+        self._refusal = None
         self._tool_calls = None
         self._role = 'ASSISTANT'
 
@@ -82,6 +90,30 @@ class AssistantMessage(Message):
         :type: str
         """
         self._name = name
+
+    @property
+    def refusal(self):
+        """
+        Gets the refusal of this AssistantMessage.
+        The refusal message by the assistant.
+
+
+        :return: The refusal of this AssistantMessage.
+        :rtype: str
+        """
+        return self._refusal
+
+    @refusal.setter
+    def refusal(self, refusal):
+        """
+        Sets the refusal of this AssistantMessage.
+        The refusal message by the assistant.
+
+
+        :param refusal: The refusal of this AssistantMessage.
+        :type: str
+        """
+        self._refusal = refusal
 
     @property
     def tool_calls(self):

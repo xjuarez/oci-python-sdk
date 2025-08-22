@@ -68,6 +68,10 @@ class DbSystemSummary(object):
     #: This constant has a value of "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
     DATABASE_EDITION_ENTERPRISE_EDITION_EXTREME_PERFORMANCE = "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"
 
+    #: A constant which can be used with the database_edition property of a DbSystemSummary.
+    #: This constant has a value of "ENTERPRISE_EDITION_DEVELOPER"
+    DATABASE_EDITION_ENTERPRISE_EDITION_DEVELOPER = "ENTERPRISE_EDITION_DEVELOPER"
+
     #: A constant which can be used with the lifecycle_state property of a DbSystemSummary.
     #: This constant has a value of "PROVISIONING"
     LIFECYCLE_STATE_PROVISIONING = "PROVISIONING"
@@ -229,7 +233,7 @@ class DbSystemSummary(object):
 
         :param database_edition:
             The value to assign to the database_edition property of this DbSystemSummary.
-            Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", "ENTERPRISE_EDITION_DEVELOPER", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type database_edition: str
 
@@ -331,6 +335,10 @@ class DbSystemSummary(object):
             The value to assign to the defined_tags property of this DbSystemSummary.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param system_tags:
+            The value to assign to the system_tags property of this DbSystemSummary.
+        :type system_tags: dict(str, dict(str, object))
+
         :param security_attributes:
             The value to assign to the security_attributes property of this DbSystemSummary.
         :type security_attributes: dict(str, dict(str, object))
@@ -397,12 +405,12 @@ class DbSystemSummary(object):
             'next_maintenance_run_id': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, dict(str, object))',
             'security_attributes': 'dict(str, dict(str, object))',
             'source_db_system_id': 'str',
             'point_in_time_data_disk_clone_timestamp': 'datetime',
             'data_collection_options': 'DataCollectionOptions'
         }
-
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
@@ -452,12 +460,12 @@ class DbSystemSummary(object):
             'next_maintenance_run_id': 'nextMaintenanceRunId',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'system_tags': 'systemTags',
             'security_attributes': 'securityAttributes',
             'source_db_system_id': 'sourceDbSystemId',
             'point_in_time_data_disk_clone_timestamp': 'pointInTimeDataDiskCloneTimestamp',
             'data_collection_options': 'dataCollectionOptions'
         }
-
         self._id = None
         self._compartment_id = None
         self._display_name = None
@@ -506,6 +514,7 @@ class DbSystemSummary(object):
         self._next_maintenance_run_id = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._system_tags = None
         self._security_attributes = None
         self._source_db_system_id = None
         self._point_in_time_data_disk_clone_timestamp = None
@@ -1163,9 +1172,10 @@ class DbSystemSummary(object):
     def database_edition(self):
         """
         **[Required]** Gets the database_edition of this DbSystemSummary.
-        The Oracle Database edition that applies to all the databases on the DB system.
+        The Oracle Database Edition that applies to all the databases on the DB system.
+        Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 
-        Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", "ENTERPRISE_EDITION_DEVELOPER", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -1178,13 +1188,14 @@ class DbSystemSummary(object):
     def database_edition(self, database_edition):
         """
         Sets the database_edition of this DbSystemSummary.
-        The Oracle Database edition that applies to all the databases on the DB system.
+        The Oracle Database Edition that applies to all the databases on the DB system.
+        Exadata DB systems and 2-node RAC DB systems require ENTERPRISE_EDITION_EXTREME_PERFORMANCE.
 
 
         :param database_edition: The database_edition of this DbSystemSummary.
         :type: str
         """
-        allowed_values = ["STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE"]
+        allowed_values = ["STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME_PERFORMANCE", "ENTERPRISE_EDITION_DEVELOPER"]
         if not value_allowed_none_or_none_sentinel(database_edition, allowed_values):
             database_edition = 'UNKNOWN_ENUM_VALUE'
         self._database_edition = database_edition
@@ -1838,6 +1849,36 @@ class DbSystemSummary(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def system_tags(self):
+        """
+        Gets the system_tags of this DbSystemSummary.
+        System tags for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+
+
+        :return: The system_tags of this DbSystemSummary.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._system_tags
+
+    @system_tags.setter
+    def system_tags(self, system_tags):
+        """
+        Sets the system_tags of this DbSystemSummary.
+        System tags for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+
+
+        :param system_tags: The system_tags of this DbSystemSummary.
+        :type: dict(str, dict(str, object))
+        """
+        self._system_tags = system_tags
 
     @property
     def security_attributes(self):

@@ -48,6 +48,14 @@ class CreateJobRunDetails(object):
             The value to assign to the job_environment_configuration_override_details property of this CreateJobRunDetails.
         :type job_environment_configuration_override_details: oci.data_science.models.JobEnvironmentConfigurationDetails
 
+        :param job_infrastructure_configuration_override_details:
+            The value to assign to the job_infrastructure_configuration_override_details property of this CreateJobRunDetails.
+        :type job_infrastructure_configuration_override_details: oci.data_science.models.JobInfrastructureConfigurationDetails
+
+        :param job_node_configuration_override_details:
+            The value to assign to the job_node_configuration_override_details property of this CreateJobRunDetails.
+        :type job_node_configuration_override_details: oci.data_science.models.JobNodeConfigurationDetails
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CreateJobRunDetails.
         :type freeform_tags: dict(str, str)
@@ -65,10 +73,11 @@ class CreateJobRunDetails(object):
             'job_configuration_override_details': 'JobConfigurationDetails',
             'job_log_configuration_override_details': 'JobLogConfigurationDetails',
             'job_environment_configuration_override_details': 'JobEnvironmentConfigurationDetails',
+            'job_infrastructure_configuration_override_details': 'JobInfrastructureConfigurationDetails',
+            'job_node_configuration_override_details': 'JobNodeConfigurationDetails',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'project_id': 'projectId',
             'compartment_id': 'compartmentId',
@@ -77,10 +86,11 @@ class CreateJobRunDetails(object):
             'job_configuration_override_details': 'jobConfigurationOverrideDetails',
             'job_log_configuration_override_details': 'jobLogConfigurationOverrideDetails',
             'job_environment_configuration_override_details': 'jobEnvironmentConfigurationOverrideDetails',
+            'job_infrastructure_configuration_override_details': 'jobInfrastructureConfigurationOverrideDetails',
+            'job_node_configuration_override_details': 'jobNodeConfigurationOverrideDetails',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
-
         self._project_id = None
         self._compartment_id = None
         self._display_name = None
@@ -88,6 +98,8 @@ class CreateJobRunDetails(object):
         self._job_configuration_override_details = None
         self._job_log_configuration_override_details = None
         self._job_environment_configuration_override_details = None
+        self._job_infrastructure_configuration_override_details = None
+        self._job_node_configuration_override_details = None
         self._freeform_tags = None
         self._defined_tags = None
 
@@ -258,6 +270,46 @@ class CreateJobRunDetails(object):
         :type: oci.data_science.models.JobEnvironmentConfigurationDetails
         """
         self._job_environment_configuration_override_details = job_environment_configuration_override_details
+
+    @property
+    def job_infrastructure_configuration_override_details(self):
+        """
+        Gets the job_infrastructure_configuration_override_details of this CreateJobRunDetails.
+
+        :return: The job_infrastructure_configuration_override_details of this CreateJobRunDetails.
+        :rtype: oci.data_science.models.JobInfrastructureConfigurationDetails
+        """
+        return self._job_infrastructure_configuration_override_details
+
+    @job_infrastructure_configuration_override_details.setter
+    def job_infrastructure_configuration_override_details(self, job_infrastructure_configuration_override_details):
+        """
+        Sets the job_infrastructure_configuration_override_details of this CreateJobRunDetails.
+
+        :param job_infrastructure_configuration_override_details: The job_infrastructure_configuration_override_details of this CreateJobRunDetails.
+        :type: oci.data_science.models.JobInfrastructureConfigurationDetails
+        """
+        self._job_infrastructure_configuration_override_details = job_infrastructure_configuration_override_details
+
+    @property
+    def job_node_configuration_override_details(self):
+        """
+        Gets the job_node_configuration_override_details of this CreateJobRunDetails.
+
+        :return: The job_node_configuration_override_details of this CreateJobRunDetails.
+        :rtype: oci.data_science.models.JobNodeConfigurationDetails
+        """
+        return self._job_node_configuration_override_details
+
+    @job_node_configuration_override_details.setter
+    def job_node_configuration_override_details(self, job_node_configuration_override_details):
+        """
+        Sets the job_node_configuration_override_details of this CreateJobRunDetails.
+
+        :param job_node_configuration_override_details: The job_node_configuration_override_details of this CreateJobRunDetails.
+        :type: oci.data_science.models.JobNodeConfigurationDetails
+        """
+        self._job_node_configuration_override_details = job_node_configuration_override_details
 
     @property
     def freeform_tags(self):

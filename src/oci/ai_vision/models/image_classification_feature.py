@@ -23,7 +23,7 @@ class ImageClassificationFeature(ImageFeature):
 
         :param feature_type:
             The value to assign to the feature_type property of this ImageClassificationFeature.
-            Allowed values for this property are: "IMAGE_CLASSIFICATION", "OBJECT_DETECTION", "TEXT_DETECTION", "FACE_DETECTION"
+            Allowed values for this property are: "IMAGE_CLASSIFICATION", "OBJECT_DETECTION", "TEXT_DETECTION", "FACE_DETECTION", "FACE_EMBEDDING"
         :type feature_type: str
 
         :param max_results:
@@ -40,13 +40,11 @@ class ImageClassificationFeature(ImageFeature):
             'max_results': 'int',
             'model_id': 'str'
         }
-
         self.attribute_map = {
             'feature_type': 'featureType',
             'max_results': 'maxResults',
             'model_id': 'modelId'
         }
-
         self._feature_type = None
         self._max_results = None
         self._model_id = None

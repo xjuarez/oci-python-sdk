@@ -53,14 +53,12 @@ class EmailRecipient(object):
             'email_id': 'str',
             'lifecycle_state': 'str'
         }
-
         self.attribute_map = {
             'first_name': 'firstName',
             'last_name': 'lastName',
             'email_id': 'emailId',
             'lifecycle_state': 'lifecycleState'
         }
-
         self._first_name = None
         self._last_name = None
         self._email_id = None
@@ -70,7 +68,7 @@ class EmailRecipient(object):
     def first_name(self):
         """
         Gets the first_name of this EmailRecipient.
-        the first name of the recipient.
+        The recipient first name.
 
 
         :return: The first_name of this EmailRecipient.
@@ -82,7 +80,7 @@ class EmailRecipient(object):
     def first_name(self, first_name):
         """
         Sets the first_name of this EmailRecipient.
-        the first name of the recipient.
+        The recipient first name.
 
 
         :param first_name: The first_name of this EmailRecipient.
@@ -94,7 +92,7 @@ class EmailRecipient(object):
     def last_name(self):
         """
         Gets the last_name of this EmailRecipient.
-        the last name of the recipient.
+        The recipient last name.
 
 
         :return: The last_name of this EmailRecipient.
@@ -106,7 +104,7 @@ class EmailRecipient(object):
     def last_name(self, last_name):
         """
         Sets the last_name of this EmailRecipient.
-        the last name of the recipient.
+        The recipient last name.
 
 
         :param last_name: The last_name of this EmailRecipient.
@@ -118,7 +116,7 @@ class EmailRecipient(object):
     def email_id(self):
         """
         **[Required]** Gets the email_id of this EmailRecipient.
-        the email of the recipient.
+        The recipient email address.
 
 
         :return: The email_id of this EmailRecipient.
@@ -130,7 +128,7 @@ class EmailRecipient(object):
     def email_id(self, email_id):
         """
         Sets the email_id of this EmailRecipient.
-        the email of the recipient.
+        The recipient email address.
 
 
         :param email_id: The email_id of this EmailRecipient.

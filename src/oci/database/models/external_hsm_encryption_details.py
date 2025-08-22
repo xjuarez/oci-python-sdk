@@ -23,7 +23,7 @@ class ExternalHsmEncryptionDetails(EncryptionKeyLocationDetails):
 
         :param provider_type:
             The value to assign to the provider_type property of this ExternalHsmEncryptionDetails.
-            Allowed values for this property are: "EXTERNAL"
+            Allowed values for this property are: "EXTERNAL", "AZURE"
         :type provider_type: str
 
         :param hsm_password:
@@ -35,12 +35,10 @@ class ExternalHsmEncryptionDetails(EncryptionKeyLocationDetails):
             'provider_type': 'str',
             'hsm_password': 'str'
         }
-
         self.attribute_map = {
             'provider_type': 'providerType',
             'hsm_password': 'hsmPassword'
         }
-
         self._provider_type = None
         self._hsm_password = None
         self._provider_type = 'EXTERNAL'

@@ -23,7 +23,7 @@ class CronSchedule(Schedule):
 
         :param type:
             The value to assign to the type property of this CronSchedule.
-            Allowed values for this property are: "FIXED_FREQUENCY", "CRON"
+            Allowed values for this property are: "FIXED_FREQUENCY", "CRON", "AUTO"
         :type type: str
 
         :param misfire_policy:
@@ -51,7 +51,6 @@ class CronSchedule(Schedule):
             'expression': 'str',
             'time_zone': 'str'
         }
-
         self.attribute_map = {
             'type': 'type',
             'misfire_policy': 'misfirePolicy',
@@ -59,7 +58,6 @@ class CronSchedule(Schedule):
             'expression': 'expression',
             'time_zone': 'timeZone'
         }
-
         self._type = None
         self._misfire_policy = None
         self._time_of_first_execution = None
@@ -70,7 +68,7 @@ class CronSchedule(Schedule):
     @property
     def expression(self):
         """
-        **[Required]** Gets the expression of this CronSchedule.
+        Gets the expression of this CronSchedule.
         Value in cron format.
 
 
@@ -94,7 +92,7 @@ class CronSchedule(Schedule):
     @property
     def time_zone(self):
         """
-        **[Required]** Gets the time_zone of this CronSchedule.
+        Gets the time_zone of this CronSchedule.
         Time zone, by default UTC.
 
 

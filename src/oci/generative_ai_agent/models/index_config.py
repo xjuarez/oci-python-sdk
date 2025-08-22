@@ -48,11 +48,9 @@ class IndexConfig(object):
         self.swagger_types = {
             'index_config_type': 'str'
         }
-
         self.attribute_map = {
             'index_config_type': 'indexConfigType'
         }
-
         self._index_config_type = None
 
     @staticmethod
@@ -79,10 +77,6 @@ class IndexConfig(object):
         """
         **[Required]** Gets the index_config_type of this IndexConfig.
         The type of index.
-        The allowed values are:
-        - `DEFAULT_INDEX_CONFIG`: DefaultIndexConfig allows the service to create and manage vector store on behalf of the customer.
-        - `OCI_OPEN_SEARCH_INDEX_CONFIG`: OciOpenSearchIndexConfig allows customer to configure their OpenSearch cluster.
-        - `OCI_DATABASE_CONFIG`: OciDatabaseConfig allows customer to configure their Database.
 
         Allowed values for this property are: "DEFAULT_INDEX_CONFIG", "OCI_OPEN_SEARCH_INDEX_CONFIG", "OCI_DATABASE_CONFIG", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -98,10 +92,6 @@ class IndexConfig(object):
         """
         Sets the index_config_type of this IndexConfig.
         The type of index.
-        The allowed values are:
-        - `DEFAULT_INDEX_CONFIG`: DefaultIndexConfig allows the service to create and manage vector store on behalf of the customer.
-        - `OCI_OPEN_SEARCH_INDEX_CONFIG`: OciOpenSearchIndexConfig allows customer to configure their OpenSearch cluster.
-        - `OCI_DATABASE_CONFIG`: OciDatabaseConfig allows customer to configure their Database.
 
 
         :param index_config_type: The index_config_type of this IndexConfig.

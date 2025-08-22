@@ -48,6 +48,7 @@ Mysql
     oci.mysql.models.ConfigurationSummary
     oci.mysql.models.ConfigurationVariables
     oci.mysql.models.CopyBackupDetails
+    oci.mysql.models.CopyPolicy
     oci.mysql.models.CreateBackupDetails
     oci.mysql.models.CreateBackupPolicyDetails
     oci.mysql.models.CreateChannelDetails
@@ -66,6 +67,7 @@ Mysql
     oci.mysql.models.CreateMaintenanceDetails
     oci.mysql.models.CreateReadEndpointDetails
     oci.mysql.models.CreateReplicaDetails
+    oci.mysql.models.CreateRestDetails
     oci.mysql.models.CustomerContact
     oci.mysql.models.DataStorage
     oci.mysql.models.DataStorageDetails
@@ -81,6 +83,7 @@ Mysql
     oci.mysql.models.DbSystemSourceImportFromUrl
     oci.mysql.models.DbSystemSummary
     oci.mysql.models.DeletionPolicyDetails
+    oci.mysql.models.EncryptDataDetails
     oci.mysql.models.ErrorOnAnonymousHandling
     oci.mysql.models.HeatWaveCluster
     oci.mysql.models.HeatWaveClusterMemoryEstimate
@@ -97,6 +100,7 @@ Mysql
     oci.mysql.models.Replica
     oci.mysql.models.ReplicaOverrides
     oci.mysql.models.ReplicaSummary
+    oci.mysql.models.RestDetails
     oci.mysql.models.RestartDbSystemDetails
     oci.mysql.models.SecureConnectionDetails
     oci.mysql.models.ShapeSummary
@@ -115,6 +119,7 @@ Mysql
     oci.mysql.models.UpdateMaintenanceDetails
     oci.mysql.models.UpdateReadEndpointDetails
     oci.mysql.models.UpdateReplicaDetails
+    oci.mysql.models.UpdateRestDetails
     oci.mysql.models.Version
     oci.mysql.models.VersionSummary
     oci.mysql.models.WorkRequest

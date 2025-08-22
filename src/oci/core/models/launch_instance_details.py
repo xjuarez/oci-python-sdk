@@ -137,6 +137,10 @@ class LaunchInstanceDetails(object):
             The value to assign to the platform_config property of this LaunchInstanceDetails.
         :type platform_config: oci.core.models.LaunchInstancePlatformConfig
 
+        :param placement_constraint_details:
+            The value to assign to the placement_constraint_details property of this LaunchInstanceDetails.
+        :type placement_constraint_details: oci.core.models.PlacementConstraintDetails
+
         :param instance_configuration_id:
             The value to assign to the instance_configuration_id property of this LaunchInstanceDetails.
         :type instance_configuration_id: str
@@ -176,10 +180,10 @@ class LaunchInstanceDetails(object):
             'launch_volume_attachments': 'list[LaunchAttachVolumeDetails]',
             'is_pv_encryption_in_transit_enabled': 'bool',
             'platform_config': 'LaunchInstancePlatformConfig',
+            'placement_constraint_details': 'PlacementConstraintDetails',
             'instance_configuration_id': 'str',
             'licensing_configs': 'list[LaunchInstanceLicensingConfig]'
         }
-
         self.attribute_map = {
             'availability_domain': 'availabilityDomain',
             'capacity_reservation_id': 'capacityReservationId',
@@ -210,10 +214,10 @@ class LaunchInstanceDetails(object):
             'launch_volume_attachments': 'launchVolumeAttachments',
             'is_pv_encryption_in_transit_enabled': 'isPvEncryptionInTransitEnabled',
             'platform_config': 'platformConfig',
+            'placement_constraint_details': 'placementConstraintDetails',
             'instance_configuration_id': 'instanceConfigurationId',
             'licensing_configs': 'licensingConfigs'
         }
-
         self._availability_domain = None
         self._capacity_reservation_id = None
         self._compartment_id = None
@@ -243,6 +247,7 @@ class LaunchInstanceDetails(object):
         self._launch_volume_attachments = None
         self._is_pv_encryption_in_transit_enabled = None
         self._platform_config = None
+        self._placement_constraint_details = None
         self._instance_configuration_id = None
         self._licensing_configs = None
 
@@ -1179,6 +1184,26 @@ class LaunchInstanceDetails(object):
         :type: oci.core.models.LaunchInstancePlatformConfig
         """
         self._platform_config = platform_config
+
+    @property
+    def placement_constraint_details(self):
+        """
+        Gets the placement_constraint_details of this LaunchInstanceDetails.
+
+        :return: The placement_constraint_details of this LaunchInstanceDetails.
+        :rtype: oci.core.models.PlacementConstraintDetails
+        """
+        return self._placement_constraint_details
+
+    @placement_constraint_details.setter
+    def placement_constraint_details(self, placement_constraint_details):
+        """
+        Sets the placement_constraint_details of this LaunchInstanceDetails.
+
+        :param placement_constraint_details: The placement_constraint_details of this LaunchInstanceDetails.
+        :type: oci.core.models.PlacementConstraintDetails
+        """
+        self._placement_constraint_details = placement_constraint_details
 
     @property
     def instance_configuration_id(self):

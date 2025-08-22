@@ -31,6 +31,18 @@ class CohereChatRequest(BaseChatRequest):
     #: This constant has a value of "FAST"
     CITATION_QUALITY_FAST = "FAST"
 
+    #: A constant which can be used with the safety_mode property of a CohereChatRequest.
+    #: This constant has a value of "CONTEXTUAL"
+    SAFETY_MODE_CONTEXTUAL = "CONTEXTUAL"
+
+    #: A constant which can be used with the safety_mode property of a CohereChatRequest.
+    #: This constant has a value of "STRICT"
+    SAFETY_MODE_STRICT = "STRICT"
+
+    #: A constant which can be used with the safety_mode property of a CohereChatRequest.
+    #: This constant has a value of "OFF"
+    SAFETY_MODE_OFF = "OFF"
+
     def __init__(self, **kwargs):
         """
         Initializes a new CohereChatRequest object with values from keyword arguments. The default value of the :py:attr:`~oci.generative_ai_inference.models.CohereChatRequest.api_format` attribute
@@ -69,6 +81,10 @@ class CohereChatRequest(BaseChatRequest):
         :param is_stream:
             The value to assign to the is_stream property of this CohereChatRequest.
         :type is_stream: bool
+
+        :param stream_options:
+            The value to assign to the stream_options property of this CohereChatRequest.
+        :type stream_options: oci.generative_ai_inference.models.StreamOptions
 
         :param max_tokens:
             The value to assign to the max_tokens property of this CohereChatRequest.
@@ -136,6 +152,11 @@ class CohereChatRequest(BaseChatRequest):
             Allowed values for this property are: "ACCURATE", "FAST"
         :type citation_quality: str
 
+        :param safety_mode:
+            The value to assign to the safety_mode property of this CohereChatRequest.
+            Allowed values for this property are: "CONTEXTUAL", "STRICT", "OFF"
+        :type safety_mode: str
+
         """
         self.swagger_types = {
             'api_format': 'str',
@@ -146,6 +167,7 @@ class CohereChatRequest(BaseChatRequest):
             'is_search_queries_only': 'bool',
             'preamble_override': 'str',
             'is_stream': 'bool',
+            'stream_options': 'StreamOptions',
             'max_tokens': 'int',
             'max_input_tokens': 'int',
             'temperature': 'float',
@@ -161,9 +183,9 @@ class CohereChatRequest(BaseChatRequest):
             'is_force_single_step': 'bool',
             'stop_sequences': 'list[str]',
             'is_raw_prompting': 'bool',
-            'citation_quality': 'str'
+            'citation_quality': 'str',
+            'safety_mode': 'str'
         }
-
         self.attribute_map = {
             'api_format': 'apiFormat',
             'message': 'message',
@@ -173,6 +195,7 @@ class CohereChatRequest(BaseChatRequest):
             'is_search_queries_only': 'isSearchQueriesOnly',
             'preamble_override': 'preambleOverride',
             'is_stream': 'isStream',
+            'stream_options': 'streamOptions',
             'max_tokens': 'maxTokens',
             'max_input_tokens': 'maxInputTokens',
             'temperature': 'temperature',
@@ -188,9 +211,9 @@ class CohereChatRequest(BaseChatRequest):
             'is_force_single_step': 'isForceSingleStep',
             'stop_sequences': 'stopSequences',
             'is_raw_prompting': 'isRawPrompting',
-            'citation_quality': 'citationQuality'
+            'citation_quality': 'citationQuality',
+            'safety_mode': 'safetyMode'
         }
-
         self._api_format = None
         self._message = None
         self._chat_history = None
@@ -199,6 +222,7 @@ class CohereChatRequest(BaseChatRequest):
         self._is_search_queries_only = None
         self._preamble_override = None
         self._is_stream = None
+        self._stream_options = None
         self._max_tokens = None
         self._max_input_tokens = None
         self._temperature = None
@@ -215,6 +239,7 @@ class CohereChatRequest(BaseChatRequest):
         self._stop_sequences = None
         self._is_raw_prompting = None
         self._citation_quality = None
+        self._safety_mode = None
         self._api_format = 'COHERE'
 
     @property
@@ -400,10 +425,30 @@ class CohereChatRequest(BaseChatRequest):
         self._is_stream = is_stream
 
     @property
+    def stream_options(self):
+        """
+        Gets the stream_options of this CohereChatRequest.
+
+        :return: The stream_options of this CohereChatRequest.
+        :rtype: oci.generative_ai_inference.models.StreamOptions
+        """
+        return self._stream_options
+
+    @stream_options.setter
+    def stream_options(self, stream_options):
+        """
+        Sets the stream_options of this CohereChatRequest.
+
+        :param stream_options: The stream_options of this CohereChatRequest.
+        :type: oci.generative_ai_inference.models.StreamOptions
+        """
+        self._stream_options = stream_options
+
+    @property
     def max_tokens(self):
         """
         Gets the max_tokens of this CohereChatRequest.
-        The maximum number of output tokens that the model will generate for the response.
+        The maximum number of output tokens that the model will generate for the response. The token count of your prompt plus maxTokens must not exceed the model's context length. For on-demand inferencing, the response length is capped at 4,000 tokens for each run.
 
 
         :return: The max_tokens of this CohereChatRequest.
@@ -415,7 +460,7 @@ class CohereChatRequest(BaseChatRequest):
     def max_tokens(self, max_tokens):
         """
         Sets the max_tokens of this CohereChatRequest.
-        The maximum number of output tokens that the model will generate for the response.
+        The maximum number of output tokens that the model will generate for the response. The token count of your prompt plus maxTokens must not exceed the model's context length. For on-demand inferencing, the response length is capped at 4,000 tokens for each run.
 
 
         :param max_tokens: The max_tokens of this CohereChatRequest.
@@ -810,6 +855,49 @@ class CohereChatRequest(BaseChatRequest):
                 f"Invalid value for `citation_quality`, must be None or one of {allowed_values}"
             )
         self._citation_quality = citation_quality
+
+    @property
+    def safety_mode(self):
+        """
+        Gets the safety_mode of this CohereChatRequest.
+        Safety mode: Adds a safety instruction for the model to use when generating responses.
+        Contextual: (Default) Puts fewer constraints on the output. It maintains core protections by aiming to reject harmful or illegal suggestions, but it allows profanity and some toxic content, sexually explicit and violent content, and content that contains medical, financial, or legal information. Contextual mode is suited for entertainment, creative, or academic use.
+        Strict: Aims to avoid sensitive topics, such as violent or sexual acts and profanity. This mode aims to provide a safer experience by prohibiting responses or recommendations that it finds inappropriate. Strict mode is suited for corporate use, such as for corporate communications and customer service.
+        Off: No safety mode is applied.
+        Note: This parameter is only compatible with models cohere.command-r-08-2024, cohere.command-r-plus-08-2024 and Cohere models released after these models. See `release dates`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/generative-ai/deprecating.htm
+
+        Allowed values for this property are: "CONTEXTUAL", "STRICT", "OFF"
+
+
+        :return: The safety_mode of this CohereChatRequest.
+        :rtype: str
+        """
+        return self._safety_mode
+
+    @safety_mode.setter
+    def safety_mode(self, safety_mode):
+        """
+        Sets the safety_mode of this CohereChatRequest.
+        Safety mode: Adds a safety instruction for the model to use when generating responses.
+        Contextual: (Default) Puts fewer constraints on the output. It maintains core protections by aiming to reject harmful or illegal suggestions, but it allows profanity and some toxic content, sexually explicit and violent content, and content that contains medical, financial, or legal information. Contextual mode is suited for entertainment, creative, or academic use.
+        Strict: Aims to avoid sensitive topics, such as violent or sexual acts and profanity. This mode aims to provide a safer experience by prohibiting responses or recommendations that it finds inappropriate. Strict mode is suited for corporate use, such as for corporate communications and customer service.
+        Off: No safety mode is applied.
+        Note: This parameter is only compatible with models cohere.command-r-08-2024, cohere.command-r-plus-08-2024 and Cohere models released after these models. See `release dates`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/generative-ai/deprecating.htm
+
+
+        :param safety_mode: The safety_mode of this CohereChatRequest.
+        :type: str
+        """
+        allowed_values = ["CONTEXTUAL", "STRICT", "OFF"]
+        if not value_allowed_none_or_none_sentinel(safety_mode, allowed_values):
+            raise ValueError(
+                f"Invalid value for `safety_mode`, must be None or one of {allowed_values}"
+            )
+        self._safety_mode = safety_mode
 
     def __repr__(self):
         return formatted_flat_dict(self)

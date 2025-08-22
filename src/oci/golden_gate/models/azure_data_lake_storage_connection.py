@@ -39,7 +39,7 @@ class AzureDataLakeStorageConnection(Connection):
 
         :param connection_type:
             The value to assign to the connection_type property of this AzureDataLakeStorageConnection.
-            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", "ICEBERG", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type connection_type: str
 
@@ -163,6 +163,10 @@ class AzureDataLakeStorageConnection(Connection):
             The value to assign to the client_secret_secret_id property of this AzureDataLakeStorageConnection.
         :type client_secret_secret_id: str
 
+        :param azure_authority_host:
+            The value to assign to the azure_authority_host property of this AzureDataLakeStorageConnection.
+        :type azure_authority_host: str
+
         """
         self.swagger_types = {
             'connection_type': 'str',
@@ -193,9 +197,9 @@ class AzureDataLakeStorageConnection(Connection):
             'endpoint': 'str',
             'account_key_secret_id': 'str',
             'sas_token_secret_id': 'str',
-            'client_secret_secret_id': 'str'
+            'client_secret_secret_id': 'str',
+            'azure_authority_host': 'str'
         }
-
         self.attribute_map = {
             'connection_type': 'connectionType',
             'id': 'id',
@@ -225,9 +229,9 @@ class AzureDataLakeStorageConnection(Connection):
             'endpoint': 'endpoint',
             'account_key_secret_id': 'accountKeySecretId',
             'sas_token_secret_id': 'sasTokenSecretId',
-            'client_secret_secret_id': 'clientSecretSecretId'
+            'client_secret_secret_id': 'clientSecretSecretId',
+            'azure_authority_host': 'azureAuthorityHost'
         }
-
         self._connection_type = None
         self._id = None
         self._display_name = None
@@ -257,6 +261,7 @@ class AzureDataLakeStorageConnection(Connection):
         self._account_key_secret_id = None
         self._sas_token_secret_id = None
         self._client_secret_secret_id = None
+        self._azure_authority_host = None
         self._connection_type = 'AZURE_DATA_LAKE_STORAGE'
 
     @property
@@ -510,6 +515,38 @@ class AzureDataLakeStorageConnection(Connection):
         :type: str
         """
         self._client_secret_secret_id = client_secret_secret_id
+
+    @property
+    def azure_authority_host(self):
+        """
+        Gets the azure_authority_host of this AzureDataLakeStorageConnection.
+        The endpoint used for authentication with Microsoft Entra ID (formerly Azure Active Directory).
+        Default value: https://login.microsoftonline.com
+        When connecting to a non-public Azure Cloud, the endpoint must be provided, eg:
+        * Azure China: https://login.chinacloudapi.cn/
+        * Azure US Government: https://login.microsoftonline.us/
+
+
+        :return: The azure_authority_host of this AzureDataLakeStorageConnection.
+        :rtype: str
+        """
+        return self._azure_authority_host
+
+    @azure_authority_host.setter
+    def azure_authority_host(self, azure_authority_host):
+        """
+        Sets the azure_authority_host of this AzureDataLakeStorageConnection.
+        The endpoint used for authentication with Microsoft Entra ID (formerly Azure Active Directory).
+        Default value: https://login.microsoftonline.com
+        When connecting to a non-public Azure Cloud, the endpoint must be provided, eg:
+        * Azure China: https://login.chinacloudapi.cn/
+        * Azure US Government: https://login.microsoftonline.us/
+
+
+        :param azure_authority_host: The azure_authority_host of this AzureDataLakeStorageConnection.
+        :type: str
+        """
+        self._azure_authority_host = azure_authority_host
 
     def __repr__(self):
         return formatted_flat_dict(self)

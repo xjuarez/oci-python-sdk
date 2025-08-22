@@ -27,11 +27,16 @@ class CredentialDetails(object):
     #: This constant has a value of "CREDENTIALS_BY_IAM"
     CREDENTIAL_TYPE_CREDENTIALS_BY_IAM = "CREDENTIALS_BY_IAM"
 
+    #: A constant which can be used with the credential_type property of a CredentialDetails.
+    #: This constant has a value of "CREDENTIALS_BY_NAMED_CREDS"
+    CREDENTIAL_TYPE_CREDENTIALS_BY_NAMED_CREDS = "CREDENTIALS_BY_NAMED_CREDS"
+
     def __init__(self, **kwargs):
         """
         Initializes a new CredentialDetails object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
+        * :class:`~oci.opsi.models.CredentialByNamedCredentials`
         * :class:`~oci.opsi.models.CredentialsBySource`
         * :class:`~oci.opsi.models.CredentialByVault`
         * :class:`~oci.opsi.models.CredentialByIam`
@@ -44,7 +49,7 @@ class CredentialDetails(object):
 
         :param credential_type:
             The value to assign to the credential_type property of this CredentialDetails.
-            Allowed values for this property are: "CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM", "CREDENTIALS_BY_NAMED_CREDS", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type credential_type: str
 
@@ -53,12 +58,10 @@ class CredentialDetails(object):
             'credential_source_name': 'str',
             'credential_type': 'str'
         }
-
         self.attribute_map = {
             'credential_source_name': 'credentialSourceName',
             'credential_type': 'credentialType'
         }
-
         self._credential_source_name = None
         self._credential_type = None
 
@@ -69,6 +72,9 @@ class CredentialDetails(object):
         use the info in the hash to return the class of the subtype.
         """
         type = object_dictionary['credentialType']
+
+        if type == 'CREDENTIALS_BY_NAMED_CREDS':
+            return 'CredentialByNamedCredentials'
 
         if type == 'CREDENTIALS_BY_SOURCE':
             return 'CredentialsBySource'
@@ -84,8 +90,8 @@ class CredentialDetails(object):
     @property
     def credential_source_name(self):
         """
-        **[Required]** Gets the credential_source_name of this CredentialDetails.
-        Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+        Gets the credential_source_name of this CredentialDetails.
+        Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
 
 
         :return: The credential_source_name of this CredentialDetails.
@@ -97,7 +103,7 @@ class CredentialDetails(object):
     def credential_source_name(self, credential_source_name):
         """
         Sets the credential_source_name of this CredentialDetails.
-        Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+        Credential source name that had been added in Management Agent wallet. This value is only required when Credential set by CREDENTIALS_BY_SOURCE and is optional properties for ther others.
 
 
         :param credential_source_name: The credential_source_name of this CredentialDetails.
@@ -111,7 +117,7 @@ class CredentialDetails(object):
         **[Required]** Gets the credential_type of this CredentialDetails.
         CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database.
 
-        Allowed values for this property are: "CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM", "CREDENTIALS_BY_NAMED_CREDS", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -130,7 +136,7 @@ class CredentialDetails(object):
         :param credential_type: The credential_type of this CredentialDetails.
         :type: str
         """
-        allowed_values = ["CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM"]
+        allowed_values = ["CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM", "CREDENTIALS_BY_NAMED_CREDS"]
         if not value_allowed_none_or_none_sentinel(credential_type, allowed_values):
             credential_type = 'UNKNOWN_ENUM_VALUE'
         self._credential_type = credential_type

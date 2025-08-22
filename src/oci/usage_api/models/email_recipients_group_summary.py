@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class EmailRecipientsGroupSummary(object):
     """
-    Email recipients group summary for the list recipients groups.
+    The email recipients group summary for the recipients group list.
     """
 
     def __init__(self, **kwargs):
@@ -58,7 +58,6 @@ class EmailRecipientsGroupSummary(object):
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
@@ -68,7 +67,6 @@ class EmailRecipientsGroupSummary(object):
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
         }
-
         self._id = None
         self._compartment_id = None
         self._recipients_list = None
@@ -129,7 +127,7 @@ class EmailRecipientsGroupSummary(object):
     def recipients_list(self):
         """
         **[Required]** Gets the recipients_list of this EmailRecipientsGroupSummary.
-        The list of recipient will receive the usage statement email.
+        The list of recipients that will receive usage statement emails.
 
 
         :return: The recipients_list of this EmailRecipientsGroupSummary.
@@ -141,7 +139,7 @@ class EmailRecipientsGroupSummary(object):
     def recipients_list(self, recipients_list):
         """
         Sets the recipients_list of this EmailRecipientsGroupSummary.
-        The list of recipient will receive the usage statement email.
+        The list of recipients that will receive usage statement emails.
 
 
         :param recipients_list: The recipients_list of this EmailRecipientsGroupSummary.
@@ -153,7 +151,7 @@ class EmailRecipientsGroupSummary(object):
     def lifecycle_state(self):
         """
         **[Required]** Gets the lifecycle_state of this EmailRecipientsGroupSummary.
-        The email recipient group lifecycle state.
+        The email recipients group lifecycle state.
 
 
         :return: The lifecycle_state of this EmailRecipientsGroupSummary.
@@ -165,7 +163,7 @@ class EmailRecipientsGroupSummary(object):
     def lifecycle_state(self, lifecycle_state):
         """
         Sets the lifecycle_state of this EmailRecipientsGroupSummary.
-        The email recipient group lifecycle state.
+        The email recipients group lifecycle state.
 
 
         :param lifecycle_state: The lifecycle_state of this EmailRecipientsGroupSummary.

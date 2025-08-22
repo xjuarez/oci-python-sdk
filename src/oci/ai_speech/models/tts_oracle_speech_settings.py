@@ -78,14 +78,12 @@ class TtsOracleSpeechSettings(object):
             'output_format': 'str',
             'speech_mark_types': 'list[str]'
         }
-
         self.attribute_map = {
             'text_type': 'textType',
             'sample_rate_in_hz': 'sampleRateInHz',
             'output_format': 'outputFormat',
             'speech_mark_types': 'speechMarkTypes'
         }
-
         self._text_type = None
         self._sample_rate_in_hz = None
         self._output_format = None
@@ -97,7 +95,7 @@ class TtsOracleSpeechSettings(object):
         Gets the text_type of this TtsOracleSpeechSettings.
         The format in which the input text has been supplied i.e., Text or SSML. The supported text types are:
         - TEXT
-        - SSML
+        - SSML : This is only supported for en-US language.
 
         Allowed values for this property are: "TEXT", "SSML"
 
@@ -113,7 +111,7 @@ class TtsOracleSpeechSettings(object):
         Sets the text_type of this TtsOracleSpeechSettings.
         The format in which the input text has been supplied i.e., Text or SSML. The supported text types are:
         - TEXT
-        - SSML
+        - SSML : This is only supported for en-US language.
 
 
         :param text_type: The text_type of this TtsOracleSpeechSettings.

@@ -60,6 +60,10 @@ class MonitoredResourceTaskSummary(object):
             The value to assign to the name property of this MonitoredResourceTaskSummary.
         :type name: str
 
+        :param type:
+            The value to assign to the type property of this MonitoredResourceTaskSummary.
+        :type type: str
+
         :param task_details:
             The value to assign to the task_details property of this MonitoredResourceTaskSummary.
         :type task_details: oci.stack_monitoring.models.MonitoredResourceTaskDetails
@@ -98,6 +102,7 @@ class MonitoredResourceTaskSummary(object):
         self.swagger_types = {
             'id': 'str',
             'name': 'str',
+            'type': 'str',
             'task_details': 'MonitoredResourceTaskDetails',
             'work_request_ids': 'list[str]',
             'time_created': 'datetime',
@@ -107,10 +112,10 @@ class MonitoredResourceTaskSummary(object):
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
+            'type': 'type',
             'task_details': 'taskDetails',
             'work_request_ids': 'workRequestIds',
             'time_created': 'timeCreated',
@@ -120,9 +125,9 @@ class MonitoredResourceTaskSummary(object):
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
         }
-
         self._id = None
         self._name = None
+        self._type = None
         self._task_details = None
         self._work_request_ids = None
         self._time_created = None
@@ -183,6 +188,30 @@ class MonitoredResourceTaskSummary(object):
         :type: str
         """
         self._name = name
+
+    @property
+    def type(self):
+        """
+        Gets the type of this MonitoredResourceTaskSummary.
+        Type of the task.
+
+
+        :return: The type of this MonitoredResourceTaskSummary.
+        :rtype: str
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        """
+        Sets the type of this MonitoredResourceTaskSummary.
+        Type of the task.
+
+
+        :param type: The type of this MonitoredResourceTaskSummary.
+        :type: str
+        """
+        self._type = type
 
     @property
     def task_details(self):

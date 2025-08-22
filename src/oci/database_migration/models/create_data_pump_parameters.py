@@ -39,6 +39,10 @@ class CreateDataPumpParameters(object):
     #: This constant has a value of "SKIP"
     TABLE_EXISTS_ACTION_SKIP = "SKIP"
 
+    #: A constant which can be used with the table_exists_action property of a CreateDataPumpParameters.
+    #: This constant has a value of "UNSPECIFIED"
+    TABLE_EXISTS_ACTION_UNSPECIFIED = "UNSPECIFIED"
+
     def __init__(self, **kwargs):
         """
         Initializes a new CreateDataPumpParameters object with values from keyword arguments.
@@ -55,7 +59,7 @@ class CreateDataPumpParameters(object):
 
         :param table_exists_action:
             The value to assign to the table_exists_action property of this CreateDataPumpParameters.
-            Allowed values for this property are: "TRUNCATE", "REPLACE", "APPEND", "SKIP"
+            Allowed values for this property are: "TRUNCATE", "REPLACE", "APPEND", "SKIP", "UNSPECIFIED"
         :type table_exists_action: str
 
         :param exclude_parameters:
@@ -79,7 +83,6 @@ class CreateDataPumpParameters(object):
             'import_parallelism_degree': 'int',
             'export_parallelism_degree': 'int'
         }
-
         self.attribute_map = {
             'is_cluster': 'isCluster',
             'estimate': 'estimate',
@@ -88,7 +91,6 @@ class CreateDataPumpParameters(object):
             'import_parallelism_degree': 'importParallelismDegree',
             'export_parallelism_degree': 'exportParallelismDegree'
         }
-
         self._is_cluster = None
         self._estimate = None
         self._table_exists_action = None
@@ -157,7 +159,7 @@ class CreateDataPumpParameters(object):
         Gets the table_exists_action of this CreateDataPumpParameters.
         IMPORT: Specifies the action to be performed when data is loaded into a preexisting table.
 
-        Allowed values for this property are: "TRUNCATE", "REPLACE", "APPEND", "SKIP"
+        Allowed values for this property are: "TRUNCATE", "REPLACE", "APPEND", "SKIP", "UNSPECIFIED"
 
 
         :return: The table_exists_action of this CreateDataPumpParameters.
@@ -175,7 +177,7 @@ class CreateDataPumpParameters(object):
         :param table_exists_action: The table_exists_action of this CreateDataPumpParameters.
         :type: str
         """
-        allowed_values = ["TRUNCATE", "REPLACE", "APPEND", "SKIP"]
+        allowed_values = ["TRUNCATE", "REPLACE", "APPEND", "SKIP", "UNSPECIFIED"]
         if not value_allowed_none_or_none_sentinel(table_exists_action, allowed_values):
             raise ValueError(
                 f"Invalid value for `table_exists_action`, must be None or one of {allowed_values}"

@@ -31,13 +31,23 @@ class ConfigSummary(object):
     #: This constant has a value of "OPTIONS"
     CONFIG_TYPE_OPTIONS = "OPTIONS"
 
+    #: A constant which can be used with the config_type property of a ConfigSummary.
+    #: This constant has a value of "AGENT"
+    CONFIG_TYPE_AGENT = "AGENT"
+
+    #: A constant which can be used with the config_type property of a ConfigSummary.
+    #: This constant has a value of "MACS_APM_EXTENSION"
+    CONFIG_TYPE_MACS_APM_EXTENSION = "MACS_APM_EXTENSION"
+
     def __init__(self, **kwargs):
         """
         Initializes a new ConfigSummary object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
+        * :class:`~oci.apm_config.models.MacsApmExtensionSummary`
         * :class:`~oci.apm_config.models.MetricGroupSummary`
         * :class:`~oci.apm_config.models.ApdexRulesSummary`
+        * :class:`~oci.apm_config.models.AgentConfigSummary`
         * :class:`~oci.apm_config.models.SpanFilterSummary`
         * :class:`~oci.apm_config.models.OptionsSummary`
 
@@ -49,7 +59,7 @@ class ConfigSummary(object):
 
         :param config_type:
             The value to assign to the config_type property of this ConfigSummary.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type config_type: str
 
@@ -81,6 +91,10 @@ class ConfigSummary(object):
             The value to assign to the defined_tags property of this ConfigSummary.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param system_tags:
+            The value to assign to the system_tags property of this ConfigSummary.
+        :type system_tags: dict(str, dict(str, object))
+
         """
         self.swagger_types = {
             'id': 'str',
@@ -91,9 +105,9 @@ class ConfigSummary(object):
             'updated_by': 'str',
             'etag': 'str',
             'freeform_tags': 'dict(str, str)',
-            'defined_tags': 'dict(str, dict(str, object))'
+            'defined_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'id': 'id',
             'config_type': 'configType',
@@ -103,9 +117,9 @@ class ConfigSummary(object):
             'updated_by': 'updatedBy',
             'etag': 'etag',
             'freeform_tags': 'freeformTags',
-            'defined_tags': 'definedTags'
+            'defined_tags': 'definedTags',
+            'system_tags': 'systemTags'
         }
-
         self._id = None
         self._config_type = None
         self._time_created = None
@@ -115,6 +129,7 @@ class ConfigSummary(object):
         self._etag = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._system_tags = None
 
     @staticmethod
     def get_subtype(object_dictionary):
@@ -124,11 +139,17 @@ class ConfigSummary(object):
         """
         type = object_dictionary['configType']
 
+        if type == 'MACS_APM_EXTENSION':
+            return 'MacsApmExtensionSummary'
+
         if type == 'METRIC_GROUP':
             return 'MetricGroupSummary'
 
         if type == 'APDEX':
             return 'ApdexRulesSummary'
+
+        if type == 'AGENT':
+            return 'AgentConfigSummary'
 
         if type == 'SPAN_FILTER':
             return 'SpanFilterSummary'
@@ -174,7 +195,7 @@ class ConfigSummary(object):
         **[Required]** Gets the config_type of this ConfigSummary.
         The type of configuration item.
 
-        Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -193,7 +214,7 @@ class ConfigSummary(object):
         :param config_type: The config_type of this ConfigSummary.
         :type: str
         """
-        allowed_values = ["SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"]
+        allowed_values = ["SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"]
         if not value_allowed_none_or_none_sentinel(config_type, allowed_values):
             config_type = 'UNKNOWN_ENUM_VALUE'
         self._config_type = config_type
@@ -393,6 +414,32 @@ class ConfigSummary(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def system_tags(self):
+        """
+        Gets the system_tags of this ConfigSummary.
+        Usage of system tag keys. These predefined keys are scoped to namespaces.
+        Example: `{\"orcl-cloud\": {\"free-tier-retained\": \"true\"}}`
+
+
+        :return: The system_tags of this ConfigSummary.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._system_tags
+
+    @system_tags.setter
+    def system_tags(self, system_tags):
+        """
+        Sets the system_tags of this ConfigSummary.
+        Usage of system tag keys. These predefined keys are scoped to namespaces.
+        Example: `{\"orcl-cloud\": {\"free-tier-retained\": \"true\"}}`
+
+
+        :param system_tags: The system_tags of this ConfigSummary.
+        :type: dict(str, dict(str, object))
+        """
+        self._system_tags = system_tags
 
     def __repr__(self):
         return formatted_flat_dict(self)

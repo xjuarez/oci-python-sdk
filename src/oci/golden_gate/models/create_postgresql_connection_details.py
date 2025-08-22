@@ -23,7 +23,7 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
 
         :param connection_type:
             The value to assign to the connection_type property of this CreatePostgresqlConnectionDetails.
-            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC"
+            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", "ICEBERG"
         :type connection_type: str
 
         :param display_name:
@@ -176,7 +176,6 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
             'private_ip': 'str',
             'db_system_id': 'str'
         }
-
         self.attribute_map = {
             'connection_type': 'connectionType',
             'display_name': 'displayName',
@@ -209,7 +208,6 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
             'private_ip': 'privateIp',
             'db_system_id': 'dbSystemId'
         }
-
         self._connection_type = None
         self._display_name = None
         self._description = None
@@ -510,6 +508,7 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
         Gets the ssl_ca of this CreatePostgresqlConnectionDetails.
         The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL.
         The supported file formats are .pem and .crt.
+        It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 
 
         :return: The ssl_ca of this CreatePostgresqlConnectionDetails.
@@ -523,6 +522,7 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
         Sets the ssl_ca of this CreatePostgresqlConnectionDetails.
         The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL.
         The supported file formats are .pem and .crt.
+        It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 
 
         :param ssl_ca: The ssl_ca of this CreatePostgresqlConnectionDetails.
@@ -535,6 +535,7 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
         """
         Gets the ssl_crl of this CreatePostgresqlConnectionDetails.
         The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA).
+        It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 
 
         :return: The ssl_crl of this CreatePostgresqlConnectionDetails.
@@ -547,6 +548,7 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
         """
         Sets the ssl_crl of this CreatePostgresqlConnectionDetails.
         The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA).
+        It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 
 
         :param ssl_crl: The ssl_crl of this CreatePostgresqlConnectionDetails.
@@ -559,6 +561,7 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
         """
         Gets the ssl_cert of this CreatePostgresqlConnectionDetails.
         The base64 encoded certificate of the PostgreSQL server. The supported file formats are .pem and .crt.
+        It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 
 
         :return: The ssl_cert of this CreatePostgresqlConnectionDetails.
@@ -571,6 +574,7 @@ class CreatePostgresqlConnectionDetails(CreateConnectionDetails):
         """
         Sets the ssl_cert of this CreatePostgresqlConnectionDetails.
         The base64 encoded certificate of the PostgreSQL server. The supported file formats are .pem and .crt.
+        It is not included in GET responses if the `view=COMPACT` query parameter is specified.
 
 
         :param ssl_cert: The ssl_cert of this CreatePostgresqlConnectionDetails.

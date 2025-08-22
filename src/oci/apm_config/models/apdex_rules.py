@@ -28,7 +28,7 @@ class ApdexRules(Config):
 
         :param config_type:
             The value to assign to the config_type property of this ApdexRules.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param time_created:
@@ -81,7 +81,6 @@ class ApdexRules(Config):
             'display_name': 'str',
             'rules': 'list[Apdex]'
         }
-
         self.attribute_map = {
             'id': 'id',
             'config_type': 'configType',
@@ -95,7 +94,6 @@ class ApdexRules(Config):
             'display_name': 'displayName',
             'rules': 'rules'
         }
-
         self._id = None
         self._config_type = None
         self._time_created = None

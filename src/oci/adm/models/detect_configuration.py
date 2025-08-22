@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class DetectConfiguration(object):
     """
-    A configuration to define the constraints when detecting vulnerable dependencies.
+    A configuration to define the constraints when detecting vulnerable dependencies and recommending remediations.
     """
 
     #: A constant which can be used with the upgrade_policy property of a DetectConfiguration.
@@ -80,7 +80,6 @@ class DetectConfiguration(object):
             'max_permissible_cvss_v3_score': 'float',
             'max_permissible_severity': 'str'
         }
-
         self.attribute_map = {
             'exclusions': 'exclusions',
             'upgrade_policy': 'upgradePolicy',
@@ -88,7 +87,6 @@ class DetectConfiguration(object):
             'max_permissible_cvss_v3_score': 'maxPermissibleCvssV3Score',
             'max_permissible_severity': 'maxPermissibleSeverity'
         }
-
         self._exclusions = None
         self._upgrade_policy = None
         self._max_permissible_cvss_v2_score = None
@@ -157,7 +155,7 @@ class DetectConfiguration(object):
     def max_permissible_cvss_v2_score(self):
         """
         Gets the max_permissible_cvss_v2_score of this DetectConfiguration.
-        The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. An artifact with a CVSS V2 score below this value is not considered for patching.
+        The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. A vulnerability with a CVSS V2 score below this value is not considered for remediation.
 
 
         :return: The max_permissible_cvss_v2_score of this DetectConfiguration.
@@ -169,7 +167,7 @@ class DetectConfiguration(object):
     def max_permissible_cvss_v2_score(self, max_permissible_cvss_v2_score):
         """
         Sets the max_permissible_cvss_v2_score of this DetectConfiguration.
-        The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. An artifact with a CVSS V2 score below this value is not considered for patching.
+        The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. A vulnerability with a CVSS V2 score below this value is not considered for remediation.
 
 
         :param max_permissible_cvss_v2_score: The max_permissible_cvss_v2_score of this DetectConfiguration.
@@ -181,7 +179,7 @@ class DetectConfiguration(object):
     def max_permissible_cvss_v3_score(self):
         """
         Gets the max_permissible_cvss_v3_score of this DetectConfiguration.
-        The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. An artifact with a CVSS V3 score below this value is not considered for patching.
+        The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. A vulnerability with a CVSS V3 score below this value is not considered for patching.
 
 
         :return: The max_permissible_cvss_v3_score of this DetectConfiguration.
@@ -193,7 +191,7 @@ class DetectConfiguration(object):
     def max_permissible_cvss_v3_score(self, max_permissible_cvss_v3_score):
         """
         Sets the max_permissible_cvss_v3_score of this DetectConfiguration.
-        The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. An artifact with a CVSS V3 score below this value is not considered for patching.
+        The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. A vulnerability with a CVSS V3 score below this value is not considered for patching.
 
 
         :param max_permissible_cvss_v3_score: The max_permissible_cvss_v3_score of this DetectConfiguration.
@@ -205,7 +203,7 @@ class DetectConfiguration(object):
     def max_permissible_severity(self):
         """
         Gets the max_permissible_severity of this DetectConfiguration.
-        The maximum ADM Severity. An artifact with an ADM Severity below this value is not considered for patching.
+        The maximum ADM Severity. A vulnerability with an severity below this value is not considered for remediation.
 
         Allowed values for this property are: "UNSET", "NONE", "LOW", "MEDIUM", "HIGH", "CRITICAL", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -220,7 +218,7 @@ class DetectConfiguration(object):
     def max_permissible_severity(self, max_permissible_severity):
         """
         Sets the max_permissible_severity of this DetectConfiguration.
-        The maximum ADM Severity. An artifact with an ADM Severity below this value is not considered for patching.
+        The maximum ADM Severity. A vulnerability with an severity below this value is not considered for remediation.
 
 
         :param max_permissible_severity: The max_permissible_severity of this DetectConfiguration.

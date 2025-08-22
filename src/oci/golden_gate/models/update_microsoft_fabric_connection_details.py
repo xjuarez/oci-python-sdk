@@ -23,7 +23,7 @@ class UpdateMicrosoftFabricConnectionDetails(UpdateConnectionDetails):
 
         :param connection_type:
             The value to assign to the connection_type property of this UpdateMicrosoftFabricConnectionDetails.
-            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC"
+            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", "ICEBERG"
         :type connection_type: str
 
         :param display_name:
@@ -106,7 +106,6 @@ class UpdateMicrosoftFabricConnectionDetails(UpdateConnectionDetails):
             'client_secret_secret_id': 'str',
             'endpoint': 'str'
         }
-
         self.attribute_map = {
             'connection_type': 'connectionType',
             'display_name': 'displayName',
@@ -125,7 +124,6 @@ class UpdateMicrosoftFabricConnectionDetails(UpdateConnectionDetails):
             'client_secret_secret_id': 'clientSecretSecretId',
             'endpoint': 'endpoint'
         }
-
         self._connection_type = None
         self._display_name = None
         self._description = None

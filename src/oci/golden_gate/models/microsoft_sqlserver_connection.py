@@ -51,7 +51,7 @@ class MicrosoftSqlserverConnection(Connection):
 
         :param connection_type:
             The value to assign to the connection_type property of this MicrosoftSqlserverConnection.
-            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", "ICEBERG", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type connection_type: str
 
@@ -217,7 +217,6 @@ class MicrosoftSqlserverConnection(Connection):
             'private_ip': 'str',
             'password_secret_id': 'str'
         }
-
         self.attribute_map = {
             'connection_type': 'connectionType',
             'id': 'id',
@@ -251,7 +250,6 @@ class MicrosoftSqlserverConnection(Connection):
             'private_ip': 'privateIp',
             'password_secret_id': 'passwordSecretId'
         }
-
         self._connection_type = None
         self._id = None
         self._display_name = None
@@ -473,7 +471,7 @@ class MicrosoftSqlserverConnection(Connection):
     def ssl_ca(self):
         """
         Gets the ssl_ca of this MicrosoftSqlserverConnection.
-        Database Certificate - The base64 encoded content of a .pem or .crt file.
+        Database Certificate - The base64 encoded content of a .pem or .crt file
         containing the server public key (for 1-way SSL).
 
 
@@ -486,7 +484,7 @@ class MicrosoftSqlserverConnection(Connection):
     def ssl_ca(self, ssl_ca):
         """
         Sets the ssl_ca of this MicrosoftSqlserverConnection.
-        Database Certificate - The base64 encoded content of a .pem or .crt file.
+        Database Certificate - The base64 encoded content of a .pem or .crt file
         containing the server public key (for 1-way SSL).
 
 

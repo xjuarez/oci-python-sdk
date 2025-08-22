@@ -27,7 +27,7 @@ class OciObjectStorageConnection(Connection):
 
         :param connection_type:
             The value to assign to the connection_type property of this OciObjectStorageConnection.
-            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "GOLDENGATE", "KAFKA", "KAFKA_SCHEMA_REGISTRY", "MYSQL", "JAVA_MESSAGE_SERVICE", "MICROSOFT_SQLSERVER", "OCI_OBJECT_STORAGE", "ORACLE", "AZURE_DATA_LAKE_STORAGE", "POSTGRESQL", "AZURE_SYNAPSE_ANALYTICS", "SNOWFLAKE", "AMAZON_S3", "HDFS", "ORACLE_NOSQL", "MONGODB", "AMAZON_KINESIS", "AMAZON_REDSHIFT", "DB2", "REDIS", "ELASTICSEARCH", "GENERIC", "GOOGLE_CLOUD_STORAGE", "GOOGLE_BIGQUERY", "DATABRICKS", "GOOGLE_PUBSUB", "MICROSOFT_FABRIC", "ICEBERG", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type connection_type: str
 
@@ -137,6 +137,10 @@ class OciObjectStorageConnection(Connection):
             The value to assign to the private_key_passphrase_secret_id property of this OciObjectStorageConnection.
         :type private_key_passphrase_secret_id: str
 
+        :param public_key_fingerprint:
+            The value to assign to the public_key_fingerprint property of this OciObjectStorageConnection.
+        :type public_key_fingerprint: str
+
         :param should_use_resource_principal:
             The value to assign to the should_use_resource_principal property of this OciObjectStorageConnection.
         :type should_use_resource_principal: bool
@@ -169,9 +173,9 @@ class OciObjectStorageConnection(Connection):
             'user_id': 'str',
             'private_key_file_secret_id': 'str',
             'private_key_passphrase_secret_id': 'str',
+            'public_key_fingerprint': 'str',
             'should_use_resource_principal': 'bool'
         }
-
         self.attribute_map = {
             'connection_type': 'connectionType',
             'id': 'id',
@@ -199,9 +203,9 @@ class OciObjectStorageConnection(Connection):
             'user_id': 'userId',
             'private_key_file_secret_id': 'privateKeyFileSecretId',
             'private_key_passphrase_secret_id': 'privateKeyPassphraseSecretId',
+            'public_key_fingerprint': 'publicKeyFingerprint',
             'should_use_resource_principal': 'shouldUseResourcePrincipal'
         }
-
         self._connection_type = None
         self._id = None
         self._display_name = None
@@ -228,6 +232,7 @@ class OciObjectStorageConnection(Connection):
         self._user_id = None
         self._private_key_file_secret_id = None
         self._private_key_passphrase_secret_id = None
+        self._public_key_fingerprint = None
         self._should_use_resource_principal = None
         self._connection_type = 'OCI_OBJECT_STORAGE'
 
@@ -410,10 +415,37 @@ class OciObjectStorageConnection(Connection):
         self._private_key_passphrase_secret_id = private_key_passphrase_secret_id
 
     @property
+    def public_key_fingerprint(self):
+        """
+        Gets the public_key_fingerprint of this OciObjectStorageConnection.
+        The fingerprint of the API Key of the user specified by the userId.
+        See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+
+
+        :return: The public_key_fingerprint of this OciObjectStorageConnection.
+        :rtype: str
+        """
+        return self._public_key_fingerprint
+
+    @public_key_fingerprint.setter
+    def public_key_fingerprint(self, public_key_fingerprint):
+        """
+        Sets the public_key_fingerprint of this OciObjectStorageConnection.
+        The fingerprint of the API Key of the user specified by the userId.
+        See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+
+
+        :param public_key_fingerprint: The public_key_fingerprint of this OciObjectStorageConnection.
+        :type: str
+        """
+        self._public_key_fingerprint = public_key_fingerprint
+
+    @property
     def should_use_resource_principal(self):
         """
         Gets the should_use_resource_principal of this OciObjectStorageConnection.
-        Indicates that the user intents to connect to the instance through resource principal.
+        Specifies that the user intends to authenticate to the instance using a resource principal.
+        Default: false
 
 
         :return: The should_use_resource_principal of this OciObjectStorageConnection.
@@ -425,7 +457,8 @@ class OciObjectStorageConnection(Connection):
     def should_use_resource_principal(self, should_use_resource_principal):
         """
         Sets the should_use_resource_principal of this OciObjectStorageConnection.
-        Indicates that the user intents to connect to the instance through resource principal.
+        Specifies that the user intends to authenticate to the instance using a resource principal.
+        Default: false
 
 
         :param should_use_resource_principal: The should_use_resource_principal of this OciObjectStorageConnection.

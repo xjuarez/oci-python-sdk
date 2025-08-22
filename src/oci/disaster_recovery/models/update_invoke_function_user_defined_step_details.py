@@ -23,7 +23,7 @@ class UpdateInvokeFunctionUserDefinedStepDetails(UpdateDrPlanUserDefinedStepDeta
 
         :param step_type:
             The value to assign to the step_type property of this UpdateInvokeFunctionUserDefinedStepDetails.
-            Allowed values for this property are: "RUN_OBJECTSTORE_SCRIPT_PRECHECK", "RUN_LOCAL_SCRIPT_PRECHECK", "INVOKE_FUNCTION_PRECHECK", "RUN_OBJECTSTORE_SCRIPT", "RUN_LOCAL_SCRIPT", "INVOKE_FUNCTION"
+            Allowed values for this property are: "RUN_OBJECTSTORE_SCRIPT_PRECHECK", "RUN_LOCAL_SCRIPT_PRECHECK", "INVOKE_FUNCTION_PRECHECK", "RUN_OBJECTSTORE_SCRIPT", "RUN_LOCAL_SCRIPT", "INVOKE_FUNCTION", "RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK", "RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK", "INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK"
         :type step_type: str
 
         :param function_id:
@@ -40,13 +40,11 @@ class UpdateInvokeFunctionUserDefinedStepDetails(UpdateDrPlanUserDefinedStepDeta
             'function_id': 'str',
             'request_body': 'str'
         }
-
         self.attribute_map = {
             'step_type': 'stepType',
             'function_id': 'functionId',
             'request_body': 'requestBody'
         }
-
         self._step_type = None
         self._function_id = None
         self._request_body = None

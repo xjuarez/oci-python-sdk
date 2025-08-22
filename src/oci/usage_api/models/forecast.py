@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class Forecast(object):
     """
-    Forecast configuration of usage/cost.
+    Forecast configuration of usage or cost.
     """
 
     #: A constant which can be used with the forecast_type property of a Forecast.
@@ -44,13 +44,11 @@ class Forecast(object):
             'time_forecast_started': 'datetime',
             'time_forecast_ended': 'datetime'
         }
-
         self.attribute_map = {
             'forecast_type': 'forecastType',
             'time_forecast_started': 'timeForecastStarted',
             'time_forecast_ended': 'timeForecastEnded'
         }
-
         self._forecast_type = None
         self._time_forecast_started = None
         self._time_forecast_ended = None
@@ -59,7 +57,8 @@ class Forecast(object):
     def forecast_type(self):
         """
         Gets the forecast_type of this Forecast.
-        BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
+        BASIC uses the exponential smoothing (ETS) model to project future usage or costs based on history data.
+        The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 
         Allowed values for this property are: "BASIC", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -74,7 +73,8 @@ class Forecast(object):
     def forecast_type(self, forecast_type):
         """
         Sets the forecast_type of this Forecast.
-        BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
+        BASIC uses the exponential smoothing (ETS) model to project future usage or costs based on history data.
+        The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 
 
         :param forecast_type: The forecast_type of this Forecast.

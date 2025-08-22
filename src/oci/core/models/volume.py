@@ -142,6 +142,10 @@ class Volume(object):
             The value to assign to the autotune_policies property of this Volume.
         :type autotune_policies: list[oci.core.models.AutotunePolicy]
 
+        :param is_reservations_enabled:
+            The value to assign to the is_reservations_enabled property of this Volume.
+        :type is_reservations_enabled: bool
+
         """
         self.swagger_types = {
             'availability_domain': 'str',
@@ -164,9 +168,9 @@ class Volume(object):
             'is_auto_tune_enabled': 'bool',
             'auto_tuned_vpus_per_gb': 'int',
             'block_volume_replicas': 'list[BlockVolumeReplicaInfo]',
-            'autotune_policies': 'list[AutotunePolicy]'
+            'autotune_policies': 'list[AutotunePolicy]',
+            'is_reservations_enabled': 'bool'
         }
-
         self.attribute_map = {
             'availability_domain': 'availabilityDomain',
             'compartment_id': 'compartmentId',
@@ -188,9 +192,9 @@ class Volume(object):
             'is_auto_tune_enabled': 'isAutoTuneEnabled',
             'auto_tuned_vpus_per_gb': 'autoTunedVpusPerGB',
             'block_volume_replicas': 'blockVolumeReplicas',
-            'autotune_policies': 'autotunePolicies'
+            'autotune_policies': 'autotunePolicies',
+            'is_reservations_enabled': 'isReservationsEnabled'
         }
-
         self._availability_domain = None
         self._compartment_id = None
         self._defined_tags = None
@@ -212,6 +216,7 @@ class Volume(object):
         self._auto_tuned_vpus_per_gb = None
         self._block_volume_replicas = None
         self._autotune_policies = None
+        self._is_reservations_enabled = None
 
     @property
     def availability_domain(self):
@@ -786,6 +791,36 @@ class Volume(object):
         :type: list[oci.core.models.AutotunePolicy]
         """
         self._autotune_policies = autotune_policies
+
+    @property
+    def is_reservations_enabled(self):
+        """
+        Gets the is_reservations_enabled of this Volume.
+        When set to true, enables SCSI Persistent Reservation (SCSI PR) for the volume. For more information, see
+        `Persistent Reservations`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/persistent-reservations.htm
+
+
+        :return: The is_reservations_enabled of this Volume.
+        :rtype: bool
+        """
+        return self._is_reservations_enabled
+
+    @is_reservations_enabled.setter
+    def is_reservations_enabled(self, is_reservations_enabled):
+        """
+        Sets the is_reservations_enabled of this Volume.
+        When set to true, enables SCSI Persistent Reservation (SCSI PR) for the volume. For more information, see
+        `Persistent Reservations`__.
+
+        __ https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/persistent-reservations.htm
+
+
+        :param is_reservations_enabled: The is_reservations_enabled of this Volume.
+        :type: bool
+        """
+        self._is_reservations_enabled = is_reservations_enabled
 
     def __repr__(self):
         return formatted_flat_dict(self)

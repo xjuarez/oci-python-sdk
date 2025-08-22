@@ -44,12 +44,28 @@ class DeploymentBackupSummary(object):
     DEPLOYMENT_TYPE_DATABASE_DB2_ZOS = "DATABASE_DB2ZOS"
 
     #: A constant which can be used with the deployment_type property of a DeploymentBackupSummary.
+    #: This constant has a value of "DATABASE_DB2I"
+    DEPLOYMENT_TYPE_DATABASE_DB2_I = "DATABASE_DB2I"
+
+    #: A constant which can be used with the deployment_type property of a DeploymentBackupSummary.
     #: This constant has a value of "GGSA"
     DEPLOYMENT_TYPE_GGSA = "GGSA"
 
     #: A constant which can be used with the deployment_type property of a DeploymentBackupSummary.
     #: This constant has a value of "DATA_TRANSFORMS"
     DEPLOYMENT_TYPE_DATA_TRANSFORMS = "DATA_TRANSFORMS"
+
+    #: A constant which can be used with the backup_source_type property of a DeploymentBackupSummary.
+    #: This constant has a value of "MANUAL"
+    BACKUP_SOURCE_TYPE_MANUAL = "MANUAL"
+
+    #: A constant which can be used with the backup_source_type property of a DeploymentBackupSummary.
+    #: This constant has a value of "AUTOMATIC"
+    BACKUP_SOURCE_TYPE_AUTOMATIC = "AUTOMATIC"
+
+    #: A constant which can be used with the backup_source_type property of a DeploymentBackupSummary.
+    #: This constant has a value of "SCHEDULED"
+    BACKUP_SOURCE_TYPE_SCHEDULED = "SCHEDULED"
 
     #: A constant which can be used with the lifecycle_state property of a DeploymentBackupSummary.
     #: This constant has a value of "CREATING"
@@ -126,7 +142,7 @@ class DeploymentBackupSummary(object):
 
         :param deployment_type:
             The value to assign to the deployment_type property of this DeploymentBackupSummary.
-            Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type deployment_type: str
 
@@ -141,6 +157,12 @@ class DeploymentBackupSummary(object):
         :param is_automatic:
             The value to assign to the is_automatic property of this DeploymentBackupSummary.
         :type is_automatic: bool
+
+        :param backup_source_type:
+            The value to assign to the backup_source_type property of this DeploymentBackupSummary.
+            Allowed values for this property are: "MANUAL", "AUTOMATIC", "SCHEDULED", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type backup_source_type: str
 
         :param lifecycle_state:
             The value to assign to the lifecycle_state property of this DeploymentBackupSummary.
@@ -222,6 +244,7 @@ class DeploymentBackupSummary(object):
             'compartment_id': 'str',
             'display_name': 'str',
             'is_automatic': 'bool',
+            'backup_source_type': 'str',
             'lifecycle_state': 'str',
             'lifecycle_details': 'str',
             'time_of_backup': 'datetime',
@@ -240,7 +263,6 @@ class DeploymentBackupSummary(object):
             'is_metadata_only': 'bool',
             'locks': 'list[ResourceLock]'
         }
-
         self.attribute_map = {
             'id': 'id',
             'deployment_id': 'deploymentId',
@@ -248,6 +270,7 @@ class DeploymentBackupSummary(object):
             'compartment_id': 'compartmentId',
             'display_name': 'displayName',
             'is_automatic': 'isAutomatic',
+            'backup_source_type': 'backupSourceType',
             'lifecycle_state': 'lifecycleState',
             'lifecycle_details': 'lifecycleDetails',
             'time_of_backup': 'timeOfBackup',
@@ -266,13 +289,13 @@ class DeploymentBackupSummary(object):
             'is_metadata_only': 'isMetadataOnly',
             'locks': 'locks'
         }
-
         self._id = None
         self._deployment_id = None
         self._deployment_type = None
         self._compartment_id = None
         self._display_name = None
         self._is_automatic = None
+        self._backup_source_type = None
         self._lifecycle_state = None
         self._lifecycle_details = None
         self._time_of_backup = None
@@ -355,7 +378,7 @@ class DeploymentBackupSummary(object):
         NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.
             Its use is discouraged in favor of 'DATABASE_ORACLE'.
 
-        Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -376,7 +399,7 @@ class DeploymentBackupSummary(object):
         :param deployment_type: The deployment_type of this DeploymentBackupSummary.
         :type: str
         """
-        allowed_values = ["OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS"]
+        allowed_values = ["OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS"]
         if not value_allowed_none_or_none_sentinel(deployment_type, allowed_values):
             deployment_type = 'UNKNOWN_ENUM_VALUE'
         self._deployment_type = deployment_type
@@ -456,6 +479,36 @@ class DeploymentBackupSummary(object):
         :type: bool
         """
         self._is_automatic = is_automatic
+
+    @property
+    def backup_source_type(self):
+        """
+        Gets the backup_source_type of this DeploymentBackupSummary.
+        Possible deployment backup source types.
+
+        Allowed values for this property are: "MANUAL", "AUTOMATIC", "SCHEDULED", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The backup_source_type of this DeploymentBackupSummary.
+        :rtype: str
+        """
+        return self._backup_source_type
+
+    @backup_source_type.setter
+    def backup_source_type(self, backup_source_type):
+        """
+        Sets the backup_source_type of this DeploymentBackupSummary.
+        Possible deployment backup source types.
+
+
+        :param backup_source_type: The backup_source_type of this DeploymentBackupSummary.
+        :type: str
+        """
+        allowed_values = ["MANUAL", "AUTOMATIC", "SCHEDULED"]
+        if not value_allowed_none_or_none_sentinel(backup_source_type, allowed_values):
+            backup_source_type = 'UNKNOWN_ENUM_VALUE'
+        self._backup_source_type = backup_source_type
 
     @property
     def lifecycle_state(self):

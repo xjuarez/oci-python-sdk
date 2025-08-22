@@ -59,7 +59,7 @@ class PeComanagedExadataInsightSummary(ExadataInsightSummary):
 
         :param exadata_rack_type:
             The value to assign to the exadata_rack_type property of this PeComanagedExadataInsightSummary.
-            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE", "ELASTIC_EXTRA_LARGE", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type exadata_rack_type: str
 
@@ -134,7 +134,6 @@ class PeComanagedExadataInsightSummary(ExadataInsightSummary):
             'exadata_infra_resource_type': 'str',
             'exadata_shape': 'str'
         }
-
         self.attribute_map = {
             'entity_source': 'entitySource',
             'id': 'id',
@@ -155,7 +154,6 @@ class PeComanagedExadataInsightSummary(ExadataInsightSummary):
             'exadata_infra_resource_type': 'exadataInfraResourceType',
             'exadata_shape': 'exadataShape'
         }
-
         self._entity_source = None
         self._id = None
         self._compartment_id = None

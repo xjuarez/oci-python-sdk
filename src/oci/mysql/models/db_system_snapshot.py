@@ -56,6 +56,10 @@ class DbSystemSnapshot(object):
             The value to assign to the subnet_id property of this DbSystemSnapshot.
         :type subnet_id: str
 
+        :param nsg_ids:
+            The value to assign to the nsg_ids property of this DbSystemSnapshot.
+        :type nsg_ids: list[str]
+
         :param availability_domain:
             The value to assign to the availability_domain property of this DbSystemSnapshot.
         :type availability_domain: str
@@ -108,6 +112,10 @@ class DbSystemSnapshot(object):
             The value to assign to the port_x property of this DbSystemSnapshot.
         :type port_x: int
 
+        :param rest:
+            The value to assign to the rest property of this DbSystemSnapshot.
+        :type rest: oci.mysql.models.RestDetails
+
         :param is_highly_available:
             The value to assign to the is_highly_available property of this DbSystemSnapshot.
         :type is_highly_available: bool
@@ -148,6 +156,10 @@ class DbSystemSnapshot(object):
             The value to assign to the secure_connections property of this DbSystemSnapshot.
         :type secure_connections: oci.mysql.models.SecureConnectionDetails
 
+        :param encrypt_data:
+            The value to assign to the encrypt_data property of this DbSystemSnapshot.
+        :type encrypt_data: oci.mysql.models.EncryptDataDetails
+
         :param region:
             The value to assign to the region property of this DbSystemSnapshot.
         :type region: str
@@ -163,6 +175,7 @@ class DbSystemSnapshot(object):
             'description': 'str',
             'compartment_id': 'str',
             'subnet_id': 'str',
+            'nsg_ids': 'list[str]',
             'availability_domain': 'str',
             'fault_domain': 'str',
             'shape_name': 'str',
@@ -176,6 +189,7 @@ class DbSystemSnapshot(object):
             'ip_address': 'str',
             'port': 'int',
             'port_x': 'int',
+            'rest': 'RestDetails',
             'is_highly_available': 'bool',
             'endpoints': 'list[DbSystemEndpoint]',
             'maintenance': 'MaintenanceDetails',
@@ -185,16 +199,17 @@ class DbSystemSnapshot(object):
             'crash_recovery': 'str',
             'database_management': 'str',
             'secure_connections': 'SecureConnectionDetails',
+            'encrypt_data': 'EncryptDataDetails',
             'region': 'str',
             'read_endpoint': 'ReadEndpointDetails'
         }
-
         self.attribute_map = {
             'id': 'id',
             'display_name': 'displayName',
             'description': 'description',
             'compartment_id': 'compartmentId',
             'subnet_id': 'subnetId',
+            'nsg_ids': 'nsgIds',
             'availability_domain': 'availabilityDomain',
             'fault_domain': 'faultDomain',
             'shape_name': 'shapeName',
@@ -208,6 +223,7 @@ class DbSystemSnapshot(object):
             'ip_address': 'ipAddress',
             'port': 'port',
             'port_x': 'portX',
+            'rest': 'rest',
             'is_highly_available': 'isHighlyAvailable',
             'endpoints': 'endpoints',
             'maintenance': 'maintenance',
@@ -217,15 +233,16 @@ class DbSystemSnapshot(object):
             'crash_recovery': 'crashRecovery',
             'database_management': 'databaseManagement',
             'secure_connections': 'secureConnections',
+            'encrypt_data': 'encryptData',
             'region': 'region',
             'read_endpoint': 'readEndpoint'
         }
-
         self._id = None
         self._display_name = None
         self._description = None
         self._compartment_id = None
         self._subnet_id = None
+        self._nsg_ids = None
         self._availability_domain = None
         self._fault_domain = None
         self._shape_name = None
@@ -239,6 +256,7 @@ class DbSystemSnapshot(object):
         self._ip_address = None
         self._port = None
         self._port_x = None
+        self._rest = None
         self._is_highly_available = None
         self._endpoints = None
         self._maintenance = None
@@ -248,6 +266,7 @@ class DbSystemSnapshot(object):
         self._crash_recovery = None
         self._database_management = None
         self._secure_connections = None
+        self._encrypt_data = None
         self._region = None
         self._read_endpoint = None
 
@@ -370,6 +389,30 @@ class DbSystemSnapshot(object):
         :type: str
         """
         self._subnet_id = subnet_id
+
+    @property
+    def nsg_ids(self):
+        """
+        Gets the nsg_ids of this DbSystemSnapshot.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :return: The nsg_ids of this DbSystemSnapshot.
+        :rtype: list[str]
+        """
+        return self._nsg_ids
+
+    @nsg_ids.setter
+    def nsg_ids(self, nsg_ids):
+        """
+        Sets the nsg_ids of this DbSystemSnapshot.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :param nsg_ids: The nsg_ids of this DbSystemSnapshot.
+        :type: list[str]
+        """
+        self._nsg_ids = nsg_ids
 
     @property
     def availability_domain(self):
@@ -698,6 +741,26 @@ class DbSystemSnapshot(object):
         self._port_x = port_x
 
     @property
+    def rest(self):
+        """
+        Gets the rest of this DbSystemSnapshot.
+
+        :return: The rest of this DbSystemSnapshot.
+        :rtype: oci.mysql.models.RestDetails
+        """
+        return self._rest
+
+    @rest.setter
+    def rest(self, rest):
+        """
+        Sets the rest of this DbSystemSnapshot.
+
+        :param rest: The rest of this DbSystemSnapshot.
+        :type: oci.mysql.models.RestDetails
+        """
+        self._rest = rest
+
+    @property
     def is_highly_available(self):
         """
         Gets the is_highly_available of this DbSystemSnapshot.
@@ -918,6 +981,26 @@ class DbSystemSnapshot(object):
         :type: oci.mysql.models.SecureConnectionDetails
         """
         self._secure_connections = secure_connections
+
+    @property
+    def encrypt_data(self):
+        """
+        Gets the encrypt_data of this DbSystemSnapshot.
+
+        :return: The encrypt_data of this DbSystemSnapshot.
+        :rtype: oci.mysql.models.EncryptDataDetails
+        """
+        return self._encrypt_data
+
+    @encrypt_data.setter
+    def encrypt_data(self, encrypt_data):
+        """
+        Sets the encrypt_data of this DbSystemSnapshot.
+
+        :param encrypt_data: The encrypt_data of this DbSystemSnapshot.
+        :type: oci.mysql.models.EncryptDataDetails
+        """
+        self._encrypt_data = encrypt_data
 
     @property
     def region(self):

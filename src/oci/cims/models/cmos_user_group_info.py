@@ -12,7 +12,11 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class CmosUserGroupInfo(object):
     """
-    Identifier and name of the technical support request's user group (`userGroupId` and `userGroupName`).
+    Identifier and name of a user group (`userGroupId` and `userGroupName`) that the current user has access to.
+    Note: The Customer User Administrator (CUA) can manage user groups by name using
+    `My Oracle Cloud Support portal`__.
+
+    __ https://support.oracle.com
     """
 
     def __init__(self, **kwargs):
@@ -33,12 +37,10 @@ class CmosUserGroupInfo(object):
             'user_group_id': 'str',
             'user_group_name': 'str'
         }
-
         self.attribute_map = {
             'user_group_id': 'userGroupId',
             'user_group_name': 'userGroupName'
         }
-
         self._user_group_id = None
         self._user_group_name = None
 
@@ -46,7 +48,7 @@ class CmosUserGroupInfo(object):
     def user_group_id(self):
         """
         Gets the user_group_id of this CmosUserGroupInfo.
-        Technical support type (`TECH`) only: The identifier of the support request's user group in My Oracle Cloud Support portal.
+        Technical support type (`TECH`) only: The identifier of a user group in My Oracle Cloud Support portal.
 
 
         :return: The user_group_id of this CmosUserGroupInfo.
@@ -58,7 +60,7 @@ class CmosUserGroupInfo(object):
     def user_group_id(self, user_group_id):
         """
         Sets the user_group_id of this CmosUserGroupInfo.
-        Technical support type (`TECH`) only: The identifier of the support request's user group in My Oracle Cloud Support portal.
+        Technical support type (`TECH`) only: The identifier of a user group in My Oracle Cloud Support portal.
 
 
         :param user_group_id: The user_group_id of this CmosUserGroupInfo.
@@ -70,7 +72,7 @@ class CmosUserGroupInfo(object):
     def user_group_name(self):
         """
         Gets the user_group_name of this CmosUserGroupInfo.
-        Technical support type (`TECH`) only: Name of the support request's user group in My Oracle Cloud Support portal.
+        Technical support type (`TECH`) only: Name of a user group in My Oracle Cloud Support portal.
 
 
         :return: The user_group_name of this CmosUserGroupInfo.
@@ -82,7 +84,7 @@ class CmosUserGroupInfo(object):
     def user_group_name(self, user_group_name):
         """
         Sets the user_group_name of this CmosUserGroupInfo.
-        Technical support type (`TECH`) only: Name of the support request's user group in My Oracle Cloud Support portal.
+        Technical support type (`TECH`) only: Name of a user group in My Oracle Cloud Support portal.
 
 
         :param user_group_name: The user_group_name of this CmosUserGroupInfo.

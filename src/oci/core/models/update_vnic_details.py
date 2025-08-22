@@ -63,7 +63,6 @@ class UpdateVnicDetails(object):
             'skip_source_dest_check': 'bool',
             'route_table_id': 'str'
         }
-
         self.attribute_map = {
             'defined_tags': 'definedTags',
             'display_name': 'displayName',
@@ -74,7 +73,6 @@ class UpdateVnicDetails(object):
             'skip_source_dest_check': 'skipSourceDestCheck',
             'route_table_id': 'routeTableId'
         }
-
         self._defined_tags = None
         self._display_name = None
         self._freeform_tags = None
@@ -361,7 +359,7 @@ class UpdateVnicDetails(object):
         """
         Gets the route_table_id of this UpdateVnicDetails.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -377,7 +375,7 @@ class UpdateVnicDetails(object):
         """
         Sets the route_table_id of this UpdateVnicDetails.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing

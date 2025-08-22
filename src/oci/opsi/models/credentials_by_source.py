@@ -27,7 +27,7 @@ class CredentialsBySource(CredentialDetails):
 
         :param credential_type:
             The value to assign to the credential_type property of this CredentialsBySource.
-            Allowed values for this property are: "CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM"
+            Allowed values for this property are: "CREDENTIALS_BY_SOURCE", "CREDENTIALS_BY_VAULT", "CREDENTIALS_BY_IAM", "CREDENTIALS_BY_NAMED_CREDS"
         :type credential_type: str
 
         """
@@ -35,12 +35,10 @@ class CredentialsBySource(CredentialDetails):
             'credential_source_name': 'str',
             'credential_type': 'str'
         }
-
         self.attribute_map = {
             'credential_source_name': 'credentialSourceName',
             'credential_type': 'credentialType'
         }
-
         self._credential_source_name = None
         self._credential_type = None
         self._credential_type = 'CREDENTIALS_BY_SOURCE'

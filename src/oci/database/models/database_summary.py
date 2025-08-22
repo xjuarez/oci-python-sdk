@@ -149,6 +149,10 @@ class DatabaseSummary(object):
             The value to assign to the defined_tags property of this DatabaseSummary.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param system_tags:
+            The value to assign to the system_tags property of this DatabaseSummary.
+        :type system_tags: dict(str, dict(str, object))
+
         :param connection_strings:
             The value to assign to the connection_strings property of this DatabaseSummary.
         :type connection_strings: oci.database.models.DatabaseConnectionStrings
@@ -223,6 +227,7 @@ class DatabaseSummary(object):
             'db_backup_config': 'DbBackupConfig',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, dict(str, object))',
             'connection_strings': 'DatabaseConnectionStrings',
             'kms_key_id': 'str',
             'kms_key_version_id': 'str',
@@ -237,7 +242,6 @@ class DatabaseSummary(object):
             'data_guard_group': 'DataGuardGroup',
             'encryption_key_location_details': 'EncryptionKeyLocationDetails'
         }
-
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
@@ -259,6 +263,7 @@ class DatabaseSummary(object):
             'db_backup_config': 'dbBackupConfig',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'system_tags': 'systemTags',
             'connection_strings': 'connectionStrings',
             'kms_key_id': 'kmsKeyId',
             'kms_key_version_id': 'kmsKeyVersionId',
@@ -273,7 +278,6 @@ class DatabaseSummary(object):
             'data_guard_group': 'dataGuardGroup',
             'encryption_key_location_details': 'encryptionKeyLocationDetails'
         }
-
         self._id = None
         self._compartment_id = None
         self._character_set = None
@@ -294,6 +298,7 @@ class DatabaseSummary(object):
         self._db_backup_config = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._system_tags = None
         self._connection_strings = None
         self._kms_key_id = None
         self._kms_key_version_id = None
@@ -831,6 +836,36 @@ class DatabaseSummary(object):
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def system_tags(self):
+        """
+        Gets the system_tags of this DatabaseSummary.
+        System tags for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+
+
+        :return: The system_tags of this DatabaseSummary.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._system_tags
+
+    @system_tags.setter
+    def system_tags(self, system_tags):
+        """
+        Sets the system_tags of this DatabaseSummary.
+        System tags for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+
+
+        :param system_tags: The system_tags of this DatabaseSummary.
+        :type: dict(str, dict(str, object))
+        """
+        self._system_tags = system_tags
 
     @property
     def connection_strings(self):

@@ -15,6 +15,14 @@ class Deployment(object):
     A container for your OCI GoldenGate resources, such as the OCI GoldenGate deployment console.
     """
 
+    #: A constant which can be used with the deployment_role property of a Deployment.
+    #: This constant has a value of "PRIMARY"
+    DEPLOYMENT_ROLE_PRIMARY = "PRIMARY"
+
+    #: A constant which can be used with the deployment_role property of a Deployment.
+    #: This constant has a value of "STANDBY"
+    DEPLOYMENT_ROLE_STANDBY = "STANDBY"
+
     #: A constant which can be used with the lifecycle_state property of a Deployment.
     #: This constant has a value of "CREATING"
     LIFECYCLE_STATE_CREATING = "CREATING"
@@ -156,6 +164,10 @@ class Deployment(object):
     DEPLOYMENT_TYPE_DATABASE_DB2_ZOS = "DATABASE_DB2ZOS"
 
     #: A constant which can be used with the deployment_type property of a Deployment.
+    #: This constant has a value of "DATABASE_DB2I"
+    DEPLOYMENT_TYPE_DATABASE_DB2_I = "DATABASE_DB2I"
+
+    #: A constant which can be used with the deployment_type property of a Deployment.
     #: This constant has a value of "GGSA"
     DEPLOYMENT_TYPE_GGSA = "GGSA"
 
@@ -187,6 +199,32 @@ class Deployment(object):
         :param compartment_id:
             The value to assign to the compartment_id property of this Deployment.
         :type compartment_id: str
+
+        :param availability_domain:
+            The value to assign to the availability_domain property of this Deployment.
+        :type availability_domain: str
+
+        :param fault_domain:
+            The value to assign to the fault_domain property of this Deployment.
+        :type fault_domain: str
+
+        :param deployment_role:
+            The value to assign to the deployment_role property of this Deployment.
+            Allowed values for this property are: "PRIMARY", "STANDBY", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type deployment_role: str
+
+        :param time_role_changed:
+            The value to assign to the time_role_changed property of this Deployment.
+        :type time_role_changed: datetime
+
+        :param source_deployment_id:
+            The value to assign to the source_deployment_id property of this Deployment.
+        :type source_deployment_id: str
+
+        :param placements:
+            The value to assign to the placements property of this Deployment.
+        :type placements: list[oci.golden_gate.models.DeploymentPlacementInfo]
 
         :param deployment_backup_id:
             The value to assign to the deployment_backup_id property of this Deployment.
@@ -316,7 +354,7 @@ class Deployment(object):
 
         :param deployment_type:
             The value to assign to the deployment_type property of this Deployment.
-            Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type deployment_type: str
 
@@ -354,6 +392,18 @@ class Deployment(object):
             The value to assign to the time_ogg_version_supported_until property of this Deployment.
         :type time_ogg_version_supported_until: datetime
 
+        :param backup_schedule:
+            The value to assign to the backup_schedule property of this Deployment.
+        :type backup_schedule: oci.golden_gate.models.BackupSchedule
+
+        :param time_last_backup_scheduled:
+            The value to assign to the time_last_backup_scheduled property of this Deployment.
+        :type time_last_backup_scheduled: datetime
+
+        :param time_next_backup_scheduled:
+            The value to assign to the time_next_backup_scheduled property of this Deployment.
+        :type time_next_backup_scheduled: datetime
+
         :param ingress_ips:
             The value to assign to the ingress_ips property of this Deployment.
         :type ingress_ips: list[oci.golden_gate.models.IngressIpDetails]
@@ -364,6 +414,12 @@ class Deployment(object):
             'display_name': 'str',
             'description': 'str',
             'compartment_id': 'str',
+            'availability_domain': 'str',
+            'fault_domain': 'str',
+            'deployment_role': 'str',
+            'time_role_changed': 'datetime',
+            'source_deployment_id': 'str',
+            'placements': 'list[DeploymentPlacementInfo]',
             'deployment_backup_id': 'str',
             'time_created': 'datetime',
             'time_updated': 'datetime',
@@ -402,14 +458,22 @@ class Deployment(object):
             'next_maintenance_description': 'str',
             'maintenance_configuration': 'MaintenanceConfiguration',
             'time_ogg_version_supported_until': 'datetime',
+            'backup_schedule': 'BackupSchedule',
+            'time_last_backup_scheduled': 'datetime',
+            'time_next_backup_scheduled': 'datetime',
             'ingress_ips': 'list[IngressIpDetails]'
         }
-
         self.attribute_map = {
             'id': 'id',
             'display_name': 'displayName',
             'description': 'description',
             'compartment_id': 'compartmentId',
+            'availability_domain': 'availabilityDomain',
+            'fault_domain': 'faultDomain',
+            'deployment_role': 'deploymentRole',
+            'time_role_changed': 'timeRoleChanged',
+            'source_deployment_id': 'sourceDeploymentId',
+            'placements': 'placements',
             'deployment_backup_id': 'deploymentBackupId',
             'time_created': 'timeCreated',
             'time_updated': 'timeUpdated',
@@ -448,13 +512,21 @@ class Deployment(object):
             'next_maintenance_description': 'nextMaintenanceDescription',
             'maintenance_configuration': 'maintenanceConfiguration',
             'time_ogg_version_supported_until': 'timeOggVersionSupportedUntil',
+            'backup_schedule': 'backupSchedule',
+            'time_last_backup_scheduled': 'timeLastBackupScheduled',
+            'time_next_backup_scheduled': 'timeNextBackupScheduled',
             'ingress_ips': 'ingressIps'
         }
-
         self._id = None
         self._display_name = None
         self._description = None
         self._compartment_id = None
+        self._availability_domain = None
+        self._fault_domain = None
+        self._deployment_role = None
+        self._time_role_changed = None
+        self._source_deployment_id = None
+        self._placements = None
         self._deployment_backup_id = None
         self._time_created = None
         self._time_updated = None
@@ -493,6 +565,9 @@ class Deployment(object):
         self._next_maintenance_description = None
         self._maintenance_configuration = None
         self._time_ogg_version_supported_until = None
+        self._backup_schedule = None
+        self._time_last_backup_scheduled = None
+        self._time_next_backup_scheduled = None
         self._ingress_ips = None
 
     @property
@@ -598,6 +673,166 @@ class Deployment(object):
         :type: str
         """
         self._compartment_id = compartment_id
+
+    @property
+    def availability_domain(self):
+        """
+        Gets the availability_domain of this Deployment.
+        The availability domain of a placement.
+
+
+        :return: The availability_domain of this Deployment.
+        :rtype: str
+        """
+        return self._availability_domain
+
+    @availability_domain.setter
+    def availability_domain(self, availability_domain):
+        """
+        Sets the availability_domain of this Deployment.
+        The availability domain of a placement.
+
+
+        :param availability_domain: The availability_domain of this Deployment.
+        :type: str
+        """
+        self._availability_domain = availability_domain
+
+    @property
+    def fault_domain(self):
+        """
+        Gets the fault_domain of this Deployment.
+        The fault domain of a placement.
+
+
+        :return: The fault_domain of this Deployment.
+        :rtype: str
+        """
+        return self._fault_domain
+
+    @fault_domain.setter
+    def fault_domain(self, fault_domain):
+        """
+        Sets the fault_domain of this Deployment.
+        The fault domain of a placement.
+
+
+        :param fault_domain: The fault_domain of this Deployment.
+        :type: str
+        """
+        self._fault_domain = fault_domain
+
+    @property
+    def deployment_role(self):
+        """
+        Gets the deployment_role of this Deployment.
+        The type of the deployment role.
+
+        Allowed values for this property are: "PRIMARY", "STANDBY", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The deployment_role of this Deployment.
+        :rtype: str
+        """
+        return self._deployment_role
+
+    @deployment_role.setter
+    def deployment_role(self, deployment_role):
+        """
+        Sets the deployment_role of this Deployment.
+        The type of the deployment role.
+
+
+        :param deployment_role: The deployment_role of this Deployment.
+        :type: str
+        """
+        allowed_values = ["PRIMARY", "STANDBY"]
+        if not value_allowed_none_or_none_sentinel(deployment_role, allowed_values):
+            deployment_role = 'UNKNOWN_ENUM_VALUE'
+        self._deployment_role = deployment_role
+
+    @property
+    def time_role_changed(self):
+        """
+        Gets the time_role_changed of this Deployment.
+        The time of the last role change. The format is defined by
+        `RFC3339`__, such as `2016-08-25T21:10:29.600Z`.
+
+        __ https://tools.ietf.org/html/rfc3339
+
+
+        :return: The time_role_changed of this Deployment.
+        :rtype: datetime
+        """
+        return self._time_role_changed
+
+    @time_role_changed.setter
+    def time_role_changed(self, time_role_changed):
+        """
+        Sets the time_role_changed of this Deployment.
+        The time of the last role change. The format is defined by
+        `RFC3339`__, such as `2016-08-25T21:10:29.600Z`.
+
+        __ https://tools.ietf.org/html/rfc3339
+
+
+        :param time_role_changed: The time_role_changed of this Deployment.
+        :type: datetime
+        """
+        self._time_role_changed = time_role_changed
+
+    @property
+    def source_deployment_id(self):
+        """
+        Gets the source_deployment_id of this Deployment.
+        The `OCID`__ of the deployment being referenced.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The source_deployment_id of this Deployment.
+        :rtype: str
+        """
+        return self._source_deployment_id
+
+    @source_deployment_id.setter
+    def source_deployment_id(self, source_deployment_id):
+        """
+        Sets the source_deployment_id of this Deployment.
+        The `OCID`__ of the deployment being referenced.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param source_deployment_id: The source_deployment_id of this Deployment.
+        :type: str
+        """
+        self._source_deployment_id = source_deployment_id
+
+    @property
+    def placements(self):
+        """
+        Gets the placements of this Deployment.
+        An array of local peers of deployment
+
+
+        :return: The placements of this Deployment.
+        :rtype: list[oci.golden_gate.models.DeploymentPlacementInfo]
+        """
+        return self._placements
+
+    @placements.setter
+    def placements(self, placements):
+        """
+        Sets the placements of this Deployment.
+        An array of local peers of deployment
+
+
+        :param placements: The placements of this Deployment.
+        :type: list[oci.golden_gate.models.DeploymentPlacementInfo]
+        """
+        self._placements = placements
 
     @property
     def deployment_backup_id(self):
@@ -1417,7 +1652,7 @@ class Deployment(object):
         NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.
             Its use is discouraged in favor of 'DATABASE_ORACLE'.
 
-        Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -1438,7 +1673,7 @@ class Deployment(object):
         :param deployment_type: The deployment_type of this Deployment.
         :type: str
         """
-        allowed_values = ["OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS"]
+        allowed_values = ["OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS"]
         if not value_allowed_none_or_none_sentinel(deployment_type, allowed_values):
             deployment_type = 'UNKNOWN_ENUM_VALUE'
         self._deployment_type = deployment_type
@@ -1636,6 +1871,86 @@ class Deployment(object):
         :type: datetime
         """
         self._time_ogg_version_supported_until = time_ogg_version_supported_until
+
+    @property
+    def backup_schedule(self):
+        """
+        Gets the backup_schedule of this Deployment.
+
+        :return: The backup_schedule of this Deployment.
+        :rtype: oci.golden_gate.models.BackupSchedule
+        """
+        return self._backup_schedule
+
+    @backup_schedule.setter
+    def backup_schedule(self, backup_schedule):
+        """
+        Sets the backup_schedule of this Deployment.
+
+        :param backup_schedule: The backup_schedule of this Deployment.
+        :type: oci.golden_gate.models.BackupSchedule
+        """
+        self._backup_schedule = backup_schedule
+
+    @property
+    def time_last_backup_scheduled(self):
+        """
+        Gets the time_last_backup_scheduled of this Deployment.
+        The timestamp of last deployment backup scheduled. The format is defined by
+        `RFC3339`__, such as `2024-10-25T18:19:29.600Z`.
+
+        __ https://tools.ietf.org/html/rfc3339
+
+
+        :return: The time_last_backup_scheduled of this Deployment.
+        :rtype: datetime
+        """
+        return self._time_last_backup_scheduled
+
+    @time_last_backup_scheduled.setter
+    def time_last_backup_scheduled(self, time_last_backup_scheduled):
+        """
+        Sets the time_last_backup_scheduled of this Deployment.
+        The timestamp of last deployment backup scheduled. The format is defined by
+        `RFC3339`__, such as `2024-10-25T18:19:29.600Z`.
+
+        __ https://tools.ietf.org/html/rfc3339
+
+
+        :param time_last_backup_scheduled: The time_last_backup_scheduled of this Deployment.
+        :type: datetime
+        """
+        self._time_last_backup_scheduled = time_last_backup_scheduled
+
+    @property
+    def time_next_backup_scheduled(self):
+        """
+        Gets the time_next_backup_scheduled of this Deployment.
+        The timestamp of next deployment backup scheduled. The format is defined by
+        `RFC3339`__, such as `2024-10-26T20:19:29.600Z`.
+
+        __ https://tools.ietf.org/html/rfc3339
+
+
+        :return: The time_next_backup_scheduled of this Deployment.
+        :rtype: datetime
+        """
+        return self._time_next_backup_scheduled
+
+    @time_next_backup_scheduled.setter
+    def time_next_backup_scheduled(self, time_next_backup_scheduled):
+        """
+        Sets the time_next_backup_scheduled of this Deployment.
+        The timestamp of next deployment backup scheduled. The format is defined by
+        `RFC3339`__, such as `2024-10-26T20:19:29.600Z`.
+
+        __ https://tools.ietf.org/html/rfc3339
+
+
+        :param time_next_backup_scheduled: The time_next_backup_scheduled of this Deployment.
+        :type: datetime
+        """
+        self._time_next_backup_scheduled = time_next_backup_scheduled
 
     @property
     def ingress_ips(self):

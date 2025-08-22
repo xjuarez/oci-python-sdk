@@ -44,13 +44,11 @@ class NotificationsTargetDetails(TargetDetails):
             'topic_id': 'str',
             'enable_formatted_messaging': 'bool'
         }
-
         self.attribute_map = {
             'kind': 'kind',
             'topic_id': 'topicId',
             'enable_formatted_messaging': 'enableFormattedMessaging'
         }
-
         self._kind = None
         self._topic_id = None
         self._enable_formatted_messaging = None
@@ -89,7 +87,6 @@ class NotificationsTargetDetails(TargetDetails):
         """
         Gets the enable_formatted_messaging of this NotificationsTargetDetails.
         Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the connector source and the subscription protocol.
-
         Example: `true`
 
 
@@ -103,7 +100,6 @@ class NotificationsTargetDetails(TargetDetails):
         """
         Sets the enable_formatted_messaging of this NotificationsTargetDetails.
         Whether to apply a simplified, user-friendly format to the message. Applies only when friendly formatting is supported by the connector source and the subscription protocol.
-
         Example: `true`
 
 

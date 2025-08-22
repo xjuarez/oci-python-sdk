@@ -23,7 +23,7 @@ class PrivateEndpointDetails(NetworkEndpointDetails):
 
         :param network_endpoint_type:
             The value to assign to the network_endpoint_type property of this PrivateEndpointDetails.
-            Allowed values for this property are: "PRIVATE"
+            Allowed values for this property are: "PUBLIC", "PRIVATE"
         :type network_endpoint_type: str
 
         :param subnet_id:
@@ -45,14 +45,12 @@ class PrivateEndpointDetails(NetworkEndpointDetails):
             'network_security_group_ids': 'list[str]',
             'private_endpoint_ip': 'str'
         }
-
         self.attribute_map = {
             'network_endpoint_type': 'networkEndpointType',
             'subnet_id': 'subnetId',
             'network_security_group_ids': 'networkSecurityGroupIds',
             'private_endpoint_ip': 'privateEndpointIp'
         }
-
         self._network_endpoint_type = None
         self._subnet_id = None
         self._network_security_group_ids = None

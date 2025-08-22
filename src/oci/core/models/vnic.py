@@ -165,7 +165,6 @@ class Vnic(object):
             'ipv6_addresses': 'list[str]',
             'route_table_id': 'str'
         }
-
         self.attribute_map = {
             'availability_domain': 'availabilityDomain',
             'compartment_id': 'compartmentId',
@@ -188,7 +187,6 @@ class Vnic(object):
             'ipv6_addresses': 'ipv6Addresses',
             'route_table_id': 'routeTableId'
         }
-
         self._availability_domain = None
         self._compartment_id = None
         self._defined_tags = None
@@ -835,7 +833,7 @@ class Vnic(object):
         """
         Gets the route_table_id of this Vnic.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -851,7 +849,7 @@ class Vnic(object):
         """
         Sets the route_table_id of this Vnic.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing

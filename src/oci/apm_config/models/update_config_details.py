@@ -31,12 +31,22 @@ class UpdateConfigDetails(object):
     #: This constant has a value of "OPTIONS"
     CONFIG_TYPE_OPTIONS = "OPTIONS"
 
+    #: A constant which can be used with the config_type property of a UpdateConfigDetails.
+    #: This constant has a value of "AGENT"
+    CONFIG_TYPE_AGENT = "AGENT"
+
+    #: A constant which can be used with the config_type property of a UpdateConfigDetails.
+    #: This constant has a value of "MACS_APM_EXTENSION"
+    CONFIG_TYPE_MACS_APM_EXTENSION = "MACS_APM_EXTENSION"
+
     def __init__(self, **kwargs):
         """
         Initializes a new UpdateConfigDetails object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
         * :class:`~oci.apm_config.models.UpdateMetricGroupDetails`
+        * :class:`~oci.apm_config.models.UpdateAgentConfigDetails`
+        * :class:`~oci.apm_config.models.UpdateMacsApmExtensionDetails`
         * :class:`~oci.apm_config.models.UpdateApdexRulesDetails`
         * :class:`~oci.apm_config.models.UpdateSpanFilterDetails`
         * :class:`~oci.apm_config.models.UpdateOptionsDetails`
@@ -45,7 +55,7 @@ class UpdateConfigDetails(object):
 
         :param config_type:
             The value to assign to the config_type property of this UpdateConfigDetails.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param freeform_tags:
@@ -62,13 +72,11 @@ class UpdateConfigDetails(object):
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'config_type': 'configType',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
-
         self._config_type = None
         self._freeform_tags = None
         self._defined_tags = None
@@ -83,6 +91,12 @@ class UpdateConfigDetails(object):
 
         if type == 'METRIC_GROUP':
             return 'UpdateMetricGroupDetails'
+
+        if type == 'AGENT':
+            return 'UpdateAgentConfigDetails'
+
+        if type == 'MACS_APM_EXTENSION':
+            return 'UpdateMacsApmExtensionDetails'
 
         if type == 'APDEX':
             return 'UpdateApdexRulesDetails'
@@ -101,7 +115,7 @@ class UpdateConfigDetails(object):
         **[Required]** Gets the config_type of this UpdateConfigDetails.
         The type of configuration item.
 
-        Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+        Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
 
 
         :return: The config_type of this UpdateConfigDetails.
@@ -119,7 +133,7 @@ class UpdateConfigDetails(object):
         :param config_type: The config_type of this UpdateConfigDetails.
         :type: str
         """
-        allowed_values = ["SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"]
+        allowed_values = ["SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"]
         if not value_allowed_none_or_none_sentinel(config_type, allowed_values):
             raise ValueError(
                 f"Invalid value for `config_type`, must be None or one of {allowed_values}"

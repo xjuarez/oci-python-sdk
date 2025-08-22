@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class CreateDrgRouteDistributionDetails(object):
     """
-    Details used to create a route distribution.
+    Details used to create an import route distribution. You can't create a new export route distribution.
     """
 
     #: A constant which can be used with the distribution_type property of a CreateDrgRouteDistributionDetails.
@@ -53,7 +53,6 @@ class CreateDrgRouteDistributionDetails(object):
             'drg_id': 'str',
             'distribution_type': 'str'
         }
-
         self.attribute_map = {
             'defined_tags': 'definedTags',
             'display_name': 'displayName',
@@ -61,7 +60,6 @@ class CreateDrgRouteDistributionDetails(object):
             'drg_id': 'drgId',
             'distribution_type': 'distributionType'
         }
-
         self._defined_tags = None
         self._display_name = None
         self._freeform_tags = None
@@ -194,7 +192,7 @@ class CreateDrgRouteDistributionDetails(object):
     def distribution_type(self):
         """
         **[Required]** Gets the distribution_type of this CreateDrgRouteDistributionDetails.
-        Whether this distribution defines how routes get imported into route tables or exported through DRG attachments.
+        States that this distribution defines how routes get imported into route tables.
 
         Allowed values for this property are: "IMPORT"
 
@@ -208,7 +206,7 @@ class CreateDrgRouteDistributionDetails(object):
     def distribution_type(self, distribution_type):
         """
         Sets the distribution_type of this CreateDrgRouteDistributionDetails.
-        Whether this distribution defines how routes get imported into route tables or exported through DRG attachments.
+        States that this distribution defines how routes get imported into route tables.
 
 
         :param distribution_type: The distribution_type of this CreateDrgRouteDistributionDetails.

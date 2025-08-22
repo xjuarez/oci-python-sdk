@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class UpdateIncident(object):
     """
-    Details about the support ticket being updated.
+    Details about the support request being updated.
     """
 
     #: A constant which can be used with the problem_type property of a UpdateIncident.
@@ -54,12 +54,10 @@ class UpdateIncident(object):
             'ticket': 'UpdateTicketDetails',
             'problem_type': 'str'
         }
-
         self.attribute_map = {
             'ticket': 'ticket',
             'problem_type': 'problemType'
         }
-
         self._ticket = None
         self._problem_type = None
 
@@ -87,12 +85,12 @@ class UpdateIncident(object):
     def problem_type(self):
         """
         Gets the problem_type of this UpdateIncident.
-        The kind of support ticket (type of support request).
-        For information about `ACCOUNT` support tickets, see
+        The kind of support request (type of support request).
+        For information about `ACCOUNT` support requests, see
         `Creating a Billing Support Request`__.
-        For information about `LIMIT` support tickets, see
+        For information about `LIMIT` support requests, see
         `Creating a Service Limit Increase Request`__.
-        For information about `TECH` support tickets, see
+        For information about `TECH` support requests, see
         `Creating a Technical Support Request`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm
@@ -111,12 +109,12 @@ class UpdateIncident(object):
     def problem_type(self, problem_type):
         """
         Sets the problem_type of this UpdateIncident.
-        The kind of support ticket (type of support request).
-        For information about `ACCOUNT` support tickets, see
+        The kind of support request (type of support request).
+        For information about `ACCOUNT` support requests, see
         `Creating a Billing Support Request`__.
-        For information about `LIMIT` support tickets, see
+        For information about `LIMIT` support requests, see
         `Creating a Service Limit Increase Request`__.
-        For information about `TECH` support tickets, see
+        For information about `TECH` support requests, see
         `Creating a Technical Support Request`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm

@@ -23,6 +23,14 @@ class CreateCloudVmClusterDetails(object):
     #: This constant has a value of "BRING_YOUR_OWN_LICENSE"
     LICENSE_MODEL_BRING_YOUR_OWN_LICENSE = "BRING_YOUR_OWN_LICENSE"
 
+    #: A constant which can be used with the vm_cluster_type property of a CreateCloudVmClusterDetails.
+    #: This constant has a value of "REGULAR"
+    VM_CLUSTER_TYPE_REGULAR = "REGULAR"
+
+    #: A constant which can be used with the vm_cluster_type property of a CreateCloudVmClusterDetails.
+    #: This constant has a value of "DEVELOPER"
+    VM_CLUSTER_TYPE_DEVELOPER = "DEVELOPER"
+
     def __init__(self, **kwargs):
         """
         Initializes a new CreateCloudVmClusterDetails object with values from keyword arguments.
@@ -165,6 +173,11 @@ class CreateCloudVmClusterDetails(object):
             The value to assign to the cloud_automation_update_details property of this CreateCloudVmClusterDetails.
         :type cloud_automation_update_details: oci.database.models.CloudAutomationUpdateDetails
 
+        :param vm_cluster_type:
+            The value to assign to the vm_cluster_type property of this CreateCloudVmClusterDetails.
+            Allowed values for this property are: "REGULAR", "DEVELOPER"
+        :type vm_cluster_type: str
+
         """
         self.swagger_types = {
             'compartment_id': 'str',
@@ -200,9 +213,9 @@ class CreateCloudVmClusterDetails(object):
             'data_collection_options': 'DataCollectionOptions',
             'system_version': 'str',
             'file_system_configuration_details': 'list[FileSystemConfigurationDetail]',
-            'cloud_automation_update_details': 'CloudAutomationUpdateDetails'
+            'cloud_automation_update_details': 'CloudAutomationUpdateDetails',
+            'vm_cluster_type': 'str'
         }
-
         self.attribute_map = {
             'compartment_id': 'compartmentId',
             'subscription_id': 'subscriptionId',
@@ -237,9 +250,9 @@ class CreateCloudVmClusterDetails(object):
             'data_collection_options': 'dataCollectionOptions',
             'system_version': 'systemVersion',
             'file_system_configuration_details': 'fileSystemConfigurationDetails',
-            'cloud_automation_update_details': 'cloudAutomationUpdateDetails'
+            'cloud_automation_update_details': 'cloudAutomationUpdateDetails',
+            'vm_cluster_type': 'vmClusterType'
         }
-
         self._compartment_id = None
         self._subscription_id = None
         self._subnet_id = None
@@ -274,6 +287,7 @@ class CreateCloudVmClusterDetails(object):
         self._system_version = None
         self._file_system_configuration_details = None
         self._cloud_automation_update_details = None
+        self._vm_cluster_type = None
 
     @property
     def compartment_id(self):
@@ -391,15 +405,15 @@ class CreateCloudVmClusterDetails(object):
     def cpu_core_count(self):
         """
         **[Required]** Gets the cpu_core_count of this CreateCloudVmClusterDetails.
-        The number of CPU cores to enable for a cloud VM cluster. Valid values depend on the specified shape:
+        The number of ECPUs (X11M and higher) or number of OCPUs (X10M and earlier) to enable for the VM cluster.
 
-        - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
-        - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
-        - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
-        - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
-        - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
-        - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
-        - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
+         - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
+         - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
+         - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
+         - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
+         - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
+         - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
+         - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
 
 
         :return: The cpu_core_count of this CreateCloudVmClusterDetails.
@@ -411,15 +425,15 @@ class CreateCloudVmClusterDetails(object):
     def cpu_core_count(self, cpu_core_count):
         """
         Sets the cpu_core_count of this CreateCloudVmClusterDetails.
-        The number of CPU cores to enable for a cloud VM cluster. Valid values depend on the specified shape:
+        The number of ECPUs (X11M and higher) or number of OCPUs (X10M and earlier) to enable for the VM cluster.
 
-        - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
-        - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
-        - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
-        - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
-        - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
-        - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
-        - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
+         - Exadata.Base.48 - Specify a multiple of 2, from 0 to 48.
+         - Exadata.Quarter1.84 - Specify a multiple of 2, from 22 to 84.
+         - Exadata.Half1.168 - Specify a multiple of 4, from 44 to 168.
+         - Exadata.Full1.336 - Specify a multiple of 8, from 88 to 336.
+         - Exadata.Quarter2.92 - Specify a multiple of 2, from 0 to 92.
+         - Exadata.Half2.184 - Specify a multiple of 4, from 0 to 184.
+         - Exadata.Full2.368 - Specify a multiple of 8, from 0 to 368.
 
 
         :param cpu_core_count: The cpu_core_count of this CreateCloudVmClusterDetails.
@@ -1193,6 +1207,37 @@ class CreateCloudVmClusterDetails(object):
         :type: oci.database.models.CloudAutomationUpdateDetails
         """
         self._cloud_automation_update_details = cloud_automation_update_details
+
+    @property
+    def vm_cluster_type(self):
+        """
+        Gets the vm_cluster_type of this CreateCloudVmClusterDetails.
+        The vmcluster type for the VM cluster/Cloud VM cluster.
+
+        Allowed values for this property are: "REGULAR", "DEVELOPER"
+
+
+        :return: The vm_cluster_type of this CreateCloudVmClusterDetails.
+        :rtype: str
+        """
+        return self._vm_cluster_type
+
+    @vm_cluster_type.setter
+    def vm_cluster_type(self, vm_cluster_type):
+        """
+        Sets the vm_cluster_type of this CreateCloudVmClusterDetails.
+        The vmcluster type for the VM cluster/Cloud VM cluster.
+
+
+        :param vm_cluster_type: The vm_cluster_type of this CreateCloudVmClusterDetails.
+        :type: str
+        """
+        allowed_values = ["REGULAR", "DEVELOPER"]
+        if not value_allowed_none_or_none_sentinel(vm_cluster_type, allowed_values):
+            raise ValueError(
+                f"Invalid value for `vm_cluster_type`, must be None or one of {allowed_values}"
+            )
+        self._vm_cluster_type = vm_cluster_type
 
     def __repr__(self):
         return formatted_flat_dict(self)

@@ -87,6 +87,7 @@ class DiscoveredExternalDbSystemComponent(object):
         * :class:`~oci.database_management.models.DiscoveredExternalClusterInstance`
         * :class:`~oci.database_management.models.DiscoveredExternalListener`
         * :class:`~oci.database_management.models.DiscoveredExternalDbNode`
+        * :class:`~oci.database_management.models.DiscoveredExternalDbInstance`
         * :class:`~oci.database_management.models.DiscoveredExternalAsm`
         * :class:`~oci.database_management.models.DiscoveredExternalAsmInstance`
 
@@ -139,7 +140,6 @@ class DiscoveredExternalDbSystemComponent(object):
             'status': 'str',
             'associated_components': 'list[AssociatedComponent]'
         }
-
         self.attribute_map = {
             'component_id': 'componentId',
             'display_name': 'displayName',
@@ -150,7 +150,6 @@ class DiscoveredExternalDbSystemComponent(object):
             'status': 'status',
             'associated_components': 'associatedComponents'
         }
-
         self._component_id = None
         self._display_name = None
         self._component_name = None
@@ -188,6 +187,9 @@ class DiscoveredExternalDbSystemComponent(object):
 
         if type == 'DATABASE_NODE':
             return 'DiscoveredExternalDbNode'
+
+        if type == 'DATABASE_INSTANCE':
+            return 'DiscoveredExternalDbInstance'
 
         if type == 'ASM':
             return 'DiscoveredExternalAsm'

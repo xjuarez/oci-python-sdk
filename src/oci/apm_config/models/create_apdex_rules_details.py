@@ -24,7 +24,7 @@ class CreateApdexRulesDetails(CreateConfigDetails):
 
         :param config_type:
             The value to assign to the config_type property of this CreateApdexRulesDetails.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param freeform_tags:
@@ -51,7 +51,6 @@ class CreateApdexRulesDetails(CreateConfigDetails):
             'rules': 'list[Apdex]',
             'display_name': 'str'
         }
-
         self.attribute_map = {
             'config_type': 'configType',
             'freeform_tags': 'freeformTags',
@@ -59,7 +58,6 @@ class CreateApdexRulesDetails(CreateConfigDetails):
             'rules': 'rules',
             'display_name': 'displayName'
         }
-
         self._config_type = None
         self._freeform_tags = None
         self._defined_tags = None

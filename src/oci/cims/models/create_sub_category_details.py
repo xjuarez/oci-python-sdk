@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class CreateSubCategoryDetails(object):
     """
-    Details for creating the service subcategory of the support ticket.
+    Details for creating the service subcategory of the support request.
     """
 
     def __init__(self, **kwargs):
@@ -28,11 +28,9 @@ class CreateSubCategoryDetails(object):
         self.swagger_types = {
             'sub_category_key': 'str'
         }
-
         self.attribute_map = {
             'sub_category_key': 'subCategoryKey'
         }
-
         self._sub_category_key = None
 
     @property

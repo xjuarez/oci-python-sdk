@@ -23,7 +23,7 @@ class EnableAutonomousDatabaseInsightDetails(EnableDatabaseInsightDetails):
 
         :param entity_source:
             The value to assign to the entity_source property of this EnableAutonomousDatabaseInsightDetails.
-            Allowed values for this property are: "EM_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE"
+            Allowed values for this property are: "EM_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE", "MACS_MANAGED_AUTONOMOUS_DATABASE"
         :type entity_source: str
 
         :param database_resource_type:
@@ -70,7 +70,6 @@ class EnableAutonomousDatabaseInsightDetails(EnableDatabaseInsightDetails):
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'entity_source': 'entitySource',
             'database_resource_type': 'databaseResourceType',
@@ -82,7 +81,6 @@ class EnableAutonomousDatabaseInsightDetails(EnableDatabaseInsightDetails):
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
         }
-
         self._entity_source = None
         self._database_resource_type = None
         self._is_advanced_features_enabled = None

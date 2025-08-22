@@ -168,6 +168,14 @@ class AutonomousContainerDatabaseSummary(object):
             The value to assign to the display_name property of this AutonomousContainerDatabaseSummary.
         :type display_name: str
 
+        :param customer_contacts:
+            The value to assign to the customer_contacts property of this AutonomousContainerDatabaseSummary.
+        :type customer_contacts: list[oci.database.models.CustomerContact]
+
+        :param okv_end_point_group_name:
+            The value to assign to the okv_end_point_group_name property of this AutonomousContainerDatabaseSummary.
+        :type okv_end_point_group_name: str
+
         :param db_unique_name:
             The value to assign to the db_unique_name property of this AutonomousContainerDatabaseSummary.
         :type db_unique_name: str
@@ -281,6 +289,10 @@ class AutonomousContainerDatabaseSummary(object):
         :param defined_tags:
             The value to assign to the defined_tags property of this AutonomousContainerDatabaseSummary.
         :type defined_tags: dict(str, dict(str, object))
+
+        :param system_tags:
+            The value to assign to the system_tags property of this AutonomousContainerDatabaseSummary.
+        :type system_tags: dict(str, dict(str, object))
 
         :param role:
             The value to assign to the role property of this AutonomousContainerDatabaseSummary.
@@ -407,6 +419,8 @@ class AutonomousContainerDatabaseSummary(object):
             'id': 'str',
             'compartment_id': 'str',
             'display_name': 'str',
+            'customer_contacts': 'list[CustomerContact]',
+            'okv_end_point_group_name': 'str',
             'db_unique_name': 'str',
             'db_name': 'str',
             'service_level_agreement_type': 'str',
@@ -433,6 +447,7 @@ class AutonomousContainerDatabaseSummary(object):
             'dst_file_version': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, dict(str, object))',
             'role': 'str',
             'availability_domain': 'str',
             'db_version': 'str',
@@ -462,11 +477,12 @@ class AutonomousContainerDatabaseSummary(object):
             'dataguard': 'AutonomousContainerDatabaseDataguard',
             'dataguard_group_members': 'list[AutonomousContainerDatabaseDataguard]'
         }
-
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
             'display_name': 'displayName',
+            'customer_contacts': 'customerContacts',
+            'okv_end_point_group_name': 'okvEndPointGroupName',
             'db_unique_name': 'dbUniqueName',
             'db_name': 'dbName',
             'service_level_agreement_type': 'serviceLevelAgreementType',
@@ -493,6 +509,7 @@ class AutonomousContainerDatabaseSummary(object):
             'dst_file_version': 'dstFileVersion',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'system_tags': 'systemTags',
             'role': 'role',
             'availability_domain': 'availabilityDomain',
             'db_version': 'dbVersion',
@@ -522,10 +539,11 @@ class AutonomousContainerDatabaseSummary(object):
             'dataguard': 'dataguard',
             'dataguard_group_members': 'dataguardGroupMembers'
         }
-
         self._id = None
         self._compartment_id = None
         self._display_name = None
+        self._customer_contacts = None
+        self._okv_end_point_group_name = None
         self._db_unique_name = None
         self._db_name = None
         self._service_level_agreement_type = None
@@ -552,6 +570,7 @@ class AutonomousContainerDatabaseSummary(object):
         self._dst_file_version = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._system_tags = None
         self._role = None
         self._availability_domain = None
         self._db_version = None
@@ -652,6 +671,54 @@ class AutonomousContainerDatabaseSummary(object):
         :type: str
         """
         self._display_name = display_name
+
+    @property
+    def customer_contacts(self):
+        """
+        Gets the customer_contacts of this AutonomousContainerDatabaseSummary.
+        Customer Contacts. Setting this to an empty list removes all customer contacts.
+
+
+        :return: The customer_contacts of this AutonomousContainerDatabaseSummary.
+        :rtype: list[oci.database.models.CustomerContact]
+        """
+        return self._customer_contacts
+
+    @customer_contacts.setter
+    def customer_contacts(self, customer_contacts):
+        """
+        Sets the customer_contacts of this AutonomousContainerDatabaseSummary.
+        Customer Contacts. Setting this to an empty list removes all customer contacts.
+
+
+        :param customer_contacts: The customer_contacts of this AutonomousContainerDatabaseSummary.
+        :type: list[oci.database.models.CustomerContact]
+        """
+        self._customer_contacts = customer_contacts
+
+    @property
+    def okv_end_point_group_name(self):
+        """
+        Gets the okv_end_point_group_name of this AutonomousContainerDatabaseSummary.
+        The OKV End Point Group name for the Autonomous Container Database.
+
+
+        :return: The okv_end_point_group_name of this AutonomousContainerDatabaseSummary.
+        :rtype: str
+        """
+        return self._okv_end_point_group_name
+
+    @okv_end_point_group_name.setter
+    def okv_end_point_group_name(self, okv_end_point_group_name):
+        """
+        Sets the okv_end_point_group_name of this AutonomousContainerDatabaseSummary.
+        The OKV End Point Group name for the Autonomous Container Database.
+
+
+        :param okv_end_point_group_name: The okv_end_point_group_name of this AutonomousContainerDatabaseSummary.
+        :type: str
+        """
+        self._okv_end_point_group_name = okv_end_point_group_name
 
     @property
     def db_unique_name(self):
@@ -1344,6 +1411,36 @@ class AutonomousContainerDatabaseSummary(object):
         self._defined_tags = defined_tags
 
     @property
+    def system_tags(self):
+        """
+        Gets the system_tags of this AutonomousContainerDatabaseSummary.
+        System tags for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+
+
+        :return: The system_tags of this AutonomousContainerDatabaseSummary.
+        :rtype: dict(str, dict(str, object))
+        """
+        return self._system_tags
+
+    @system_tags.setter
+    def system_tags(self, system_tags):
+        """
+        Sets the system_tags of this AutonomousContainerDatabaseSummary.
+        System tags for this resource. Each key is predefined and scoped to a namespace.
+        For more information, see `Resource Tags`__.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+
+
+        :param system_tags: The system_tags of this AutonomousContainerDatabaseSummary.
+        :type: dict(str, dict(str, object))
+        """
+        self._system_tags = system_tags
+
+    @property
     def role(self):
         """
         Gets the role of this AutonomousContainerDatabaseSummary.
@@ -1947,7 +2044,7 @@ class AutonomousContainerDatabaseSummary(object):
     def is_multiple_standby(self):
         """
         Gets the is_multiple_standby of this AutonomousContainerDatabaseSummary.
-        Whether it is multiple standby Autonomous Dataguard
+        Indicates if it is multiple standby Autonomous Dataguard
 
 
         :return: The is_multiple_standby of this AutonomousContainerDatabaseSummary.
@@ -1959,7 +2056,7 @@ class AutonomousContainerDatabaseSummary(object):
     def is_multiple_standby(self, is_multiple_standby):
         """
         Sets the is_multiple_standby of this AutonomousContainerDatabaseSummary.
-        Whether it is multiple standby Autonomous Dataguard
+        Indicates if it is multiple standby Autonomous Dataguard
 
 
         :param is_multiple_standby: The is_multiple_standby of this AutonomousContainerDatabaseSummary.

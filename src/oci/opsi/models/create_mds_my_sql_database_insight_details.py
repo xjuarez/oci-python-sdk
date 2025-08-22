@@ -23,7 +23,7 @@ class CreateMdsMySqlDatabaseInsightDetails(CreateDatabaseInsightDetails):
 
         :param entity_source:
             The value to assign to the entity_source property of this CreateMdsMySqlDatabaseInsightDetails.
-            Allowed values for this property are: "EM_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE"
+            Allowed values for this property are: "EM_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE", "MACS_MANAGED_AUTONOMOUS_DATABASE"
         :type entity_source: str
 
         :param compartment_id:
@@ -50,7 +50,6 @@ class CreateMdsMySqlDatabaseInsightDetails(CreateDatabaseInsightDetails):
             'defined_tags': 'dict(str, dict(str, object))',
             'database_id': 'str'
         }
-
         self.attribute_map = {
             'entity_source': 'entitySource',
             'compartment_id': 'compartmentId',
@@ -58,7 +57,6 @@ class CreateMdsMySqlDatabaseInsightDetails(CreateDatabaseInsightDetails):
             'defined_tags': 'definedTags',
             'database_id': 'databaseId'
         }
-
         self._entity_source = None
         self._compartment_id = None
         self._freeform_tags = None

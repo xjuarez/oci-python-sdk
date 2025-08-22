@@ -53,14 +53,12 @@ class ProtectedBranch(object):
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'branch_name': 'branchName',
             'protection_levels': 'protectionLevels',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
-
         self._branch_name = None
         self._protection_levels = None
         self._freeform_tags = None
@@ -70,7 +68,7 @@ class ProtectedBranch(object):
     def branch_name(self):
         """
         **[Required]** Gets the branch_name of this ProtectedBranch.
-        Branch name inside a repository.
+        The branchName can either be exact branch name or branch pattern.
 
 
         :return: The branch_name of this ProtectedBranch.
@@ -82,7 +80,7 @@ class ProtectedBranch(object):
     def branch_name(self, branch_name):
         """
         Sets the branch_name of this ProtectedBranch.
-        Branch name inside a repository.
+        The branchName can either be exact branch name or branch pattern.
 
 
         :param branch_name: The branch_name of this ProtectedBranch.

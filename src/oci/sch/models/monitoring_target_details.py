@@ -54,7 +54,6 @@ class MonitoringTargetDetails(TargetDetails):
             'metric': 'str',
             'dimensions': 'list[DimensionDetails]'
         }
-
         self.attribute_map = {
             'kind': 'kind',
             'compartment_id': 'compartmentId',
@@ -62,7 +61,6 @@ class MonitoringTargetDetails(TargetDetails):
             'metric': 'metric',
             'dimensions': 'dimensions'
         }
-
         self._kind = None
         self._compartment_id = None
         self._metric_namespace = None
@@ -103,7 +101,6 @@ class MonitoringTargetDetails(TargetDetails):
         """
         **[Required]** Gets the metric_namespace of this MonitoringTargetDetails.
         The namespace of the metric.
-
         Example: `oci_computeagent`
 
 
@@ -117,7 +114,6 @@ class MonitoringTargetDetails(TargetDetails):
         """
         Sets the metric_namespace of this MonitoringTargetDetails.
         The namespace of the metric.
-
         Example: `oci_computeagent`
 
 
@@ -131,7 +127,6 @@ class MonitoringTargetDetails(TargetDetails):
         """
         **[Required]** Gets the metric of this MonitoringTargetDetails.
         The name of the metric.
-
         Example: `CpuUtilization`
 
 
@@ -145,7 +140,6 @@ class MonitoringTargetDetails(TargetDetails):
         """
         Sets the metric of this MonitoringTargetDetails.
         The name of the metric.
-
         Example: `CpuUtilization`
 
 

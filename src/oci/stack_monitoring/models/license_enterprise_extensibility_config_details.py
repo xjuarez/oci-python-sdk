@@ -49,7 +49,7 @@ class LicenseEnterpriseExtensibilityConfigDetails(Config):
 
         :param config_type:
             The value to assign to the config_type property of this LicenseEnterpriseExtensibilityConfigDetails.
-            Allowed values for this property are: "AUTO_PROMOTE", "LICENSE_AUTO_ASSIGN", "LICENSE_ENTERPRISE_EXTENSIBILITY"
+            Allowed values for this property are: "AUTO_PROMOTE", "COMPUTE_AUTO_ACTIVATE_PLUGIN", "LICENSE_AUTO_ASSIGN", "LICENSE_ENTERPRISE_EXTENSIBILITY", "ONBOARD"
         :type config_type: str
 
         :param freeform_tags:
@@ -82,7 +82,6 @@ class LicenseEnterpriseExtensibilityConfigDetails(Config):
             'system_tags': 'dict(str, dict(str, object))',
             'is_enabled': 'bool'
         }
-
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
@@ -96,7 +95,6 @@ class LicenseEnterpriseExtensibilityConfigDetails(Config):
             'system_tags': 'systemTags',
             'is_enabled': 'isEnabled'
         }
-
         self._id = None
         self._compartment_id = None
         self._display_name = None

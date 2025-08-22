@@ -145,7 +145,6 @@ class AttributeUpdateResponse(object):
             'attribute_name_space': 'str',
             'time_updated': 'datetime'
         }
-
         self.attribute_map = {
             'attribute_name': 'attributeName',
             'attribute_type': 'attributeType',
@@ -156,7 +155,6 @@ class AttributeUpdateResponse(object):
             'attribute_name_space': 'attributeNameSpace',
             'time_updated': 'timeUpdated'
         }
-
         self._attribute_name = None
         self._attribute_type = None
         self._unit = None
@@ -224,7 +222,7 @@ class AttributeUpdateResponse(object):
     def unit(self):
         """
         Gets the unit of this AttributeUpdateResponse.
-        Unit updated for this attribute.
+        Unit updated for this attribute.  If unit is not specified, it defaults to NONE.
 
         Allowed values for this property are: "NONE", "EPOCH_TIME_MS", "BYTES", "COUNT", "DURATION_MS", "TRACE_STATUS", "PERCENTAGE", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -239,7 +237,7 @@ class AttributeUpdateResponse(object):
     def unit(self, unit):
         """
         Sets the unit of this AttributeUpdateResponse.
-        Unit updated for this attribute.
+        Unit updated for this attribute.  If unit is not specified, it defaults to NONE.
 
 
         :param unit: The unit of this AttributeUpdateResponse.

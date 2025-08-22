@@ -44,14 +44,12 @@ class MetricExtraction(object):
             'metric_name': 'str',
             'resource_group': 'str'
         }
-
         self.attribute_map = {
             'compartment_id': 'compartmentId',
             'namespace': 'namespace',
             'metric_name': 'metricName',
             'resource_group': 'resourceGroup'
         }
-
         self._compartment_id = None
         self._namespace = None
         self._metric_name = None
@@ -60,7 +58,7 @@ class MetricExtraction(object):
     @property
     def compartment_id(self):
         """
-        **[Required]** Gets the compartment_id of this MetricExtraction.
+        Gets the compartment_id of this MetricExtraction.
         The compartment OCID (/iaas/Content/General/Concepts/identifiers.htm) of the extracted metric.
 
 
@@ -84,7 +82,7 @@ class MetricExtraction(object):
     @property
     def namespace(self):
         """
-        **[Required]** Gets the namespace of this MetricExtraction.
+        Gets the namespace of this MetricExtraction.
         The namespace of the extracted metric.
         A valid value starts with an alphabetical character and includes only
         alphanumeric characters and underscores (_).
@@ -112,7 +110,7 @@ class MetricExtraction(object):
     @property
     def metric_name(self):
         """
-        **[Required]** Gets the metric_name of this MetricExtraction.
+        Gets the metric_name of this MetricExtraction.
         The metric name of the extracted metric.
         A valid value starts with an alphabetical character and includes only
         alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).

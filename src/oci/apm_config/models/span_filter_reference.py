@@ -31,6 +31,14 @@ class SpanFilterReference(object):
     #: This constant has a value of "OPTIONS"
     CONFIG_TYPE_OPTIONS = "OPTIONS"
 
+    #: A constant which can be used with the config_type property of a SpanFilterReference.
+    #: This constant has a value of "AGENT"
+    CONFIG_TYPE_AGENT = "AGENT"
+
+    #: A constant which can be used with the config_type property of a SpanFilterReference.
+    #: This constant has a value of "MACS_APM_EXTENSION"
+    CONFIG_TYPE_MACS_APM_EXTENSION = "MACS_APM_EXTENSION"
+
     def __init__(self, **kwargs):
         """
         Initializes a new SpanFilterReference object with values from keyword arguments.
@@ -42,7 +50,7 @@ class SpanFilterReference(object):
 
         :param config_type:
             The value to assign to the config_type property of this SpanFilterReference.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type config_type: str
 
@@ -61,14 +69,12 @@ class SpanFilterReference(object):
             'options_group': 'str',
             'display_name': 'str'
         }
-
         self.attribute_map = {
             'id': 'id',
             'config_type': 'configType',
             'options_group': 'optionsGroup',
             'display_name': 'displayName'
         }
-
         self._id = None
         self._config_type = None
         self._options_group = None
@@ -110,7 +116,7 @@ class SpanFilterReference(object):
         Gets the config_type of this SpanFilterReference.
         The type of configuration item.
 
-        Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -129,7 +135,7 @@ class SpanFilterReference(object):
         :param config_type: The config_type of this SpanFilterReference.
         :type: str
         """
-        allowed_values = ["SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"]
+        allowed_values = ["SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"]
         if not value_allowed_none_or_none_sentinel(config_type, allowed_values):
             config_type = 'UNKNOWN_ENUM_VALUE'
         self._config_type = config_type

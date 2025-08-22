@@ -73,7 +73,6 @@ class CreateBackendSetDetails(object):
             'session_persistence_configuration': 'SessionPersistenceConfigurationDetails',
             'lb_cookie_session_persistence_configuration': 'LBCookieSessionPersistenceConfigurationDetails'
         }
-
         self.attribute_map = {
             'name': 'name',
             'policy': 'policy',
@@ -84,7 +83,6 @@ class CreateBackendSetDetails(object):
             'session_persistence_configuration': 'sessionPersistenceConfiguration',
             'lb_cookie_session_persistence_configuration': 'lbCookieSessionPersistenceConfiguration'
         }
-
         self._name = None
         self._policy = None
         self._backends = None
@@ -184,8 +182,12 @@ class CreateBackendSetDetails(object):
         Gets the backend_max_connections of this CreateBackendSetDetails.
         The maximum number of simultaneous connections the load balancer can make to any backend
         in the backend set unless the backend has its own maxConnections setting. If this is not
-        set then the number of simultaneous connections the load balancer can make to any backend
-        in the backend set unless the backend has its own maxConnections setting is unlimited.
+        set or set to 0 then the number of simultaneous connections the load balancer can make
+        to any backend in the backend set unless the backend has its own maxConnections setting
+        is unlimited.
+
+        If setting backendMaxConnections to some value other than 0 then that value must be greater
+        or equal to 256.
 
         Example: `300`
 
@@ -201,8 +203,12 @@ class CreateBackendSetDetails(object):
         Sets the backend_max_connections of this CreateBackendSetDetails.
         The maximum number of simultaneous connections the load balancer can make to any backend
         in the backend set unless the backend has its own maxConnections setting. If this is not
-        set then the number of simultaneous connections the load balancer can make to any backend
-        in the backend set unless the backend has its own maxConnections setting is unlimited.
+        set or set to 0 then the number of simultaneous connections the load balancer can make
+        to any backend in the backend set unless the backend has its own maxConnections setting
+        is unlimited.
+
+        If setting backendMaxConnections to some value other than 0 then that value must be greater
+        or equal to 256.
 
         Example: `300`
 

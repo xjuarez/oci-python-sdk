@@ -12,6 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class BlockVolumeAttachmentDetails(object):
     """
+    Deprecated. Use the 'ComputeInstanceNonMovableBlockVolumeAttachOperationDetails' definition instead of this.
     The details for attaching or detaching a block volume.
     """
 
@@ -28,19 +29,17 @@ class BlockVolumeAttachmentDetails(object):
         self.swagger_types = {
             'volume_attachment_reference_instance_id': 'str'
         }
-
         self.attribute_map = {
             'volume_attachment_reference_instance_id': 'volumeAttachmentReferenceInstanceId'
         }
-
         self._volume_attachment_reference_instance_id = None
 
     @property
     def volume_attachment_reference_instance_id(self):
         """
         **[Required]** Gets the volume_attachment_reference_instance_id of this BlockVolumeAttachmentDetails.
-        The OCID of the reference compute instance from which to obtain the attachment details for the volume.
-        This reference compute instance is from the peer DR protection group.
+        The OCID of the reference compute instance needed to obtain the volume attachment details.
+        This reference compute instance belongs to the peer DR protection group.
 
         Example: `ocid1.instance.oc1..uniqueID`
 
@@ -54,8 +53,8 @@ class BlockVolumeAttachmentDetails(object):
     def volume_attachment_reference_instance_id(self, volume_attachment_reference_instance_id):
         """
         Sets the volume_attachment_reference_instance_id of this BlockVolumeAttachmentDetails.
-        The OCID of the reference compute instance from which to obtain the attachment details for the volume.
-        This reference compute instance is from the peer DR protection group.
+        The OCID of the reference compute instance needed to obtain the volume attachment details.
+        This reference compute instance belongs to the peer DR protection group.
 
         Example: `ocid1.instance.oc1..uniqueID`
 

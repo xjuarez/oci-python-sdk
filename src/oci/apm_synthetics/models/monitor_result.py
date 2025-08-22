@@ -53,7 +53,6 @@ class MonitorResult(object):
             'vantage_point': 'str',
             'execution_time': 'str'
         }
-
         self.attribute_map = {
             'result_type': 'resultType',
             'result_content_type': 'resultContentType',
@@ -62,7 +61,6 @@ class MonitorResult(object):
             'vantage_point': 'vantagePoint',
             'execution_time': 'executionTime'
         }
-
         self._result_type = None
         self._result_content_type = None
         self._result_data_set = None
@@ -75,7 +73,7 @@ class MonitorResult(object):
         """
         Gets the result_type of this MonitorResult.
         Type of result.
-        Example: HAR, Screenshot, Log or Network.
+        Example: har, screenshot, log, network, diagnostics or script.
 
 
         :return: The result_type of this MonitorResult.
@@ -88,7 +86,7 @@ class MonitorResult(object):
         """
         Sets the result_type of this MonitorResult.
         Type of result.
-        Example: HAR, Screenshot, Log or Network.
+        Example: har, screenshot, log, network, diagnostics or script.
 
 
         :param result_type: The result_type of this MonitorResult.

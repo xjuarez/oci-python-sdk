@@ -43,11 +43,9 @@ class SecretDetail(object):
         self.swagger_types = {
             'type': 'str'
         }
-
         self.attribute_map = {
             'type': 'type'
         }
-
         self._type = None
 
     @staticmethod
@@ -71,9 +69,6 @@ class SecretDetail(object):
         """
         **[Required]** Gets the type of this SecretDetail.
         The type of OpenID.
-        The allowed values are:
-        - `IDCS_SECRET`: The OpenID configuration used is OpenSearch is IDCS.
-        - `BASIC_AUTH_SECRET`: Basic authentication use for OpenSearch
 
         Allowed values for this property are: "IDCS_SECRET", "BASIC_AUTH_SECRET", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -89,9 +84,6 @@ class SecretDetail(object):
         """
         Sets the type of this SecretDetail.
         The type of OpenID.
-        The allowed values are:
-        - `IDCS_SECRET`: The OpenID configuration used is OpenSearch is IDCS.
-        - `BASIC_AUTH_SECRET`: Basic authentication use for OpenSearch
 
 
         :param type: The type of this SecretDetail.

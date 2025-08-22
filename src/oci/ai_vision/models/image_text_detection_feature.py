@@ -123,7 +123,7 @@ class ImageTextDetectionFeature(ImageFeature):
 
         :param feature_type:
             The value to assign to the feature_type property of this ImageTextDetectionFeature.
-            Allowed values for this property are: "IMAGE_CLASSIFICATION", "OBJECT_DETECTION", "TEXT_DETECTION", "FACE_DETECTION", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "IMAGE_CLASSIFICATION", "OBJECT_DETECTION", "TEXT_DETECTION", "FACE_DETECTION", "FACE_EMBEDDING", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type feature_type: str
 
@@ -138,12 +138,10 @@ class ImageTextDetectionFeature(ImageFeature):
             'feature_type': 'str',
             'language': 'str'
         }
-
         self.attribute_map = {
             'feature_type': 'featureType',
             'language': 'language'
         }
-
         self._feature_type = None
         self._language = None
         self._feature_type = 'TEXT_DETECTION'

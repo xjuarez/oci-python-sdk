@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class ServiceCategory(object):
     """
-    Information about the support ticket classifier.
+    Information about the support request classifier.
     """
 
     #: A constant which can be used with the scope property of a ServiceCategory.
@@ -100,7 +100,6 @@ class ServiceCategory(object):
             'unit': 'str',
             'limit_id': 'str'
         }
-
         self.attribute_map = {
             'key': 'key',
             'name': 'name',
@@ -112,7 +111,6 @@ class ServiceCategory(object):
             'unit': 'unit',
             'limit_id': 'limitId'
         }
-
         self._key = None
         self._name = None
         self._label = None

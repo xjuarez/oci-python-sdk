@@ -27,6 +27,10 @@ class WorkRequest(object):
     #: This constant has a value of "DELETE_TABLE"
     OPERATION_TYPE_DELETE_TABLE = "DELETE_TABLE"
 
+    #: A constant which can be used with the operation_type property of a WorkRequest.
+    #: This constant has a value of "UPDATE_CONFIGURATION"
+    OPERATION_TYPE_UPDATE_CONFIGURATION = "UPDATE_CONFIGURATION"
+
     #: A constant which can be used with the status property of a WorkRequest.
     #: This constant has a value of "ACCEPTED"
     STATUS_ACCEPTED = "ACCEPTED"
@@ -58,7 +62,7 @@ class WorkRequest(object):
 
         :param operation_type:
             The value to assign to the operation_type property of this WorkRequest.
-            Allowed values for this property are: "CREATE_TABLE", "UPDATE_TABLE", "DELETE_TABLE", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "CREATE_TABLE", "UPDATE_TABLE", "DELETE_TABLE", "UPDATE_CONFIGURATION", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type operation_type: str
 
@@ -108,7 +112,6 @@ class WorkRequest(object):
             'time_started': 'datetime',
             'time_finished': 'datetime'
         }
-
         self.attribute_map = {
             'operation_type': 'operationType',
             'status': 'status',
@@ -120,7 +123,6 @@ class WorkRequest(object):
             'time_started': 'timeStarted',
             'time_finished': 'timeFinished'
         }
-
         self._operation_type = None
         self._status = None
         self._id = None
@@ -137,7 +139,7 @@ class WorkRequest(object):
         **[Required]** Gets the operation_type of this WorkRequest.
         Type of the work request.
 
-        Allowed values for this property are: "CREATE_TABLE", "UPDATE_TABLE", "DELETE_TABLE", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "CREATE_TABLE", "UPDATE_TABLE", "DELETE_TABLE", "UPDATE_CONFIGURATION", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -156,7 +158,7 @@ class WorkRequest(object):
         :param operation_type: The operation_type of this WorkRequest.
         :type: str
         """
-        allowed_values = ["CREATE_TABLE", "UPDATE_TABLE", "DELETE_TABLE"]
+        allowed_values = ["CREATE_TABLE", "UPDATE_TABLE", "DELETE_TABLE", "UPDATE_CONFIGURATION"]
         if not value_allowed_none_or_none_sentinel(operation_type, allowed_values):
             operation_type = 'UNKNOWN_ENUM_VALUE'
         self._operation_type = operation_type

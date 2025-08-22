@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class CreateTicketDetails(object):
     """
-    Details relevant to the support ticket.
+    Details relevant to the support request.
     """
 
     #: A constant which can be used with the severity property of a CreateTicketDetails.
@@ -65,7 +65,6 @@ class CreateTicketDetails(object):
             'description': 'str',
             'contextual_data': 'ContextualData'
         }
-
         self.attribute_map = {
             'severity': 'severity',
             'resource_list': 'resourceList',
@@ -73,7 +72,6 @@ class CreateTicketDetails(object):
             'description': 'description',
             'contextual_data': 'contextualData'
         }
-
         self._severity = None
         self._resource_list = None
         self._title = None
@@ -84,7 +82,7 @@ class CreateTicketDetails(object):
     def severity(self):
         """
         **[Required]** Gets the severity of this CreateTicketDetails.
-        The severity of the support ticket.
+        The severity of the support request.
 
         Allowed values for this property are: "HIGHEST", "HIGH", "MEDIUM", "LOW"
 
@@ -98,7 +96,7 @@ class CreateTicketDetails(object):
     def severity(self, severity):
         """
         Sets the severity of this CreateTicketDetails.
-        The severity of the support ticket.
+        The severity of the support request.
 
 
         :param severity: The severity of this CreateTicketDetails.
@@ -139,7 +137,7 @@ class CreateTicketDetails(object):
     def title(self):
         """
         **[Required]** Gets the title of this CreateTicketDetails.
-        The title of the support ticket. Avoid entering confidential information.
+        The title of the support request. Avoid entering confidential information.
 
 
         :return: The title of this CreateTicketDetails.
@@ -151,7 +149,7 @@ class CreateTicketDetails(object):
     def title(self, title):
         """
         Sets the title of this CreateTicketDetails.
-        The title of the support ticket. Avoid entering confidential information.
+        The title of the support request. Avoid entering confidential information.
 
 
         :param title: The title of this CreateTicketDetails.
@@ -163,7 +161,8 @@ class CreateTicketDetails(object):
     def description(self):
         """
         **[Required]** Gets the description of this CreateTicketDetails.
-        The description of the support ticket. Avoid entering confidential information.
+        <b>Important</b>: On January 27, 2026, the <b>Max Length</b> value will change to 1500.
+        The description of the support request. Avoid entering confidential information.
 
 
         :return: The description of this CreateTicketDetails.
@@ -175,7 +174,8 @@ class CreateTicketDetails(object):
     def description(self, description):
         """
         Sets the description of this CreateTicketDetails.
-        The description of the support ticket. Avoid entering confidential information.
+        <b>Important</b>: On January 27, 2026, the <b>Max Length</b> value will change to 1500.
+        The description of the support request. Avoid entering confidential information.
 
 
         :param description: The description of this CreateTicketDetails.

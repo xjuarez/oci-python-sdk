@@ -38,13 +38,11 @@ class EmailSubmittedResponse(object):
             'envelope_id': 'str',
             'suppressed_recipients': 'list[EmailAddress]'
         }
-
         self.attribute_map = {
             'message_id': 'messageId',
             'envelope_id': 'envelopeId',
             'suppressed_recipients': 'suppressedRecipients'
         }
-
         self._message_id = None
         self._envelope_id = None
         self._suppressed_recipients = None
@@ -53,7 +51,7 @@ class EmailSubmittedResponse(object):
     def message_id(self):
         """
         **[Required]** Gets the message_id of this EmailSubmittedResponse.
-        The unique ID for the email's Message-ID header used for service log correlation. The submission will return an error if the syntax is not a valid RFC 5322 Message-ID. This will be generated if not provided.
+        The unique ID for the email's Message-ID header used for service log correlation.
         Example: sdiofu234qwermls24fd@mail.example.com
 
 
@@ -66,7 +64,7 @@ class EmailSubmittedResponse(object):
     def message_id(self, message_id):
         """
         Sets the message_id of this EmailSubmittedResponse.
-        The unique ID for the email's Message-ID header used for service log correlation. The submission will return an error if the syntax is not a valid RFC 5322 Message-ID. This will be generated if not provided.
+        The unique ID for the email's Message-ID header used for service log correlation.
         Example: sdiofu234qwermls24fd@mail.example.com
 
 

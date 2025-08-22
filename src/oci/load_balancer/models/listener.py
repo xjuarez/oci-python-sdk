@@ -77,7 +77,6 @@ class Listener(object):
             'rule_set_names': 'list[str]',
             'routing_policy_name': 'str'
         }
-
         self.attribute_map = {
             'name': 'name',
             'default_backend_set_name': 'defaultBackendSetName',
@@ -90,7 +89,6 @@ class Listener(object):
             'rule_set_names': 'ruleSetNames',
             'routing_policy_name': 'routingPolicyName'
         }
-
         self._name = None
         self._default_backend_set_name = None
         self._port = None
@@ -190,8 +188,9 @@ class Listener(object):
     def protocol(self):
         """
         **[Required]** Gets the protocol of this Listener.
-        The protocol on which the listener accepts connection requests. The supported protocols are HTTP, HTTP2, TCP, and GRPC.
-        You can also use the :func:`list_protocols` operation to get a list of valid protocols.
+        The protocol on which the listener accepts connection requests.
+        To get a list of valid protocols, use the :func:`list_protocols`
+        operation.
 
         Example: `HTTP`
 
@@ -205,8 +204,9 @@ class Listener(object):
     def protocol(self, protocol):
         """
         Sets the protocol of this Listener.
-        The protocol on which the listener accepts connection requests. The supported protocols are HTTP, HTTP2, TCP, and GRPC.
-        You can also use the :func:`list_protocols` operation to get a list of valid protocols.
+        The protocol on which the listener accepts connection requests.
+        To get a list of valid protocols, use the :func:`list_protocols`
+        operation.
 
         Example: `HTTP`
 

@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class UsageCarbonEmissionAggregation(object):
     """
-    The account (tenant) usage carbon emissions.
+    The account (tenant) carbon emissions usage.
     """
 
     def __init__(self, **kwargs):
@@ -33,12 +33,10 @@ class UsageCarbonEmissionAggregation(object):
             'group_by': 'list[str]',
             'items': 'list[UsageCarbonEmissionSummary]'
         }
-
         self.attribute_map = {
             'group_by': 'groupBy',
             'items': 'items'
         }
-
         self._group_by = None
         self._items = None
 
@@ -46,7 +44,7 @@ class UsageCarbonEmissionAggregation(object):
     def group_by(self):
         """
         Gets the group_by of this UsageCarbonEmissionAggregation.
-        Aggregate the result by.
+        Specifies what to aggregate the result by.
 
 
         :return: The group_by of this UsageCarbonEmissionAggregation.
@@ -58,7 +56,7 @@ class UsageCarbonEmissionAggregation(object):
     def group_by(self, group_by):
         """
         Sets the group_by of this UsageCarbonEmissionAggregation.
-        Aggregate the result by.
+        Specifies what to aggregate the result by.
 
 
         :param group_by: The group_by of this UsageCarbonEmissionAggregation.
@@ -70,7 +68,7 @@ class UsageCarbonEmissionAggregation(object):
     def items(self):
         """
         **[Required]** Gets the items of this UsageCarbonEmissionAggregation.
-        A list of usage carbon emission items.
+        A list of carbon emission usage items.
 
 
         :return: The items of this UsageCarbonEmissionAggregation.
@@ -82,7 +80,7 @@ class UsageCarbonEmissionAggregation(object):
     def items(self, items):
         """
         Sets the items of this UsageCarbonEmissionAggregation.
-        A list of usage carbon emission items.
+        A list of carbon emission usage items.
 
 
         :param items: The items of this UsageCarbonEmissionAggregation.

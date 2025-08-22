@@ -60,6 +60,10 @@ class CreateDeploymentDetails(object):
     DEPLOYMENT_TYPE_DATABASE_DB2_ZOS = "DATABASE_DB2ZOS"
 
     #: A constant which can be used with the deployment_type property of a CreateDeploymentDetails.
+    #: This constant has a value of "DATABASE_DB2I"
+    DEPLOYMENT_TYPE_DATABASE_DB2_I = "DATABASE_DB2I"
+
+    #: A constant which can be used with the deployment_type property of a CreateDeploymentDetails.
     #: This constant has a value of "GGSA"
     DEPLOYMENT_TYPE_GGSA = "GGSA"
 
@@ -93,6 +97,22 @@ class CreateDeploymentDetails(object):
         :param compartment_id:
             The value to assign to the compartment_id property of this CreateDeploymentDetails.
         :type compartment_id: str
+
+        :param source_deployment_id:
+            The value to assign to the source_deployment_id property of this CreateDeploymentDetails.
+        :type source_deployment_id: str
+
+        :param availability_domain:
+            The value to assign to the availability_domain property of this CreateDeploymentDetails.
+        :type availability_domain: str
+
+        :param fault_domain:
+            The value to assign to the fault_domain property of this CreateDeploymentDetails.
+        :type fault_domain: str
+
+        :param placements:
+            The value to assign to the placements property of this CreateDeploymentDetails.
+        :type placements: list[oci.golden_gate.models.DeploymentPlacementDetails]
 
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CreateDeploymentDetails.
@@ -140,7 +160,7 @@ class CreateDeploymentDetails(object):
 
         :param deployment_type:
             The value to assign to the deployment_type property of this CreateDeploymentDetails.
-            Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS"
+            Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS"
         :type deployment_type: str
 
         :param ogg_data:
@@ -155,6 +175,10 @@ class CreateDeploymentDetails(object):
             The value to assign to the maintenance_configuration property of this CreateDeploymentDetails.
         :type maintenance_configuration: oci.golden_gate.models.CreateMaintenanceConfigurationDetails
 
+        :param backup_schedule:
+            The value to assign to the backup_schedule property of this CreateDeploymentDetails.
+        :type backup_schedule: oci.golden_gate.models.CreateBackupScheduleDetails
+
         """
         self.swagger_types = {
             'display_name': 'str',
@@ -162,6 +186,10 @@ class CreateDeploymentDetails(object):
             'environment_type': 'str',
             'description': 'str',
             'compartment_id': 'str',
+            'source_deployment_id': 'str',
+            'availability_domain': 'str',
+            'fault_domain': 'str',
+            'placements': 'list[DeploymentPlacementDetails]',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'locks': 'list[AddResourceLockDetails]',
@@ -176,15 +204,19 @@ class CreateDeploymentDetails(object):
             'deployment_type': 'str',
             'ogg_data': 'CreateOggDeploymentDetails',
             'maintenance_window': 'CreateMaintenanceWindowDetails',
-            'maintenance_configuration': 'CreateMaintenanceConfigurationDetails'
+            'maintenance_configuration': 'CreateMaintenanceConfigurationDetails',
+            'backup_schedule': 'CreateBackupScheduleDetails'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'license_model': 'licenseModel',
             'environment_type': 'environmentType',
             'description': 'description',
             'compartment_id': 'compartmentId',
+            'source_deployment_id': 'sourceDeploymentId',
+            'availability_domain': 'availabilityDomain',
+            'fault_domain': 'faultDomain',
+            'placements': 'placements',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'locks': 'locks',
@@ -199,14 +231,18 @@ class CreateDeploymentDetails(object):
             'deployment_type': 'deploymentType',
             'ogg_data': 'oggData',
             'maintenance_window': 'maintenanceWindow',
-            'maintenance_configuration': 'maintenanceConfiguration'
+            'maintenance_configuration': 'maintenanceConfiguration',
+            'backup_schedule': 'backupSchedule'
         }
-
         self._display_name = None
         self._license_model = None
         self._environment_type = None
         self._description = None
         self._compartment_id = None
+        self._source_deployment_id = None
+        self._availability_domain = None
+        self._fault_domain = None
+        self._placements = None
         self._freeform_tags = None
         self._defined_tags = None
         self._locks = None
@@ -222,6 +258,7 @@ class CreateDeploymentDetails(object):
         self._ogg_data = None
         self._maintenance_window = None
         self._maintenance_configuration = None
+        self._backup_schedule = None
 
     @property
     def display_name(self):
@@ -250,7 +287,7 @@ class CreateDeploymentDetails(object):
     @property
     def license_model(self):
         """
-        **[Required]** Gets the license_model of this CreateDeploymentDetails.
+        Gets the license_model of this CreateDeploymentDetails.
         The Oracle license model that applies to a Deployment.
 
         Allowed values for this property are: "LICENSE_INCLUDED", "BRING_YOUR_OWN_LICENSE"
@@ -360,6 +397,106 @@ class CreateDeploymentDetails(object):
         :type: str
         """
         self._compartment_id = compartment_id
+
+    @property
+    def source_deployment_id(self):
+        """
+        Gets the source_deployment_id of this CreateDeploymentDetails.
+        The `OCID`__ of the deployment being referenced.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The source_deployment_id of this CreateDeploymentDetails.
+        :rtype: str
+        """
+        return self._source_deployment_id
+
+    @source_deployment_id.setter
+    def source_deployment_id(self, source_deployment_id):
+        """
+        Sets the source_deployment_id of this CreateDeploymentDetails.
+        The `OCID`__ of the deployment being referenced.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param source_deployment_id: The source_deployment_id of this CreateDeploymentDetails.
+        :type: str
+        """
+        self._source_deployment_id = source_deployment_id
+
+    @property
+    def availability_domain(self):
+        """
+        Gets the availability_domain of this CreateDeploymentDetails.
+        The availability domain of a placement.
+
+
+        :return: The availability_domain of this CreateDeploymentDetails.
+        :rtype: str
+        """
+        return self._availability_domain
+
+    @availability_domain.setter
+    def availability_domain(self, availability_domain):
+        """
+        Sets the availability_domain of this CreateDeploymentDetails.
+        The availability domain of a placement.
+
+
+        :param availability_domain: The availability_domain of this CreateDeploymentDetails.
+        :type: str
+        """
+        self._availability_domain = availability_domain
+
+    @property
+    def fault_domain(self):
+        """
+        Gets the fault_domain of this CreateDeploymentDetails.
+        The fault domain of a placement.
+
+
+        :return: The fault_domain of this CreateDeploymentDetails.
+        :rtype: str
+        """
+        return self._fault_domain
+
+    @fault_domain.setter
+    def fault_domain(self, fault_domain):
+        """
+        Sets the fault_domain of this CreateDeploymentDetails.
+        The fault domain of a placement.
+
+
+        :param fault_domain: The fault_domain of this CreateDeploymentDetails.
+        :type: str
+        """
+        self._fault_domain = fault_domain
+
+    @property
+    def placements(self):
+        """
+        Gets the placements of this CreateDeploymentDetails.
+        An array of local peers of deployment
+
+
+        :return: The placements of this CreateDeploymentDetails.
+        :rtype: list[oci.golden_gate.models.DeploymentPlacementDetails]
+        """
+        return self._placements
+
+    @placements.setter
+    def placements(self, placements):
+        """
+        Sets the placements of this CreateDeploymentDetails.
+        An array of local peers of deployment
+
+
+        :param placements: The placements of this CreateDeploymentDetails.
+        :type: list[oci.golden_gate.models.DeploymentPlacementDetails]
+        """
+        self._placements = placements
 
     @property
     def freeform_tags(self):
@@ -610,7 +747,7 @@ class CreateDeploymentDetails(object):
     @property
     def cpu_core_count(self):
         """
-        **[Required]** Gets the cpu_core_count of this CreateDeploymentDetails.
+        Gets the cpu_core_count of this CreateDeploymentDetails.
         The Minimum number of OCPUs to be made available for this Deployment.
 
 
@@ -634,7 +771,7 @@ class CreateDeploymentDetails(object):
     @property
     def is_auto_scaling_enabled(self):
         """
-        **[Required]** Gets the is_auto_scaling_enabled of this CreateDeploymentDetails.
+        Gets the is_auto_scaling_enabled of this CreateDeploymentDetails.
         Indicates if auto scaling is enabled for the Deployment's CPU core count.
 
 
@@ -658,12 +795,12 @@ class CreateDeploymentDetails(object):
     @property
     def deployment_type(self):
         """
-        **[Required]** Gets the deployment_type of this CreateDeploymentDetails.
+        Gets the deployment_type of this CreateDeploymentDetails.
         The type of deployment, which can be any one of the Allowed values.
         NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.
             Its use is discouraged in favor of 'DATABASE_ORACLE'.
 
-        Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS"
+        Allowed values for this property are: "OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS"
 
 
         :return: The deployment_type of this CreateDeploymentDetails.
@@ -683,7 +820,7 @@ class CreateDeploymentDetails(object):
         :param deployment_type: The deployment_type of this CreateDeploymentDetails.
         :type: str
         """
-        allowed_values = ["OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "GGSA", "DATA_TRANSFORMS"]
+        allowed_values = ["OGG", "DATABASE_ORACLE", "BIGDATA", "DATABASE_MICROSOFT_SQLSERVER", "DATABASE_MYSQL", "DATABASE_POSTGRESQL", "DATABASE_DB2ZOS", "DATABASE_DB2I", "GGSA", "DATA_TRANSFORMS"]
         if not value_allowed_none_or_none_sentinel(deployment_type, allowed_values):
             raise ValueError(
                 f"Invalid value for `deployment_type`, must be None or one of {allowed_values}"
@@ -749,6 +886,26 @@ class CreateDeploymentDetails(object):
         :type: oci.golden_gate.models.CreateMaintenanceConfigurationDetails
         """
         self._maintenance_configuration = maintenance_configuration
+
+    @property
+    def backup_schedule(self):
+        """
+        Gets the backup_schedule of this CreateDeploymentDetails.
+
+        :return: The backup_schedule of this CreateDeploymentDetails.
+        :rtype: oci.golden_gate.models.CreateBackupScheduleDetails
+        """
+        return self._backup_schedule
+
+    @backup_schedule.setter
+    def backup_schedule(self, backup_schedule):
+        """
+        Sets the backup_schedule of this CreateDeploymentDetails.
+
+        :param backup_schedule: The backup_schedule of this CreateDeploymentDetails.
+        :type: oci.golden_gate.models.CreateBackupScheduleDetails
+        """
+        self._backup_schedule = backup_schedule
 
     def __repr__(self):
         return formatted_flat_dict(self)

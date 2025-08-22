@@ -48,6 +48,10 @@ class CreateDbSystemDetails(object):
             The value to assign to the compartment_id property of this CreateDbSystemDetails.
         :type compartment_id: str
 
+        :param rest:
+            The value to assign to the rest property of this CreateDbSystemDetails.
+        :type rest: oci.mysql.models.CreateRestDetails
+
         :param is_highly_available:
             The value to assign to the is_highly_available property of this CreateDbSystemDetails.
         :type is_highly_available: bool
@@ -75,6 +79,10 @@ class CreateDbSystemDetails(object):
         :param subnet_id:
             The value to assign to the subnet_id property of this CreateDbSystemDetails.
         :type subnet_id: str
+
+        :param nsg_ids:
+            The value to assign to the nsg_ids property of this CreateDbSystemDetails.
+        :type nsg_ids: list[str]
 
         :param admin_username:
             The value to assign to the admin_username property of this CreateDbSystemDetails.
@@ -146,6 +154,10 @@ class CreateDbSystemDetails(object):
             The value to assign to the secure_connections property of this CreateDbSystemDetails.
         :type secure_connections: oci.mysql.models.SecureConnectionDetails
 
+        :param encrypt_data:
+            The value to assign to the encrypt_data property of this CreateDbSystemDetails.
+        :type encrypt_data: oci.mysql.models.EncryptDataDetails
+
         :param database_mode:
             The value to assign to the database_mode property of this CreateDbSystemDetails.
         :type database_mode: str
@@ -167,6 +179,7 @@ class CreateDbSystemDetails(object):
             'display_name': 'str',
             'description': 'str',
             'compartment_id': 'str',
+            'rest': 'CreateRestDetails',
             'is_highly_available': 'bool',
             'availability_domain': 'str',
             'fault_domain': 'str',
@@ -174,6 +187,7 @@ class CreateDbSystemDetails(object):
             'shape_name': 'str',
             'mysql_version': 'str',
             'subnet_id': 'str',
+            'nsg_ids': 'list[str]',
             'admin_username': 'str',
             'admin_password': 'str',
             'data_storage_size_in_gbs': 'int',
@@ -191,16 +205,17 @@ class CreateDbSystemDetails(object):
             'crash_recovery': 'str',
             'database_management': 'str',
             'secure_connections': 'SecureConnectionDetails',
+            'encrypt_data': 'EncryptDataDetails',
             'database_mode': 'str',
             'access_mode': 'str',
             'customer_contacts': 'list[CustomerContact]',
             'read_endpoint': 'CreateReadEndpointDetails'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'description': 'description',
             'compartment_id': 'compartmentId',
+            'rest': 'rest',
             'is_highly_available': 'isHighlyAvailable',
             'availability_domain': 'availabilityDomain',
             'fault_domain': 'faultDomain',
@@ -208,6 +223,7 @@ class CreateDbSystemDetails(object):
             'shape_name': 'shapeName',
             'mysql_version': 'mysqlVersion',
             'subnet_id': 'subnetId',
+            'nsg_ids': 'nsgIds',
             'admin_username': 'adminUsername',
             'admin_password': 'adminPassword',
             'data_storage_size_in_gbs': 'dataStorageSizeInGBs',
@@ -225,15 +241,16 @@ class CreateDbSystemDetails(object):
             'crash_recovery': 'crashRecovery',
             'database_management': 'databaseManagement',
             'secure_connections': 'secureConnections',
+            'encrypt_data': 'encryptData',
             'database_mode': 'databaseMode',
             'access_mode': 'accessMode',
             'customer_contacts': 'customerContacts',
             'read_endpoint': 'readEndpoint'
         }
-
         self._display_name = None
         self._description = None
         self._compartment_id = None
+        self._rest = None
         self._is_highly_available = None
         self._availability_domain = None
         self._fault_domain = None
@@ -241,6 +258,7 @@ class CreateDbSystemDetails(object):
         self._shape_name = None
         self._mysql_version = None
         self._subnet_id = None
+        self._nsg_ids = None
         self._admin_username = None
         self._admin_password = None
         self._data_storage_size_in_gbs = None
@@ -258,6 +276,7 @@ class CreateDbSystemDetails(object):
         self._crash_recovery = None
         self._database_management = None
         self._secure_connections = None
+        self._encrypt_data = None
         self._database_mode = None
         self._access_mode = None
         self._customer_contacts = None
@@ -334,6 +353,26 @@ class CreateDbSystemDetails(object):
         :type: str
         """
         self._compartment_id = compartment_id
+
+    @property
+    def rest(self):
+        """
+        Gets the rest of this CreateDbSystemDetails.
+
+        :return: The rest of this CreateDbSystemDetails.
+        :rtype: oci.mysql.models.CreateRestDetails
+        """
+        return self._rest
+
+    @rest.setter
+    def rest(self, rest):
+        """
+        Sets the rest of this CreateDbSystemDetails.
+
+        :param rest: The rest of this CreateDbSystemDetails.
+        :type: oci.mysql.models.CreateRestDetails
+        """
+        self._rest = rest
 
     @property
     def is_highly_available(self):
@@ -544,6 +583,30 @@ class CreateDbSystemDetails(object):
         :type: str
         """
         self._subnet_id = subnet_id
+
+    @property
+    def nsg_ids(self):
+        """
+        Gets the nsg_ids of this CreateDbSystemDetails.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :return: The nsg_ids of this CreateDbSystemDetails.
+        :rtype: list[str]
+        """
+        return self._nsg_ids
+
+    @nsg_ids.setter
+    def nsg_ids(self, nsg_ids):
+        """
+        Sets the nsg_ids of this CreateDbSystemDetails.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :param nsg_ids: The nsg_ids of this CreateDbSystemDetails.
+        :type: list[str]
+        """
+        self._nsg_ids = nsg_ids
 
     @property
     def admin_username(self):
@@ -976,6 +1039,26 @@ class CreateDbSystemDetails(object):
         :type: oci.mysql.models.SecureConnectionDetails
         """
         self._secure_connections = secure_connections
+
+    @property
+    def encrypt_data(self):
+        """
+        Gets the encrypt_data of this CreateDbSystemDetails.
+
+        :return: The encrypt_data of this CreateDbSystemDetails.
+        :rtype: oci.mysql.models.EncryptDataDetails
+        """
+        return self._encrypt_data
+
+    @encrypt_data.setter
+    def encrypt_data(self, encrypt_data):
+        """
+        Sets the encrypt_data of this CreateDbSystemDetails.
+
+        :param encrypt_data: The encrypt_data of this CreateDbSystemDetails.
+        :type: oci.mysql.models.EncryptDataDetails
+        """
+        self._encrypt_data = encrypt_data
 
     @property
     def database_mode(self):

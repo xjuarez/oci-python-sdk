@@ -12,6 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class UpdateComputeInstanceNonMovableBlockVolumeOperationDetails(object):
     """
+    Deprecated. Use the 'UpdateComputeInstanceNonMovableBlockVolumeAttachAndMountOperationsDetails' definition instead of this.
     The details for updating the operations performed on a block volume.
     """
 
@@ -38,13 +39,11 @@ class UpdateComputeInstanceNonMovableBlockVolumeOperationDetails(object):
             'attachment_details': 'UpdateBlockVolumeAttachmentDetails',
             'mount_details': 'UpdateBlockVolumeMountDetails'
         }
-
         self.attribute_map = {
             'block_volume_id': 'blockVolumeId',
             'attachment_details': 'attachmentDetails',
             'mount_details': 'mountDetails'
         }
-
         self._block_volume_id = None
         self._attachment_details = None
         self._mount_details = None

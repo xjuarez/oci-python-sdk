@@ -23,7 +23,7 @@ class DocumentLanguageClassificationFeature(DocumentFeature):
 
         :param feature_type:
             The value to assign to the feature_type property of this DocumentLanguageClassificationFeature.
-            Allowed values for this property are: "LANGUAGE_CLASSIFICATION", "TEXT_EXTRACTION", "TABLE_EXTRACTION", "KEY_VALUE_EXTRACTION", "DOCUMENT_CLASSIFICATION"
+            Allowed values for this property are: "LANGUAGE_CLASSIFICATION", "TEXT_EXTRACTION", "TABLE_EXTRACTION", "KEY_VALUE_EXTRACTION", "DOCUMENT_CLASSIFICATION", "DOCUMENT_ELEMENTS_EXTRACTION"
         :type feature_type: str
 
         :param max_results:
@@ -35,12 +35,10 @@ class DocumentLanguageClassificationFeature(DocumentFeature):
             'feature_type': 'str',
             'max_results': 'int'
         }
-
         self.attribute_map = {
             'feature_type': 'featureType',
             'max_results': 'maxResults'
         }
-
         self._feature_type = None
         self._max_results = None
         self._feature_type = 'LANGUAGE_CLASSIFICATION'

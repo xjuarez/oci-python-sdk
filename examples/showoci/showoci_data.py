@@ -20,7 +20,7 @@ import sys
 
 
 class ShowOCIData(object):
-    version = "25.02.10"
+    version = "25.07.15"
 
     ############################################
     # ShowOCIService - Service object to query
@@ -325,6 +325,14 @@ class ShowOCIData(object):
                     if value:
                         if len(value) > 0:
                             data['resource_management'] = value
+                            has_data = True
+
+                # run on fsdr use the Resource Management flag
+                if self.service.flags.read_resource_management:
+                    value = self.__get_fsdr_main(region_name, compartment)
+                    if value:
+                        if len(value) > 0:
+                            data['fsdr'] = value
                             has_data = True
 
                 # email
@@ -3902,7 +3910,8 @@ class ShowOCIData(object):
                 'ips': lb['ip_addresses'],
                 'path_route': lb['path_route'],
                 'nsg_ids': lb['nsg_ids'],
-                'nsg_names': lb['nsg_names'],
+                # 'nsg_names': lb['nsg_names'],
+                'nsg_names': self.service.get_network_nsg_names_from_ids(lb['nsg_ids']),
                 'hostnames': [x['info'] for x in lb['hostnames']],
                 'rule_sets': lb['rule_sets'],
                 'compartment_name': lb['compartment_name'],
@@ -4027,7 +4036,8 @@ class ShowOCIData(object):
             data['is_private'] = lb['is_private']
             data['ips'] = lb['ip_addresses']
             data['nsg_ids'] = lb['nsg_ids']
-            data['nsg_names'] = lb['nsg_names']
+            # data['nsg_names'] = lb['nsg_names']
+            data['nsg_names'] = self.service.get_network_nsg_names_from_ids(lb['nsg_ids'])
             data['compartment_name'] = lb['compartment_name']
             data['compartment_path'] = lb['compartment_path']
             data['compartment_id'] = lb['compartment_id']
@@ -4317,6 +4327,18 @@ class ShowOCIData(object):
 
                     data.append(val)
             return data
+
+        except Exception as e:
+            self.__print_error(e)
+            pass
+
+    ##########################################################################
+    # __get_fsdr_main
+    ##########################################################################
+    def __get_fsdr_main(self, region_name, compartment):
+        try:
+            fsdr = self.service.search_multi_items(self.service.C_FSDR, self.service.C_FSDR_PROTECTION_GROUPS, 'region_name', region_name, 'compartment_id', compartment['id'])
+            return fsdr
 
         except Exception as e:
             self.__print_error(e)
@@ -4703,9 +4725,19 @@ class ShowOCIData(object):
                 data_ai['data_integration'] = di
 
             # Gen AI
-            di = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_GENAI, 'region_name', region_name, 'compartment_id', compartment['id'])
-            if di:
-                data_ai['genai'] = di
+            genai = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_GENAI, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if genai:
+                data_ai['genai'] = genai
+
+            # Gen AI Agent
+            genai_agent = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_GENAI_AGENT, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if genai_agent:
+                data_ai['genai_agent'] = genai_agent
+
+            # Gen AI Agent KB
+            genai_agent_kb = self.service.search_multi_items(self.service.C_DATA_AI, self.service.C_DATA_AI_GENAI_AGENT_KB, 'region_name', region_name, 'compartment_id', compartment['id'])
+            if genai_agent_kb:
+                data_ai['genai_agent_kb'] = genai_agent_kb
 
             return data_ai
 

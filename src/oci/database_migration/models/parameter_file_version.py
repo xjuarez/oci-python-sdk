@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class ParameterFileVersion(object):
     """
-    A parameter file detatails
+    Details of a parameter file
     """
 
     #: A constant which can be used with the kind property of a ParameterFileVersion.
@@ -68,7 +68,6 @@ class ParameterFileVersion(object):
             'time_created': 'datetime',
             'content': 'str'
         }
-
         self.attribute_map = {
             'name': 'name',
             'description': 'description',
@@ -78,7 +77,6 @@ class ParameterFileVersion(object):
             'time_created': 'timeCreated',
             'content': 'content'
         }
-
         self._name = None
         self._description = None
         self._is_current = None

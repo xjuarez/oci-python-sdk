@@ -56,6 +56,10 @@ class Replica(object):
             The value to assign to the secure_connections property of this Replica.
         :type secure_connections: oci.mysql.models.SecureConnectionDetails
 
+        :param encrypt_data:
+            The value to assign to the encrypt_data property of this Replica.
+        :type encrypt_data: oci.mysql.models.EncryptDataDetails
+
         :param id:
             The value to assign to the id property of this Replica.
         :type id: str
@@ -106,6 +110,10 @@ class Replica(object):
             The value to assign to the fault_domain property of this Replica.
         :type fault_domain: str
 
+        :param nsg_ids:
+            The value to assign to the nsg_ids property of this Replica.
+        :type nsg_ids: list[str]
+
         :param ip_address:
             The value to assign to the ip_address property of this Replica.
         :type ip_address: str
@@ -145,6 +153,7 @@ class Replica(object):
         """
         self.swagger_types = {
             'secure_connections': 'SecureConnectionDetails',
+            'encrypt_data': 'EncryptDataDetails',
             'id': 'str',
             'db_system_id': 'str',
             'compartment_id': 'str',
@@ -157,6 +166,7 @@ class Replica(object):
             'mysql_version': 'str',
             'availability_domain': 'str',
             'fault_domain': 'str',
+            'nsg_ids': 'list[str]',
             'ip_address': 'str',
             'port': 'int',
             'port_x': 'int',
@@ -167,9 +177,9 @@ class Replica(object):
             'configuration_id': 'str',
             'replica_overrides': 'ReplicaOverrides'
         }
-
         self.attribute_map = {
             'secure_connections': 'secureConnections',
+            'encrypt_data': 'encryptData',
             'id': 'id',
             'db_system_id': 'dbSystemId',
             'compartment_id': 'compartmentId',
@@ -182,6 +192,7 @@ class Replica(object):
             'mysql_version': 'mysqlVersion',
             'availability_domain': 'availabilityDomain',
             'fault_domain': 'faultDomain',
+            'nsg_ids': 'nsgIds',
             'ip_address': 'ipAddress',
             'port': 'port',
             'port_x': 'portX',
@@ -192,8 +203,8 @@ class Replica(object):
             'configuration_id': 'configurationId',
             'replica_overrides': 'replicaOverrides'
         }
-
         self._secure_connections = None
+        self._encrypt_data = None
         self._id = None
         self._db_system_id = None
         self._compartment_id = None
@@ -206,6 +217,7 @@ class Replica(object):
         self._mysql_version = None
         self._availability_domain = None
         self._fault_domain = None
+        self._nsg_ids = None
         self._ip_address = None
         self._port = None
         self._port_x = None
@@ -235,6 +247,26 @@ class Replica(object):
         :type: oci.mysql.models.SecureConnectionDetails
         """
         self._secure_connections = secure_connections
+
+    @property
+    def encrypt_data(self):
+        """
+        Gets the encrypt_data of this Replica.
+
+        :return: The encrypt_data of this Replica.
+        :rtype: oci.mysql.models.EncryptDataDetails
+        """
+        return self._encrypt_data
+
+    @encrypt_data.setter
+    def encrypt_data(self, encrypt_data):
+        """
+        Sets the encrypt_data of this Replica.
+
+        :param encrypt_data: The encrypt_data of this Replica.
+        :type: oci.mysql.models.EncryptDataDetails
+        """
+        self._encrypt_data = encrypt_data
 
     @property
     def id(self):
@@ -537,6 +569,30 @@ class Replica(object):
         :type: str
         """
         self._fault_domain = fault_domain
+
+    @property
+    def nsg_ids(self):
+        """
+        Gets the nsg_ids of this Replica.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :return: The nsg_ids of this Replica.
+        :rtype: list[str]
+        """
+        return self._nsg_ids
+
+    @nsg_ids.setter
+    def nsg_ids(self, nsg_ids):
+        """
+        Sets the nsg_ids of this Replica.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :param nsg_ids: The nsg_ids of this Replica.
+        :type: list[str]
+        """
+        self._nsg_ids = nsg_ids
 
     @property
     def ip_address(self):

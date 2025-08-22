@@ -23,7 +23,7 @@ class FirewallPolicyEntryDetails(EntryDetails):
 
         :param entry_type:
             The value to assign to the entry_type property of this FirewallPolicyEntryDetails.
-            Allowed values for this property are: "FIREWALL_POLICY"
+            Allowed values for this property are: "FIREWALL_POLICY", "AUDIT_POLICY"
         :type entry_type: str
 
         :param time_generated:
@@ -40,13 +40,11 @@ class FirewallPolicyEntryDetails(EntryDetails):
             'time_generated': 'datetime',
             'time_status_updated': 'datetime'
         }
-
         self.attribute_map = {
             'entry_type': 'entryType',
             'time_generated': 'timeGenerated',
             'time_status_updated': 'timeStatusUpdated'
         }
-
         self._entry_type = None
         self._time_generated = None
         self._time_status_updated = None

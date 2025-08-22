@@ -49,7 +49,7 @@ class ExadataExacsConfigurationSummary(ExadataConfigurationSummary):
 
         :param exadata_rack_type:
             The value to assign to the exadata_rack_type property of this ExadataExacsConfigurationSummary.
-            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE"
+            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE", "ELASTIC_EXTRA_LARGE"
         :type exadata_rack_type: str
 
         :param defined_tags:
@@ -87,7 +87,6 @@ class ExadataExacsConfigurationSummary(ExadataConfigurationSummary):
             'opsi_private_endpoint_id': 'str',
             'parent_id': 'str'
         }
-
         self.attribute_map = {
             'exadata_insight_id': 'exadataInsightId',
             'entity_source': 'entitySource',
@@ -102,7 +101,6 @@ class ExadataExacsConfigurationSummary(ExadataConfigurationSummary):
             'opsi_private_endpoint_id': 'opsiPrivateEndpointId',
             'parent_id': 'parentId'
         }
-
         self._exadata_insight_id = None
         self._entity_source = None
         self._compartment_id = None

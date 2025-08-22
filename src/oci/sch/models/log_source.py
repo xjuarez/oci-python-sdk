@@ -38,13 +38,11 @@ class LogSource(object):
             'log_group_id': 'str',
             'log_id': 'str'
         }
-
         self.attribute_map = {
             'compartment_id': 'compartmentId',
             'log_group_id': 'logGroupId',
             'log_id': 'logId'
         }
-
         self._compartment_id = None
         self._log_group_id = None
         self._log_id = None
@@ -81,9 +79,8 @@ class LogSource(object):
     def log_group_id(self):
         """
         Gets the log_group_id of this LogSource.
-        The `OCID`__ of the log group.
-        Note: For the Notifications target, only _Audit is allowed.
-        Example OCID for _Audit log group: ocid1.tenancy.oc1..exampleuniqueid/_Audit
+        Identifier of the log group. Either `_Audit` or the `OCID`__ of the log group.
+        Note: For the Notifications target, only `_Audit` is allowed.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
@@ -97,9 +94,8 @@ class LogSource(object):
     def log_group_id(self, log_group_id):
         """
         Sets the log_group_id of this LogSource.
-        The `OCID`__ of the log group.
-        Note: For the Notifications target, only _Audit is allowed.
-        Example OCID for _Audit log group: ocid1.tenancy.oc1..exampleuniqueid/_Audit
+        Identifier of the log group. Either `_Audit` or the `OCID`__ of the log group.
+        Note: For the Notifications target, only `_Audit` is allowed.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 

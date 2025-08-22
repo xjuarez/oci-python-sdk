@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class OutputLocation(object):
     """
-    The Object Storage Location.
+    The object storage location where to store analysis results.
     """
 
     def __init__(self, **kwargs):
@@ -38,13 +38,11 @@ class OutputLocation(object):
             'bucket_name': 'str',
             'prefix': 'str'
         }
-
         self.attribute_map = {
             'namespace_name': 'namespaceName',
             'bucket_name': 'bucketName',
             'prefix': 'prefix'
         }
-
         self._namespace_name = None
         self._bucket_name = None
         self._prefix = None

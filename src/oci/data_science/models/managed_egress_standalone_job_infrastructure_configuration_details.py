@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class ManagedEgressStandaloneJobInfrastructureConfigurationDetails(JobInfrastructureConfigurationDetails):
     """
-    The standalone job infrastructure configuration with network egress settings preconfigured.
+    This type should only be used at the top level infrastructure configuration field for configuring single-node jobs.
     """
 
     def __init__(self, **kwargs):
@@ -23,7 +23,7 @@ class ManagedEgressStandaloneJobInfrastructureConfigurationDetails(JobInfrastruc
 
         :param job_infrastructure_type:
             The value to assign to the job_infrastructure_type property of this ManagedEgressStandaloneJobInfrastructureConfigurationDetails.
-            Allowed values for this property are: "STANDALONE", "ME_STANDALONE"
+            Allowed values for this property are: "STANDALONE", "ME_STANDALONE", "MULTI_NODE", "EMPTY"
         :type job_infrastructure_type: str
 
         :param shape_name:
@@ -45,14 +45,12 @@ class ManagedEgressStandaloneJobInfrastructureConfigurationDetails(JobInfrastruc
             'block_storage_size_in_gbs': 'int',
             'job_shape_config_details': 'JobShapeConfigDetails'
         }
-
         self.attribute_map = {
             'job_infrastructure_type': 'jobInfrastructureType',
             'shape_name': 'shapeName',
             'block_storage_size_in_gbs': 'blockStorageSizeInGBs',
             'job_shape_config_details': 'jobShapeConfigDetails'
         }
-
         self._job_infrastructure_type = None
         self._shape_name = None
         self._block_storage_size_in_gbs = None

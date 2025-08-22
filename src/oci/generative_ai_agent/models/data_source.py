@@ -76,6 +76,10 @@ class DataSource(object):
             The value to assign to the data_source_config property of this DataSource.
         :type data_source_config: oci.generative_ai_agent.models.DataSourceConfig
 
+        :param metadata:
+            The value to assign to the metadata property of this DataSource.
+        :type metadata: dict(str, str)
+
         :param time_created:
             The value to assign to the time_created property of this DataSource.
         :type time_created: datetime
@@ -114,6 +118,7 @@ class DataSource(object):
             'compartment_id': 'str',
             'knowledge_base_id': 'str',
             'data_source_config': 'DataSourceConfig',
+            'metadata': 'dict(str, str)',
             'time_created': 'datetime',
             'time_updated': 'datetime',
             'lifecycle_state': 'str',
@@ -122,7 +127,6 @@ class DataSource(object):
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'id': 'id',
             'display_name': 'displayName',
@@ -130,6 +134,7 @@ class DataSource(object):
             'compartment_id': 'compartmentId',
             'knowledge_base_id': 'knowledgeBaseId',
             'data_source_config': 'dataSourceConfig',
+            'metadata': 'metadata',
             'time_created': 'timeCreated',
             'time_updated': 'timeUpdated',
             'lifecycle_state': 'lifecycleState',
@@ -138,13 +143,13 @@ class DataSource(object):
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
         }
-
         self._id = None
         self._display_name = None
         self._description = None
         self._compartment_id = None
         self._knowledge_base_id = None
         self._data_source_config = None
+        self._metadata = None
         self._time_created = None
         self._time_updated = None
         self._lifecycle_state = None
@@ -304,6 +309,30 @@ class DataSource(object):
         :type: oci.generative_ai_agent.models.DataSourceConfig
         """
         self._data_source_config = data_source_config
+
+    @property
+    def metadata(self):
+        """
+        Gets the metadata of this DataSource.
+        Key-value pairs to allow additional configurations.
+
+
+        :return: The metadata of this DataSource.
+        :rtype: dict(str, str)
+        """
+        return self._metadata
+
+    @metadata.setter
+    def metadata(self, metadata):
+        """
+        Sets the metadata of this DataSource.
+        Key-value pairs to allow additional configurations.
+
+
+        :param metadata: The metadata of this DataSource.
+        :type: dict(str, str)
+        """
+        self._metadata = metadata
 
     @property
     def time_created(self):

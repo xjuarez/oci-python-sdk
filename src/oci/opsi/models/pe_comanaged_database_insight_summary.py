@@ -67,7 +67,7 @@ class PeComanagedDatabaseInsightSummary(DatabaseInsightSummary):
 
         :param entity_source:
             The value to assign to the entity_source property of this PeComanagedDatabaseInsightSummary.
-            Allowed values for this property are: "AUTONOMOUS_DATABASE", "EM_MANAGED_EXTERNAL_DATABASE", "MACS_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE"
+            Allowed values for this property are: "AUTONOMOUS_DATABASE", "EM_MANAGED_EXTERNAL_DATABASE", "MACS_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE", "MACS_MANAGED_AUTONOMOUS_DATABASE"
         :type entity_source: str
 
         :param processor_count:
@@ -142,7 +142,6 @@ class PeComanagedDatabaseInsightSummary(DatabaseInsightSummary):
             'parent_id': 'str',
             'root_id': 'str'
         }
-
         self.attribute_map = {
             'id': 'id',
             'database_id': 'databaseId',
@@ -168,7 +167,6 @@ class PeComanagedDatabaseInsightSummary(DatabaseInsightSummary):
             'parent_id': 'parentId',
             'root_id': 'rootId'
         }
-
         self._id = None
         self._database_id = None
         self._compartment_id = None

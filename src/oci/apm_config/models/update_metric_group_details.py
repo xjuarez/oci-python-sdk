@@ -24,7 +24,7 @@ class UpdateMetricGroupDetails(UpdateConfigDetails):
 
         :param config_type:
             The value to assign to the config_type property of this UpdateMetricGroupDetails.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param freeform_tags:
@@ -66,7 +66,6 @@ class UpdateMetricGroupDetails(UpdateConfigDetails):
             'dimensions': 'list[Dimension]',
             'metrics': 'list[Metric]'
         }
-
         self.attribute_map = {
             'config_type': 'configType',
             'freeform_tags': 'freeformTags',
@@ -77,7 +76,6 @@ class UpdateMetricGroupDetails(UpdateConfigDetails):
             'dimensions': 'dimensions',
             'metrics': 'metrics'
         }
-
         self._config_type = None
         self._freeform_tags = None
         self._defined_tags = None

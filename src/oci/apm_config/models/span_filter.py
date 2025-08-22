@@ -27,7 +27,7 @@ class SpanFilter(Config):
 
         :param config_type:
             The value to assign to the config_type property of this SpanFilter.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param time_created:
@@ -90,7 +90,6 @@ class SpanFilter(Config):
             'in_use_by': 'list[SpanFilterReference]',
             'description': 'str'
         }
-
         self.attribute_map = {
             'id': 'id',
             'config_type': 'configType',
@@ -106,7 +105,6 @@ class SpanFilter(Config):
             'in_use_by': 'inUseBy',
             'description': 'description'
         }
-
         self._id = None
         self._config_type = None
         self._time_created = None

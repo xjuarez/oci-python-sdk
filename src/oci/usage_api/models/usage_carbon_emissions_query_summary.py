@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class UsageCarbonEmissionsQuerySummary(object):
     """
-    Usage carbon emissions query summary in the list request.
+    The carbon emissions usage query summary in the list request.
     """
 
     def __init__(self, **kwargs):
@@ -33,12 +33,10 @@ class UsageCarbonEmissionsQuerySummary(object):
             'id': 'str',
             'query_definition': 'UsageCarbonEmissionsQueryDefinition'
         }
-
         self.attribute_map = {
             'id': 'id',
             'query_definition': 'queryDefinition'
         }
-
         self._id = None
         self._query_definition = None
 

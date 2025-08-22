@@ -49,7 +49,7 @@ class EmManagedExternalExadataInsight(ExadataInsight):
 
         :param exadata_rack_type:
             The value to assign to the exadata_rack_type property of this EmManagedExternalExadataInsight.
-            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE"
+            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE", "ELASTIC_EXTRA_LARGE"
         :type exadata_rack_type: str
 
         :param is_virtualized_exadata:
@@ -144,7 +144,6 @@ class EmManagedExternalExadataInsight(ExadataInsight):
             'enterprise_manager_bridge_id': 'str',
             'is_auto_sync_enabled': 'bool'
         }
-
         self.attribute_map = {
             'entity_source': 'entitySource',
             'id': 'id',
@@ -170,7 +169,6 @@ class EmManagedExternalExadataInsight(ExadataInsight):
             'enterprise_manager_bridge_id': 'enterpriseManagerBridgeId',
             'is_auto_sync_enabled': 'isAutoSyncEnabled'
         }
-
         self._entity_source = None
         self._id = None
         self._compartment_id = None

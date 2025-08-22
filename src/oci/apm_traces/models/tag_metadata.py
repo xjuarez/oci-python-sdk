@@ -73,12 +73,10 @@ class TagMetadata(object):
             'tag_type': 'str',
             'tag_unit': 'str'
         }
-
         self.attribute_map = {
             'tag_type': 'tagType',
             'tag_unit': 'tagUnit'
         }
-
         self._tag_type = None
         self._tag_unit = None
 
@@ -116,7 +114,7 @@ class TagMetadata(object):
     def tag_unit(self):
         """
         Gets the tag_unit of this TagMetadata.
-        Unit associated with the tag key.
+        Unit associated with the tag key.  If unit is not specified, it defaults to NONE.
 
         Allowed values for this property are: "EPOCH_TIME_MS", "BYTES", "COUNT", "DURATION_MS", "TRACE_STATUS", "PERCENTAGE", "NONE", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
@@ -131,7 +129,7 @@ class TagMetadata(object):
     def tag_unit(self, tag_unit):
         """
         Sets the tag_unit of this TagMetadata.
-        Unit associated with the tag key.
+        Unit associated with the tag key.  If unit is not specified, it defaults to NONE.
 
 
         :param tag_unit: The tag_unit of this TagMetadata.

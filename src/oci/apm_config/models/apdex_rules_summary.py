@@ -27,7 +27,7 @@ class ApdexRulesSummary(ConfigSummary):
 
         :param config_type:
             The value to assign to the config_type property of this ApdexRulesSummary.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param time_created:
@@ -58,6 +58,10 @@ class ApdexRulesSummary(ConfigSummary):
             The value to assign to the defined_tags property of this ApdexRulesSummary.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param system_tags:
+            The value to assign to the system_tags property of this ApdexRulesSummary.
+        :type system_tags: dict(str, dict(str, object))
+
         :param rules:
             The value to assign to the rules property of this ApdexRulesSummary.
         :type rules: list[oci.apm_config.models.Apdex]
@@ -77,10 +81,10 @@ class ApdexRulesSummary(ConfigSummary):
             'etag': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, dict(str, object))',
             'rules': 'list[Apdex]',
             'display_name': 'str'
         }
-
         self.attribute_map = {
             'id': 'id',
             'config_type': 'configType',
@@ -91,10 +95,10 @@ class ApdexRulesSummary(ConfigSummary):
             'etag': 'etag',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'system_tags': 'systemTags',
             'rules': 'rules',
             'display_name': 'displayName'
         }
-
         self._id = None
         self._config_type = None
         self._time_created = None
@@ -104,6 +108,7 @@ class ApdexRulesSummary(ConfigSummary):
         self._etag = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._system_tags = None
         self._rules = None
         self._display_name = None
         self._config_type = 'APDEX'

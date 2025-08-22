@@ -59,6 +59,14 @@ class CloudVmCluster(object):
     #: This constant has a value of "NORMAL"
     DISK_REDUNDANCY_NORMAL = "NORMAL"
 
+    #: A constant which can be used with the vm_cluster_type property of a CloudVmCluster.
+    #: This constant has a value of "REGULAR"
+    VM_CLUSTER_TYPE_REGULAR = "REGULAR"
+
+    #: A constant which can be used with the vm_cluster_type property of a CloudVmCluster.
+    #: This constant has a value of "DEVELOPER"
+    VM_CLUSTER_TYPE_DEVELOPER = "DEVELOPER"
+
     #: A constant which can be used with the compute_model property of a CloudVmCluster.
     #: This constant has a value of "ECPU"
     COMPUTE_MODEL_ECPU = "ECPU"
@@ -66,6 +74,14 @@ class CloudVmCluster(object):
     #: A constant which can be used with the compute_model property of a CloudVmCluster.
     #: This constant has a value of "OCPU"
     COMPUTE_MODEL_OCPU = "OCPU"
+
+    #: A constant which can be used with the tde_key_store_type property of a CloudVmCluster.
+    #: This constant has a value of "AZURE"
+    TDE_KEY_STORE_TYPE_AZURE = "AZURE"
+
+    #: A constant which can be used with the tde_key_store_type property of a CloudVmCluster.
+    #: This constant has a value of "OCI"
+    TDE_KEY_STORE_TYPE_OCI = "OCI"
 
     def __init__(self, **kwargs):
         """
@@ -234,6 +250,14 @@ class CloudVmCluster(object):
             The value to assign to the vip_ids property of this CloudVmCluster.
         :type vip_ids: list[str]
 
+        :param scan_ipv6_ids:
+            The value to assign to the scan_ipv6_ids property of this CloudVmCluster.
+        :type scan_ipv6_ids: list[str]
+
+        :param vipv6_ids:
+            The value to assign to the vipv6_ids property of this CloudVmCluster.
+        :type vipv6_ids: list[str]
+
         :param scan_dns_record_id:
             The value to assign to the scan_dns_record_id property of this CloudVmCluster.
         :type scan_dns_record_id: str
@@ -286,11 +310,27 @@ class CloudVmCluster(object):
             The value to assign to the cloud_automation_update_details property of this CloudVmCluster.
         :type cloud_automation_update_details: oci.database.models.CloudAutomationUpdateDetails
 
+        :param vm_cluster_type:
+            The value to assign to the vm_cluster_type property of this CloudVmCluster.
+            Allowed values for this property are: "REGULAR", "DEVELOPER", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type vm_cluster_type: str
+
         :param compute_model:
             The value to assign to the compute_model property of this CloudVmCluster.
             Allowed values for this property are: "ECPU", "OCPU", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type compute_model: str
+
+        :param multi_cloud_identity_connector_configs:
+            The value to assign to the multi_cloud_identity_connector_configs property of this CloudVmCluster.
+        :type multi_cloud_identity_connector_configs: list[oci.database.models.IdentityConnectorDetails]
+
+        :param tde_key_store_type:
+            The value to assign to the tde_key_store_type property of this CloudVmCluster.
+            Allowed values for this property are: "AZURE", "OCI", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type tde_key_store_type: str
 
         """
         self.swagger_types = {
@@ -333,6 +373,8 @@ class CloudVmCluster(object):
             'disk_redundancy': 'str',
             'scan_ip_ids': 'list[str]',
             'vip_ids': 'list[str]',
+            'scan_ipv6_ids': 'list[str]',
+            'vipv6_ids': 'list[str]',
             'scan_dns_record_id': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
@@ -346,9 +388,11 @@ class CloudVmCluster(object):
             'gi_software_image_id': 'str',
             'file_system_configuration_details': 'list[FileSystemConfigurationDetail]',
             'cloud_automation_update_details': 'CloudAutomationUpdateDetails',
-            'compute_model': 'str'
+            'vm_cluster_type': 'str',
+            'compute_model': 'str',
+            'multi_cloud_identity_connector_configs': 'list[IdentityConnectorDetails]',
+            'tde_key_store_type': 'str'
         }
-
         self.attribute_map = {
             'iorm_config_cache': 'iormConfigCache',
             'id': 'id',
@@ -389,6 +433,8 @@ class CloudVmCluster(object):
             'disk_redundancy': 'diskRedundancy',
             'scan_ip_ids': 'scanIpIds',
             'vip_ids': 'vipIds',
+            'scan_ipv6_ids': 'scanIpv6Ids',
+            'vipv6_ids': 'vipv6Ids',
             'scan_dns_record_id': 'scanDnsRecordId',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
@@ -402,9 +448,11 @@ class CloudVmCluster(object):
             'gi_software_image_id': 'giSoftwareImageId',
             'file_system_configuration_details': 'fileSystemConfigurationDetails',
             'cloud_automation_update_details': 'cloudAutomationUpdateDetails',
-            'compute_model': 'computeModel'
+            'vm_cluster_type': 'vmClusterType',
+            'compute_model': 'computeModel',
+            'multi_cloud_identity_connector_configs': 'multiCloudIdentityConnectorConfigs',
+            'tde_key_store_type': 'tdeKeyStoreType'
         }
-
         self._iorm_config_cache = None
         self._id = None
         self._compartment_id = None
@@ -444,6 +492,8 @@ class CloudVmCluster(object):
         self._disk_redundancy = None
         self._scan_ip_ids = None
         self._vip_ids = None
+        self._scan_ipv6_ids = None
+        self._vipv6_ids = None
         self._scan_dns_record_id = None
         self._freeform_tags = None
         self._defined_tags = None
@@ -457,7 +507,10 @@ class CloudVmCluster(object):
         self._gi_software_image_id = None
         self._file_system_configuration_details = None
         self._cloud_automation_update_details = None
+        self._vm_cluster_type = None
         self._compute_model = None
+        self._multi_cloud_identity_connector_configs = None
+        self._tde_key_store_type = None
 
     @property
     def iorm_config_cache(self):
@@ -1441,8 +1494,8 @@ class CloudVmCluster(object):
     def scan_ip_ids(self):
         """
         Gets the scan_ip_ids of this CloudVmCluster.
-        The `OCID`__ of the Single Client Access Name (SCAN) IP addresses associated with the cloud VM cluster.
-        SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
+        The `OCID`__ of the Single Client Access Name (SCAN) IPv4 addresses associated with the cloud VM cluster.
+        SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface.
         Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 
         **Note:** For a single-node DB system, this list is empty.
@@ -1459,8 +1512,8 @@ class CloudVmCluster(object):
     def scan_ip_ids(self, scan_ip_ids):
         """
         Sets the scan_ip_ids of this CloudVmCluster.
-        The `OCID`__ of the Single Client Access Name (SCAN) IP addresses associated with the cloud VM cluster.
-        SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
+        The `OCID`__ of the Single Client Access Name (SCAN) IPv4 addresses associated with the cloud VM cluster.
+        SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface.
         Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 
         **Note:** For a single-node DB system, this list is empty.
@@ -1477,8 +1530,8 @@ class CloudVmCluster(object):
     def vip_ids(self):
         """
         Gets the vip_ids of this CloudVmCluster.
-        The `OCID`__ of the virtual IP (VIP) addresses associated with the cloud VM cluster.
-        The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to
+        The `OCID`__ of the virtual IP (VIP) IPv4 addresses associated with the cloud VM cluster.
+        The Cluster Ready Services (CRS) creates and maintains one VIP IPv4 address for each node in the Exadata Cloud Service instance to
         enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 
         **Note:** For a single-node DB system, this list is empty.
@@ -1495,8 +1548,8 @@ class CloudVmCluster(object):
     def vip_ids(self, vip_ids):
         """
         Sets the vip_ids of this CloudVmCluster.
-        The `OCID`__ of the virtual IP (VIP) addresses associated with the cloud VM cluster.
-        The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to
+        The `OCID`__ of the virtual IP (VIP) IPv4 addresses associated with the cloud VM cluster.
+        The Cluster Ready Services (CRS) creates and maintains one VIP IPv4 address for each node in the Exadata Cloud Service instance to
         enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 
         **Note:** For a single-node DB system, this list is empty.
@@ -1508,6 +1561,78 @@ class CloudVmCluster(object):
         :type: list[str]
         """
         self._vip_ids = vip_ids
+
+    @property
+    def scan_ipv6_ids(self):
+        """
+        Gets the scan_ipv6_ids of this CloudVmCluster.
+        The `OCID`__ of the Single Client Access Name (SCAN) IPv6 addresses associated with the cloud VM cluster.
+        SCAN IPv6 addresses are typically used for load balancing and are not assigned to any interface.
+        Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
+
+        **Note:** For a single-node DB system, this list is empty.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The scan_ipv6_ids of this CloudVmCluster.
+        :rtype: list[str]
+        """
+        return self._scan_ipv6_ids
+
+    @scan_ipv6_ids.setter
+    def scan_ipv6_ids(self, scan_ipv6_ids):
+        """
+        Sets the scan_ipv6_ids of this CloudVmCluster.
+        The `OCID`__ of the Single Client Access Name (SCAN) IPv6 addresses associated with the cloud VM cluster.
+        SCAN IPv6 addresses are typically used for load balancing and are not assigned to any interface.
+        Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
+
+        **Note:** For a single-node DB system, this list is empty.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param scan_ipv6_ids: The scan_ipv6_ids of this CloudVmCluster.
+        :type: list[str]
+        """
+        self._scan_ipv6_ids = scan_ipv6_ids
+
+    @property
+    def vipv6_ids(self):
+        """
+        Gets the vipv6_ids of this CloudVmCluster.
+        The `OCID`__ of the virtual IP (VIP) IPv6 addresses associated with the cloud VM cluster.
+        The Cluster Ready Services (CRS) creates and maintains one VIP IPv6 address for each node in the Exadata Cloud Service instance to
+        enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+
+        **Note:** For a single-node DB system, this list is empty.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :return: The vipv6_ids of this CloudVmCluster.
+        :rtype: list[str]
+        """
+        return self._vipv6_ids
+
+    @vipv6_ids.setter
+    def vipv6_ids(self, vipv6_ids):
+        """
+        Sets the vipv6_ids of this CloudVmCluster.
+        The `OCID`__ of the virtual IP (VIP) IPv6 addresses associated with the cloud VM cluster.
+        The Cluster Ready Services (CRS) creates and maintains one VIP IPv6 address for each node in the Exadata Cloud Service instance to
+        enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+
+        **Note:** For a single-node DB system, this list is empty.
+
+        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+
+        :param vipv6_ids: The vipv6_ids of this CloudVmCluster.
+        :type: list[str]
+        """
+        self._vipv6_ids = vipv6_ids
 
     @property
     def scan_dns_record_id(self):
@@ -1852,6 +1977,36 @@ class CloudVmCluster(object):
         self._cloud_automation_update_details = cloud_automation_update_details
 
     @property
+    def vm_cluster_type(self):
+        """
+        Gets the vm_cluster_type of this CloudVmCluster.
+        The vmcluster type for the VM cluster/Cloud VM cluster.
+
+        Allowed values for this property are: "REGULAR", "DEVELOPER", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The vm_cluster_type of this CloudVmCluster.
+        :rtype: str
+        """
+        return self._vm_cluster_type
+
+    @vm_cluster_type.setter
+    def vm_cluster_type(self, vm_cluster_type):
+        """
+        Sets the vm_cluster_type of this CloudVmCluster.
+        The vmcluster type for the VM cluster/Cloud VM cluster.
+
+
+        :param vm_cluster_type: The vm_cluster_type of this CloudVmCluster.
+        :type: str
+        """
+        allowed_values = ["REGULAR", "DEVELOPER"]
+        if not value_allowed_none_or_none_sentinel(vm_cluster_type, allowed_values):
+            vm_cluster_type = 'UNKNOWN_ENUM_VALUE'
+        self._vm_cluster_type = vm_cluster_type
+
+    @property
     def compute_model(self):
         """
         Gets the compute_model of this CloudVmCluster.
@@ -1880,6 +2035,60 @@ class CloudVmCluster(object):
         if not value_allowed_none_or_none_sentinel(compute_model, allowed_values):
             compute_model = 'UNKNOWN_ENUM_VALUE'
         self._compute_model = compute_model
+
+    @property
+    def multi_cloud_identity_connector_configs(self):
+        """
+        Gets the multi_cloud_identity_connector_configs of this CloudVmCluster.
+        Details of the multi cloud identity connectors of the VM cluster.
+
+
+        :return: The multi_cloud_identity_connector_configs of this CloudVmCluster.
+        :rtype: list[oci.database.models.IdentityConnectorDetails]
+        """
+        return self._multi_cloud_identity_connector_configs
+
+    @multi_cloud_identity_connector_configs.setter
+    def multi_cloud_identity_connector_configs(self, multi_cloud_identity_connector_configs):
+        """
+        Sets the multi_cloud_identity_connector_configs of this CloudVmCluster.
+        Details of the multi cloud identity connectors of the VM cluster.
+
+
+        :param multi_cloud_identity_connector_configs: The multi_cloud_identity_connector_configs of this CloudVmCluster.
+        :type: list[oci.database.models.IdentityConnectorDetails]
+        """
+        self._multi_cloud_identity_connector_configs = multi_cloud_identity_connector_configs
+
+    @property
+    def tde_key_store_type(self):
+        """
+        Gets the tde_key_store_type of this CloudVmCluster.
+        TDE keystore type
+
+        Allowed values for this property are: "AZURE", "OCI", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The tde_key_store_type of this CloudVmCluster.
+        :rtype: str
+        """
+        return self._tde_key_store_type
+
+    @tde_key_store_type.setter
+    def tde_key_store_type(self, tde_key_store_type):
+        """
+        Sets the tde_key_store_type of this CloudVmCluster.
+        TDE keystore type
+
+
+        :param tde_key_store_type: The tde_key_store_type of this CloudVmCluster.
+        :type: str
+        """
+        allowed_values = ["AZURE", "OCI"]
+        if not value_allowed_none_or_none_sentinel(tde_key_store_type, allowed_values):
+            tde_key_store_type = 'UNKNOWN_ENUM_VALUE'
+        self._tde_key_store_type = tde_key_store_type
 
     def __repr__(self):
         return formatted_flat_dict(self)

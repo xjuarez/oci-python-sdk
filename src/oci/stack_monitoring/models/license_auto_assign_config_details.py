@@ -62,7 +62,7 @@ class LicenseAutoAssignConfigDetails(Config):
 
         :param config_type:
             The value to assign to the config_type property of this LicenseAutoAssignConfigDetails.
-            Allowed values for this property are: "AUTO_PROMOTE", "LICENSE_AUTO_ASSIGN", "LICENSE_ENTERPRISE_EXTENSIBILITY", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "AUTO_PROMOTE", "COMPUTE_AUTO_ACTIVATE_PLUGIN", "LICENSE_AUTO_ASSIGN", "LICENSE_ENTERPRISE_EXTENSIBILITY", "ONBOARD", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type config_type: str
 
@@ -98,7 +98,6 @@ class LicenseAutoAssignConfigDetails(Config):
             'system_tags': 'dict(str, dict(str, object))',
             'license': 'str'
         }
-
         self.attribute_map = {
             'id': 'id',
             'compartment_id': 'compartmentId',
@@ -112,7 +111,6 @@ class LicenseAutoAssignConfigDetails(Config):
             'system_tags': 'systemTags',
             'license': 'license'
         }
-
         self._id = None
         self._compartment_id = None
         self._display_name = None

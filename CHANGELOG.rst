@@ -5,6 +5,434 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 ====================
+2.158.2 - 2025-08-19
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the eu-budapest-1 region 
+* Support for pluggable database snapshot for Oracle Exadata Database Service 
+* Support for new GenericChatRequest parameters in Generative AI inference service 
+* Support for Flexible CIDR for secondary IPs on a VNIC for Virtual Cloud Network Service   
+
+====================
+2.158.0 - 2025-08-12
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the us-newark-1 region 
+* Support for OCI Cache Config Sets in the Redis service 
+* Support for Oracle Linux 8 in Devops Build Stage in the Build service 
+* Support for Distributed Training V2 (DTv2) in the Data Science service 
+* Support for stream video processing in the AI Vision service 
+* Support for specifying compute cluster and placement constraints when launching instances in the Compute service 
+* Support for SCIM query to allow advanced filtering across various columns in the List Finding Analytics operation in the Data Safe service 
+* Support for Target Database Group in the Data Safe service 
+* Support for adding additional contact to CMOS SR in the Cloud Incident Management service 
+* Support for attachment uploads in the Cloud Incident Management service 
+* Support for Amazon Kinesis endpoints in the Golden Gate service 
+* Support for Azure Data Lake Storage azureAuthorityHost in the Golden Gate service   
+
+Breaking 
+-------- 
+* Model `SubscriptionInfo` is removed from the Cloud Incident Management service 
+* Property `compute_host_group_id` is removed from models `LicensingConfig` and `LaunchInstanceDetails` in the Compute service 
+* Property `static_routes` changed from required to optional in model `IPSecConnection` in the Compute service 
+* Parameter `opc_retry_token` is removed from operation `cancel_work_request` in the `DataSafeClient` of the Data Safe service 
+* Parameter `on_prem_connector_lifecycle_state` is removed from operation `list_on_prem_connectors` in the `DataSafeClient` of the Data Safe service 
+* Models `GenericArtifactLocationDetails`, `GenericArtifacts`, `ObjectStorageGenericArtifactLocationDetails`, `StageOutput`, `TestReportOutput` are removed from the Build service 
+* Properties `default_merge_strategy` and `allowed_merge_strategies` changed from required to optional in model `MergeSettings` in the Build service   
+
+====================
+2.157.1 - 2025-08-05
+====================
+
+Added 
+----- 
+* Support for the Oracle Multicloud Hub service 
+* Support for Whisper Models Prompt feature via additional settings object for the AI Speech service 
+* Support for Language Auto Detection for the AI Speech Service 
+* Support for SubmitRawEmail API in Email Delivery service 
+
+====================
+2.157.0 - 2025-07-29
+====================
+
+Added 
+----- 
+* Support for the APIP Platform service 
+* Support for resource locking for all resources in the API Gateway service 
+* Support for optional parameters in the import and export dashboard APIs in the Management Dashboard service 
+* Support for agent configurations and MACS extension configurations in the Application Performance Monitoring service 
+* Support for specifying replication configuration when creating or updating a secret in the Vault service 
+* Support for CPU architecture agnostic configurations in the PostgreSQL service 
+* Support for creating, deploying, cloning, getting, listing, activating and deactivating model groups in the Data Science service 
+* Support for creating, updating, getting, listing and deleting model group version history in the Data Science service 
+* Support for uploading and downloading model group artifacts in the Data Science service 
+* Support for listing the state of the deployed models associated with a model group in the Data Science service 
+* Support for updating model group deployments in the Data Science service 
+* Support for burstable shapes in data science notebooks, machine learning jobs and machine learning pipelines in the Data Science service 
+* Support for multilingual text to speech for 8 more languages in the AI Speech service 
+
+Breaking 
+-------- 
+* Property `language_code` in model `VoiceSummary` will no longer support `UNKNOWN_ENUM_VALUE` 
+
+====================
+2.156.0 - 2025-07-22
+====================
+
+Added 
+----- 
+* Support for updating autonomous databases with schedule DB version upgrade in the Database service 
+* Support for new OKV Endpoint group parameter for Autonomous Container Database operations in the Database service 
+* Support for specifying tags in backup databases and standby databases in the Database service 
+* Support for cloud database systems and improved system monitoring in the Database Management service 
+* Support for stack, image, lead generation, and service listing types in the Marketplace service 
+* Support for adding custom metric-based policies in the Autoscaling service 
+* Support for Named Credentials in the Management Agent service 
+* Support for multilingual capability, user configured Agent-As-A-Tool, data ingestion of documents, and sequentially executed steps in the Generative AI Agent service 
+* Support for IAM authentication in the Cache service   
+
+Breaking 
+-------- 
+* The AI Anomaly Detection service has reached End-of-life 
+* Clients `AttachmentClient`, `AttachmentClientCompositeOperations`, `OfferClient`, `OfferClientCompositeOperations` are removed from the Marketplace service 
+* Models `Attachment`, `AttachmentCollection`, `Contact`, `CreateAttachmentDetails`, `CreateOfferDetails`, `CustomField`, `Offer`, `Pricing`, `ResourceBundle`, `SellerInformation`, `UpdateOfferDetails` are removed from the Marketplace service 
+* Properties `version_details`, `system_requirements`, `categories`, `markets`, `pricing_type` are removed from models `CreateListingRevisionDetails` and `UpdateListingRevisionDetails` in the Marketplace service 
+* Properties `version_details`, `system_requirements`, `categories`, `markets`, `pricing_type`, `allowed_tenancies`, `are_internal_tenancy_launch_allowed` are removed from model `ListingRevision` in the Marketplace service 
+* Properties `categories`, `markets`, `pricing_type` are removed from model `ListingRevisionSummary` in the Marketplace service 
+* Parent class for model `Metric` changed from `object` to `MetricBase` in the Autoscaling service 
+* Type of property `metric` changed from `Metric` to `MetricBase` in models `Condition`, `CreateConditionDetails`, `UpdateConditionDetails` in the Autoscaling service 
+* Support for default retries on the operations of the Autoscaling service 
+* Property `http_endpoint_auth_config_type` is removed from model `HttpEndpointAuthConfig` in the Generative AI Agent service   
+
+====================
+2.155.2 - 2025-07-15
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the ap-delhi-1 region
+2.155.1 - 2025-07-08
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the us-ashburn-2 region 
+* Support for insight of Autonomous Database on Exadata Cloud@Customer (ADB on ExaC@C) in the Operations Insights service 
+* Support for Spanish and Portuguese language recognition with Azure-backed Optical Character Recognition (OCR) in the AI Document service 
+* Support for UK, Australian, and Canadian address and tax form recognition in the AI Document service 
+* Support for Personal-to-Corporate conversation check in the OSP Gateway service   
+
+====================
+2.155.0 - 2025-07-01
+====================
+
+Added 
+----- 
+* Support for the Database MultiCloud service 
+* Support for System Tags in the Database service 
+* Support for PKCS11 Library Integration for Azure Key Store in the Database service 
+* Support for changing subscription ID and the opc-dry-run parameter in the Database service 
+* Support for listing all members of an Elastic Resource Pool for a provided Elastic Resource Pool leader in the Database service 
+* Support for managing scheduled queries in the Application Performance Monitoring service 
+* Support for Bring Your Own Key (BYOK) in the MySQL Heatwave service 
+* Support for customer-initiated collection of diagnostic information in the Database Migration service   
+
+Breaking 
+-------- 
+* The type of field `state` has been changed from string to `state` enum in the models `AutoActivateToggleStatus` and `AutoActivateStatus` in the Application Performance Monitoring service   
+
+====================
+2.154.3 - 2025-06-24
+====================
+
+Added 
+----- 
+* Support for database backups to Amazon S3 as default option for all databases running on Exa@AWS in the Database service 
+* Support for customer-managed encryption keys in hosted environments in the NoSQL Database service 
+* Support for upgrading a fleet of Grid Infrastructure and Databases to 23ai for ExaCS and ExaCC in the Exadata Fleet Update service 
+* Support for Bring Your Own IPv6 (BYOIPv6) in the Load Balancer service   
+
+====================
+2.154.2 - 2025-06-17
+====================
+
+Added 
+----- 
+* Support for node cycling (reboot/replaceBootVolume) for worker nodes in the Kubernetes Engine service 
+* Support for the WebLogic Management service 
+* Support for the Privileged API Access Control service 
+* Support for Role Based Access Control List in the OCI Cache service 
+* Support for integrating native Redis authentication with OCI Identity/IAM in the OCI Cache service 
+* Support for Command String in Runcommand API in the Instance Agent service 
+* Support for new fields capacitySummary and computeBareMetalHostId in the API response when fetching Dedicated Virtual Machine Hosts in the Compute service   
+
+====================
+2.154.1 - 2025-06-10
+====================
+
+Added 
+----- 
+* Support for performing an explicit Data Guard pre-check by setting new optional dry-run parameter when creating a database in the Database service   
+
+====================
+2.154.0 - 2025-06-03
+====================
+
+Added 
+----- 
+* Support for creating auto Autonomous Container Database backups in a remote region in the Database service 
+* Support for creating new Autonomous Container Databases from a backup in the remote region in the Database service 
+* Support for input/output token usage information in the Generative AI Agent service 
+* Support for standby connection in the Database Management service 
+* Support for additional metrics, including replication metrics, in the Database Management service 
+* Support for replication dashboard in the Database Management service 
+* Support for soft-deleting backups in the HeatWave service 
+* Support for additional connections types for Oracle Rest Data Services (ORDS), Apache Iceberg, and IBM Db2 for i in the Golden Gate service   
+
+Breaking 
+-------- 
+* Constants `SERVICE_LEVEL_AGREEMENT_TYPE_STANDARD`, `SERVICE_LEVEL_AGREEMENT_TYPE_AUTONOMOUS_DATAGUARD`, `PROTECTION_MODE_MAXIMUM_AVAILABILITY`, `PROTECTION_MODE_MAXIMUM_PERFORMANCE`, `PATCH_MODEL_RELEASE_UPDATES`, `PATCH_MODEL_RELEASE_UPDATE_REVISIONS`, `VERSION_PREFERENCE_NEXT_RELEASE_UPDATE`, `VERSION_PREFERENCE_LATEST_RELEASE_UPDATE`, `DISTRIBUTION_AFFINITY_MINIMUM_DISTRIBUTION`, `DISTRIBUTION_AFFINITY_MAXIMUM_DISTRIBUTION`, `NET_SERVICES_ARCHITECTURE_DEDICATED`, `NET_SERVICES_ARCHITECTURE_SHARED` moved from model `CreateAutonomousContainerDatabaseDetails` to `CreateAutonomousContainerDatabaseBase` in the Database service 
+* Properties `customer_contacts`, `display_name`, `db_unique_name`, `db_name`, `service_level_agreement_type`, `autonomous_exadata_infrastructure_id`, `db_version`, `database_software_image_id`, `peer_autonomous_exadata_infrastructure_id`, `peer_autonomous_container_database_display_name`, `protection_mode`, `fast_start_fail_over_lag_limit_in_seconds`, `is_automatic_failover_enabled`, `peer_cloud_autonomous_vm_cluster_id`, `peer_autonomous_vm_cluster_id`, `peer_autonomous_container_database_compartment_id`, `peer_autonomous_container_database_backup_config`, `peer_db_unique_name`, `autonomous_vm_cluster_id`, `cloud_autonomous_vm_cluster_id`, `compartment_id`, `patch_model`, `maintenance_window_details`, `standby_maintenance_buffer_in_days`, `version_preference`, `is_dst_file_update_enabled`, `freeform_tags`, `defined_tags`, `backup_config`, `kms_key_id`, `kms_key_version_id`, `vault_id`, `key_store_id`, `db_split_threshold`, `vm_failover_reservation`, `distribution_affinity`, `net_services_architecture` moved from model `CreateAutonomousContainerDatabaseDetails` to `CreateAutonomousContainerDatabaseBase` in the Database service 
+* Property `user_id` changed from required to optional for model `OracleNosqlConnectionSummary` in the Golden Gate service   
+
+====================
+2.153.0 - 2025-05-27
+====================
+
+Added 
+----- 
+* Support for List and Get APIs for out-of-box management dashboard resources in the Management Dashboard service 
+* Support for REST option in the HeatWave MySQL service 
+* Support for warnings in list-application-dependency-vulnerability response for vulnerability audits in the Adm service 
+* Support for HostGroups in the Compute service 
+* Support for ENTERPRISE_EDITION_DEVELOPER enum in Db System Launch and Create DB external backup commands in the Database service 
+* Support for databaseEditionQueryParam in dbSystemInitialStorageSizes, dbSystemStoragePerformance, quotaDefinitions, and internalQuotaDefinitions in the Database service 
+* Support for EmissionType parameter in UsageCarbonEmissionSummary and EmissionCalculationMethod, EmissionType, Granularity parameters in UsageCarbonEmissionsReportQuery in the Usage Api service 
+* Support for querying capacity report under BDSs tenancy in the Big Data service 
+* Support for installing Dataplane Software and python packages updates in the Big Data service 
+* Support for triggering a dry run with OS patch in the Big Data service 
+* Support for NAT on firewall feature in the Network Firewall service 
+* Support for Predictable OIDC Discovery in the OKE service 
+* Support for SQL and FTP monitoring, creating and updating in the Application Performance Monitoring Synthetic service 
+* Support for Demand signal feature in the Capacity Management service 
+* Support for Targeted Launch in the Launch Instance API service   
+
+Breaking 
+-------- 
+* Constants `LIFECYCLE_STATE_ATTACHING` and `LIFECYCLE_STATE_DETACHING` are removed from models `NetworkFirewallPolicySummary`, `NetworkFirewallPolicy`, `NetworkFirewallSummary` and `NetworkFirewall` in the Network Firewall service   
+
+====================
+2.152.1 - 2025-05-20
+====================
+
+Added 
+----- 
+* Support for the Globally Distributed Database service 
+* Support for listing the available upgrades (OS & GI) for VirtualMachine DB systems in the Database service 
+* Support for running dry-run operations in the Database service 
+* Support for Network Security Groups in MySQL HeatWave service
+
+====================
+2.152.0 - 2025-05-13
+====================
+
+Added 
+----- 
+* Support for the Model Deployment service  
+* Support for enabling and monitoring Pluggable Databases(PDB) in the Database Management service 
+* Support for additional unit shapes in AI clusters in the Generative AI service 
+* Support for node search details and node shape details on create and update cluster operations in the OpenSearch service   
+
+Breaking 
+-------- 
+* Models `DisableExternalMysqlAssociatedServiceDetails` and `EnableExternalMysqlAssociatedServiceDetails` removed from the Database Management service 
+* Property `lifecycle_state` removed from model `ExadataInfrastructureLifecycleStateValues` in the Database Management service 
+* Operations `disable_external_mysql_associated_service` and `enable_external_mysql_associated_service` removed from `ManagedMySqlDatabasesClient` in the Database Management service 
+* Default retries disabled for operations `get_named_credential` and `list_named_credentials` from `DbManagementClient` in the Database Management service 
+* Operation `modify_external_container_database_management_feature` removed from `DbManagementClient` in the Database Management service   
+
+====================
+2.151.0 - 2025-05-06
+====================
+
+Added 
+----- 
+* Support for dry run while creating cloud exadata Infrastructure and VM clusters in the Database service 
+* Support for filters to get latest versions on list system versions API in the Database service 
+* Support for generic fleets without fleet type in the Fleet Application Management service 
+* Support for creating resources and changing compartment in the Fleet Application Management service 
+* Support for infrastructure management via provisioning with terraform based catalog items and deployments in the Fleet Application Management service 
+* Support for platform configuration metadata management in the Fleet Application Management service 
+* Support for managing runbook versions in the Fleet Application Management service 
+* Support for provisioning runbooks in the Fleet Application Management service 
+* Support for resource inventory in the Fleet Application Management service 
+* Support for changing compartment for fleets, platforms configurations, properties, patches, runbooks and task resources in the Fleet Application Management service 
+* Support for new migration phase in the Database migration service   
+
+Breaking 
+-------- 
+* Models `Associations` and `NotificationPreferences` were removed from the Fleet Application Management service 
+* Properties `resource_id` ,`name`, `type`, `application_type`, `runbook_id` are removed from model `ActionGroupDetails` in the Fleet Application Management service 
+* Properties `resource_id`, `type`, `application_type`, `product`, `lifecycle_operation`, `runbook_id`, `target_id`, `subjects` are removed from model `ActionGroup` in the Fleet Application Management service 
+* Property `tenancy_id` is removed from model `AssociatedSchedulerDefinition` in the Fleet Application Management service 
+* Property `patch_type` is removed from models `CompliancePolicyRuleSummary` and `CompliancePolicyRule` in the Fleet Application Management service 
+* Property `condition` is removed from model `ComponentProperties` in the Fleet Application Management service 
+* Properties `patch_type` and `compartment_id` are removed from model `CreateCompliancePolicyRuleDetails` in the Fleet Application Management service 
+* Property `compartment_id` is removed from models `CreateFleetCredentialDetails` `CreateFleetPropertyDetails`, `UpdatePatchDetails` in the Fleet Application Management service 
+* Properties `fleet_type` ,`application_type`, `group_type`, `resource_selection_type`, `rule_selection_criteria` are removed from model `CreateFleetDetails` in the Fleet Application Management service 
+* Properties `maintenance_window_type` and `task_initiation_cutoff` are removed from models `CreateMaintenanceWindowDetails`, `MaintenanceWindowSummary`, `MaintenanceWindow`, `UpdateMaintenanceWindowDetails` in the Fleet Application Management service 
+* Properties `runbook_relevance` and `associations` are removed from models `CreateRunbookDetails` and `Runbook` in the Fleet Application Management service 
+* Property `activity_initiation_cut_off` is removed from model `CreateSchedulerDefinitionDetails` in the Fleet Application Management service 
+* Property `application_type` is removed from models `FleetResource` and `FleetResourceSummary` in the Fleet Application Management service 
+* Property `fleet_type` is removed from model `FleetSummary` in the Fleet Application Management service 
+* Properties `application_type`, `group_type`, `resource_selection_type`, `rule_selection_criteria` are removed from model `Fleet` in the Fleet Application Management service 
+* Property `id` is removed from model `OperationRunbook` in the Fleet Application Management service 
+* Property `on_upcoming_schedule` is removed from model `Preferences` in the Fleet Application Management service 
+* Property `runbook_relevance` is removed from model `RunbookSummary` in the Fleet Application Management service 
+* Properties `maintenance_window_id`, `recurrences`, `duration` are removed from model `Schedule` in the Fleet Application Management service 
+* Properties `tenancy_id`, `action_group_types`, `application_types` are removed from model `ScheduledFleetSummary` in the Fleet Application Management service 
+* Properties `action_group_types`, `application_types` are removed from models `ScheduledFleetSummary`, `SchedulerDefinitionSummary`, `SchedulerDefinition` in the Fleet Application Management service 
+* Properties `action_group_types`, `application_types`, `associated_schedule_definition` are removed from models `SchedulerJob`, `SchedulerJobSummary` in the Fleet Application Management service 
+* Property `value` is removed from model `TaskArgument` in the Fleet Application Management service 
+* Property `association_type` is removed from model `Task` in the Fleet Application Management service 
+* Property `patch_type` is removed from model `UpdateCompliancePolicyRuleDetails` in the Fleet Application Management service 
+* Property `rule_selection_criteria` is removed from model `UpdateFleetDetails` in the Fleet Application Management service 
+* Properties `associations`, `runbook_relevance` are removed from model `UpdateRunbookDetails` in the Fleet Application Management service 
+* Property `activity_initiation_cut_off` is removed from model `UpdateSchedulerDefinitionDetails` in the Fleet Application Management service 
+* Property `display_name` changed from optional to required in models `CreatePlatformConfigurationDetails`, `CreateTaskRecordDetails` and `CreatePropertyDetails` in the Fleet Application Management service 
+* Type of property `content` changed to `PatchFileContentDetails` from `ContentDetails` in models `GenericArtifact` and `PlatformSpecificArtifact` in the Fleet Application Management service 
+* Return type for property `notification_preferences` changed to `list[NotificationPreference]` from `NotificationPreferences` in model `UpdateFleetDetails` in the Fleet Application Management service 
+* Operations `get_work_request` , `list_work_request_errors` , `list_work_requests` , `list_work_request_logs` are removed from `FleetAppsManagementClient` in the Fleet Application Management service 
+* Parameter `compartment_id` is removed from operation `list_fleet_properties` in the `FleetAppsManagementClient` in the Fleet Application Management service 
+* Parameter `tenancy_id` is removed from operation `list_fleet_resources` in the `FleetAppsManagementClient` in the Fleet Application Management service 
+* Parameter `compartment_id` is removed from operation `list_scheduled_fleets` in the `FleetAppsManagementOperationsClient` in the Fleet Application Management service 
+* Parameters `sub_state` and `defintion_id` are removed from operation `list_scheduler_jobs` in the `FleetAppsManagementOperationsClient` in the Fleet Application Management service 
+* Parameter `runbook_relevance` is removed from operation `list_runbooks` in the `FleetAppsManagementRunbooksClient` in the Fleet Application Management service   
+
+====================
+2.150.3 - 2025-04-29
+====================
+
+Added 
+----- 
+* Support for custom headers for model retirement in the Generative AI service 
+* Support for usage statistics in the responses of Cohere chat and embed APIs in the Generative AI service 
+* Support for custom pre-checks in disaster recovery plans in the Disaster Recovery service 
+* Support for retention of automatic backups in the database system deletion policy in the HeatWave service 
+* Support for updating compartment of schedules in the Resource Scheduler service 
+* Support for listing schedules by resource identifier in the Resource Scheduler service 
+* Support for custom parameters when creating schedules in the Resource Scheduler service  
+
+====================
+2.150.2 - 2025-04-21
+====================
+
+Added 
+----- 
+* Support for patch management in the Database Lifecycle Management service 
+* Support for restricting public network access to service instances in the Visual Builder service 
+* Support for iSCSI-3 persistent reservations on block volume in the Core services (Networking, Compute, Block Volume)   
+
+Fixed 
+----- 
+* Limited the `enable_fips` method in `oci.fips` module to work only on OpenSSL 1.x for compatibility with OpenSSL 3.x   
+
+====================
+2.150.1 - 2025-04-15
+====================
+
+Added
+-----
+* Support for applying guardrails, enabling content moderation and detection of Prompt Injection and Personally Identifiable Information (PII) in the Generative AI Inference service
+* Support for providing customer contacts for operational notifications in the Database service
+
+2.150.0 - 2025-04-08
+====================
+
+Added 
+----- 
+* Support for connector source and targets with private endpoints in the Resource Scheduler service 
+* Support for Cross Region Replication(XRR) for external key managers in the Key Management service 
+* Support for dry run of function invocation in the Functions service 
+* Support for collecting diagnostics for ZeroETL pipelines in the GoldenGate service 
+* Support for adding, removing and switchover to local peers of deployment in different availability and fault domains within in the same region in the GoldenGate service 
+* Support for creating standby deployments in the GoldenGate service   
+
+Breaking 
+-------- 
+* The property `kind` in the `SourceDetails`, `TaskDetails` and `TargetDetails` models in the Resource Scheduler service was fixed to no longer support `UNKNOWN_ENUM_VALUE`. Instead, a `ValueError` will be raised if this property is assigned a value that it does not support. 
+* The type of property `source` in model `ServiceConnector` changed from `oci.sch.models.SourceDetails` to `oci.sch.models.SourceDetailsResponse` in the Resource Scheduler service 
+* The type of property `tasks` in model `ServiceConnector` changed from `oci.sch.models.TargetDetails` to `oci.sch.models.TaskDetailsResponse` in the Resource Scheduler service 
+* The type of property `target` in model `ServiceConnector` changed from `oci.sch.models.TaskDetails` to `oci.sch.models.TargetDetailsResponse` in the Resource Scheduler service   
+
+====================
+2.149.2 - 2025-04-01
+====================
+
+Added 
+----- 
+* Support for the Lustre File service 
+* Support for machine learning applications in the Data Science service 
+* Support for action endpoints to export and import configurations in the Application Performance Monitoring service 
+* Support for ECPU (Elastic Compute Unit) compute model based warehouses in the Operations insights service   
+
+====================
+2.149.1 - 2025-03-25
+====================
+
+Added 
+----- 
+* Support for agent platforms and Retrieval Augmented Generation (RAG) agents in the Generative AI Agent service 
+* Support for knowledge based metadata summaries in the Generative AI Agent service 
+* Support for create and update operations on onboard configurations in the Stack Monitoring service 
+* Support for automatic activation of the management agents on compute instance launch in the Stack Monitoring service 
+* Support for importing collectd resources in the Stack Monitoring service 
+* Support for updating the handler configurations for collected resources in Stack Monitoring service 
+* Support for monitored resource types based on source type and resource category in the Stack Monitoring service 
+* Support for adding tags in maintenance windows in the Stack Monitoring service 
+* Support for host API feature in the Compute service   
+
+====================
+2.149.0 - 2025-03-18
+====================
+
+Added 
+----- 
+* Support for Managed Services for Mac service 
+* Support for scheduling customer-initiated backups in the GoldenGate service 
+* Support for GPU memory clusters and fabrics in the Compute service   
+
+Breaking 
+-------- 
+* The properties `ip_anycast_id` and `monitor_ip` were removed from the models `CreateByoipRangeDetails` and `UpdateByoipRangeDetails` in the Compute service   
+
+====================
+2.148.0 - 2025-03-11
+====================
+
+Added 
+----- 
+* Support for pipelines in the OpenSearch service 
+* Support for uploading and downloading the model metadata artifacts in the Data Science service 
+* Support for model references via native API in the Data Science service 
+* Support for scheduling cross-region database backups in the HeatWave service 
+* Support for specifying backup retention days for manual cross-region backups in the HeatWave service 
+* Support for IPv6 addresses for dedicated infrastructure in the Database service 
+* Support for NewDev edition for the development community in the Database service 
+* Support for grouping sensitive types across the tenancies and reuse of groups in the discovery workflow in the Data Safe service 
+* Support for generating custom assessment reports in the Data Safe service   
+
+Breaking 
+-------- 
+* The properties `max_memory_gb`, `max_ocpu_count`, `min_memory_gb`, `min_ocpu_count` were removed from the models `CreateOpensearchClusterPipelineDetails`, `OpensearchClusterPipeline`, `OpensearchClusterPipelineSummary`, and `UpdateOpensearchClusterPipelineDetails` in the OpenSearch service 
+* The property `system_tags` was removed from the model `CreateOpensearchClusterPipelineDetails` in the OpenSearch service 
+* The models `OpensearchPipelineValidationResponse`, `ValidateOpensearchPipelineDetails`, and `PipelineValidationErrorDetails` were removed in the OpenSearch service   
+
+====================
 2.147.0 - 2025-03-04
 ====================
 
@@ -535,7 +963,7 @@ Added
 
 Changed
 -------
-* The `INSTANCE_METADATA_URL_CERTIFICATE_RETRIEVER_RETRY_STRATEGY` was changed to retry a max of 3 times for max of 3 minutes and a fixed retry inerval of 30 seconds, and retry on 404, 429 and 5xx errors
+* The `INSTANCE_METADATA_URL_CERTIFICATE_RETRIEVER_RETRY_STRATEGY` was changed to retry a max of 3 times for max of 3 minutes and a fixed retry interval of 30 seconds, and retry on 404, 429 and 5xx errors
 
 ====================
 2.129.3 - 2024-07-16
@@ -1120,7 +1548,7 @@ Breaking
 --------
 * Support for retries by default on operations of the Database Tools service
 * Support for retries by default on operations of the Monitoring service
-* The paremeter `opc_retry_token` was removed from operations `change_database_tools_connection_compartment` and `change_database_tools_private_endpoint_compartment` in the Database Tools service
+* The parameter `opc_retry_token` was removed from operations `change_database_tools_connection_compartment` and `change_database_tools_private_endpoint_compartment` in the Database Tools service
 * Properties `user_password`, `connection_string` and `user_name` were removed from models `CreateDatabaseToolsConnectionOracleDatabaseDetails` and `CreateDatabaseToolsConnectionMySqlDetails` in the Database Tools service
  
 ====================
@@ -2335,11 +2763,11 @@ Breaking
  
 Changed
 -------
-* The vendored dependency `requests` was updgraded from version `2.21.0` to `2.27.1`
-* The vendored dependency `urllib3` was updgraded from version `1.24.1` to `1.26.9`
-* The vendored dependency `chardet` was updgraded from version `3.0.4` to `4.0.0`
-* The vendored dependency `idna` was updgraded from version `2.8` to `2.10`
-* The vendored dependency `six` was updgraded from version `1.12.0` to `1.16.0`
+* The vendored dependency `requests` was upgraded from version `2.21.0` to `2.27.1`
+* The vendored dependency `urllib3` was upgraded from version `1.24.1` to `1.26.9`
+* The vendored dependency `chardet` was upgraded from version `3.0.4` to `4.0.0`
+* The vendored dependency `idna` was upgraded from version `2.8` to `2.10`
+* The vendored dependency `six` was upgraded from version `1.12.0` to `1.16.0`
  
 ====================
 2.68.0 - 2022-05-17
@@ -3942,7 +4370,7 @@ Added
 
 Breaking
 --------
-* Data type for paramater `data_storage_size_in_tbs` changed from int to float in the Database service
+* Data type for parameter `data_storage_size_in_tbs` changed from int to float in the Database service
 * Parameter `lifecycle_state` removed state `OFFLINE` and added `DISCONNECTED` in the Database service
 
 ====================
@@ -4437,7 +4865,7 @@ Added
 Breaking
 --------
 * oci.waas.WafLog.timestamp type changed from str to datetime
-* oci.waas.models.Certificate.issuer_name type changed from oci.waas.models.CertificateSubjectName to oci.waas.models.CerticateIssuerName
+* oci.waas.models.Certificate.issuer_name type changed from oci.waas.models.CertificateSubjectName to oci.waas.models.CertificateIssuerName
 * `"PURGE_WAAS_POLICY"` removed as option for oci.waas.models.WorkRequest.operation_type
 * `"PURGE_WAAS_POLICY"` removed as option for oci.waas.models.WorkRequestSummary.operation_type
 
@@ -4858,7 +5286,7 @@ Added
 
 Fixed
 -----
-* ObjectStorageClient requires int value for content_length keyword agruement to put_object and upload_part, but the SDK was not converting the type for the Requests library.
+* ObjectStorageClient requires int value for content_length keyword argument to put_object and upload_part, but the SDK was not converting the type for the Requests library.
 
 ====================
 2.0.3 - 2018-09-06
@@ -4959,7 +5387,7 @@ Added
 
 Fixed
 -------
-* Add dependency to idna >=2.5,<2.7 since cryptography and requests both have a dependency on the library and pip can install a version that is incompatable with requests.
+* Add dependency to idna >=2.5,<2.7 since cryptography and requests both have a dependency on the library and pip can install a version that is incompatible with requests.
 
 ====================
 1.4.2 - 2018-06-14
@@ -5159,7 +5587,7 @@ Changed
   * Added dependency on pyOpenSSL <= 17.4.0 as the minimum cryptography version for pyOpenSSL 17.5.0 is 2.1.4
 
 * Upgraded six dependency to 1.11.0
-* Ugraded requests dependency to 2.18.4
+* Upgraded requests dependency to 2.18.4
 
 ====================
 1.3.11 - 2017-12-11

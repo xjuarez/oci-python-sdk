@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class ChangeSecurityPolicyCompartmentDetails(object):
     """
-    Details for which compartment to move the resource to.
+    Details of the compartment the security policy will be moved to.
     """
 
     def __init__(self, **kwargs):
@@ -28,11 +28,9 @@ class ChangeSecurityPolicyCompartmentDetails(object):
         self.swagger_types = {
             'compartment_id': 'str'
         }
-
         self.attribute_map = {
             'compartment_id': 'compartmentId'
         }
-
         self._compartment_id = None
 
     @property

@@ -23,7 +23,7 @@ class FaceDetectionFeature(ImageFeature):
 
         :param feature_type:
             The value to assign to the feature_type property of this FaceDetectionFeature.
-            Allowed values for this property are: "IMAGE_CLASSIFICATION", "OBJECT_DETECTION", "TEXT_DETECTION", "FACE_DETECTION"
+            Allowed values for this property are: "IMAGE_CLASSIFICATION", "OBJECT_DETECTION", "TEXT_DETECTION", "FACE_DETECTION", "FACE_EMBEDDING"
         :type feature_type: str
 
         :param max_results:
@@ -40,13 +40,11 @@ class FaceDetectionFeature(ImageFeature):
             'max_results': 'int',
             'should_return_landmarks': 'bool'
         }
-
         self.attribute_map = {
             'feature_type': 'featureType',
             'max_results': 'maxResults',
             'should_return_landmarks': 'shouldReturnLandmarks'
         }
-
         self._feature_type = None
         self._max_results = None
         self._should_return_landmarks = None

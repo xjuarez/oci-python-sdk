@@ -48,6 +48,10 @@ class UpdateDbSystemDetails(object):
             The value to assign to the subnet_id property of this UpdateDbSystemDetails.
         :type subnet_id: str
 
+        :param nsg_ids:
+            The value to assign to the nsg_ids property of this UpdateDbSystemDetails.
+        :type nsg_ids: list[str]
+
         :param database_mode:
             The value to assign to the database_mode property of this UpdateDbSystemDetails.
         :type database_mode: str
@@ -55,6 +59,10 @@ class UpdateDbSystemDetails(object):
         :param access_mode:
             The value to assign to the access_mode property of this UpdateDbSystemDetails.
         :type access_mode: str
+
+        :param rest:
+            The value to assign to the rest property of this UpdateDbSystemDetails.
+        :type rest: oci.mysql.models.UpdateRestDetails
 
         :param is_highly_available:
             The value to assign to the is_highly_available property of this UpdateDbSystemDetails.
@@ -146,6 +154,10 @@ class UpdateDbSystemDetails(object):
             The value to assign to the secure_connections property of this UpdateDbSystemDetails.
         :type secure_connections: oci.mysql.models.SecureConnectionDetails
 
+        :param encrypt_data:
+            The value to assign to the encrypt_data property of this UpdateDbSystemDetails.
+        :type encrypt_data: oci.mysql.models.EncryptDataDetails
+
         :param customer_contacts:
             The value to assign to the customer_contacts property of this UpdateDbSystemDetails.
         :type customer_contacts: list[oci.mysql.models.CustomerContact]
@@ -159,8 +171,10 @@ class UpdateDbSystemDetails(object):
             'display_name': 'str',
             'description': 'str',
             'subnet_id': 'str',
+            'nsg_ids': 'list[str]',
             'database_mode': 'str',
             'access_mode': 'str',
+            'rest': 'UpdateRestDetails',
             'is_highly_available': 'bool',
             'availability_domain': 'str',
             'fault_domain': 'str',
@@ -183,16 +197,18 @@ class UpdateDbSystemDetails(object):
             'crash_recovery': 'str',
             'database_management': 'str',
             'secure_connections': 'SecureConnectionDetails',
+            'encrypt_data': 'EncryptDataDetails',
             'customer_contacts': 'list[CustomerContact]',
             'read_endpoint': 'UpdateReadEndpointDetails'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'description': 'description',
             'subnet_id': 'subnetId',
+            'nsg_ids': 'nsgIds',
             'database_mode': 'databaseMode',
             'access_mode': 'accessMode',
+            'rest': 'rest',
             'is_highly_available': 'isHighlyAvailable',
             'availability_domain': 'availabilityDomain',
             'fault_domain': 'faultDomain',
@@ -215,15 +231,17 @@ class UpdateDbSystemDetails(object):
             'crash_recovery': 'crashRecovery',
             'database_management': 'databaseManagement',
             'secure_connections': 'secureConnections',
+            'encrypt_data': 'encryptData',
             'customer_contacts': 'customerContacts',
             'read_endpoint': 'readEndpoint'
         }
-
         self._display_name = None
         self._description = None
         self._subnet_id = None
+        self._nsg_ids = None
         self._database_mode = None
         self._access_mode = None
+        self._rest = None
         self._is_highly_available = None
         self._availability_domain = None
         self._fault_domain = None
@@ -246,6 +264,7 @@ class UpdateDbSystemDetails(object):
         self._crash_recovery = None
         self._database_management = None
         self._secure_connections = None
+        self._encrypt_data = None
         self._customer_contacts = None
         self._read_endpoint = None
 
@@ -322,6 +341,30 @@ class UpdateDbSystemDetails(object):
         self._subnet_id = subnet_id
 
     @property
+    def nsg_ids(self):
+        """
+        Gets the nsg_ids of this UpdateDbSystemDetails.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :return: The nsg_ids of this UpdateDbSystemDetails.
+        :rtype: list[str]
+        """
+        return self._nsg_ids
+
+    @nsg_ids.setter
+    def nsg_ids(self, nsg_ids):
+        """
+        Sets the nsg_ids of this UpdateDbSystemDetails.
+        Network Security Group OCIDs used for the VNIC attachment.
+
+
+        :param nsg_ids: The nsg_ids of this UpdateDbSystemDetails.
+        :type: list[str]
+        """
+        self._nsg_ids = nsg_ids
+
+    @property
     def database_mode(self):
         """
         Gets the database_mode of this UpdateDbSystemDetails.
@@ -388,6 +431,26 @@ class UpdateDbSystemDetails(object):
         :type: str
         """
         self._access_mode = access_mode
+
+    @property
+    def rest(self):
+        """
+        Gets the rest of this UpdateDbSystemDetails.
+
+        :return: The rest of this UpdateDbSystemDetails.
+        :rtype: oci.mysql.models.UpdateRestDetails
+        """
+        return self._rest
+
+    @rest.setter
+    def rest(self, rest):
+        """
+        Sets the rest of this UpdateDbSystemDetails.
+
+        :param rest: The rest of this UpdateDbSystemDetails.
+        :type: oci.mysql.models.UpdateRestDetails
+        """
+        self._rest = rest
 
     @property
     def is_highly_available(self):
@@ -1000,6 +1063,26 @@ class UpdateDbSystemDetails(object):
         :type: oci.mysql.models.SecureConnectionDetails
         """
         self._secure_connections = secure_connections
+
+    @property
+    def encrypt_data(self):
+        """
+        Gets the encrypt_data of this UpdateDbSystemDetails.
+
+        :return: The encrypt_data of this UpdateDbSystemDetails.
+        :rtype: oci.mysql.models.EncryptDataDetails
+        """
+        return self._encrypt_data
+
+    @encrypt_data.setter
+    def encrypt_data(self, encrypt_data):
+        """
+        Sets the encrypt_data of this UpdateDbSystemDetails.
+
+        :param encrypt_data: The encrypt_data of this UpdateDbSystemDetails.
+        :type: oci.mysql.models.EncryptDataDetails
+        """
+        self._encrypt_data = encrypt_data
 
     @property
     def customer_contacts(self):

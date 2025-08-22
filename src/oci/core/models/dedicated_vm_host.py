@@ -73,6 +73,10 @@ class DedicatedVmHost(object):
             The value to assign to the freeform_tags property of this DedicatedVmHost.
         :type freeform_tags: dict(str, str)
 
+        :param placement_constraint_details:
+            The value to assign to the placement_constraint_details property of this DedicatedVmHost.
+        :type placement_constraint_details: oci.core.models.PlacementConstraintDetails
+
         :param id:
             The value to assign to the id property of this DedicatedVmHost.
         :type id: str
@@ -103,6 +107,14 @@ class DedicatedVmHost(object):
             The value to assign to the remaining_memory_in_gbs property of this DedicatedVmHost.
         :type remaining_memory_in_gbs: float
 
+        :param capacity_bins:
+            The value to assign to the capacity_bins property of this DedicatedVmHost.
+        :type capacity_bins: list[oci.core.models.CapacityBin]
+
+        :param compute_bare_metal_host_id:
+            The value to assign to the compute_bare_metal_host_id property of this DedicatedVmHost.
+        :type compute_bare_metal_host_id: str
+
         """
         self.swagger_types = {
             'availability_domain': 'str',
@@ -112,15 +124,17 @@ class DedicatedVmHost(object):
             'display_name': 'str',
             'fault_domain': 'str',
             'freeform_tags': 'dict(str, str)',
+            'placement_constraint_details': 'PlacementConstraintDetails',
             'id': 'str',
             'lifecycle_state': 'str',
             'time_created': 'datetime',
             'total_ocpus': 'float',
             'remaining_ocpus': 'float',
             'total_memory_in_gbs': 'float',
-            'remaining_memory_in_gbs': 'float'
+            'remaining_memory_in_gbs': 'float',
+            'capacity_bins': 'list[CapacityBin]',
+            'compute_bare_metal_host_id': 'str'
         }
-
         self.attribute_map = {
             'availability_domain': 'availabilityDomain',
             'compartment_id': 'compartmentId',
@@ -129,15 +143,17 @@ class DedicatedVmHost(object):
             'display_name': 'displayName',
             'fault_domain': 'faultDomain',
             'freeform_tags': 'freeformTags',
+            'placement_constraint_details': 'placementConstraintDetails',
             'id': 'id',
             'lifecycle_state': 'lifecycleState',
             'time_created': 'timeCreated',
             'total_ocpus': 'totalOcpus',
             'remaining_ocpus': 'remainingOcpus',
             'total_memory_in_gbs': 'totalMemoryInGBs',
-            'remaining_memory_in_gbs': 'remainingMemoryInGBs'
+            'remaining_memory_in_gbs': 'remainingMemoryInGBs',
+            'capacity_bins': 'capacityBins',
+            'compute_bare_metal_host_id': 'computeBareMetalHostId'
         }
-
         self._availability_domain = None
         self._compartment_id = None
         self._dedicated_vm_host_shape = None
@@ -145,6 +161,7 @@ class DedicatedVmHost(object):
         self._display_name = None
         self._fault_domain = None
         self._freeform_tags = None
+        self._placement_constraint_details = None
         self._id = None
         self._lifecycle_state = None
         self._time_created = None
@@ -152,6 +169,8 @@ class DedicatedVmHost(object):
         self._remaining_ocpus = None
         self._total_memory_in_gbs = None
         self._remaining_memory_in_gbs = None
+        self._capacity_bins = None
+        self._compute_bare_metal_host_id = None
 
     @property
     def availability_domain(self):
@@ -372,6 +391,26 @@ class DedicatedVmHost(object):
         self._freeform_tags = freeform_tags
 
     @property
+    def placement_constraint_details(self):
+        """
+        Gets the placement_constraint_details of this DedicatedVmHost.
+
+        :return: The placement_constraint_details of this DedicatedVmHost.
+        :rtype: oci.core.models.PlacementConstraintDetails
+        """
+        return self._placement_constraint_details
+
+    @placement_constraint_details.setter
+    def placement_constraint_details(self, placement_constraint_details):
+        """
+        Sets the placement_constraint_details of this DedicatedVmHost.
+
+        :param placement_constraint_details: The placement_constraint_details of this DedicatedVmHost.
+        :type: oci.core.models.PlacementConstraintDetails
+        """
+        self._placement_constraint_details = placement_constraint_details
+
+    @property
     def id(self):
         """
         **[Required]** Gets the id of this DedicatedVmHost.
@@ -556,6 +595,54 @@ class DedicatedVmHost(object):
         :type: float
         """
         self._remaining_memory_in_gbs = remaining_memory_in_gbs
+
+    @property
+    def capacity_bins(self):
+        """
+        Gets the capacity_bins of this DedicatedVmHost.
+        A list of total and remaining CPU & memory per capacity bucket.
+
+
+        :return: The capacity_bins of this DedicatedVmHost.
+        :rtype: list[oci.core.models.CapacityBin]
+        """
+        return self._capacity_bins
+
+    @capacity_bins.setter
+    def capacity_bins(self, capacity_bins):
+        """
+        Sets the capacity_bins of this DedicatedVmHost.
+        A list of total and remaining CPU & memory per capacity bucket.
+
+
+        :param capacity_bins: The capacity_bins of this DedicatedVmHost.
+        :type: list[oci.core.models.CapacityBin]
+        """
+        self._capacity_bins = capacity_bins
+
+    @property
+    def compute_bare_metal_host_id(self):
+        """
+        Gets the compute_bare_metal_host_id of this DedicatedVmHost.
+        The compute bare metal host OCID of the dedicated virtual machine host.
+
+
+        :return: The compute_bare_metal_host_id of this DedicatedVmHost.
+        :rtype: str
+        """
+        return self._compute_bare_metal_host_id
+
+    @compute_bare_metal_host_id.setter
+    def compute_bare_metal_host_id(self, compute_bare_metal_host_id):
+        """
+        Sets the compute_bare_metal_host_id of this DedicatedVmHost.
+        The compute bare metal host OCID of the dedicated virtual machine host.
+
+
+        :param compute_bare_metal_host_id: The compute_bare_metal_host_id of this DedicatedVmHost.
+        :type: str
+        """
+        self._compute_bare_metal_host_id = compute_bare_metal_host_id
 
     def __repr__(self):
         return formatted_flat_dict(self)

@@ -24,6 +24,14 @@ class Backup(object):
     __ https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm
     """
 
+    #: A constant which can be used with the soft_delete property of a Backup.
+    #: This constant has a value of "ENABLED"
+    SOFT_DELETE_ENABLED = "ENABLED"
+
+    #: A constant which can be used with the soft_delete property of a Backup.
+    #: This constant has a value of "DISABLED"
+    SOFT_DELETE_DISABLED = "DISABLED"
+
     #: A constant which can be used with the lifecycle_state property of a Backup.
     #: This constant has a value of "CREATING"
     LIFECYCLE_STATE_CREATING = "CREATING"
@@ -51,6 +59,10 @@ class Backup(object):
     #: A constant which can be used with the lifecycle_state property of a Backup.
     #: This constant has a value of "FAILED"
     LIFECYCLE_STATE_FAILED = "FAILED"
+
+    #: A constant which can be used with the lifecycle_state property of a Backup.
+    #: This constant has a value of "DELETE_SCHEDULED"
+    LIFECYCLE_STATE_DELETE_SCHEDULED = "DELETE_SCHEDULED"
 
     #: A constant which can be used with the backup_type property of a Backup.
     #: This constant has a value of "FULL"
@@ -89,6 +101,12 @@ class Backup(object):
             The value to assign to the description property of this Backup.
         :type description: str
 
+        :param soft_delete:
+            The value to assign to the soft_delete property of this Backup.
+            Allowed values for this property are: "ENABLED", "DISABLED", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type soft_delete: str
+
         :param compartment_id:
             The value to assign to the compartment_id property of this Backup.
         :type compartment_id: str
@@ -103,7 +121,7 @@ class Backup(object):
 
         :param lifecycle_state:
             The value to assign to the lifecycle_state property of this Backup.
-            Allowed values for this property are: "CREATING", "ACTIVE", "INACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "CREATING", "ACTIVE", "INACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED", "DELETE_SCHEDULED", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type lifecycle_state: str
 
@@ -175,11 +193,16 @@ class Backup(object):
             The value to assign to the time_copy_created property of this Backup.
         :type time_copy_created: datetime
 
+        :param encrypt_data:
+            The value to assign to the encrypt_data property of this Backup.
+        :type encrypt_data: oci.mysql.models.EncryptDataDetails
+
         """
         self.swagger_types = {
             'id': 'str',
             'display_name': 'str',
             'description': 'str',
+            'soft_delete': 'str',
             'compartment_id': 'str',
             'time_created': 'datetime',
             'time_updated': 'datetime',
@@ -199,13 +222,14 @@ class Backup(object):
             'system_tags': 'dict(str, dict(str, object))',
             'immediate_source_backup_id': 'str',
             'original_source_backup_id': 'str',
-            'time_copy_created': 'datetime'
+            'time_copy_created': 'datetime',
+            'encrypt_data': 'EncryptDataDetails'
         }
-
         self.attribute_map = {
             'id': 'id',
             'display_name': 'displayName',
             'description': 'description',
+            'soft_delete': 'softDelete',
             'compartment_id': 'compartmentId',
             'time_created': 'timeCreated',
             'time_updated': 'timeUpdated',
@@ -225,12 +249,13 @@ class Backup(object):
             'system_tags': 'systemTags',
             'immediate_source_backup_id': 'immediateSourceBackupId',
             'original_source_backup_id': 'originalSourceBackupId',
-            'time_copy_created': 'timeCopyCreated'
+            'time_copy_created': 'timeCopyCreated',
+            'encrypt_data': 'encryptData'
         }
-
         self._id = None
         self._display_name = None
         self._description = None
+        self._soft_delete = None
         self._compartment_id = None
         self._time_created = None
         self._time_updated = None
@@ -251,6 +276,7 @@ class Backup(object):
         self._immediate_source_backup_id = None
         self._original_source_backup_id = None
         self._time_copy_created = None
+        self._encrypt_data = None
 
     @property
     def id(self):
@@ -323,6 +349,38 @@ class Backup(object):
         :type: str
         """
         self._description = description
+
+    @property
+    def soft_delete(self):
+        """
+        Gets the soft_delete of this Backup.
+        Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED
+        state for 7 days before permanently deleting it.
+
+        Allowed values for this property are: "ENABLED", "DISABLED", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The soft_delete of this Backup.
+        :rtype: str
+        """
+        return self._soft_delete
+
+    @soft_delete.setter
+    def soft_delete(self, soft_delete):
+        """
+        Sets the soft_delete of this Backup.
+        Retains the backup to be deleted due to the retention policy in DELETE SCHEDULED
+        state for 7 days before permanently deleting it.
+
+
+        :param soft_delete: The soft_delete of this Backup.
+        :type: str
+        """
+        allowed_values = ["ENABLED", "DISABLED"]
+        if not value_allowed_none_or_none_sentinel(soft_delete, allowed_values):
+            soft_delete = 'UNKNOWN_ENUM_VALUE'
+        self._soft_delete = soft_delete
 
     @property
     def compartment_id(self):
@@ -402,7 +460,7 @@ class Backup(object):
         **[Required]** Gets the lifecycle_state of this Backup.
         The state of the backup.
 
-        Allowed values for this property are: "CREATING", "ACTIVE", "INACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "CREATING", "ACTIVE", "INACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED", "DELETE_SCHEDULED", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -421,7 +479,7 @@ class Backup(object):
         :param lifecycle_state: The lifecycle_state of this Backup.
         :type: str
         """
-        allowed_values = ["CREATING", "ACTIVE", "INACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED"]
+        allowed_values = ["CREATING", "ACTIVE", "INACTIVE", "UPDATING", "DELETING", "DELETED", "FAILED", "DELETE_SCHEDULED"]
         if not value_allowed_none_or_none_sentinel(lifecycle_state, allowed_values):
             lifecycle_state = 'UNKNOWN_ENUM_VALUE'
         self._lifecycle_state = lifecycle_state
@@ -827,6 +885,26 @@ class Backup(object):
         :type: datetime
         """
         self._time_copy_created = time_copy_created
+
+    @property
+    def encrypt_data(self):
+        """
+        Gets the encrypt_data of this Backup.
+
+        :return: The encrypt_data of this Backup.
+        :rtype: oci.mysql.models.EncryptDataDetails
+        """
+        return self._encrypt_data
+
+    @encrypt_data.setter
+    def encrypt_data(self, encrypt_data):
+        """
+        Sets the encrypt_data of this Backup.
+
+        :param encrypt_data: The encrypt_data of this Backup.
+        :type: oci.mysql.models.EncryptDataDetails
+        """
+        self._encrypt_data = encrypt_data
 
     def __repr__(self):
         return formatted_flat_dict(self)

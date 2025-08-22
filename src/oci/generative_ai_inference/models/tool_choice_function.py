@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class ToolChoiceFunction(ToolChoice):
     """
-    The tool choice for a function.
+    The tool choice for a function. The model will generate the parameters for user to call the function.
     """
 
     def __init__(self, **kwargs):
@@ -35,12 +35,10 @@ class ToolChoiceFunction(ToolChoice):
             'type': 'str',
             'name': 'str'
         }
-
         self.attribute_map = {
             'type': 'type',
             'name': 'name'
         }
-
         self._type = None
         self._name = None
         self._type = 'FUNCTION'

@@ -12,6 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class BlockVolumeMountDetails(object):
     """
+    Deprecated. Use the 'ComputeInstanceNonMovableBlockVolumeMountOperationDetails' definition instead of this.
     The details for mounting or unmounting the file system on a block volume.
     """
 
@@ -28,11 +29,9 @@ class BlockVolumeMountDetails(object):
         self.swagger_types = {
             'mount_point': 'str'
         }
-
         self.attribute_map = {
             'mount_point': 'mountPoint'
         }
-
         self._mount_point = None
 
     @property

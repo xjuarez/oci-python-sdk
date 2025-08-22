@@ -28,7 +28,7 @@ class MetricGroupSummary(ConfigSummary):
 
         :param config_type:
             The value to assign to the config_type property of this MetricGroupSummary.
-            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS"
+            Allowed values for this property are: "SPAN_FILTER", "METRIC_GROUP", "APDEX", "OPTIONS", "AGENT", "MACS_APM_EXTENSION"
         :type config_type: str
 
         :param time_created:
@@ -58,6 +58,10 @@ class MetricGroupSummary(ConfigSummary):
         :param defined_tags:
             The value to assign to the defined_tags property of this MetricGroupSummary.
         :type defined_tags: dict(str, dict(str, object))
+
+        :param system_tags:
+            The value to assign to the system_tags property of this MetricGroupSummary.
+        :type system_tags: dict(str, dict(str, object))
 
         :param display_name:
             The value to assign to the display_name property of this MetricGroupSummary.
@@ -90,13 +94,13 @@ class MetricGroupSummary(ConfigSummary):
             'etag': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
+            'system_tags': 'dict(str, dict(str, object))',
             'display_name': 'str',
             'filter_id': 'str',
             'namespace': 'str',
             'dimensions': 'list[Dimension]',
             'metrics': 'list[Metric]'
         }
-
         self.attribute_map = {
             'id': 'id',
             'config_type': 'configType',
@@ -107,13 +111,13 @@ class MetricGroupSummary(ConfigSummary):
             'etag': 'etag',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
+            'system_tags': 'systemTags',
             'display_name': 'displayName',
             'filter_id': 'filterId',
             'namespace': 'namespace',
             'dimensions': 'dimensions',
             'metrics': 'metrics'
         }
-
         self._id = None
         self._config_type = None
         self._time_created = None
@@ -123,6 +127,7 @@ class MetricGroupSummary(ConfigSummary):
         self._etag = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._system_tags = None
         self._display_name = None
         self._filter_id = None
         self._namespace = None

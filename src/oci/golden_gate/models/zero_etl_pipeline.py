@@ -63,6 +63,10 @@ class ZeroEtlPipeline(Pipeline):
             The value to assign to the target_connection_details property of this ZeroEtlPipeline.
         :type target_connection_details: oci.golden_gate.models.TargetPipelineConnectionDetails
 
+        :param pipeline_diagnostic_data:
+            The value to assign to the pipeline_diagnostic_data property of this ZeroEtlPipeline.
+        :type pipeline_diagnostic_data: oci.golden_gate.models.PipelineDiagnosticData
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this ZeroEtlPipeline.
         :type freeform_tags: dict(str, str)
@@ -125,6 +129,7 @@ class ZeroEtlPipeline(Pipeline):
             'is_auto_scaling_enabled': 'bool',
             'source_connection_details': 'SourcePipelineConnectionDetails',
             'target_connection_details': 'TargetPipelineConnectionDetails',
+            'pipeline_diagnostic_data': 'PipelineDiagnosticData',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))',
@@ -138,7 +143,6 @@ class ZeroEtlPipeline(Pipeline):
             'process_options': 'ProcessOptions',
             'time_last_recorded': 'datetime'
         }
-
         self.attribute_map = {
             'recipe_type': 'recipeType',
             'id': 'id',
@@ -150,6 +154,7 @@ class ZeroEtlPipeline(Pipeline):
             'is_auto_scaling_enabled': 'isAutoScalingEnabled',
             'source_connection_details': 'sourceConnectionDetails',
             'target_connection_details': 'targetConnectionDetails',
+            'pipeline_diagnostic_data': 'pipelineDiagnosticData',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags',
@@ -163,7 +168,6 @@ class ZeroEtlPipeline(Pipeline):
             'process_options': 'processOptions',
             'time_last_recorded': 'timeLastRecorded'
         }
-
         self._recipe_type = None
         self._id = None
         self._display_name = None
@@ -174,6 +178,7 @@ class ZeroEtlPipeline(Pipeline):
         self._is_auto_scaling_enabled = None
         self._source_connection_details = None
         self._target_connection_details = None
+        self._pipeline_diagnostic_data = None
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None

@@ -90,6 +90,10 @@ class UpdateDeploymentDetails(object):
             The value to assign to the is_auto_scaling_enabled property of this UpdateDeploymentDetails.
         :type is_auto_scaling_enabled: bool
 
+        :param placements:
+            The value to assign to the placements property of this UpdateDeploymentDetails.
+        :type placements: list[oci.golden_gate.models.DeploymentPlacementDetails]
+
         :param ogg_data:
             The value to assign to the ogg_data property of this UpdateDeploymentDetails.
         :type ogg_data: oci.golden_gate.models.UpdateOggDeploymentDetails
@@ -101,6 +105,10 @@ class UpdateDeploymentDetails(object):
         :param maintenance_configuration:
             The value to assign to the maintenance_configuration property of this UpdateDeploymentDetails.
         :type maintenance_configuration: oci.golden_gate.models.UpdateMaintenanceConfigurationDetails
+
+        :param backup_schedule:
+            The value to assign to the backup_schedule property of this UpdateDeploymentDetails.
+        :type backup_schedule: oci.golden_gate.models.UpdateBackupScheduleDetails
 
         """
         self.swagger_types = {
@@ -117,11 +125,12 @@ class UpdateDeploymentDetails(object):
             'fqdn': 'str',
             'cpu_core_count': 'int',
             'is_auto_scaling_enabled': 'bool',
+            'placements': 'list[DeploymentPlacementDetails]',
             'ogg_data': 'UpdateOggDeploymentDetails',
             'maintenance_window': 'UpdateMaintenanceWindowDetails',
-            'maintenance_configuration': 'UpdateMaintenanceConfigurationDetails'
+            'maintenance_configuration': 'UpdateMaintenanceConfigurationDetails',
+            'backup_schedule': 'UpdateBackupScheduleDetails'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'license_model': 'licenseModel',
@@ -136,11 +145,12 @@ class UpdateDeploymentDetails(object):
             'fqdn': 'fqdn',
             'cpu_core_count': 'cpuCoreCount',
             'is_auto_scaling_enabled': 'isAutoScalingEnabled',
+            'placements': 'placements',
             'ogg_data': 'oggData',
             'maintenance_window': 'maintenanceWindow',
-            'maintenance_configuration': 'maintenanceConfiguration'
+            'maintenance_configuration': 'maintenanceConfiguration',
+            'backup_schedule': 'backupSchedule'
         }
-
         self._display_name = None
         self._license_model = None
         self._environment_type = None
@@ -154,9 +164,11 @@ class UpdateDeploymentDetails(object):
         self._fqdn = None
         self._cpu_core_count = None
         self._is_auto_scaling_enabled = None
+        self._placements = None
         self._ogg_data = None
         self._maintenance_window = None
         self._maintenance_configuration = None
+        self._backup_schedule = None
 
     @property
     def display_name(self):
@@ -511,6 +523,30 @@ class UpdateDeploymentDetails(object):
         self._is_auto_scaling_enabled = is_auto_scaling_enabled
 
     @property
+    def placements(self):
+        """
+        Gets the placements of this UpdateDeploymentDetails.
+        An array of local peers of deployment
+
+
+        :return: The placements of this UpdateDeploymentDetails.
+        :rtype: list[oci.golden_gate.models.DeploymentPlacementDetails]
+        """
+        return self._placements
+
+    @placements.setter
+    def placements(self, placements):
+        """
+        Sets the placements of this UpdateDeploymentDetails.
+        An array of local peers of deployment
+
+
+        :param placements: The placements of this UpdateDeploymentDetails.
+        :type: list[oci.golden_gate.models.DeploymentPlacementDetails]
+        """
+        self._placements = placements
+
+    @property
     def ogg_data(self):
         """
         Gets the ogg_data of this UpdateDeploymentDetails.
@@ -569,6 +605,26 @@ class UpdateDeploymentDetails(object):
         :type: oci.golden_gate.models.UpdateMaintenanceConfigurationDetails
         """
         self._maintenance_configuration = maintenance_configuration
+
+    @property
+    def backup_schedule(self):
+        """
+        Gets the backup_schedule of this UpdateDeploymentDetails.
+
+        :return: The backup_schedule of this UpdateDeploymentDetails.
+        :rtype: oci.golden_gate.models.UpdateBackupScheduleDetails
+        """
+        return self._backup_schedule
+
+    @backup_schedule.setter
+    def backup_schedule(self, backup_schedule):
+        """
+        Sets the backup_schedule of this UpdateDeploymentDetails.
+
+        :param backup_schedule: The backup_schedule of this UpdateDeploymentDetails.
+        :type: oci.golden_gate.models.UpdateBackupScheduleDetails
+        """
+        self._backup_schedule = backup_schedule
 
     def __repr__(self):
         return formatted_flat_dict(self)

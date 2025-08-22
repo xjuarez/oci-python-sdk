@@ -66,7 +66,6 @@ class Backend(object):
             'backup': 'bool',
             'offline': 'bool'
         }
-
         self.attribute_map = {
             'name': 'name',
             'ip_address': 'ipAddress',
@@ -77,7 +76,6 @@ class Backend(object):
             'backup': 'backup',
             'offline': 'offline'
         }
-
         self._name = None
         self._ip_address = None
         self._port = None
@@ -216,8 +214,8 @@ class Backend(object):
         """
         Gets the max_connections of this Backend.
         The maximum number of simultaneous connections the load balancer can make to the backend.
-        If this is not set then the maximum number of simultaneous connections the load balancer
-        can make to the backend is unlimited.
+        If this is not set or set to 0 then the maximum number of simultaneous connections the
+        load balancer can make to the backend is unlimited.
 
         Example: `300`
 
@@ -232,8 +230,8 @@ class Backend(object):
         """
         Sets the max_connections of this Backend.
         The maximum number of simultaneous connections the load balancer can make to the backend.
-        If this is not set then the maximum number of simultaneous connections the load balancer
-        can make to the backend is unlimited.
+        If this is not set or set to 0 then the maximum number of simultaneous connections the
+        load balancer can make to the backend is unlimited.
 
         Example: `300`
 

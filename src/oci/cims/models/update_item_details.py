@@ -21,6 +21,7 @@ class UpdateItemDetails(object):
         to a service operations then you should favor using a subclass over the base class:
 
         * :class:`~oci.cims.models.UpdateActivityItemDetails`
+        * :class:`~oci.cims.models.UpdateContactItemDetails`
 
         The following keyword arguments are supported (corresponding to the getters/setters of this class):
 
@@ -32,11 +33,9 @@ class UpdateItemDetails(object):
         self.swagger_types = {
             'type': 'str'
         }
-
         self.attribute_map = {
             'type': 'type'
         }
-
         self._type = None
 
     @staticmethod
@@ -49,6 +48,9 @@ class UpdateItemDetails(object):
 
         if type == 'activity':
             return 'UpdateActivityItemDetails'
+
+        if type == 'contact':
+            return 'UpdateContactItemDetails'
         else:
             return 'UpdateItemDetails'
 

@@ -7,8 +7,16 @@
 from __future__ import absolute_import
 
 
+from .oci_cache_config_set_client import OciCacheConfigSetClient
+from .oci_cache_config_set_client_composite_operations import OciCacheConfigSetClientCompositeOperations
+from .oci_cache_default_config_set_client import OciCacheDefaultConfigSetClient
+from .oci_cache_default_config_set_client_composite_operations import OciCacheDefaultConfigSetClientCompositeOperations
+from .oci_cache_user_client import OciCacheUserClient
+from .oci_cache_user_client_composite_operations import OciCacheUserClientCompositeOperations
 from .redis_cluster_client import RedisClusterClient
 from .redis_cluster_client_composite_operations import RedisClusterClientCompositeOperations
+from .redis_identity_client import RedisIdentityClient
+from .redis_identity_client_composite_operations import RedisIdentityClientCompositeOperations
 from . import models
 
-__all__ = ["RedisClusterClient", "RedisClusterClientCompositeOperations", "models"]
+__all__ = ["OciCacheConfigSetClient", "OciCacheConfigSetClientCompositeOperations", "OciCacheDefaultConfigSetClient", "OciCacheDefaultConfigSetClientCompositeOperations", "OciCacheUserClient", "OciCacheUserClientCompositeOperations", "RedisClusterClient", "RedisClusterClientCompositeOperations", "RedisIdentityClient", "RedisIdentityClientCompositeOperations", "models"]

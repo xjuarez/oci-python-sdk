@@ -40,13 +40,11 @@ class OAuth2LogoutBackend(ApiSpecificationRouteBackend):
             'allowed_post_logout_uris': 'list[str]',
             'post_logout_state': 'str'
         }
-
         self.attribute_map = {
             'type': 'type',
             'allowed_post_logout_uris': 'allowedPostLogoutUris',
             'post_logout_state': 'postLogoutState'
         }
-
         self._type = None
         self._allowed_post_logout_uris = None
         self._post_logout_state = None
@@ -56,6 +54,8 @@ class OAuth2LogoutBackend(ApiSpecificationRouteBackend):
     def allowed_post_logout_uris(self):
         """
         Gets the allowed_post_logout_uris of this OAuth2LogoutBackend.
+        A list of allowed post-logout URLs to which a request can be redirected after revoke access
+
 
         :return: The allowed_post_logout_uris of this OAuth2LogoutBackend.
         :rtype: list[str]
@@ -66,6 +66,8 @@ class OAuth2LogoutBackend(ApiSpecificationRouteBackend):
     def allowed_post_logout_uris(self, allowed_post_logout_uris):
         """
         Sets the allowed_post_logout_uris of this OAuth2LogoutBackend.
+        A list of allowed post-logout URLs to which a request can be redirected after revoke access
+
 
         :param allowed_post_logout_uris: The allowed_post_logout_uris of this OAuth2LogoutBackend.
         :type: list[str]

@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class DependentSource(object):
     """
-    A source that uses the parser, either directly or indirectly.
+    A source that depends on or uses the resource such as a field or a parser
     """
 
     def __init__(self, **kwargs):
@@ -63,7 +63,6 @@ class DependentSource(object):
             'entity_types': 'list[LogAnalyticsSourceEntityType]',
             'dependencies': 'list[Dependency]'
         }
-
         self.attribute_map = {
             'source_name': 'sourceName',
             'source_display_name': 'sourceDisplayName',
@@ -74,7 +73,6 @@ class DependentSource(object):
             'entity_types': 'entityTypes',
             'dependencies': 'dependencies'
         }
-
         self._source_name = None
         self._source_display_name = None
         self._source_id = None

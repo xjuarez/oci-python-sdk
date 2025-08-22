@@ -63,7 +63,6 @@ class CreateDedicatedAiClusterDetails(object):
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'description': 'description',
@@ -74,7 +73,6 @@ class CreateDedicatedAiClusterDetails(object):
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
-
         self._display_name = None
         self._description = None
         self._type = None
@@ -231,6 +229,8 @@ class CreateDedicatedAiClusterDetails(object):
         - LARGE_GENERIC_4
         - SMALL_GENERIC_V2
         - LARGE_GENERIC_2
+        - LARGE_COHERE_V3
+        - RERANK_COHERE
 
 
         :return: The unit_shape of this CreateDedicatedAiClusterDetails.
@@ -257,6 +257,8 @@ class CreateDedicatedAiClusterDetails(object):
         - LARGE_GENERIC_4
         - SMALL_GENERIC_V2
         - LARGE_GENERIC_2
+        - LARGE_COHERE_V3
+        - RERANK_COHERE
 
 
         :param unit_shape: The unit_shape of this CreateDedicatedAiClusterDetails.

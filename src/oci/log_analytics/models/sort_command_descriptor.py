@@ -23,7 +23,7 @@ class SortCommandDescriptor(AbstractCommandDescriptor):
 
         :param name:
             The value to assign to the name property of this SortCommandDescriptor.
-            Allowed values for this property are: "COMMAND", "SEARCH", "STATS", "GEO_STATS", "TIME_STATS", "SORT", "FIELDS", "ADD_FIELDS", "LINK", "LINK_DETAILS", "CLUSTER", "CLUSTER_DETAILS", "CLUSTER_SPLIT", "EVAL", "EXTRACT", "JSON_EXTRACT", "XML_EXTRACT", "EVENT_STATS", "BUCKET", "CLASSIFY", "TOP", "BOTTOM", "HEAD", "TAIL", "FIELD_SUMMARY", "REGEX", "RENAME", "TIME_COMPARE", "WHERE", "CLUSTER_COMPARE", "DELETE", "CREATETABLE", "SEQUENCE", "DELTA", "DISTINCT", "SEARCH_LOOKUP", "LOOKUP", "DEMO_MODE", "MACRO", "MODULE", "MULTI_SEARCH", "HIGHLIGHT", "HIGHLIGHT_ROWS", "HIGHLIGHT_GROUPS", "CREATE_VIEW", "MAP", "NLP", "COMPARE", "ADD_INSIGHTS", "ANOMALY", "DEDUP", "TIME_CLUSTER", "FREQUENT", "RARE", "OUTLIER"
+            Allowed values for this property are: "COMMAND", "SEARCH", "STATS", "GEO_STATS", "TIME_STATS", "SORT", "FIELDS", "ADD_FIELDS", "LINK", "LINK_DETAILS", "CLUSTER", "CLUSTER_DETAILS", "CLUSTER_SPLIT", "EVAL", "EXTRACT", "JSON_EXTRACT", "XML_EXTRACT", "EVENT_STATS", "BUCKET", "CLASSIFY", "TOP", "BOTTOM", "HEAD", "TAIL", "FIELD_SUMMARY", "REGEX", "RENAME", "TIME_COMPARE", "WHERE", "CLUSTER_COMPARE", "DELETE", "CREATETABLE", "SEQUENCE", "UPDATETABLE", "DELTA", "DISTINCT", "SEARCH_LOOKUP", "LOOKUP", "DEMO_MODE", "MACRO", "MODULE", "MULTI_SEARCH", "HIGHLIGHT", "HIGHLIGHT_ROWS", "HIGHLIGHT_GROUPS", "CREATE_VIEW", "MAP", "NLP", "COMPARE", "ADD_INSIGHTS", "ANOMALY", "DEDUP", "TIME_CLUSTER", "FREQUENT", "RARE", "OUTLIER"
         :type name: str
 
         :param display_query_string:
@@ -60,7 +60,6 @@ class SortCommandDescriptor(AbstractCommandDescriptor):
             'declared_fields': 'list[AbstractField]',
             'is_hidden': 'bool'
         }
-
         self.attribute_map = {
             'name': 'name',
             'display_query_string': 'displayQueryString',
@@ -70,7 +69,6 @@ class SortCommandDescriptor(AbstractCommandDescriptor):
             'declared_fields': 'declaredFields',
             'is_hidden': 'isHidden'
         }
-
         self._name = None
         self._display_query_string = None
         self._internal_query_string = None

@@ -80,6 +80,7 @@
 # - oci.certificates_management.CertificatesManagementClient
 # - oci.data_safe.DataSafeClient
 # - oci.optimizer.OptimizerClient
+# - oci.disaster_recovery.DisasterRecoveryClient
 #
 # Modules without CSV yet:
 # - datasciencemodeldeployment
@@ -102,7 +103,6 @@
 # - oci.cloud_migrations.MigrationClient
 # - oci.container_instances.ContainerInstanceClient
 # - oci.data_labeling_service.DataLabelingManagementClient
-# - oci.disaster_recovery.DisasterRecoveryClient
 # - oci.fusion_apps.FusionApplicationsClient
 # - oci.jms.JavaManagementServiceClient
 # - oci.license_manager.LicenseManagerClient
@@ -128,7 +128,7 @@ import contextlib
 import os
 import time
 
-version = "25.02.10"
+version = "25.07.15"
 
 ##########################################################################
 # check OCI version
@@ -332,7 +332,7 @@ def return_error_message(service_error, service_warning, data_error, output_erro
 # set parser
 ##########################################################################
 def set_parser_arguments(argsList=[]):
-    parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80, width=130))
+    parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80, width=150))
     parser.add_argument('-a', action='store_true', default=False, dest='all', help='Print All Resources.')
     parser.add_argument('-ani', action='store_true', default=False, dest='allnoiam', help='Print All Resources but identity.')
     parser.add_argument('-an', action='store_true', default=False, dest='announcement', help='Print Announcements.')
@@ -348,7 +348,7 @@ def set_parser_arguments(argsList=[]):
     parser.add_argument('-isc', action='store_true', default=False, dest='skip_identity_user_credential', help='Skip Identity User Credential extract.')
     parser.add_argument('-ifilter', default="", dest='ifilter', help='Filter IAM domains by Domain Names using comma seperated')
 
-    parser.add_argument('-s', '-api', '-rm', '-fun', action='store_true', default=False, dest='streams_queues', help='Print API, Functions, Resource management, Gateways, Streams and Queues.')
+    parser.add_argument('-s', '-api', '-rm', '-fun', action='store_true', default=False, dest='streams_queues', help='Print API, Functions, Resource management, Gateways, FSDR, Streams and Queues.')
 
     parser.add_argument('-m', '-sec', '-lq', '-e', '-b', action='store_true', default=False, dest='monitoring', help='Print Monitor, Events, Agents, Security, Quotas, E-Mail, Limits, Cert...')
     parser.add_argument('-paas', '-dataai', action='store_true', default=False, dest='paas_native', help='Print Native, Data and AI.')

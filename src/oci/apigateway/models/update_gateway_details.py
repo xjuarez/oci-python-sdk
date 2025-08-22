@@ -58,7 +58,6 @@ class UpdateGatewayDetails(object):
             'defined_tags': 'dict(str, dict(str, object))',
             'ca_bundles': 'list[CaBundle]'
         }
-
         self.attribute_map = {
             'display_name': 'displayName',
             'network_security_group_ids': 'networkSecurityGroupIds',
@@ -68,7 +67,6 @@ class UpdateGatewayDetails(object):
             'defined_tags': 'definedTags',
             'ca_bundles': 'caBundles'
         }
-
         self._display_name = None
         self._network_security_group_ids = None
         self._certificate_id = None
@@ -135,7 +133,8 @@ class UpdateGatewayDetails(object):
     def certificate_id(self):
         """
         Gets the certificate_id of this UpdateGatewayDetails.
-        The `OCID`__ of the resource.
+        The `OCID`__ of the resource which can be
+        empty string.
 
         __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
 
@@ -149,7 +148,8 @@ class UpdateGatewayDetails(object):
     def certificate_id(self, certificate_id):
         """
         Sets the certificate_id of this UpdateGatewayDetails.
-        The `OCID`__ of the resource.
+        The `OCID`__ of the resource which can be
+        empty string.
 
         __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
 

@@ -23,7 +23,7 @@ class UserMessage(Message):
 
         :param role:
             The value to assign to the role property of this UserMessage.
-            Allowed values for this property are: "SYSTEM", "USER", "ASSISTANT", "TOOL"
+            Allowed values for this property are: "SYSTEM", "ASSISTANT", "USER", "TOOL", "DEVELOPER"
         :type role: str
 
         :param content:
@@ -40,13 +40,11 @@ class UserMessage(Message):
             'content': 'list[ChatContent]',
             'name': 'str'
         }
-
         self.attribute_map = {
             'role': 'role',
             'content': 'content',
             'name': 'name'
         }
-
         self._role = None
         self._content = None
         self._name = None

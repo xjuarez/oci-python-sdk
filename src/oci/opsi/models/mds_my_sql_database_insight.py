@@ -23,7 +23,7 @@ class MdsMySqlDatabaseInsight(DatabaseInsight):
 
         :param entity_source:
             The value to assign to the entity_source property of this MdsMySqlDatabaseInsight.
-            Allowed values for this property are: "AUTONOMOUS_DATABASE", "EM_MANAGED_EXTERNAL_DATABASE", "MACS_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE"
+            Allowed values for this property are: "AUTONOMOUS_DATABASE", "EM_MANAGED_EXTERNAL_DATABASE", "MACS_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE", "MACS_MANAGED_AUTONOMOUS_DATABASE"
         :type entity_source: str
 
         :param id:
@@ -137,7 +137,6 @@ class MdsMySqlDatabaseInsight(DatabaseInsight):
             'is_heat_wave_cluster_attached': 'bool',
             'db_additional_details': 'object'
         }
-
         self.attribute_map = {
             'entity_source': 'entitySource',
             'id': 'id',
@@ -162,7 +161,6 @@ class MdsMySqlDatabaseInsight(DatabaseInsight):
             'is_heat_wave_cluster_attached': 'isHeatWaveClusterAttached',
             'db_additional_details': 'dbAdditionalDetails'
         }
-
         self._entity_source = None
         self._id = None
         self._compartment_id = None

@@ -159,7 +159,6 @@ class PrivateIp(object):
             'lifetime': 'str',
             'route_table_id': 'str'
         }
-
         self.attribute_map = {
             'availability_domain': 'availabilityDomain',
             'compartment_id': 'compartmentId',
@@ -178,7 +177,6 @@ class PrivateIp(object):
             'lifetime': 'lifetime',
             'route_table_id': 'routeTableId'
         }
-
         self._availability_domain = None
         self._compartment_id = None
         self._defined_tags = None
@@ -663,7 +661,7 @@ class PrivateIp(object):
         """
         Gets the lifetime of this PrivateIp.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -681,7 +679,7 @@ class PrivateIp(object):
         """
         Sets the lifetime of this PrivateIp.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -699,7 +697,7 @@ class PrivateIp(object):
         """
         Gets the route_table_id of this PrivateIp.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -715,7 +713,7 @@ class PrivateIp(object):
         """
         Sets the route_table_id of this PrivateIp.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing

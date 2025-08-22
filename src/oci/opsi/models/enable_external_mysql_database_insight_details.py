@@ -23,7 +23,7 @@ class EnableExternalMysqlDatabaseInsightDetails(EnableDatabaseInsightDetails):
 
         :param entity_source:
             The value to assign to the entity_source property of this EnableExternalMysqlDatabaseInsightDetails.
-            Allowed values for this property are: "EM_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE"
+            Allowed values for this property are: "EM_MANAGED_EXTERNAL_DATABASE", "PE_COMANAGED_DATABASE", "MDS_MYSQL_DATABASE_SYSTEM", "EXTERNAL_MYSQL_DATABASE_SYSTEM", "MACS_MANAGED_CLOUD_DATABASE", "MACS_MANAGED_AUTONOMOUS_DATABASE"
         :type entity_source: str
 
         :param database_connector_id:
@@ -35,12 +35,10 @@ class EnableExternalMysqlDatabaseInsightDetails(EnableDatabaseInsightDetails):
             'entity_source': 'str',
             'database_connector_id': 'str'
         }
-
         self.attribute_map = {
             'entity_source': 'entitySource',
             'database_connector_id': 'databaseConnectorId'
         }
-
         self._entity_source = None
         self._database_connector_id = None
         self._entity_source = 'EXTERNAL_MYSQL_DATABASE_SYSTEM'

@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class UpdateEmailRecipientsGroupDetails(object):
     """
-    The saved email recipient group to receive usage statement email.
+    The saved email recipient group to receive usage statement emails.
     """
 
     def __init__(self, **kwargs):
@@ -28,18 +28,16 @@ class UpdateEmailRecipientsGroupDetails(object):
         self.swagger_types = {
             'recipients_list': 'list[EmailRecipient]'
         }
-
         self.attribute_map = {
             'recipients_list': 'recipientsList'
         }
-
         self._recipients_list = None
 
     @property
     def recipients_list(self):
         """
         **[Required]** Gets the recipients_list of this UpdateEmailRecipientsGroupDetails.
-        The list of recipient will receive the usage statement email.
+        The list of recipients will receive usage statement emails.
 
 
         :return: The recipients_list of this UpdateEmailRecipientsGroupDetails.
@@ -51,7 +49,7 @@ class UpdateEmailRecipientsGroupDetails(object):
     def recipients_list(self, recipients_list):
         """
         Sets the recipients_list of this UpdateEmailRecipientsGroupDetails.
-        The list of recipient will receive the usage statement email.
+        The list of recipients will receive usage statement emails.
 
 
         :param recipients_list: The recipients_list of this UpdateEmailRecipientsGroupDetails.

@@ -23,7 +23,7 @@ class RunObjectStoreScriptUserDefinedStep(DrPlanUserDefinedStep):
 
         :param step_type:
             The value to assign to the step_type property of this RunObjectStoreScriptUserDefinedStep.
-            Allowed values for this property are: "RUN_OBJECTSTORE_SCRIPT_PRECHECK", "RUN_LOCAL_SCRIPT_PRECHECK", "INVOKE_FUNCTION_PRECHECK", "RUN_OBJECTSTORE_SCRIPT", "RUN_LOCAL_SCRIPT", "INVOKE_FUNCTION"
+            Allowed values for this property are: "RUN_OBJECTSTORE_SCRIPT_PRECHECK", "RUN_LOCAL_SCRIPT_PRECHECK", "INVOKE_FUNCTION_PRECHECK", "RUN_OBJECTSTORE_SCRIPT", "RUN_LOCAL_SCRIPT", "INVOKE_FUNCTION", "RUN_OBJECTSTORE_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK", "RUN_LOCAL_SCRIPT_USER_DEFINED_CUSTOM_PRECHECK", "INVOKE_FUNCTION_USER_DEFINED_CUSTOM_PRECHECK"
         :type step_type: str
 
         :param run_on_instance_id:
@@ -45,14 +45,12 @@ class RunObjectStoreScriptUserDefinedStep(DrPlanUserDefinedStep):
             'run_on_instance_region': 'str',
             'object_storage_script_location': 'ObjectStorageScriptLocation'
         }
-
         self.attribute_map = {
             'step_type': 'stepType',
             'run_on_instance_id': 'runOnInstanceId',
             'run_on_instance_region': 'runOnInstanceRegion',
             'object_storage_script_location': 'objectStorageScriptLocation'
         }
-
         self._step_type = None
         self._run_on_instance_id = None
         self._run_on_instance_region = None

@@ -44,6 +44,10 @@ class CreatePipelineRunDetails(object):
             The value to assign to the log_configuration_override_details property of this CreatePipelineRunDetails.
         :type log_configuration_override_details: oci.data_science.models.PipelineLogConfigurationDetails
 
+        :param infrastructure_configuration_override_details:
+            The value to assign to the infrastructure_configuration_override_details property of this CreatePipelineRunDetails.
+        :type infrastructure_configuration_override_details: oci.data_science.models.PipelineInfrastructureConfigurationDetails
+
         :param step_override_details:
             The value to assign to the step_override_details property of this CreatePipelineRunDetails.
         :type step_override_details: list[oci.data_science.models.PipelineStepOverrideDetails]
@@ -68,12 +72,12 @@ class CreatePipelineRunDetails(object):
             'display_name': 'str',
             'configuration_override_details': 'PipelineConfigurationDetails',
             'log_configuration_override_details': 'PipelineLogConfigurationDetails',
+            'infrastructure_configuration_override_details': 'PipelineInfrastructureConfigurationDetails',
             'step_override_details': 'list[PipelineStepOverrideDetails]',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
         }
-
         self.attribute_map = {
             'project_id': 'projectId',
             'compartment_id': 'compartmentId',
@@ -81,18 +85,19 @@ class CreatePipelineRunDetails(object):
             'display_name': 'displayName',
             'configuration_override_details': 'configurationOverrideDetails',
             'log_configuration_override_details': 'logConfigurationOverrideDetails',
+            'infrastructure_configuration_override_details': 'infrastructureConfigurationOverrideDetails',
             'step_override_details': 'stepOverrideDetails',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
         }
-
         self._project_id = None
         self._compartment_id = None
         self._pipeline_id = None
         self._display_name = None
         self._configuration_override_details = None
         self._log_configuration_override_details = None
+        self._infrastructure_configuration_override_details = None
         self._step_override_details = None
         self._freeform_tags = None
         self._defined_tags = None
@@ -245,6 +250,26 @@ class CreatePipelineRunDetails(object):
         :type: oci.data_science.models.PipelineLogConfigurationDetails
         """
         self._log_configuration_override_details = log_configuration_override_details
+
+    @property
+    def infrastructure_configuration_override_details(self):
+        """
+        Gets the infrastructure_configuration_override_details of this CreatePipelineRunDetails.
+
+        :return: The infrastructure_configuration_override_details of this CreatePipelineRunDetails.
+        :rtype: oci.data_science.models.PipelineInfrastructureConfigurationDetails
+        """
+        return self._infrastructure_configuration_override_details
+
+    @infrastructure_configuration_override_details.setter
+    def infrastructure_configuration_override_details(self, infrastructure_configuration_override_details):
+        """
+        Sets the infrastructure_configuration_override_details of this CreatePipelineRunDetails.
+
+        :param infrastructure_configuration_override_details: The infrastructure_configuration_override_details of this CreatePipelineRunDetails.
+        :type: oci.data_science.models.PipelineInfrastructureConfigurationDetails
+        """
+        self._infrastructure_configuration_override_details = infrastructure_configuration_override_details
 
     @property
     def step_override_details(self):

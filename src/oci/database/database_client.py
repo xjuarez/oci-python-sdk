@@ -233,12 +233,10 @@ class DatabaseClient(object):
 
     def add_standby_autonomous_container_database(self, add_standby_autonomous_container_database_details, autonomous_container_database_id, **kwargs):
         """
-        Create Standby Autonomous Container Database.
-        For more information about changing Autonomous Container Databases Add Standby, see
-        `Create Standby Autonomous Container Database`__ and `Convert Snapshot Standby to Physical Standby`__.
+        Add a standby Autonomous Container Database. For more information about Autonomous Data Guard,see
+        `Protect Critical Databases from Failures and Disasters Using Autonomous Data Guard`__.
 
-        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80
-        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbau/GUID-C57B9A6E-7471-4CDC-8F10-B8386538E31C
 
 
         :param oci.database.models.AddStandbyAutonomousContainerDatabaseDetails add_standby_autonomous_container_database_details: (required)
@@ -854,6 +852,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -885,7 +887,8 @@ class DatabaseClient(object):
             "retry_strategy",
             "if_match",
             "opc_retry_token",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -907,7 +910,8 @@ class DatabaseClient(object):
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -1298,7 +1302,7 @@ class DatabaseClient(object):
         For more information about moving Autonomous Container Databases, see
         `Moving Database Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/raqyy/#articletitle.html
 
 
         :param oci.database.models.ChangeCompartmentDetails change_compartment_details: (required)
@@ -1446,6 +1450,10 @@ class DatabaseClient(object):
             parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
             will be updated or deleted only if the etag you provide matches the resource's current etag value.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -1477,7 +1485,8 @@ class DatabaseClient(object):
             "retry_strategy",
             "opc_retry_token",
             "opc_request_id",
-            "if_match"
+            "if_match",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -1499,7 +1508,8 @@ class DatabaseClient(object):
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
             "opc-request-id": kwargs.get("opc_request_id", missing),
-            "if-match": kwargs.get("if_match", missing)
+            "if-match": kwargs.get("if_match", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -1682,6 +1692,10 @@ class DatabaseClient(object):
             parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
             will be updated or deleted only if the etag you provide matches the resource's current etag value.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -1713,7 +1727,8 @@ class DatabaseClient(object):
             "retry_strategy",
             "opc_retry_token",
             "opc_request_id",
-            "if_match"
+            "if_match",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -1735,7 +1750,8 @@ class DatabaseClient(object):
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
             "opc-request-id": kwargs.get("opc_request_id", missing),
-            "if-match": kwargs.get("if_match", missing)
+            "if-match": kwargs.get("if_match", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -2247,6 +2263,124 @@ class DatabaseClient(object):
                 path_params=path_params,
                 header_params=header_params,
                 body=change_cloud_autonomous_vm_cluster_compartment_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def change_cloud_autonomous_vm_cluster_subscription(self, change_cloud_autonomous_vm_cluster_subscription_details, cloud_autonomous_vm_cluster_id, **kwargs):
+        """
+        Associate a Cloud Autonomous VM cluster with a different subscription.
+
+
+        :param oci.database.models.ChangeCloudAutonomousVmClusterSubscriptionDetails change_cloud_autonomous_vm_cluster_subscription_details: (required)
+            Associate a Cloud Autonomous VM cluster with a different subscription.
+
+        :param str cloud_autonomous_vm_cluster_id: (required)
+            The Cloud VM cluster `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/change_cloud_autonomous_vm_cluster_subscription.py.html>`__ to see an example of how to use change_cloud_autonomous_vm_cluster_subscription API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['cloudAutonomousVmClusterId']
+        resource_path = "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/changeSubscription"
+        method = "POST"
+        operation_name = "change_cloud_autonomous_vm_cluster_subscription"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/ChangeCloudAutonomousVmClusterSubscription"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_retry_token",
+            "opc_request_id",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"change_cloud_autonomous_vm_cluster_subscription got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "cloudAutonomousVmClusterId": cloud_autonomous_vm_cluster_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=change_cloud_autonomous_vm_cluster_subscription_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=change_cloud_autonomous_vm_cluster_subscription_details,
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,
@@ -2850,8 +2984,8 @@ class DatabaseClient(object):
 
     def change_dataguard_role(self, change_dataguard_role_details, autonomous_container_database_id, **kwargs):
         """
-        Switch the Autonomous Container Database role between Standby and Snapshot Standby.
-        For more information about changing Autonomous Container Databases Dataguard Role, see
+        **Deprecated.** Use the :func:`convert_standby_autonomous_container_database` operation to switch the Autonomous Container Database (ACD) role between Standby and Snapshot Standby.
+        For more information about changing ACD Role, see
         `Convert Physical Standby to Snapshot Standby`__ and `Convert Snapshot Standby to Physical Standby`__.
 
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80
@@ -3123,6 +3257,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -3153,7 +3291,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -3174,7 +3313,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -5270,6 +5410,10 @@ class DatabaseClient(object):
             has been deleted and purged from the system, then a retry of the original creation request
             may be rejected).
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -5301,7 +5445,8 @@ class DatabaseClient(object):
             "retry_strategy",
             "if_match",
             "opc_request_id",
-            "opc_retry_token"
+            "opc_retry_token",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -5323,7 +5468,8 @@ class DatabaseClient(object):
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
             "opc-request-id": kwargs.get("opc_request_id", missing),
-            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -5501,6 +5647,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -5531,7 +5681,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -5552,7 +5703,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -5706,9 +5858,8 @@ class DatabaseClient(object):
 
     def convert_standby_autonomous_container_database(self, convert_standby_autonomous_container_database_details, autonomous_container_database_id, **kwargs):
         """
-        Convert between and SnapshotStandby Standby Autonomous Container Database .
-        For more information about changing Autonomous Container Databases Add Standby, see
-        `Convert Standby Autonomous Container Database`__ and `Convert Snapshot Standby to Physical Standby`__.
+        Convert the standby Autonomous Container Database (ACD) between physical standby and snapshot standby ACD. For more information about converting standby ACDs, see
+        `Convert Physical Standby to Snapshot Standby`__ and `Convert Snapshot Standby to Physical Standby`__.
 
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80
         __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4
@@ -6285,7 +6436,7 @@ class DatabaseClient(object):
         Creates an Autonomous Container Database in the specified Autonomous Exadata Infrastructure.
 
 
-        :param oci.database.models.CreateAutonomousContainerDatabaseDetails create_autonomous_container_database_details: (required)
+        :param oci.database.models.CreateAutonomousContainerDatabaseBase create_autonomous_container_database_details: (required)
             Request to create an Autonomous Container Database in a specified Autonomous Exadata Infrastructure or in Autonomous VM Cluster.
 
         :param str opc_retry_token: (optional)
@@ -6373,17 +6524,10 @@ class DatabaseClient(object):
 
     def create_autonomous_container_database_dataguard_association(self, autonomous_container_database_id, create_autonomous_container_database_dataguard_association_details, **kwargs):
         """
-        Create a new Autonomous Data Guard association. An Autonomous Data Guard association represents the replication relationship between the
+        **Deprecated.** Use the :func:`add_standby_autonomous_container_database` operation to create a new Autonomous Data Guard association. An Autonomous Data Guard association represents the replication relationship between the
         specified Autonomous Container database and a peer Autonomous Container database. For more information, see `Using Oracle Data Guard`__.
 
-        All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
-        called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
-        You can also retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the
-        resource in the Console. For more information, see
-        `Resource Identifiers`__.
-
-        __ https://docs.cloud.oracle.com/Content/Database/Tasks/usingdataguard.htm
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbau/#articletitle.html
 
 
         :param str autonomous_container_database_id: (required)
@@ -6507,6 +6651,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -6537,7 +6685,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_retry_token",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -6548,7 +6697,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -6603,6 +6753,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -6633,7 +6787,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_retry_token",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -6644,7 +6799,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -7078,6 +7234,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -7108,7 +7268,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_retry_token",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -7119,7 +7280,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -7178,6 +7340,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -7208,7 +7374,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_retry_token",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -7219,7 +7386,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -7276,6 +7444,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -7306,7 +7478,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_retry_token",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -7317,7 +7490,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -7713,6 +7887,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -7743,7 +7921,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_retry_token",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -7754,7 +7933,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -9325,6 +9505,102 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def create_pluggable_database_snapshot(self, create_pluggable_database_snapshot_details, **kwargs):
+        """
+        Creates a Pluggable Database Snapshot
+
+
+        :param oci.database.models.CreatePluggableDatabaseSnapshotDetails create_pluggable_database_snapshot_details: (required)
+            Request to create a pluggable database snapshot.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.database.models.PluggableDatabaseSnapshot`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/create_pluggable_database_snapshot.py.html>`__ to see an example of how to use create_pluggable_database_snapshot API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/pluggableDatabaseSnapshots"
+        method = "POST"
+        operation_name = "create_pluggable_database_snapshot"
+        api_reference_link = ""
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_retry_token",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"create_pluggable_database_snapshot got unknown kwargs: {extra_kwargs!r}")
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_pluggable_database_snapshot_details,
+                response_type="PluggableDatabaseSnapshot",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                header_params=header_params,
+                body=create_pluggable_database_snapshot_details,
+                response_type="PluggableDatabaseSnapshot",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def create_scheduled_action(self, create_scheduled_action_details, **kwargs):
         """
         Creates a Scheduled Action resource.
@@ -10192,6 +10468,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -10222,7 +10502,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -10243,7 +10524,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -10295,6 +10577,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -10325,7 +10611,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -10346,7 +10633,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -12891,6 +13179,109 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def delete_pluggable_database_snapshot(self, pluggable_database_snapshot_id, **kwargs):
+        """
+        Deletes the specified Exadata Pluggable Database Snapshot.
+
+
+        :param str pluggable_database_snapshot_id: (required)
+            The Exadata Pluggable Database Snapshot `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/delete_pluggable_database_snapshot.py.html>`__ to see an example of how to use delete_pluggable_database_snapshot API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['pluggableDatabaseSnapshotId']
+        resource_path = "/pluggableDatabaseSnapshots/{pluggableDatabaseSnapshotId}"
+        method = "DELETE"
+        operation_name = "delete_pluggable_database_snapshot"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/DeletePluggableDatabaseSnapshot"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "if_match",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"delete_pluggable_database_snapshot got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "pluggableDatabaseSnapshotId": pluggable_database_snapshot_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "if-match": kwargs.get("if_match", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def delete_scheduled_action(self, scheduled_action_id, **kwargs):
         """
         Deletes the scheduled action.
@@ -13535,6 +13926,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param oci.database.models.DeregisterAutonomousDatabaseDataSafeDetails deregister_autonomous_database_data_safe_details: (optional)
             Details for deregistering an Autonomous Database with Data Safe.
 
@@ -13568,6 +13963,7 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_request_id",
+            "opc_dry_run",
             "deregister_autonomous_database_data_safe_details"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -13588,7 +13984,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -13637,6 +14034,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -13666,7 +14067,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -13686,7 +14088,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -13733,6 +14136,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -13762,7 +14169,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -13782,7 +14190,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -15411,12 +15820,10 @@ class DatabaseClient(object):
 
     def edit_autonomous_container_database_dataguard(self, edit_autonomous_container_database_dataguard_details, autonomous_container_database_id, **kwargs):
         """
-        Edit Autonomous Container Database Dataguard.
-        For more information about changing Autonomous Container Databases Add Standby, see
-        `Update Autonomous Container Database Dataguard`__ and `Convert Snapshot Standby to Physical Standby`__.
+        Modify Autonomous Container Database Data Guard settings such as protection mode, automatic failover, and fast start failover lag limit. For more information, see
+        `Update Autonomous Container Database Dataguard`__.
 
-        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80
-        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-3A936EC7-7A49-4FD2-9F39-8DB6B22011CE
 
 
         :param oci.database.models.EditAutonomousContainerDatabaseDataguardDetails edit_autonomous_container_database_dataguard_details: (required)
@@ -15547,6 +15954,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -15576,7 +15987,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -15596,7 +16008,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -15643,6 +16056,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -15672,7 +16089,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -15692,7 +16110,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -16955,6 +17374,10 @@ class DatabaseClient(object):
         :param str peer_db_id: (optional)
             The database OCID(/Content/General/Concepts/identifiers.htm) of the Disaster Recovery peer (source Primary) database, which is located in a different (remote) region from the current peer database.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -16987,7 +17410,8 @@ class DatabaseClient(object):
             "if_match",
             "opc_retry_token",
             "opc_request_id",
-            "peer_db_id"
+            "peer_db_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -17014,7 +17438,8 @@ class DatabaseClient(object):
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -17055,7 +17480,10 @@ class DatabaseClient(object):
 
     def failover_autonomous_container_database_dataguard(self, autonomous_container_database_id, **kwargs):
         """
-        Failover Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+        Performs failover to a standby Autonomous Container Database (ACD) identified by the autonomousContainerDatabaseId parameter. This standby ACD will become the new primary ACD when the failover completes successfully. For more information, see
+        `Fail Over to the Standby in an Autonomous Data Guard Configuration`__.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-C8FFA343-223C-4F41-9656-AEC356AD90A0
 
 
         :param str autonomous_container_database_id: (required)
@@ -17160,7 +17588,7 @@ class DatabaseClient(object):
 
     def failover_autonomous_container_database_dataguard_association(self, autonomous_container_database_id, autonomous_container_database_dataguard_association_id, **kwargs):
         """
-        Fails over the standby Autonomous Container Database identified by the autonomousContainerDatabaseId parameter to the primary Autonomous Container Database after the existing primary Autonomous Container Database fails or becomes unreachable.
+        **Deprecated.** Use the :func:`failover_autonomous_container_database_dataguard` operation to fail over the standby Autonomous Container Database (ACD) to the primary ACD after the existing primary ACD fails or becomes unreachable.
 
         A failover can result in data loss, depending on the protection mode in effect at the time the primary Autonomous Container Database fails.
 
@@ -17530,6 +17958,10 @@ class DatabaseClient(object):
             has been deleted and purged from the system, then a retry of the original creation request
             may be rejected).
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -17560,7 +17992,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_request_id",
-            "opc_retry_token"
+            "opc_retry_token",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -17581,7 +18014,8 @@ class DatabaseClient(object):
             "accept": "application/octet-stream",
             "content-type": "application/json",
             "opc-request-id": kwargs.get("opc_request_id", missing),
-            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -17921,7 +18355,7 @@ class DatabaseClient(object):
 
     def get_autonomous_container_database_dataguard_association(self, autonomous_container_database_id, autonomous_container_database_dataguard_association_id, **kwargs):
         """
-        Gets an Autonomous Container Database enabled with Autonomous Data Guard associated with the specified Autonomous Container Database.
+        **Deprecated.** Use the :func:`get_autonomous_container_database` operation to get the details of an Autonomous Container Database (ACD) enabled with Autonomous Data Guard associated with the specified ACD.
 
 
         :param str autonomous_container_database_id: (required)
@@ -18309,7 +18743,7 @@ class DatabaseClient(object):
 
     def get_autonomous_database_dataguard_association(self, autonomous_database_id, autonomous_database_dataguard_association_id, **kwargs):
         """
-        Gets an Autonomous Data Guard-enabled database associated with the specified Autonomous Database.
+        *Deprecated.* Use the :func:`get_autonomous_container_database` operation to gets an Autonomous Data Guard-enabled database associated with the specified Autonomous Database.
 
 
         :param str autonomous_database_id: (required)
@@ -19679,7 +20113,7 @@ class DatabaseClient(object):
         resource_path = "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/unAllocatedResources"
         method = "GET"
         operation_name = "get_cloud_exadata_infrastructure_unallocated_resources"
-        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructureUnallocatedResources/GetCloudExadataInfrastructureUnallocatedResources"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/GetCloudExadataInfrastructureUnallocatedResources"
 
         # Don't accept unknown kwargs
         expected_kwargs = [
@@ -23882,6 +24316,104 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def get_pluggable_database_snapshot(self, pluggable_database_snapshot_id, **kwargs):
+        """
+        Gets information about the specified Exadata Pluggable Database Snapshot in the specified compartment.
+
+
+        :param str pluggable_database_snapshot_id: (required)
+            The Exadata Pluggable Database Snapshot `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.database.models.PluggableDatabaseSnapshot`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/get_pluggable_database_snapshot.py.html>`__ to see an example of how to use get_pluggable_database_snapshot API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['pluggableDatabaseSnapshotId']
+        resource_path = "/pluggableDatabaseSnapshots/{pluggableDatabaseSnapshotId}"
+        method = "GET"
+        operation_name = "get_pluggable_database_snapshot"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/GetPluggableDatabaseSnapshot"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"get_pluggable_database_snapshot got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "pluggableDatabaseSnapshotId": pluggable_database_snapshot_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="PluggableDatabaseSnapshot",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="PluggableDatabaseSnapshot",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def get_scheduled_action(self, scheduled_action_id, **kwargs):
         """
         Gets information about the specified Scheduled Action.
@@ -25236,9 +25768,188 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def list_autonomous_container_database_backups(self, **kwargs):
+        """
+        Gets a list of Autonomous Container Database backups by using either the 'autonomousDatabaseId' or 'compartmentId' as your query parameter.
+
+
+        :param str compartment_id: (optional)
+            The compartment `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str autonomous_container_database_id: (optional)
+            The Autonomous Container Database `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param bool is_remote: (optional)
+            call for all remote backups
+
+        :param str infrastructure_type: (optional)
+            A filter to return only resources that match the given Infrastructure Type.
+
+            Allowed values are: "CLOUD", "CLOUD_AT_CUSTOMER"
+
+        :param str lifecycle_state: (optional)
+            A filter to return only resources that match the given lifecycle state exactly.
+
+            Allowed values are: "CREATING", "ACTIVE", "DELETING", "DELETED", "FAILED"
+
+        :param str sort_by: (optional)
+            The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIMECREATED is descending.  Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
+
+            **Note:** If you do not include the availability domain filter, the resources are grouped by availability domain, then sorted.
+
+            Allowed values are: "TIMECREATED", "DISPLAYNAME"
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param int limit: (optional)
+            The maximum number of items to return per page.
+
+        :param str page: (optional)
+            The pagination token to continue listing from.
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str display_name: (optional)
+            A filter to return only resources that match the entire display name given. The match is not case sensitive.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.database.models.AutonomousContainerDatabaseBackupCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/list_autonomous_container_database_backups.py.html>`__ to see an example of how to use list_autonomous_container_database_backups API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/autonomousContainerDatabaseBackups"
+        method = "GET"
+        operation_name = "list_autonomous_container_database_backups"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseBackup/ListAutonomousContainerDatabaseBackups"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "compartment_id",
+            "autonomous_container_database_id",
+            "is_remote",
+            "infrastructure_type",
+            "lifecycle_state",
+            "sort_by",
+            "opc_request_id",
+            "limit",
+            "page",
+            "sort_order",
+            "display_name"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_autonomous_container_database_backups got unknown kwargs: {extra_kwargs!r}")
+
+        if 'infrastructure_type' in kwargs:
+            infrastructure_type_allowed_values = ["CLOUD", "CLOUD_AT_CUSTOMER"]
+            if kwargs['infrastructure_type'] not in infrastructure_type_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `infrastructure_type`, must be one of { infrastructure_type_allowed_values }"
+                )
+
+        if 'lifecycle_state' in kwargs:
+            lifecycle_state_allowed_values = ["CREATING", "ACTIVE", "DELETING", "DELETED", "FAILED"]
+            if kwargs['lifecycle_state'] not in lifecycle_state_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `lifecycle_state`, must be one of { lifecycle_state_allowed_values }"
+                )
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["TIMECREATED", "DISPLAYNAME"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
+                )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_order`, must be one of { sort_order_allowed_values }"
+                )
+
+        query_params = {
+            "compartmentId": kwargs.get("compartment_id", missing),
+            "autonomousContainerDatabaseId": kwargs.get("autonomous_container_database_id", missing),
+            "isRemote": kwargs.get("is_remote", missing),
+            "infrastructureType": kwargs.get("infrastructure_type", missing),
+            "lifecycleState": kwargs.get("lifecycle_state", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "displayName": kwargs.get("display_name", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AutonomousContainerDatabaseBackupCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="AutonomousContainerDatabaseBackupCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def list_autonomous_container_database_dataguard_associations(self, autonomous_container_database_id, **kwargs):
         """
-        Gets a list of the Autonomous Container Databases with Autonomous Data Guard-enabled associated with the specified Autonomous Container Database.
+        **Deprecated.** Use the :func:`list_autonomous_container_databases` operation to get a list of the Autonomous Container Databases (ACDs)with Autonomous Data Guard-enabled associated with the specified ACD.
 
 
         :param str autonomous_container_database_id: (required)
@@ -26125,7 +26836,7 @@ class DatabaseClient(object):
 
     def list_autonomous_database_dataguard_associations(self, autonomous_database_id, **kwargs):
         """
-        Gets a list of the Autonomous Data Guard-enabled databases associated with the specified Autonomous Database.
+        *Deprecated.* Use the :func:`get_autonomous_container_database` operation to get a list of the Autonomous Data Guard-enabled databases associated with the specified Autonomous Database.
 
 
         :param str autonomous_database_id: (required)
@@ -28777,6 +29488,11 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param str vm_cluster_type: (optional)
+            A filter to return only cloud vmclusters that match the given cloud vmcluster type exactly.
+
+            Allowed values are: "REGULAR", "DEVELOPER"
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -28813,7 +29529,8 @@ class DatabaseClient(object):
             "sort_order",
             "lifecycle_state",
             "display_name",
-            "opc_request_id"
+            "opc_request_id",
+            "vm_cluster_type"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -28841,6 +29558,13 @@ class DatabaseClient(object):
                     f"Invalid value for `lifecycle_state`, must be one of { lifecycle_state_allowed_values }"
                 )
 
+        if 'vm_cluster_type' in kwargs:
+            vm_cluster_type_allowed_values = ["REGULAR", "DEVELOPER"]
+            if kwargs['vm_cluster_type'] not in vm_cluster_type_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `vm_cluster_type`, must be one of { vm_cluster_type_allowed_values }"
+                )
+
         query_params = {
             "compartmentId": compartment_id,
             "cloudExadataInfrastructureId": kwargs.get("cloud_exadata_infrastructure_id", missing),
@@ -28849,7 +29573,8 @@ class DatabaseClient(object):
             "sortBy": kwargs.get("sort_by", missing),
             "sortOrder": kwargs.get("sort_order", missing),
             "lifecycleState": kwargs.get("lifecycle_state", missing),
-            "displayName": kwargs.get("display_name", missing)
+            "displayName": kwargs.get("display_name", missing),
+            "vmClusterType": kwargs.get("vm_cluster_type", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -29425,6 +30150,11 @@ class DatabaseClient(object):
         :param str patch_set_greater_than_or_equal_to: (optional)
             A filter to return only resources with `patchSet` greater than or equal to given value.
 
+        :param str db_system_id: (optional)
+            The DB system `OCID`__. If provided, filters the results to the set of database versions which are supported for the DB system.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
         :param bool is_upgrade_supported: (optional)
             If provided, filters the results to the set of database versions which are supported for Upgrade.
 
@@ -29466,6 +30196,7 @@ class DatabaseClient(object):
             "image_type",
             "image_shape_family",
             "patch_set_greater_than_or_equal_to",
+            "db_system_id",
             "is_upgrade_supported"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -29519,6 +30250,7 @@ class DatabaseClient(object):
             "imageType": kwargs.get("image_type", missing),
             "imageShapeFamily": kwargs.get("image_shape_family", missing),
             "patchSetGreaterThanOrEqualTo": kwargs.get("patch_set_greater_than_or_equal_to", missing),
+            "dbSystemId": kwargs.get("db_system_id", missing),
             "isUpgradeSupported": kwargs.get("is_upgrade_supported", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
@@ -30276,7 +31008,7 @@ class DatabaseClient(object):
 
     def list_db_nodes(self, compartment_id, **kwargs):
         """
-        Lists the database nodes in the specified DB system and compartment. A database node is a server running database software.
+        Lists the database nodes in the specified DB system and compartment. In addition to the other required parameters, either '--db-system-id' or '--vm-cluster-id' also must be provided, depending on the service being accessed.
 
 
         :param str compartment_id: (required)
@@ -31015,6 +31747,11 @@ class DatabaseClient(object):
         :param str shape_type: (optional)
             Optional. Filters the performance results by shape type.
 
+        :param str database_edition: (optional)
+            The database edition of quota (STANDARD_EDITION/ENTERPRISE_EDITION/ENTERPRISE_EDITION_HIGH_PERFORMANCE/ENTERPRISE_EDITION_EXTREME/ENTERPRISE_EDITION_DEVELOPER)
+
+            Allowed values are: "STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME", "ENTERPRISE_EDITION_DEVELOPER"
+
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
@@ -31048,6 +31785,7 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "shape_type",
+            "database_edition",
             "opc_request_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -31061,9 +31799,17 @@ class DatabaseClient(object):
                 f"Invalid value for `storage_management`, must be one of { storage_management_allowed_values }"
             )
 
+        if 'database_edition' in kwargs:
+            database_edition_allowed_values = ["STANDARD_EDITION", "ENTERPRISE_EDITION", "ENTERPRISE_EDITION_HIGH_PERFORMANCE", "ENTERPRISE_EDITION_EXTREME", "ENTERPRISE_EDITION_DEVELOPER"]
+            if kwargs['database_edition'] not in database_edition_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `database_edition`, must be one of { database_edition_allowed_values }"
+                )
+
         query_params = {
             "storageManagement": storage_management,
-            "shapeType": kwargs.get("shape_type", missing)
+            "shapeType": kwargs.get("shape_type", missing),
+            "databaseEdition": kwargs.get("database_edition", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -31271,6 +32017,114 @@ class DatabaseClient(object):
                 query_params=query_params,
                 header_params=header_params,
                 response_type="list[DbSystemUpgradeHistoryEntrySummary]",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_db_system_upgrades(self, db_system_id, **kwargs):
+        """
+        Lists the applicable upgrade components for a DB systems.
+
+
+        :param str db_system_id: (required)
+            The DB system `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            The maximum number of items to return per page.
+
+        :param str page: (optional)
+            The pagination token to continue listing from.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type list of :class:`~oci.database.models.DbSystemUpgradeSummary`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/list_db_system_upgrades.py.html>`__ to see an example of how to use list_db_system_upgrades API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['dbSystemId']
+        resource_path = "/dbSystems/{dbSystemId}/dbSystemUpgrades"
+        method = "GET"
+        operation_name = "list_db_system_upgrades"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemUpgradeSummary/ListDbSystemUpgrades"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "limit",
+            "page"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_db_system_upgrades got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "dbSystemId": db_system_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        query_params = {
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="list[DbSystemUpgradeSummary]",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="list[DbSystemUpgradeSummary]",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,
@@ -33597,6 +34451,9 @@ class DatabaseClient(object):
         :param str availability_domain: (optional)
             The target availability domain. Only passed if the limit is AD-specific.
 
+        :param str resource_id: (optional)
+            If provided, filters the results for the specified resource Id.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -33630,7 +34487,8 @@ class DatabaseClient(object):
             "page",
             "sort_order",
             "shape",
-            "availability_domain"
+            "availability_domain",
+            "resource_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -33650,7 +34508,8 @@ class DatabaseClient(object):
             "page": kwargs.get("page", missing),
             "sortOrder": kwargs.get("sort_order", missing),
             "shape": kwargs.get("shape", missing),
-            "availabilityDomain": kwargs.get("availability_domain", missing)
+            "availabilityDomain": kwargs.get("availability_domain", missing),
+            "resourceId": kwargs.get("resource_id", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -34614,6 +35473,169 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def list_pluggable_database_snapshots(self, **kwargs):
+        """
+        Gets a list of the Exadata Pluggable Database Snapshots in the specified compartment.
+
+
+        :param str compartment_id: (optional)
+            The compartment `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param int limit: (optional)
+            The maximum number of items to return per page.
+
+        :param str page: (optional)
+            The pagination token to continue listing from.
+
+        :param str sort_by: (optional)
+            The field to sort by. You can provide one sort order (`sortOrder`). Default order for TIMECREATED is descending. Default order for NAME is ascending. The NAME sort order is case sensitive.
+
+            Allowed values are: "TIMECREATED", "NAME"
+
+        :param str name: (optional)
+            A filter to return only resources that match the entire name given. The match is not case sensitive.
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str lifecycle_state: (optional)
+            A filter to return only Exadata Pluggable Database Snapshots that match the given lifecycle state exactly.
+
+            Allowed values are: "CREATING", "AVAILABLE", "TERMINATING", "TERMINATED", "FAILED"
+
+        :param str cluster_id: (optional)
+            A filter to return only Exadata Database Node Snapshots that match the given VM cluster.
+
+        :param str pluggable_database_id: (optional)
+            A filter to return only Exadata Pluggable Database Snapshots that match the given database `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type list of :class:`~oci.database.models.PluggableDatabaseSnapshotSummary`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/list_pluggable_database_snapshots.py.html>`__ to see an example of how to use list_pluggable_database_snapshots API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = []
+        resource_path = "/pluggableDatabaseSnapshots"
+        method = "GET"
+        operation_name = "list_pluggable_database_snapshots"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/ListPluggableDatabaseSnapshots"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "compartment_id",
+            "limit",
+            "page",
+            "sort_by",
+            "name",
+            "sort_order",
+            "lifecycle_state",
+            "cluster_id",
+            "pluggable_database_id",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_pluggable_database_snapshots got unknown kwargs: {extra_kwargs!r}")
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["TIMECREATED", "NAME"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
+                )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_order`, must be one of { sort_order_allowed_values }"
+                )
+
+        if 'lifecycle_state' in kwargs:
+            lifecycle_state_allowed_values = ["CREATING", "AVAILABLE", "TERMINATING", "TERMINATED", "FAILED"]
+            if kwargs['lifecycle_state'] not in lifecycle_state_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `lifecycle_state`, must be one of { lifecycle_state_allowed_values }"
+                )
+
+        query_params = {
+            "compartmentId": kwargs.get("compartment_id", missing),
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "name": kwargs.get("name", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "lifecycleState": kwargs.get("lifecycle_state", missing),
+            "clusterId": kwargs.get("cluster_id", missing),
+            "pluggableDatabaseId": kwargs.get("pluggable_database_id", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="list[PluggableDatabaseSnapshotSummary]",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="list[PluggableDatabaseSnapshotSummary]",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def list_pluggable_databases(self, **kwargs):
         """
         Gets a list of the pluggable databases in a database or compartment. You must provide either a `databaseId` or `compartmentId` value.
@@ -34893,6 +35915,120 @@ class DatabaseClient(object):
                 query_params=query_params,
                 header_params=header_params,
                 response_type="RecommendedScheduledActionsCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_resource_pool_members(self, autonomous_database_id, **kwargs):
+        """
+        Lists the OCIDs of the Autonomous Database resource pool members for the specified Autonomous Database leader.
+
+
+        :param str autonomous_database_id: (required)
+            The database `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param int limit: (optional)
+            The maximum number of items to return per page.
+
+        :param str page: (optional)
+            The pagination token to continue listing from.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.database.models.ResourcePoolMemberCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/list_resource_pool_members.py.html>`__ to see an example of how to use list_resource_pool_members API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['autonomousDatabaseId']
+        resource_path = "/autonomousDatabases/{autonomousDatabaseId}/resourcePoolMembers"
+        method = "GET"
+        operation_name = "list_resource_pool_members"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListResourcePoolMembers"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_request_id",
+            "limit",
+            "page"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_resource_pool_members got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "autonomousDatabaseId": autonomous_database_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        query_params = {
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="ResourcePoolMemberCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="ResourcePoolMemberCollection",
                 allow_control_chars=kwargs.get('allow_control_chars'),
                 operation_name=operation_name,
                 api_reference_link=api_reference_link,
@@ -35546,18 +36682,18 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
-    def list_system_versions(self, compartment_id, shape, gi_version, **kwargs):
+    def list_system_version_minor_versions(self, major_version, compartment_id, gi_version, **kwargs):
         """
-        Gets a list of supported Exadata system versions for a given shape and GI version.
+        Retrieves a list of supported minor versions for the specified Exadata System Software major version. You must provide either a `shape` or `resourceId` value.
 
+
+        :param str major_version: (required)
+            The System major version.
 
         :param str compartment_id: (required)
             The compartment `OCID`__.
 
             __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
-
-        :param str shape: (required)
-            Specifies shape query parameter.
 
         :param str gi_version: (required)
             Specifies gi version query parameter.
@@ -35575,6 +36711,163 @@ class DatabaseClient(object):
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
+
+        :param str shape: (optional)
+            If provided, filters the results for the given shape.
+
+        :param str resource_id: (optional)
+            If provided, filters the results for the specified resource Id.
+
+        :param bool is_latest: (optional)
+            If provided, return highest versions from each major version family.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.database.models.SystemVersionMinorVersionCollection`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/list_system_version_minor_versions.py.html>`__ to see an example of how to use list_system_version_minor_versions API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['majorVersion', 'compartmentId', 'giVersion']
+        resource_path = "/systemVersions/{majorVersion}/minorVersions"
+        method = "GET"
+        operation_name = "list_system_version_minor_versions"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/SystemVersionMinorVersionCollection/ListSystemVersionMinorVersions"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "limit",
+            "page",
+            "sort_order",
+            "opc_request_id",
+            "shape",
+            "resource_id",
+            "is_latest"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_system_version_minor_versions got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "majorVersion": major_version
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_order`, must be one of { sort_order_allowed_values }"
+                )
+
+        query_params = {
+            "compartmentId": compartment_id,
+            "limit": kwargs.get("limit", missing),
+            "page": kwargs.get("page", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "giVersion": gi_version,
+            "shape": kwargs.get("shape", missing),
+            "resourceId": kwargs.get("resource_id", missing),
+            "isLatest": kwargs.get("is_latest", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="SystemVersionMinorVersionCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="SystemVersionMinorVersionCollection",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
+    def list_system_versions(self, compartment_id, gi_version, **kwargs):
+        """
+        Gets a list of supported Exadata system versions for a given shape and GI version.
+
+
+        :param str compartment_id: (required)
+            The compartment `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param str gi_version: (required)
+            Specifies gi version query parameter.
+
+        :param int limit: (optional)
+            The maximum number of items to return per page.
+
+        :param str page: (optional)
+            The pagination token to continue listing from.
+
+        :param str sort_order: (optional)
+            The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param str shape: (optional)
+            If provided, filters the results for the given shape.
+
+        :param bool is_latest: (optional)
+            If provided, return highest versions from each major version family.
+
+        :param str resource_id: (optional)
+            If provided, filters the results for the specified resource Id.
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -35595,7 +36888,7 @@ class DatabaseClient(object):
         Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/list_system_versions.py.html>`__ to see an example of how to use list_system_versions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
-        required_arguments = ['compartmentId', 'shape', 'giVersion']
+        required_arguments = ['compartmentId', 'giVersion']
         resource_path = "/systemVersions"
         method = "GET"
         operation_name = "list_system_versions"
@@ -35608,7 +36901,10 @@ class DatabaseClient(object):
             "limit",
             "page",
             "sort_order",
-            "opc_request_id"
+            "opc_request_id",
+            "shape",
+            "is_latest",
+            "resource_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -35627,7 +36923,9 @@ class DatabaseClient(object):
             "limit": kwargs.get("limit", missing),
             "page": kwargs.get("page", missing),
             "sortOrder": kwargs.get("sort_order", missing),
-            "shape": shape,
+            "shape": kwargs.get("shape", missing),
+            "isLatest": kwargs.get("is_latest", missing),
+            "resourceId": kwargs.get("resource_id", missing),
             "giVersion": gi_version
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
@@ -36379,6 +37677,11 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param str vm_cluster_type: (optional)
+            A filter to return only vmclusters that match the given vmcluster type exactly.
+
+            Allowed values are: "REGULAR", "DEVELOPER"
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -36415,7 +37718,8 @@ class DatabaseClient(object):
             "sort_order",
             "lifecycle_state",
             "display_name",
-            "opc_request_id"
+            "opc_request_id",
+            "vm_cluster_type"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -36443,6 +37747,13 @@ class DatabaseClient(object):
                     f"Invalid value for `lifecycle_state`, must be one of { lifecycle_state_allowed_values }"
                 )
 
+        if 'vm_cluster_type' in kwargs:
+            vm_cluster_type_allowed_values = ["REGULAR", "DEVELOPER"]
+            if kwargs['vm_cluster_type'] not in vm_cluster_type_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `vm_cluster_type`, must be one of { vm_cluster_type_allowed_values }"
+                )
+
         query_params = {
             "compartmentId": compartment_id,
             "exadataInfrastructureId": kwargs.get("exadata_infrastructure_id", missing),
@@ -36451,7 +37762,8 @@ class DatabaseClient(object):
             "sortBy": kwargs.get("sort_by", missing),
             "sortOrder": kwargs.get("sort_order", missing),
             "lifecycleState": kwargs.get("lifecycle_state", missing),
-            "displayName": kwargs.get("display_name", missing)
+            "displayName": kwargs.get("display_name", missing),
+            "vmClusterType": kwargs.get("vm_cluster_type", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -37577,6 +38889,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param oci.database.models.RegisterAutonomousDatabaseDataSafeDetails register_autonomous_database_data_safe_details: (optional)
             Request to register an Autonomous Database with Data Safe.
 
@@ -37610,6 +38926,7 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "opc_request_id",
+            "opc_dry_run",
             "register_autonomous_database_data_safe_details"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -37630,7 +38947,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -37666,9 +38984,130 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def register_cloud_vm_cluster_pkcs(self, cloud_vm_cluster_id, register_cloud_vm_cluster_pkcs_details, **kwargs):
+        """
+        Install the PKCS11 driver for given keystore type
+
+
+        :param str cloud_vm_cluster_id: (required)
+            The cloud VM cluster `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.database.models.RegisterCloudVmClusterPkcsDetails register_cloud_vm_cluster_pkcs_details: (required)
+            Details of registering PKCS11 driver.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/register_cloud_vm_cluster_pkcs.py.html>`__ to see an example of how to use register_cloud_vm_cluster_pkcs API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['cloudVmClusterId']
+        resource_path = "/cloudVmClusters/{cloudVmClusterId}/actions/registerPkcs"
+        method = "POST"
+        operation_name = "register_cloud_vm_cluster_pkcs"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/RegisterCloudVmClusterPkcs"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_retry_token",
+            "opc_request_id",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"register_cloud_vm_cluster_pkcs got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "cloudVmClusterId": cloud_vm_cluster_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=register_cloud_vm_cluster_pkcs_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=register_cloud_vm_cluster_pkcs_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def reinstate_autonomous_container_database_dataguard(self, autonomous_container_database_id, **kwargs):
         """
-        Reinstates a disabled standby Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+        Reinstates a disabled standby Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter to an active standby ACD. For more information, see
+        `Reinstate the Disabled Standby in an Autonomous Data Guard Configuration`__.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-B5C6A90D-72E3-4F32-988D-8AECC0A2D947
 
 
         :param str autonomous_container_database_id: (required)
@@ -37773,7 +39212,7 @@ class DatabaseClient(object):
 
     def reinstate_autonomous_container_database_dataguard_association(self, autonomous_container_database_id, autonomous_container_database_dataguard_association_id, **kwargs):
         """
-        Reinstates a disabled standby Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+        **Deprecated.** Use the :func:`reinstate_autonomous_container_database_dataguard` operation to reinstate a disabled standby Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter, to an active standby ACD.
 
 
         :param str autonomous_container_database_id: (required)
@@ -39193,6 +40632,10 @@ class DatabaseClient(object):
             parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
             will be updated or deleted only if the etag you provide matches the resource's current etag value.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -39222,7 +40665,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "if_match"
+            "if_match",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -39242,7 +40686,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "if-match": kwargs.get("if_match", missing)
+            "if-match": kwargs.get("if_match", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -39296,6 +40741,10 @@ class DatabaseClient(object):
             parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
             will be updated or deleted only if the etag you provide matches the resource's current etag value.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -39325,7 +40774,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "if_match"
+            "if_match",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -39345,7 +40795,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "if-match": kwargs.get("if_match", missing)
+            "if-match": kwargs.get("if_match", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -41141,6 +42592,10 @@ class DatabaseClient(object):
             parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
             will be updated or deleted only if the etag you provide matches the resource's current etag value.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -41170,7 +42625,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "if_match"
+            "if_match",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -41190,7 +42646,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "if-match": kwargs.get("if_match", missing)
+            "if-match": kwargs.get("if_match", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -41241,6 +42698,10 @@ class DatabaseClient(object):
             parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
             will be updated or deleted only if the etag you provide matches the resource's current etag value.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -41270,7 +42731,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "if_match"
+            "if_match",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -41290,7 +42752,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "if-match": kwargs.get("if_match", missing)
+            "if-match": kwargs.get("if_match", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -41459,6 +42922,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -41489,7 +42956,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -41510,7 +42978,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -41788,7 +43257,10 @@ class DatabaseClient(object):
 
     def switchover_autonomous_container_database_dataguard(self, autonomous_container_database_id, **kwargs):
         """
-        Switchover Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+        Switchover an Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter, to an active standby ACD. This standby ACD will become the new primary ACD when the switchover completes successfully. For more information, see
+        `Switch Roles in an Autonomous Data Guard Configuration`__.
+
+        __ https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-A2AB31F6-D52D-493C-9BA7-D87A0F17078F
 
 
         :param str autonomous_container_database_id: (required)
@@ -41893,7 +43365,7 @@ class DatabaseClient(object):
 
     def switchover_autonomous_container_database_dataguard_association(self, autonomous_container_database_id, autonomous_container_database_dataguard_association_id, **kwargs):
         """
-        Switches over the primary Autonomous Container Database of an Autonomous Data Guard peer association to standby role. The standby Autonomous Container Database associated with autonomousContainerDatabaseDataguardAssociationId assumes the primary Autonomous Container Database role.
+        **Deprecated.** Use the :func:`switchover_autonomous_container_database_dataguard` operation to switches over the primary Autonomous Container Database (ACD) of an Autonomous Data Guard peer association to standby role. The standby ACD associated with autonomousContainerDatabaseDataguardAssociationId assumes the primary ACD role.
 
         A switchover incurs no data loss.
 
@@ -42032,6 +43504,10 @@ class DatabaseClient(object):
         :param str peer_db_id: (optional)
             The database OCID(/Content/General/Concepts/identifiers.htm) of the Disaster Recovery peer (source Primary) database, which is located in a different (remote) region from the current peer database.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -42064,7 +43540,8 @@ class DatabaseClient(object):
             "if_match",
             "opc_retry_token",
             "opc_request_id",
-            "peer_db_id"
+            "peer_db_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -42091,7 +43568,8 @@ class DatabaseClient(object):
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
             "opc-retry-token": kwargs.get("opc_retry_token", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -42545,6 +44023,124 @@ class DatabaseClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def unregister_cloud_vm_cluster_pkcs(self, cloud_vm_cluster_id, unregister_cloud_vm_cluster_pkcs_details, **kwargs):
+        """
+        Uninstall the PKCS11 driver for given keystore type
+
+
+        :param str cloud_vm_cluster_id: (required)
+            The cloud VM cluster `OCID`__.
+
+            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+
+        :param oci.database.models.UnregisterCloudVmClusterPkcsDetails unregister_cloud_vm_cluster_pkcs_details: (required)
+            Details of registering PKCS11 driver.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error without risk of executing that same action again. Retry tokens expire after 24
+            hours, but can be invalidated before then due to conflicting operations (for example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            may be rejected).
+
+        :param str opc_request_id: (optional)
+            Unique identifier for the request.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+            parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+            will be updated or deleted only if the etag you provide matches the resource's current etag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/database/unregister_cloud_vm_cluster_pkcs.py.html>`__ to see an example of how to use unregister_cloud_vm_cluster_pkcs API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['cloudVmClusterId']
+        resource_path = "/cloudVmClusters/{cloudVmClusterId}/actions/unregisterPkcs"
+        method = "POST"
+        operation_name = "unregister_cloud_vm_cluster_pkcs"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/UnregisterCloudVmClusterPkcs"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "retry_strategy",
+            "opc_retry_token",
+            "opc_request_id",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"unregister_cloud_vm_cluster_pkcs got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "cloudVmClusterId": cloud_vm_cluster_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=unregister_cloud_vm_cluster_pkcs_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=unregister_cloud_vm_cluster_pkcs_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def update_autonomous_container_database(self, autonomous_container_database_id, update_autonomous_container_database_details, **kwargs):
         """
         Updates the properties of an Autonomous Container Database, such as display name, maintenance preference, backup retention, and tags.
@@ -42652,7 +44248,7 @@ class DatabaseClient(object):
 
     def update_autonomous_container_database_dataguard_association(self, autonomous_container_database_id, autonomous_container_database_dataguard_association_id, update_autonomous_container_database_data_guard_association_details, **kwargs):
         """
-        Update Autonomous Data Guard association.
+        **Deprecated.** Use the :func:`edit_autonomous_container_database_dataguard` operation to update an Autonomous Data Guard association.
 
 
         :param str autonomous_container_database_id: (required)
@@ -42787,6 +44383,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -42817,7 +44417,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -42838,7 +44439,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -42897,6 +44499,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -42927,7 +44533,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -42948,7 +44555,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -42997,6 +44605,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -43026,7 +44638,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -43036,7 +44649,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -43196,6 +44810,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -43225,7 +44843,8 @@ class DatabaseClient(object):
         expected_kwargs = [
             "allow_control_chars",
             "retry_strategy",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -43245,7 +44864,8 @@ class DatabaseClient(object):
         header_params = {
             "accept": "application/json",
             "content-type": "application/json",
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 
@@ -43740,6 +45360,10 @@ class DatabaseClient(object):
         :param str opc_request_id: (optional)
             Unique identifier for the request.
 
+        :param bool opc_dry_run: (optional)
+            Indicates that the request is a dry run, if set to \"true\". A dry run request does not actually
+            creating or updating a resource and is used only to perform validation on the submitted data.
+
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
 
@@ -43770,7 +45394,8 @@ class DatabaseClient(object):
             "allow_control_chars",
             "retry_strategy",
             "if_match",
-            "opc_request_id"
+            "opc_request_id",
+            "opc_dry_run"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -43791,7 +45416,8 @@ class DatabaseClient(object):
             "accept": "application/json",
             "content-type": "application/json",
             "if-match": kwargs.get("if_match", missing),
-            "opc-request-id": kwargs.get("opc_request_id", missing)
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-dry-run": kwargs.get("opc_dry_run", missing)
         }
         header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
 

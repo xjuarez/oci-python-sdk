@@ -33,7 +33,10 @@ Database
     oci.database.models.AssociatedDatabaseDetails
     oci.database.models.AutomatedMountDetails
     oci.database.models.AutonomousContainerDatabase
+    oci.database.models.AutonomousContainerDatabaseBackup
+    oci.database.models.AutonomousContainerDatabaseBackupCollection
     oci.database.models.AutonomousContainerDatabaseBackupConfig
+    oci.database.models.AutonomousContainerDatabaseBackupSummary
     oci.database.models.AutonomousContainerDatabaseDataguard
     oci.database.models.AutonomousContainerDatabaseDataguardAssociation
     oci.database.models.AutonomousContainerDatabaseResourceUsage
@@ -54,6 +57,7 @@ Database
     oci.database.models.AutonomousDatabaseDataguardAssociation
     oci.database.models.AutonomousDatabaseEncryptionKeyDetails
     oci.database.models.AutonomousDatabaseEncryptionKeyHistoryEntry
+    oci.database.models.AutonomousDatabaseInBackup
     oci.database.models.AutonomousDatabaseKeyHistoryEntry
     oci.database.models.AutonomousDatabaseManualRefreshDetails
     oci.database.models.AutonomousDatabasePeerCollection
@@ -81,6 +85,7 @@ Database
     oci.database.models.AutonomousVmResourceUsage
     oci.database.models.AvmAcdResourceStats
     oci.database.models.AwsKeyDetails
+    oci.database.models.AzureEncryptionKeyDetails
     oci.database.models.AzureKeyDetails
     oci.database.models.Backup
     oci.database.models.BackupDestination
@@ -95,6 +100,7 @@ Database
     oci.database.models.ChangeAutonomousDatabaseSubscriptionDetails
     oci.database.models.ChangeAutonomousVmClusterCompartmentDetails
     oci.database.models.ChangeCloudAutonomousVmClusterCompartmentDetails
+    oci.database.models.ChangeCloudAutonomousVmClusterSubscriptionDetails
     oci.database.models.ChangeCloudExadataInfrastructureCompartmentDetails
     oci.database.models.ChangeCloudExadataInfrastructureSubscriptionDetails
     oci.database.models.ChangeCloudVmClusterCompartmentDetails
@@ -143,8 +149,10 @@ Database
     oci.database.models.ConvertToRegularPluggableDatabaseDetails
     oci.database.models.ConvertToStandaloneDetails
     oci.database.models.CreateApplicationVipDetails
+    oci.database.models.CreateAutonomousContainerDatabaseBase
     oci.database.models.CreateAutonomousContainerDatabaseDataguardAssociationDetails
     oci.database.models.CreateAutonomousContainerDatabaseDetails
+    oci.database.models.CreateAutonomousContainerDatabaseFromBackupDetails
     oci.database.models.CreateAutonomousDatabaseBackupDetails
     oci.database.models.CreateAutonomousDatabaseBase
     oci.database.models.CreateAutonomousDatabaseCloneDetails
@@ -207,6 +215,7 @@ Database
     oci.database.models.CreatePluggableDatabaseFromRelocateDetails
     oci.database.models.CreatePluggableDatabaseFromRemoteCloneDetails
     oci.database.models.CreatePluggableDatabaseRefreshableCloneDetails
+    oci.database.models.CreatePluggableDatabaseSnapshotDetails
     oci.database.models.CreateRecoveryApplianceBackupDestinationDetails
     oci.database.models.CreateRefreshableAutonomousDatabaseCloneDetails
     oci.database.models.CreateScheduledActionDetails
@@ -265,6 +274,7 @@ Database
     oci.database.models.DbSystemSummary
     oci.database.models.DbSystemUpgradeHistoryEntry
     oci.database.models.DbSystemUpgradeHistoryEntrySummary
+    oci.database.models.DbSystemUpgradeSummary
     oci.database.models.DbVersionSummary
     oci.database.models.DefinedFileSystemConfiguration
     oci.database.models.DeregisterAutonomousDatabaseDataSafeDetails
@@ -336,6 +346,7 @@ Database
     oci.database.models.GiMinorVersionSummary
     oci.database.models.GiVersionSummary
     oci.database.models.GranularMaintenanceHistoryDetails
+    oci.database.models.IdentityConnectorDetails
     oci.database.models.InfoForNetworkGenDetails
     oci.database.models.InfrastructureTargetVersion
     oci.database.models.InfrastructureTargetVersionSummary
@@ -387,6 +398,8 @@ Database
     oci.database.models.PluggableDatabaseManagementConfig
     oci.database.models.PluggableDatabaseNodeLevelDetails
     oci.database.models.PluggableDatabaseRefreshableCloneConfig
+    oci.database.models.PluggableDatabaseSnapshot
+    oci.database.models.PluggableDatabaseSnapshotSummary
     oci.database.models.PluggableDatabaseSummary
     oci.database.models.RecommendedScheduledActionSummary
     oci.database.models.RecommendedScheduledActionsCollection
@@ -394,6 +407,7 @@ Database
     oci.database.models.RefreshableCloneCollection
     oci.database.models.RefreshableCloneSummary
     oci.database.models.RegisterAutonomousDatabaseDataSafeDetails
+    oci.database.models.RegisterCloudVmClusterPkcsDetails
     oci.database.models.ReinstateDataGuardAssociationDetails
     oci.database.models.ReinstateDataGuardDetails
     oci.database.models.RemoteClonePluggableDatabaseDetails
@@ -403,6 +417,8 @@ Database
     oci.database.models.ReorderExecutionActionDetails
     oci.database.models.ReorderScheduledActionsDetails
     oci.database.models.ResizeVmClusterNetworkDetails
+    oci.database.models.ResourcePoolMemberCollection
+    oci.database.models.ResourcePoolMemberSummary
     oci.database.models.ResourcePoolShapeCollection
     oci.database.models.ResourcePoolShapeSummary
     oci.database.models.ResourcePoolSummary
@@ -435,8 +451,11 @@ Database
     oci.database.models.SwitchOverDataGuardDetails
     oci.database.models.SwitchoverDataGuardAssociationDetails
     oci.database.models.SystemVersionCollection
+    oci.database.models.SystemVersionMinorVersionCollection
+    oci.database.models.SystemVersionMinorVersionSummary
     oci.database.models.SystemVersionSummary
     oci.database.models.UndeleteAutonomousDatabaseDetails
+    oci.database.models.UnregisterCloudVmClusterPkcsDetails
     oci.database.models.Update
     oci.database.models.UpdateAutonomousContainerDatabaseDataGuardAssociationDetails
     oci.database.models.UpdateAutonomousContainerDatabaseDetails

@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class IncidentType(object):
     """
-    Details about the incident type associated with the support ticket.
+    Details about the incident type associated with the support request.
     """
 
     def __init__(self, **kwargs):
@@ -48,7 +48,6 @@ class IncidentType(object):
             'description': 'str',
             'classifier_list': 'list[Classifier]'
         }
-
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
@@ -56,7 +55,6 @@ class IncidentType(object):
             'description': 'description',
             'classifier_list': 'classifierList'
         }
-
         self._id = None
         self._name = None
         self._label = None

@@ -141,9 +141,21 @@ class DiscoveredExternalDatabase(DiscoveredExternalDbSystemComponent):
             The value to assign to the pluggable_databases property of this DiscoveredExternalDatabase.
         :type pluggable_databases: list[oci.database_management.models.DiscoveredExternalPluggableDatabase]
 
+        :param db_instances:
+            The value to assign to the db_instances property of this DiscoveredExternalDatabase.
+        :type db_instances: list[oci.database_management.models.DiscoveredExternalDbInstance]
+
         :param connector:
             The value to assign to the connector property of this DiscoveredExternalDatabase.
         :type connector: oci.database_management.models.ExternalDbSystemDiscoveryConnector
+
+        :param can_enable_all_current_pdbs:
+            The value to assign to the can_enable_all_current_pdbs property of this DiscoveredExternalDatabase.
+        :type can_enable_all_current_pdbs: bool
+
+        :param is_auto_enable_pluggable_database:
+            The value to assign to the is_auto_enable_pluggable_database property of this DiscoveredExternalDatabase.
+        :type is_auto_enable_pluggable_database: bool
 
         """
         self.swagger_types = {
@@ -165,9 +177,11 @@ class DiscoveredExternalDatabase(DiscoveredExternalDbSystemComponent):
             'db_role': 'str',
             'db_version': 'str',
             'pluggable_databases': 'list[DiscoveredExternalPluggableDatabase]',
-            'connector': 'ExternalDbSystemDiscoveryConnector'
+            'db_instances': 'list[DiscoveredExternalDbInstance]',
+            'connector': 'ExternalDbSystemDiscoveryConnector',
+            'can_enable_all_current_pdbs': 'bool',
+            'is_auto_enable_pluggable_database': 'bool'
         }
-
         self.attribute_map = {
             'component_id': 'componentId',
             'display_name': 'displayName',
@@ -187,9 +201,11 @@ class DiscoveredExternalDatabase(DiscoveredExternalDbSystemComponent):
             'db_role': 'dbRole',
             'db_version': 'dbVersion',
             'pluggable_databases': 'pluggableDatabases',
-            'connector': 'connector'
+            'db_instances': 'dbInstances',
+            'connector': 'connector',
+            'can_enable_all_current_pdbs': 'canEnableAllCurrentPdbs',
+            'is_auto_enable_pluggable_database': 'isAutoEnablePluggableDatabase'
         }
-
         self._component_id = None
         self._display_name = None
         self._component_name = None
@@ -208,7 +224,10 @@ class DiscoveredExternalDatabase(DiscoveredExternalDbSystemComponent):
         self._db_role = None
         self._db_version = None
         self._pluggable_databases = None
+        self._db_instances = None
         self._connector = None
+        self._can_enable_all_current_pdbs = None
+        self._is_auto_enable_pluggable_database = None
         self._component_type = 'DATABASE'
 
     @property
@@ -470,6 +489,30 @@ class DiscoveredExternalDatabase(DiscoveredExternalDbSystemComponent):
         self._pluggable_databases = pluggable_databases
 
     @property
+    def db_instances(self):
+        """
+        Gets the db_instances of this DiscoveredExternalDatabase.
+        The list of database instances.
+
+
+        :return: The db_instances of this DiscoveredExternalDatabase.
+        :rtype: list[oci.database_management.models.DiscoveredExternalDbInstance]
+        """
+        return self._db_instances
+
+    @db_instances.setter
+    def db_instances(self, db_instances):
+        """
+        Sets the db_instances of this DiscoveredExternalDatabase.
+        The list of database instances.
+
+
+        :param db_instances: The db_instances of this DiscoveredExternalDatabase.
+        :type: list[oci.database_management.models.DiscoveredExternalDbInstance]
+        """
+        self._db_instances = db_instances
+
+    @property
     def connector(self):
         """
         Gets the connector of this DiscoveredExternalDatabase.
@@ -488,6 +531,54 @@ class DiscoveredExternalDatabase(DiscoveredExternalDbSystemComponent):
         :type: oci.database_management.models.ExternalDbSystemDiscoveryConnector
         """
         self._connector = connector
+
+    @property
+    def can_enable_all_current_pdbs(self):
+        """
+        Gets the can_enable_all_current_pdbs of this DiscoveredExternalDatabase.
+        Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
+
+
+        :return: The can_enable_all_current_pdbs of this DiscoveredExternalDatabase.
+        :rtype: bool
+        """
+        return self._can_enable_all_current_pdbs
+
+    @can_enable_all_current_pdbs.setter
+    def can_enable_all_current_pdbs(self, can_enable_all_current_pdbs):
+        """
+        Sets the can_enable_all_current_pdbs of this DiscoveredExternalDatabase.
+        Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
+
+
+        :param can_enable_all_current_pdbs: The can_enable_all_current_pdbs of this DiscoveredExternalDatabase.
+        :type: bool
+        """
+        self._can_enable_all_current_pdbs = can_enable_all_current_pdbs
+
+    @property
+    def is_auto_enable_pluggable_database(self):
+        """
+        Gets the is_auto_enable_pluggable_database of this DiscoveredExternalDatabase.
+        Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
+
+
+        :return: The is_auto_enable_pluggable_database of this DiscoveredExternalDatabase.
+        :rtype: bool
+        """
+        return self._is_auto_enable_pluggable_database
+
+    @is_auto_enable_pluggable_database.setter
+    def is_auto_enable_pluggable_database(self, is_auto_enable_pluggable_database):
+        """
+        Sets the is_auto_enable_pluggable_database of this DiscoveredExternalDatabase.
+        Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
+
+
+        :param is_auto_enable_pluggable_database: The is_auto_enable_pluggable_database of this DiscoveredExternalDatabase.
+        :type: bool
+        """
+        self._is_auto_enable_pluggable_database = is_auto_enable_pluggable_database
 
     def __repr__(self):
         return formatted_flat_dict(self)

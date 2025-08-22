@@ -28,11 +28,9 @@ class ReservedIP(object):
         self.swagger_types = {
             'id': 'str'
         }
-
         self.attribute_map = {
             'id': 'id'
         }
-
         self._id = None
 
     @property
@@ -49,6 +47,8 @@ class ReservedIP(object):
         Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 
         Example: \"ocid1.publicip.oc1.phx.unique_ID\"
+
+        IPV6 example: \"ocid1.ipv6.oc1.phx.unique_ID\"
 
 
         :return: The id of this ReservedIP.
@@ -70,6 +70,8 @@ class ReservedIP(object):
         Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
 
         Example: \"ocid1.publicip.oc1.phx.unique_ID\"
+
+        IPV6 example: \"ocid1.ipv6.oc1.phx.unique_ID\"
 
 
         :param id: The id of this ReservedIP.

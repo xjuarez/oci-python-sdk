@@ -40,6 +40,7 @@ from .app_catalog_listing_summary import AppCatalogListingSummary
 from .app_catalog_subscription import AppCatalogSubscription
 from .app_catalog_subscription_summary import AppCatalogSubscriptionSummary
 from .attach_boot_volume_details import AttachBootVolumeDetails
+from .attach_compute_host_group_host_details import AttachComputeHostGroupHostDetails
 from .attach_emulated_volume_details import AttachEmulatedVolumeDetails
 from .attach_i_scsi_volume_details import AttachIScsiVolumeDetails
 from .attach_instance_pool_instance_details import AttachInstancePoolInstanceDetails
@@ -80,6 +81,7 @@ from .byoip_range_origin_asn import ByoipRangeOriginAsn
 from .byoip_range_summary import ByoipRangeSummary
 from .byoip_range_vcn_ipv6_allocation_summary import ByoipRangeVcnIpv6AllocationSummary
 from .byoipv6_cidr_details import Byoipv6CidrDetails
+from .capacity_bin import CapacityBin
 from .capacity_report_instance_shape_config import CapacityReportInstanceShapeConfig
 from .capacity_report_shape_availability import CapacityReportShapeAvailability
 from .capacity_reservation_instance_summary import CapacityReservationInstanceSummary
@@ -95,6 +97,10 @@ from .change_cluster_network_compartment_details import ChangeClusterNetworkComp
 from .change_compute_capacity_reservation_compartment_details import ChangeComputeCapacityReservationCompartmentDetails
 from .change_compute_capacity_topology_compartment_details import ChangeComputeCapacityTopologyCompartmentDetails
 from .change_compute_cluster_compartment_details import ChangeComputeClusterCompartmentDetails
+from .change_compute_gpu_memory_cluster_compartment_details import ChangeComputeGpuMemoryClusterCompartmentDetails
+from .change_compute_gpu_memory_fabric_compartment_details import ChangeComputeGpuMemoryFabricCompartmentDetails
+from .change_compute_host_compartment_details import ChangeComputeHostCompartmentDetails
+from .change_compute_host_group_compartment_details import ChangeComputeHostGroupCompartmentDetails
 from .change_compute_image_capability_schema_compartment_details import ChangeComputeImageCapabilitySchemaCompartmentDetails
 from .change_cpe_compartment_details import ChangeCpeCompartmentDetails
 from .change_cross_connect_compartment_details import ChangeCrossConnectCompartmentDetails
@@ -134,6 +140,7 @@ from .cluster_network_summary import ClusterNetworkSummary
 from .compartment_internal import CompartmentInternal
 from .compute_bare_metal_host import ComputeBareMetalHost
 from .compute_bare_metal_host_collection import ComputeBareMetalHostCollection
+from .compute_bare_metal_host_placement_constraint_details import ComputeBareMetalHostPlacementConstraintDetails
 from .compute_bare_metal_host_summary import ComputeBareMetalHostSummary
 from .compute_capacity_report import ComputeCapacityReport
 from .compute_capacity_reservation import ComputeCapacityReservation
@@ -149,6 +156,22 @@ from .compute_global_image_capability_schema import ComputeGlobalImageCapability
 from .compute_global_image_capability_schema_summary import ComputeGlobalImageCapabilitySchemaSummary
 from .compute_global_image_capability_schema_version import ComputeGlobalImageCapabilitySchemaVersion
 from .compute_global_image_capability_schema_version_summary import ComputeGlobalImageCapabilitySchemaVersionSummary
+from .compute_gpu_memory_cluster import ComputeGpuMemoryCluster
+from .compute_gpu_memory_cluster_collection import ComputeGpuMemoryClusterCollection
+from .compute_gpu_memory_cluster_instance_collection import ComputeGpuMemoryClusterInstanceCollection
+from .compute_gpu_memory_cluster_instance_summary import ComputeGpuMemoryClusterInstanceSummary
+from .compute_gpu_memory_cluster_summary import ComputeGpuMemoryClusterSummary
+from .compute_gpu_memory_fabric import ComputeGpuMemoryFabric
+from .compute_gpu_memory_fabric_collection import ComputeGpuMemoryFabricCollection
+from .compute_gpu_memory_fabric_summary import ComputeGpuMemoryFabricSummary
+from .compute_host import ComputeHost
+from .compute_host_collection import ComputeHostCollection
+from .compute_host_configuration_check_details import ComputeHostConfigurationCheckDetails
+from .compute_host_configuration_data import ComputeHostConfigurationData
+from .compute_host_group import ComputeHostGroup
+from .compute_host_group_collection import ComputeHostGroupCollection
+from .compute_host_group_summary import ComputeHostGroupSummary
+from .compute_host_summary import ComputeHostSummary
 from .compute_hpc_island import ComputeHpcIsland
 from .compute_hpc_island_collection import ComputeHpcIslandCollection
 from .compute_hpc_island_summary import ComputeHpcIslandSummary
@@ -185,6 +208,8 @@ from .create_compute_capacity_report_details import CreateComputeCapacityReportD
 from .create_compute_capacity_reservation_details import CreateComputeCapacityReservationDetails
 from .create_compute_capacity_topology_details import CreateComputeCapacityTopologyDetails
 from .create_compute_cluster_details import CreateComputeClusterDetails
+from .create_compute_gpu_memory_cluster_details import CreateComputeGpuMemoryClusterDetails
+from .create_compute_host_group_details import CreateComputeHostGroupDetails
 from .create_compute_image_capability_schema_details import CreateComputeImageCapabilitySchemaDetails
 from .create_cpe_details import CreateCpeDetails
 from .create_cross_connect_details import CreateCrossConnectDetails
@@ -252,6 +277,7 @@ from .default_drg_route_tables import DefaultDrgRouteTables
 from .default_phase_one_parameters import DefaultPhaseOneParameters
 from .default_phase_two_parameters import DefaultPhaseTwoParameters
 from .delete_virtual_circuit_public_prefix_details import DeleteVirtualCircuitPublicPrefixDetails
+from .detach_compute_host_group_host_details import DetachComputeHostGroupHostDetails
 from .detach_instance_pool_instance_details import DetachInstancePoolInstanceDetails
 from .detach_load_balancer_details import DetachLoadBalancerDetails
 from .detached_volume_autotune_policy import DetachedVolumeAutotunePolicy
@@ -270,6 +296,7 @@ from .drg_attachment_network_create_details import DrgAttachmentNetworkCreateDet
 from .drg_attachment_network_details import DrgAttachmentNetworkDetails
 from .drg_attachment_network_update_details import DrgAttachmentNetworkUpdateDetails
 from .drg_attachment_type_drg_route_distribution_match_criteria import DrgAttachmentTypeDrgRouteDistributionMatchCriteria
+from .drg_promotion_status_response import DrgPromotionStatusResponse
 from .drg_redundancy_status import DrgRedundancyStatus
 from .drg_route_distribution import DrgRouteDistribution
 from .drg_route_distribution_match_criteria import DrgRouteDistributionMatchCriteria
@@ -292,6 +319,8 @@ from .generic_bm_platform_config import GenericBmPlatformConfig
 from .get_ip_inventory_vcn_overlap_details import GetIpInventoryVcnOverlapDetails
 from .get_public_ip_by_ip_address_details import GetPublicIpByIpAddressDetails
 from .get_public_ip_by_private_ip_id_details import GetPublicIpByPrivateIpIdDetails
+from .host_group_configuration import HostGroupConfiguration
+from .host_group_placement_constraint_details import HostGroupPlacementConstraintDetails
 from .ip_sec_connection import IPSecConnection
 from .ip_sec_connection_device_config import IPSecConnectionDeviceConfig
 from .ip_sec_connection_device_status import IPSecConnectionDeviceStatus
@@ -331,6 +360,7 @@ from .instance_configuration_create_vnic_details import InstanceConfigurationCre
 from .instance_configuration_create_volume_details import InstanceConfigurationCreateVolumeDetails
 from .instance_configuration_detached_volume_autotune_policy import InstanceConfigurationDetachedVolumeAutotunePolicy
 from .instance_configuration_generic_bm_launch_instance_platform_config import InstanceConfigurationGenericBmLaunchInstancePlatformConfig
+from .instance_configuration_host_group_placement_constraint_details import InstanceConfigurationHostGroupPlacementConstraintDetails
 from .instance_configuration_instance_details import InstanceConfigurationInstanceDetails
 from .instance_configuration_instance_options import InstanceConfigurationInstanceOptions
 from .instance_configuration_instance_source_details import InstanceConfigurationInstanceSourceDetails
@@ -349,6 +379,7 @@ from .instance_configuration_launch_instance_shape_config_details import Instanc
 from .instance_configuration_launch_options import InstanceConfigurationLaunchOptions
 from .instance_configuration_paravirtualized_attach_volume_details import InstanceConfigurationParavirtualizedAttachVolumeDetails
 from .instance_configuration_performance_based_autotune_policy import InstanceConfigurationPerformanceBasedAutotunePolicy
+from .instance_configuration_placement_constraint_details import InstanceConfigurationPlacementConstraintDetails
 from .instance_configuration_summary import InstanceConfigurationSummary
 from .instance_configuration_volume_source_details import InstanceConfigurationVolumeSourceDetails
 from .instance_configuration_volume_source_from_volume_backup_details import InstanceConfigurationVolumeSourceFromVolumeBackupDetails
@@ -440,6 +471,7 @@ from .percentage_of_cores_enabled_options import PercentageOfCoresEnabledOptions
 from .performance_based_autotune_policy import PerformanceBasedAutotunePolicy
 from .phase_one_config_details import PhaseOneConfigDetails
 from .phase_two_config_details import PhaseTwoConfigDetails
+from .placement_constraint_details import PlacementConstraintDetails
 from .platform_config import PlatformConfig
 from .port_range import PortRange
 from .preemptible_instance_config_details import PreemptibleInstanceConfigDetails
@@ -450,6 +482,7 @@ from .public_ip_pool import PublicIpPool
 from .public_ip_pool_collection import PublicIpPoolCollection
 from .public_ip_pool_summary import PublicIpPoolSummary
 from .reboot_migrate_action_details import RebootMigrateActionDetails
+from .recycle_details import RecycleDetails
 from .remote_peering_connection import RemotePeeringConnection
 from .remote_peering_connection_drg_attachment_network_details import RemotePeeringConnectionDrgAttachmentNetworkDetails
 from .remove_drg_route_distribution_statements_details import RemoveDrgRouteDistributionStatementsDetails
@@ -517,6 +550,10 @@ from .update_cluster_network_instance_pool_details import UpdateClusterNetworkIn
 from .update_compute_capacity_reservation_details import UpdateComputeCapacityReservationDetails
 from .update_compute_capacity_topology_details import UpdateComputeCapacityTopologyDetails
 from .update_compute_cluster_details import UpdateComputeClusterDetails
+from .update_compute_gpu_memory_cluster_details import UpdateComputeGpuMemoryClusterDetails
+from .update_compute_gpu_memory_fabric_details import UpdateComputeGpuMemoryFabricDetails
+from .update_compute_host_details import UpdateComputeHostDetails
+from .update_compute_host_group_details import UpdateComputeHostGroupDetails
 from .update_compute_image_capability_schema_details import UpdateComputeImageCapabilitySchemaDetails
 from .update_console_history_details import UpdateConsoleHistoryDetails
 from .update_cpe_details import UpdateCpeDetails
@@ -663,6 +700,7 @@ core_type_mapping = {
     "AppCatalogSubscription": AppCatalogSubscription,
     "AppCatalogSubscriptionSummary": AppCatalogSubscriptionSummary,
     "AttachBootVolumeDetails": AttachBootVolumeDetails,
+    "AttachComputeHostGroupHostDetails": AttachComputeHostGroupHostDetails,
     "AttachEmulatedVolumeDetails": AttachEmulatedVolumeDetails,
     "AttachIScsiVolumeDetails": AttachIScsiVolumeDetails,
     "AttachInstancePoolInstanceDetails": AttachInstancePoolInstanceDetails,
@@ -703,6 +741,7 @@ core_type_mapping = {
     "ByoipRangeSummary": ByoipRangeSummary,
     "ByoipRangeVcnIpv6AllocationSummary": ByoipRangeVcnIpv6AllocationSummary,
     "Byoipv6CidrDetails": Byoipv6CidrDetails,
+    "CapacityBin": CapacityBin,
     "CapacityReportInstanceShapeConfig": CapacityReportInstanceShapeConfig,
     "CapacityReportShapeAvailability": CapacityReportShapeAvailability,
     "CapacityReservationInstanceSummary": CapacityReservationInstanceSummary,
@@ -718,6 +757,10 @@ core_type_mapping = {
     "ChangeComputeCapacityReservationCompartmentDetails": ChangeComputeCapacityReservationCompartmentDetails,
     "ChangeComputeCapacityTopologyCompartmentDetails": ChangeComputeCapacityTopologyCompartmentDetails,
     "ChangeComputeClusterCompartmentDetails": ChangeComputeClusterCompartmentDetails,
+    "ChangeComputeGpuMemoryClusterCompartmentDetails": ChangeComputeGpuMemoryClusterCompartmentDetails,
+    "ChangeComputeGpuMemoryFabricCompartmentDetails": ChangeComputeGpuMemoryFabricCompartmentDetails,
+    "ChangeComputeHostCompartmentDetails": ChangeComputeHostCompartmentDetails,
+    "ChangeComputeHostGroupCompartmentDetails": ChangeComputeHostGroupCompartmentDetails,
     "ChangeComputeImageCapabilitySchemaCompartmentDetails": ChangeComputeImageCapabilitySchemaCompartmentDetails,
     "ChangeCpeCompartmentDetails": ChangeCpeCompartmentDetails,
     "ChangeCrossConnectCompartmentDetails": ChangeCrossConnectCompartmentDetails,
@@ -757,6 +800,7 @@ core_type_mapping = {
     "CompartmentInternal": CompartmentInternal,
     "ComputeBareMetalHost": ComputeBareMetalHost,
     "ComputeBareMetalHostCollection": ComputeBareMetalHostCollection,
+    "ComputeBareMetalHostPlacementConstraintDetails": ComputeBareMetalHostPlacementConstraintDetails,
     "ComputeBareMetalHostSummary": ComputeBareMetalHostSummary,
     "ComputeCapacityReport": ComputeCapacityReport,
     "ComputeCapacityReservation": ComputeCapacityReservation,
@@ -772,6 +816,22 @@ core_type_mapping = {
     "ComputeGlobalImageCapabilitySchemaSummary": ComputeGlobalImageCapabilitySchemaSummary,
     "ComputeGlobalImageCapabilitySchemaVersion": ComputeGlobalImageCapabilitySchemaVersion,
     "ComputeGlobalImageCapabilitySchemaVersionSummary": ComputeGlobalImageCapabilitySchemaVersionSummary,
+    "ComputeGpuMemoryCluster": ComputeGpuMemoryCluster,
+    "ComputeGpuMemoryClusterCollection": ComputeGpuMemoryClusterCollection,
+    "ComputeGpuMemoryClusterInstanceCollection": ComputeGpuMemoryClusterInstanceCollection,
+    "ComputeGpuMemoryClusterInstanceSummary": ComputeGpuMemoryClusterInstanceSummary,
+    "ComputeGpuMemoryClusterSummary": ComputeGpuMemoryClusterSummary,
+    "ComputeGpuMemoryFabric": ComputeGpuMemoryFabric,
+    "ComputeGpuMemoryFabricCollection": ComputeGpuMemoryFabricCollection,
+    "ComputeGpuMemoryFabricSummary": ComputeGpuMemoryFabricSummary,
+    "ComputeHost": ComputeHost,
+    "ComputeHostCollection": ComputeHostCollection,
+    "ComputeHostConfigurationCheckDetails": ComputeHostConfigurationCheckDetails,
+    "ComputeHostConfigurationData": ComputeHostConfigurationData,
+    "ComputeHostGroup": ComputeHostGroup,
+    "ComputeHostGroupCollection": ComputeHostGroupCollection,
+    "ComputeHostGroupSummary": ComputeHostGroupSummary,
+    "ComputeHostSummary": ComputeHostSummary,
     "ComputeHpcIsland": ComputeHpcIsland,
     "ComputeHpcIslandCollection": ComputeHpcIslandCollection,
     "ComputeHpcIslandSummary": ComputeHpcIslandSummary,
@@ -808,6 +868,8 @@ core_type_mapping = {
     "CreateComputeCapacityReservationDetails": CreateComputeCapacityReservationDetails,
     "CreateComputeCapacityTopologyDetails": CreateComputeCapacityTopologyDetails,
     "CreateComputeClusterDetails": CreateComputeClusterDetails,
+    "CreateComputeGpuMemoryClusterDetails": CreateComputeGpuMemoryClusterDetails,
+    "CreateComputeHostGroupDetails": CreateComputeHostGroupDetails,
     "CreateComputeImageCapabilitySchemaDetails": CreateComputeImageCapabilitySchemaDetails,
     "CreateCpeDetails": CreateCpeDetails,
     "CreateCrossConnectDetails": CreateCrossConnectDetails,
@@ -875,6 +937,7 @@ core_type_mapping = {
     "DefaultPhaseOneParameters": DefaultPhaseOneParameters,
     "DefaultPhaseTwoParameters": DefaultPhaseTwoParameters,
     "DeleteVirtualCircuitPublicPrefixDetails": DeleteVirtualCircuitPublicPrefixDetails,
+    "DetachComputeHostGroupHostDetails": DetachComputeHostGroupHostDetails,
     "DetachInstancePoolInstanceDetails": DetachInstancePoolInstanceDetails,
     "DetachLoadBalancerDetails": DetachLoadBalancerDetails,
     "DetachedVolumeAutotunePolicy": DetachedVolumeAutotunePolicy,
@@ -893,6 +956,7 @@ core_type_mapping = {
     "DrgAttachmentNetworkDetails": DrgAttachmentNetworkDetails,
     "DrgAttachmentNetworkUpdateDetails": DrgAttachmentNetworkUpdateDetails,
     "DrgAttachmentTypeDrgRouteDistributionMatchCriteria": DrgAttachmentTypeDrgRouteDistributionMatchCriteria,
+    "DrgPromotionStatusResponse": DrgPromotionStatusResponse,
     "DrgRedundancyStatus": DrgRedundancyStatus,
     "DrgRouteDistribution": DrgRouteDistribution,
     "DrgRouteDistributionMatchCriteria": DrgRouteDistributionMatchCriteria,
@@ -915,6 +979,8 @@ core_type_mapping = {
     "GetIpInventoryVcnOverlapDetails": GetIpInventoryVcnOverlapDetails,
     "GetPublicIpByIpAddressDetails": GetPublicIpByIpAddressDetails,
     "GetPublicIpByPrivateIpIdDetails": GetPublicIpByPrivateIpIdDetails,
+    "HostGroupConfiguration": HostGroupConfiguration,
+    "HostGroupPlacementConstraintDetails": HostGroupPlacementConstraintDetails,
     "IPSecConnection": IPSecConnection,
     "IPSecConnectionDeviceConfig": IPSecConnectionDeviceConfig,
     "IPSecConnectionDeviceStatus": IPSecConnectionDeviceStatus,
@@ -954,6 +1020,7 @@ core_type_mapping = {
     "InstanceConfigurationCreateVolumeDetails": InstanceConfigurationCreateVolumeDetails,
     "InstanceConfigurationDetachedVolumeAutotunePolicy": InstanceConfigurationDetachedVolumeAutotunePolicy,
     "InstanceConfigurationGenericBmLaunchInstancePlatformConfig": InstanceConfigurationGenericBmLaunchInstancePlatformConfig,
+    "InstanceConfigurationHostGroupPlacementConstraintDetails": InstanceConfigurationHostGroupPlacementConstraintDetails,
     "InstanceConfigurationInstanceDetails": InstanceConfigurationInstanceDetails,
     "InstanceConfigurationInstanceOptions": InstanceConfigurationInstanceOptions,
     "InstanceConfigurationInstanceSourceDetails": InstanceConfigurationInstanceSourceDetails,
@@ -972,6 +1039,7 @@ core_type_mapping = {
     "InstanceConfigurationLaunchOptions": InstanceConfigurationLaunchOptions,
     "InstanceConfigurationParavirtualizedAttachVolumeDetails": InstanceConfigurationParavirtualizedAttachVolumeDetails,
     "InstanceConfigurationPerformanceBasedAutotunePolicy": InstanceConfigurationPerformanceBasedAutotunePolicy,
+    "InstanceConfigurationPlacementConstraintDetails": InstanceConfigurationPlacementConstraintDetails,
     "InstanceConfigurationSummary": InstanceConfigurationSummary,
     "InstanceConfigurationVolumeSourceDetails": InstanceConfigurationVolumeSourceDetails,
     "InstanceConfigurationVolumeSourceFromVolumeBackupDetails": InstanceConfigurationVolumeSourceFromVolumeBackupDetails,
@@ -1063,6 +1131,7 @@ core_type_mapping = {
     "PerformanceBasedAutotunePolicy": PerformanceBasedAutotunePolicy,
     "PhaseOneConfigDetails": PhaseOneConfigDetails,
     "PhaseTwoConfigDetails": PhaseTwoConfigDetails,
+    "PlacementConstraintDetails": PlacementConstraintDetails,
     "PlatformConfig": PlatformConfig,
     "PortRange": PortRange,
     "PreemptibleInstanceConfigDetails": PreemptibleInstanceConfigDetails,
@@ -1073,6 +1142,7 @@ core_type_mapping = {
     "PublicIpPoolCollection": PublicIpPoolCollection,
     "PublicIpPoolSummary": PublicIpPoolSummary,
     "RebootMigrateActionDetails": RebootMigrateActionDetails,
+    "RecycleDetails": RecycleDetails,
     "RemotePeeringConnection": RemotePeeringConnection,
     "RemotePeeringConnectionDrgAttachmentNetworkDetails": RemotePeeringConnectionDrgAttachmentNetworkDetails,
     "RemoveDrgRouteDistributionStatementsDetails": RemoveDrgRouteDistributionStatementsDetails,
@@ -1140,6 +1210,10 @@ core_type_mapping = {
     "UpdateComputeCapacityReservationDetails": UpdateComputeCapacityReservationDetails,
     "UpdateComputeCapacityTopologyDetails": UpdateComputeCapacityTopologyDetails,
     "UpdateComputeClusterDetails": UpdateComputeClusterDetails,
+    "UpdateComputeGpuMemoryClusterDetails": UpdateComputeGpuMemoryClusterDetails,
+    "UpdateComputeGpuMemoryFabricDetails": UpdateComputeGpuMemoryFabricDetails,
+    "UpdateComputeHostDetails": UpdateComputeHostDetails,
+    "UpdateComputeHostGroupDetails": UpdateComputeHostGroupDetails,
     "UpdateComputeImageCapabilitySchemaDetails": UpdateComputeImageCapabilitySchemaDetails,
     "UpdateConsoleHistoryDetails": UpdateConsoleHistoryDetails,
     "UpdateCpeDetails": UpdateCpeDetails,

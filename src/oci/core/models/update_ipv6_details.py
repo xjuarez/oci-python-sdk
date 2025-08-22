@@ -62,7 +62,6 @@ class UpdateIpv6Details(object):
             'route_table_id': 'str',
             'lifetime': 'str'
         }
-
         self.attribute_map = {
             'defined_tags': 'definedTags',
             'display_name': 'displayName',
@@ -71,7 +70,6 @@ class UpdateIpv6Details(object):
             'route_table_id': 'routeTableId',
             'lifetime': 'lifetime'
         }
-
         self._defined_tags = None
         self._display_name = None
         self._freeform_tags = None
@@ -208,7 +206,7 @@ class UpdateIpv6Details(object):
         """
         Gets the route_table_id of this UpdateIpv6Details.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -224,7 +222,7 @@ class UpdateIpv6Details(object):
         """
         Sets the route_table_id of this UpdateIpv6Details.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -240,7 +238,7 @@ class UpdateIpv6Details(object):
         """
         Gets the lifetime of this UpdateIpv6Details.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -257,7 +255,7 @@ class UpdateIpv6Details(object):
         """
         Sets the lifetime of this UpdateIpv6Details.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 

@@ -82,7 +82,6 @@ class CreateIPSecConnectionDetails(object):
             'static_routes': 'list[str]',
             'tunnel_configuration': 'list[CreateIPSecConnectionTunnelDetails]'
         }
-
         self.attribute_map = {
             'compartment_id': 'compartmentId',
             'cpe_id': 'cpeId',
@@ -95,7 +94,6 @@ class CreateIPSecConnectionDetails(object):
             'static_routes': 'staticRoutes',
             'tunnel_configuration': 'tunnelConfiguration'
         }
-
         self._compartment_id = None
         self._cpe_id = None
         self._defined_tags = None
@@ -373,7 +371,7 @@ class CreateIPSecConnectionDetails(object):
     @property
     def static_routes(self):
         """
-        **[Required]** Gets the static_routes of this CreateIPSecConnectionDetails.
+        Gets the static_routes of this CreateIPSecConnectionDetails.
         Static routes to the CPE. A static route's CIDR must not be a
         multicast address or class E address.
 

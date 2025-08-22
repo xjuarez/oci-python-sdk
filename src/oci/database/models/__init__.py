@@ -21,7 +21,10 @@ from .application_vip_summary import ApplicationVipSummary
 from .associated_database_details import AssociatedDatabaseDetails
 from .automated_mount_details import AutomatedMountDetails
 from .autonomous_container_database import AutonomousContainerDatabase
+from .autonomous_container_database_backup import AutonomousContainerDatabaseBackup
+from .autonomous_container_database_backup_collection import AutonomousContainerDatabaseBackupCollection
 from .autonomous_container_database_backup_config import AutonomousContainerDatabaseBackupConfig
+from .autonomous_container_database_backup_summary import AutonomousContainerDatabaseBackupSummary
 from .autonomous_container_database_dataguard import AutonomousContainerDatabaseDataguard
 from .autonomous_container_database_dataguard_association import AutonomousContainerDatabaseDataguardAssociation
 from .autonomous_container_database_resource_usage import AutonomousContainerDatabaseResourceUsage
@@ -42,6 +45,7 @@ from .autonomous_database_console_token_details import AutonomousDatabaseConsole
 from .autonomous_database_dataguard_association import AutonomousDatabaseDataguardAssociation
 from .autonomous_database_encryption_key_details import AutonomousDatabaseEncryptionKeyDetails
 from .autonomous_database_encryption_key_history_entry import AutonomousDatabaseEncryptionKeyHistoryEntry
+from .autonomous_database_in_backup import AutonomousDatabaseInBackup
 from .autonomous_database_key_history_entry import AutonomousDatabaseKeyHistoryEntry
 from .autonomous_database_manual_refresh_details import AutonomousDatabaseManualRefreshDetails
 from .autonomous_database_peer_collection import AutonomousDatabasePeerCollection
@@ -69,6 +73,7 @@ from .autonomous_vm_cluster_summary import AutonomousVmClusterSummary
 from .autonomous_vm_resource_usage import AutonomousVmResourceUsage
 from .avm_acd_resource_stats import AvmAcdResourceStats
 from .aws_key_details import AwsKeyDetails
+from .azure_encryption_key_details import AzureEncryptionKeyDetails
 from .azure_key_details import AzureKeyDetails
 from .backup import Backup
 from .backup_destination import BackupDestination
@@ -83,6 +88,7 @@ from .change_autonomous_database_software_image_compartment_details import Chang
 from .change_autonomous_database_subscription_details import ChangeAutonomousDatabaseSubscriptionDetails
 from .change_autonomous_vm_cluster_compartment_details import ChangeAutonomousVmClusterCompartmentDetails
 from .change_cloud_autonomous_vm_cluster_compartment_details import ChangeCloudAutonomousVmClusterCompartmentDetails
+from .change_cloud_autonomous_vm_cluster_subscription_details import ChangeCloudAutonomousVmClusterSubscriptionDetails
 from .change_cloud_exadata_infrastructure_compartment_details import ChangeCloudExadataInfrastructureCompartmentDetails
 from .change_cloud_exadata_infrastructure_subscription_details import ChangeCloudExadataInfrastructureSubscriptionDetails
 from .change_cloud_vm_cluster_compartment_details import ChangeCloudVmClusterCompartmentDetails
@@ -131,8 +137,10 @@ from .convert_to_pdb_target_base import ConvertToPdbTargetBase
 from .convert_to_regular_pluggable_database_details import ConvertToRegularPluggableDatabaseDetails
 from .convert_to_standalone_details import ConvertToStandaloneDetails
 from .create_application_vip_details import CreateApplicationVipDetails
+from .create_autonomous_container_database_base import CreateAutonomousContainerDatabaseBase
 from .create_autonomous_container_database_dataguard_association_details import CreateAutonomousContainerDatabaseDataguardAssociationDetails
 from .create_autonomous_container_database_details import CreateAutonomousContainerDatabaseDetails
+from .create_autonomous_container_database_from_backup_details import CreateAutonomousContainerDatabaseFromBackupDetails
 from .create_autonomous_database_backup_details import CreateAutonomousDatabaseBackupDetails
 from .create_autonomous_database_base import CreateAutonomousDatabaseBase
 from .create_autonomous_database_clone_details import CreateAutonomousDatabaseCloneDetails
@@ -195,6 +203,7 @@ from .create_pluggable_database_from_local_clone_details import CreatePluggableD
 from .create_pluggable_database_from_relocate_details import CreatePluggableDatabaseFromRelocateDetails
 from .create_pluggable_database_from_remote_clone_details import CreatePluggableDatabaseFromRemoteCloneDetails
 from .create_pluggable_database_refreshable_clone_details import CreatePluggableDatabaseRefreshableCloneDetails
+from .create_pluggable_database_snapshot_details import CreatePluggableDatabaseSnapshotDetails
 from .create_recovery_appliance_backup_destination_details import CreateRecoveryApplianceBackupDestinationDetails
 from .create_refreshable_autonomous_database_clone_details import CreateRefreshableAutonomousDatabaseCloneDetails
 from .create_scheduled_action_details import CreateScheduledActionDetails
@@ -253,6 +262,7 @@ from .db_system_storage_performance_summary import DbSystemStoragePerformanceSum
 from .db_system_summary import DbSystemSummary
 from .db_system_upgrade_history_entry import DbSystemUpgradeHistoryEntry
 from .db_system_upgrade_history_entry_summary import DbSystemUpgradeHistoryEntrySummary
+from .db_system_upgrade_summary import DbSystemUpgradeSummary
 from .db_version_summary import DbVersionSummary
 from .defined_file_system_configuration import DefinedFileSystemConfiguration
 from .deregister_autonomous_database_data_safe_details import DeregisterAutonomousDatabaseDataSafeDetails
@@ -324,6 +334,7 @@ from .generate_recommended_network_details import GenerateRecommendedNetworkDeta
 from .gi_minor_version_summary import GiMinorVersionSummary
 from .gi_version_summary import GiVersionSummary
 from .granular_maintenance_history_details import GranularMaintenanceHistoryDetails
+from .identity_connector_details import IdentityConnectorDetails
 from .info_for_network_gen_details import InfoForNetworkGenDetails
 from .infrastructure_target_version import InfrastructureTargetVersion
 from .infrastructure_target_version_summary import InfrastructureTargetVersionSummary
@@ -375,6 +386,8 @@ from .pluggable_database_connection_strings import PluggableDatabaseConnectionSt
 from .pluggable_database_management_config import PluggableDatabaseManagementConfig
 from .pluggable_database_node_level_details import PluggableDatabaseNodeLevelDetails
 from .pluggable_database_refreshable_clone_config import PluggableDatabaseRefreshableCloneConfig
+from .pluggable_database_snapshot import PluggableDatabaseSnapshot
+from .pluggable_database_snapshot_summary import PluggableDatabaseSnapshotSummary
 from .pluggable_database_summary import PluggableDatabaseSummary
 from .recommended_scheduled_action_summary import RecommendedScheduledActionSummary
 from .recommended_scheduled_actions_collection import RecommendedScheduledActionsCollection
@@ -382,6 +395,7 @@ from .recovery_appliance_details import RecoveryApplianceDetails
 from .refreshable_clone_collection import RefreshableCloneCollection
 from .refreshable_clone_summary import RefreshableCloneSummary
 from .register_autonomous_database_data_safe_details import RegisterAutonomousDatabaseDataSafeDetails
+from .register_cloud_vm_cluster_pkcs_details import RegisterCloudVmClusterPkcsDetails
 from .reinstate_data_guard_association_details import ReinstateDataGuardAssociationDetails
 from .reinstate_data_guard_details import ReinstateDataGuardDetails
 from .remote_clone_pluggable_database_details import RemoteClonePluggableDatabaseDetails
@@ -391,6 +405,8 @@ from .remove_virtual_machine_from_vm_cluster_details import RemoveVirtualMachine
 from .reorder_execution_action_details import ReorderExecutionActionDetails
 from .reorder_scheduled_actions_details import ReorderScheduledActionsDetails
 from .resize_vm_cluster_network_details import ResizeVmClusterNetworkDetails
+from .resource_pool_member_collection import ResourcePoolMemberCollection
+from .resource_pool_member_summary import ResourcePoolMemberSummary
 from .resource_pool_shape_collection import ResourcePoolShapeCollection
 from .resource_pool_shape_summary import ResourcePoolShapeSummary
 from .resource_pool_summary import ResourcePoolSummary
@@ -423,8 +439,11 @@ from .storage_performance_details import StoragePerformanceDetails
 from .switch_over_data_guard_details import SwitchOverDataGuardDetails
 from .switchover_data_guard_association_details import SwitchoverDataGuardAssociationDetails
 from .system_version_collection import SystemVersionCollection
+from .system_version_minor_version_collection import SystemVersionMinorVersionCollection
+from .system_version_minor_version_summary import SystemVersionMinorVersionSummary
 from .system_version_summary import SystemVersionSummary
 from .undelete_autonomous_database_details import UndeleteAutonomousDatabaseDetails
+from .unregister_cloud_vm_cluster_pkcs_details import UnregisterCloudVmClusterPkcsDetails
 from .update import Update
 from .update_autonomous_container_database_data_guard_association_details import UpdateAutonomousContainerDatabaseDataGuardAssociationDetails
 from .update_autonomous_container_database_details import UpdateAutonomousContainerDatabaseDetails
@@ -505,7 +524,10 @@ database_type_mapping = {
     "AssociatedDatabaseDetails": AssociatedDatabaseDetails,
     "AutomatedMountDetails": AutomatedMountDetails,
     "AutonomousContainerDatabase": AutonomousContainerDatabase,
+    "AutonomousContainerDatabaseBackup": AutonomousContainerDatabaseBackup,
+    "AutonomousContainerDatabaseBackupCollection": AutonomousContainerDatabaseBackupCollection,
     "AutonomousContainerDatabaseBackupConfig": AutonomousContainerDatabaseBackupConfig,
+    "AutonomousContainerDatabaseBackupSummary": AutonomousContainerDatabaseBackupSummary,
     "AutonomousContainerDatabaseDataguard": AutonomousContainerDatabaseDataguard,
     "AutonomousContainerDatabaseDataguardAssociation": AutonomousContainerDatabaseDataguardAssociation,
     "AutonomousContainerDatabaseResourceUsage": AutonomousContainerDatabaseResourceUsage,
@@ -526,6 +548,7 @@ database_type_mapping = {
     "AutonomousDatabaseDataguardAssociation": AutonomousDatabaseDataguardAssociation,
     "AutonomousDatabaseEncryptionKeyDetails": AutonomousDatabaseEncryptionKeyDetails,
     "AutonomousDatabaseEncryptionKeyHistoryEntry": AutonomousDatabaseEncryptionKeyHistoryEntry,
+    "AutonomousDatabaseInBackup": AutonomousDatabaseInBackup,
     "AutonomousDatabaseKeyHistoryEntry": AutonomousDatabaseKeyHistoryEntry,
     "AutonomousDatabaseManualRefreshDetails": AutonomousDatabaseManualRefreshDetails,
     "AutonomousDatabasePeerCollection": AutonomousDatabasePeerCollection,
@@ -553,6 +576,7 @@ database_type_mapping = {
     "AutonomousVmResourceUsage": AutonomousVmResourceUsage,
     "AvmAcdResourceStats": AvmAcdResourceStats,
     "AwsKeyDetails": AwsKeyDetails,
+    "AzureEncryptionKeyDetails": AzureEncryptionKeyDetails,
     "AzureKeyDetails": AzureKeyDetails,
     "Backup": Backup,
     "BackupDestination": BackupDestination,
@@ -567,6 +591,7 @@ database_type_mapping = {
     "ChangeAutonomousDatabaseSubscriptionDetails": ChangeAutonomousDatabaseSubscriptionDetails,
     "ChangeAutonomousVmClusterCompartmentDetails": ChangeAutonomousVmClusterCompartmentDetails,
     "ChangeCloudAutonomousVmClusterCompartmentDetails": ChangeCloudAutonomousVmClusterCompartmentDetails,
+    "ChangeCloudAutonomousVmClusterSubscriptionDetails": ChangeCloudAutonomousVmClusterSubscriptionDetails,
     "ChangeCloudExadataInfrastructureCompartmentDetails": ChangeCloudExadataInfrastructureCompartmentDetails,
     "ChangeCloudExadataInfrastructureSubscriptionDetails": ChangeCloudExadataInfrastructureSubscriptionDetails,
     "ChangeCloudVmClusterCompartmentDetails": ChangeCloudVmClusterCompartmentDetails,
@@ -615,8 +640,10 @@ database_type_mapping = {
     "ConvertToRegularPluggableDatabaseDetails": ConvertToRegularPluggableDatabaseDetails,
     "ConvertToStandaloneDetails": ConvertToStandaloneDetails,
     "CreateApplicationVipDetails": CreateApplicationVipDetails,
+    "CreateAutonomousContainerDatabaseBase": CreateAutonomousContainerDatabaseBase,
     "CreateAutonomousContainerDatabaseDataguardAssociationDetails": CreateAutonomousContainerDatabaseDataguardAssociationDetails,
     "CreateAutonomousContainerDatabaseDetails": CreateAutonomousContainerDatabaseDetails,
+    "CreateAutonomousContainerDatabaseFromBackupDetails": CreateAutonomousContainerDatabaseFromBackupDetails,
     "CreateAutonomousDatabaseBackupDetails": CreateAutonomousDatabaseBackupDetails,
     "CreateAutonomousDatabaseBase": CreateAutonomousDatabaseBase,
     "CreateAutonomousDatabaseCloneDetails": CreateAutonomousDatabaseCloneDetails,
@@ -679,6 +706,7 @@ database_type_mapping = {
     "CreatePluggableDatabaseFromRelocateDetails": CreatePluggableDatabaseFromRelocateDetails,
     "CreatePluggableDatabaseFromRemoteCloneDetails": CreatePluggableDatabaseFromRemoteCloneDetails,
     "CreatePluggableDatabaseRefreshableCloneDetails": CreatePluggableDatabaseRefreshableCloneDetails,
+    "CreatePluggableDatabaseSnapshotDetails": CreatePluggableDatabaseSnapshotDetails,
     "CreateRecoveryApplianceBackupDestinationDetails": CreateRecoveryApplianceBackupDestinationDetails,
     "CreateRefreshableAutonomousDatabaseCloneDetails": CreateRefreshableAutonomousDatabaseCloneDetails,
     "CreateScheduledActionDetails": CreateScheduledActionDetails,
@@ -737,6 +765,7 @@ database_type_mapping = {
     "DbSystemSummary": DbSystemSummary,
     "DbSystemUpgradeHistoryEntry": DbSystemUpgradeHistoryEntry,
     "DbSystemUpgradeHistoryEntrySummary": DbSystemUpgradeHistoryEntrySummary,
+    "DbSystemUpgradeSummary": DbSystemUpgradeSummary,
     "DbVersionSummary": DbVersionSummary,
     "DefinedFileSystemConfiguration": DefinedFileSystemConfiguration,
     "DeregisterAutonomousDatabaseDataSafeDetails": DeregisterAutonomousDatabaseDataSafeDetails,
@@ -808,6 +837,7 @@ database_type_mapping = {
     "GiMinorVersionSummary": GiMinorVersionSummary,
     "GiVersionSummary": GiVersionSummary,
     "GranularMaintenanceHistoryDetails": GranularMaintenanceHistoryDetails,
+    "IdentityConnectorDetails": IdentityConnectorDetails,
     "InfoForNetworkGenDetails": InfoForNetworkGenDetails,
     "InfrastructureTargetVersion": InfrastructureTargetVersion,
     "InfrastructureTargetVersionSummary": InfrastructureTargetVersionSummary,
@@ -859,6 +889,8 @@ database_type_mapping = {
     "PluggableDatabaseManagementConfig": PluggableDatabaseManagementConfig,
     "PluggableDatabaseNodeLevelDetails": PluggableDatabaseNodeLevelDetails,
     "PluggableDatabaseRefreshableCloneConfig": PluggableDatabaseRefreshableCloneConfig,
+    "PluggableDatabaseSnapshot": PluggableDatabaseSnapshot,
+    "PluggableDatabaseSnapshotSummary": PluggableDatabaseSnapshotSummary,
     "PluggableDatabaseSummary": PluggableDatabaseSummary,
     "RecommendedScheduledActionSummary": RecommendedScheduledActionSummary,
     "RecommendedScheduledActionsCollection": RecommendedScheduledActionsCollection,
@@ -866,6 +898,7 @@ database_type_mapping = {
     "RefreshableCloneCollection": RefreshableCloneCollection,
     "RefreshableCloneSummary": RefreshableCloneSummary,
     "RegisterAutonomousDatabaseDataSafeDetails": RegisterAutonomousDatabaseDataSafeDetails,
+    "RegisterCloudVmClusterPkcsDetails": RegisterCloudVmClusterPkcsDetails,
     "ReinstateDataGuardAssociationDetails": ReinstateDataGuardAssociationDetails,
     "ReinstateDataGuardDetails": ReinstateDataGuardDetails,
     "RemoteClonePluggableDatabaseDetails": RemoteClonePluggableDatabaseDetails,
@@ -875,6 +908,8 @@ database_type_mapping = {
     "ReorderExecutionActionDetails": ReorderExecutionActionDetails,
     "ReorderScheduledActionsDetails": ReorderScheduledActionsDetails,
     "ResizeVmClusterNetworkDetails": ResizeVmClusterNetworkDetails,
+    "ResourcePoolMemberCollection": ResourcePoolMemberCollection,
+    "ResourcePoolMemberSummary": ResourcePoolMemberSummary,
     "ResourcePoolShapeCollection": ResourcePoolShapeCollection,
     "ResourcePoolShapeSummary": ResourcePoolShapeSummary,
     "ResourcePoolSummary": ResourcePoolSummary,
@@ -907,8 +942,11 @@ database_type_mapping = {
     "SwitchOverDataGuardDetails": SwitchOverDataGuardDetails,
     "SwitchoverDataGuardAssociationDetails": SwitchoverDataGuardAssociationDetails,
     "SystemVersionCollection": SystemVersionCollection,
+    "SystemVersionMinorVersionCollection": SystemVersionMinorVersionCollection,
+    "SystemVersionMinorVersionSummary": SystemVersionMinorVersionSummary,
     "SystemVersionSummary": SystemVersionSummary,
     "UndeleteAutonomousDatabaseDetails": UndeleteAutonomousDatabaseDetails,
+    "UnregisterCloudVmClusterPkcsDetails": UnregisterCloudVmClusterPkcsDetails,
     "Update": Update,
     "UpdateAutonomousContainerDatabaseDataGuardAssociationDetails": UpdateAutonomousContainerDatabaseDataGuardAssociationDetails,
     "UpdateAutonomousContainerDatabaseDetails": UpdateAutonomousContainerDatabaseDetails,

@@ -85,6 +85,10 @@ class Ipv6(object):
             The value to assign to the ip_address property of this Ipv6.
         :type ip_address: str
 
+        :param cidr_prefix_length:
+            The value to assign to the cidr_prefix_length property of this Ipv6.
+        :type cidr_prefix_length: int
+
         :param lifecycle_state:
             The value to assign to the lifecycle_state property of this Ipv6.
             Allowed values for this property are: "PROVISIONING", "AVAILABLE", "TERMINATING", "TERMINATED", 'UNKNOWN_ENUM_VALUE'.
@@ -127,6 +131,7 @@ class Ipv6(object):
             'freeform_tags': 'dict(str, str)',
             'id': 'str',
             'ip_address': 'str',
+            'cidr_prefix_length': 'int',
             'lifecycle_state': 'str',
             'subnet_id': 'str',
             'time_created': 'datetime',
@@ -135,7 +140,6 @@ class Ipv6(object):
             'lifetime': 'str',
             'route_table_id': 'str'
         }
-
         self.attribute_map = {
             'compartment_id': 'compartmentId',
             'defined_tags': 'definedTags',
@@ -143,6 +147,7 @@ class Ipv6(object):
             'freeform_tags': 'freeformTags',
             'id': 'id',
             'ip_address': 'ipAddress',
+            'cidr_prefix_length': 'cidrPrefixLength',
             'lifecycle_state': 'lifecycleState',
             'subnet_id': 'subnetId',
             'time_created': 'timeCreated',
@@ -151,13 +156,13 @@ class Ipv6(object):
             'lifetime': 'lifetime',
             'route_table_id': 'routeTableId'
         }
-
         self._compartment_id = None
         self._defined_tags = None
         self._display_name = None
         self._freeform_tags = None
         self._id = None
         self._ip_address = None
+        self._cidr_prefix_length = None
         self._lifecycle_state = None
         self._subnet_id = None
         self._time_created = None
@@ -349,6 +354,30 @@ class Ipv6(object):
         self._ip_address = ip_address
 
     @property
+    def cidr_prefix_length(self):
+        """
+        Gets the cidr_prefix_length of this Ipv6.
+        Length of cidr range. Optional field to specify flexible cidr.
+
+
+        :return: The cidr_prefix_length of this Ipv6.
+        :rtype: int
+        """
+        return self._cidr_prefix_length
+
+    @cidr_prefix_length.setter
+    def cidr_prefix_length(self, cidr_prefix_length):
+        """
+        Sets the cidr_prefix_length of this Ipv6.
+        Length of cidr range. Optional field to specify flexible cidr.
+
+
+        :param cidr_prefix_length: The cidr_prefix_length of this Ipv6.
+        :type: int
+        """
+        self._cidr_prefix_length = cidr_prefix_length
+
+    @property
     def lifecycle_state(self):
         """
         **[Required]** Gets the lifecycle_state of this Ipv6.
@@ -503,7 +532,7 @@ class Ipv6(object):
         """
         Gets the lifetime of this Ipv6.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -521,7 +550,7 @@ class Ipv6(object):
         """
         Sets the lifetime of this Ipv6.
         Lifetime of the IP address.
-        There are two types of IPv6 IPs:
+        There are two types of IPs:
          - Ephemeral
          - Reserved
 
@@ -539,7 +568,7 @@ class Ipv6(object):
         """
         Gets the route_table_id of this Ipv6.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing
@@ -555,7 +584,7 @@ class Ipv6(object):
         """
         Sets the route_table_id of this Ipv6.
         The `OCID`__ of the route table the IP address or VNIC will use. For more information, see
-        `Source Based Routing`__.
+        `Per-resource Routing`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
         __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing

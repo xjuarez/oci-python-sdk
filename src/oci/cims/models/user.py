@@ -99,7 +99,6 @@ class User(object):
             'contact_email': 'str',
             'problem_type': 'str'
         }
-
         self.attribute_map = {
             'key': 'key',
             'first_name': 'firstName',
@@ -113,7 +112,6 @@ class User(object):
             'contact_email': 'contactEmail',
             'problem_type': 'problemType'
         }
-
         self._key = None
         self._first_name = None
         self._last_name = None
@@ -370,12 +368,12 @@ class User(object):
     def problem_type(self):
         """
         Gets the problem_type of this User.
-        The kind of support ticket (type of support request).
-        For information about `ACCOUNT` support tickets, see
+        The kind of support request (type of support request).
+        For information about `ACCOUNT` support requests, see
         `Creating a Billing Support Request`__.
-        For information about `LIMIT` support tickets, see
+        For information about `LIMIT` support requests, see
         `Creating a Service Limit Increase Request`__.
-        For information about `TECH` support tickets, see
+        For information about `TECH` support requests, see
         `Creating a Technical Support Request`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm
@@ -394,12 +392,12 @@ class User(object):
     def problem_type(self, problem_type):
         """
         Sets the problem_type of this User.
-        The kind of support ticket (type of support request).
-        For information about `ACCOUNT` support tickets, see
+        The kind of support request (type of support request).
+        For information about `ACCOUNT` support requests, see
         `Creating a Billing Support Request`__.
-        For information about `LIMIT` support tickets, see
+        For information about `LIMIT` support requests, see
         `Creating a Service Limit Increase Request`__.
-        For information about `TECH` support tickets, see
+        For information about `TECH` support requests, see
         `Creating a Technical Support Request`__.
 
         __ https://docs.cloud.oracle.com/iaas/Content/GSG/support/create-incident-billing.htm

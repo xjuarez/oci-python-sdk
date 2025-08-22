@@ -67,7 +67,7 @@ class GeneralProcessorConfig(ProcessorConfig):
 
         :param processor_type:
             The value to assign to the processor_type property of this GeneralProcessorConfig.
-            Allowed values for this property are: "GENERAL", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "GENERAL", "INVOICE", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type processor_type: str
 
@@ -97,7 +97,6 @@ class GeneralProcessorConfig(ProcessorConfig):
             'is_zip_output_enabled': 'bool',
             'language': 'str'
         }
-
         self.attribute_map = {
             'processor_type': 'processorType',
             'document_type': 'documentType',
@@ -105,7 +104,6 @@ class GeneralProcessorConfig(ProcessorConfig):
             'is_zip_output_enabled': 'isZipOutputEnabled',
             'language': 'language'
         }
-
         self._processor_type = None
         self._document_type = None
         self._features = None

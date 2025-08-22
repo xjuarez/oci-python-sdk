@@ -49,7 +49,7 @@ class EmManagedExternalExadataInsightSummary(ExadataInsightSummary):
 
         :param exadata_rack_type:
             The value to assign to the exadata_rack_type property of this EmManagedExternalExadataInsightSummary.
-            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE"
+            Allowed values for this property are: "FULL", "HALF", "QUARTER", "EIGHTH", "FLEX", "BASE", "ELASTIC", "ELASTIC_BASE", "ELASTIC_LARGE", "ELASTIC_EXTRA_LARGE"
         :type exadata_rack_type: str
 
         :param freeform_tags:
@@ -134,7 +134,6 @@ class EmManagedExternalExadataInsightSummary(ExadataInsightSummary):
             'enterprise_manager_entity_display_name': 'str',
             'enterprise_manager_bridge_id': 'str'
         }
-
         self.attribute_map = {
             'entity_source': 'entitySource',
             'id': 'id',
@@ -158,7 +157,6 @@ class EmManagedExternalExadataInsightSummary(ExadataInsightSummary):
             'enterprise_manager_entity_display_name': 'enterpriseManagerEntityDisplayName',
             'enterprise_manager_bridge_id': 'enterpriseManagerBridgeId'
         }
-
         self._entity_source = None
         self._id = None
         self._compartment_id = None
