@@ -28,6 +28,7 @@ Certificates Management
     oci.certificates_management.models.CertificateAuthority
     oci.certificates_management.models.CertificateAuthorityCollection
     oci.certificates_management.models.CertificateAuthorityIssuanceExpiryRule
+    oci.certificates_management.models.CertificateAuthorityIssuanceRule
     oci.certificates_management.models.CertificateAuthorityRule
     oci.certificates_management.models.CertificateAuthoritySummary
     oci.certificates_management.models.CertificateAuthorityVersion
@@ -55,7 +56,11 @@ Certificates Management
     oci.certificates_management.models.CreateCertificateIssuedByInternalCaConfigDetails
     oci.certificates_management.models.CreateCertificateManagedExternallyIssuedByInternalCaConfigDetails
     oci.certificates_management.models.CreateRootCaByGeneratingInternallyConfigDetails
+    oci.certificates_management.models.CreateRootCaManagedExternallyConfigDetails
     oci.certificates_management.models.CreateSubordinateCaIssuedByInternalCaConfigDetails
+    oci.certificates_management.models.CreateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails
+    oci.certificates_management.models.NameConstraint
+    oci.certificates_management.models.NameConstraintSubtreeNode
     oci.certificates_management.models.ObjectStorageBucketConfigDetails
     oci.certificates_management.models.RevocationStatus
     oci.certificates_management.models.RevokeCertificateAuthorityVersionDetails
@@ -65,13 +70,18 @@ Certificates Management
     oci.certificates_management.models.ScheduleCertificateDeletionDetails
     oci.certificates_management.models.ScheduleCertificateVersionDeletionDetails
     oci.certificates_management.models.UpdateCaBundleDetails
+    oci.certificates_management.models.UpdateCertificateAuthorityActionDetails
+    oci.certificates_management.models.UpdateCertificateAuthorityCertificateDetails
     oci.certificates_management.models.UpdateCertificateAuthorityConfigDetails
     oci.certificates_management.models.UpdateCertificateAuthorityDetails
+    oci.certificates_management.models.UpdateCertificateAuthorityGenerateCsrDetails
     oci.certificates_management.models.UpdateCertificateByImportingConfigDetails
     oci.certificates_management.models.UpdateCertificateConfigDetails
     oci.certificates_management.models.UpdateCertificateDetails
     oci.certificates_management.models.UpdateCertificateIssuedByInternalCaConfigDetails
     oci.certificates_management.models.UpdateCertificateManagedExternallyIssuedByInternalCaConfigDetails
     oci.certificates_management.models.UpdateRootCaByGeneratingInternallyConfigDetails
+    oci.certificates_management.models.UpdateRootCaManagedExternallyConfigDetails
     oci.certificates_management.models.UpdateSubordinateCaIssuedByInternalCaConfigDetails
+    oci.certificates_management.models.UpdateSubordinateCaManagedInternallyIssuedByExternalCaConfigDetails
     oci.certificates_management.models.Validity

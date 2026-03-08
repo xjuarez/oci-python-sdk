@@ -35,15 +35,19 @@ Mysql
     oci.mysql.models.Backup
     oci.mysql.models.BackupPolicy
     oci.mysql.models.BackupSummary
+    oci.mysql.models.BackupValidationDetails
     oci.mysql.models.CaCertificate
     oci.mysql.models.ChangeBackupCompartmentDetails
     oci.mysql.models.Channel
     oci.mysql.models.ChannelFilter
     oci.mysql.models.ChannelSource
     oci.mysql.models.ChannelSourceMysql
+    oci.mysql.models.ChannelStatus
+    oci.mysql.models.ChannelStatusResult
     oci.mysql.models.ChannelSummary
     oci.mysql.models.ChannelTarget
     oci.mysql.models.ChannelTargetDbSystem
+    oci.mysql.models.CompressionOptions
     oci.mysql.models.Configuration
     oci.mysql.models.ConfigurationSummary
     oci.mysql.models.ConfigurationVariables
@@ -57,6 +61,7 @@ Mysql
     oci.mysql.models.CreateChannelTargetDetails
     oci.mysql.models.CreateChannelTargetFromDbSystemDetails
     oci.mysql.models.CreateConfigurationDetails
+    oci.mysql.models.CreateDatabaseConsoleDetails
     oci.mysql.models.CreateDbSystemDetails
     oci.mysql.models.CreateDbSystemSourceDetails
     oci.mysql.models.CreateDbSystemSourceFromBackupDetails
@@ -68,9 +73,11 @@ Mysql
     oci.mysql.models.CreateReadEndpointDetails
     oci.mysql.models.CreateReplicaDetails
     oci.mysql.models.CreateRestDetails
+    oci.mysql.models.CreateTelemetryConfigurationDetails
     oci.mysql.models.CustomerContact
     oci.mysql.models.DataStorage
     oci.mysql.models.DataStorageDetails
+    oci.mysql.models.DatabaseConsoleDetails
     oci.mysql.models.DbSystem
     oci.mysql.models.DbSystemEndpoint
     oci.mysql.models.DbSystemPlacement
@@ -81,10 +88,16 @@ Mysql
     oci.mysql.models.DbSystemSourceFromNone
     oci.mysql.models.DbSystemSourceFromPitr
     oci.mysql.models.DbSystemSourceImportFromUrl
+    oci.mysql.models.DbSystemStatus
+    oci.mysql.models.DbSystemStatusResult
     oci.mysql.models.DbSystemSummary
     oci.mysql.models.DeletionPolicyDetails
+    oci.mysql.models.DestinationConfiguration
     oci.mysql.models.EncryptDataDetails
     oci.mysql.models.ErrorOnAnonymousHandling
+    oci.mysql.models.ExportBackupDetails
+    oci.mysql.models.ExportOptions
+    oci.mysql.models.GenerateDbSystemStatusDetails
     oci.mysql.models.HeatWaveCluster
     oci.mysql.models.HeatWaveClusterMemoryEstimate
     oci.mysql.models.HeatWaveClusterSchemaMemoryEstimate
@@ -92,10 +105,15 @@ Mysql
     oci.mysql.models.HeatWaveClusterTableMemoryEstimate
     oci.mysql.models.HeatWaveNode
     oci.mysql.models.InitializationVariables
+    oci.mysql.models.LoggingDestinationConfiguration
     oci.mysql.models.MaintenanceDetails
+    oci.mysql.models.MaintenanceDisabledWindow
+    oci.mysql.models.MaintenanceEvent
+    oci.mysql.models.Option
     oci.mysql.models.PemCaCertificate
     oci.mysql.models.PitrPolicy
     oci.mysql.models.PointInTimeRecoveryDetails
+    oci.mysql.models.PreparedBackupDetails
     oci.mysql.models.ReadEndpointDetails
     oci.mysql.models.Replica
     oci.mysql.models.ReplicaOverrides
@@ -105,6 +123,7 @@ Mysql
     oci.mysql.models.SecureConnectionDetails
     oci.mysql.models.ShapeSummary
     oci.mysql.models.StopDbSystemDetails
+    oci.mysql.models.TelemetryConfigurationDetails
     oci.mysql.models.UpdateBackupDetails
     oci.mysql.models.UpdateBackupPolicyDetails
     oci.mysql.models.UpdateChannelDetails
@@ -113,6 +132,7 @@ Mysql
     oci.mysql.models.UpdateChannelTargetDetails
     oci.mysql.models.UpdateChannelTargetFromDbSystemDetails
     oci.mysql.models.UpdateConfigurationDetails
+    oci.mysql.models.UpdateDatabaseConsoleDetails
     oci.mysql.models.UpdateDbSystemDetails
     oci.mysql.models.UpdateDeletionPolicyDetails
     oci.mysql.models.UpdateHeatWaveClusterDetails
@@ -120,6 +140,8 @@ Mysql
     oci.mysql.models.UpdateReadEndpointDetails
     oci.mysql.models.UpdateReplicaDetails
     oci.mysql.models.UpdateRestDetails
+    oci.mysql.models.UpdateTelemetryConfigurationDetails
+    oci.mysql.models.ValidateBackupDetails
     oci.mysql.models.Version
     oci.mysql.models.VersionSummary
     oci.mysql.models.WorkRequest

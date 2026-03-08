@@ -1,0 +1,11 @@
+CreateCostAnomalyMonitorDetails
+===============================
+
+.. currentmodule:: oci.budget.models
+
+.. autoclass:: CreateCostAnomalyMonitorDetails
+    :show-inheritance:
+    :special-members: __init__
+    :members:
+    :undoc-members:
+    :inherited-members:

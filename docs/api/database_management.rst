@@ -87,6 +87,7 @@ Database Management
     oci.database_management.models.BasicDatabaseConnectionStringDetails
     oci.database_management.models.BasicNamedCredentialContent
     oci.database_management.models.BasicPreferredCredential
+    oci.database_management.models.ChangeCloudExadataInfrastructureCompartmentDetails
     oci.database_management.models.ChangeDatabaseParameterDetails
     oci.database_management.models.ChangeDatabaseParametersDetails
     oci.database_management.models.ChangeDbManagementPrivateEndpointCompartmentDetails
@@ -153,6 +154,20 @@ Database Management
     oci.database_management.models.CloudDbSystemMacsConnector
     oci.database_management.models.CloudDbSystemStackMonitoringConfigDetails
     oci.database_management.models.CloudDbSystemSummary
+    oci.database_management.models.CloudExadataInfrastructure
+    oci.database_management.models.CloudExadataInfrastructureCollection
+    oci.database_management.models.CloudExadataInfrastructureDiscovery
+    oci.database_management.models.CloudExadataInfrastructureSummary
+    oci.database_management.models.CloudExadataStorageConnector
+    oci.database_management.models.CloudExadataStorageConnectorCollection
+    oci.database_management.models.CloudExadataStorageConnectorStatus
+    oci.database_management.models.CloudExadataStorageConnectorSummary
+    oci.database_management.models.CloudExadataStorageGrid
+    oci.database_management.models.CloudExadataStorageGridSummary
+    oci.database_management.models.CloudExadataStorageServer
+    oci.database_management.models.CloudExadataStorageServerCollection
+    oci.database_management.models.CloudExadataStorageServerSummary
+    oci.database_management.models.CloudIormPlan
     oci.database_management.models.CloudListener
     oci.database_management.models.CloudListenerCollection
     oci.database_management.models.CloudListenerEndpoint
@@ -163,6 +178,7 @@ Database Management
     oci.database_management.models.CloudListenerSummary
     oci.database_management.models.CloudListenerTcpEndpoint
     oci.database_management.models.CloudListenerTcpsEndpoint
+    oci.database_management.models.CloudOpenAlertHistory
     oci.database_management.models.CloudServicedAsm
     oci.database_management.models.CloudServicedDatabase
     oci.database_management.models.ClusterCacheMetric
@@ -176,6 +192,8 @@ Database Management
     oci.database_management.models.CreateCloudDbSystemDetails
     oci.database_management.models.CreateCloudDbSystemDiscoveryDetails
     oci.database_management.models.CreateCloudDbSystemMacsConnectorDetails
+    oci.database_management.models.CreateCloudExadataInfrastructureDetails
+    oci.database_management.models.CreateCloudExadataStorageConnectorDetails
     oci.database_management.models.CreateDbManagementPrivateEndpointDetails
     oci.database_management.models.CreateExternalDbSystemConnectorDetails
     oci.database_management.models.CreateExternalDbSystemDetails
@@ -258,6 +276,7 @@ Database Management
     oci.database_management.models.DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskDetails
     oci.database_management.models.DisablePluggableDatabaseManagementFeatureDetails
     oci.database_management.models.DisableSqlPlanBaselinesUsageDetails
+    oci.database_management.models.DiscoverCloudExadataInfrastructureDetails
     oci.database_management.models.DiscoverExternalExadataInfrastructureDetails
     oci.database_management.models.DiscoveredCloudAsm
     oci.database_management.models.DiscoveredCloudAsmInstance
@@ -291,6 +310,7 @@ Database Management
     oci.database_management.models.EnableAutonomousDatabaseManagementFeatureDetails
     oci.database_management.models.EnableCloudDbSystemDatabaseManagementDetails
     oci.database_management.models.EnableCloudDbSystemStackMonitoringDetails
+    oci.database_management.models.EnableCloudExadataInfrastructureManagementDetails
     oci.database_management.models.EnableDatabaseManagementFeatureDetails
     oci.database_management.models.EnableExternalContainerDatabaseManagementFeatureDetails
     oci.database_management.models.EnableExternalDatabaseManagementDetails
@@ -303,7 +323,16 @@ Database Management
     oci.database_management.models.EnablePluggableDatabaseManagementFeatureDetails
     oci.database_management.models.EnableSqlPlanBaselinesUsageDetails
     oci.database_management.models.EntityDiscovered
+    oci.database_management.models.ExadataFleetMetricDefinition
+    oci.database_management.models.ExadataFleetMetricSummaryDefinition
+    oci.database_management.models.ExadataInfrastructureDiscoverySummary
+    oci.database_management.models.ExadataInfrastructureFleetHealthMetrics
+    oci.database_management.models.ExadataInfrastructureFleetStatusByCategory
+    oci.database_management.models.ExadataInfrastructureFleetSummary
     oci.database_management.models.ExadataInfrastructureLifecycleStateValues
+    oci.database_management.models.ExadataInfrastructureUsageMetrics
+    oci.database_management.models.ExadataMetricDimensionDefinition
+    oci.database_management.models.ExadataVmClusterSummary
     oci.database_management.models.ExecutionPlanStatsComparision
     oci.database_management.models.ExternalAsm
     oci.database_management.models.ExternalAsmCollection
@@ -601,6 +630,8 @@ Database Management
     oci.database_management.models.StandByDatabaseDataguardMetrics
     oci.database_management.models.StartSqlTuningTaskDetails
     oci.database_management.models.StatementsAggregateMetrics
+    oci.database_management.models.StorageGridDiscoverySummary
+    oci.database_management.models.StorageServerDiscoverySummary
     oci.database_management.models.SystemPrivilegeCollection
     oci.database_management.models.SystemPrivilegeSummary
     oci.database_management.models.TableStatisticSummary
@@ -633,6 +664,10 @@ Database Management
     oci.database_management.models.UpdateCloudDbSystemDetails
     oci.database_management.models.UpdateCloudDbSystemDiscoveryDetails
     oci.database_management.models.UpdateCloudDbSystemMacsConnectorDetails
+    oci.database_management.models.UpdateCloudExadataInfrastructureDetails
+    oci.database_management.models.UpdateCloudExadataStorageConnectorDetails
+    oci.database_management.models.UpdateCloudExadataStorageGridDetails
+    oci.database_management.models.UpdateCloudExadataStorageServerDetails
     oci.database_management.models.UpdateCloudListenerDetails
     oci.database_management.models.UpdateDatabaseParametersResult
     oci.database_management.models.UpdateDbManagementPrivateEndpointDetails
@@ -665,6 +700,7 @@ Database Management
     oci.database_management.models.User
     oci.database_management.models.UserCollection
     oci.database_management.models.UserSummary
+    oci.database_management.models.VMClusterDiscoverySummary
     oci.database_management.models.ValidateBasicFilterDetails
     oci.database_management.models.WorkRequest
     oci.database_management.models.WorkRequestCollection

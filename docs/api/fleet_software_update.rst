@@ -29,6 +29,7 @@ Fleet Software Update
     oci.fleet_software_update.models.ChangeFsuCollectionCompartmentDetails
     oci.fleet_software_update.models.ChangeFsuCycleCompartmentDetails
     oci.fleet_software_update.models.ChangeFsuDiscoveryCompartmentDetails
+    oci.fleet_software_update.models.ChangeFsuReadinessCheckCompartmentDetails
     oci.fleet_software_update.models.CleanupAction
     oci.fleet_software_update.models.CleanupActionSummary
     oci.fleet_software_update.models.CleanupFsuJob
@@ -39,12 +40,17 @@ Fleet Software Update
     oci.fleet_software_update.models.CreateBatchingStrategyDetails
     oci.fleet_software_update.models.CreateCleanupActionDetails
     oci.fleet_software_update.models.CreateDbFsuCollectionDetails
+    oci.fleet_software_update.models.CreateExadbStackFsuCollectionDetails
     oci.fleet_software_update.models.CreateFiftyFiftyBatchingStrategyDetails
     oci.fleet_software_update.models.CreateFsuActionDetails
     oci.fleet_software_update.models.CreateFsuCollectionDetails
     oci.fleet_software_update.models.CreateFsuCycleDetails
     oci.fleet_software_update.models.CreateFsuDiscoveryDetails
+    oci.fleet_software_update.models.CreateFsuReadinessCheckDetails
     oci.fleet_software_update.models.CreateGiFsuCollectionDetails
+    oci.fleet_software_update.models.CreateGiSoftwareComponentDetails
+    oci.fleet_software_update.models.CreateGuestOsFsuCollectionDetails
+    oci.fleet_software_update.models.CreateGuestOsSoftwareComponentDetails
     oci.fleet_software_update.models.CreateNonRollingBatchingStrategyDetails
     oci.fleet_software_update.models.CreatePatchFsuCycle
     oci.fleet_software_update.models.CreatePrecheckActionDetails
@@ -53,9 +59,12 @@ Fleet Software Update
     oci.fleet_software_update.models.CreateScheduleDetails
     oci.fleet_software_update.models.CreateSequentialBatchingStrategyDetails
     oci.fleet_software_update.models.CreateServiceAvailabilityFactorBatchingStrategyDetails
+    oci.fleet_software_update.models.CreateSoftwareComponentDetails
     oci.fleet_software_update.models.CreateStageActionDetails
     oci.fleet_software_update.models.CreateStartTimeScheduleDetails
+    oci.fleet_software_update.models.CreateTargetFsuReadinessCheckDetails
     oci.fleet_software_update.models.CreateUpgradeFsuCycle
+    oci.fleet_software_update.models.CustomGiGoalVersionDetails
     oci.fleet_software_update.models.DatabaseTargetSummary
     oci.fleet_software_update.models.DbCollection
     oci.fleet_software_update.models.DbCompartmentIdFilter
@@ -78,6 +87,11 @@ Fleet Software Update
     oci.fleet_software_update.models.DiagnosticsCollectionDetails
     oci.fleet_software_update.models.DiscoveryDetails
     oci.fleet_software_update.models.DiscoveryDetailsSummary
+    oci.fleet_software_update.models.ExadbStackCollection
+    oci.fleet_software_update.models.ExadbStackDiscoveryDetails
+    oci.fleet_software_update.models.ExadbStackFsuCollectionSummary
+    oci.fleet_software_update.models.ExadbStackFsuGoalVersionDetails
+    oci.fleet_software_update.models.ExadbVmClusterTargetSummary
     oci.fleet_software_update.models.FailedJobsRollbackDetails
     oci.fleet_software_update.models.FiftyFiftyBatchingStrategyDetails
     oci.fleet_software_update.models.FreeformTagFilterEntry
@@ -101,6 +115,9 @@ Fleet Software Update
     oci.fleet_software_update.models.FsuJobOutputSummary
     oci.fleet_software_update.models.FsuJobOutputSummaryCollection
     oci.fleet_software_update.models.FsuJobSummary
+    oci.fleet_software_update.models.FsuReadinessCheck
+    oci.fleet_software_update.models.FsuReadinessCheckCollection
+    oci.fleet_software_update.models.FsuReadinessCheckSummary
     oci.fleet_software_update.models.GiCollection
     oci.fleet_software_update.models.GiCompartmentIdFilter
     oci.fleet_software_update.models.GiDefinedTagsFilter
@@ -111,23 +128,54 @@ Fleet Software Update
     oci.fleet_software_update.models.GiFleetDiscoveryFilter
     oci.fleet_software_update.models.GiFreeformTagsFilter
     oci.fleet_software_update.models.GiFsuCollectionSummary
+    oci.fleet_software_update.models.GiGoalSoftwareComponentDetails
+    oci.fleet_software_update.models.GiGoalVersionDetails
     oci.fleet_software_update.models.GiResourceIdFilter
     oci.fleet_software_update.models.GiSearchQueryDiscovery
+    oci.fleet_software_update.models.GiSoftwareComponentDetails
+    oci.fleet_software_update.models.GiSoftwareComponentDiscoveryDetails
+    oci.fleet_software_update.models.GiSoftwareComponentSummary
     oci.fleet_software_update.models.GiTargetListDiscovery
     oci.fleet_software_update.models.GiVersionFilter
+    oci.fleet_software_update.models.GoalSoftwareComponentDetails
+    oci.fleet_software_update.models.GuestOsCollection
+    oci.fleet_software_update.models.GuestOsCompartmentIdFilter
+    oci.fleet_software_update.models.GuestOsDefinedTagsFilter
+    oci.fleet_software_update.models.GuestOsDiscoveryDetails
+    oci.fleet_software_update.models.GuestOsDiscoveryResults
+    oci.fleet_software_update.models.GuestOsExadataReleaseVersionFilter
+    oci.fleet_software_update.models.GuestOsFiltersDiscovery
+    oci.fleet_software_update.models.GuestOsFleetDiscoveryDetails
+    oci.fleet_software_update.models.GuestOsFleetDiscoveryFilter
+    oci.fleet_software_update.models.GuestOsFreeformTagsFilter
+    oci.fleet_software_update.models.GuestOsFsuCollectionSummary
+    oci.fleet_software_update.models.GuestOsGoalSoftwareComponentDetails
+    oci.fleet_software_update.models.GuestOsGoalVersionDetails
+    oci.fleet_software_update.models.GuestOsResourceIdFilter
+    oci.fleet_software_update.models.GuestOsSearchQueryDiscovery
+    oci.fleet_software_update.models.GuestOsSoftwareComponentDetails
+    oci.fleet_software_update.models.GuestOsSoftwareComponentDiscoveryDetails
+    oci.fleet_software_update.models.GuestOsSoftwareComponentSummary
+    oci.fleet_software_update.models.GuestOsTargetListDiscovery
+    oci.fleet_software_update.models.GuestOsVersionFilter
     oci.fleet_software_update.models.ImageIdFsuTargetDetails
     oci.fleet_software_update.models.JobProgress
     oci.fleet_software_update.models.JobProgressDetails
     oci.fleet_software_update.models.ListOfTargetsRollbackDetails
+    oci.fleet_software_update.models.MembershipSummary
     oci.fleet_software_update.models.NextActionToExecuteDetails
     oci.fleet_software_update.models.NonRollingBatchingStrategyDetails
     oci.fleet_software_update.models.NoneBatchingStrategyDetails
     oci.fleet_software_update.models.NoneScheduleDetails
+    oci.fleet_software_update.models.OracleGiGoalVersionDetails
+    oci.fleet_software_update.models.OracleGuestOsGoalVersionDetails
     oci.fleet_software_update.models.PatchFsuCycle
+    oci.fleet_software_update.models.PatchingIssueEntry
     oci.fleet_software_update.models.PrecheckAction
     oci.fleet_software_update.models.PrecheckActionSummary
     oci.fleet_software_update.models.PrecheckFsuJob
     oci.fleet_software_update.models.PrecheckFsuJobSummary
+    oci.fleet_software_update.models.ReadinessCheckTargetEntry
     oci.fleet_software_update.models.RemoveFsuCollectionTargetsDetails
     oci.fleet_software_update.models.RollbackAction
     oci.fleet_software_update.models.RollbackActionSummary
@@ -141,6 +189,9 @@ Fleet Software Update
     oci.fleet_software_update.models.ScheduleDetails
     oci.fleet_software_update.models.SequentialBatchingStrategyDetails
     oci.fleet_software_update.models.ServiceAvailabilityFactorBatchingStrategyDetails
+    oci.fleet_software_update.models.SoftwareComponentDetails
+    oci.fleet_software_update.models.SoftwareComponentDiscoveryDetails
+    oci.fleet_software_update.models.SoftwareComponentSummary
     oci.fleet_software_update.models.StageAction
     oci.fleet_software_update.models.StageActionSummary
     oci.fleet_software_update.models.StageFsuJob
@@ -148,6 +199,7 @@ Fleet Software Update
     oci.fleet_software_update.models.StartTimeScheduleDetails
     oci.fleet_software_update.models.TargetDetails
     oci.fleet_software_update.models.TargetEntry
+    oci.fleet_software_update.models.TargetFsuReadinessCheck
     oci.fleet_software_update.models.TargetIdsRemoveTargetsDetails
     oci.fleet_software_update.models.TargetProgressSummary
     oci.fleet_software_update.models.TargetSummary
@@ -161,6 +213,7 @@ Fleet Software Update
     oci.fleet_software_update.models.UpdateFsuCycleDetails
     oci.fleet_software_update.models.UpdateFsuDiscoveryDetails
     oci.fleet_software_update.models.UpdateFsuJobDetails
+    oci.fleet_software_update.models.UpdateFsuReadinessCheckDetails
     oci.fleet_software_update.models.UpdateNonRollingBatchingStrategyDetails
     oci.fleet_software_update.models.UpdatePatchFsuCycle
     oci.fleet_software_update.models.UpdatePrecheckActionDetails

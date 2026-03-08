@@ -1,5 +1,5 @@
 ##########################################################################
-# Copyright (c) 2016, 2025, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2026, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # showoci_data.py
@@ -20,7 +20,7 @@ import sys
 
 
 class ShowOCIData(object):
-    version = "25.07.15"
+    version = "25.09.30"
 
     ############################################
     # ShowOCIService - Service object to query
@@ -1100,6 +1100,9 @@ class ShowOCIData(object):
         data = []
         try:
             nfw = self.service.search_multi_items(self.service.C_NETWORK, self.service.C_NETWORK_FIREWALL, 'region_name', region_name, 'compartment_id', compartment['id'])
+            for arr in nfw:
+                arr['nsg_names'] = self.service.get_network_nsg_names_from_ids(arr['nsg_ids'])
+
             return nfw
 
         except Exception as e:

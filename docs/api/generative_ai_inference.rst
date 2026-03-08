@@ -18,9 +18,13 @@ Generative Ai Inference
     :nosignatures:
     :template: autosummary/model_class.rst
 
+    oci.generative_ai_inference.models.Annotation
     oci.generative_ai_inference.models.ApplyGuardrailsDetails
     oci.generative_ai_inference.models.ApplyGuardrailsResult
+    oci.generative_ai_inference.models.ApproximateLocation
     oci.generative_ai_inference.models.AssistantMessage
+    oci.generative_ai_inference.models.AudioContent
+    oci.generative_ai_inference.models.AudioUrl
     oci.generative_ai_inference.models.BaseChatRequest
     oci.generative_ai_inference.models.BaseChatResponse
     oci.generative_ai_inference.models.CategoryScore
@@ -30,31 +34,55 @@ Generative Ai Inference
     oci.generative_ai_inference.models.ChatResult
     oci.generative_ai_inference.models.Choice
     oci.generative_ai_inference.models.Citation
+    oci.generative_ai_inference.models.CitationOptionsV2
+    oci.generative_ai_inference.models.CohereAssistantMessageV2
     oci.generative_ai_inference.models.CohereChatBotMessage
     oci.generative_ai_inference.models.CohereChatRequest
+    oci.generative_ai_inference.models.CohereChatRequestV2
     oci.generative_ai_inference.models.CohereChatResponse
+    oci.generative_ai_inference.models.CohereChatResponseV2
+    oci.generative_ai_inference.models.CohereCitationDocument
+    oci.generative_ai_inference.models.CohereCitationSourceV2
+    oci.generative_ai_inference.models.CohereCitationToolV2
+    oci.generative_ai_inference.models.CohereCitationV2
+    oci.generative_ai_inference.models.CohereContentV2
+    oci.generative_ai_inference.models.CohereDocumentContentV2
+    oci.generative_ai_inference.models.CohereImageContentV2
+    oci.generative_ai_inference.models.CohereImageUrlV2
     oci.generative_ai_inference.models.CohereLlmInferenceRequest
     oci.generative_ai_inference.models.CohereLlmInferenceResponse
     oci.generative_ai_inference.models.CohereMessage
+    oci.generative_ai_inference.models.CohereMessageV2
     oci.generative_ai_inference.models.CohereParameterDefinition
     oci.generative_ai_inference.models.CohereResponseFormat
     oci.generative_ai_inference.models.CohereResponseJsonFormat
     oci.generative_ai_inference.models.CohereResponseTextFormat
     oci.generative_ai_inference.models.CohereSystemMessage
+    oci.generative_ai_inference.models.CohereSystemMessageV2
+    oci.generative_ai_inference.models.CohereTextContentV2
+    oci.generative_ai_inference.models.CohereThinkingContentV2
+    oci.generative_ai_inference.models.CohereThinkingV2
     oci.generative_ai_inference.models.CohereTool
     oci.generative_ai_inference.models.CohereToolCall
+    oci.generative_ai_inference.models.CohereToolCallV2
     oci.generative_ai_inference.models.CohereToolMessage
+    oci.generative_ai_inference.models.CohereToolMessageV2
     oci.generative_ai_inference.models.CohereToolResult
+    oci.generative_ai_inference.models.CohereToolV2
     oci.generative_ai_inference.models.CohereUserMessage
+    oci.generative_ai_inference.models.CohereUserMessageV2
     oci.generative_ai_inference.models.CompletionTokensDetails
     oci.generative_ai_inference.models.ContentModerationConfiguration
     oci.generative_ai_inference.models.ContentModerationResult
     oci.generative_ai_inference.models.DedicatedServingMode
     oci.generative_ai_inference.models.DeveloperMessage
     oci.generative_ai_inference.models.Document
+    oci.generative_ai_inference.models.DocumentContent
     oci.generative_ai_inference.models.DocumentRank
+    oci.generative_ai_inference.models.DocumentUrl
     oci.generative_ai_inference.models.EmbedTextDetails
     oci.generative_ai_inference.models.EmbedTextResult
+    oci.generative_ai_inference.models.Function
     oci.generative_ai_inference.models.FunctionCall
     oci.generative_ai_inference.models.FunctionDefinition
     oci.generative_ai_inference.models.GenerateTextDetails
@@ -62,6 +90,11 @@ Generative Ai Inference
     oci.generative_ai_inference.models.GeneratedText
     oci.generative_ai_inference.models.GenericChatRequest
     oci.generative_ai_inference.models.GenericChatResponse
+    oci.generative_ai_inference.models.GroundingChunk
+    oci.generative_ai_inference.models.GroundingMetadata
+    oci.generative_ai_inference.models.GroundingSupport
+    oci.generative_ai_inference.models.GroundingSupportSegment
+    oci.generative_ai_inference.models.GroundingWebChunk
     oci.generative_ai_inference.models.GuardrailConfigs
     oci.generative_ai_inference.models.GuardrailsInput
     oci.generative_ai_inference.models.GuardrailsResults
@@ -74,6 +107,7 @@ Generative Ai Inference
     oci.generative_ai_inference.models.LlamaLlmInferenceResponse
     oci.generative_ai_inference.models.LlmInferenceRequest
     oci.generative_ai_inference.models.LlmInferenceResponse
+    oci.generative_ai_inference.models.LogProbability
     oci.generative_ai_inference.models.Logprobs
     oci.generative_ai_inference.models.Message
     oci.generative_ai_inference.models.OnDemandServingMode
@@ -87,6 +121,7 @@ Generative Ai Inference
     oci.generative_ai_inference.models.RerankTextResult
     oci.generative_ai_inference.models.ResponseFormat
     oci.generative_ai_inference.models.ResponseJsonSchema
+    oci.generative_ai_inference.models.SearchEntryPoint
     oci.generative_ai_inference.models.SearchQuery
     oci.generative_ai_inference.models.ServingMode
     oci.generative_ai_inference.models.StaticContent
@@ -105,5 +140,9 @@ Generative Ai Inference
     oci.generative_ai_inference.models.ToolChoiceRequired
     oci.generative_ai_inference.models.ToolDefinition
     oci.generative_ai_inference.models.ToolMessage
+    oci.generative_ai_inference.models.UrlCitation
     oci.generative_ai_inference.models.Usage
     oci.generative_ai_inference.models.UserMessage
+    oci.generative_ai_inference.models.VideoContent
+    oci.generative_ai_inference.models.VideoUrl
+    oci.generative_ai_inference.models.WebSearchOptions

@@ -89,6 +89,7 @@ Devops
     oci.devops.models.CommitAnalyticsAuthorCollection
     oci.devops.models.CommitAnalyticsAuthorSummary
     oci.devops.models.CommitInfo
+    oci.devops.models.CommitMessageSettings
     oci.devops.models.ComputeInstanceGroupBlueGreenDeployStage
     oci.devops.models.ComputeInstanceGroupBlueGreenDeployStageExecutionProgress
     oci.devops.models.ComputeInstanceGroupBlueGreenDeployStageSummary
@@ -306,9 +307,12 @@ Devops
     oci.devops.models.GitlabTriggerCreateResult
     oci.devops.models.GitlabTriggerSummary
     oci.devops.models.HelmCommandSpecArtifactSource
+    oci.devops.models.HelmDiffArgument
+    oci.devops.models.HelmDiffArgumentCollection
     oci.devops.models.HelmRepositoryDeployArtifactSource
     oci.devops.models.HelmSetValue
     oci.devops.models.HelmSetValueCollection
+    oci.devops.models.HelmStageContent
     oci.devops.models.InlineDeployArtifactSource
     oci.devops.models.InlinePublicKeyVerificationKeySource
     oci.devops.models.InvokeFunctionDeployStage
@@ -388,14 +392,11 @@ Devops
     oci.devops.models.PullRequestAttachmentSummary
     oci.devops.models.PullRequestAuthorCollection
     oci.devops.models.PullRequestAuthorSummary
-    oci.devops.models.PullRequestChangeSummaryMetrics
     oci.devops.models.PullRequestCollection
     oci.devops.models.PullRequestComment
     oci.devops.models.PullRequestCommentCollection
     oci.devops.models.PullRequestCommentLikeCollection
     oci.devops.models.PullRequestCommentSummary
-    oci.devops.models.PullRequestFileChangeCollection
-    oci.devops.models.PullRequestFileChangeSummary
     oci.devops.models.PullRequestLifecycleActivitySummary
     oci.devops.models.PullRequestNotificationPreference
     oci.devops.models.PullRequestSummary
@@ -421,6 +422,7 @@ Devops
     oci.devops.models.RepositoryNotificationPreference
     oci.devops.models.RepositoryObject
     oci.devops.models.RepositoryPathCollection
+    oci.devops.models.RepositoryPathCommitDetails
     oci.devops.models.RepositoryPathSummary
     oci.devops.models.RepositoryRef
     oci.devops.models.RepositoryRefCollection
@@ -450,9 +452,11 @@ Devops
     oci.devops.models.TriggerBuildPipelineAction
     oci.devops.models.TriggerCollection
     oci.devops.models.TriggerCreateResult
+    oci.devops.models.TriggerDeploymentDryRunDetails
     oci.devops.models.TriggerDeploymentPipelineStageRunProgress
     oci.devops.models.TriggerDeploymentStage
     oci.devops.models.TriggerDeploymentStageSummary
+    oci.devops.models.TriggerDryRunResult
     oci.devops.models.TriggerInfo
     oci.devops.models.TriggerSchedule
     oci.devops.models.TriggerSummary
@@ -524,6 +528,8 @@ Devops
     oci.devops.models.UpdateWaitDeployStageDetails
     oci.devops.models.UpdateWaitStageDetails
     oci.devops.models.ValidateMergePullRequestDetails
+    oci.devops.models.ValueArtifactContent
+    oci.devops.models.ValueArtifactContentCollection
     oci.devops.models.VaultSecretVerificationKeySource
     oci.devops.models.VbsAccessTokenConnection
     oci.devops.models.VbsAccessTokenConnectionSummary

@@ -1,0 +1,11 @@
+AdvisorReportCheckObjectsCollection
+===================================
+
+.. currentmodule:: oci.database_migration.models
+
+.. autoclass:: AdvisorReportCheckObjectsCollection
+    :show-inheritance:
+    :special-members: __init__
+    :members:
+    :undoc-members:
+    :inherited-members:

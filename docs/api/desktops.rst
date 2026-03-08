@@ -24,8 +24,10 @@ Desktops
     oci.desktops.models.CreateDesktopPoolPrivateAccessDetails
     oci.desktops.models.CreateDesktopPoolShapeConfigDetails
     oci.desktops.models.Desktop
+    oci.desktops.models.DesktopAction
     oci.desktops.models.DesktopAvailabilityPolicy
     oci.desktops.models.DesktopCollection
+    oci.desktops.models.DesktopConnection
     oci.desktops.models.DesktopDevicePolicy
     oci.desktops.models.DesktopImage
     oci.desktops.models.DesktopNetworkConfiguration
@@ -45,6 +47,7 @@ Desktops
     oci.desktops.models.HostingOptions
     oci.desktops.models.InactivityConfig
     oci.desktops.models.UpdateDesktopDetails
+    oci.desktops.models.UpdateDesktopImage
     oci.desktops.models.UpdateDesktopPoolDesktopSessionLifecycleActions
     oci.desktops.models.UpdateDesktopPoolDetails
     oci.desktops.models.WorkRequest

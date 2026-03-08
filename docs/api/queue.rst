@@ -20,8 +20,14 @@ Queue
     :nosignatures:
     :template: autosummary/model_class.rst
 
+    oci.queue.models.CapabilityDetails
     oci.queue.models.ChangeQueueCompartmentDetails
     oci.queue.models.ChannelCollection
+    oci.queue.models.ConsumerGroup
+    oci.queue.models.ConsumerGroupCollection
+    oci.queue.models.ConsumerGroupSummary
+    oci.queue.models.ConsumerGroupsCapabilityDetails
+    oci.queue.models.CreateConsumerGroupDetails
     oci.queue.models.CreateQueueDetails
     oci.queue.models.DeleteMessagesDetails
     oci.queue.models.DeleteMessagesDetailsEntry
@@ -29,6 +35,7 @@ Queue
     oci.queue.models.DeleteMessagesResultEntry
     oci.queue.models.GetMessage
     oci.queue.models.GetMessages
+    oci.queue.models.LargeMessagesCapabilityDetails
     oci.queue.models.MessageMetadata
     oci.queue.models.PurgeQueueDetails
     oci.queue.models.PutMessage
@@ -40,6 +47,7 @@ Queue
     oci.queue.models.QueueStats
     oci.queue.models.QueueSummary
     oci.queue.models.Stats
+    oci.queue.models.UpdateConsumerGroupDetails
     oci.queue.models.UpdateMessageDetails
     oci.queue.models.UpdateMessagesDetails
     oci.queue.models.UpdateMessagesDetailsEntry

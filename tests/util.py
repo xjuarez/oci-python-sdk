@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2025, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2026, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 import functools
@@ -149,9 +149,10 @@ def is_retryable_service_error(service_error):
 
 
 def enum_to_snake(name):
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    s1 = re.sub(r'\.([A-Z0-9])', r'_\1', s1)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+    s1 = re.sub('[:.-]', '_', name)
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', s1)
+    s1 = re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+    return re.sub('_+', '_', s1)
 
 
 def camel_to_snake(name):

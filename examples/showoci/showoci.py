@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 ##########################################################################
-# Copyright (c) 2016, 2025, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2026, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 #
 # showoci.py
@@ -87,7 +87,6 @@
 # - datasciencenotebooksession
 #
 # Modules Not Yet Covered:
-# - oci.ai_anomaly_detection.AnomalyDetectionClient
 # - oci.ai_document.AIServiceDocumentClient
 # - oci.ai_language.AIServiceLanguageClient
 # - oci.ai_speech.AIServiceSpeechClient
@@ -112,7 +111,6 @@
 # - oci.opsi.OperationsInsightsClient
 # - oci.recovery.DatabaseRecoveryClient
 # - oci.redis.RedisClusterClient
-# - oci.service_mesh.ServiceMeshClient
 # - oci.threat_intelligence.ThreatintelClient
 ##########################################################################
 from __future__ import print_function
@@ -128,7 +126,7 @@ import contextlib
 import os
 import time
 
-version = "25.07.15"
+version = "25.09.30"
 
 ##########################################################################
 # check OCI version

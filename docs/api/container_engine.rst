@@ -48,6 +48,7 @@ Container Engine
     oci.container_engine.models.CreateVirtualNodePoolDetails
     oci.container_engine.models.CreateWorkloadMappingDetails
     oci.container_engine.models.CredentialRotationStatus
+    oci.container_engine.models.ExtendEndpointDecommissionRollbackDeadlineDetails
     oci.container_engine.models.FlannelOverlayClusterPodNetworkOptionDetails
     oci.container_engine.models.FlannelOverlayNodePoolPodNetworkOptionDetails
     oci.container_engine.models.Image
@@ -85,6 +86,7 @@ Container Engine
     oci.container_engine.models.PodShapeSummary
     oci.container_engine.models.PreemptibleNodeConfigDetails
     oci.container_engine.models.PreemptionAction
+    oci.container_engine.models.PublicApiEndpointDecommissionStatus
     oci.container_engine.models.RebootClusterNodeDetails
     oci.container_engine.models.ReplaceBootVolumeClusterNodeDetails
     oci.container_engine.models.ServiceLbConfigDetails

@@ -42,10 +42,13 @@ Golden Gate
     oci.golden_gate.models.CertificateCollection
     oci.golden_gate.models.CertificateSummary
     oci.golden_gate.models.ChangeConnectionCompartmentDetails
+    oci.golden_gate.models.ChangeConnectionSubscriptionDetails
     oci.golden_gate.models.ChangeDatabaseRegistrationCompartmentDetails
     oci.golden_gate.models.ChangeDeploymentBackupCompartmentDetails
     oci.golden_gate.models.ChangeDeploymentCompartmentDetails
+    oci.golden_gate.models.ChangeDeploymentSubscriptionDetails
     oci.golden_gate.models.ChangePipelineCompartmentDetails
+    oci.golden_gate.models.ChangeSubscriptionDetails
     oci.golden_gate.models.CollectDeploymentDiagnosticDetails
     oci.golden_gate.models.CollectPipelineDiagnosticDetails
     oci.golden_gate.models.Connection
@@ -96,6 +99,7 @@ Golden Gate
     oci.golden_gate.models.CreateNessieIcebergCatalogDetails
     oci.golden_gate.models.CreateOciObjectStorageConnectionDetails
     oci.golden_gate.models.CreateOggDeploymentDetails
+    oci.golden_gate.models.CreateOracleAiDataPlatformConnectionDetails
     oci.golden_gate.models.CreateOracleConnectionDetails
     oci.golden_gate.models.CreateOracleNosqlConnectionDetails
     oci.golden_gate.models.CreatePipelineDetails
@@ -116,6 +120,7 @@ Golden Gate
     oci.golden_gate.models.DefaultCancelDeploymentUpgradeDetails
     oci.golden_gate.models.DefaultCancelSnoozeDeploymentUpgradeDetails
     oci.golden_gate.models.DefaultDeploymentWalletExistsDetails
+    oci.golden_gate.models.DefaultPausePipelineDetails
     oci.golden_gate.models.DefaultRefreshConnectionDetails
     oci.golden_gate.models.DefaultRestoreDeploymentDetails
     oci.golden_gate.models.DefaultRollbackDeploymentUpgradeDetails
@@ -211,10 +216,13 @@ Golden Gate
     oci.golden_gate.models.OciObjectStorageConnection
     oci.golden_gate.models.OciObjectStorageConnectionSummary
     oci.golden_gate.models.OggDeployment
+    oci.golden_gate.models.OracleAiDataPlatformConnection
+    oci.golden_gate.models.OracleAiDataPlatformConnectionSummary
     oci.golden_gate.models.OracleConnection
     oci.golden_gate.models.OracleConnectionSummary
     oci.golden_gate.models.OracleNosqlConnection
     oci.golden_gate.models.OracleNosqlConnectionSummary
+    oci.golden_gate.models.PausePipelineDetails
     oci.golden_gate.models.Pipeline
     oci.golden_gate.models.PipelineCollection
     oci.golden_gate.models.PipelineDiagnosticData
@@ -308,6 +316,7 @@ Golden Gate
     oci.golden_gate.models.UpdateNessieIcebergCatalogDetails
     oci.golden_gate.models.UpdateOciObjectStorageConnectionDetails
     oci.golden_gate.models.UpdateOggDeploymentDetails
+    oci.golden_gate.models.UpdateOracleAiDataPlatformConnectionDetails
     oci.golden_gate.models.UpdateOracleConnectionDetails
     oci.golden_gate.models.UpdateOracleNosqlConnectionDetails
     oci.golden_gate.models.UpdatePipelineDetails

@@ -22,11 +22,39 @@ Database Migration
     oci.database_migration.models.ADBDedicatedRemapTargetTablespaceDetails
     oci.database_migration.models.ADBServerlesTablespaceDetails
     oci.database_migration.models.AdminCredentials
+    oci.database_migration.models.AdvisorCheckSummary
     oci.database_migration.models.AdvisorReport
     oci.database_migration.models.AdvisorReportBucketDetails
+    oci.database_migration.models.AdvisorReportCheckCollection
+    oci.database_migration.models.AdvisorReportCheckColumn
+    oci.database_migration.models.AdvisorReportCheckObjectSummary
+    oci.database_migration.models.AdvisorReportCheckObjectsCollection
+    oci.database_migration.models.AdvisorReportCheckSummary
     oci.database_migration.models.AdvisorReportLocationDetails
+    oci.database_migration.models.AffectedObjectsCollection
+    oci.database_migration.models.AllUpdateAdvisorReportCheckObjectsDetails
+    oci.database_migration.models.AllUpdateCheckActionUpdateObjectDetails
+    oci.database_migration.models.Assessment
+    oci.database_migration.models.AssessmentCollection
+    oci.database_migration.models.AssessmentObjectCollection
+    oci.database_migration.models.AssessmentObjectTypeSummary
+    oci.database_migration.models.AssessmentObjectTypeSummaryCollection
+    oci.database_migration.models.AssessmentSummary
+    oci.database_migration.models.Assessor
+    oci.database_migration.models.AssessorAction
+    oci.database_migration.models.AssessorCheck
+    oci.database_migration.models.AssessorCheckAction
+    oci.database_migration.models.AssessorCheckGroup
+    oci.database_migration.models.AssessorCheckNameValue
+    oci.database_migration.models.AssessorCheckSummary
+    oci.database_migration.models.AssessorCheckSummaryCollection
+    oci.database_migration.models.AssessorGroup
+    oci.database_migration.models.AssessorSummary
+    oci.database_migration.models.AssessorSummaryCollection
+    oci.database_migration.models.ChangeAssessmentCompartmentDetails
     oci.database_migration.models.ChangeConnectionCompartmentDetails
     oci.database_migration.models.ChangeMigrationCompartmentDetails
+    oci.database_migration.models.CloneAssessmentDetails
     oci.database_migration.models.CloneMigrationDetails
     oci.database_migration.models.CollectTracesData
     oci.database_migration.models.CollectTracesDetails
@@ -37,6 +65,7 @@ Database Migration
     oci.database_migration.models.CreateADBDedicatedRemapTargetTablespaceDetails
     oci.database_migration.models.CreateADBServerlesTablespaceDetails
     oci.database_migration.models.CreateAdminCredentials
+    oci.database_migration.models.CreateAssessmentDetails
     oci.database_migration.models.CreateConnectionDetails
     oci.database_migration.models.CreateCurlTransferDetails
     oci.database_migration.models.CreateDataPumpParameters
@@ -46,6 +75,7 @@ Database Migration
     oci.database_migration.models.CreateHostDumpTransferDetails
     oci.database_migration.models.CreateMigrationDetails
     oci.database_migration.models.CreateMySqlAdvisorSettings
+    oci.database_migration.models.CreateMySqlAssessmentDetails
     oci.database_migration.models.CreateMySqlDataTransferMediumDetails
     oci.database_migration.models.CreateMySqlGgsDeploymentDetails
     oci.database_migration.models.CreateMySqlInitialLoadSettings
@@ -57,6 +87,7 @@ Database Migration
     oci.database_migration.models.CreateObjectStoreBucket
     oci.database_migration.models.CreateOciCliDumpTransferDetails
     oci.database_migration.models.CreateOracleAdvisorSettings
+    oci.database_migration.models.CreateOracleAssessmentDetails
     oci.database_migration.models.CreateOracleAwsS3DataTransferMediumDetails
     oci.database_migration.models.CreateOracleConnectionDetails
     oci.database_migration.models.CreateOracleDataTransferMediumDetails
@@ -71,8 +102,14 @@ Database Migration
     oci.database_migration.models.CreateTargetTypeTablespaceDetails
     oci.database_migration.models.CurlTransferDetails
     oci.database_migration.models.DataPumpParameters
+    oci.database_migration.models.DatabaseConnectionTypeCollection
+    oci.database_migration.models.DatabaseConnectionTypeSummary
+    oci.database_migration.models.DatabaseInformation
+    oci.database_migration.models.DatabaseTechnologySubType
+    oci.database_migration.models.DatabaseTechnologyType
     oci.database_migration.models.DiagnosticsResult
     oci.database_migration.models.DirectoryObject
+    oci.database_migration.models.DownloadSqlDetails
     oci.database_migration.models.ExcludedObjectSummary
     oci.database_migration.models.ExcludedObjectSummaryCollection
     oci.database_migration.models.Extract
@@ -85,6 +122,8 @@ Database Migration
     oci.database_migration.models.JobOutputSummary
     oci.database_migration.models.JobOutputSummaryCollection
     oci.database_migration.models.JobSummary
+    oci.database_migration.models.ListUpdateAdvisorReportCheckObjectsDetails
+    oci.database_migration.models.ListUpdateCheckActionUpdateObjectDetails
     oci.database_migration.models.LogLocationBucketDetails
     oci.database_migration.models.MetadataRemap
     oci.database_migration.models.Migration
@@ -102,6 +141,10 @@ Database Migration
     oci.database_migration.models.MigrationPhaseSummary
     oci.database_migration.models.MigrationSummary
     oci.database_migration.models.MySqlAdvisorSettings
+    oci.database_migration.models.MySqlAssessment
+    oci.database_migration.models.MySqlAssessmentObjectCollection
+    oci.database_migration.models.MySqlAssessmentSummary
+    oci.database_migration.models.MySqlCloneAssessmentDetails
     oci.database_migration.models.MySqlCloneMigrationDetails
     oci.database_migration.models.MySqlDataTransferMediumDetails
     oci.database_migration.models.MySqlDatabaseObject
@@ -117,10 +160,15 @@ Database Migration
     oci.database_migration.models.NameValuePair
     oci.database_migration.models.NonADBAutoCreateTablespaceDetails
     oci.database_migration.models.NonADBRemapTablespaceDetails
+    oci.database_migration.models.ObjectMetadata
     oci.database_migration.models.ObjectStoreBucket
     oci.database_migration.models.OciCliDumpTransferDetails
     oci.database_migration.models.OracleAdvisorSettings
+    oci.database_migration.models.OracleAssessment
+    oci.database_migration.models.OracleAssessmentObjectCollection
+    oci.database_migration.models.OracleAssessmentSummary
     oci.database_migration.models.OracleAwsS3DataTransferMediumDetails
+    oci.database_migration.models.OracleCloneAssessmentDetails
     oci.database_migration.models.OracleCloneMigrationDetails
     oci.database_migration.models.OracleConnection
     oci.database_migration.models.OracleConnectionSummary
@@ -138,18 +186,26 @@ Database Migration
     oci.database_migration.models.ParameterFileVersion
     oci.database_migration.models.ParameterFileVersionCollection
     oci.database_migration.models.ParameterFileVersionSummary
+    oci.database_migration.models.PerformAssessorActionDetails
+    oci.database_migration.models.PerformAssessorCheckActionDetails
     oci.database_migration.models.PhaseExtractEntry
     oci.database_migration.models.PhaseStatus
     oci.database_migration.models.Replicat
     oci.database_migration.models.ResultError
     oci.database_migration.models.ResumeJobDetails
+    oci.database_migration.models.SourceAssessmentConnection
     oci.database_migration.models.StartMigrationDetails
+    oci.database_migration.models.TargetAssessmentConnection
     oci.database_migration.models.TargetTypeTablespaceDetails
     oci.database_migration.models.UnsupportedDatabaseObject
     oci.database_migration.models.UpdateADBDedicatedAutoCreateTablespaceDetails
     oci.database_migration.models.UpdateADBDedicatedRemapTargetTablespaceDetails
     oci.database_migration.models.UpdateADBServerlesTablespaceDetails
     oci.database_migration.models.UpdateAdminCredentials
+    oci.database_migration.models.UpdateAdvisorReportCheckDetails
+    oci.database_migration.models.UpdateAdvisorReportCheckObjectsDetails
+    oci.database_migration.models.UpdateAssessmentDetails
+    oci.database_migration.models.UpdateCheckActionUpdateObjectDetails
     oci.database_migration.models.UpdateConnectionDetails
     oci.database_migration.models.UpdateCurlTransferDetails
     oci.database_migration.models.UpdateDataPumpParameters
@@ -160,6 +216,7 @@ Database Migration
     oci.database_migration.models.UpdateJobDetails
     oci.database_migration.models.UpdateMigrationDetails
     oci.database_migration.models.UpdateMySqlAdvisorSettings
+    oci.database_migration.models.UpdateMySqlAssessmentDetails
     oci.database_migration.models.UpdateMySqlDataTransferMediumDetails
     oci.database_migration.models.UpdateMySqlGgsDeploymentDetails
     oci.database_migration.models.UpdateMySqlInitialLoadSettings
@@ -171,6 +228,7 @@ Database Migration
     oci.database_migration.models.UpdateObjectStoreBucket
     oci.database_migration.models.UpdateOciCliDumpTransferDetails
     oci.database_migration.models.UpdateOracleAdvisorSettings
+    oci.database_migration.models.UpdateOracleAssessmentDetails
     oci.database_migration.models.UpdateOracleAwsS3DataTransferMediumDetails
     oci.database_migration.models.UpdateOracleConnectionDetails
     oci.database_migration.models.UpdateOracleDataTransferMediumDetails
@@ -184,6 +242,9 @@ Database Migration
     oci.database_migration.models.UpdateTargetDefaultsAutoCreateTablespaceDetails
     oci.database_migration.models.UpdateTargetDefaultsRemapTablespaceDetails
     oci.database_migration.models.UpdateTargetTypeTablespaceDetails
+    oci.database_migration.models.UserDefinedProperties
+    oci.database_migration.models.UserDefinedProperty
+    oci.database_migration.models.UserDefinedPropertyOption
     oci.database_migration.models.WorkRequest
     oci.database_migration.models.WorkRequestCollection
     oci.database_migration.models.WorkRequestError

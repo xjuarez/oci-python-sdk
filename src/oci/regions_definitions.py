@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2025, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2026, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 REGIONS_SHORT_NAMES = {
@@ -45,6 +45,10 @@ REGIONS_SHORT_NAMES = {
     'ruh': 'me-riyadh-1',
     'onm': 'ap-delhi-1',
     'hsg': 'ap-batam-1',
+    'orf': 'eu-madrid-3',
+    'nrq': 'eu-turin-1',
+    'jbp': 'ap-kulai-2',
+    'lej': 'af-casablanca-1',
     'lfi': 'us-langley-1',
     'luf': 'us-luke-1',
     'ric': 'us-gov-ashburn-1',
@@ -55,6 +59,7 @@ REGIONS_SHORT_NAMES = {
     'nja': 'ap-chiyoda-1',
     'ukb': 'ap-ibaraki-1',
     'mct': 'me-dcc-muscat-1',
+    'ibr': 'me-ibri-1',
     'wga': 'ap-dcc-canberra-1',
     'bgy': 'eu-dcc-milan-1',
     'mxp': 'eu-dcc-milan-2',
@@ -80,7 +85,8 @@ REGIONS_SHORT_NAMES = {
     'bno': 'ap-chuncheon-2',
     'yxj': 'us-ashburn-2',
     'pgc': 'us-newark-1',
-    'jsk': 'eu-budapest-1'
+    'jsk': 'eu-budapest-1',
+    'hnw': 'sa-riodejaneiro-1'
 }
 REGION_REALMS = {
     'ap-chuncheon-1': 'oc1',
@@ -125,6 +131,10 @@ REGION_REALMS = {
     'me-riyadh-1': 'oc1',
     'ap-delhi-1': 'oc1',
     'ap-batam-1': 'oc1',
+    'eu-madrid-3': 'oc1',
+    'eu-turin-1': 'oc1',
+    'ap-kulai-2': 'oc1',
+    'af-casablanca-1': 'oc1',
 
     'us-langley-1': 'oc2',
     'us-luke-1': 'oc2',
@@ -140,6 +150,7 @@ REGION_REALMS = {
     'ap-ibaraki-1': 'oc8',
 
     'me-dcc-muscat-1': 'oc9',
+    'me-ibri-1': 'oc9',
 
     'ap-dcc-canberra-1': 'oc10',
 
@@ -178,7 +189,9 @@ REGION_REALMS = {
     'us-ashburn-2': 'oc42',
     'us-newark-1': 'oc42',
 
-    'eu-budapest-1': 'oc51'
+    'eu-budapest-1': 'oc51',
+
+    'sa-riodejaneiro-1': 'oc52'
 }
 REALMS = {
     'oc1': 'oraclecloud.com',
@@ -199,7 +212,8 @@ REALMS = {
     'oc29': 'oraclecloud29.com',
     'oc35': 'oraclecloud35.com',
     'oc42': 'oraclecloud42.com',
-    'oc51': 'oraclecloud51.com'
+    'oc51': 'oraclecloud51.com',
+    'oc52': 'oraclecloud52.com'
 }
 REGIONS = [
     'ap-chuncheon-1',
@@ -244,6 +258,10 @@ REGIONS = [
     'me-riyadh-1',
     'ap-delhi-1',
     'ap-batam-1',
+    'eu-madrid-3',
+    'eu-turin-1',
+    'ap-kulai-2',
+    'af-casablanca-1',
     'us-langley-1',
     'us-luke-1',
     'us-gov-ashburn-1',
@@ -254,6 +272,7 @@ REGIONS = [
     'ap-chiyoda-1',
     'ap-ibaraki-1',
     'me-dcc-muscat-1',
+    'me-ibri-1',
     'ap-dcc-canberra-1',
     'eu-dcc-milan-1',
     'eu-dcc-milan-2',
@@ -279,5 +298,6 @@ REGIONS = [
     'ap-chuncheon-2',
     'us-ashburn-2',
     'us-newark-1',
-    'eu-budapest-1'
+    'eu-budapest-1',
+    'sa-riodejaneiro-1'
 ]

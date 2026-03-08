@@ -26,6 +26,7 @@ Opensearch
     oci.opensearch.models.BackupOpensearchClusterDetails
     oci.opensearch.models.BackupPolicy
     oci.opensearch.models.BenchmarkDetails
+    oci.opensearch.models.CertificateConfig
     oci.opensearch.models.ChangeOpensearchClusterBackupCompartmentDetails
     oci.opensearch.models.ChangeOpensearchClusterCompartmentDetails
     oci.opensearch.models.ConfigureOutboundClusterDetails
@@ -38,6 +39,7 @@ Opensearch
     oci.opensearch.models.ForcePatchClusterDetails
     oci.opensearch.models.ForcePatchPipelineDetails
     oci.opensearch.models.GetManifestResponse
+    oci.opensearch.models.LoadBalancerConfig
     oci.opensearch.models.MaintenanceDetails
     oci.opensearch.models.MaintenanceNotificationDetails
     oci.opensearch.models.MaintenanceNotificationFailure

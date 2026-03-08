@@ -32,6 +32,7 @@ Generative Ai Agent
     oci.generative_ai_agent.models.ChangeAgentCompartmentDetails
     oci.generative_ai_agent.models.ChangeAgentEndpointCompartmentDetails
     oci.generative_ai_agent.models.ChangeKnowledgeBaseCompartmentDetails
+    oci.generative_ai_agent.models.ChangeProvisionedCapacityCompartmentDetails
     oci.generative_ai_agent.models.ContentModerationConfig
     oci.generative_ai_agent.models.ContentModerationGuardrailConfig
     oci.generative_ai_agent.models.CreateAgentDetails
@@ -39,7 +40,10 @@ Generative Ai Agent
     oci.generative_ai_agent.models.CreateDataIngestionJobDetails
     oci.generative_ai_agent.models.CreateDataSourceDetails
     oci.generative_ai_agent.models.CreateKnowledgeBaseDetails
+    oci.generative_ai_agent.models.CreateProvisionedCapacityDetails
     oci.generative_ai_agent.models.CreateToolDetails
+    oci.generative_ai_agent.models.CustomGenAiEndpointLlmSelection
+    oci.generative_ai_agent.models.CustomGenAiModelLlmSelection
     oci.generative_ai_agent.models.DataIngestionJob
     oci.generative_ai_agent.models.DataIngestionJobCollection
     oci.generative_ai_agent.models.DataIngestionJobStatistics
@@ -53,6 +57,7 @@ Generative Ai Agent
     oci.generative_ai_agent.models.DatabaseFunction
     oci.generative_ai_agent.models.DatabaseToolConnection
     oci.generative_ai_agent.models.DefaultIndexConfig
+    oci.generative_ai_agent.models.DefaultLlmSelection
     oci.generative_ai_agent.models.Function
     oci.generative_ai_agent.models.FunctionCallingToolConfig
     oci.generative_ai_agent.models.GuardrailConfig
@@ -80,6 +85,7 @@ Generative Ai Agent
     oci.generative_ai_agent.models.KnowledgeBaseSummary
     oci.generative_ai_agent.models.LlmConfig
     oci.generative_ai_agent.models.LlmCustomization
+    oci.generative_ai_agent.models.LlmSelection
     oci.generative_ai_agent.models.ObjectStorageInputLocation
     oci.generative_ai_agent.models.ObjectStoragePrefix
     oci.generative_ai_agent.models.ObjectStoragePrefixOutputLocation
@@ -89,7 +95,12 @@ Generative Ai Agent
     oci.generative_ai_agent.models.OutputConfig
     oci.generative_ai_agent.models.OutputLocation
     oci.generative_ai_agent.models.PersonallyIdentifiableInformationGuardrailConfig
+    oci.generative_ai_agent.models.PlatformRuntimeConfig
     oci.generative_ai_agent.models.PromptInjectionGuardrailConfig
+    oci.generative_ai_agent.models.ProvisionedCapacity
+    oci.generative_ai_agent.models.ProvisionedCapacityCollection
+    oci.generative_ai_agent.models.ProvisionedCapacityConfig
+    oci.generative_ai_agent.models.ProvisionedCapacitySummary
     oci.generative_ai_agent.models.RagToolConfig
     oci.generative_ai_agent.models.SecretDetail
     oci.generative_ai_agent.models.SessionConfig
@@ -97,11 +108,13 @@ Generative Ai Agent
     oci.generative_ai_agent.models.Tool
     oci.generative_ai_agent.models.ToolCollection
     oci.generative_ai_agent.models.ToolConfig
+    oci.generative_ai_agent.models.ToolRuntimeConfig
     oci.generative_ai_agent.models.ToolSummary
     oci.generative_ai_agent.models.UpdateAgentDetails
     oci.generative_ai_agent.models.UpdateAgentEndpointDetails
     oci.generative_ai_agent.models.UpdateDataSourceDetails
     oci.generative_ai_agent.models.UpdateKnowledgeBaseDetails
+    oci.generative_ai_agent.models.UpdateProvisionedCapacityDetails
     oci.generative_ai_agent.models.UpdateToolDetails
     oci.generative_ai_agent.models.WorkRequest
     oci.generative_ai_agent.models.WorkRequestError

@@ -6,6 +6,8 @@ Dbmulticloud
     :nosignatures:
     :template: autosummary/service_client.rst
 
+    oci.dbmulticloud.DbMulticloudAwsProviderClient
+    oci.dbmulticloud.DbMulticloudGCPProviderClient
     oci.dbmulticloud.MultiCloudResourceDiscoveryClient
     oci.dbmulticloud.OracleDBAzureBlobContainerClient
     oci.dbmulticloud.OracleDBAzureBlobMountClient
@@ -14,6 +16,8 @@ Dbmulticloud
     oci.dbmulticloud.OracleDbAzureVaultAssociationClient
     oci.dbmulticloud.OracleDbAzureVaultClient
     oci.dbmulticloud.WorkRequestClient
+    oci.dbmulticloud.DbMulticloudAwsProviderClientCompositeOperations
+    oci.dbmulticloud.DbMulticloudGCPProviderClientCompositeOperations
     oci.dbmulticloud.MultiCloudResourceDiscoveryClientCompositeOperations
     oci.dbmulticloud.OracleDBAzureBlobContainerClientCompositeOperations
     oci.dbmulticloud.OracleDBAzureBlobMountClientCompositeOperations
@@ -33,21 +37,37 @@ Dbmulticloud
     :template: autosummary/model_class.rst
 
     oci.dbmulticloud.models.ArcAgentNodes
+    oci.dbmulticloud.models.AwsNodes
     oci.dbmulticloud.models.ChangeMultiCloudResourceDiscoveryCompartmentDetails
+    oci.dbmulticloud.models.ChangeOracleDbAwsIdentityConnectorCompartmentDetails
+    oci.dbmulticloud.models.ChangeOracleDbAwsKeyCompartmentDetails
     oci.dbmulticloud.models.ChangeOracleDbAzureBlobContainerCompartmentDetails
     oci.dbmulticloud.models.ChangeOracleDbAzureBlobMountCompartmentDetails
     oci.dbmulticloud.models.ChangeOracleDbAzureConnectorCompartmentDetails
     oci.dbmulticloud.models.ChangeOracleDbAzureVaultAssociationCompartmentDetails
     oci.dbmulticloud.models.ChangeOracleDbAzureVaultCompartmentDetails
+    oci.dbmulticloud.models.ChangeOracleDbGcpIdentityConnectorCompartmentDetails
+    oci.dbmulticloud.models.ChangeOracleDbGcpKeyRingCompartmentDetails
     oci.dbmulticloud.models.CreateMultiCloudResourceDiscoveryDetails
+    oci.dbmulticloud.models.CreateOracleDbAwsIdentityConnectorDetails
+    oci.dbmulticloud.models.CreateOracleDbAwsKeyDetails
     oci.dbmulticloud.models.CreateOracleDbAzureBlobContainerDetails
     oci.dbmulticloud.models.CreateOracleDbAzureBlobMountDetails
     oci.dbmulticloud.models.CreateOracleDbAzureConnectorDetails
     oci.dbmulticloud.models.CreateOracleDbAzureVaultAssociationDetails
     oci.dbmulticloud.models.CreateOracleDbAzureVaultDetails
+    oci.dbmulticloud.models.CreateOracleDbGcpIdentityConnectorDetails
+    oci.dbmulticloud.models.CreateOracleDbGcpKeyRingDetails
+    oci.dbmulticloud.models.GcpNodes
     oci.dbmulticloud.models.MultiCloudResourceDiscovery
     oci.dbmulticloud.models.MultiCloudResourceDiscoverySummary
     oci.dbmulticloud.models.MultiCloudResourceDiscoverySummaryCollection
+    oci.dbmulticloud.models.OracleDbAwsIdentityConnector
+    oci.dbmulticloud.models.OracleDbAwsIdentityConnectorSummary
+    oci.dbmulticloud.models.OracleDbAwsIdentityConnectorSummaryCollection
+    oci.dbmulticloud.models.OracleDbAwsKey
+    oci.dbmulticloud.models.OracleDbAwsKeySummary
+    oci.dbmulticloud.models.OracleDbAwsKeySummaryCollection
     oci.dbmulticloud.models.OracleDbAzureBlobContainer
     oci.dbmulticloud.models.OracleDbAzureBlobContainerSummary
     oci.dbmulticloud.models.OracleDbAzureBlobContainerSummaryCollection
@@ -66,14 +86,32 @@ Dbmulticloud
     oci.dbmulticloud.models.OracleDbAzureVaultAssociationSummaryCollection
     oci.dbmulticloud.models.OracleDbAzureVaultSummary
     oci.dbmulticloud.models.OracleDbAzureVaultSummaryCollection
+    oci.dbmulticloud.models.OracleDbGcpIdentityConnector
+    oci.dbmulticloud.models.OracleDbGcpIdentityConnectorSummary
+    oci.dbmulticloud.models.OracleDbGcpIdentityConnectorSummaryCollection
+    oci.dbmulticloud.models.OracleDbGcpKey
+    oci.dbmulticloud.models.OracleDbGcpKeyRing
+    oci.dbmulticloud.models.OracleDbGcpKeyRingSummary
+    oci.dbmulticloud.models.OracleDbGcpKeyRingSummaryCollection
+    oci.dbmulticloud.models.OracleDbGcpKeySummary
+    oci.dbmulticloud.models.OracleDbGcpKeySummaryCollection
     oci.dbmulticloud.models.PatchOracleDbAzureConnectorDetails
+    oci.dbmulticloud.models.RefreshOracleDbAwsKeyDetails
+    oci.dbmulticloud.models.RefreshOracleDbAzureVaultDetails
+    oci.dbmulticloud.models.RefreshOracleDbGcpKeyRingDetails
     oci.dbmulticloud.models.Resources
+    oci.dbmulticloud.models.ServiceRoleDetail
+    oci.dbmulticloud.models.ServiceRoleDetails
     oci.dbmulticloud.models.UpdateMultiCloudResourceDiscoveryDetails
+    oci.dbmulticloud.models.UpdateOracleDbAwsIdentityConnectorDetails
+    oci.dbmulticloud.models.UpdateOracleDbAwsKeyDetails
     oci.dbmulticloud.models.UpdateOracleDbAzureBlobContainerDetails
     oci.dbmulticloud.models.UpdateOracleDbAzureBlobMountDetails
     oci.dbmulticloud.models.UpdateOracleDbAzureConnectorDetails
     oci.dbmulticloud.models.UpdateOracleDbAzureVaultAssociationDetails
     oci.dbmulticloud.models.UpdateOracleDbAzureVaultDetails
+    oci.dbmulticloud.models.UpdateOracleDbGcpIdentityConnectorDetails
+    oci.dbmulticloud.models.UpdateOracleDbGcpKeyRingDetails
     oci.dbmulticloud.models.WorkRequest
     oci.dbmulticloud.models.WorkRequestError
     oci.dbmulticloud.models.WorkRequestErrorCollection

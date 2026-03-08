@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) 2016, 2025, Oracle and/or its affiliates.  All rights reserved.
+# Copyright (c) 2016, 2026, Oracle and/or its affiliates.  All rights reserved.
 # This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 from __future__ import absolute_import
@@ -21,6 +21,7 @@ import _strptime  # noqa: F401
 from datetime import date, datetime, timezone
 from timeit import default_timer as timer
 from ._vendor import requests, six, urllib3, sseclient
+from ._vendor.urllib3.exceptions import HeaderParsingError
 from dateutil.parser import parse
 from dateutil import tz
 import functools
@@ -37,13 +38,20 @@ from .version import __version__
 from .util import NONE_SENTINEL, Sentinel, extract_service_endpoint
 missing = Sentinel("Missing")
 APPEND_USER_AGENT_ENV_VAR_NAME = "OCI_SDK_APPEND_USER_AGENT"
+PROPAGATION_ENABLED_ENV_VAR_NAME = "PROPAGATION_ENABLED"
+OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME = "OPC_INCOMING_REQUEST_ID"
 OCI_REALM_SPECIFIC_SERVICE_ENDPOINT_TEMPLATE_ENABLED = "OCI_REALM_SPECIFIC_SERVICE_ENDPOINT_TEMPLATE_ENABLED"
+OCI_HEADER_PARSING_ERROR_MAX_RETRIES = "OCI_HEADER_PARSING_ERROR_MAX_RETRIES"
 APPEND_USER_AGENT = os.environ.get(APPEND_USER_AGENT_ENV_VAR_NAME)
+PROPAGATION_ENABLED = False
 USER_INFO = "Oracle-PythonSDK/{}".format(__version__)
 
 DICT_VALUE_TYPE_REGEX = re.compile(r'dict\(str, (.+?)\)$')  # noqa: W605
 LIST_ITEM_TYPE_REGEX = re.compile(r'list\[(.+?)\]$')  # noqa: W605
 TROUBLESHOOT_URL = 'https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_troubleshooting.htm'
+OCI_DUAL_STACK_ENDPOINT_ENABLED_ENV_VAR = "OCI_DUAL_STACK_ENDPOINT_ENABLED"
+PATTERN_FOR_ENDPOINT_TEMPLATE_OPTIONS = re.compile(r"{([^}]+)}")
+DUAL_STACK_OPTION = "{dualStack"
 
 # Expect header is enabled by default
 enable_expect_header = True
@@ -268,28 +276,36 @@ class BaseClient(object):
     }
 
     ALLOW_CONTROL_CHARACTERS = False
+    ENABLE_STRICT_URL_ENCODING = False
 
     def __init__(self, service, config, signer, type_mapping, **kwargs):
         validate_config(config, signer=signer)
         self.signer = signer
-
         self.config = config
         # Default to true (is a regional client) if there is nothing explicitly set. Regional
         # clients allow us to call set_region and that'll also set the endpoint. For non-regional
         # clients we require an endpoint
         self.regional_client = kwargs.get('regional_client', True)
 
+        self.custom_opc_request_id = None
+        self.PROPAGATION_ENABLED = os.environ.get(PROPAGATION_ENABLED_ENV_VAR_NAME)
+        self.PROPAGATION_ENABLED = False if self.PROPAGATION_ENABLED is None else self.get_bool_env_var(self.PROPAGATION_ENABLED)
         self._endpoint = None
         self._base_path = kwargs.get('base_path')
         self.service_endpoint_template = kwargs.get('service_endpoint_template')
         self.service_endpoint_template_per_realm = kwargs.get('service_endpoint_template_per_realm')
+        self.client_level_dualstack_endpoints_enabled = kwargs.get('client_level_dualstack_endpoints_enabled')
+        self.service_uses_dualstack_endpoints_by_default = kwargs.get("service_uses_dualstack_endpoints_by_default", False)
         self.endpoint_service_name = kwargs.get('endpoint_service_name')
 
         # By default self._allow_control_chars will be None. The user would need to explicitly set it to True or False
         self._allow_control_chars = kwargs.get('allow_control_chars')
+        # By default self._enable_strict_url_encoding will be None. The user would need to explicitly set it to True or False
+        self._enable_strict_url_encoding = kwargs.get('enable_strict_url_encoding')
 
         self._client_level_realm_specific_endpoint_template_enabled = kwargs.get('client_level_realm_specific_endpoint_template_enabled')  # default this to None as it should be an opt-in feature
 
+        self.service = service
         if self.regional_client:
             if kwargs.get('service_endpoint'):
                 self.endpoint = kwargs.get('service_endpoint')
@@ -313,7 +329,6 @@ class BaseClient(object):
                 raise exceptions.MissingEndpointForNonRegionalServiceClientError('An endpoint must be provided for a non-regional service client')
             self.endpoint = kwargs.get('service_endpoint')
 
-        self.service = service
         self.complex_type_mappings = type_mapping
         self.type_mappings = merge_type_mappings(self.primitive_type_map, type_mapping)
         self.session = requests.Session()
@@ -364,6 +379,74 @@ class BaseClient(object):
 
         return service_endpoint_template
 
+    def is_dual_stack_enabled(self):
+        """
+        Returns a boolean for whether dual stack endpoints are enabled or not
+        The hierarchy is:
+        1. Client level setting
+        2. Environment level setting
+        3. Service level setting
+        """
+        if self.client_level_dualstack_endpoints_enabled is not None:
+            return self.client_level_dualstack_endpoints_enabled
+        dual_stack_endpoints_enabled_from_env_var = os.environ.get(OCI_DUAL_STACK_ENDPOINT_ENABLED_ENV_VAR)
+        if dual_stack_endpoints_enabled_from_env_var is not None:
+            return dual_stack_endpoints_enabled_from_env_var.lower() == 'true'
+        return self.service_uses_dualstack_endpoints_by_default
+
+    def update_endpoint_template_for_options(self):
+        pattern = PATTERN_FOR_ENDPOINT_TEMPLATE_OPTIONS
+        endpoint = self.endpoint
+        matchers = re.finditer(pattern, endpoint)
+        segments = []
+        last_index = 0
+        ds_enabled = self.is_dual_stack_enabled()
+
+        for matcher in matchers:
+            option = matcher.group()
+            start, end = matcher.span()
+
+            segments.append(endpoint[last_index:start])
+
+            is_option_block = ('?' in option and ':' in option)
+            if not is_option_block:
+                segments.append(option)
+                last_index = end
+                continue
+
+            # Ignore unknown options and invalid dualStack tokens (any whitespace inside the braces)
+            if DUAL_STACK_OPTION not in option or re.search(r"\s", option):
+                last_index = end
+                continue
+
+            option_enabled_param = option[option.index('?') + 1:option.index(':')]
+            option_disabled_param = option[option.index(':') + 1:-1]
+
+            # Valid if empty or starts with an alphanumeric character
+            def _valid_side(s):
+                return (s == '') or (s[0].isalnum())
+
+            if not (_valid_side(option_enabled_param) and _valid_side(option_disabled_param)):
+                last_index = end
+                continue
+
+            replacement = option_enabled_param if ds_enabled else option_disabled_param
+
+            # If previous literal ends with '.' and replacement starts with '.', drop one dot.
+            if replacement.startswith('.') and segments and segments[-1].endswith('.'):
+                replacement = replacement[1:]
+
+            # If replacement ends with '.' and next literal char is '.', skip the next dot.
+            if replacement.endswith('.') and end < len(endpoint) and endpoint[end] == '.':
+                last_index = end + 1
+
+            segments.append(replacement)
+            last_index = max(last_index, end)
+
+        segments.append(endpoint[last_index:])
+        updated_endpoint = ''.join(segments)
+        return updated_endpoint
+
     @property
     def endpoint(self):
         return self._endpoint
@@ -399,6 +482,14 @@ class BaseClient(object):
         self._allow_control_chars = bool
 
     @property
+    def enable_strict_url_encoding(self):
+        return self._enable_strict_url_encoding
+
+    @enable_strict_url_encoding.setter
+    def enable_strict_url_encoding(self, bool_value):
+        self._enable_strict_url_encoding = bool_value
+
+    @property
     def client_level_realm_specific_endpoint_template_enabled(self):
         return self._client_level_realm_specific_endpoint_template_enabled
 
@@ -428,7 +519,8 @@ class BaseClient(object):
                 isinstance(self.signer, signers.EphemeralResourcePrincipalSigner) or
                 isinstance(self.signer, signers.EphemeralResourcePrincipalV21Signer) or
                 isinstance(self.signer, signers.NestedResourcePrincipals) or
-                (isinstance(self.signer, signers.OkeWorkloadIdentityResourcePrincipalSigner) and oke_workload_refresh_enabled)):
+                (isinstance(self.signer, signers.OkeWorkloadIdentityResourcePrincipalSigner) and oke_workload_refresh_enabled) or
+                isinstance(self.signer, signers.OauthExchangeTokenSigner)):
             return True
         else:
             return False
@@ -441,6 +533,7 @@ class BaseClient(object):
                  response_type=None,
                  enforce_content_headers=True,
                  allow_control_chars=None,
+                 enable_strict_url_encoding=None,
                  operation_name=None,
                  api_reference_link=None,
                  required_arguments=[]):
@@ -457,6 +550,7 @@ class BaseClient(object):
         :param enforce_content_headers: (optional) Whether content headers should be added for
             PUT and POST requests when not present.  Defaults to True.
         :param allow_control_chars: (optional) Boolean that allows whether or not the response object can contain control chars
+        :param enable_strict_url_encoding: (optional) Boolean that allows whether extra url encoding should be enabled or not
         :param operation_name: (optional) String that represents the operational name of the API call.
         :param api_reference_link: (optional) String that represents the link to the API reference page for this operation.
         :return: A Response object, or throw in the case of an error.
@@ -480,18 +574,38 @@ class BaseClient(object):
         header_params[constants.HEADER_CLIENT_INFO] = USER_INFO
         header_params[constants.HEADER_USER_AGENT] = self.user_agent
 
-        if header_params.get(constants.HEADER_REQUEST_ID, missing) is missing:
+        self.get_downstream_request_id()
+
+        # Set custom opc-request-id header, if specified in the client
+        if self.custom_opc_request_id is None and self.PROPAGATION_ENABLED in [False, "False", None, "None"] and header_params.get(constants.HEADER_REQUEST_ID, missing) is missing:
             header_params[constants.HEADER_REQUEST_ID] = self.build_request_id()
+            self.logger.debug(f"No propagation: {str(header_params[constants.HEADER_REQUEST_ID])}")
+        elif self.custom_opc_request_id is None and self.PROPAGATION_ENABLED in [False, "False", None, "None"] and header_params.get(constants.HEADER_REQUEST_ID):
+            self.logger.debug(f"No propagation: {str(header_params[constants.HEADER_REQUEST_ID])}")
+        elif self.PROPAGATION_ENABLED in [False, "False", None, "None"] and header_params.get(constants.HEADER_REQUEST_ID, missing) is missing:
+            header_params[constants.HEADER_REQUEST_ID] = self.build_request_id()
+            self.logger.debug(f"Propagation disabled with no other values received from SDK or CLI: {str(header_params[constants.HEADER_REQUEST_ID])}")
+        elif self.PROPAGATION_ENABLED in [True, "True"] and header_params.get(constants.HEADER_REQUEST_ID, missing) is missing and self.custom_opc_request_id is None:
+            clientId = self.build_request_id()
+            header_params[constants.HEADER_REQUEST_ID] = self.use_custom_opc_request_id(clientId)
+            self.logger.debug(f"Propagation enabled with no other values received:{self.PROPAGATION_ENABLED} and {str(header_params[constants.HEADER_REQUEST_ID])} and {self.custom_opc_request_id}")
+        elif self.PROPAGATION_ENABLED in [True, "True"] and header_params.get(constants.HEADER_REQUEST_ID, missing) is missing and self.custom_opc_request_id is not None:
+            header_params[constants.HEADER_REQUEST_ID] = self.custom_opc_request_id
+            self.logger.debug(f"Propagation enabled with no other values received from SDK but CLI: {str(header_params[constants.HEADER_REQUEST_ID])}")
 
         # This allows for testing with "fake" database resources.
         opc_host_serial = os.environ.get('OCI_DB_OPC_HOST_SERIAL')
         if opc_host_serial:
             header_params['opc-host-serial'] = opc_host_serial
 
+        should_enable_strict_url_encoding = self.should_enable_strict_url_encoding(enable_strict_url_encoding)
         if path_params:
             path_params = self.sanitize_for_serialization(path_params)
             for k, v in path_params.items():
-                replacement = six.moves.urllib.parse.quote(str(self.to_path_value(v)))
+                if should_enable_strict_url_encoding:
+                    replacement = six.moves.urllib.parse.quote(str(self.to_path_value(v)), safe='')
+                else:
+                    replacement = six.moves.urllib.parse.quote(str(self.to_path_value(v)))
                 resource_path = resource_path.\
                     replace('{' + k + '}', replacement)
 
@@ -534,6 +648,53 @@ class BaseClient(object):
             self.logger.debug('time elapsed for request: {}'.format(str(end - start)))
             return response
 
+    def get_bool_env_var(envVar: str, default=False) -> bool:
+        if envVar is None:
+            return False
+        envVar = str(envVar).strip().lower()
+        if envVar in ('True', 'true', 'TRUE'):
+            return True
+        elif envVar in ('False', 'false', 'FALSE'):
+            return False
+        return default
+
+    def use_default_opc_request_id(self):
+        self.PROPAGATION_ENABLED = False
+        self.custom_opc_request_id = None
+        if os.environ.get(PROPAGATION_ENABLED_ENV_VAR_NAME):
+            os.environ.pop(PROPAGATION_ENABLED_ENV_VAR_NAME)
+        if os.environ.get(OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME):
+            os.environ.pop(OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME)
+
+    def get_downstream_request_id(self):
+        request_id = os.environ.get(OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME)
+        if self.PROPAGATION_ENABLED and request_id:
+            self.logger.debug(f"Downstream requestID: {str(request_id)}")
+            self.custom_opc_request_id = request_id
+            return request_id
+
+    def use_custom_opc_request_id(self, rid: str = None):
+        self.custom_opc_request_id = None
+        if self.PROPAGATION_ENABLED:
+            rid = self.get_downstream_request_id()
+        if rid is not None and rid != "":
+            self.PROPAGATION_ENABLED = True
+        if self.PROPAGATION_ENABLED:
+            segments = rid.split('/')
+            if len(segments) == 1:
+                stackId = self.build_request_id()
+                self.custom_opc_request_id = segments[0] + "/" + stackId
+                self.logger.debug(f"Generated stackId: {str(stackId)}")
+            elif len(segments) >= 2:
+                if len(segments[1]) == 0:
+                    stackId = self.build_request_id()
+                    self.logger.debug(f"Generated stackId: {str(stackId)}")
+                else:
+                    stackId = segments[1]
+                self.custom_opc_request_id = segments[0] + "/" + stackId
+                self.logger.debug(f"Truncated request ID to: {str(self.custom_opc_request_id)}")
+        return self.custom_opc_request_id
+
     def map_service_params_to_values(self, service_params_url, path_params, query_params, required_arguments):
         service_params_map = {}
         service_params = set(filter(None, ("".join(service_params_url.replace(".", "").split("{"))).split("}")))
@@ -561,16 +722,31 @@ class BaseClient(object):
         return service_params_map
 
     def handle_service_params_in_endpoint(self, path_params, query_params, required_arguments):
-        endpoint = self.endpoint
-        start_idx = len("https://")
-        if endpoint[start_idx] == "{":  # If the character after https:// is a "{", we have service params
-            end_idx = endpoint.rfind("}")
-            service_params_url = endpoint[start_idx:end_idx + 1]
-            service_params_map = self.map_service_params_to_values(service_params_url, path_params, query_params, required_arguments)
+        # Apply option replacements first, then substitute service params in the final URL
+        endpoint = self.update_endpoint_template_for_options()
 
-            for service_param, value in service_params_map.items():
-                service_param = "{" + service_param + "}"
-                endpoint = endpoint.replace(service_param, value)
+        # Replace tokens even if they appear mid-host (e.g., ...ds.oci.{secondLevelDomain})
+        first_idx = endpoint.find("{")
+        if first_idx == -1:
+            return endpoint
+        last_idx = endpoint.rfind("}")
+        if last_idx < first_idx:
+            return endpoint
+
+        service_params_url = endpoint[first_idx:last_idx + 1]
+
+        # Build token with value map using required_arguments and '+Dot' suffix rules
+        service_params_map = self.map_service_params_to_values(
+            service_params_url,
+            path_params or {},
+            query_params or {},
+            required_arguments or []
+        )
+
+        # Replace every '{token}' occurrence across the endpoint string
+        for service_param, value in service_params_map.items():
+            token = "{" + service_param + "}"
+            endpoint = endpoint.replace(token, value)
 
         return endpoint
 
@@ -648,6 +824,30 @@ class BaseClient(object):
 
         return processed_query_params
 
+    def _reset_session(self, response=None, reason="connection issue"):
+        """
+        Reset the session to clear any connection pool issues.
+        This is typically called when HeaderParsingError occurs or when specific
+        error status codes indicate connection reuse problems.
+        :param response: The response object (if available) to ensure it's fully consumed
+        :param reason: Reason for resetting the session (for logging purposes)
+        """
+        self.logger.warning(f"Resetting session due to {reason}")
+        if response is not None:
+            try:
+                # Read the response content to ensure the socket is fully drained
+                _ = response.content
+                response.close()
+            except Exception as e:
+                self.logger.warning(f"Error while closing response during session reset: {e}")
+        # Create a new session and close the old one
+        new_session = copy.copy(self.session)
+        try:
+            self.session.close()
+        except Exception as e:
+            self.logger.error(f"Error while closing old session: {e}")
+        self.session = new_session
+
     def request(self, request, allow_control_chars=None, operation_name=None, api_reference_link=None):
         self.logger.info(utc_now() + "Request: %s %s" % (str(request.method), request.url))
 
@@ -669,32 +869,63 @@ class BaseClient(object):
         if SSE_RESPONSE_HEADER_VALUE in request.header_params.get("accept", "empty"):
             stream = True
 
-        try:
-            start = timer()
-            response = self.session.request(
-                request.method,
-                request.url,
-                auth=signer,
-                params=request.query_params,
-                headers=request.header_params,
-                data=request.body,
-                stream=stream,
-                timeout=self.timeout)
-            end = timer()
-            if request.header_params[constants.HEADER_REQUEST_ID]:
-                self.logger.debug(utc_now() + 'time elapsed for request {}: {}'.format(request.header_params[constants.HEADER_REQUEST_ID], str(end - start)))
-            if response and hasattr(response, 'elapsed'):
-                self.logger.debug(utc_now() + "time elapsed in response: " + str(response.elapsed))
-        except requests.exceptions.ConnectTimeout as e:
-            if not e.args:
-                e.args = ('',)
-            e.args = e.args + ("Request Endpoint: " + request.method + " " + request.url + " See {} for help troubleshooting this error, or contact support and provide this full error message.".format(TROUBLESHOOT_URL),)
-            raise exceptions.ConnectTimeout(e)
-        except requests.exceptions.RequestException as e:
-            if not e.args:
-                e.args = ('',)
-            e.args = e.args + ("Request Endpoint: " + request.method + " " + request.url + " See {} for help troubleshooting this error, or contact support and provide this full error message.".format(TROUBLESHOOT_URL),)
-            raise exceptions.RequestException(e)
+        # Attempt the request with retry logic for HeaderParsingError
+        # Can be configured via OCI_HEADER_PARSING_ERROR_MAX_RETRIES environment variable
+        max_header_error_retries = int(os.environ.get(OCI_HEADER_PARSING_ERROR_MAX_RETRIES, 2))
+        if max_header_error_retries < 0:
+            raise ValueError("max_header_error_retries must be a positive integer.")
+        total_attempts = max_header_error_retries + 1
+        response = None
+        for attempt in range(total_attempts):
+            try:
+                start = timer()
+                response = self.session.request(
+                    request.method,
+                    request.url,
+                    auth=signer,
+                    params=request.query_params,
+                    headers=request.header_params,
+                    data=request.body,
+                    stream=stream,
+                    timeout=self.timeout)
+                end = timer()
+                if request.header_params[constants.HEADER_REQUEST_ID]:
+                    self.logger.debug(
+                        f"{utc_now()} time elapsed for request {request.header_params[constants.HEADER_REQUEST_ID]}: {str(end - start)}")
+                if response and hasattr(response, 'elapsed'):
+                    self.logger.debug(f"{utc_now()} time elapsed in response: {str(response.elapsed)}")
+                if self.PROPAGATION_ENABLED in [True, "True"] and response.headers[constants.HEADER_REQUEST_ID]:
+                    os.environ[OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME] = response.headers[constants.HEADER_REQUEST_ID]
+                    self.logger.debug(f"Response opc-request-id: {response.headers[constants.HEADER_REQUEST_ID]}")
+                break  # Request succeeded, exit retry loop
+            except HeaderParsingError as e:
+                self.logger.warning(
+                    f"HeaderParsingError encountered on attempt {attempt + 1}/{total_attempts}: {str(e)}")
+                # Reset the session to clear the connection pool
+                self._reset_session(reason=f"HeaderParsingError ({str(e)[:100]})")
+                if attempt >= max_header_error_retries:
+                    # Last attempt failed, re-raise as RequestException
+                    if not e.args:
+                        e.args = ('',)
+                    e.args = e.args + (
+                        f"Request Endpoint: {request.method} {request.url}. "
+                        f"HeaderParsingError indicates connection reuse issue. "
+                        f"See {TROUBLESHOOT_URL} for help troubleshooting this error, or contact support and provide this full error message.",)
+                    raise exceptions.RequestException(e)
+                # Otherwise, retry with the new session
+                self.logger.info(
+                    f"Retrying request after session reset (attempt {attempt + 1}/{max_header_error_retries})")
+                continue
+            except requests.exceptions.ConnectTimeout as e:
+                if not e.args:
+                    e.args = ('',)
+                e.args = e.args + ("Request Endpoint: " + request.method + " " + request.url + " See {} for help troubleshooting this error, or contact support and provide this full error message.".format(TROUBLESHOOT_URL),)
+                raise exceptions.ConnectTimeout(e)
+            except requests.exceptions.RequestException as e:
+                if not e.args:
+                    e.args = ('',)
+                e.args = e.args + ("Request Endpoint: " + request.method + " " + request.url + " See {} for help troubleshooting this error, or contact support and provide this full error message.".format(TROUBLESHOOT_URL),)
+                raise exceptions.RequestException(e)
 
         response_type = request.response_type
         self.logger.debug(utc_now() + "Response status: %s" % str(response.status_code))
@@ -750,6 +981,27 @@ class BaseClient(object):
     def build_request_id(self):
         return str(uuid.uuid4()).replace('-', '').upper()
 
+    def is_valid_opc_request_id(self, rid: str):
+        """
+        Validate the OPC request ID.
+        Args:
+        rid (str): The OPC request ID to be validated.
+        Raises:
+        ValueError: If the OPC request ID is invalid.
+        """
+        self.logger.info(f"custom opc-request-id: {rid}")
+        if rid is None or rid == "":
+            raise ValueError("custom opc-request-id cannot be empty")
+        segments = rid.split("/")
+        if len(segments) > 3:
+            raise ValueError("custom opc-request-id cannot contain more than 3 segments")
+        # pattern = re.compile("^[a-zA-Z0-9_-]{0,32}$")
+        # TODO Change once regex is confirmed to be removed as objectstoarge request id has special character
+        pattern = re.compile("^[a-zA-Z0-9_:-;]{0,32}$")
+        for segment in segments:
+            if not pattern.match(segment):
+                raise ValueError("custom opc-request-id segments must contain only ASCII alphanumerics plus underscore and dash, and be at most 32 characters")
+
     def add_opc_retry_token_if_needed(self, header_params, retry_token_length=30):
         if 'opc-retry-token' not in header_params:
             header_params['opc-retry-token'] = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(retry_token_length))
@@ -768,7 +1020,7 @@ class BaseClient(object):
 
         :return string: quoted value.
         """
-        if type(obj) == list:
+        if isinstance(obj, list):
             return ','.join(obj)
         else:
             return str(obj)
@@ -959,7 +1211,7 @@ class BaseClient(object):
             # we do not update the response_data with the json_response.
             # If we do later steps will fail because they are expecting the
             # response_data to be a string.
-            if response_type != "str" or type(json_response) == six.text_type:
+            if response_type != "str" or isinstance(json_response, six.text_type):
                 response_data = json_response
         except ValueError:
             pass
@@ -1126,6 +1378,21 @@ class BaseClient(object):
         if global_configuration is True:
             return True
 
+        return False
+
+    def should_enable_strict_url_encoding(self, enable_strict_url_encoding):
+        request_configuration = enable_strict_url_encoding
+        client_configuration = self._enable_strict_url_encoding
+        global_configuration = BaseClient.ENABLE_STRICT_URL_ENCODING
+        # Check at the request level
+        if request_configuration is not None:
+            return request_configuration
+        # Check at the client level
+        if client_configuration is not None:
+            return client_configuration
+        # Check at the global level
+        if global_configuration is True:
+            return True
         return False
 
     def should_allow_template_per_realm(self):

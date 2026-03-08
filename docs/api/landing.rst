@@ -8,6 +8,7 @@ API Reference
 * :doc:`Account <marketplace/client/oci.marketplace.AccountClient>`
 * :doc:`Address Rule Service <osp_gateway/client/oci.osp_gateway.AddressRuleServiceClient>`
 * :doc:`Address Service <osp_gateway/client/oci.osp_gateway.AddressServiceClient>`
+* :doc:`Ai Data Platform <ai_data_platform/client/oci.ai_data_platform.AiDataPlatformClient>`
 * :doc:`Ai Service Document <ai_document/client/oci.ai_document.AIServiceDocumentClient>`
 * :doc:`Ai Service Language <ai_language/client/oci.ai_language.AIServiceLanguageClient>`
 * :doc:`Ai Service Speech <ai_speech/client/oci.ai_speech.AIServiceSpeechClient>`
@@ -16,13 +17,11 @@ API Reference
 * :doc:`Announcement <announcements_service/client/oci.announcements_service.AnnouncementClient>`
 * :doc:`Announcement Subscription <announcements_service/client/oci.announcements_service.AnnouncementSubscriptionClient>`
 * :doc:`Announcements Preferences <announcements_service/client/oci.announcements_service.AnnouncementsPreferencesClient>`
-* :doc:`Anomaly Detection <ai_anomaly_detection/client/oci.ai_anomaly_detection.AnomalyDetectionClient>`
 * :doc:`Api Gateway <apigateway/client/oci.apigateway.ApiGatewayClient>`
 * :doc:`Api Metadata <apiaccesscontrol/client/oci.apiaccesscontrol.ApiMetadataClient>`
 * :doc:`Api Platform <api_platform/client/oci.api_platform.ApiPlatformClient>`
 * :doc:`Apm Domain <apm_control_plane/client/oci.apm_control_plane.ApmDomainClient>`
 * :doc:`Apm Synthetic <apm_synthetics/client/oci.apm_synthetics.ApmSyntheticClient>`
-* :doc:`Appliance Export Job <dts/client/oci.dts.ApplianceExportJobClient>`
 * :doc:`Application Dependency Management <adm/client/oci.adm.ApplicationDependencyManagementClient>`
 * :doc:`Appmgmt Control <appmgmt_control/client/oci.appmgmt_control.AppmgmtControlClient>`
 * :doc:`Artifacts <artifacts/client/oci.artifacts.ArtifactsClient>`
@@ -31,6 +30,7 @@ API Reference
 * :doc:`Audit <audit/client/oci.audit.AuditClient>`
 * :doc:`Auto Scaling <autoscaling/client/oci.autoscaling.AutoScalingClient>`
 * :doc:`Bastion <bastion/client/oci.bastion.BastionClient>`
+* :doc:`Batch Computing <batch/client/oci.batch.BatchComputingClient>`
 * :doc:`Bds <bds/client/oci.bds.BdsClient>`
 * :doc:`Billing Schedule <osub_billing_schedule/client/oci.osub_billing_schedule.BillingScheduleClient>`
 * :doc:`Billing Schedule <osub_billing_schedule/client/oci.osub_billing_schedule.BillingScheduleClient>`
@@ -57,6 +57,7 @@ API Reference
 * :doc:`Connector Plugins <sch/client/oci.sch.ConnectorPluginsClient>`
 * :doc:`Container Engine <container_engine/client/oci.container_engine.ContainerEngineClient>`
 * :doc:`Container Instance <container_instances/client/oci.container_instances.ContainerInstanceClient>`
+* :doc:`Cost Ad <budget/client/oci.budget.CostAdClient>`
 * :doc:`DNS <dns/client/oci.dns.DnsClient>`
 * :doc:`Dashboard <dashboard_service/client/oci.dashboard_service.DashboardClient>`
 * :doc:`Dashboard Group <dashboard_service/client/oci.dashboard_service.DashboardGroupClient>`
@@ -73,9 +74,13 @@ API Reference
 * :doc:`Database Recovery <recovery/client/oci.recovery.DatabaseRecoveryClient>`
 * :doc:`Database Tools <database_tools/client/oci.database_tools.DatabaseToolsClient>`
 * :doc:`Dataplane <identity_data_plane/client/oci.identity_data_plane.DataplaneClient>`
+* :doc:`Datastore <ocvp/client/oci.ocvp.DatastoreClient>`
+* :doc:`Datastore Cluster <ocvp/client/oci.ocvp.DatastoreClusterClient>`
 * :doc:`Db Backups <mysql/client/oci.mysql.DbBackupsClient>`
 * :doc:`Db Life Cycle Management <dblm/client/oci.dblm.DbLifeCycleManagementClient>`
 * :doc:`Db Management <database_management/client/oci.database_management.DbManagementClient>`
+* :doc:`Db Multicloud Aws Provider <dbmulticloud/client/oci.dbmulticloud.DbMulticloudAwsProviderClient>`
+* :doc:`Db Multicloud Gcp Provider <dbmulticloud/client/oci.dbmulticloud.DbMulticloudGCPProviderClient>`
 * :doc:`Db System <mysql/client/oci.mysql.DbSystemClient>`
 * :doc:`Delegate Access Control <delegate_access_control/client/oci.delegate_access_control.DelegateAccessControlClient>`
 * :doc:`Demand Signal <capacity_management/client/oci.capacity_management.DemandSignalClient>`
@@ -96,7 +101,6 @@ API Reference
 * :doc:`Email <email/client/oci.email.EmailClient>`
 * :doc:`Email Dp <email_data_plane/client/oci.email_data_plane.EmailDPClient>`
 * :doc:`Esxi Host <ocvp/client/oci.ocvp.EsxiHostClient>`
-* :doc:`Event <os_management_hub/client/oci.os_management_hub.EventClient>`
 * :doc:`Event <os_management_hub/client/oci.os_management_hub.EventClient>`
 * :doc:`Events <events/client/oci.events.EventsClient>`
 * :doc:`File Storage <file_storage/client/oci.file_storage.FileStorageClient>`
@@ -130,8 +134,11 @@ API Reference
 * :doc:`Inventory <cloud_bridge/client/oci.cloud_bridge.InventoryClient>`
 * :doc:`Invoice Service <osp_gateway/client/oci.osp_gateway.InvoiceServiceClient>`
 * :doc:`Invoice Summary <onesubscription/client/oci.onesubscription.InvoiceSummaryClient>`
+* :doc:`Iot <iot/client/oci.iot.IotClient>`
 * :doc:`Java Download <jms_java_downloads/client/oci.jms_java_downloads.JavaDownloadClient>`
 * :doc:`Java Management Service <jms/client/oci.jms.JavaManagementServiceClient>`
+* :doc:`Jms Utils <jms_utils/client/oci.jms_utils.JmsUtilsClient>`
+* :doc:`Kafka Cluster <managed_kafka/client/oci.managed_kafka.KafkaClusterClient>`
 * :doc:`Kms Crypto <key_management/client/oci.key_management.KmsCryptoClient>`
 * :doc:`Kms Hsm Cluster <key_management/client/oci.key_management.KmsHsmClusterClient>`
 * :doc:`Kms Management <key_management/client/oci.key_management.KmsManagementClient>`
@@ -154,6 +161,7 @@ API Reference
 * :doc:`Managed My Sql Databases <database_management/client/oci.database_management.ManagedMySqlDatabasesClient>`
 * :doc:`Management <oda/client/oci.oda.ManagementClient>`
 * :doc:`Management Agent <management_agent/client/oci.management_agent.ManagementAgentClient>`
+* :doc:`Management Appliance <ocvp/client/oci.ocvp.ManagementApplianceClient>`
 * :doc:`Management Station <os_management_hub/client/oci.os_management_hub.ManagementStationClient>`
 * :doc:`Marketplace <marketplace/client/oci.marketplace.MarketplaceClient>`
 * :doc:`Marketplace Publisher <marketplace_publisher/client/oci.marketplace_publisher.MarketplacePublisherClient>`
@@ -162,9 +170,12 @@ API Reference
 * :doc:`Metadata <multicloud/client/oci.multicloud.MetadataClient>`
 * :doc:`Migration <cloud_migrations/client/oci.cloud_migrations.MigrationClient>`
 * :doc:`Model Deployment <model_deployment/client/oci.model_deployment.ModelDeploymentClient>`
+* :doc:`Monitored Region <resource_analytics/client/oci.resource_analytics.MonitoredRegionClient>`
 * :doc:`Monitoring <monitoring/client/oci.monitoring.MonitoringClient>`
 * :doc:`Multi Cloud Resource Discovery <dbmulticloud/client/oci.dbmulticloud.MultiCloudResourceDiscoveryClient>`
 * :doc:`Multi Clouds Metadata <multicloud/client/oci.multicloud.MultiCloudsMetadataClient>`
+* :doc:`Multicloud Resources <multicloud/client/oci.multicloud.MulticloudResourcesClient>`
+* :doc:`Multicloudsubscriptions <multicloud/client/oci.multicloud.MulticloudsubscriptionsClient>`
 * :doc:`Mysqlaas <mysql/client/oci.mysql.MysqlaasClient>`
 * :doc:`Network Firewall <network_firewall/client/oci.network_firewall.NetworkFirewallClient>`
 * :doc:`Network Load Balancer <network_load_balancer/client/oci.network_load_balancer.NetworkLoadBalancerClient>`
@@ -178,6 +189,7 @@ API Reference
 * :doc:`Oce Instance <oce/client/oci.oce.OceInstanceClient>`
 * :doc:`Oci Cache Config Set <redis/client/oci.redis.OciCacheConfigSetClient>`
 * :doc:`Oci Cache Default Config Set <redis/client/oci.redis.OciCacheDefaultConfigSetClient>`
+* :doc:`Oci Cache Engine Options <redis/client/oci.redis.OciCacheEngineOptionsClient>`
 * :doc:`Oci Cache User <redis/client/oci.redis.OciCacheUserClient>`
 * :doc:`Oda <oda/client/oci.oda.OdaClient>`
 * :doc:`Odapackage <oda/client/oci.oda.OdapackageClient>`
@@ -204,11 +216,11 @@ API Reference
 * :doc:`Organization <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.OrganizationClient>`
 * :doc:`Organization Subscription <osub_organization_subscription/client/oci.osub_organization_subscription.OrganizationSubscriptionClient>`
 * :doc:`Organization Subscription <osub_organization_subscription/client/oci.osub_organization_subscription.OrganizationSubscriptionClient>`
-* :doc:`Os Management <os_management/client/oci.os_management.OsManagementClient>`
 * :doc:`Perfhub <database_management/client/oci.database_management.PerfhubClient>`
 * :doc:`Plugin <compute_instance_agent/client/oci.compute_instance_agent.PluginClient>`
 * :doc:`Pluginconfig <compute_instance_agent/client/oci.compute_instance_agent.PluginconfigClient>`
 * :doc:`Postgresql <psql/client/oci.psql.PostgresqlClient>`
+* :doc:`Private Service Access <psa/client/oci.psa.PrivateServiceAccessClient>`
 * :doc:`Privileged Api Control <apiaccesscontrol/client/oci.apiaccesscontrol.PrivilegedApiControlClient>`
 * :doc:`Privileged Api Requests <apiaccesscontrol/client/oci.apiaccesscontrol.PrivilegedApiRequestsClient>`
 * :doc:`Privileged Api Work Request <apiaccesscontrol/client/oci.apiaccesscontrol.PrivilegedApiWorkRequestClient>`
@@ -224,6 +236,7 @@ API Reference
 * :doc:`Redis Identity <redis/client/oci.redis.RedisIdentityClient>`
 * :doc:`Replicas <mysql/client/oci.mysql.ReplicasClient>`
 * :doc:`Reporting Managed Instance <os_management_hub/client/oci.os_management_hub.ReportingManagedInstanceClient>`
+* :doc:`Resource Analytics Instance <resource_analytics/client/oci.resource_analytics.ResourceAnalyticsInstanceClient>`
 * :doc:`Resource Manager <resource_manager/client/oci.resource_manager.ResourceManagerClient>`
 * :doc:`Resource Search <resource_search/client/oci.resource_search.ResourceSearchClient>`
 * :doc:`Resources <usage/client/oci.usage.ResourcesClient>`
@@ -243,12 +256,10 @@ API Reference
 * :doc:`Service Catalog <service_catalog/client/oci.service_catalog.ServiceCatalogClient>`
 * :doc:`Service Connector <sch/client/oci.sch.ServiceConnectorClient>`
 * :doc:`Service Manager Proxy <service_manager_proxy/client/oci.service_manager_proxy.ServiceManagerProxyClient>`
-* :doc:`Service Mesh <service_mesh/client/oci.service_mesh.ServiceMeshClient>`
 * :doc:`Shape <rover/client/oci.rover.ShapeClient>`
-* :doc:`Sharded Database Service <globally_distributed_database/client/oci.globally_distributed_database.ShardedDatabaseServiceClient>`
-* :doc:`Shipping Vendors <dts/client/oci.dts.ShippingVendorsClient>`
 * :doc:`Software Source <os_management_hub/client/oci.os_management_hub.SoftwareSourceClient>`
 * :doc:`Sql Tuning <database_management/client/oci.database_management.SqlTuningClient>`
+* :doc:`Stack <dif/client/oci.dif.StackClient>`
 * :doc:`Stack Monitoring <stack_monitoring/client/oci.stack_monitoring.StackMonitoringClient>`
 * :doc:`Stream <streaming/client/oci.streaming.StreamClient>`
 * :doc:`Stream Admin <streaming/client/oci.streaming.StreamAdminClient>`
@@ -258,13 +269,9 @@ API Reference
 * :doc:`Subscription <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SubscriptionClient>`
 * :doc:`Subscription <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SubscriptionClient>`
 * :doc:`Subscription Service <osp_gateway/client/oci.osp_gateway.SubscriptionServiceClient>`
+* :doc:`Tenancy Attachment <resource_analytics/client/oci.resource_analytics.TenancyAttachmentClient>`
 * :doc:`Threatintel <threat_intelligence/client/oci.threat_intelligence.ThreatintelClient>`
 * :doc:`Trace <apm_traces/client/oci.apm_traces.TraceClient>`
-* :doc:`Transfer Appliance <dts/client/oci.dts.TransferApplianceClient>`
-* :doc:`Transfer Appliance Entitlement <dts/client/oci.dts.TransferApplianceEntitlementClient>`
-* :doc:`Transfer Device <dts/client/oci.dts.TransferDeviceClient>`
-* :doc:`Transfer Job <dts/client/oci.dts.TransferJobClient>`
-* :doc:`Transfer Package <dts/client/oci.dts.TransferPackageClient>`
 * :doc:`Usage Plans <apigateway/client/oci.apigateway.UsagePlansClient>`
 * :doc:`Usageapi <usage_api/client/oci.usage_api.UsageapiClient>`
 * :doc:`Usagelimits <usage/client/oci.usage.UsagelimitsClient>`
@@ -312,7 +319,7 @@ API Reference
 
     access_governance_cp
     adm
-    ai_anomaly_detection
+    ai_data_platform
     ai_document
     ai_language
     ai_speech
@@ -331,6 +338,7 @@ API Reference
     audit
     autoscaling
     bastion
+    batch
     bds
     blockchain
     budget
@@ -365,10 +373,10 @@ API Reference
     demand_signal
     desktops
     devops
+    dif
     disaster_recovery
     distributed_database
     dns
-    dts
     em_warehouse
     email
     email_data_plane
@@ -383,7 +391,6 @@ API Reference
     generative_ai_agent_runtime
     generative_ai_inference
     generic_artifacts_content
-    globally_distributed_database
     golden_gate
     governance_rules_control_plane
     healthchecks
@@ -391,8 +398,10 @@ API Reference
     identity_data_plane
     identity_domains
     integration
+    iot
     jms
     jms_java_downloads
+    jms_utils
     key_management
     license_manager
     limits
@@ -403,6 +412,7 @@ API Reference
     loggingingestion
     loggingsearch
     lustre_file_storage
+    managed_kafka
     management_agent
     management_dashboard
     marketplace
@@ -429,17 +439,18 @@ API Reference
     operator_access_control
     opsi
     optimizer
-    os_management
     os_management_hub
     osp_gateway
     osub_billing_schedule
     osub_organization_subscription
     osub_subscription
     osub_usage
+    psa
     psql
     queue
     recovery
     redis
+    resource_analytics
     resource_manager
     resource_scheduler
     resource_search
@@ -449,7 +460,6 @@ API Reference
     security_attribute
     service_catalog
     service_manager_proxy
-    service_mesh
     stack_monitoring
     streaming
     tenant_manager_control_plane

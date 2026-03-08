@@ -1,0 +1,11 @@
+DatabaseConnectionTypeCollection
+================================
+
+.. currentmodule:: oci.database_migration.models
+
+.. autoclass:: DatabaseConnectionTypeCollection
+    :show-inheritance:
+    :special-members: __init__
+    :members:
+    :undoc-members:
+    :inherited-members:

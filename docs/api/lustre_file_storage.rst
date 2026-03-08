@@ -18,14 +18,33 @@ Lustre File Storage
     :nosignatures:
     :template: autosummary/model_class.rst
 
+    oci.lustre_file_storage.models.AvailableMaintenanceScheduleStartTimeCollection
+    oci.lustre_file_storage.models.AvailableMaintenanceScheduleStartTimeSummary
+    oci.lustre_file_storage.models.AvailableOverrideMaintenanceStartTimeCollection
+    oci.lustre_file_storage.models.AvailableOverrideMaintenanceStartTimeSummary
     oci.lustre_file_storage.models.ChangeLustreFileSystemCompartmentDetails
+    oci.lustre_file_storage.models.ChangeObjectStorageLinkCompartmentDetails
+    oci.lustre_file_storage.models.ClusterPlacementGroup
     oci.lustre_file_storage.models.CreateLustreFileSystemDetails
+    oci.lustre_file_storage.models.CreateObjectStorageLinkDetails
+    oci.lustre_file_storage.models.DateAndTime
     oci.lustre_file_storage.models.LustreFileSystem
     oci.lustre_file_storage.models.LustreFileSystemCollection
     oci.lustre_file_storage.models.LustreFileSystemSummary
     oci.lustre_file_storage.models.MaintenanceWindow
+    oci.lustre_file_storage.models.MaintenanceWindowMetadataDetails
+    oci.lustre_file_storage.models.NetworkSecurityGroup
+    oci.lustre_file_storage.models.ObjectStorageLink
+    oci.lustre_file_storage.models.ObjectStorageLinkCollection
+    oci.lustre_file_storage.models.ObjectStorageLinkSummary
+    oci.lustre_file_storage.models.OverrideMaintenanceDetails
     oci.lustre_file_storage.models.RootSquashConfiguration
+    oci.lustre_file_storage.models.Subnet
+    oci.lustre_file_storage.models.SyncJob
+    oci.lustre_file_storage.models.SyncJobCollection
+    oci.lustre_file_storage.models.SyncJobSummary
     oci.lustre_file_storage.models.UpdateLustreFileSystemDetails
+    oci.lustre_file_storage.models.UpdateObjectStorageLinkDetails
     oci.lustre_file_storage.models.WorkRequest
     oci.lustre_file_storage.models.WorkRequestError
     oci.lustre_file_storage.models.WorkRequestErrorCollection

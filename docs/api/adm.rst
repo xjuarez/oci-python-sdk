@@ -50,6 +50,7 @@ Adm
     oci.adm.models.PipelineProperties
     oci.adm.models.PullRequestProperties
     oci.adm.models.RecommendStage
+    oci.adm.models.RelatedVulnerabilityReference
     oci.adm.models.RemediationRecipe
     oci.adm.models.RemediationRecipeCollection
     oci.adm.models.RemediationRecipeSummary
@@ -76,6 +77,10 @@ Adm
     oci.adm.models.VulnerabilityAuditConfiguration
     oci.adm.models.VulnerabilityAuditSource
     oci.adm.models.VulnerabilityAuditSummary
+    oci.adm.models.VulnerabilityDetails
+    oci.adm.models.VulnerabilityDetailsCollection
+    oci.adm.models.VulnerabilityMetric
+    oci.adm.models.VulnerableArtifactVersionRange
     oci.adm.models.WorkRequest
     oci.adm.models.WorkRequestError
     oci.adm.models.WorkRequestErrorCollection

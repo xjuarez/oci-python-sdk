@@ -90,6 +90,7 @@ Log Analytics
     oci.log_analytics.models.Dependency
     oci.log_analytics.models.DependentParser
     oci.log_analytics.models.DependentSource
+    oci.log_analytics.models.DimensionField
     oci.log_analytics.models.DisableAutoAssociationDetail
     oci.log_analytics.models.DisableAutoAssociationDetails
     oci.log_analytics.models.DistinctCommandDescriptor
@@ -279,10 +280,12 @@ Log Analytics
     oci.log_analytics.models.MacroCommandDescriptor
     oci.log_analytics.models.MapCommandDescriptor
     oci.log_analytics.models.MatchInfo
+    oci.log_analytics.models.MetricCollection
     oci.log_analytics.models.MetricExtraction
     oci.log_analytics.models.ModuleCommandDescriptor
     oci.log_analytics.models.MultiSearchCommandDescriptor
     oci.log_analytics.models.NameValuePair
+    oci.log_analytics.models.NamedCaptureValue
     oci.log_analytics.models.Namespace
     oci.log_analytics.models.NamespaceCollection
     oci.log_analytics.models.NamespaceSummary
@@ -299,6 +302,7 @@ Log Analytics
     oci.log_analytics.models.ParserActionSummaryCollection
     oci.log_analytics.models.ParserSummaryReport
     oci.log_analytics.models.ParserTestResult
+    oci.log_analytics.models.ParserTestResultFieldValue
     oci.log_analytics.models.PatternOverride
     oci.log_analytics.models.PropertyDefinition
     oci.log_analytics.models.PropertyMetadataSummary
