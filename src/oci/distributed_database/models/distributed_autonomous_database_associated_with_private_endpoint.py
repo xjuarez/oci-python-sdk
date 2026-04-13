@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class DistributedAutonomousDatabaseAssociatedWithPrivateEndpoint(object):
     """
-    The details of distributed autonomous database associated with the private endpoint.
+    This field is deprecated. Support for this field will be removed after Mon, 1 Mar 2027 00:00:00 GMT.
     """
 
     def __init__(self, **kwargs):
@@ -46,7 +46,7 @@ class DistributedAutonomousDatabaseAssociatedWithPrivateEndpoint(object):
         **[Required]** Gets the id of this DistributedAutonomousDatabaseAssociatedWithPrivateEndpoint.
         The `OCID`__ of the distributed database.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this DistributedAutonomousDatabaseAssociatedWithPrivateEndpoint.
@@ -60,7 +60,7 @@ class DistributedAutonomousDatabaseAssociatedWithPrivateEndpoint(object):
         Sets the id of this DistributedAutonomousDatabaseAssociatedWithPrivateEndpoint.
         The `OCID`__ of the distributed database.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this DistributedAutonomousDatabaseAssociatedWithPrivateEndpoint.

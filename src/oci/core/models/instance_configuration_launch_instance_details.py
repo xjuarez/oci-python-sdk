@@ -31,6 +31,10 @@ class InstanceConfigurationLaunchInstanceDetails(object):
     LAUNCH_MODE_PARAVIRTUALIZED = "PARAVIRTUALIZED"
 
     #: A constant which can be used with the launch_mode property of a InstanceConfigurationLaunchInstanceDetails.
+    #: This constant has a value of "ACCELERATEDPV"
+    LAUNCH_MODE_ACCELERATEDPV = "ACCELERATEDPV"
+
+    #: A constant which can be used with the launch_mode property of a InstanceConfigurationLaunchInstanceDetails.
     #: This constant has a value of "CUSTOM"
     LAUNCH_MODE_CUSTOM = "CUSTOM"
 
@@ -133,7 +137,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         :param launch_mode:
             The value to assign to the launch_mode property of this InstanceConfigurationLaunchInstanceDetails.
-            Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "ACCELERATEDPV", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type launch_mode: str
 
@@ -370,8 +374,8 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         The `OCID`__ of the
         `compute cluster`__ that the instance will be created in.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
 
 
         :return: The compute_cluster_id of this InstanceConfigurationLaunchInstanceDetails.
@@ -386,8 +390,8 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         The `OCID`__ of the
         `compute cluster`__ that the instance will be created in.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm
 
 
         :param compute_cluster_id: The compute_cluster_id of this InstanceConfigurationLaunchInstanceDetails.
@@ -476,7 +480,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this InstanceConfigurationLaunchInstanceDetails.
@@ -493,7 +497,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this InstanceConfigurationLaunchInstanceDetails.
@@ -511,8 +515,8 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
 
 
         :return: The security_attributes of this InstanceConfigurationLaunchInstanceDetails.
@@ -530,8 +534,8 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
 
 
         :param security_attributes: The security_attributes of this InstanceConfigurationLaunchInstanceDetails.
@@ -612,7 +616,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this InstanceConfigurationLaunchInstanceDetails.
@@ -629,7 +633,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this InstanceConfigurationLaunchInstanceDetails.
@@ -666,7 +670,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         For more information about iPXE, see http://ipxe.org.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
+        __ https://docs.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
 
 
         :return: The ipxe_script of this InstanceConfigurationLaunchInstanceDetails.
@@ -703,7 +707,7 @@ class InstanceConfigurationLaunchInstanceDetails(object):
 
         For more information about iPXE, see http://ipxe.org.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
+        __ https://docs.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
 
 
         :param ipxe_script: The ipxe_script of this InstanceConfigurationLaunchInstanceDetails.
@@ -1013,9 +1017,10 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
         * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
         * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+        * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
         * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 
-        Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "ACCELERATEDPV", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -1032,13 +1037,14 @@ class InstanceConfigurationLaunchInstanceDetails(object):
         * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
         * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
         * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+        * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
         * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 
 
         :param launch_mode: The launch_mode of this InstanceConfigurationLaunchInstanceDetails.
         :type: str
         """
-        allowed_values = ["NATIVE", "EMULATED", "PARAVIRTUALIZED", "CUSTOM"]
+        allowed_values = ["NATIVE", "EMULATED", "PARAVIRTUALIZED", "ACCELERATEDPV", "CUSTOM"]
         if not value_allowed_none_or_none_sentinel(launch_mode, allowed_values):
             launch_mode = 'UNKNOWN_ENUM_VALUE'
         self._launch_mode = launch_mode

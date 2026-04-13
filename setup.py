@@ -33,11 +33,13 @@ requires = [
     "certifi",
     "configparser==4.0.2 ; python_version < '3'",
     "cryptography>=3.2.1,<47.0.0",
-    "pyOpenSSL>=17.5.0,<=25.3.0",
+    "pyOpenSSL>=17.5.0,<27.0.0",
     "python-dateutil>=2.5.3,<3.0.0",
     "pytz>=2016.10",
     "circuitbreaker>=1.3.1,<2.0.0; python_version <= '3.6'",
-    "circuitbreaker>=1.3.1,<3.0.0; python_version >= '3.7'"
+    "circuitbreaker>=1.3.1,<3.0.0; python_version >= '3.7'",
+    "urllib3==1.26.2; python_version < '3.10.0'",
+    "urllib3>=2.6.3; python_version >= '3.10.0'"
 ]
 
 extras_require = {

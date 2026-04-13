@@ -82,6 +82,10 @@ class BackupDestinationDetailsSummary(object):
             The value to assign to the vpc_password property of this BackupDestinationDetailsSummary.
         :type vpc_password: str
 
+        :param is_zero_data_loss_enabled:
+            The value to assign to the is_zero_data_loss_enabled property of this BackupDestinationDetailsSummary.
+        :type is_zero_data_loss_enabled: bool
+
         :param internet_proxy:
             The value to assign to the internet_proxy property of this BackupDestinationDetailsSummary.
         :type internet_proxy: str
@@ -117,6 +121,7 @@ class BackupDestinationDetailsSummary(object):
             'id': 'str',
             'vpc_user': 'str',
             'vpc_password': 'str',
+            'is_zero_data_loss_enabled': 'bool',
             'internet_proxy': 'str',
             'dbrs_policy_id': 'str',
             'is_retention_lock_enabled': 'bool',
@@ -132,6 +137,7 @@ class BackupDestinationDetailsSummary(object):
             'id': 'id',
             'vpc_user': 'vpcUser',
             'vpc_password': 'vpcPassword',
+            'is_zero_data_loss_enabled': 'isZeroDataLossEnabled',
             'internet_proxy': 'internetProxy',
             'dbrs_policy_id': 'dbrsPolicyId',
             'is_retention_lock_enabled': 'isRetentionLockEnabled',
@@ -146,6 +152,7 @@ class BackupDestinationDetailsSummary(object):
         self._id = None
         self._vpc_user = None
         self._vpc_password = None
+        self._is_zero_data_loss_enabled = None
         self._internet_proxy = None
         self._dbrs_policy_id = None
         self._is_retention_lock_enabled = None
@@ -261,7 +268,7 @@ class BackupDestinationDetailsSummary(object):
         Gets the id of this BackupDestinationDetailsSummary.
         The `OCID`__ of the backup destination.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this BackupDestinationDetailsSummary.
@@ -275,7 +282,7 @@ class BackupDestinationDetailsSummary(object):
         Sets the id of this BackupDestinationDetailsSummary.
         The `OCID`__ of the backup destination.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this BackupDestinationDetailsSummary.
@@ -332,6 +339,30 @@ class BackupDestinationDetailsSummary(object):
         self._vpc_password = vpc_password
 
     @property
+    def is_zero_data_loss_enabled(self):
+        """
+        Gets the is_zero_data_loss_enabled of this BackupDestinationDetailsSummary.
+        Indicates whether Zero Data Loss functionality is enabled for a Recovery Appliance backup destination in an Autonomous Container Database. When enabled, the database automatically ships all redo logs in real-time to the Recovery Appliance for a Zero Data Loss recovery setup (sub-second RPO). Defaults to `TRUE` if no value is given.
+
+
+        :return: The is_zero_data_loss_enabled of this BackupDestinationDetailsSummary.
+        :rtype: bool
+        """
+        return self._is_zero_data_loss_enabled
+
+    @is_zero_data_loss_enabled.setter
+    def is_zero_data_loss_enabled(self, is_zero_data_loss_enabled):
+        """
+        Sets the is_zero_data_loss_enabled of this BackupDestinationDetailsSummary.
+        Indicates whether Zero Data Loss functionality is enabled for a Recovery Appliance backup destination in an Autonomous Container Database. When enabled, the database automatically ships all redo logs in real-time to the Recovery Appliance for a Zero Data Loss recovery setup (sub-second RPO). Defaults to `TRUE` if no value is given.
+
+
+        :param is_zero_data_loss_enabled: The is_zero_data_loss_enabled of this BackupDestinationDetailsSummary.
+        :type: bool
+        """
+        self._is_zero_data_loss_enabled = is_zero_data_loss_enabled
+
+    @property
     def internet_proxy(self):
         """
         Gets the internet_proxy of this BackupDestinationDetailsSummary.
@@ -361,7 +392,7 @@ class BackupDestinationDetailsSummary(object):
         Gets the dbrs_policy_id of this BackupDestinationDetailsSummary.
         The `OCID`__ of the DBRS policy used for backup.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The dbrs_policy_id of this BackupDestinationDetailsSummary.
@@ -375,7 +406,7 @@ class BackupDestinationDetailsSummary(object):
         Sets the dbrs_policy_id of this BackupDestinationDetailsSummary.
         The `OCID`__ of the DBRS policy used for backup.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param dbrs_policy_id: The dbrs_policy_id of this BackupDestinationDetailsSummary.
@@ -479,7 +510,7 @@ class BackupDestinationDetailsSummary(object):
         For information about valid region names, see
         `Regions and Availability Domains`__.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm
 
 
         :return: The remote_region of this BackupDestinationDetailsSummary.
@@ -495,7 +526,7 @@ class BackupDestinationDetailsSummary(object):
         For information about valid region names, see
         `Regions and Availability Domains`__.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm
 
 
         :param remote_region: The remote_region of this BackupDestinationDetailsSummary.

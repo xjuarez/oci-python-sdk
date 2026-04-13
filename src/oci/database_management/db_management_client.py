@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import database_management_type_mapping
 missing = Sentinel("Missing")
 
@@ -32,7 +32,7 @@ class DbManagementClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -51,7 +51,7 @@ class DbManagementClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -83,7 +83,7 @@ class DbManagementClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("database_management"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -134,7 +134,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tablespace_name: (required)
             The name of the tablespace.
@@ -172,7 +172,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/add_data_files.py.html>`__ to see an example of how to use add_data_files API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/add_data_files.py.html>`__ to see an example of how to use add_data_files API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'tablespaceName']
@@ -260,7 +260,7 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (required)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.AddManagedDatabaseToManagedDatabaseGroupDetails add_managed_database_to_managed_database_group_details: (required)
             The Managed Database details required to add the Managed Database to a Managed Database Group.
@@ -295,7 +295,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/add_managed_database_to_managed_database_group.py.html>`__ to see an example of how to use add_managed_database_to_managed_database_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/add_managed_database_to_managed_database_group.py.html>`__ to see an example of how to use add_managed_database_to_managed_database_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseGroupId']
@@ -379,7 +379,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param datetime time_start: (required)
             The beginning of the time range to search for ADDM tasks as defined by date-time RFC3339 format.
@@ -430,7 +430,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/addm_tasks.py.html>`__ to see an example of how to use addm_tasks API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/addm_tasks.py.html>`__ to see an example of how to use addm_tasks API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'timeStart', 'timeEnd']
@@ -542,7 +542,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeCloudExadataInfrastructureCompartmentDetails change_cloud_exadata_infrastructure_compartment_details: (required)
             The details required to move the Exadata infrastructure from one compartment to another.
@@ -584,7 +584,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_cloud_exadata_infrastructure_compartment.py.html>`__ to see an example of how to use change_cloud_exadata_infrastructure_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_cloud_exadata_infrastructure_compartment.py.html>`__ to see an example of how to use change_cloud_exadata_infrastructure_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataInfrastructureId']
@@ -683,7 +683,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeDatabaseParametersDetails change_database_parameters_details: (required)
             The details required to change database parameter values.
@@ -718,7 +718,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_database_parameters.py.html>`__ to see an example of how to use change_database_parameters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_database_parameters.py.html>`__ to see an example of how to use change_database_parameters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -803,7 +803,7 @@ class DbManagementClient(object):
         :param str db_management_private_endpoint_id: (required)
             The `OCID`__ of the Database Management private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeDbManagementPrivateEndpointCompartmentDetails change_db_management_private_endpoint_compartment_details: (required)
             The details used to move the Database Management private endpoint to another compartment.
@@ -845,7 +845,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_db_management_private_endpoint_compartment.py.html>`__ to see an example of how to use change_db_management_private_endpoint_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_db_management_private_endpoint_compartment.py.html>`__ to see an example of how to use change_db_management_private_endpoint_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbManagementPrivateEndpointId']
@@ -930,12 +930,12 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeExternalDbSystemCompartmentDetails change_external_db_system_compartment_details: (required)
             The `OCID`__ of the compartment to which the external DB system should be moved.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -974,7 +974,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_external_db_system_compartment.py.html>`__ to see an example of how to use change_external_db_system_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_external_db_system_compartment.py.html>`__ to see an example of how to use change_external_db_system_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -1061,7 +1061,7 @@ class DbManagementClient(object):
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeExternalExadataInfrastructureCompartmentDetails change_external_exadata_infrastructure_compartment_details: (required)
             The details required to move the Exadata infrastructure from one compartment to another.
@@ -1103,7 +1103,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_external_exadata_infrastructure_compartment.py.html>`__ to see an example of how to use change_external_exadata_infrastructure_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_external_exadata_infrastructure_compartment.py.html>`__ to see an example of how to use change_external_exadata_infrastructure_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataInfrastructureId']
@@ -1193,7 +1193,7 @@ class DbManagementClient(object):
         :param oci.database_management.models.ChangeJobCompartmentDetails change_job_compartment_details: (required)
             The `OCID`__ of the compartment to move the job to.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -1232,7 +1232,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_job_compartment.py.html>`__ to see an example of how to use change_job_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_job_compartment.py.html>`__ to see an example of how to use change_job_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -1319,12 +1319,12 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (required)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeManagedDatabaseGroupCompartmentDetails change_managed_database_group_compartment_details: (required)
             The `OCID`__ of the compartment to move the Managed Database Group to.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -1363,7 +1363,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_managed_database_group_compartment.py.html>`__ to see an example of how to use change_managed_database_group_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_managed_database_group_compartment.py.html>`__ to see an example of how to use change_managed_database_group_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseGroupId']
@@ -1450,12 +1450,12 @@ class DbManagementClient(object):
         :param str named_credential_id: (required)
             The `OCID`__ of the named credential.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeNamedCredentialCompartmentDetails change_named_credential_compartment_details: (required)
             The `OCID`__ of the compartment to which the named credential should be moved.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -1494,7 +1494,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_named_credential_compartment.py.html>`__ to see an example of how to use change_named_credential_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_named_credential_compartment.py.html>`__ to see an example of how to use change_named_credential_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['namedCredentialId']
@@ -1583,7 +1583,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangePlanRetentionDetails change_plan_retention_details: (required)
             The details required to change the plan retention period.
@@ -1611,7 +1611,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_plan_retention.py.html>`__ to see an example of how to use change_plan_retention API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_plan_retention.py.html>`__ to see an example of how to use change_plan_retention API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -1692,7 +1692,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeSpaceBudgetDetails change_space_budget_details: (required)
             The details required to change the disk space limit for the SQL Management Base.
@@ -1720,7 +1720,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_space_budget.py.html>`__ to see an example of how to use change_space_budget API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_space_budget.py.html>`__ to see an example of how to use change_space_budget API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -1800,7 +1800,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ChangeSqlPlanBaselinesAttributesDetails change_sql_plan_baselines_attributes_details: (required)
             The details required to change SQL plan baseline attributes.
@@ -1828,7 +1828,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_sql_plan_baselines_attributes.py.html>`__ to see an example of how to use change_sql_plan_baselines_attributes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/change_sql_plan_baselines_attributes.py.html>`__ to see an example of how to use change_sql_plan_baselines_attributes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -1909,7 +1909,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_connector_id: (required)
             The `OCID`__ of the cloud connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -1948,7 +1948,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_cloud_db_system_connector_connection_status.py.html>`__ to see an example of how to use check_cloud_db_system_connector_connection_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_cloud_db_system_connector_connection_status.py.html>`__ to see an example of how to use check_cloud_db_system_connector_connection_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemConnectorId']
@@ -2035,7 +2035,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -2074,7 +2074,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use check_cloud_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use check_cloud_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageConnectorId']
@@ -2162,7 +2162,7 @@ class DbManagementClient(object):
         :param str external_db_system_connector_id: (required)
             The `OCID`__ of the external connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -2201,7 +2201,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_external_db_system_connector_connection_status.py.html>`__ to see an example of how to use check_external_db_system_connector_connection_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_external_db_system_connector_connection_status.py.html>`__ to see an example of how to use check_external_db_system_connector_connection_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemConnectorId']
@@ -2288,7 +2288,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -2327,7 +2327,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_external_exadata_storage_connector.py.html>`__ to see an example of how to use check_external_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_external_exadata_storage_connector.py.html>`__ to see an example of how to use check_external_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageConnectorId']
@@ -2452,7 +2452,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_external_my_sql_database_connector_connection_status.py.html>`__ to see an example of how to use check_external_my_sql_database_connector_connection_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/check_external_my_sql_database_connector_connection_status.py.html>`__ to see an example of how to use check_external_my_sql_database_connector_connection_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseConnectorId']
@@ -2538,7 +2538,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ConfigureAutomaticCaptureFiltersDetails configure_automatic_capture_filters_details: (required)
             The details required to configure automatic capture filters.
@@ -2566,7 +2566,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/configure_automatic_capture_filters.py.html>`__ to see an example of how to use configure_automatic_capture_filters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/configure_automatic_capture_filters.py.html>`__ to see an example of how to use configure_automatic_capture_filters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -2648,7 +2648,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ConfigureAutomaticSpmEvolveAdvisorTaskDetails configure_automatic_spm_evolve_advisor_task_details: (required)
             The configuration details of the Automatic SPM Evolve Advisor task.
@@ -2676,7 +2676,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/configure_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use configure_automatic_spm_evolve_advisor_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/configure_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use configure_automatic_spm_evolve_advisor_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -2786,7 +2786,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_db_system.py.html>`__ to see an example of how to use create_cloud_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_db_system.py.html>`__ to see an example of how to use create_cloud_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2891,7 +2891,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_db_system_connector.py.html>`__ to see an example of how to use create_cloud_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_db_system_connector.py.html>`__ to see an example of how to use create_cloud_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2996,7 +2996,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_db_system_discovery.py.html>`__ to see an example of how to use create_cloud_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_db_system_discovery.py.html>`__ to see an example of how to use create_cloud_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3106,7 +3106,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use create_cloud_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use create_cloud_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3211,7 +3211,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use create_cloud_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use create_cloud_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3316,7 +3316,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_db_management_private_endpoint.py.html>`__ to see an example of how to use create_db_management_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_db_management_private_endpoint.py.html>`__ to see an example of how to use create_db_management_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3419,7 +3419,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_db_system.py.html>`__ to see an example of how to use create_external_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_db_system.py.html>`__ to see an example of how to use create_external_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3524,7 +3524,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_db_system_connector.py.html>`__ to see an example of how to use create_external_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_db_system_connector.py.html>`__ to see an example of how to use create_external_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3629,7 +3629,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_db_system_discovery.py.html>`__ to see an example of how to use create_external_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_db_system_discovery.py.html>`__ to see an example of how to use create_external_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3739,7 +3739,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_exadata_infrastructure.py.html>`__ to see an example of how to use create_external_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_exadata_infrastructure.py.html>`__ to see an example of how to use create_external_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3844,7 +3844,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_exadata_storage_connector.py.html>`__ to see an example of how to use create_external_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_exadata_storage_connector.py.html>`__ to see an example of how to use create_external_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3949,7 +3949,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_my_sql_database.py.html>`__ to see an example of how to use create_external_my_sql_database API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_my_sql_database.py.html>`__ to see an example of how to use create_external_my_sql_database API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4057,7 +4057,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_my_sql_database_connector.py.html>`__ to see an example of how to use create_external_my_sql_database_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_external_my_sql_database_connector.py.html>`__ to see an example of how to use create_external_my_sql_database_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['isTestConnectionParam']
@@ -4171,7 +4171,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_job.py.html>`__ to see an example of how to use create_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_job.py.html>`__ to see an example of how to use create_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4275,7 +4275,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_managed_database_group.py.html>`__ to see an example of how to use create_managed_database_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_managed_database_group.py.html>`__ to see an example of how to use create_managed_database_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4378,7 +4378,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_named_credential.py.html>`__ to see an example of how to use create_named_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_named_credential.py.html>`__ to see an example of how to use create_named_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4451,7 +4451,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.CreateTablespaceDetails create_tablespace_details: (required)
             The details required to create a tablespace.
@@ -4486,7 +4486,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_tablespace.py.html>`__ to see an example of how to use create_tablespace API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_tablespace.py.html>`__ to see an example of how to use create_tablespace API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -4571,7 +4571,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -4603,7 +4603,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_db_system.py.html>`__ to see an example of how to use delete_cloud_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_db_system.py.html>`__ to see an example of how to use delete_cloud_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -4683,7 +4683,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_connector_id: (required)
             The `OCID`__ of the cloud connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -4715,7 +4715,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_db_system_connector.py.html>`__ to see an example of how to use delete_cloud_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_db_system_connector.py.html>`__ to see an example of how to use delete_cloud_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemConnectorId']
@@ -4795,7 +4795,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_discovery_id: (required)
             The `OCID`__ of the cloud DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -4827,7 +4827,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_db_system_discovery.py.html>`__ to see an example of how to use delete_cloud_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_db_system_discovery.py.html>`__ to see an example of how to use delete_cloud_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemDiscoveryId']
@@ -4907,7 +4907,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -4939,7 +4939,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use delete_cloud_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use delete_cloud_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataInfrastructureId']
@@ -5019,7 +5019,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -5051,7 +5051,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use delete_cloud_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use delete_cloud_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageConnectorId']
@@ -5131,7 +5131,7 @@ class DbManagementClient(object):
         :param str db_management_private_endpoint_id: (required)
             The `OCID`__ of the Database Management private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -5163,7 +5163,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_db_management_private_endpoint.py.html>`__ to see an example of how to use delete_db_management_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_db_management_private_endpoint.py.html>`__ to see an example of how to use delete_db_management_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbManagementPrivateEndpointId']
@@ -5243,7 +5243,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -5275,7 +5275,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_db_system.py.html>`__ to see an example of how to use delete_external_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_db_system.py.html>`__ to see an example of how to use delete_external_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -5355,7 +5355,7 @@ class DbManagementClient(object):
         :param str external_db_system_connector_id: (required)
             The `OCID`__ of the external connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -5387,7 +5387,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_db_system_connector.py.html>`__ to see an example of how to use delete_external_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_db_system_connector.py.html>`__ to see an example of how to use delete_external_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemConnectorId']
@@ -5467,7 +5467,7 @@ class DbManagementClient(object):
         :param str external_db_system_discovery_id: (required)
             The `OCID`__ of the external DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -5499,7 +5499,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_db_system_discovery.py.html>`__ to see an example of how to use delete_external_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_db_system_discovery.py.html>`__ to see an example of how to use delete_external_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemDiscoveryId']
@@ -5579,7 +5579,7 @@ class DbManagementClient(object):
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -5611,7 +5611,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_exadata_infrastructure.py.html>`__ to see an example of how to use delete_external_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_exadata_infrastructure.py.html>`__ to see an example of how to use delete_external_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataInfrastructureId']
@@ -5691,7 +5691,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -5723,7 +5723,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_exadata_storage_connector.py.html>`__ to see an example of how to use delete_external_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_exadata_storage_connector.py.html>`__ to see an example of how to use delete_external_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageConnectorId']
@@ -5833,7 +5833,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_my_sql_database.py.html>`__ to see an example of how to use delete_external_my_sql_database API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_my_sql_database.py.html>`__ to see an example of how to use delete_external_my_sql_database API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseId']
@@ -5943,7 +5943,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_my_sql_database_connector.py.html>`__ to see an example of how to use delete_external_my_sql_database_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_external_my_sql_database_connector.py.html>`__ to see an example of how to use delete_external_my_sql_database_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseConnectorId']
@@ -6053,7 +6053,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_job.py.html>`__ to see an example of how to use delete_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_job.py.html>`__ to see an example of how to use delete_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -6134,7 +6134,7 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (required)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -6166,7 +6166,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_managed_database_group.py.html>`__ to see an example of how to use delete_managed_database_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_managed_database_group.py.html>`__ to see an example of how to use delete_managed_database_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseGroupId']
@@ -6246,7 +6246,7 @@ class DbManagementClient(object):
         :param str named_credential_id: (required)
             The `OCID`__ of the named credential.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -6278,7 +6278,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_named_credential.py.html>`__ to see an example of how to use delete_named_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_named_credential.py.html>`__ to see an example of how to use delete_named_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['namedCredentialId']
@@ -6358,7 +6358,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str credential_name: (required)
             The name of the preferred credential.
@@ -6386,7 +6386,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_preferred_credential.py.html>`__ to see an example of how to use delete_preferred_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/delete_preferred_credential.py.html>`__ to see an example of how to use delete_preferred_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'credentialName']
@@ -6465,7 +6465,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableAutomaticInitialPlanCaptureDetails disable_automatic_initial_plan_capture_details: (required)
             The details required to disable automatic initial plan capture.
@@ -6493,7 +6493,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_automatic_initial_plan_capture.py.html>`__ to see an example of how to use disable_automatic_initial_plan_capture API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_automatic_initial_plan_capture.py.html>`__ to see an example of how to use disable_automatic_initial_plan_capture API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -6576,7 +6576,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableAutomaticSpmEvolveAdvisorTaskDetails disable_automatic_spm_evolve_advisor_task_details: (required)
             The details required to disable Automatic SPM Evolve Advisor task.
@@ -6604,7 +6604,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use disable_automatic_spm_evolve_advisor_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use disable_automatic_spm_evolve_advisor_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -6684,7 +6684,7 @@ class DbManagementClient(object):
         :param str autonomous_database_id: (required)
             The `OCID`__ of the Autonomous Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableAutonomousDatabaseManagementFeatureDetails disable_autonomous_database_management_feature_details: (required)
             The details required to disable a Database Management feature for an Autonomous Database.
@@ -6726,7 +6726,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_autonomous_database_management_feature.py.html>`__ to see an example of how to use disable_autonomous_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_autonomous_database_management_feature.py.html>`__ to see an example of how to use disable_autonomous_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['autonomousDatabaseId']
@@ -6814,7 +6814,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -6853,7 +6853,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_cloud_db_system_database_management.py.html>`__ to see an example of how to use disable_cloud_db_system_database_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_cloud_db_system_database_management.py.html>`__ to see an example of how to use disable_cloud_db_system_database_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -6939,7 +6939,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -6978,7 +6978,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_cloud_db_system_stack_monitoring.py.html>`__ to see an example of how to use disable_cloud_db_system_stack_monitoring API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_cloud_db_system_stack_monitoring.py.html>`__ to see an example of how to use disable_cloud_db_system_stack_monitoring API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -7070,7 +7070,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -7109,7 +7109,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_cloud_exadata_infrastructure_management.py.html>`__ to see an example of how to use disable_cloud_exadata_infrastructure_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_cloud_exadata_infrastructure_management.py.html>`__ to see an example of how to use disable_cloud_exadata_infrastructure_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataInfrastructureId']
@@ -7194,7 +7194,7 @@ class DbManagementClient(object):
         :param str database_id: (required)
             The `OCID`__ of the Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableDatabaseManagementFeatureDetails disable_database_management_feature_details: (required)
             The details required to disable a Database Management feature for an Oracle cloud database.
@@ -7236,7 +7236,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_database_management_feature.py.html>`__ to see an example of how to use disable_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_database_management_feature.py.html>`__ to see an example of how to use disable_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseId']
@@ -7323,7 +7323,7 @@ class DbManagementClient(object):
         :param str external_container_database_id: (required)
             The `OCID`__ of the external container database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableExternalContainerDatabaseManagementFeatureDetails disable_external_container_database_management_feature_details: (required)
             The details required to disable a Database Management feature for an external container database.
@@ -7365,7 +7365,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_container_database_management_feature.py.html>`__ to see an example of how to use disable_external_container_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_container_database_management_feature.py.html>`__ to see an example of how to use disable_external_container_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalContainerDatabaseId']
@@ -7453,7 +7453,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -7492,7 +7492,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_db_system_database_management.py.html>`__ to see an example of how to use disable_external_db_system_database_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_db_system_database_management.py.html>`__ to see an example of how to use disable_external_db_system_database_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -7578,7 +7578,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -7617,7 +7617,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_db_system_stack_monitoring.py.html>`__ to see an example of how to use disable_external_db_system_stack_monitoring API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_db_system_stack_monitoring.py.html>`__ to see an example of how to use disable_external_db_system_stack_monitoring API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -7709,7 +7709,7 @@ class DbManagementClient(object):
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -7748,7 +7748,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_exadata_infrastructure_management.py.html>`__ to see an example of how to use disable_external_exadata_infrastructure_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_exadata_infrastructure_management.py.html>`__ to see an example of how to use disable_external_exadata_infrastructure_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataInfrastructureId']
@@ -7870,7 +7870,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_my_sql_database_management.py.html>`__ to see an example of how to use disable_external_my_sql_database_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_my_sql_database_management.py.html>`__ to see an example of how to use disable_external_my_sql_database_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseId']
@@ -7955,7 +7955,7 @@ class DbManagementClient(object):
         :param str external_non_container_database_id: (required)
             The `OCID`__ of the external non-container database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableExternalNonContainerDatabaseManagementFeatureDetails disable_external_non_container_database_management_feature_details: (required)
             The details required to disable a Database Management feature for an external non-container database.
@@ -7997,7 +7997,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_non_container_database_management_feature.py.html>`__ to see an example of how to use disable_external_non_container_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_non_container_database_management_feature.py.html>`__ to see an example of how to use disable_external_non_container_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalNonContainerDatabaseId']
@@ -8084,7 +8084,7 @@ class DbManagementClient(object):
         :param str external_pluggable_database_id: (required)
             The `OCID`__ of the external pluggable database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableExternalPluggableDatabaseManagementFeatureDetails disable_external_pluggable_database_management_feature_details: (required)
             The details required to disable a Database Management feature for an external pluggable database.
@@ -8126,7 +8126,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_pluggable_database_management_feature.py.html>`__ to see an example of how to use disable_external_pluggable_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_external_pluggable_database_management_feature.py.html>`__ to see an example of how to use disable_external_pluggable_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalPluggableDatabaseId']
@@ -8216,7 +8216,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableHighFrequencyAutomaticSpmEvolveAdvisorTaskDetails disable_high_frequency_automatic_spm_evolve_advisor_task_details: (required)
             The details required to disable high frequency Automatic SPM Evolve Advisor task.
@@ -8244,7 +8244,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_high_frequency_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use disable_high_frequency_automatic_spm_evolve_advisor_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_high_frequency_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use disable_high_frequency_automatic_spm_evolve_advisor_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -8324,7 +8324,7 @@ class DbManagementClient(object):
         :param str pluggable_database_id: (required)
             The `OCID`__ of the Oracle cloud pluggable database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisablePluggableDatabaseManagementFeatureDetails disable_pluggable_database_management_feature_details: (required)
             The details required to disable a Database Management feature for an Oracle cloud pluggable database.
@@ -8366,7 +8366,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_pluggable_database_management_feature.py.html>`__ to see an example of how to use disable_pluggable_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_pluggable_database_management_feature.py.html>`__ to see an example of how to use disable_pluggable_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['pluggableDatabaseId']
@@ -8455,7 +8455,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DisableSqlPlanBaselinesUsageDetails disable_sql_plan_baselines_usage_details: (required)
             The details required to disable SQL plan baseline usage.
@@ -8483,7 +8483,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_sql_plan_baselines_usage.py.html>`__ to see an example of how to use disable_sql_plan_baselines_usage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/disable_sql_plan_baselines_usage.py.html>`__ to see an example of how to use disable_sql_plan_baselines_usage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -8608,7 +8608,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/discover_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use discover_cloud_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/discover_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use discover_cloud_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8738,7 +8738,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/discover_external_exadata_infrastructure.py.html>`__ to see an example of how to use discover_external_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/discover_external_exadata_infrastructure.py.html>`__ to see an example of how to use discover_external_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8815,7 +8815,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DropSqlPlanBaselinesDetails drop_sql_plan_baselines_details: (required)
             The details required to drop SQL plan baselines.
@@ -8843,7 +8843,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sql_plan_baselines.py.html>`__ to see an example of how to use drop_sql_plan_baselines API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sql_plan_baselines.py.html>`__ to see an example of how to use drop_sql_plan_baselines API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -8923,7 +8923,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tablespace_name: (required)
             The name of the tablespace.
@@ -8961,7 +8961,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_tablespace.py.html>`__ to see an example of how to use drop_tablespace API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_tablespace.py.html>`__ to see an example of how to use drop_tablespace API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'tablespaceName']
@@ -9054,7 +9054,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableAutomaticInitialPlanCaptureDetails enable_automatic_initial_plan_capture_details: (required)
             The details required to enable automatic initial plan capture.
@@ -9082,7 +9082,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_automatic_initial_plan_capture.py.html>`__ to see an example of how to use enable_automatic_initial_plan_capture API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_automatic_initial_plan_capture.py.html>`__ to see an example of how to use enable_automatic_initial_plan_capture API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -9174,7 +9174,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableAutomaticSpmEvolveAdvisorTaskDetails enable_automatic_spm_evolve_advisor_task_details: (required)
             The details required to enable Automatic SPM Evolve Advisor task.
@@ -9202,7 +9202,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use enable_automatic_spm_evolve_advisor_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use enable_automatic_spm_evolve_advisor_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -9282,7 +9282,7 @@ class DbManagementClient(object):
         :param str autonomous_database_id: (required)
             The `OCID`__ of the Autonomous Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableAutonomousDatabaseManagementFeatureDetails enable_autonomous_database_management_feature_details: (required)
             The details required to enable a Database Management feature for an Autonomous Database.
@@ -9324,7 +9324,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_autonomous_database_management_feature.py.html>`__ to see an example of how to use enable_autonomous_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_autonomous_database_management_feature.py.html>`__ to see an example of how to use enable_autonomous_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['autonomousDatabaseId']
@@ -9412,7 +9412,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableCloudDbSystemDatabaseManagementDetails enable_cloud_db_system_database_management_details: (required)
             The details required to enable Stack Monitoring for an cloud DB system.
@@ -9454,7 +9454,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_cloud_db_system_database_management.py.html>`__ to see an example of how to use enable_cloud_db_system_database_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_cloud_db_system_database_management.py.html>`__ to see an example of how to use enable_cloud_db_system_database_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -9542,7 +9542,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableCloudDbSystemStackMonitoringDetails enable_cloud_db_system_stack_monitoring_details: (required)
             The details required to enable Stack Monitoring for an cloud DB system.
@@ -9584,7 +9584,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_cloud_db_system_stack_monitoring.py.html>`__ to see an example of how to use enable_cloud_db_system_stack_monitoring API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_cloud_db_system_stack_monitoring.py.html>`__ to see an example of how to use enable_cloud_db_system_stack_monitoring API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -9676,7 +9676,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableCloudExadataInfrastructureManagementDetails enable_cloud_exadata_infrastructure_management_details: (required)
             The details required to enable management for the Exadata infrastructure.
@@ -9718,7 +9718,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_cloud_exadata_infrastructure_management.py.html>`__ to see an example of how to use enable_cloud_exadata_infrastructure_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_cloud_exadata_infrastructure_management.py.html>`__ to see an example of how to use enable_cloud_exadata_infrastructure_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataInfrastructureId']
@@ -9805,7 +9805,7 @@ class DbManagementClient(object):
         :param str database_id: (required)
             The `OCID`__ of the Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableDatabaseManagementFeatureDetails enable_database_management_feature_details: (required)
             The details required to enable a Database Management feature for an Oracle cloud database.
@@ -9847,7 +9847,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_database_management_feature.py.html>`__ to see an example of how to use enable_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_database_management_feature.py.html>`__ to see an example of how to use enable_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseId']
@@ -9934,7 +9934,7 @@ class DbManagementClient(object):
         :param str external_container_database_id: (required)
             The `OCID`__ of the external container database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableExternalContainerDatabaseManagementFeatureDetails enable_external_container_database_management_feature_details: (required)
             The details required to enable a Database Management feature for an external container database.
@@ -9976,7 +9976,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_container_database_management_feature.py.html>`__ to see an example of how to use enable_external_container_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_container_database_management_feature.py.html>`__ to see an example of how to use enable_external_container_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalContainerDatabaseId']
@@ -10064,7 +10064,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableExternalDbSystemDatabaseManagementDetails enable_external_db_system_database_management_details: (required)
             The details required to enable Database Management for an external DB system.
@@ -10106,7 +10106,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_db_system_database_management.py.html>`__ to see an example of how to use enable_external_db_system_database_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_db_system_database_management.py.html>`__ to see an example of how to use enable_external_db_system_database_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -10194,7 +10194,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableExternalDbSystemStackMonitoringDetails enable_external_db_system_stack_monitoring_details: (required)
             The details required to enable Stack Monitoring for an external DB system.
@@ -10236,7 +10236,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_db_system_stack_monitoring.py.html>`__ to see an example of how to use enable_external_db_system_stack_monitoring API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_db_system_stack_monitoring.py.html>`__ to see an example of how to use enable_external_db_system_stack_monitoring API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -10328,7 +10328,7 @@ class DbManagementClient(object):
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableExternalExadataInfrastructureManagementDetails enable_external_exadata_infrastructure_management_details: (required)
             The details required to enable management for the Exadata infrastructure.
@@ -10370,7 +10370,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_exadata_infrastructure_management.py.html>`__ to see an example of how to use enable_external_exadata_infrastructure_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_exadata_infrastructure_management.py.html>`__ to see an example of how to use enable_external_exadata_infrastructure_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataInfrastructureId']
@@ -10497,7 +10497,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_my_sql_database_management.py.html>`__ to see an example of how to use enable_external_my_sql_database_management API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_my_sql_database_management.py.html>`__ to see an example of how to use enable_external_my_sql_database_management API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseId']
@@ -10584,7 +10584,7 @@ class DbManagementClient(object):
         :param str external_non_container_database_id: (required)
             The `OCID`__ of the external non-container database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableExternalNonContainerDatabaseManagementFeatureDetails enable_external_non_container_database_management_feature_details: (required)
             The details required to enable a Database Management feature for an external non-container database.
@@ -10626,7 +10626,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_non_container_database_management_feature.py.html>`__ to see an example of how to use enable_external_non_container_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_non_container_database_management_feature.py.html>`__ to see an example of how to use enable_external_non_container_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalNonContainerDatabaseId']
@@ -10713,7 +10713,7 @@ class DbManagementClient(object):
         :param str external_pluggable_database_id: (required)
             The `OCID`__ of the external pluggable database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableExternalPluggableDatabaseManagementFeatureDetails enable_external_pluggable_database_management_feature_details: (required)
             The details required to enable a Database Management feature for an external pluggable database.
@@ -10755,7 +10755,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_pluggable_database_management_feature.py.html>`__ to see an example of how to use enable_external_pluggable_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_external_pluggable_database_management_feature.py.html>`__ to see an example of how to use enable_external_pluggable_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalPluggableDatabaseId']
@@ -10850,7 +10850,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableHighFrequencyAutomaticSpmEvolveAdvisorTaskDetails enable_high_frequency_automatic_spm_evolve_advisor_task_details: (required)
             The details required to enable high frequency Automatic SPM Evolve Advisor task.
@@ -10878,7 +10878,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_high_frequency_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use enable_high_frequency_automatic_spm_evolve_advisor_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_high_frequency_automatic_spm_evolve_advisor_task.py.html>`__ to see an example of how to use enable_high_frequency_automatic_spm_evolve_advisor_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -10958,7 +10958,7 @@ class DbManagementClient(object):
         :param str pluggable_database_id: (required)
             The `OCID`__ of the Oracle cloud pluggable database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnablePluggableDatabaseManagementFeatureDetails enable_pluggable_database_management_feature_details: (required)
             The details required to enable a Database Management feature for an Oracle cloud pluggable database.
@@ -11000,7 +11000,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_pluggable_database_management_feature.py.html>`__ to see an example of how to use enable_pluggable_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_pluggable_database_management_feature.py.html>`__ to see an example of how to use enable_pluggable_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['pluggableDatabaseId']
@@ -11090,7 +11090,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableSqlPlanBaselinesUsageDetails enable_sql_plan_baselines_usage_details: (required)
             The details required to enable SQL plan baseline usage.
@@ -11118,7 +11118,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_sql_plan_baselines_usage.py.html>`__ to see an example of how to use enable_sql_plan_baselines_usage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/enable_sql_plan_baselines_usage.py.html>`__ to see an example of how to use enable_sql_plan_baselines_usage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -11198,7 +11198,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_retry_token: (optional)
             A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -11233,7 +11233,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/generate_awr_snapshot.py.html>`__ to see an example of how to use generate_awr_snapshot API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/generate_awr_snapshot.py.html>`__ to see an example of how to use generate_awr_snapshot API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -11318,7 +11318,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -11388,7 +11388,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_awr_db_report.py.html>`__ to see an example of how to use get_awr_db_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_awr_db_report.py.html>`__ to see an example of how to use get_awr_db_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId']
@@ -11510,7 +11510,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -11578,7 +11578,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_awr_db_sql_report.py.html>`__ to see an example of how to use get_awr_db_sql_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_awr_db_sql_report.py.html>`__ to see an example of how to use get_awr_db_sql_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId', 'sqlId']
@@ -11692,7 +11692,7 @@ class DbManagementClient(object):
         :param str cloud_asm_id: (required)
             The `OCID`__ of the cloud ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -11717,7 +11717,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_asm.py.html>`__ to see an example of how to use get_cloud_asm API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_asm.py.html>`__ to see an example of how to use get_cloud_asm API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmId']
@@ -11799,7 +11799,7 @@ class DbManagementClient(object):
         :param str cloud_asm_id: (required)
             The `OCID`__ of the cloud ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -11827,7 +11827,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_asm_configuration.py.html>`__ to see an example of how to use get_cloud_asm_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_asm_configuration.py.html>`__ to see an example of how to use get_cloud_asm_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmId']
@@ -11911,7 +11911,7 @@ class DbManagementClient(object):
         :param str cloud_asm_instance_id: (required)
             The `OCID`__ of the cloud ASM instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -11936,7 +11936,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_asm_instance.py.html>`__ to see an example of how to use get_cloud_asm_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_asm_instance.py.html>`__ to see an example of how to use get_cloud_asm_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmInstanceId']
@@ -12018,7 +12018,7 @@ class DbManagementClient(object):
         :param str cloud_cluster_id: (required)
             The `OCID`__ of the cloud cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12043,7 +12043,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_cluster.py.html>`__ to see an example of how to use get_cloud_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_cluster.py.html>`__ to see an example of how to use get_cloud_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudClusterId']
@@ -12125,7 +12125,7 @@ class DbManagementClient(object):
         :param str cloud_cluster_instance_id: (required)
             The `OCID`__ of the cloud cluster instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12150,7 +12150,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_cluster_instance.py.html>`__ to see an example of how to use get_cloud_cluster_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_cluster_instance.py.html>`__ to see an example of how to use get_cloud_cluster_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudClusterInstanceId']
@@ -12232,7 +12232,7 @@ class DbManagementClient(object):
         :param str cloud_db_home_id: (required)
             The `OCID`__ of the cloud database home.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12257,7 +12257,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_home.py.html>`__ to see an example of how to use get_cloud_db_home API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_home.py.html>`__ to see an example of how to use get_cloud_db_home API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbHomeId']
@@ -12339,7 +12339,7 @@ class DbManagementClient(object):
         :param str cloud_db_node_id: (required)
             The `OCID`__ of the cloud database node.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12364,7 +12364,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_node.py.html>`__ to see an example of how to use get_cloud_db_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_node.py.html>`__ to see an example of how to use get_cloud_db_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbNodeId']
@@ -12446,7 +12446,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12471,7 +12471,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_system.py.html>`__ to see an example of how to use get_cloud_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_system.py.html>`__ to see an example of how to use get_cloud_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -12553,7 +12553,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_connector_id: (required)
             The `OCID`__ of the cloud connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12578,7 +12578,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_system_connector.py.html>`__ to see an example of how to use get_cloud_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_system_connector.py.html>`__ to see an example of how to use get_cloud_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemConnectorId']
@@ -12660,7 +12660,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_discovery_id: (required)
             The `OCID`__ of the cloud DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12685,7 +12685,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_system_discovery.py.html>`__ to see an example of how to use get_cloud_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_db_system_discovery.py.html>`__ to see an example of how to use get_cloud_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemDiscoveryId']
@@ -12768,7 +12768,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12793,7 +12793,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use get_cloud_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use get_cloud_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataInfrastructureId']
@@ -12875,7 +12875,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -12900,7 +12900,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use get_cloud_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use get_cloud_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageConnectorId']
@@ -12982,7 +12982,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_grid_id: (required)
             The `OCID`__ of the Exadata storage grid.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -13007,7 +13007,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_storage_grid.py.html>`__ to see an example of how to use get_cloud_exadata_storage_grid API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_storage_grid.py.html>`__ to see an example of how to use get_cloud_exadata_storage_grid API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageGridId']
@@ -13089,7 +13089,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -13114,7 +13114,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_storage_server.py.html>`__ to see an example of how to use get_cloud_exadata_storage_server API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_exadata_storage_server.py.html>`__ to see an example of how to use get_cloud_exadata_storage_server API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageServerId']
@@ -13196,7 +13196,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -13221,7 +13221,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_iorm_plan.py.html>`__ to see an example of how to use get_cloud_iorm_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_iorm_plan.py.html>`__ to see an example of how to use get_cloud_iorm_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageServerId']
@@ -13303,7 +13303,7 @@ class DbManagementClient(object):
         :param str cloud_listener_id: (required)
             The `OCID`__ of the cloud listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -13328,7 +13328,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_listener.py.html>`__ to see an example of how to use get_cloud_listener API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_listener.py.html>`__ to see an example of how to use get_cloud_listener API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudListenerId']
@@ -13410,7 +13410,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -13435,7 +13435,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_open_alert_history.py.html>`__ to see an example of how to use get_cloud_open_alert_history API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cloud_open_alert_history.py.html>`__ to see an example of how to use get_cloud_open_alert_history API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageServerId']
@@ -13519,7 +13519,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The start time of the time range to retrieve the health metrics of a Managed Database
@@ -13552,7 +13552,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cluster_cache_metric.py.html>`__ to see an example of how to use get_cluster_cache_metric API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_cluster_cache_metric.py.html>`__ to see an example of how to use get_cluster_cache_metric API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'startTime', 'endTime']
@@ -13658,12 +13658,12 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str filter_by_metric_names: (optional)
             The filter used to retrieve a specific set of metrics by passing the desired metric names with a comma separator. Note that, by default, the service returns all supported metrics.
@@ -13731,7 +13731,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_backup_metrics.py.html>`__ to see an example of how to use get_database_fleet_backup_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_backup_metrics.py.html>`__ to see an example of how to use get_database_fleet_backup_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseHostedIn', 'startTime', 'endTime']
@@ -13856,12 +13856,12 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str filter_by_metric_names: (optional)
             The filter used to retrieve a specific set of metrics by passing the desired metric names with a comma separator. Note that, by default, the service returns all supported metrics.
@@ -13929,7 +13929,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_dataguard_metrics.py.html>`__ to see an example of how to use get_database_fleet_dataguard_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_dataguard_metrics.py.html>`__ to see an example of how to use get_database_fleet_dataguard_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -14045,12 +14045,12 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str filter_by_metric_names: (optional)
             The filter used to retrieve a specific set of metrics by passing the desired metric names with a comma separator. Note that, by default, the service returns all supported metrics.
@@ -14118,7 +14118,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_ha_overview_metrics.py.html>`__ to see an example of how to use get_database_fleet_ha_overview_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_ha_overview_metrics.py.html>`__ to see an example of how to use get_database_fleet_ha_overview_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -14240,12 +14240,12 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compare_type: (optional)
             The time window used for metrics comparison.
@@ -14331,7 +14331,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_health_metrics.py.html>`__ to see an example of how to use get_database_fleet_health_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_fleet_health_metrics.py.html>`__ to see an example of how to use get_database_fleet_health_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compareBaselineTime', 'compareTargetTime']
@@ -14460,7 +14460,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -14488,7 +14488,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_ha_backup_details.py.html>`__ to see an example of how to use get_database_ha_backup_details API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_ha_backup_details.py.html>`__ to see an example of how to use get_database_ha_backup_details API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -14572,7 +14572,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The start time of the time range to retrieve the health metrics of a Managed Database
@@ -14605,7 +14605,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_home_metrics.py.html>`__ to see an example of how to use get_database_home_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_database_home_metrics.py.html>`__ to see an example of how to use get_database_home_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'startTime', 'endTime']
@@ -14684,7 +14684,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The start time of the time range to retrieve the health metrics of a Managed Database
@@ -14701,7 +14701,7 @@ class DbManagementClient(object):
             The `OCID`__ of the compartment for which peer database metrics are required.
             This is not a mandatory parameter and in its absence, all the peer database metrics are returned.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str filter_by_metric_names: (optional)
             The filter used to retrieve a specific set of metrics by passing the desired metric names with a comma separator. Note that, by default, the service returns all supported metrics.
@@ -14726,7 +14726,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_dataguard_performance_metrics.py.html>`__ to see an example of how to use get_dataguard_performance_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_dataguard_performance_metrics.py.html>`__ to see an example of how to use get_dataguard_performance_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'startTime', 'endTime']
@@ -14818,7 +14818,7 @@ class DbManagementClient(object):
         :param str db_management_private_endpoint_id: (required)
             The `OCID`__ of the Database Management private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -14843,7 +14843,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_db_management_private_endpoint.py.html>`__ to see an example of how to use get_db_management_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_db_management_private_endpoint.py.html>`__ to see an example of how to use get_db_management_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbManagementPrivateEndpointId']
@@ -14924,7 +14924,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compare_baseline_time: (required)
             The baseline time for metrics comparison.
@@ -14983,7 +14983,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_exadata_infrastructure_fleet_health_metrics.py.html>`__ to see an example of how to use get_exadata_infrastructure_fleet_health_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_exadata_infrastructure_fleet_health_metrics.py.html>`__ to see an example of how to use get_exadata_infrastructure_fleet_health_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'compareBaselineTime', 'compareTargetTime']
@@ -15105,7 +15105,7 @@ class DbManagementClient(object):
         :param str external_asm_id: (required)
             The `OCID`__ of the external ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15130,7 +15130,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_asm.py.html>`__ to see an example of how to use get_external_asm API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_asm.py.html>`__ to see an example of how to use get_external_asm API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmId']
@@ -15212,7 +15212,7 @@ class DbManagementClient(object):
         :param str external_asm_id: (required)
             The `OCID`__ of the external ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15240,7 +15240,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_asm_configuration.py.html>`__ to see an example of how to use get_external_asm_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_asm_configuration.py.html>`__ to see an example of how to use get_external_asm_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmId']
@@ -15324,7 +15324,7 @@ class DbManagementClient(object):
         :param str external_asm_instance_id: (required)
             The `OCID`__ of the external ASM instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15349,7 +15349,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_asm_instance.py.html>`__ to see an example of how to use get_external_asm_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_asm_instance.py.html>`__ to see an example of how to use get_external_asm_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmInstanceId']
@@ -15431,7 +15431,7 @@ class DbManagementClient(object):
         :param str external_cluster_id: (required)
             The `OCID`__ of the external cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15456,7 +15456,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_cluster.py.html>`__ to see an example of how to use get_external_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_cluster.py.html>`__ to see an example of how to use get_external_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalClusterId']
@@ -15538,7 +15538,7 @@ class DbManagementClient(object):
         :param str external_cluster_instance_id: (required)
             The `OCID`__ of the external cluster instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15563,7 +15563,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_cluster_instance.py.html>`__ to see an example of how to use get_external_cluster_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_cluster_instance.py.html>`__ to see an example of how to use get_external_cluster_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalClusterInstanceId']
@@ -15645,7 +15645,7 @@ class DbManagementClient(object):
         :param str external_db_home_id: (required)
             The `OCID`__ of the external database home.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15670,7 +15670,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_home.py.html>`__ to see an example of how to use get_external_db_home API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_home.py.html>`__ to see an example of how to use get_external_db_home API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbHomeId']
@@ -15752,7 +15752,7 @@ class DbManagementClient(object):
         :param str external_db_node_id: (required)
             The `OCID`__ of the external database node.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15777,7 +15777,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_node.py.html>`__ to see an example of how to use get_external_db_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_node.py.html>`__ to see an example of how to use get_external_db_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbNodeId']
@@ -15859,7 +15859,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15884,7 +15884,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_system.py.html>`__ to see an example of how to use get_external_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_system.py.html>`__ to see an example of how to use get_external_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -15966,7 +15966,7 @@ class DbManagementClient(object):
         :param str external_db_system_connector_id: (required)
             The `OCID`__ of the external connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -15991,7 +15991,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_system_connector.py.html>`__ to see an example of how to use get_external_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_system_connector.py.html>`__ to see an example of how to use get_external_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemConnectorId']
@@ -16073,7 +16073,7 @@ class DbManagementClient(object):
         :param str external_db_system_discovery_id: (required)
             The `OCID`__ of the external DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -16098,7 +16098,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_system_discovery.py.html>`__ to see an example of how to use get_external_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_db_system_discovery.py.html>`__ to see an example of how to use get_external_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemDiscoveryId']
@@ -16181,7 +16181,7 @@ class DbManagementClient(object):
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -16206,7 +16206,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_infrastructure.py.html>`__ to see an example of how to use get_external_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_infrastructure.py.html>`__ to see an example of how to use get_external_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataInfrastructureId']
@@ -16288,7 +16288,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -16313,7 +16313,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_storage_connector.py.html>`__ to see an example of how to use get_external_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_storage_connector.py.html>`__ to see an example of how to use get_external_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageConnectorId']
@@ -16395,7 +16395,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_grid_id: (required)
             The `OCID`__ of the Exadata storage grid.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -16420,7 +16420,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_storage_grid.py.html>`__ to see an example of how to use get_external_exadata_storage_grid API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_storage_grid.py.html>`__ to see an example of how to use get_external_exadata_storage_grid API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageGridId']
@@ -16502,7 +16502,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -16527,7 +16527,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_storage_server.py.html>`__ to see an example of how to use get_external_exadata_storage_server API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_exadata_storage_server.py.html>`__ to see an example of how to use get_external_exadata_storage_server API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageServerId']
@@ -16609,7 +16609,7 @@ class DbManagementClient(object):
         :param str external_listener_id: (required)
             The `OCID`__ of the external listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -16634,7 +16634,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_listener.py.html>`__ to see an example of how to use get_external_listener API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_listener.py.html>`__ to see an example of how to use get_external_listener API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalListenerId']
@@ -16739,7 +16739,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_my_sql_database.py.html>`__ to see an example of how to use get_external_my_sql_database API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_my_sql_database.py.html>`__ to see an example of how to use get_external_my_sql_database API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseId']
@@ -16844,7 +16844,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_my_sql_database_connector.py.html>`__ to see an example of how to use get_external_my_sql_database_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_external_my_sql_database_connector.py.html>`__ to see an example of how to use get_external_my_sql_database_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseConnectorId']
@@ -16926,7 +16926,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -16951,7 +16951,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_iorm_plan.py.html>`__ to see an example of how to use get_iorm_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_iorm_plan.py.html>`__ to see an example of how to use get_iorm_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageServerId']
@@ -17056,7 +17056,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_job.py.html>`__ to see an example of how to use get_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_job.py.html>`__ to see an example of how to use get_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -17159,7 +17159,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_job_execution.py.html>`__ to see an example of how to use get_job_execution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_job_execution.py.html>`__ to see an example of how to use get_job_execution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobExecutionId']
@@ -17262,7 +17262,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_job_run.py.html>`__ to see an example of how to use get_job_run API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_job_run.py.html>`__ to see an example of how to use get_job_run API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobRunId']
@@ -17342,7 +17342,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -17367,7 +17367,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_managed_database.py.html>`__ to see an example of how to use get_managed_database API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_managed_database.py.html>`__ to see an example of how to use get_managed_database API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -17447,7 +17447,7 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (required)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -17472,7 +17472,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_managed_database_group.py.html>`__ to see an example of how to use get_managed_database_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_managed_database_group.py.html>`__ to see an example of how to use get_managed_database_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseGroupId']
@@ -17552,7 +17552,7 @@ class DbManagementClient(object):
         :param str named_credential_id: (required)
             The `OCID`__ of the named credential.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -17577,7 +17577,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_named_credential.py.html>`__ to see an example of how to use get_named_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_named_credential.py.html>`__ to see an example of how to use get_named_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['namedCredentialId']
@@ -17659,7 +17659,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -17684,7 +17684,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_open_alert_history.py.html>`__ to see an example of how to use get_open_alert_history API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_open_alert_history.py.html>`__ to see an example of how to use get_open_alert_history API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageServerId']
@@ -17767,7 +17767,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str execution_name: (required)
             The name of the Optimizer Statistics Advisor execution.
@@ -17801,7 +17801,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_optimizer_statistics_advisor_execution.py.html>`__ to see an example of how to use get_optimizer_statistics_advisor_execution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_optimizer_statistics_advisor_execution.py.html>`__ to see an example of how to use get_optimizer_statistics_advisor_execution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'executionName', 'taskName']
@@ -17891,7 +17891,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str execution_name: (required)
             The name of the Optimizer Statistics Advisor execution.
@@ -17925,7 +17925,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_optimizer_statistics_advisor_execution_script.py.html>`__ to see an example of how to use get_optimizer_statistics_advisor_execution_script API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_optimizer_statistics_advisor_execution_script.py.html>`__ to see an example of how to use get_optimizer_statistics_advisor_execution_script API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'executionName', 'taskName']
@@ -18015,7 +18015,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param float optimizer_statistics_collection_operation_id: (required)
             The ID of the Optimizer Statistics Collection operation.
@@ -18046,7 +18046,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_optimizer_statistics_collection_operation.py.html>`__ to see an example of how to use get_optimizer_statistics_collection_operation API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_optimizer_statistics_collection_operation.py.html>`__ to see an example of how to use get_optimizer_statistics_collection_operation API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'optimizerStatisticsCollectionOperationId']
@@ -18132,7 +18132,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The start time of the time range to retrieve the health metrics of a Managed Database
@@ -18148,7 +18148,7 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compare_type: (optional)
             The time window used for metrics comparison.
@@ -18178,7 +18178,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_pdb_metrics.py.html>`__ to see an example of how to use get_pdb_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_pdb_metrics.py.html>`__ to see an example of how to use get_pdb_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'startTime', 'endTime']
@@ -18281,7 +18281,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The start time of the time range to retrieve the health metrics of a Managed Database
@@ -18298,7 +18298,7 @@ class DbManagementClient(object):
             The `OCID`__ of the compartment for which peer database metrics are required.
             This is not a mandatory parameter and in its absence, all the peer database metrics are returned.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compare_type: (optional)
             The time window used for metrics comparison.
@@ -18328,7 +18328,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_peer_database_metrics.py.html>`__ to see an example of how to use get_peer_database_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_peer_database_metrics.py.html>`__ to see an example of how to use get_peer_database_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'startTime', 'endTime']
@@ -18429,7 +18429,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str credential_name: (required)
             The name of the preferred credential.
@@ -18457,7 +18457,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_preferred_credential.py.html>`__ to see an example of how to use get_preferred_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_preferred_credential.py.html>`__ to see an example of how to use get_preferred_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'credentialName']
@@ -18538,7 +18538,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str plan_name: (required)
             The plan name of the SQL plan baseline.
@@ -18569,7 +18569,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_plan_baseline.py.html>`__ to see an example of how to use get_sql_plan_baseline API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_plan_baseline.py.html>`__ to see an example of how to use get_sql_plan_baseline API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'planName']
@@ -18656,7 +18656,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -18684,7 +18684,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_plan_baseline_configuration.py.html>`__ to see an example of how to use get_sql_plan_baseline_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_plan_baseline_configuration.py.html>`__ to see an example of how to use get_sql_plan_baseline_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -18768,7 +18768,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tablespace_name: (required)
             The name of the tablespace.
@@ -18799,7 +18799,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_tablespace.py.html>`__ to see an example of how to use get_tablespace API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_tablespace.py.html>`__ to see an example of how to use get_tablespace API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'tablespaceName']
@@ -18882,7 +18882,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -18907,7 +18907,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_top_sql_cpu_activity.py.html>`__ to see an example of how to use get_top_sql_cpu_activity API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_top_sql_cpu_activity.py.html>`__ to see an example of how to use get_top_sql_cpu_activity API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageServerId']
@@ -18989,7 +18989,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -19020,7 +19020,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_user.py.html>`__ to see an example of how to use get_user API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_user.py.html>`__ to see an example of how to use get_user API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -19103,7 +19103,7 @@ class DbManagementClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -19128,7 +19128,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -19208,7 +19208,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str execution_name: (required)
             The name of the Optimizer Statistics Advisor execution.
@@ -19239,7 +19239,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/implement_optimizer_statistics_advisor_recommendations.py.html>`__ to see an example of how to use implement_optimizer_statistics_advisor_recommendations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/implement_optimizer_statistics_advisor_recommendations.py.html>`__ to see an example of how to use implement_optimizer_statistics_advisor_recommendations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'executionName']
@@ -19322,7 +19322,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -19369,7 +19369,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_asm_properties.py.html>`__ to see an example of how to use list_asm_properties API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_asm_properties.py.html>`__ to see an example of how to use list_asm_properties API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -19479,12 +19479,12 @@ class DbManagementClient(object):
         :param str db_management_private_endpoint_id: (required)
             The `OCID`__ of the Database Management private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -19526,7 +19526,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_associated_databases.py.html>`__ to see an example of how to use list_associated_databases API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_associated_databases.py.html>`__ to see an example of how to use list_associated_databases API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbManagementPrivateEndpointId', 'compartmentId']
@@ -19635,7 +19635,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -19712,7 +19712,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_awr_db_snapshots.py.html>`__ to see an example of how to use list_awr_db_snapshots API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_awr_db_snapshots.py.html>`__ to see an example of how to use list_awr_db_snapshots API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId']
@@ -19838,7 +19838,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             The optional single value query parameter to filter the entity name.
@@ -19899,7 +19899,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_awr_dbs.py.html>`__ to see an example of how to use list_awr_dbs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_awr_dbs.py.html>`__ to see an example of how to use list_awr_dbs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -20018,7 +20018,7 @@ class DbManagementClient(object):
         :param str cloud_asm_id: (required)
             The `OCID`__ of the cloud ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -20064,7 +20064,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asm_disk_groups.py.html>`__ to see an example of how to use list_cloud_asm_disk_groups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asm_disk_groups.py.html>`__ to see an example of how to use list_cloud_asm_disk_groups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmId']
@@ -20176,12 +20176,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_asm_id: (optional)
             The `OCID`__ of the cloud ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -20228,7 +20228,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asm_instances.py.html>`__ to see an example of how to use list_cloud_asm_instances API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asm_instances.py.html>`__ to see an example of how to use list_cloud_asm_instances API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -20332,7 +20332,7 @@ class DbManagementClient(object):
         :param str cloud_asm_id: (required)
             The `OCID`__ of the cloud ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -20378,7 +20378,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asm_users.py.html>`__ to see an example of how to use list_cloud_asm_users API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asm_users.py.html>`__ to see an example of how to use list_cloud_asm_users API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmId']
@@ -20490,12 +20490,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_db_system_id: (optional)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -20542,7 +20542,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asms.py.html>`__ to see an example of how to use list_cloud_asms API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_asms.py.html>`__ to see an example of how to use list_cloud_asms API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -20646,12 +20646,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_cluster_id: (optional)
             The `OCID`__ of the cloud cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -20698,7 +20698,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_cluster_instances.py.html>`__ to see an example of how to use list_cloud_cluster_instances API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_cluster_instances.py.html>`__ to see an example of how to use list_cloud_cluster_instances API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -20802,12 +20802,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_db_system_id: (optional)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -20854,7 +20854,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_clusters.py.html>`__ to see an example of how to use list_cloud_clusters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_clusters.py.html>`__ to see an example of how to use list_cloud_clusters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -20958,12 +20958,12 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -21010,7 +21010,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_databases.py.html>`__ to see an example of how to use list_cloud_databases API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_databases.py.html>`__ to see an example of how to use list_cloud_databases API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -21113,12 +21113,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_db_system_id: (optional)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -21165,7 +21165,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_homes.py.html>`__ to see an example of how to use list_cloud_db_homes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_homes.py.html>`__ to see an example of how to use list_cloud_db_homes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -21269,12 +21269,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_db_system_id: (optional)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -21321,7 +21321,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_nodes.py.html>`__ to see an example of how to use list_cloud_db_nodes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_nodes.py.html>`__ to see an example of how to use list_cloud_db_nodes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -21425,12 +21425,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_db_system_id: (optional)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -21477,7 +21477,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_system_connectors.py.html>`__ to see an example of how to use list_cloud_db_system_connectors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_system_connectors.py.html>`__ to see an example of how to use list_cloud_db_system_connectors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -21581,7 +21581,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -21628,7 +21628,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_system_discoveries.py.html>`__ to see an example of how to use list_cloud_db_system_discoveries API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_system_discoveries.py.html>`__ to see an example of how to use list_cloud_db_system_discoveries API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -21729,12 +21729,12 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str dbaas_parent_infrastructure_id: (optional)
             The `OCID`__ of the dbaas parent infrastructure of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str deployment_type: (optional)
             A filter to return cloud DB systems of the specified deployment type.
@@ -21791,7 +21791,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_systems.py.html>`__ to see an example of how to use list_cloud_db_systems API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_db_systems.py.html>`__ to see an example of how to use list_cloud_db_systems API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -21912,7 +21912,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             The optional single value query filter parameter on the entity display name.
@@ -21959,7 +21959,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_exadata_infrastructures.py.html>`__ to see an example of how to use list_cloud_exadata_infrastructures API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_exadata_infrastructures.py.html>`__ to see an example of how to use list_cloud_exadata_infrastructures API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -22060,12 +22060,12 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             The optional single value query filter parameter on the entity display name.
@@ -22112,7 +22112,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_exadata_storage_connectors.py.html>`__ to see an example of how to use list_cloud_exadata_storage_connectors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_exadata_storage_connectors.py.html>`__ to see an example of how to use list_cloud_exadata_storage_connectors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'cloudExadataInfrastructureId']
@@ -22214,12 +22214,12 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             The optional single value query filter parameter on the entity display name.
@@ -22266,7 +22266,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_exadata_storage_servers.py.html>`__ to see an example of how to use list_cloud_exadata_storage_servers API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_exadata_storage_servers.py.html>`__ to see an example of how to use list_cloud_exadata_storage_servers API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'cloudExadataInfrastructureId']
@@ -22369,12 +22369,12 @@ class DbManagementClient(object):
         :param str cloud_listener_id: (required)
             The `OCID`__ of the cloud listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -22420,7 +22420,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_listener_services.py.html>`__ to see an example of how to use list_cloud_listener_services API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_listener_services.py.html>`__ to see an example of how to use list_cloud_listener_services API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudListenerId', 'managedDatabaseId']
@@ -22533,12 +22533,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cloud_db_system_id: (optional)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -22585,7 +22585,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_listeners.py.html>`__ to see an example of how to use list_cloud_listeners API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cloud_listeners.py.html>`__ to see an example of how to use list_cloud_listeners API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -22689,7 +22689,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -22741,7 +22741,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_consumer_group_privileges.py.html>`__ to see an example of how to use list_consumer_group_privileges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_consumer_group_privileges.py.html>`__ to see an example of how to use list_consumer_group_privileges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -22854,7 +22854,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_text: (optional)
             A filter to return all the SQL plan baselines that match the SQL text. By default, the search
@@ -22904,7 +22904,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cursor_cache_statements.py.html>`__ to see an example of how to use list_cursor_cache_statements API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_cursor_cache_statements.py.html>`__ to see an example of how to use list_cursor_cache_statements API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -23018,7 +23018,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -23070,7 +23070,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_data_access_containers.py.html>`__ to see an example of how to use list_data_access_containers API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_data_access_containers.py.html>`__ to see an example of how to use list_data_access_containers API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -23183,7 +23183,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -23236,7 +23236,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_database_parameters.py.html>`__ to see an example of how to use list_database_parameters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_database_parameters.py.html>`__ to see an example of how to use list_database_parameters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -23355,7 +23355,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             A filter to return only resources that match the entire name.
@@ -23363,7 +23363,7 @@ class DbManagementClient(object):
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param bool is_cluster: (optional)
             The option to filter Database Management private endpoints that can used for Oracle Databases in a cluster. This should be used along with the vcnId query parameter.
@@ -23419,7 +23419,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_db_management_private_endpoints.py.html>`__ to see an example of how to use list_db_management_private_endpoints API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_db_management_private_endpoints.py.html>`__ to see an example of how to use list_db_management_private_endpoints API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -23533,7 +23533,7 @@ class DbManagementClient(object):
         :param str external_asm_id: (required)
             The `OCID`__ of the external ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -23579,7 +23579,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asm_disk_groups.py.html>`__ to see an example of how to use list_external_asm_disk_groups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asm_disk_groups.py.html>`__ to see an example of how to use list_external_asm_disk_groups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmId']
@@ -23691,12 +23691,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_asm_id: (optional)
             The `OCID`__ of the external ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -23743,7 +23743,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asm_instances.py.html>`__ to see an example of how to use list_external_asm_instances API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asm_instances.py.html>`__ to see an example of how to use list_external_asm_instances API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -23847,7 +23847,7 @@ class DbManagementClient(object):
         :param str external_asm_id: (required)
             The `OCID`__ of the external ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -23893,7 +23893,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asm_users.py.html>`__ to see an example of how to use list_external_asm_users API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asm_users.py.html>`__ to see an example of how to use list_external_asm_users API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmId']
@@ -24005,12 +24005,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_db_system_id: (optional)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -24057,7 +24057,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asms.py.html>`__ to see an example of how to use list_external_asms API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_asms.py.html>`__ to see an example of how to use list_external_asms API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -24161,12 +24161,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_cluster_id: (optional)
             The `OCID`__ of the external cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -24213,7 +24213,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_cluster_instances.py.html>`__ to see an example of how to use list_external_cluster_instances API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_cluster_instances.py.html>`__ to see an example of how to use list_external_cluster_instances API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -24317,12 +24317,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_db_system_id: (optional)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -24369,7 +24369,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_clusters.py.html>`__ to see an example of how to use list_external_clusters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_clusters.py.html>`__ to see an example of how to use list_external_clusters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -24473,17 +24473,17 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_db_system_id: (optional)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_database_id: (optional)
             The `OCID`__ of the external database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -24530,7 +24530,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_databases.py.html>`__ to see an example of how to use list_external_databases API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_databases.py.html>`__ to see an example of how to use list_external_databases API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -24636,12 +24636,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_db_system_id: (optional)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -24688,7 +24688,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_homes.py.html>`__ to see an example of how to use list_external_db_homes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_homes.py.html>`__ to see an example of how to use list_external_db_homes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -24792,12 +24792,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_db_system_id: (optional)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -24844,7 +24844,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_nodes.py.html>`__ to see an example of how to use list_external_db_nodes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_nodes.py.html>`__ to see an example of how to use list_external_db_nodes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -24948,12 +24948,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_db_system_id: (optional)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -25000,7 +25000,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_system_connectors.py.html>`__ to see an example of how to use list_external_db_system_connectors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_system_connectors.py.html>`__ to see an example of how to use list_external_db_system_connectors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -25104,7 +25104,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -25151,7 +25151,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_system_discoveries.py.html>`__ to see an example of how to use list_external_db_system_discoveries API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_system_discoveries.py.html>`__ to see an example of how to use list_external_db_system_discoveries API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25252,7 +25252,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -25299,7 +25299,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_systems.py.html>`__ to see an example of how to use list_external_db_systems API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_db_systems.py.html>`__ to see an example of how to use list_external_db_systems API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25400,7 +25400,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             The optional single value query filter parameter on the entity display name.
@@ -25447,7 +25447,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_exadata_infrastructures.py.html>`__ to see an example of how to use list_external_exadata_infrastructures API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_exadata_infrastructures.py.html>`__ to see an example of how to use list_external_exadata_infrastructures API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25548,12 +25548,12 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             The optional single value query filter parameter on the entity display name.
@@ -25600,7 +25600,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_exadata_storage_connectors.py.html>`__ to see an example of how to use list_external_exadata_storage_connectors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_exadata_storage_connectors.py.html>`__ to see an example of how to use list_external_exadata_storage_connectors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'externalExadataInfrastructureId']
@@ -25702,12 +25702,12 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             The optional single value query filter parameter on the entity display name.
@@ -25754,7 +25754,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_exadata_storage_servers.py.html>`__ to see an example of how to use list_external_exadata_storage_servers API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_exadata_storage_servers.py.html>`__ to see an example of how to use list_external_exadata_storage_servers API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'externalExadataInfrastructureId']
@@ -25857,12 +25857,12 @@ class DbManagementClient(object):
         :param str external_listener_id: (required)
             The `OCID`__ of the external listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -25908,7 +25908,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_listener_services.py.html>`__ to see an example of how to use list_external_listener_services API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_listener_services.py.html>`__ to see an example of how to use list_external_listener_services API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalListenerId', 'managedDatabaseId']
@@ -26021,12 +26021,12 @@ class DbManagementClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str external_db_system_id: (optional)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to only return the resources that match the entire display name.
@@ -26073,7 +26073,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_listeners.py.html>`__ to see an example of how to use list_external_listeners API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_listeners.py.html>`__ to see an example of how to use list_external_listeners API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -26177,7 +26177,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -26224,7 +26224,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_my_sql_databases.py.html>`__ to see an example of how to use list_external_my_sql_databases API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_external_my_sql_databases.py.html>`__ to see an example of how to use list_external_my_sql_databases API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -26326,7 +26326,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -26340,12 +26340,12 @@ class DbManagementClient(object):
         :param str managed_database_id: (optional)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str status: (optional)
             The status of the job execution.
@@ -26395,7 +26395,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_job_executions.py.html>`__ to see an example of how to use list_job_executions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_job_executions.py.html>`__ to see an example of how to use list_job_executions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -26509,7 +26509,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -26523,12 +26523,12 @@ class DbManagementClient(object):
         :param str managed_database_id: (optional)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str run_status: (optional)
             The status of the job run.
@@ -26575,7 +26575,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_job_runs.py.html>`__ to see an example of how to use list_job_runs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_job_runs.py.html>`__ to see an example of how to use list_job_runs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -26687,7 +26687,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -26698,12 +26698,12 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_database_id: (optional)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             A filter to return only resources that match the entire name.
@@ -26752,7 +26752,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_jobs.py.html>`__ to see an example of how to use list_jobs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_jobs.py.html>`__ to see an example of how to use list_jobs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -26869,7 +26869,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -26924,7 +26924,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_managed_database_groups.py.html>`__ to see an example of how to use list_managed_database_groups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_managed_database_groups.py.html>`__ to see an example of how to use list_managed_database_groups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -27039,7 +27039,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -27063,7 +27063,7 @@ class DbManagementClient(object):
         :param str external_exadata_infrastructure_id: (optional)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -27104,7 +27104,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_managed_databases.py.html>`__ to see an example of how to use list_managed_databases API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_managed_databases.py.html>`__ to see an example of how to use list_managed_databases API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -27225,7 +27225,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -27233,7 +27233,7 @@ class DbManagementClient(object):
         :param str external_database_id: (optional)
             The `OCID`__ of the external database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             The parameter to filter by MySQL Database System type.
@@ -27277,7 +27277,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_my_sql_database_connectors.py.html>`__ to see an example of how to use list_my_sql_database_connectors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_my_sql_database_connectors.py.html>`__ to see an example of how to use list_my_sql_database_connectors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -27378,7 +27378,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -27438,7 +27438,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_named_credentials.py.html>`__ to see an example of how to use list_named_credentials API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_named_credentials.py.html>`__ to see an example of how to use list_named_credentials API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -27559,7 +27559,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -27611,7 +27611,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_object_privileges.py.html>`__ to see an example of how to use list_object_privileges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_object_privileges.py.html>`__ to see an example of how to use list_object_privileges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -27726,7 +27726,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time_greater_than_or_equal_to: (optional)
             The start time of the time range to retrieve the optimizer statistics of a Managed Database
@@ -27762,7 +27762,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_optimizer_statistics_advisor_executions.py.html>`__ to see an example of how to use list_optimizer_statistics_advisor_executions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_optimizer_statistics_advisor_executions.py.html>`__ to see an example of how to use list_optimizer_statistics_advisor_executions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -27859,7 +27859,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str group_type: (required)
             The optimizer statistics tasks grouped by type.
@@ -27912,7 +27912,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_optimizer_statistics_collection_aggregations.py.html>`__ to see an example of how to use list_optimizer_statistics_collection_aggregations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_optimizer_statistics_collection_aggregations.py.html>`__ to see an example of how to use list_optimizer_statistics_collection_aggregations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'groupType']
@@ -28030,7 +28030,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time_greater_than_or_equal_to: (optional)
             The start time of the time range to retrieve the optimizer statistics of a Managed Database
@@ -28094,7 +28094,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_optimizer_statistics_collection_operations.py.html>`__ to see an example of how to use list_optimizer_statistics_collection_operations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_optimizer_statistics_collection_operations.py.html>`__ to see an example of how to use list_optimizer_statistics_collection_operations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -28219,7 +28219,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -28244,7 +28244,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_preferred_credentials.py.html>`__ to see an example of how to use list_preferred_credentials API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_preferred_credentials.py.html>`__ to see an example of how to use list_preferred_credentials API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -28324,7 +28324,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -28376,7 +28376,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_proxied_for_users.py.html>`__ to see an example of how to use list_proxied_for_users API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_proxied_for_users.py.html>`__ to see an example of how to use list_proxied_for_users API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -28489,7 +28489,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -28541,7 +28541,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_proxy_users.py.html>`__ to see an example of how to use list_proxy_users API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_proxy_users.py.html>`__ to see an example of how to use list_proxy_users API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -28654,7 +28654,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -28706,7 +28706,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_roles.py.html>`__ to see an example of how to use list_roles API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_roles.py.html>`__ to see an example of how to use list_roles API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -28819,7 +28819,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             A filter to return the SQL plan baseline jobs that match the name.
@@ -28869,7 +28869,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_plan_baseline_jobs.py.html>`__ to see an example of how to use list_sql_plan_baseline_jobs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_plan_baseline_jobs.py.html>`__ to see an example of how to use list_sql_plan_baseline_jobs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -28983,7 +28983,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str plan_name: (optional)
             A filter to return only SQL plan baselines that match the plan name.
@@ -29080,7 +29080,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_plan_baselines.py.html>`__ to see an example of how to use list_sql_plan_baselines API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_plan_baselines.py.html>`__ to see an example of how to use list_sql_plan_baselines API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -29225,7 +29225,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str user_name: (required)
             The name of the user whose details are to be viewed.
@@ -29277,7 +29277,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_system_privileges.py.html>`__ to see an example of how to use list_system_privileges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_system_privileges.py.html>`__ to see an example of how to use list_system_privileges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'userName']
@@ -29391,7 +29391,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -29419,7 +29419,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_table_statistics.py.html>`__ to see an example of how to use list_table_statistics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_table_statistics.py.html>`__ to see an example of how to use list_table_statistics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -29501,7 +29501,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -29551,7 +29551,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_tablespaces.py.html>`__ to see an example of how to use list_tablespaces API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_tablespaces.py.html>`__ to see an example of how to use list_tablespaces API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -29663,7 +29663,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -29713,7 +29713,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_users.py.html>`__ to see an example of how to use list_users API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_users.py.html>`__ to see an example of how to use list_users API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -29825,7 +29825,7 @@ class DbManagementClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -29867,7 +29867,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -29975,7 +29975,7 @@ class DbManagementClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -30017,7 +30017,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -30125,12 +30125,12 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_id: (optional)
             The `OCID`__ of the resource affected by the work request.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -30138,7 +30138,7 @@ class DbManagementClient(object):
         :param str work_request_id: (optional)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str status: (optional)
             A filter that returns the resources whose status matches the given WorkRequestStatus.
@@ -30182,7 +30182,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -30296,7 +30296,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.LoadSqlPlanBaselinesFromAwrDetails load_sql_plan_baselines_from_awr_details: (required)
             The details required to load plans from Automatic Workload Repository (AWR).
@@ -30324,7 +30324,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/load_sql_plan_baselines_from_awr.py.html>`__ to see an example of how to use load_sql_plan_baselines_from_awr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/load_sql_plan_baselines_from_awr.py.html>`__ to see an example of how to use load_sql_plan_baselines_from_awr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -30408,7 +30408,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.LoadSqlPlanBaselinesFromCursorCacheDetails load_sql_plan_baselines_from_cursor_cache_details: (required)
             The details of SQL statements and plans to be loaded from cursor cache.
@@ -30436,7 +30436,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/load_sql_plan_baselines_from_cursor_cache.py.html>`__ to see an example of how to use load_sql_plan_baselines_from_cursor_cache API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/load_sql_plan_baselines_from_cursor_cache.py.html>`__ to see an example of how to use load_sql_plan_baselines_from_cursor_cache API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -30518,7 +30518,7 @@ class DbManagementClient(object):
         :param str autonomous_database_id: (required)
             The `OCID`__ of the Autonomous Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ModifyAutonomousDatabaseManagementFeatureDetails modify_autonomous_database_management_feature_details: (required)
             The details required to modify a Database Management feature for an Autonomous Database.
@@ -30560,7 +30560,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_autonomous_database_management_feature.py.html>`__ to see an example of how to use modify_autonomous_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_autonomous_database_management_feature.py.html>`__ to see an example of how to use modify_autonomous_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['autonomousDatabaseId']
@@ -30647,7 +30647,7 @@ class DbManagementClient(object):
         :param str database_id: (required)
             The `OCID`__ of the Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ModifyDatabaseManagementFeatureDetails modify_database_management_feature_details: (required)
             The details required to modify a Database Management feature for an Oracle cloud database.
@@ -30689,7 +30689,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_database_management_feature.py.html>`__ to see an example of how to use modify_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_database_management_feature.py.html>`__ to see an example of how to use modify_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseId']
@@ -30776,7 +30776,7 @@ class DbManagementClient(object):
         :param str external_container_database_id: (required)
             The `OCID`__ of the external container database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.EnableExternalContainerDatabaseManagementFeatureDetails enable_external_container_database_management_feature_details: (required)
             The details required to enable a Database Management feature for an external container database.
@@ -30818,7 +30818,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_external_container_database_management_feature.py.html>`__ to see an example of how to use modify_external_container_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_external_container_database_management_feature.py.html>`__ to see an example of how to use modify_external_container_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalContainerDatabaseId']
@@ -30905,7 +30905,7 @@ class DbManagementClient(object):
         :param str pluggable_database_id: (required)
             The `OCID`__ of the Oracle cloud pluggable database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ModifyPluggableDatabaseManagementFeatureDetails modify_pluggable_database_management_feature_details: (required)
             The details required to modify a Database Management feature for an Oracle cloud pluggable database.
@@ -30947,7 +30947,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_pluggable_database_management_feature.py.html>`__ to see an example of how to use modify_pluggable_database_management_feature API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/modify_pluggable_database_management_feature.py.html>`__ to see an example of how to use modify_pluggable_database_management_feature API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['pluggableDatabaseId']
@@ -31034,7 +31034,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_discovery_id: (required)
             The `OCID`__ of the cloud DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.PatchCloudDbSystemDiscoveryDetails patch_cloud_db_system_discovery_details: (required)
             The details required to update an cloud DB system discovery.
@@ -31069,7 +31069,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/patch_cloud_db_system_discovery.py.html>`__ to see an example of how to use patch_cloud_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/patch_cloud_db_system_discovery.py.html>`__ to see an example of how to use patch_cloud_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemDiscoveryId']
@@ -31153,7 +31153,7 @@ class DbManagementClient(object):
         :param str external_db_system_discovery_id: (required)
             The `OCID`__ of the external DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.PatchExternalDbSystemDiscoveryDetails patch_external_db_system_discovery_details: (required)
             The details required to update an external DB system discovery.
@@ -31188,7 +31188,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/patch_external_db_system_discovery.py.html>`__ to see an example of how to use patch_external_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/patch_external_db_system_discovery.py.html>`__ to see an example of how to use patch_external_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemDiscoveryId']
@@ -31272,7 +31272,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tablespace_name: (required)
             The name of the tablespace.
@@ -31310,7 +31310,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/remove_data_file.py.html>`__ to see an example of how to use remove_data_file API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/remove_data_file.py.html>`__ to see an example of how to use remove_data_file API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'tablespaceName']
@@ -31399,7 +31399,7 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (required)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.RemoveManagedDatabaseFromManagedDatabaseGroupDetails remove_managed_database_from_managed_database_group_details: (required)
             The Managed Database details required to remove the Managed Database from a Managed Database Group.
@@ -31434,7 +31434,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/remove_managed_database_from_managed_database_group.py.html>`__ to see an example of how to use remove_managed_database_from_managed_database_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/remove_managed_database_from_managed_database_group.py.html>`__ to see an example of how to use remove_managed_database_from_managed_database_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseGroupId']
@@ -31517,7 +31517,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.ResetDatabaseParametersDetails reset_database_parameters_details: (required)
             The details required to reset database parameters.
@@ -31552,7 +31552,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/reset_database_parameters.py.html>`__ to see an example of how to use reset_database_parameters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/reset_database_parameters.py.html>`__ to see an example of how to use reset_database_parameters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -31637,7 +31637,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tablespace_name: (required)
             The name of the tablespace.
@@ -31675,7 +31675,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/resize_data_file.py.html>`__ to see an example of how to use resize_data_file API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/resize_data_file.py.html>`__ to see an example of how to use resize_data_file API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'tablespaceName']
@@ -31762,7 +31762,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.RunHistoricAddmDetails run_historic_addm_details: (required)
             The details of the ADDM task, which include the beginning and ending AWR snapshot IDs.
@@ -31800,7 +31800,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/run_historic_addm.py.html>`__ to see an example of how to use run_historic_addm API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/run_historic_addm.py.html>`__ to see an example of how to use run_historic_addm API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -31887,7 +31887,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -31969,7 +31969,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_cpu_usages.py.html>`__ to see an example of how to use summarize_awr_db_cpu_usages API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_cpu_usages.py.html>`__ to see an example of how to use summarize_awr_db_cpu_usages API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId']
@@ -32104,7 +32104,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -32184,7 +32184,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_metrics.py.html>`__ to see an example of how to use summarize_awr_db_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_metrics.py.html>`__ to see an example of how to use summarize_awr_db_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId', 'name']
@@ -32315,7 +32315,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -32395,7 +32395,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_parameter_changes.py.html>`__ to see an example of how to use summarize_awr_db_parameter_changes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_parameter_changes.py.html>`__ to see an example of how to use summarize_awr_db_parameter_changes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId', 'name']
@@ -32532,7 +32532,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -32630,7 +32630,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_parameters.py.html>`__ to see an example of how to use summarize_awr_db_parameters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_parameters.py.html>`__ to see an example of how to use summarize_awr_db_parameters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId']
@@ -32787,7 +32787,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             The optional single value query parameter to filter the entity name.
@@ -32848,7 +32848,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_snapshot_ranges.py.html>`__ to see an example of how to use summarize_awr_db_snapshot_ranges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_snapshot_ranges.py.html>`__ to see an example of how to use summarize_awr_db_snapshot_ranges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -32967,7 +32967,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -33047,7 +33047,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_sysstats.py.html>`__ to see an example of how to use summarize_awr_db_sysstats API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_sysstats.py.html>`__ to see an example of how to use summarize_awr_db_sysstats API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId', 'name']
@@ -33174,7 +33174,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -33252,7 +33252,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_top_wait_events.py.html>`__ to see an example of how to use summarize_awr_db_top_wait_events API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_top_wait_events.py.html>`__ to see an example of how to use summarize_awr_db_top_wait_events API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId']
@@ -33385,7 +33385,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -33474,7 +33474,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_wait_event_buckets.py.html>`__ to see an example of how to use summarize_awr_db_wait_event_buckets API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_wait_event_buckets.py.html>`__ to see an example of how to use summarize_awr_db_wait_event_buckets API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId', 'name']
@@ -33607,7 +33607,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_db_id: (required)
             The parameter to filter the database by internal ID.
@@ -33692,7 +33692,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_wait_events.py.html>`__ to see an example of how to use summarize_awr_db_wait_events API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_awr_db_wait_events.py.html>`__ to see an example of how to use summarize_awr_db_wait_events API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'awrDbId']
@@ -33829,7 +33829,7 @@ class DbManagementClient(object):
         :param str cloud_asm_id: (required)
             The `OCID`__ of the cloud ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -33872,7 +33872,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_asm_metrics.py.html>`__ to see an example of how to use summarize_cloud_asm_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_asm_metrics.py.html>`__ to see an example of how to use summarize_cloud_asm_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmId', 'startTime', 'endTime']
@@ -33968,7 +33968,7 @@ class DbManagementClient(object):
         :param str cloud_cluster_id: (required)
             The `OCID`__ of the cloud cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34011,7 +34011,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_cluster_metrics.py.html>`__ to see an example of how to use summarize_cloud_cluster_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_cluster_metrics.py.html>`__ to see an example of how to use summarize_cloud_cluster_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudClusterId', 'startTime', 'endTime']
@@ -34107,7 +34107,7 @@ class DbManagementClient(object):
         :param str cloud_db_node_id: (required)
             The `OCID`__ of the cloud database node.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34150,7 +34150,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_db_node_metrics.py.html>`__ to see an example of how to use summarize_cloud_db_node_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_db_node_metrics.py.html>`__ to see an example of how to use summarize_cloud_db_node_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbNodeId', 'startTime', 'endTime']
@@ -34246,7 +34246,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34289,7 +34289,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_db_system_availability_metrics.py.html>`__ to see an example of how to use summarize_cloud_db_system_availability_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_db_system_availability_metrics.py.html>`__ to see an example of how to use summarize_cloud_db_system_availability_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId', 'startTime', 'endTime']
@@ -34385,7 +34385,7 @@ class DbManagementClient(object):
         :param str cloud_listener_id: (required)
             The `OCID`__ of the cloud listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34428,7 +34428,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_listener_metrics.py.html>`__ to see an example of how to use summarize_cloud_listener_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_cloud_listener_metrics.py.html>`__ to see an example of how to use summarize_cloud_listener_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudListenerId', 'startTime', 'endTime']
@@ -34524,7 +34524,7 @@ class DbManagementClient(object):
         :param str external_asm_id: (required)
             The `OCID`__ of the external ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34567,7 +34567,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_asm_metrics.py.html>`__ to see an example of how to use summarize_external_asm_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_asm_metrics.py.html>`__ to see an example of how to use summarize_external_asm_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmId', 'startTime', 'endTime']
@@ -34663,7 +34663,7 @@ class DbManagementClient(object):
         :param str external_cluster_id: (required)
             The `OCID`__ of the external cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34706,7 +34706,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_cluster_metrics.py.html>`__ to see an example of how to use summarize_external_cluster_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_cluster_metrics.py.html>`__ to see an example of how to use summarize_external_cluster_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalClusterId', 'startTime', 'endTime']
@@ -34802,7 +34802,7 @@ class DbManagementClient(object):
         :param str external_db_node_id: (required)
             The `OCID`__ of the external database node.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34845,7 +34845,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_db_node_metrics.py.html>`__ to see an example of how to use summarize_external_db_node_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_db_node_metrics.py.html>`__ to see an example of how to use summarize_external_db_node_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbNodeId', 'startTime', 'endTime']
@@ -34941,7 +34941,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -34984,7 +34984,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_db_system_availability_metrics.py.html>`__ to see an example of how to use summarize_external_db_system_availability_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_db_system_availability_metrics.py.html>`__ to see an example of how to use summarize_external_db_system_availability_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId', 'startTime', 'endTime']
@@ -35080,7 +35080,7 @@ class DbManagementClient(object):
         :param str external_listener_id: (required)
             The `OCID`__ of the external listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The beginning of the time range set to retrieve metric data for the DB system
@@ -35123,7 +35123,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_listener_metrics.py.html>`__ to see an example of how to use summarize_external_listener_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_external_listener_metrics.py.html>`__ to see an example of how to use summarize_external_listener_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalListenerId', 'startTime', 'endTime']
@@ -35219,7 +35219,7 @@ class DbManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The start time of the time range to retrieve the status summary of job executions
@@ -35238,12 +35238,12 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (optional)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_database_id: (optional)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             A filter to return only resources that match the entire name.
@@ -35280,7 +35280,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_job_executions_statuses.py.html>`__ to see an example of how to use summarize_job_executions_statuses API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_job_executions_statuses.py.html>`__ to see an example of how to use summarize_job_executions_statuses API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'startTime', 'endTime']
@@ -35384,7 +35384,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str start_time: (required)
             The start time of the time range to retrieve the health metrics of a Managed Database
@@ -35424,7 +35424,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_managed_database_availability_metrics.py.html>`__ to see an example of how to use summarize_managed_database_availability_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_managed_database_availability_metrics.py.html>`__ to see an example of how to use summarize_managed_database_availability_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'startTime', 'endTime']
@@ -35518,7 +35518,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -35550,7 +35550,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_sql_plan_baselines.py.html>`__ to see an example of how to use summarize_sql_plan_baselines API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_sql_plan_baselines.py.html>`__ to see an example of how to use summarize_sql_plan_baselines API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -35642,7 +35642,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             The page token representing the page from where the next set of paginated results
@@ -35674,7 +35674,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_sql_plan_baselines_by_last_execution.py.html>`__ to see an example of how to use summarize_sql_plan_baselines_by_last_execution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/summarize_sql_plan_baselines_by_last_execution.py.html>`__ to see an example of how to use summarize_sql_plan_baselines_by_last_execution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -35766,12 +35766,12 @@ class DbManagementClient(object):
         :param str named_credential_id: (required)
             The `OCID`__ of the named credential.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.TestNamedCredentialDetails test_named_credential_details: (required)
             The `OCID`__ of the database against which the credential is to be tested.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -35796,7 +35796,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/test_named_credential.py.html>`__ to see an example of how to use test_named_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/test_named_credential.py.html>`__ to see an example of how to use test_named_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['namedCredentialId']
@@ -35878,7 +35878,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str credential_name: (required)
             The name of the preferred credential.
@@ -35909,7 +35909,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/test_preferred_credential.py.html>`__ to see an example of how to use test_preferred_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/test_preferred_credential.py.html>`__ to see an example of how to use test_preferred_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'credentialName']
@@ -35993,7 +35993,7 @@ class DbManagementClient(object):
         :param str cloud_asm_id: (required)
             The `OCID`__ of the cloud ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudAsmDetails update_cloud_asm_details: (required)
             The details required to update an cloud ASM.
@@ -36028,7 +36028,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_asm.py.html>`__ to see an example of how to use update_cloud_asm API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_asm.py.html>`__ to see an example of how to use update_cloud_asm API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmId']
@@ -36110,7 +36110,7 @@ class DbManagementClient(object):
         :param str cloud_asm_instance_id: (required)
             The `OCID`__ of the cloud ASM instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudAsmInstanceDetails update_cloud_asm_instance_details: (required)
             The details required to update an cloud ASM instance.
@@ -36145,7 +36145,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_asm_instance.py.html>`__ to see an example of how to use update_cloud_asm_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_asm_instance.py.html>`__ to see an example of how to use update_cloud_asm_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudAsmInstanceId']
@@ -36229,7 +36229,7 @@ class DbManagementClient(object):
         :param str cloud_cluster_id: (required)
             The `OCID`__ of the cloud cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudClusterDetails update_cloud_cluster_details: (required)
             The details required to update an cloud cluster.
@@ -36264,7 +36264,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_cluster.py.html>`__ to see an example of how to use update_cloud_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_cluster.py.html>`__ to see an example of how to use update_cloud_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudClusterId']
@@ -36346,7 +36346,7 @@ class DbManagementClient(object):
         :param str cloud_cluster_instance_id: (required)
             The `OCID`__ of the cloud cluster instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudClusterInstanceDetails update_cloud_cluster_instance_details: (required)
             The details required to update an cloud cluster instance.
@@ -36381,7 +36381,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_cluster_instance.py.html>`__ to see an example of how to use update_cloud_cluster_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_cluster_instance.py.html>`__ to see an example of how to use update_cloud_cluster_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudClusterInstanceId']
@@ -36463,7 +36463,7 @@ class DbManagementClient(object):
         :param str cloud_db_home_id: (required)
             The `OCID`__ of the cloud database home.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudDbHomeDetails update_cloud_db_home_details: (required)
             The details required to update an cloud DB home.
@@ -36498,7 +36498,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_home.py.html>`__ to see an example of how to use update_cloud_db_home API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_home.py.html>`__ to see an example of how to use update_cloud_db_home API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbHomeId']
@@ -36582,7 +36582,7 @@ class DbManagementClient(object):
         :param str cloud_db_node_id: (required)
             The `OCID`__ of the cloud database node.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudDbNodeDetails update_cloud_db_node_details: (required)
             The details required to update an cloud DB node.
@@ -36617,7 +36617,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_node.py.html>`__ to see an example of how to use update_cloud_db_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_node.py.html>`__ to see an example of how to use update_cloud_db_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbNodeId']
@@ -36699,7 +36699,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_id: (required)
             The `OCID`__ of the cloud DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudDbSystemDetails update_cloud_db_system_details: (required)
             The details required to update an cloud DB system.
@@ -36734,7 +36734,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_system.py.html>`__ to see an example of how to use update_cloud_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_system.py.html>`__ to see an example of how to use update_cloud_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemId']
@@ -36818,7 +36818,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_connector_id: (required)
             The `OCID`__ of the cloud connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudDbSystemConnectorDetails update_cloud_db_system_connector_details: (required)
             The details required to update an cloud connector.
@@ -36853,7 +36853,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_system_connector.py.html>`__ to see an example of how to use update_cloud_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_system_connector.py.html>`__ to see an example of how to use update_cloud_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemConnectorId']
@@ -36935,7 +36935,7 @@ class DbManagementClient(object):
         :param str cloud_db_system_discovery_id: (required)
             The `OCID`__ of the cloud DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudDbSystemDiscoveryDetails update_cloud_db_system_discovery_details: (required)
             The details required to update an cloud DB system discovery.
@@ -36970,7 +36970,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_system_discovery.py.html>`__ to see an example of how to use update_cloud_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_db_system_discovery.py.html>`__ to see an example of how to use update_cloud_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudDbSystemDiscoveryId']
@@ -37054,7 +37054,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudExadataInfrastructureDetails update_cloud_exadata_infrastructure_details: (required)
             The details required to update the managed Exadata infrastructure resources.
@@ -37096,7 +37096,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use update_cloud_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_infrastructure.py.html>`__ to see an example of how to use update_cloud_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataInfrastructureId']
@@ -37185,7 +37185,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudExadataStorageConnectorDetails update_cloud_exadata_storage_connector_details: (required)
             The details required to update connections to the Exadata storage servers.
@@ -37220,7 +37220,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use update_cloud_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_storage_connector.py.html>`__ to see an example of how to use update_cloud_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageConnectorId']
@@ -37304,7 +37304,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_grid_id: (required)
             The `OCID`__ of the Exadata storage grid.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudExadataStorageGridDetails update_cloud_exadata_storage_grid_details: (required)
             The details required to update an Exadata storage grid.
@@ -37339,7 +37339,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_storage_grid.py.html>`__ to see an example of how to use update_cloud_exadata_storage_grid API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_storage_grid.py.html>`__ to see an example of how to use update_cloud_exadata_storage_grid API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageGridId']
@@ -37423,7 +37423,7 @@ class DbManagementClient(object):
         :param str cloud_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudExadataStorageServerDetails update_cloud_exadata_storage_server_details: (required)
             The details required to update an Exadata storage server.
@@ -37458,7 +37458,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_storage_server.py.html>`__ to see an example of how to use update_cloud_exadata_storage_server API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_exadata_storage_server.py.html>`__ to see an example of how to use update_cloud_exadata_storage_server API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudExadataStorageServerId']
@@ -37542,7 +37542,7 @@ class DbManagementClient(object):
         :param str cloud_listener_id: (required)
             The `OCID`__ of the cloud listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateCloudListenerDetails update_cloud_listener_details: (required)
             The details required to update an cloud listener.
@@ -37577,7 +37577,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_listener.py.html>`__ to see an example of how to use update_cloud_listener API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_cloud_listener.py.html>`__ to see an example of how to use update_cloud_listener API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cloudListenerId']
@@ -37659,7 +37659,7 @@ class DbManagementClient(object):
         :param str db_management_private_endpoint_id: (required)
             The `OCID`__ of the Database Management private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateDbManagementPrivateEndpointDetails update_db_management_private_endpoint_details: (required)
             The details used to update a Database Management private endpoint.
@@ -37694,7 +37694,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_db_management_private_endpoint.py.html>`__ to see an example of how to use update_db_management_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_db_management_private_endpoint.py.html>`__ to see an example of how to use update_db_management_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbManagementPrivateEndpointId']
@@ -37778,7 +37778,7 @@ class DbManagementClient(object):
         :param str external_asm_id: (required)
             The `OCID`__ of the external ASM.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalAsmDetails update_external_asm_details: (required)
             The details required to update an external ASM.
@@ -37813,7 +37813,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_asm.py.html>`__ to see an example of how to use update_external_asm API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_asm.py.html>`__ to see an example of how to use update_external_asm API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmId']
@@ -37895,7 +37895,7 @@ class DbManagementClient(object):
         :param str external_asm_instance_id: (required)
             The `OCID`__ of the external ASM instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalAsmInstanceDetails update_external_asm_instance_details: (required)
             The details required to update an external ASM instance.
@@ -37930,7 +37930,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_asm_instance.py.html>`__ to see an example of how to use update_external_asm_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_asm_instance.py.html>`__ to see an example of how to use update_external_asm_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalAsmInstanceId']
@@ -38014,7 +38014,7 @@ class DbManagementClient(object):
         :param str external_cluster_id: (required)
             The `OCID`__ of the external cluster.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalClusterDetails update_external_cluster_details: (required)
             The details required to update an external cluster.
@@ -38049,7 +38049,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_cluster.py.html>`__ to see an example of how to use update_external_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_cluster.py.html>`__ to see an example of how to use update_external_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalClusterId']
@@ -38131,7 +38131,7 @@ class DbManagementClient(object):
         :param str external_cluster_instance_id: (required)
             The `OCID`__ of the external cluster instance.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalClusterInstanceDetails update_external_cluster_instance_details: (required)
             The details required to update an external cluster instance.
@@ -38166,7 +38166,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_cluster_instance.py.html>`__ to see an example of how to use update_external_cluster_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_cluster_instance.py.html>`__ to see an example of how to use update_external_cluster_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalClusterInstanceId']
@@ -38248,7 +38248,7 @@ class DbManagementClient(object):
         :param str external_db_home_id: (required)
             The `OCID`__ of the external database home.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalDbHomeDetails update_external_db_home_details: (required)
             The details required to update an external DB home.
@@ -38283,7 +38283,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_home.py.html>`__ to see an example of how to use update_external_db_home API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_home.py.html>`__ to see an example of how to use update_external_db_home API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbHomeId']
@@ -38367,7 +38367,7 @@ class DbManagementClient(object):
         :param str external_db_node_id: (required)
             The `OCID`__ of the external database node.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalDbNodeDetails update_external_db_node_details: (required)
             The details required to update an external DB node.
@@ -38402,7 +38402,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_node.py.html>`__ to see an example of how to use update_external_db_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_node.py.html>`__ to see an example of how to use update_external_db_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbNodeId']
@@ -38484,7 +38484,7 @@ class DbManagementClient(object):
         :param str external_db_system_id: (required)
             The `OCID`__ of the external DB system.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalDbSystemDetails update_external_db_system_details: (required)
             The details required to update an external DB system.
@@ -38519,7 +38519,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_system.py.html>`__ to see an example of how to use update_external_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_system.py.html>`__ to see an example of how to use update_external_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemId']
@@ -38603,7 +38603,7 @@ class DbManagementClient(object):
         :param str external_db_system_connector_id: (required)
             The `OCID`__ of the external connector.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalDbSystemConnectorDetails update_external_db_system_connector_details: (required)
             The details required to update an external connector.
@@ -38638,7 +38638,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_system_connector.py.html>`__ to see an example of how to use update_external_db_system_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_system_connector.py.html>`__ to see an example of how to use update_external_db_system_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemConnectorId']
@@ -38720,7 +38720,7 @@ class DbManagementClient(object):
         :param str external_db_system_discovery_id: (required)
             The `OCID`__ of the external DB system discovery.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalDbSystemDiscoveryDetails update_external_db_system_discovery_details: (required)
             The details required to update an external DB system discovery.
@@ -38755,7 +38755,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_system_discovery.py.html>`__ to see an example of how to use update_external_db_system_discovery API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_db_system_discovery.py.html>`__ to see an example of how to use update_external_db_system_discovery API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalDbSystemDiscoveryId']
@@ -38839,7 +38839,7 @@ class DbManagementClient(object):
         :param str external_exadata_infrastructure_id: (required)
             The `OCID`__ of the Exadata infrastructure.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalExadataInfrastructureDetails update_external_exadata_infrastructure_details: (required)
             The details required to update the managed Exadata infrastructure resources.
@@ -38881,7 +38881,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_infrastructure.py.html>`__ to see an example of how to use update_external_exadata_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_infrastructure.py.html>`__ to see an example of how to use update_external_exadata_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataInfrastructureId']
@@ -38970,7 +38970,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_connector_id: (required)
             The `OCID`__ of the connector to the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalExadataStorageConnectorDetails update_external_exadata_storage_connector_details: (required)
             The details required to update connections to the Exadata storage servers.
@@ -39005,7 +39005,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_storage_connector.py.html>`__ to see an example of how to use update_external_exadata_storage_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_storage_connector.py.html>`__ to see an example of how to use update_external_exadata_storage_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageConnectorId']
@@ -39089,7 +39089,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_grid_id: (required)
             The `OCID`__ of the Exadata storage grid.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalExadataStorageGridDetails update_external_exadata_storage_grid_details: (required)
             The details required to update an external Exadata storage grid.
@@ -39124,7 +39124,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_storage_grid.py.html>`__ to see an example of how to use update_external_exadata_storage_grid API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_storage_grid.py.html>`__ to see an example of how to use update_external_exadata_storage_grid API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageGridId']
@@ -39208,7 +39208,7 @@ class DbManagementClient(object):
         :param str external_exadata_storage_server_id: (required)
             The `OCID`__ of the Exadata storage server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalExadataStorageServerDetails update_external_exadata_storage_server_details: (required)
             The details required to update an external Exadata storage server.
@@ -39243,7 +39243,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_storage_server.py.html>`__ to see an example of how to use update_external_exadata_storage_server API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_exadata_storage_server.py.html>`__ to see an example of how to use update_external_exadata_storage_server API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalExadataStorageServerId']
@@ -39327,7 +39327,7 @@ class DbManagementClient(object):
         :param str external_listener_id: (required)
             The `OCID`__ of the external listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateExternalListenerDetails update_external_listener_details: (required)
             The details required to update an external listener.
@@ -39362,7 +39362,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_listener.py.html>`__ to see an example of how to use update_external_listener API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_listener.py.html>`__ to see an example of how to use update_external_listener API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalListenerId']
@@ -39477,7 +39477,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_mysql_database.py.html>`__ to see an example of how to use update_external_mysql_database API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_mysql_database.py.html>`__ to see an example of how to use update_external_mysql_database API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseId']
@@ -39594,7 +39594,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_mysql_database_connector.py.html>`__ to see an example of how to use update_external_mysql_database_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_external_mysql_database_connector.py.html>`__ to see an example of how to use update_external_mysql_database_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['externalMySqlDatabaseConnectorId']
@@ -39711,7 +39711,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_job.py.html>`__ to see an example of how to use update_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_job.py.html>`__ to see an example of how to use update_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -39795,7 +39795,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateManagedDatabaseDetails update_managed_database_details: (required)
             The details required to update a Managed Database.
@@ -39830,7 +39830,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_managed_database.py.html>`__ to see an example of how to use update_managed_database API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_managed_database.py.html>`__ to see an example of how to use update_managed_database API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -39914,7 +39914,7 @@ class DbManagementClient(object):
         :param str managed_database_group_id: (required)
             The `OCID`__ of the Managed Database Group.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateManagedDatabaseGroupDetails update_managed_database_group_details: (required)
             The details required to update a Managed Database Group.
@@ -39949,7 +39949,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_managed_database_group.py.html>`__ to see an example of how to use update_managed_database_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_managed_database_group.py.html>`__ to see an example of how to use update_managed_database_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseGroupId']
@@ -40033,7 +40033,7 @@ class DbManagementClient(object):
         :param str named_credential_id: (required)
             The `OCID`__ of the named credential.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.UpdateNamedCredentialDetails update_named_credential_details: (required)
             The details required to update a named credential.
@@ -40068,7 +40068,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_named_credential.py.html>`__ to see an example of how to use update_named_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_named_credential.py.html>`__ to see an example of how to use update_named_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['namedCredentialId']
@@ -40152,7 +40152,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str credential_name: (required)
             The name of the preferred credential.
@@ -40190,7 +40190,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_preferred_credential.py.html>`__ to see an example of how to use update_preferred_credential API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_preferred_credential.py.html>`__ to see an example of how to use update_preferred_credential API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'credentialName']
@@ -40275,7 +40275,7 @@ class DbManagementClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tablespace_name: (required)
             The name of the tablespace.
@@ -40306,7 +40306,7 @@ class DbManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_tablespace.py.html>`__ to see an example of how to use update_tablespace API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/update_tablespace.py.html>`__ to see an example of how to use update_tablespace API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'tablespaceName']

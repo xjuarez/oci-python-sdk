@@ -24,6 +24,10 @@ class UpdateAssetDetails(object):
     ASSET_TYPE_VM = "VM"
 
     #: A constant which can be used with the asset_type property of a UpdateAssetDetails.
+    #: This constant has a value of "INVENTORY_ASSET"
+    ASSET_TYPE_INVENTORY_ASSET = "INVENTORY_ASSET"
+
+    #: A constant which can be used with the asset_type property of a UpdateAssetDetails.
     #: This constant has a value of "AWS_EC2"
     ASSET_TYPE_AWS_EC2 = "AWS_EC2"
 
@@ -38,6 +42,7 @@ class UpdateAssetDetails(object):
 
         * :class:`~oci.cloud_bridge.models.UpdateVmAssetDetails`
         * :class:`~oci.cloud_bridge.models.UpdateAwsEbsAssetDetails`
+        * :class:`~oci.cloud_bridge.models.UpdateInventoryAssetDetails`
         * :class:`~oci.cloud_bridge.models.UpdateVmwareVmAssetDetails`
         * :class:`~oci.cloud_bridge.models.UpdateAwsEc2AssetDetails`
 
@@ -49,7 +54,7 @@ class UpdateAssetDetails(object):
 
         :param asset_type:
             The value to assign to the asset_type property of this UpdateAssetDetails.
-            Allowed values for this property are: "VMWARE_VM", "VM", "AWS_EC2", "AWS_EBS"
+            Allowed values for this property are: "VMWARE_VM", "VM", "INVENTORY_ASSET", "AWS_EC2", "AWS_EBS"
         :type asset_type: str
 
         :param asset_source_ids:
@@ -99,6 +104,9 @@ class UpdateAssetDetails(object):
         if type == 'AWS_EBS':
             return 'UpdateAwsEbsAssetDetails'
 
+        if type == 'INVENTORY_ASSET':
+            return 'UpdateInventoryAssetDetails'
+
         if type == 'VMWARE_VM':
             return 'UpdateVmwareVmAssetDetails'
 
@@ -137,7 +145,7 @@ class UpdateAssetDetails(object):
         **[Required]** Gets the asset_type of this UpdateAssetDetails.
         Asset type
 
-        Allowed values for this property are: "VMWARE_VM", "VM", "AWS_EC2", "AWS_EBS"
+        Allowed values for this property are: "VMWARE_VM", "VM", "INVENTORY_ASSET", "AWS_EC2", "AWS_EBS"
 
 
         :return: The asset_type of this UpdateAssetDetails.
@@ -155,7 +163,7 @@ class UpdateAssetDetails(object):
         :param asset_type: The asset_type of this UpdateAssetDetails.
         :type: str
         """
-        allowed_values = ["VMWARE_VM", "VM", "AWS_EC2", "AWS_EBS"]
+        allowed_values = ["VMWARE_VM", "VM", "INVENTORY_ASSET", "AWS_EC2", "AWS_EBS"]
         if not value_allowed_none_or_none_sentinel(asset_type, allowed_values):
             raise ValueError(
                 f"Invalid value for `asset_type`, must be None or one of {allowed_values}"
@@ -194,7 +202,7 @@ class UpdateAssetDetails(object):
         predefined name, type, or namespace/scope. For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this UpdateAssetDetails.
@@ -210,7 +218,7 @@ class UpdateAssetDetails(object):
         predefined name, type, or namespace/scope. For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this UpdateAssetDetails.
@@ -226,7 +234,7 @@ class UpdateAssetDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this UpdateAssetDetails.
@@ -242,7 +250,7 @@ class UpdateAssetDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this UpdateAssetDetails.

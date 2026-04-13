@@ -20,8 +20,8 @@ class Bucket(object):
     talk to an administrator. If you are an administrator who needs to write policies to give users access, see
     `Getting Started with Policies`__.
 
-    __ https://docs.cloud.oracle.com/Content/Object/Tasks/managingbuckets.htm
-    __ https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm
+    __ https://docs.oracle.com/iaas/Content/Object/Tasks/managingbuckets.htm
+    __ https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm
     """
 
     #: A constant which can be used with the public_access_type property of a Bucket.
@@ -63,6 +63,14 @@ class Bucket(object):
     #: A constant which can be used with the auto_tiering property of a Bucket.
     #: This constant has a value of "InfrequentAccess"
     AUTO_TIERING_INFREQUENT_ACCESS = "InfrequentAccess"
+
+    #: A constant which can be used with the bucket_scope property of a Bucket.
+    #: This constant has a value of "NAMESPACE"
+    BUCKET_SCOPE_NAMESPACE = "NAMESPACE"
+
+    #: A constant which can be used with the bucket_scope property of a Bucket.
+    #: This constant has a value of "REGION"
+    BUCKET_SCOPE_REGION = "REGION"
 
     def __init__(self, **kwargs):
         """
@@ -161,6 +169,12 @@ class Bucket(object):
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type auto_tiering: str
 
+        :param bucket_scope:
+            The value to assign to the bucket_scope property of this Bucket.
+            Allowed values for this property are: "NAMESPACE", "REGION", 'UNKNOWN_ENUM_VALUE'.
+            Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+        :type bucket_scope: str
+
         """
         self.swagger_types = {
             'namespace': 'str',
@@ -183,7 +197,8 @@ class Bucket(object):
             'is_read_only': 'bool',
             'id': 'str',
             'versioning': 'str',
-            'auto_tiering': 'str'
+            'auto_tiering': 'str',
+            'bucket_scope': 'str'
         }
         self.attribute_map = {
             'namespace': 'namespace',
@@ -206,7 +221,8 @@ class Bucket(object):
             'is_read_only': 'isReadOnly',
             'id': 'id',
             'versioning': 'versioning',
-            'auto_tiering': 'autoTiering'
+            'auto_tiering': 'autoTiering',
+            'bucket_scope': 'bucketScope'
         }
         self._namespace = None
         self._name = None
@@ -229,6 +245,7 @@ class Bucket(object):
         self._id = None
         self._versioning = None
         self._auto_tiering = None
+        self._bucket_scope = None
 
     @property
     def namespace(self):
@@ -334,7 +351,7 @@ class Bucket(object):
         **[Required]** Gets the created_by of this Bucket.
         The `OCID`__ of the user who created the bucket.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The created_by of this Bucket.
@@ -348,7 +365,7 @@ class Bucket(object):
         Sets the created_by of this Bucket.
         The `OCID`__ of the user who created the bucket.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param created_by: The created_by of this Bucket.
@@ -490,7 +507,7 @@ class Bucket(object):
         set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
         about events, see `Overview of Events`__.
 
-        __ https://docs.cloud.oracle.com/Content/Events/Concepts/eventsoverview.htm
+        __ https://docs.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm
 
 
         :return: The object_events_enabled of this Bucket.
@@ -506,7 +523,7 @@ class Bucket(object):
         set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
         about events, see `Overview of Events`__.
 
-        __ https://docs.cloud.oracle.com/Content/Events/Concepts/eventsoverview.htm
+        __ https://docs.oracle.com/iaas/Content/Events/Concepts/eventsoverview.htm
 
 
         :param object_events_enabled: The object_events_enabled of this Bucket.
@@ -522,7 +539,7 @@ class Bucket(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this Bucket.
@@ -538,7 +555,7 @@ class Bucket(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this Bucket.
@@ -554,7 +571,7 @@ class Bucket(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this Bucket.
@@ -570,7 +587,7 @@ class Bucket(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this Bucket.
@@ -585,7 +602,7 @@ class Bucket(object):
         The `OCID`__ of a master encryption key used to call the Key Management
         service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The kms_key_id of this Bucket.
@@ -600,7 +617,7 @@ class Bucket(object):
         The `OCID`__ of a master encryption key used to call the Key Management
         service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param kms_key_id: The kms_key_id of this Bucket.
@@ -742,7 +759,7 @@ class Bucket(object):
         Gets the id of this Bucket.
         The `OCID`__ of the bucket.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this Bucket.
@@ -756,7 +773,7 @@ class Bucket(object):
         Sets the id of this Bucket.
         The `OCID`__ of the bucket.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this Bucket.
@@ -829,6 +846,44 @@ class Bucket(object):
         if not value_allowed_none_or_none_sentinel(auto_tiering, allowed_values):
             auto_tiering = 'UNKNOWN_ENUM_VALUE'
         self._auto_tiering = auto_tiering
+
+    @property
+    def bucket_scope(self):
+        """
+        Gets the bucket_scope of this Bucket.
+        Scope in which the bucket is unique. Default value is NAMESPACE.
+        Bucket scope as NAMESPACE means that the bucket is unique only in the owning namespace/tenancy. Other
+        tenancies can have a bucket with same name in their namespace.
+        Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with
+        same name and scope REGION.
+
+        Allowed values for this property are: "NAMESPACE", "REGION", 'UNKNOWN_ENUM_VALUE'.
+        Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
+
+
+        :return: The bucket_scope of this Bucket.
+        :rtype: str
+        """
+        return self._bucket_scope
+
+    @bucket_scope.setter
+    def bucket_scope(self, bucket_scope):
+        """
+        Sets the bucket_scope of this Bucket.
+        Scope in which the bucket is unique. Default value is NAMESPACE.
+        Bucket scope as NAMESPACE means that the bucket is unique only in the owning namespace/tenancy. Other
+        tenancies can have a bucket with same name in their namespace.
+        Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with
+        same name and scope REGION.
+
+
+        :param bucket_scope: The bucket_scope of this Bucket.
+        :type: str
+        """
+        allowed_values = ["NAMESPACE", "REGION"]
+        if not value_allowed_none_or_none_sentinel(bucket_scope, allowed_values):
+            bucket_scope = 'UNKNOWN_ENUM_VALUE'
+        self._bucket_scope = bucket_scope
 
     def __repr__(self):
         return formatted_flat_dict(self)

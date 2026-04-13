@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import os_management_hub_type_mapping
 missing = Sentinel("Missing")
 
@@ -23,7 +23,7 @@ missing = Sentinel("Missing")
 class ScheduledJobClient(object):
     """
     Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-    For more information, see [Overview of OS Management Hub](https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+    For more information, see [Overview of OS Management Hub](https://docs.oracle.com/iaas/osmh/doc/overview.htm).
     """
 
     def __init__(self, config, **kwargs):
@@ -31,7 +31,7 @@ class ScheduledJobClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -50,7 +50,7 @@ class ScheduledJobClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -82,7 +82,7 @@ class ScheduledJobClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("os_management_hub"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -133,12 +133,12 @@ class ScheduledJobClient(object):
         :param str scheduled_job_id: (required)
             The `OCID`__ of the scheduled job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.ChangeScheduledJobCompartmentDetails change_scheduled_job_compartment_details: (required)
             The `OCID`__ of the compartment to move the scheduled job to.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -177,7 +177,7 @@ class ScheduledJobClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/change_scheduled_job_compartment.py.html>`__ to see an example of how to use change_scheduled_job_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/change_scheduled_job_compartment.py.html>`__ to see an example of how to use change_scheduled_job_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['scheduledJobId']
@@ -294,7 +294,7 @@ class ScheduledJobClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/create_scheduled_job.py.html>`__ to see an example of how to use create_scheduled_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/create_scheduled_job.py.html>`__ to see an example of how to use create_scheduled_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -369,7 +369,7 @@ class ScheduledJobClient(object):
         :param str scheduled_job_id: (required)
             The `OCID`__ of the scheduled job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -401,7 +401,7 @@ class ScheduledJobClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/delete_scheduled_job.py.html>`__ to see an example of how to use delete_scheduled_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/delete_scheduled_job.py.html>`__ to see an example of how to use delete_scheduled_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['scheduledJobId']
@@ -483,7 +483,7 @@ class ScheduledJobClient(object):
         :param str scheduled_job_id: (required)
             The `OCID`__ of the scheduled job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -508,7 +508,7 @@ class ScheduledJobClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_scheduled_job.py.html>`__ to see an example of how to use get_scheduled_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_scheduled_job.py.html>`__ to see an example of how to use get_scheduled_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['scheduledJobId']
@@ -586,7 +586,7 @@ class ScheduledJobClient(object):
         """
         Lists scheduled jobs that match the specified compartment or scheduled job `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (optional)
@@ -606,27 +606,27 @@ class ScheduledJobClient(object):
         :param str managed_instance_id: (optional)
             The `OCID`__ of the managed instance. This filter returns resources associated with this managed instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_instance_group_id: (optional)
             The `OCID`__ of the managed instance group. This filter returns resources associated with this group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str managed_compartment_id: (optional)
             The `OCID`__ of the managed compartment. This filter returns resources associated with this compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_stage_id: (optional)
             The `OCID`__ of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str operation_type: (optional)
             A filter to return only scheduled jobs with the given operation type.
 
-            Allowed values are: "INSTALL_PACKAGES", "UPDATE_PACKAGES", "REMOVE_PACKAGES", "UPDATE_ALL", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_USERSPACE", "UPDATE_KSPLICE_KERNEL", "MANAGE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "ATTACH_SOFTWARE_SOURCES", "DETACH_SOFTWARE_SOURCES", "SYNC_MANAGEMENT_STATION_MIRROR", "PROMOTE_LIFECYCLE", "INSTALL_WINDOWS_UPDATES", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REBOOT", "RERUN_WORK_REQUEST"
+            Allowed values are: "INSTALL_PACKAGES", "UPDATE_PACKAGES", "REMOVE_PACKAGES", "UPDATE_ALL", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_USERSPACE", "UPDATE_KSPLICE_KERNEL", "MANAGE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "ATTACH_SOFTWARE_SOURCES", "DETACH_SOFTWARE_SOURCES", "SYNC_MANAGEMENT_STATION_MIRROR", "PROMOTE_LIFECYCLE", "INSTALL_WINDOWS_UPDATES", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REBOOT", "RERUN_WORK_REQUEST", "INSTALL_SNAPS", "REMOVE_SNAPS", "SWITCH_SNAP_CHANNEL"
 
         :param str schedule_type: (optional)
             A filter to return only scheduled jobs of the given scheduling type (one-time or recurring).
@@ -649,7 +649,7 @@ class ScheduledJobClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -657,7 +657,7 @@ class ScheduledJobClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either 'ASC' or 'DESC'.
@@ -678,7 +678,7 @@ class ScheduledJobClient(object):
         :param str id: (optional)
             The `OCID`__ of the scheduled job. A filter to return the specified job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param bool compartment_id_in_subtree: (optional)
             Indicates whether to include subcompartments in the returned results. Default is false.
@@ -695,6 +695,11 @@ class ScheduledJobClient(object):
 
         :param bool is_managed_by_autonomous_linux: (optional)
             Indicates whether to list only resources managed by the Autonomous Linux service.
+
+        :param str dynamic_set_id: (optional)
+            The `OCID`__ of the dynamic set. This filter returns resources associated with this dynamic set.
+
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -716,7 +721,7 @@ class ScheduledJobClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_scheduled_jobs.py.html>`__ to see an example of how to use list_scheduled_jobs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_scheduled_jobs.py.html>`__ to see an example of how to use list_scheduled_jobs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -752,7 +757,8 @@ class ScheduledJobClient(object):
             "compartment_id_in_subtree",
             "location",
             "location_not_equal_to",
-            "is_managed_by_autonomous_linux"
+            "is_managed_by_autonomous_linux",
+            "dynamic_set_id"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
         if extra_kwargs:
@@ -767,7 +773,7 @@ class ScheduledJobClient(object):
                 )
 
         if 'operation_type' in kwargs:
-            operation_type_allowed_values = ["INSTALL_PACKAGES", "UPDATE_PACKAGES", "REMOVE_PACKAGES", "UPDATE_ALL", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_USERSPACE", "UPDATE_KSPLICE_KERNEL", "MANAGE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "ATTACH_SOFTWARE_SOURCES", "DETACH_SOFTWARE_SOURCES", "SYNC_MANAGEMENT_STATION_MIRROR", "PROMOTE_LIFECYCLE", "INSTALL_WINDOWS_UPDATES", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REBOOT", "RERUN_WORK_REQUEST"]
+            operation_type_allowed_values = ["INSTALL_PACKAGES", "UPDATE_PACKAGES", "REMOVE_PACKAGES", "UPDATE_ALL", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_USERSPACE", "UPDATE_KSPLICE_KERNEL", "MANAGE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "ATTACH_SOFTWARE_SOURCES", "DETACH_SOFTWARE_SOURCES", "SYNC_MANAGEMENT_STATION_MIRROR", "PROMOTE_LIFECYCLE", "INSTALL_WINDOWS_UPDATES", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REBOOT", "RERUN_WORK_REQUEST", "INSTALL_SNAPS", "REMOVE_SNAPS", "SWITCH_SNAP_CHANNEL"]
             if kwargs['operation_type'] not in operation_type_allowed_values:
                 raise ValueError(
                     f"Invalid value for `operation_type`, must be one of { operation_type_allowed_values }"
@@ -832,7 +838,8 @@ class ScheduledJobClient(object):
             "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing),
             "location": self.base_client.generate_collection_format_param(kwargs.get("location", missing), 'multi'),
             "locationNotEqualTo": self.base_client.generate_collection_format_param(kwargs.get("location_not_equal_to", missing), 'multi'),
-            "isManagedByAutonomousLinux": kwargs.get("is_managed_by_autonomous_linux", missing)
+            "isManagedByAutonomousLinux": kwargs.get("is_managed_by_autonomous_linux", missing),
+            "dynamicSetId": kwargs.get("dynamic_set_id", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
 
@@ -888,7 +895,7 @@ class ScheduledJobClient(object):
         :param str scheduled_job_id: (required)
             The `OCID`__ of the scheduled job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -927,7 +934,7 @@ class ScheduledJobClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/run_scheduled_job_now.py.html>`__ to see an example of how to use run_scheduled_job_now API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/run_scheduled_job_now.py.html>`__ to see an example of how to use run_scheduled_job_now API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['scheduledJobId']
@@ -1012,7 +1019,7 @@ class ScheduledJobClient(object):
         :param str scheduled_job_id: (required)
             The `OCID`__ of the scheduled job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.UpdateScheduledJobDetails update_scheduled_job_details: (required)
             Provides the information used to update the job.
@@ -1047,7 +1054,7 @@ class ScheduledJobClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/update_scheduled_job.py.html>`__ to see an example of how to use update_scheduled_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/update_scheduled_job.py.html>`__ to see an example of how to use update_scheduled_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['scheduledJobId']

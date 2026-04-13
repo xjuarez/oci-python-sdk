@@ -165,7 +165,7 @@ class CreateMountTargetDetails(object):
         **[Required]** Gets the compartment_id of this CreateMountTargetDetails.
         The `OCID`__ of the compartment in which to create the mount target.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this CreateMountTargetDetails.
@@ -179,7 +179,7 @@ class CreateMountTargetDetails(object):
         Sets the compartment_id of this CreateMountTargetDetails.
         The `OCID`__ of the compartment in which to create the mount target.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this CreateMountTargetDetails.
@@ -231,13 +231,23 @@ class CreateMountTargetDetails(object):
 
         Note:
 
-        This attribute value is stored in the `PrivateIp`__ resource,
+        If the IP address is IPv4, this attribute value is stored in the
+        `PrivateIp`__ resource,
         not in the `mountTarget` resource.
         To update the `hostnameLabel`, use `GetMountTarget` to obtain the
         `OCIDs`__ of the mount target's
         private IPs (`privateIpIds`). Then, you can use
         `UpdatePrivateIp`__
         to update the `hostnameLabel` value.
+
+        If the IP address is IPv6, it is stored in the
+        `Ipv6]`__ resource
+        To update the `hostnameLabel`, use `GetMountTarget` to obtain the
+        `OCIDs`__ of the mount target's
+        IPv6 address (`mountTargetIpv6Ids`). Then, you can use
+        `UpdateIpv6`__
+        to update the `hostnameLabel` value.
+
         For more information, see
         `DNS in Your Virtual Cloud Network`__.
 
@@ -245,10 +255,13 @@ class CreateMountTargetDetails(object):
 
         __ https://tools.ietf.org/html/rfc952
         __ https://tools.ietf.org/html/rfc1123
-        __ https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp
-        __ https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6/UpdateIpv6
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm
 
 
         :return: The hostname_label of this CreateMountTargetDetails.
@@ -270,13 +283,23 @@ class CreateMountTargetDetails(object):
 
         Note:
 
-        This attribute value is stored in the `PrivateIp`__ resource,
+        If the IP address is IPv4, this attribute value is stored in the
+        `PrivateIp`__ resource,
         not in the `mountTarget` resource.
         To update the `hostnameLabel`, use `GetMountTarget` to obtain the
         `OCIDs`__ of the mount target's
         private IPs (`privateIpIds`). Then, you can use
         `UpdatePrivateIp`__
         to update the `hostnameLabel` value.
+
+        If the IP address is IPv6, it is stored in the
+        `Ipv6]`__ resource
+        To update the `hostnameLabel`, use `GetMountTarget` to obtain the
+        `OCIDs`__ of the mount target's
+        IPv6 address (`mountTargetIpv6Ids`). Then, you can use
+        `UpdateIpv6`__
+        to update the `hostnameLabel` value.
+
         For more information, see
         `DNS in Your Virtual Cloud Network`__.
 
@@ -284,10 +307,13 @@ class CreateMountTargetDetails(object):
 
         __ https://tools.ietf.org/html/rfc952
         __ https://tools.ietf.org/html/rfc1123
-        __ https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp
-        __ https://docs.cloud.oracle.com/Content/Network/Concepts/dns.htm
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6/UpdateIpv6
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm
 
 
         :param hostname_label: The hostname_label of this CreateMountTargetDetails.
@@ -333,7 +359,7 @@ class CreateMountTargetDetails(object):
         **[Required]** Gets the subnet_id of this CreateMountTargetDetails.
         The `OCID`__ of the subnet in which to create the mount target.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The subnet_id of this CreateMountTargetDetails.
@@ -347,7 +373,7 @@ class CreateMountTargetDetails(object):
         Sets the subnet_id of this CreateMountTargetDetails.
         The `OCID`__ of the subnet in which to create the mount target.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param subnet_id: The subnet_id of this CreateMountTargetDetails.
@@ -408,8 +434,8 @@ class CreateMountTargetDetails(object):
         Setting this to an empty array after the list is created removes the mount target from all NSGs.
         For more information about NSGs, see `Security Rules`__.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm
 
 
         :return: The nsg_ids of this CreateMountTargetDetails.
@@ -426,8 +452,8 @@ class CreateMountTargetDetails(object):
         Setting this to an empty array after the list is created removes the mount target from all NSGs.
         For more information about NSGs, see `Security Rules`__.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/securityrules.htm
 
 
         :param nsg_ids: The nsg_ids of this CreateMountTargetDetails.
@@ -464,7 +490,7 @@ class CreateMountTargetDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateMountTargetDetails.
@@ -481,7 +507,7 @@ class CreateMountTargetDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateMountTargetDetails.
@@ -497,7 +523,7 @@ class CreateMountTargetDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateMountTargetDetails.
@@ -513,7 +539,7 @@ class CreateMountTargetDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateMountTargetDetails.
@@ -531,8 +557,8 @@ class CreateMountTargetDetails(object):
 
         Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"enforce\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
 
 
         :return: The security_attributes of this CreateMountTargetDetails.
@@ -550,8 +576,8 @@ class CreateMountTargetDetails(object):
 
         Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"enforce\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
 
 
         :param security_attributes: The security_attributes of this CreateMountTargetDetails.

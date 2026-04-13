@@ -14,7 +14,7 @@ New Region Support
 
 If you are using a version of the SDK released prior to the announcement of a new region, you may need to use a workaround to reach it, depending on whether the region is in the oraclecloud.com realm.
 
-A *region* is a localized geographic area. For more information on regions and how to identify them, see `Regions and Availability Domains <https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm>`_
+A *region* is a localized geographic area. For more information on regions and how to identify them, see `Regions and Availability Domains <https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm>`_
 
 A *realm* is a set of regions that share entities. You can identify your realm by looking at the domain name at the end of the network address. For example, the realm for ``xyz.abc.123.oraclecloud.com`` is ``oraclecloud.com``.
 
@@ -42,4 +42,4 @@ If you are authenticating via instance principals, you can set the federation_en
 
 If the correct federation_endpoint for the region is not passed in, you will see the following error during instance principals authentication::
     
-    oci._vendor.requests.exceptions.ConnectionError: HTTPSConnectionPool(host='auth.us-gov-phoenix-1.oraclecloud.com', port=443): Max retries exceeded with url: /v1/x509 (Caused by NewConnectionError('<oci._vendor.urllib3.connection.VerifiedHTTPSConnection object at 0x7f5c91002ba8>: Failed to establish a new connection: [Errno -2] Name or service not known',))
+    oci._vendor.requests.exceptions.ConnectionError: HTTPSConnectionPool(host='auth.us-gov-phoenix-1.oraclecloud.com', port=443): Max retries exceeded with url: /v1/x509 (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x7f5c91002ba8>: Failed to establish a new connection: [Errno -2] Name or service not known',))

@@ -36,6 +36,10 @@ class CreateEmailIpPoolDetails(object):
             The value to assign to the outbound_ips property of this CreateEmailIpPoolDetails.
         :type outbound_ips: list[str]
 
+        :param last_ip_drain_period_in_hours:
+            The value to assign to the last_ip_drain_period_in_hours property of this CreateEmailIpPoolDetails.
+        :type last_ip_drain_period_in_hours: int
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CreateEmailIpPoolDetails.
         :type freeform_tags: dict(str, str)
@@ -50,6 +54,7 @@ class CreateEmailIpPoolDetails(object):
             'compartment_id': 'str',
             'description': 'str',
             'outbound_ips': 'list[str]',
+            'last_ip_drain_period_in_hours': 'int',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
@@ -58,6 +63,7 @@ class CreateEmailIpPoolDetails(object):
             'compartment_id': 'compartmentId',
             'description': 'description',
             'outbound_ips': 'outboundIps',
+            'last_ip_drain_period_in_hours': 'lastIpDrainPeriodInHours',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
@@ -65,6 +71,7 @@ class CreateEmailIpPoolDetails(object):
         self._compartment_id = None
         self._description = None
         self._outbound_ips = None
+        self._last_ip_drain_period_in_hours = None
         self._freeform_tags = None
         self._defined_tags = None
 
@@ -104,7 +111,7 @@ class CreateEmailIpPoolDetails(object):
         **[Required]** Gets the compartment_id of this CreateEmailIpPoolDetails.
         The `OCID`__ of the compartment for this IpPool.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this CreateEmailIpPoolDetails.
@@ -118,7 +125,7 @@ class CreateEmailIpPoolDetails(object):
         Sets the compartment_id of this CreateEmailIpPoolDetails.
         The `OCID`__ of the compartment for this IpPool.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this CreateEmailIpPoolDetails.
@@ -175,6 +182,30 @@ class CreateEmailIpPoolDetails(object):
         self._outbound_ips = outbound_ips
 
     @property
+    def last_ip_drain_period_in_hours(self):
+        """
+        Gets the last_ip_drain_period_in_hours of this CreateEmailIpPoolDetails.
+        Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+
+
+        :return: The last_ip_drain_period_in_hours of this CreateEmailIpPoolDetails.
+        :rtype: int
+        """
+        return self._last_ip_drain_period_in_hours
+
+    @last_ip_drain_period_in_hours.setter
+    def last_ip_drain_period_in_hours(self, last_ip_drain_period_in_hours):
+        """
+        Sets the last_ip_drain_period_in_hours of this CreateEmailIpPoolDetails.
+        Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+
+
+        :param last_ip_drain_period_in_hours: The last_ip_drain_period_in_hours of this CreateEmailIpPoolDetails.
+        :type: int
+        """
+        self._last_ip_drain_period_in_hours = last_ip_drain_period_in_hours
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this CreateEmailIpPoolDetails.
@@ -183,7 +214,7 @@ class CreateEmailIpPoolDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateEmailIpPoolDetails.
@@ -200,7 +231,7 @@ class CreateEmailIpPoolDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateEmailIpPoolDetails.
@@ -217,7 +248,7 @@ class CreateEmailIpPoolDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateEmailIpPoolDetails.
@@ -234,7 +265,7 @@ class CreateEmailIpPoolDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateEmailIpPoolDetails.

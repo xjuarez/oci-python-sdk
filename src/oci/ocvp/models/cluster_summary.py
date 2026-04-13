@@ -112,6 +112,10 @@ class ClusterSummary(object):
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type vsphere_type: str
 
+        :param cluster_byol_allocation_details:
+            The value to assign to the cluster_byol_allocation_details property of this ClusterSummary.
+        :type cluster_byol_allocation_details: oci.ocvp.models.ClusterByolAllocationDetails
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this ClusterSummary.
         :type freeform_tags: dict(str, str)
@@ -140,6 +144,7 @@ class ClusterSummary(object):
             'initial_host_shape_name': 'str',
             'initial_host_ocpu_count': 'float',
             'vsphere_type': 'str',
+            'cluster_byol_allocation_details': 'ClusterByolAllocationDetails',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
@@ -159,6 +164,7 @@ class ClusterSummary(object):
             'initial_host_shape_name': 'initialHostShapeName',
             'initial_host_ocpu_count': 'initialHostOcpuCount',
             'vsphere_type': 'vsphereType',
+            'cluster_byol_allocation_details': 'clusterByolAllocationDetails',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
@@ -177,6 +183,7 @@ class ClusterSummary(object):
         self._initial_host_shape_name = None
         self._initial_host_ocpu_count = None
         self._vsphere_type = None
+        self._cluster_byol_allocation_details = None
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None
@@ -188,7 +195,7 @@ class ClusterSummary(object):
         The `OCID`__ of the compartment that
         contains the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this ClusterSummary.
@@ -203,7 +210,7 @@ class ClusterSummary(object):
         The `OCID`__ of the compartment that
         contains the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this ClusterSummary.
@@ -242,7 +249,7 @@ class ClusterSummary(object):
         The `OCID`__ of the SDDC that the
         Cluster belongs to.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The sddc_id of this ClusterSummary.
@@ -257,7 +264,7 @@ class ClusterSummary(object):
         The `OCID`__ of the SDDC that the
         Cluster belongs to.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param sddc_id: The sddc_id of this ClusterSummary.
@@ -350,7 +357,7 @@ class ClusterSummary(object):
         The `OCID`__ of the compartment that
         contains the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this ClusterSummary.
@@ -365,7 +372,7 @@ class ClusterSummary(object):
         The `OCID`__ of the compartment that
         contains the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this ClusterSummary.
@@ -596,6 +603,26 @@ class ClusterSummary(object):
         self._vsphere_type = vsphere_type
 
     @property
+    def cluster_byol_allocation_details(self):
+        """
+        Gets the cluster_byol_allocation_details of this ClusterSummary.
+
+        :return: The cluster_byol_allocation_details of this ClusterSummary.
+        :rtype: oci.ocvp.models.ClusterByolAllocationDetails
+        """
+        return self._cluster_byol_allocation_details
+
+    @cluster_byol_allocation_details.setter
+    def cluster_byol_allocation_details(self, cluster_byol_allocation_details):
+        """
+        Sets the cluster_byol_allocation_details of this ClusterSummary.
+
+        :param cluster_byol_allocation_details: The cluster_byol_allocation_details of this ClusterSummary.
+        :type: oci.ocvp.models.ClusterByolAllocationDetails
+        """
+        self._cluster_byol_allocation_details = cluster_byol_allocation_details
+
+    @property
     def freeform_tags(self):
         """
         **[Required]** Gets the freeform_tags of this ClusterSummary.
@@ -604,7 +631,7 @@ class ClusterSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this ClusterSummary.
@@ -621,7 +648,7 @@ class ClusterSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this ClusterSummary.
@@ -638,7 +665,7 @@ class ClusterSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this ClusterSummary.
@@ -655,7 +682,7 @@ class ClusterSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this ClusterSummary.

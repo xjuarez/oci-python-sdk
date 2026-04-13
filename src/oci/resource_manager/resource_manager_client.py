@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import resource_manager_type_mapping
 missing = Sentinel("Missing")
 
@@ -33,7 +33,7 @@ class ResourceManagerClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -52,7 +52,7 @@ class ResourceManagerClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -84,7 +84,7 @@ class ResourceManagerClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("resource_manager"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -138,13 +138,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Canceling a Job`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/cancel-job.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/cancel-job.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -180,7 +180,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/cancel_job.py.html>`__ to see an example of how to use cancel_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/cancel_job.py.html>`__ to see an example of how to use cancel_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -268,13 +268,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Moving a Configuration Source Provider`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/change-compartment-csp.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/change-compartment-csp.htm
 
 
         :param str configuration_source_provider_id: (required)
             The `OCID`__ of the configuration source provider.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.ChangeConfigurationSourceProviderCompartmentDetails change_configuration_source_provider_compartment_details: (required)
             Defines the properties of changeConfigurationSourceProviderCompartment operation.
@@ -315,7 +315,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_configuration_source_provider_compartment.py.html>`__ to see an example of how to use change_configuration_source_provider_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_configuration_source_provider_compartment.py.html>`__ to see an example of how to use change_configuration_source_provider_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['configurationSourceProviderId']
@@ -400,13 +400,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Moving a Private Endpoint`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/move-private-endpoints.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/move-private-endpoints.htm
 
 
         :param str private_endpoint_id: (required)
             The `OCID`__ of the private endpoint.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.ChangePrivateEndpointCompartmentDetails change_private_endpoint_compartment_details: (required)
             Defines the properties of changePrivateEndpointCompartment operation.
@@ -447,7 +447,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_private_endpoint_compartment.py.html>`__ to see an example of how to use change_private_endpoint_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_private_endpoint_compartment.py.html>`__ to see an example of how to use change_private_endpoint_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateEndpointId']
@@ -532,13 +532,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Moving a Stack`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/change-compartment-stack.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/change-compartment-stack.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.ChangeStackCompartmentDetails change_stack_compartment_details: (required)
             Defines the properties of changeStackCompartment operation.
@@ -579,7 +579,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_stack_compartment.py.html>`__ to see an example of how to use change_stack_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_stack_compartment.py.html>`__ to see an example of how to use change_stack_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -664,13 +664,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Moving a Private Template`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/change-compartment-template.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/change-compartment-template.htm
 
 
         :param str template_id: (required)
             The `OCID`__ of the template.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.ChangeTemplateCompartmentDetails change_template_compartment_details: (required)
             The details for moving a template to a different compartment.
@@ -711,7 +711,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_template_compartment.py.html>`__ to see an example of how to use change_template_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/change_template_compartment.py.html>`__ to see an example of how to use change_template_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['templateId']
@@ -796,7 +796,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Creating a Configuration Source Provider`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-csp.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-csp.htm
 
 
         :param oci.resource_manager.models.CreateConfigurationSourceProviderDetails create_configuration_source_provider_details: (required)
@@ -833,7 +833,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_configuration_source_provider.py.html>`__ to see an example of how to use create_configuration_source_provider API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_configuration_source_provider.py.html>`__ to see an example of how to use create_configuration_source_provider API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -906,7 +906,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Creating a Job`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-job.htm
 
 
         :param oci.resource_manager.models.CreateJobDetails create_job_details: (required)
@@ -943,7 +943,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_job.py.html>`__ to see an example of how to use create_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_job.py.html>`__ to see an example of how to use create_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1016,7 +1016,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Creating a Private Endpoint`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-private-endpoints.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-private-endpoints.htm
 
 
         :param oci.resource_manager.models.CreatePrivateEndpointDetails create_private_endpoint_details: (required)
@@ -1053,7 +1053,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_private_endpoint.py.html>`__ to see an example of how to use create_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_private_endpoint.py.html>`__ to see an example of how to use create_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1130,7 +1130,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Creating a Stack`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm
 
 
         :param oci.resource_manager.models.CreateStackDetails create_stack_details: (required)
@@ -1167,7 +1167,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_stack.py.html>`__ to see an example of how to use create_stack API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_stack.py.html>`__ to see an example of how to use create_stack API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1240,7 +1240,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Creating a Private Template`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-template.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/create-template.htm
 
 
         :param oci.resource_manager.models.CreateTemplateDetails create_template_details: (required)
@@ -1277,7 +1277,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_template.py.html>`__ to see an example of how to use create_template API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/create_template.py.html>`__ to see an example of how to use create_template API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1350,13 +1350,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Deleting a Configuration Source Provider`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/delete-csp.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/delete-csp.htm
 
 
         :param str configuration_source_provider_id: (required)
             The `OCID`__ of the configuration source provider.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -1387,7 +1387,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_configuration_source_provider.py.html>`__ to see an example of how to use delete_configuration_source_provider API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_configuration_source_provider.py.html>`__ to see an example of how to use delete_configuration_source_provider API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['configurationSourceProviderId']
@@ -1467,13 +1467,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Deleting a Private Endpoint`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/delete-private-endpoints.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/delete-private-endpoints.htm
 
 
         :param str private_endpoint_id: (required)
             The `OCID`__ of the private endpoint.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -1504,7 +1504,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_private_endpoint.py.html>`__ to see an example of how to use delete_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_private_endpoint.py.html>`__ to see an example of how to use delete_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateEndpointId']
@@ -1584,13 +1584,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Deleting a Stack`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/delete-stack.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/delete-stack.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -1621,7 +1621,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_stack.py.html>`__ to see an example of how to use delete_stack API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_stack.py.html>`__ to see an example of how to use delete_stack API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -1701,13 +1701,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Deleting a Private Template`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/delete-template.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/delete-template.htm
 
 
         :param str template_id: (required)
             The `OCID`__ of the template.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -1738,7 +1738,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_template.py.html>`__ to see an example of how to use delete_template API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/delete_template.py.html>`__ to see an example of how to use delete_template API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['templateId']
@@ -1818,13 +1818,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Detecting Drift`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/detect-drift.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/detect-drift.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the `PUT` or `DELETE` call for a resource, set the `if-match`
@@ -1865,7 +1865,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/detect_stack_drift.py.html>`__ to see an example of how to use detect_stack_drift API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/detect_stack_drift.py.html>`__ to see an example of how to use detect_stack_drift API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -1951,13 +1951,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Configuration Source Provider's Details`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-csp.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-csp.htm
 
 
         :param str configuration_source_provider_id: (required)
             The `OCID`__ of the configuration source provider.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -1983,7 +1983,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_configuration_source_provider.py.html>`__ to see an example of how to use get_configuration_source_provider API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_configuration_source_provider.py.html>`__ to see an example of how to use get_configuration_source_provider API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['configurationSourceProviderId']
@@ -2063,13 +2063,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Job's Details`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-job.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-job.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2095,7 +2095,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job.py.html>`__ to see an example of how to use get_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job.py.html>`__ to see an example of how to use get_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -2177,13 +2177,13 @@ class ResourceManagerClient(object):
         `Getting Detailed Log Content for a Job`__.
 
         __ https://www.terraform.io/docs/internals/debugging.html
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-detailed-log-content.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-detailed-log-content.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2209,7 +2209,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_detailed_log_content.py.html>`__ to see an example of how to use get_job_detailed_log_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_detailed_log_content.py.html>`__ to see an example of how to use get_job_detailed_log_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -2289,13 +2289,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting Logs for a Job`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-logs.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-logs.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2318,13 +2318,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param datetime timestamp_greater_than_or_equal_to: (optional)
             Time stamp specifying the lower time limit for which logs are returned in a query.
@@ -2356,7 +2356,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_logs.py.html>`__ to see an example of how to use get_job_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_logs.py.html>`__ to see an example of how to use get_job_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -2471,13 +2471,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting Logs Content for a Job`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-logs-content.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-logs-content.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2503,7 +2503,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_logs_content.py.html>`__ to see an example of how to use get_job_logs_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_logs_content.py.html>`__ to see an example of how to use get_job_logs_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -2584,13 +2584,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Job Terraform Configuration`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-tf-config.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-tf-config.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2616,7 +2616,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_tf_config.py.html>`__ to see an example of how to use get_job_tf_config API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_tf_config.py.html>`__ to see an example of how to use get_job_tf_config API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -2696,13 +2696,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting the Terraform Output for a Plan Job`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-tf-plan.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-tf-plan.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2733,7 +2733,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_tf_plan.py.html>`__ to see an example of how to use get_job_tf_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_tf_plan.py.html>`__ to see an example of how to use get_job_tf_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -2828,13 +2828,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Job Terraform Configuration`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-tf-config.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-job-tf-config.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2860,7 +2860,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_tf_state.py.html>`__ to see an example of how to use get_job_tf_state API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_job_tf_state.py.html>`__ to see an example of how to use get_job_tf_state API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -2940,13 +2940,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Private Endpoint's Details`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-private-endpoints.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-private-endpoints.htm
 
 
         :param str private_endpoint_id: (required)
             The `OCID`__ of the private endpoint.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2972,7 +2972,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_private_endpoint.py.html>`__ to see an example of how to use get_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_private_endpoint.py.html>`__ to see an example of how to use get_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateEndpointId']
@@ -3053,7 +3053,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting the Reachable IP Address for a Private Endpoint`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-private-endpoint-reachable-ip.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-private-endpoint-reachable-ip.htm
 
 
         :param str private_ip: (required)
@@ -3062,7 +3062,7 @@ class ResourceManagerClient(object):
         :param str private_endpoint_id: (required)
             The `OCID`__ of the private endpoint.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3095,7 +3095,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_reachable_ip.py.html>`__ to see an example of how to use get_reachable_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_reachable_ip.py.html>`__ to see an example of how to use get_reachable_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateEndpointId', 'privateIp']
@@ -3185,13 +3185,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Stack's Details`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3217,7 +3217,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_stack.py.html>`__ to see an example of how to use get_stack API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_stack.py.html>`__ to see an example of how to use get_stack API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -3298,13 +3298,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Stack Terraform Configuration`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack-tf-config.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack-tf-config.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3330,7 +3330,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_stack_tf_config.py.html>`__ to see an example of how to use get_stack_tf_config API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_stack_tf_config.py.html>`__ to see an example of how to use get_stack_tf_config API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -3410,13 +3410,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Stack State File`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack-tf-state.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack-tf-state.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3442,7 +3442,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_stack_tf_state.py.html>`__ to see an example of how to use get_stack_tf_state API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_stack_tf_state.py.html>`__ to see an example of how to use get_stack_tf_state API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -3522,13 +3522,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Private Template's Details`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-template.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-template.htm
 
 
         :param str template_id: (required)
             The `OCID`__ of the template.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3554,7 +3554,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_template.py.html>`__ to see an example of how to use get_template API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_template.py.html>`__ to see an example of how to use get_template API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['templateId']
@@ -3635,13 +3635,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Private Template's Logo`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-template-logo.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-template-logo.htm
 
 
         :param str template_id: (required)
             The `OCID`__ of the template.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3667,7 +3667,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_template_logo.py.html>`__ to see an example of how to use get_template_logo API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_template_logo.py.html>`__ to see an example of how to use get_template_logo API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['templateId']
@@ -3748,13 +3748,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Private Template's Terraform Configuration`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-template-tf-config.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-template-tf-config.htm
 
 
         :param str template_id: (required)
             The `OCID`__ of the template.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3780,7 +3780,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_template_tf_config.py.html>`__ to see an example of how to use get_template_tf_config API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_template_tf_config.py.html>`__ to see an example of how to use get_template_tf_config API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['templateId']
@@ -3860,13 +3860,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Getting a Work Request's Details`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-work-request.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/get-work-request.htm
 
 
         :param str work_request_id: (required)
             The `OCID`__ of the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3892,7 +3892,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -3974,7 +3974,7 @@ class ResourceManagerClient(object):
         - For `compartmentId`, lists all configuration source providers in the matching compartment.
         - For `configurationSourceProviderId`, lists the matching configuration source provider.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-csp.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-csp.htm
 
 
         :param str opc_request_id: (optional)
@@ -3984,12 +3984,12 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str configuration_source_provider_id: (optional)
             A filter to return only configuration source providers that match the provided `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -4013,13 +4013,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str config_source_provider_type: (optional)
             A filter to return only configuration source providers of the specified type (GitHub or GitLab).
@@ -4044,7 +4044,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_configuration_source_providers.py.html>`__ to see an example of how to use list_configuration_source_providers API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_configuration_source_providers.py.html>`__ to see an example of how to use list_configuration_source_providers API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4148,13 +4148,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Job Resources`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-job-resources.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-job-resources.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -4163,7 +4163,7 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str terraform_resource_type: (optional)
             A filter to return only specified resource types.
@@ -4175,13 +4175,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4203,7 +4203,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_job_associated_resources.py.html>`__ to see an example of how to use list_job_associated_resources API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_job_associated_resources.py.html>`__ to see an example of how to use list_job_associated_resources API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -4297,13 +4297,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Job Outputs`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-job-outputs.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-job-outputs.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -4312,19 +4312,19 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4346,7 +4346,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_job_outputs.py.html>`__ to see an example of how to use list_job_outputs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_job_outputs.py.html>`__ to see an example of how to use list_job_outputs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -4442,10 +4442,10 @@ class ResourceManagerClient(object):
         - To list all jobs in a compartment, provide the compartment `OCID`__.
         - To return a specific job, provide the job `OCID`__. (Equivalent to :func:`get_stack`.)
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-jobs.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-jobs.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str opc_request_id: (optional)
@@ -4455,17 +4455,17 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str stack_id: (optional)
             The stack `OCID`__ on which to filter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             The `OCID`__ on which to query for jobs.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter that returns all resources that match the specified lifecycle state.
@@ -4495,13 +4495,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4523,7 +4523,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_jobs.py.html>`__ to see an example of how to use list_jobs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_jobs.py.html>`__ to see an example of how to use list_jobs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4638,7 +4638,7 @@ class ResourceManagerClient(object):
         - For `compartmentId`, lists all private endpoints in the matching compartment.
         - For `privateEndpointId`, lists the matching private endpoint.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-private-endpoints.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-private-endpoints.htm
 
 
         :param str opc_request_id: (optional)
@@ -4648,12 +4648,12 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str private_endpoint_id: (optional)
             The `OCID`__ of the private endpoint.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -4664,7 +4664,7 @@ class ResourceManagerClient(object):
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sort_by: (optional)
             The field to use when sorting returned resources.
@@ -4682,13 +4682,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4710,7 +4710,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_private_endpoints.py.html>`__ to see an example of how to use list_private_endpoints API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_private_endpoints.py.html>`__ to see an example of how to use list_private_endpoints API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4815,9 +4815,9 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Resource Discovery Services`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resource-discovery.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resource-discovery.htm
         __ https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-discovery-services.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-discovery-services.htm
 
 
         :param str opc_request_id: (optional)
@@ -4827,7 +4827,7 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4849,7 +4849,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_resource_discovery_services.py.html>`__ to see an example of how to use list_resource_discovery_services API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_resource_discovery_services.py.html>`__ to see an example of how to use list_resource_discovery_services API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4925,13 +4925,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Stack Resources`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-stack-resources.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-stack-resources.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -4946,19 +4946,19 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -4980,7 +4980,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_stack_associated_resources.py.html>`__ to see an example of how to use list_stack_associated_resources API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_stack_associated_resources.py.html>`__ to see an example of how to use list_stack_associated_resources API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -5078,13 +5078,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Drift Status`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-drift.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-drift.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5093,7 +5093,7 @@ class ResourceManagerClient(object):
         :param str work_request_id: (optional)
             The `OCID`__ of the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[StackResourceDriftSummaryResourceDriftStatus] resource_drift_status: (optional)
             A filter that returns only resources that match the given drift status. The value is case-insensitive.
@@ -5102,13 +5102,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5130,7 +5130,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_stack_resource_drift_details.py.html>`__ to see an example of how to use list_stack_resource_drift_details API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_stack_resource_drift_details.py.html>`__ to see an example of how to use list_stack_resource_drift_details API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -5226,7 +5226,7 @@ class ResourceManagerClient(object):
         - If called using the compartment ID, returns all stacks in the specified compartment.
         - If called using the stack ID, returns the specified stack. (See also :func:`get_stack`.)
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-stacks.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-stacks.htm
 
 
         :param str opc_request_id: (optional)
@@ -5236,12 +5236,12 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             The `OCID`__ on which to query for a stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter that returns only those resources that match the specified
@@ -5249,7 +5249,7 @@ class ResourceManagerClient(object):
             For more information about stack lifecycle states, see
             `Key Concepts`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__StackStates
+            __ https://docs.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm#concepts__StackStates
 
             Allowed values are: "CREATING", "ACTIVE", "DELETING", "DELETED", "FAILED"
 
@@ -5275,13 +5275,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5303,7 +5303,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_stacks.py.html>`__ to see an example of how to use list_stacks API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_stacks.py.html>`__ to see an example of how to use list_stacks API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -5414,7 +5414,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Template Categories`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-template-categories.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-template-categories.htm
 
 
         :param str opc_request_id: (optional)
@@ -5441,7 +5441,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_template_categories.py.html>`__ to see an example of how to use list_template_categories API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_template_categories.py.html>`__ to see an example of how to use list_template_categories API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -5510,7 +5510,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Templates`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-template.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-template.htm
 
 
         :param str opc_request_id: (optional)
@@ -5520,7 +5520,7 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str template_category_id: (optional)
             Unique identifier for the template category.
@@ -5532,7 +5532,7 @@ class ResourceManagerClient(object):
         :param str template_id: (optional)
             The `OCID`__ of the template.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -5556,13 +5556,13 @@ class ResourceManagerClient(object):
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5584,7 +5584,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_templates.py.html>`__ to see an example of how to use list_templates API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_templates.py.html>`__ to see an example of how to use list_templates API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -5688,7 +5688,7 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Terraform Versions`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-tf-versions.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-tf-versions.htm
 
 
         :param str opc_request_id: (optional)
@@ -5698,7 +5698,7 @@ class ResourceManagerClient(object):
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5720,7 +5720,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_terraform_versions.py.html>`__ to see an example of how to use list_terraform_versions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_terraform_versions.py.html>`__ to see an example of how to use list_terraform_versions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -5796,30 +5796,30 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Errors for a Work Request`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-work-request-errors.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-work-request-errors.htm
 
 
         :param str work_request_id: (required)
             The `OCID`__ of the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use when sorting returned resources. Ascending (`ASC`) or descending (`DESC`).
@@ -5850,7 +5850,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -5951,30 +5951,30 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Logs for a Work Request`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-work-request-logs.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-work-request-logs.htm
 
 
         :param str work_request_id: (required)
             The `OCID`__ of the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use when sorting returned resources. Ascending (`ASC`) or descending (`DESC`).
@@ -6005,7 +6005,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -6106,30 +6106,30 @@ class ResourceManagerClient(object):
         For more information, see
         `Listing Work Requests`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/list-work-request.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-work-request.htm
 
 
         :param str compartment_id: (required)
             A filter to return only resources that exist in the compartment, identified by `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_id: (optional)
             The `OCID`__ of the resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The number of items returned in a paginated `List` call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             The value of the `opc-next-page` response header from the preceding `List` call.
             For information about pagination, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -6155,7 +6155,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -6236,13 +6236,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Updating a Configuration Source Provider`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-csp.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/update-csp.htm
 
 
         :param str configuration_source_provider_id: (required)
             The `OCID`__ of the configuration source provider.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.UpdateConfigurationSourceProviderDetails update_configuration_source_provider_details: (required)
             Updated information provided for the ConfigurationSourceProvider.
@@ -6276,7 +6276,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_configuration_source_provider.py.html>`__ to see an example of how to use update_configuration_source_provider API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_configuration_source_provider.py.html>`__ to see an example of how to use update_configuration_source_provider API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['configurationSourceProviderId']
@@ -6360,13 +6360,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Updating a Job`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-job.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/update-job.htm
 
 
         :param str job_id: (required)
             The `OCID`__ of the job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.UpdateJobDetails update_job_details: (required)
             Updates properties for the specified job.
@@ -6400,7 +6400,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_job.py.html>`__ to see an example of how to use update_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_job.py.html>`__ to see an example of how to use update_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['jobId']
@@ -6484,13 +6484,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Updating a Private Endpoint`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-private-endpoints.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/update-private-endpoints.htm
 
 
         :param str private_endpoint_id: (required)
             The `OCID`__ of the private endpoint.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.UpdatePrivateEndpointDetails update_private_endpoint_details: (required)
             Update details for a private endpoint.
@@ -6524,7 +6524,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_private_endpoint.py.html>`__ to see an example of how to use update_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_private_endpoint.py.html>`__ to see an example of how to use update_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateEndpointId']
@@ -6610,13 +6610,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Updating a Stack`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm
 
 
         :param str stack_id: (required)
             The `OCID`__ of the stack.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.UpdateStackDetails update_stack_details: (required)
             The details for updating a stack.
@@ -6650,7 +6650,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_stack.py.html>`__ to see an example of how to use update_stack API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_stack.py.html>`__ to see an example of how to use update_stack API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['stackId']
@@ -6734,13 +6734,13 @@ class ResourceManagerClient(object):
         For more information, see
         `Updating a Private Template`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-template.htm
+        __ https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/update-template.htm
 
 
         :param str template_id: (required)
             The `OCID`__ of the template.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.resource_manager.models.UpdateTemplateDetails update_template_details: (required)
             The details for updating a template.
@@ -6774,7 +6774,7 @@ class ResourceManagerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_template.py.html>`__ to see an example of how to use update_template API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/resourcemanager/update_template.py.html>`__ to see an example of how to use update_template API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['templateId']

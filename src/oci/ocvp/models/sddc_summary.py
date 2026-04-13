@@ -112,6 +112,10 @@ class SddcSummary(object):
             The value to assign to the is_single_host_sddc property of this SddcSummary.
         :type is_single_host_sddc: bool
 
+        :param sddc_byol_allocation_details:
+            The value to assign to the sddc_byol_allocation_details property of this SddcSummary.
+        :type sddc_byol_allocation_details: oci.ocvp.models.SddcByolAllocationDetails
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this SddcSummary.
         :type freeform_tags: dict(str, str)
@@ -139,6 +143,7 @@ class SddcSummary(object):
             'time_updated': 'datetime',
             'lifecycle_state': 'str',
             'is_single_host_sddc': 'bool',
+            'sddc_byol_allocation_details': 'SddcByolAllocationDetails',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
@@ -157,6 +162,7 @@ class SddcSummary(object):
             'time_updated': 'timeUpdated',
             'lifecycle_state': 'lifecycleState',
             'is_single_host_sddc': 'isSingleHostSddc',
+            'sddc_byol_allocation_details': 'sddcByolAllocationDetails',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
@@ -174,6 +180,7 @@ class SddcSummary(object):
         self._time_updated = None
         self._lifecycle_state = None
         self._is_single_host_sddc = None
+        self._sddc_byol_allocation_details = None
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None
@@ -185,7 +192,7 @@ class SddcSummary(object):
         The `OCID`__ of the compartment that
         contains the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this SddcSummary.
@@ -200,7 +207,7 @@ class SddcSummary(object):
         The `OCID`__ of the compartment that
         contains the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this SddcSummary.
@@ -293,7 +300,7 @@ class SddcSummary(object):
         The `OCID`__ of the compartment that
         contains the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this SddcSummary.
@@ -308,7 +315,7 @@ class SddcSummary(object):
         The `OCID`__ of the compartment that
         contains the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this SddcSummary.
@@ -569,6 +576,26 @@ class SddcSummary(object):
         self._is_single_host_sddc = is_single_host_sddc
 
     @property
+    def sddc_byol_allocation_details(self):
+        """
+        Gets the sddc_byol_allocation_details of this SddcSummary.
+
+        :return: The sddc_byol_allocation_details of this SddcSummary.
+        :rtype: oci.ocvp.models.SddcByolAllocationDetails
+        """
+        return self._sddc_byol_allocation_details
+
+    @sddc_byol_allocation_details.setter
+    def sddc_byol_allocation_details(self, sddc_byol_allocation_details):
+        """
+        Sets the sddc_byol_allocation_details of this SddcSummary.
+
+        :param sddc_byol_allocation_details: The sddc_byol_allocation_details of this SddcSummary.
+        :type: oci.ocvp.models.SddcByolAllocationDetails
+        """
+        self._sddc_byol_allocation_details = sddc_byol_allocation_details
+
+    @property
     def freeform_tags(self):
         """
         **[Required]** Gets the freeform_tags of this SddcSummary.
@@ -577,7 +604,7 @@ class SddcSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this SddcSummary.
@@ -594,7 +621,7 @@ class SddcSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this SddcSummary.
@@ -611,7 +638,7 @@ class SddcSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this SddcSummary.
@@ -628,7 +655,7 @@ class SddcSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this SddcSummary.

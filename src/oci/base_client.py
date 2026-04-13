@@ -20,8 +20,9 @@ import copy
 import _strptime  # noqa: F401
 from datetime import date, datetime, timezone
 from timeit import default_timer as timer
-from ._vendor import requests, six, urllib3, sseclient
-from ._vendor.urllib3.exceptions import HeaderParsingError
+from ._vendor import requests, six, sseclient
+import urllib3
+from urllib3.exceptions import HeaderParsingError
 from dateutil.parser import parse
 from dateutil import tz
 import functools
@@ -169,11 +170,26 @@ class OCIHTTPResponse(HTTPResponse):
             return HTTPResponse._read_status(self)
 
 
-class OCIConnection(urllib3.connection.VerifiedHTTPSConnection):
+try:
+    # urllib3 1.26.x
+    BaseHTTPSConnection = urllib3.connection.VerifiedHTTPSConnection
+except AttributeError:
+    # urllib3 2.x
+    BaseHTTPSConnection = urllib3.connection.HTTPSConnection
+
+
+class OCIConnection(BaseHTTPSConnection):
     """ HTTPConnection with 100 Continue support. """
 
     def __init__(self, *args, **kwargs):
         super(OCIConnection, self).__init__(*args, **kwargs)
+        # urllib3 connect() expects assert_hostname/assert_fingerprint attrs to
+        # exist on the connection object. Ensure compatibility across base
+        # classes/versions where these may not be initialized.
+        if not hasattr(self, 'assert_hostname'):
+            self.assert_hostname = kwargs.get('assert_hostname', None)
+        if not hasattr(self, 'assert_fingerprint'):
+            self.assert_fingerprint = kwargs.get('assert_fingerprint', None)
         self._original_response_cls = self.response_class
         self._response_received = False
         self._using_expect_header = False
@@ -604,6 +620,10 @@ class BaseClient(object):
             for k, v in path_params.items():
                 if should_enable_strict_url_encoding:
                     replacement = six.moves.urllib.parse.quote(str(self.to_path_value(v)), safe='')
+                    # For Object Storage path parameters, encode standalone dot segments so
+                    # object names are preserved as literal keys and not interpreted as path segments.
+                    if self.service == "object_storage" and replacement in {".", ".."}:
+                        replacement = replacement.replace('.', '%2E')
                 else:
                     replacement = six.moves.urllib.parse.quote(str(self.to_path_value(v)))
                 resource_path = resource_path.\
@@ -613,8 +633,9 @@ class BaseClient(object):
             query_params = self.process_query_params(query_params)
 
         if body is not None and header_params.get('content-type') == 'application/json':
-            body = self.sanitize_for_serialization(body)
-            body = json.dumps(body)
+            if not isinstance(body, (str, bytes)):
+                body = self.sanitize_for_serialization(body)
+                body = json.dumps(body)
 
         # Here is where we will change our endpoint with the path / query params if a {serviceParam} exists on the endpoint
         endpoint = self.handle_service_params_in_endpoint(path_params, query_params, required_arguments)
@@ -1393,6 +1414,12 @@ class BaseClient(object):
         # Check at the global level
         if global_configuration is True:
             return True
+
+        # Object Storage path parameters should use strict encoding by default so
+        # object names containing slash/dot segments are not path-normalized.
+        if self.service == "object_storage":
+            return True
+
         return False
 
     def should_allow_template_per_realm(self):

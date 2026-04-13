@@ -23,19 +23,32 @@ class CreateAssetSourceDetails(object):
     #: This constant has a value of "AWS"
     TYPE_AWS = "AWS"
 
+    #: A constant which can be used with the type property of a CreateAssetSourceDetails.
+    #: This constant has a value of "OLVM"
+    TYPE_OLVM = "OLVM"
+
+    #: A constant which can be used with the environment_type property of a CreateAssetSourceDetails.
+    #: This constant has a value of "SOURCE"
+    ENVIRONMENT_TYPE_SOURCE = "SOURCE"
+
+    #: A constant which can be used with the environment_type property of a CreateAssetSourceDetails.
+    #: This constant has a value of "DESTINATION"
+    ENVIRONMENT_TYPE_DESTINATION = "DESTINATION"
+
     def __init__(self, **kwargs):
         """
         Initializes a new CreateAssetSourceDetails object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
         * :class:`~oci.cloud_bridge.models.CreateVmWareAssetSourceDetails`
+        * :class:`~oci.cloud_bridge.models.CreateOlvmAssetSourceDetails`
         * :class:`~oci.cloud_bridge.models.CreateAwsAssetSourceDetails`
 
         The following keyword arguments are supported (corresponding to the getters/setters of this class):
 
         :param type:
             The value to assign to the type property of this CreateAssetSourceDetails.
-            Allowed values for this property are: "VMWARE", "AWS"
+            Allowed values for this property are: "VMWARE", "AWS", "OLVM"
         :type type: str
 
         :param display_name:
@@ -74,6 +87,11 @@ class CreateAssetSourceDetails(object):
             The value to assign to the system_tags property of this CreateAssetSourceDetails.
         :type system_tags: dict(str, dict(str, object))
 
+        :param environment_type:
+            The value to assign to the environment_type property of this CreateAssetSourceDetails.
+            Allowed values for this property are: "SOURCE", "DESTINATION"
+        :type environment_type: str
+
         """
         self.swagger_types = {
             'type': 'str',
@@ -85,7 +103,8 @@ class CreateAssetSourceDetails(object):
             'discovery_schedule_id': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
-            'system_tags': 'dict(str, dict(str, object))'
+            'system_tags': 'dict(str, dict(str, object))',
+            'environment_type': 'str'
         }
         self.attribute_map = {
             'type': 'type',
@@ -97,7 +116,8 @@ class CreateAssetSourceDetails(object):
             'discovery_schedule_id': 'discoveryScheduleId',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
-            'system_tags': 'systemTags'
+            'system_tags': 'systemTags',
+            'environment_type': 'environmentType'
         }
         self._type = None
         self._display_name = None
@@ -109,6 +129,7 @@ class CreateAssetSourceDetails(object):
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None
+        self._environment_type = None
 
     @staticmethod
     def get_subtype(object_dictionary):
@@ -121,6 +142,9 @@ class CreateAssetSourceDetails(object):
         if type == 'VMWARE':
             return 'CreateVmWareAssetSourceDetails'
 
+        if type == 'OLVM':
+            return 'CreateOlvmAssetSourceDetails'
+
         if type == 'AWS':
             return 'CreateAwsAssetSourceDetails'
         else:
@@ -132,7 +156,7 @@ class CreateAssetSourceDetails(object):
         **[Required]** Gets the type of this CreateAssetSourceDetails.
         Asset source type.
 
-        Allowed values for this property are: "VMWARE", "AWS"
+        Allowed values for this property are: "VMWARE", "AWS", "OLVM"
 
 
         :return: The type of this CreateAssetSourceDetails.
@@ -150,7 +174,7 @@ class CreateAssetSourceDetails(object):
         :param type: The type of this CreateAssetSourceDetails.
         :type: str
         """
-        allowed_values = ["VMWARE", "AWS"]
+        allowed_values = ["VMWARE", "AWS", "OLVM"]
         if not value_allowed_none_or_none_sentinel(type, allowed_values):
             raise ValueError(
                 f"Invalid value for `type`, must be None or one of {allowed_values}"
@@ -191,7 +215,7 @@ class CreateAssetSourceDetails(object):
         **[Required]** Gets the compartment_id of this CreateAssetSourceDetails.
         The `OCID`__ of the compartment for the resource.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this CreateAssetSourceDetails.
@@ -205,7 +229,7 @@ class CreateAssetSourceDetails(object):
         Sets the compartment_id of this CreateAssetSourceDetails.
         The `OCID`__ of the compartment for the resource.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this CreateAssetSourceDetails.
@@ -219,7 +243,7 @@ class CreateAssetSourceDetails(object):
         **[Required]** Gets the environment_id of this CreateAssetSourceDetails.
         The `OCID`__ of the environment.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The environment_id of this CreateAssetSourceDetails.
@@ -233,7 +257,7 @@ class CreateAssetSourceDetails(object):
         Sets the environment_id of this CreateAssetSourceDetails.
         The `OCID`__ of the environment.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param environment_id: The environment_id of this CreateAssetSourceDetails.
@@ -247,7 +271,7 @@ class CreateAssetSourceDetails(object):
         **[Required]** Gets the inventory_id of this CreateAssetSourceDetails.
         The `OCID`__ of the inventory that will contain created assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The inventory_id of this CreateAssetSourceDetails.
@@ -261,7 +285,7 @@ class CreateAssetSourceDetails(object):
         Sets the inventory_id of this CreateAssetSourceDetails.
         The `OCID`__ of the inventory that will contain created assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param inventory_id: The inventory_id of this CreateAssetSourceDetails.
@@ -275,7 +299,7 @@ class CreateAssetSourceDetails(object):
         **[Required]** Gets the assets_compartment_id of this CreateAssetSourceDetails.
         The `OCID`__ of the compartment that is going to be used to create assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The assets_compartment_id of this CreateAssetSourceDetails.
@@ -289,7 +313,7 @@ class CreateAssetSourceDetails(object):
         Sets the assets_compartment_id of this CreateAssetSourceDetails.
         The `OCID`__ of the compartment that is going to be used to create assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param assets_compartment_id: The assets_compartment_id of this CreateAssetSourceDetails.
@@ -303,7 +327,7 @@ class CreateAssetSourceDetails(object):
         Gets the discovery_schedule_id of this CreateAssetSourceDetails.
         The `OCID`__ of the discovery schedule that is going to be attached to the created asset.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The discovery_schedule_id of this CreateAssetSourceDetails.
@@ -317,7 +341,7 @@ class CreateAssetSourceDetails(object):
         Sets the discovery_schedule_id of this CreateAssetSourceDetails.
         The `OCID`__ of the discovery schedule that is going to be attached to the created asset.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param discovery_schedule_id: The discovery_schedule_id of this CreateAssetSourceDetails.
@@ -333,7 +357,7 @@ class CreateAssetSourceDetails(object):
         predefined name, type, or namespace/scope. For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateAssetSourceDetails.
@@ -349,7 +373,7 @@ class CreateAssetSourceDetails(object):
         predefined name, type, or namespace/scope. For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateAssetSourceDetails.
@@ -365,7 +389,7 @@ class CreateAssetSourceDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateAssetSourceDetails.
@@ -381,7 +405,7 @@ class CreateAssetSourceDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateAssetSourceDetails.
@@ -397,7 +421,7 @@ class CreateAssetSourceDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{orcl-cloud: {free-tier-retain: true}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The system_tags of this CreateAssetSourceDetails.
@@ -413,13 +437,44 @@ class CreateAssetSourceDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{orcl-cloud: {free-tier-retain: true}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param system_tags: The system_tags of this CreateAssetSourceDetails.
         :type: dict(str, dict(str, object))
         """
         self._system_tags = system_tags
+
+    @property
+    def environment_type(self):
+        """
+        Gets the environment_type of this CreateAssetSourceDetails.
+        Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+
+        Allowed values for this property are: "SOURCE", "DESTINATION"
+
+
+        :return: The environment_type of this CreateAssetSourceDetails.
+        :rtype: str
+        """
+        return self._environment_type
+
+    @environment_type.setter
+    def environment_type(self, environment_type):
+        """
+        Sets the environment_type of this CreateAssetSourceDetails.
+        Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+
+
+        :param environment_type: The environment_type of this CreateAssetSourceDetails.
+        :type: str
+        """
+        allowed_values = ["SOURCE", "DESTINATION"]
+        if not value_allowed_none_or_none_sentinel(environment_type, allowed_values):
+            raise ValueError(
+                f"Invalid value for `environment_type`, must be None or one of {allowed_values}"
+            )
+        self._environment_type = environment_type
 
     def __repr__(self):
         return formatted_flat_dict(self)

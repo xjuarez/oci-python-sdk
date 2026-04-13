@@ -48,6 +48,10 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
             The value to assign to the is_allow_on_demand property of this CreateGenerativeAiPrivateEndpointDetails.
         :type is_allow_on_demand: bool
 
+        :param resource_type:
+            The value to assign to the resource_type property of this CreateGenerativeAiPrivateEndpointDetails.
+        :type resource_type: str
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CreateGenerativeAiPrivateEndpointDetails.
         :type freeform_tags: dict(str, str)
@@ -69,6 +73,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
             'dns_prefix': 'str',
             'nsg_ids': 'list[str]',
             'is_allow_on_demand': 'bool',
+            'resource_type': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'security_attributes': 'dict(str, dict(str, object))'
@@ -81,6 +86,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
             'dns_prefix': 'dnsPrefix',
             'nsg_ids': 'nsgIds',
             'is_allow_on_demand': 'isAllowOnDemand',
+            'resource_type': 'resourceType',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'security_attributes': 'securityAttributes'
@@ -92,6 +98,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
         self._dns_prefix = None
         self._nsg_ids = None
         self._is_allow_on_demand = None
+        self._resource_type = None
         self._freeform_tags = None
         self._defined_tags = None
         self._security_attributes = None
@@ -265,6 +272,30 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
         self._is_allow_on_demand = is_allow_on_demand
 
     @property
+    def resource_type(self):
+        """
+        Gets the resource_type of this CreateGenerativeAiPrivateEndpointDetails.
+        The resource type that Generative AI private endpoint can be used for.
+
+
+        :return: The resource_type of this CreateGenerativeAiPrivateEndpointDetails.
+        :rtype: str
+        """
+        return self._resource_type
+
+    @resource_type.setter
+    def resource_type(self, resource_type):
+        """
+        Sets the resource_type of this CreateGenerativeAiPrivateEndpointDetails.
+        The resource type that Generative AI private endpoint can be used for.
+
+
+        :param resource_type: The resource_type of this CreateGenerativeAiPrivateEndpointDetails.
+        :type: str
+        """
+        self._resource_type = resource_type
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this CreateGenerativeAiPrivateEndpointDetails.
@@ -273,7 +304,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateGenerativeAiPrivateEndpointDetails.
@@ -290,7 +321,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateGenerativeAiPrivateEndpointDetails.
@@ -307,7 +338,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateGenerativeAiPrivateEndpointDetails.
@@ -324,7 +355,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateGenerativeAiPrivateEndpointDetails.
@@ -340,7 +371,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"enforce\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The security_attributes of this CreateGenerativeAiPrivateEndpointDetails.
@@ -356,7 +387,7 @@ class CreateGenerativeAiPrivateEndpointDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"enforce\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param security_attributes: The security_attributes of this CreateGenerativeAiPrivateEndpointDetails.

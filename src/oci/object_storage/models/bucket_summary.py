@@ -16,7 +16,7 @@ class BucketSummary(object):
     talk to an administrator. If you are an administrator who needs to write policies to give users access, see
     `Getting Started with Policies`__.
 
-    __ https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm
+    __ https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm
     """
 
     def __init__(self, **kwargs):
@@ -56,6 +56,10 @@ class BucketSummary(object):
             The value to assign to the defined_tags property of this BucketSummary.
         :type defined_tags: dict(str, dict(str, object))
 
+        :param bucket_scope:
+            The value to assign to the bucket_scope property of this BucketSummary.
+        :type bucket_scope: str
+
         """
         self.swagger_types = {
             'namespace': 'str',
@@ -65,7 +69,8 @@ class BucketSummary(object):
             'time_created': 'datetime',
             'etag': 'str',
             'freeform_tags': 'dict(str, str)',
-            'defined_tags': 'dict(str, dict(str, object))'
+            'defined_tags': 'dict(str, dict(str, object))',
+            'bucket_scope': 'str'
         }
         self.attribute_map = {
             'namespace': 'namespace',
@@ -75,7 +80,8 @@ class BucketSummary(object):
             'time_created': 'timeCreated',
             'etag': 'etag',
             'freeform_tags': 'freeformTags',
-            'defined_tags': 'definedTags'
+            'defined_tags': 'definedTags',
+            'bucket_scope': 'bucketScope'
         }
         self._namespace = None
         self._name = None
@@ -85,6 +91,7 @@ class BucketSummary(object):
         self._etag = None
         self._freeform_tags = None
         self._defined_tags = None
+        self._bucket_scope = None
 
     @property
     def namespace(self):
@@ -166,7 +173,7 @@ class BucketSummary(object):
         **[Required]** Gets the created_by of this BucketSummary.
         The `OCID`__ of the user who created the bucket.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The created_by of this BucketSummary.
@@ -180,7 +187,7 @@ class BucketSummary(object):
         Sets the created_by of this BucketSummary.
         The `OCID`__ of the user who created the bucket.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param created_by: The created_by of this BucketSummary.
@@ -248,7 +255,7 @@ class BucketSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this BucketSummary.
@@ -264,7 +271,7 @@ class BucketSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this BucketSummary.
@@ -280,7 +287,7 @@ class BucketSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this BucketSummary.
@@ -296,13 +303,45 @@ class BucketSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this BucketSummary.
         :type: dict(str, dict(str, object))
         """
         self._defined_tags = defined_tags
+
+    @property
+    def bucket_scope(self):
+        """
+        Gets the bucket_scope of this BucketSummary.
+        Scope in which the bucket is unique. Default value is NAMESPACE.
+        Bucket scope as NAMESPACE means that the bucket is unique only in the owning namespace/tenancy. Other
+        tenancies can have a bucket with same name in their namespace.
+        Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with
+        same name and scope REGION.
+
+
+        :return: The bucket_scope of this BucketSummary.
+        :rtype: str
+        """
+        return self._bucket_scope
+
+    @bucket_scope.setter
+    def bucket_scope(self, bucket_scope):
+        """
+        Sets the bucket_scope of this BucketSummary.
+        Scope in which the bucket is unique. Default value is NAMESPACE.
+        Bucket scope as NAMESPACE means that the bucket is unique only in the owning namespace/tenancy. Other
+        tenancies can have a bucket with same name in their namespace.
+        Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with
+        same name and scope REGION.
+
+
+        :param bucket_scope: The bucket_scope of this BucketSummary.
+        :type: str
+        """
+        self._bucket_scope = bucket_scope
 
     def __repr__(self):
         return formatted_flat_dict(self)

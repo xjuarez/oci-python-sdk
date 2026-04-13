@@ -204,7 +204,7 @@ class BackendDetails(object):
 
         Example: `3`
 
-        __ https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introduction.htm#Policies
+        __ https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies
 
 
         :return: The weight of this BackendDetails.
@@ -224,7 +224,7 @@ class BackendDetails(object):
 
         Example: `3`
 
-        __ https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introduction.htm#Policies
+        __ https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies
 
 
         :param weight: The weight of this BackendDetails.
@@ -266,8 +266,8 @@ class BackendDetails(object):
     def is_drain(self):
         """
         Gets the is_drain of this BackendDetails.
-        Whether the network load balancer should drain this server. Servers marked \"isDrain\" receive no
-        incoming traffic.
+        Whether the network load balancer should drain this server.
+        Servers marked \"isDrain\" stop receiving new connections but will continue to receive traffic on existing connections until the connection is terminated or times out.
 
         Example: `false`
 
@@ -281,8 +281,8 @@ class BackendDetails(object):
     def is_drain(self, is_drain):
         """
         Sets the is_drain of this BackendDetails.
-        Whether the network load balancer should drain this server. Servers marked \"isDrain\" receive no
-        incoming traffic.
+        Whether the network load balancer should drain this server.
+        Servers marked \"isDrain\" stop receiving new connections but will continue to receive traffic on existing connections until the connection is terminated or times out.
 
         Example: `false`
 

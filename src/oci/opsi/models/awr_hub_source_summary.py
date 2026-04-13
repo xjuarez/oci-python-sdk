@@ -76,6 +76,38 @@ class AwrHubSourceSummary(object):
     TYPE_COMANAGED_EXACS_NONCDB = "COMANAGED_EXACS_NONCDB"
 
     #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "LH_S"
+    TYPE_LH_S = "LH_S"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "APEX_S"
+    TYPE_APEX_S = "APEX_S"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "AJD_S"
+    TYPE_AJD_S = "AJD_S"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "AVD_S"
+    TYPE_AVD_S = "AVD_S"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "LH_D"
+    TYPE_LH_D = "LH_D"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "APEX_D"
+    TYPE_APEX_D = "APEX_D"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "AJD_D"
+    TYPE_AJD_D = "AJD_D"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
+    #: This constant has a value of "AVD_D"
+    TYPE_AVD_D = "AVD_D"
+
+    #: A constant which can be used with the type property of a AwrHubSourceSummary.
     #: This constant has a value of "UNDEFINED"
     TYPE_UNDEFINED = "UNDEFINED"
 
@@ -138,7 +170,7 @@ class AwrHubSourceSummary(object):
 
         :param type:
             The value to assign to the type property of this AwrHubSourceSummary.
-            Allowed values for this property are: "ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "UNDEFINED", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "LH_S", "APEX_S", "AJD_S", "AVD_S", "LH_D", "APEX_D", "AJD_D", "AVD_D", "UNDEFINED", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type type: str
 
@@ -351,7 +383,7 @@ class AwrHubSourceSummary(object):
         **[Required]** Gets the compartment_id of this AwrHubSourceSummary.
         The `OCID`__ of the compartment.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this AwrHubSourceSummary.
@@ -365,7 +397,7 @@ class AwrHubSourceSummary(object):
         Sets the compartment_id of this AwrHubSourceSummary.
         The `OCID`__ of the compartment.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this AwrHubSourceSummary.
@@ -379,7 +411,7 @@ class AwrHubSourceSummary(object):
         **[Required]** Gets the type of this AwrHubSourceSummary.
         source type of the database
 
-        Allowed values for this property are: "ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "UNDEFINED", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "LH_S", "APEX_S", "AJD_S", "AVD_S", "LH_D", "APEX_D", "AJD_D", "AVD_D", "UNDEFINED", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -398,7 +430,7 @@ class AwrHubSourceSummary(object):
         :param type: The type of this AwrHubSourceSummary.
         :type: str
         """
-        allowed_values = ["ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "UNDEFINED"]
+        allowed_values = ["ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "LH_S", "APEX_S", "AJD_S", "AVD_S", "LH_D", "APEX_D", "AJD_D", "AVD_D", "UNDEFINED"]
         if not value_allowed_none_or_none_sentinel(type, allowed_values):
             type = 'UNKNOWN_ENUM_VALUE'
         self._type = type
@@ -409,7 +441,7 @@ class AwrHubSourceSummary(object):
         **[Required]** Gets the id of this AwrHubSourceSummary.
         The `OCID`__ of the Awr Hub source database.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this AwrHubSourceSummary.
@@ -423,7 +455,7 @@ class AwrHubSourceSummary(object):
         Sets the id of this AwrHubSourceSummary.
         The `OCID`__ of the Awr Hub source database.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this AwrHubSourceSummary.
@@ -485,7 +517,7 @@ class AwrHubSourceSummary(object):
         Gets the associated_resource_id of this AwrHubSourceSummary.
         The `OCID`__ of the database id.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The associated_resource_id of this AwrHubSourceSummary.
@@ -499,7 +531,7 @@ class AwrHubSourceSummary(object):
         Sets the associated_resource_id of this AwrHubSourceSummary.
         The `OCID`__ of the database id.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param associated_resource_id: The associated_resource_id of this AwrHubSourceSummary.
@@ -513,7 +545,7 @@ class AwrHubSourceSummary(object):
         Gets the associated_opsi_id of this AwrHubSourceSummary.
         The `OCID`__ of the database id.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The associated_opsi_id of this AwrHubSourceSummary.
@@ -527,7 +559,7 @@ class AwrHubSourceSummary(object):
         Sets the associated_opsi_id of this AwrHubSourceSummary.
         The `OCID`__ of the database id.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param associated_opsi_id: The associated_opsi_id of this AwrHubSourceSummary.

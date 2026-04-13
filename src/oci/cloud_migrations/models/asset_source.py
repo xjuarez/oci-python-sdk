@@ -19,6 +19,14 @@ class AssetSource(object):
     #: This constant has a value of "VMWARE"
     TYPE_VMWARE = "VMWARE"
 
+    #: A constant which can be used with the type property of a AssetSource.
+    #: This constant has a value of "AWS"
+    TYPE_AWS = "AWS"
+
+    #: A constant which can be used with the type property of a AssetSource.
+    #: This constant has a value of "OLVM"
+    TYPE_OLVM = "OLVM"
+
     #: A constant which can be used with the lifecycle_state property of a AssetSource.
     #: This constant has a value of "CREATING"
     LIFECYCLE_STATE_CREATING = "CREATING"
@@ -47,18 +55,28 @@ class AssetSource(object):
     #: This constant has a value of "NEEDS_ATTENTION"
     LIFECYCLE_STATE_NEEDS_ATTENTION = "NEEDS_ATTENTION"
 
+    #: A constant which can be used with the environment_type property of a AssetSource.
+    #: This constant has a value of "SOURCE"
+    ENVIRONMENT_TYPE_SOURCE = "SOURCE"
+
+    #: A constant which can be used with the environment_type property of a AssetSource.
+    #: This constant has a value of "DESTINATION"
+    ENVIRONMENT_TYPE_DESTINATION = "DESTINATION"
+
     def __init__(self, **kwargs):
         """
         Initializes a new AssetSource object with values from keyword arguments. This class has the following subclasses and if you are using this class as input
         to a service operations then you should favor using a subclass over the base class:
 
         * :class:`~oci.cloud_migrations.models.VmWareAssetSource`
+        * :class:`~oci.cloud_migrations.models.OlvmAssetSource`
+        * :class:`~oci.cloud_migrations.models.AwsAssetSource`
 
         The following keyword arguments are supported (corresponding to the getters/setters of this class):
 
         :param type:
             The value to assign to the type property of this AssetSource.
-            Allowed values for this property are: "VMWARE"
+            Allowed values for this property are: "VMWARE", "AWS", "OLVM"
         :type type: str
 
         :param id:
@@ -118,6 +136,11 @@ class AssetSource(object):
             The value to assign to the system_tags property of this AssetSource.
         :type system_tags: dict(str, dict(str, object))
 
+        :param environment_type:
+            The value to assign to the environment_type property of this AssetSource.
+            Allowed values for this property are: "SOURCE", "DESTINATION"
+        :type environment_type: str
+
         """
         self.swagger_types = {
             'type': 'str',
@@ -134,7 +157,8 @@ class AssetSource(object):
             'time_updated': 'datetime',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
-            'system_tags': 'dict(str, dict(str, object))'
+            'system_tags': 'dict(str, dict(str, object))',
+            'environment_type': 'str'
         }
         self.attribute_map = {
             'type': 'type',
@@ -151,7 +175,8 @@ class AssetSource(object):
             'time_updated': 'timeUpdated',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
-            'system_tags': 'systemTags'
+            'system_tags': 'systemTags',
+            'environment_type': 'environmentType'
         }
         self._type = None
         self._id = None
@@ -168,6 +193,7 @@ class AssetSource(object):
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None
+        self._environment_type = None
 
     @staticmethod
     def get_subtype(object_dictionary):
@@ -179,6 +205,12 @@ class AssetSource(object):
 
         if type == 'VMWARE':
             return 'VmWareAssetSource'
+
+        if type == 'OLVM':
+            return 'OlvmAssetSource'
+
+        if type == 'AWS':
+            return 'AwsAssetSource'
         else:
             return 'AssetSource'
 
@@ -188,7 +220,7 @@ class AssetSource(object):
         **[Required]** Gets the type of this AssetSource.
         The type of asset source. Indicates external origin of the assets that are read by assigning this asset source.
 
-        Allowed values for this property are: "VMWARE"
+        Allowed values for this property are: "VMWARE", "AWS", "OLVM"
 
 
         :return: The type of this AssetSource.
@@ -206,7 +238,7 @@ class AssetSource(object):
         :param type: The type of this AssetSource.
         :type: str
         """
-        allowed_values = ["VMWARE"]
+        allowed_values = ["VMWARE", "AWS", "OLVM"]
         if not value_allowed_none_or_none_sentinel(type, allowed_values):
             raise ValueError(
                 f"Invalid value for `type`, must be None or one of {allowed_values}"
@@ -219,7 +251,7 @@ class AssetSource(object):
         **[Required]** Gets the id of this AssetSource.
         The `OCID`__ of the resource.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this AssetSource.
@@ -233,7 +265,7 @@ class AssetSource(object):
         Sets the id of this AssetSource.
         The `OCID`__ of the resource.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this AssetSource.
@@ -247,7 +279,7 @@ class AssetSource(object):
         **[Required]** Gets the compartment_id of this AssetSource.
         The `OCID`__ of the compartment for the resource.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this AssetSource.
@@ -261,7 +293,7 @@ class AssetSource(object):
         Sets the compartment_id of this AssetSource.
         The `OCID`__ of the compartment for the resource.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this AssetSource.
@@ -301,7 +333,7 @@ class AssetSource(object):
         **[Required]** Gets the environment_id of this AssetSource.
         The `OCID`__ of the environment.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The environment_id of this AssetSource.
@@ -315,7 +347,7 @@ class AssetSource(object):
         Sets the environment_id of this AssetSource.
         The `OCID`__ of the environment.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param environment_id: The environment_id of this AssetSource.
@@ -329,7 +361,7 @@ class AssetSource(object):
         **[Required]** Gets the inventory_id of this AssetSource.
         The `OCID`__ of the inventory that will contain created assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The inventory_id of this AssetSource.
@@ -343,7 +375,7 @@ class AssetSource(object):
         Sets the inventory_id of this AssetSource.
         The `OCID`__ of the inventory that will contain created assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param inventory_id: The inventory_id of this AssetSource.
@@ -357,7 +389,7 @@ class AssetSource(object):
         **[Required]** Gets the assets_compartment_id of this AssetSource.
         The `OCID`__ of the compartment that is going to be used to create assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The assets_compartment_id of this AssetSource.
@@ -371,7 +403,7 @@ class AssetSource(object):
         Sets the assets_compartment_id of this AssetSource.
         The `OCID`__ of the compartment that is going to be used to create assets.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param assets_compartment_id: The assets_compartment_id of this AssetSource.
@@ -385,7 +417,7 @@ class AssetSource(object):
         Gets the discovery_schedule_id of this AssetSource.
         The `OCID`__ of an attached discovery schedule.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The discovery_schedule_id of this AssetSource.
@@ -399,7 +431,7 @@ class AssetSource(object):
         Sets the discovery_schedule_id of this AssetSource.
         The `OCID`__ of an attached discovery schedule.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param discovery_schedule_id: The discovery_schedule_id of this AssetSource.
@@ -587,6 +619,37 @@ class AssetSource(object):
         :type: dict(str, dict(str, object))
         """
         self._system_tags = system_tags
+
+    @property
+    def environment_type(self):
+        """
+        Gets the environment_type of this AssetSource.
+        Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+
+        Allowed values for this property are: "SOURCE", "DESTINATION"
+
+
+        :return: The environment_type of this AssetSource.
+        :rtype: str
+        """
+        return self._environment_type
+
+    @environment_type.setter
+    def environment_type(self, environment_type):
+        """
+        Sets the environment_type of this AssetSource.
+        Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+
+
+        :param environment_type: The environment_type of this AssetSource.
+        :type: str
+        """
+        allowed_values = ["SOURCE", "DESTINATION"]
+        if not value_allowed_none_or_none_sentinel(environment_type, allowed_values):
+            raise ValueError(
+                f"Invalid value for `environment_type`, must be None or one of {allowed_values}"
+            )
+        self._environment_type = environment_type
 
     def __repr__(self):
         return formatted_flat_dict(self)

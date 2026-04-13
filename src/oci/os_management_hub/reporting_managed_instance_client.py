@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import os_management_hub_type_mapping
 missing = Sentinel("Missing")
 
@@ -23,7 +23,7 @@ missing = Sentinel("Missing")
 class ReportingManagedInstanceClient(object):
     """
     Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-    For more information, see [Overview of OS Management Hub](https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+    For more information, see [Overview of OS Management Hub](https://docs.oracle.com/iaas/osmh/doc/overview.htm).
     """
 
     def __init__(self, config, **kwargs):
@@ -31,7 +31,7 @@ class ReportingManagedInstanceClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -50,7 +50,7 @@ class ReportingManagedInstanceClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -82,7 +82,7 @@ class ReportingManagedInstanceClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("os_management_hub"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -134,22 +134,30 @@ class ReportingManagedInstanceClient(object):
             The `OCID`__ of the compartment.
             This filter returns only resources contained within the specified compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param bool compartment_id_in_subtree: (optional)
+            Indicates whether to include subcompartments in the returned results. Default is false.
 
         :param str managed_instance_group_id: (optional)
             The `OCID`__ of the managed instance group. This filter returns resources associated with this group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str dynamic_set_id: (optional)
+            The `OCID`__ of the dynamic set. This filter returns resources associated with this dynamic set.
+
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_environment_id: (optional)
             The `OCID`__ of the lifecycle environment. This filter returns only resource contained with the specified lifecycle environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_stage_id: (optional)
             The `OCID`__ of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] status: (optional)
             A filter to return only managed instances whose status matches the status provided.
@@ -168,11 +176,17 @@ class ReportingManagedInstanceClient(object):
         :param int bug_updates_available_equals_to: (optional)
             A filter to return instances that have the specified number of available bug updates.
 
+        :param int other_updates_available_equals_to: (optional)
+            A filter to return instances that have the specified number of available other updates.
+
         :param int security_updates_available_greater_than: (optional)
             A filter to return instances that have more available security updates than the number specified.
 
         :param int bug_updates_available_greater_than: (optional)
             A filter to return instances that have more available bug updates than the number specified.
+
+        :param int other_updates_available_greater_than: (optional)
+            A filter to return instances that have more available other updates than the number specified.
 
         :param list[str] location: (optional)
             A filter to return only resources whose location matches the given value.
@@ -187,7 +201,7 @@ class ReportingManagedInstanceClient(object):
         :param list[str] os_family: (optional)
             A filter to return only resources that match the given operating system family.
 
-            Allowed values are: "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"
+            Allowed values are: "ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"
 
         :param bool is_managed_by_autonomous_linux: (optional)
             Indicates whether to list only resources managed by the Autonomous Linux service.
@@ -200,7 +214,7 @@ class ReportingManagedInstanceClient(object):
         :param str report_type: (optional)
             The type of the report the user wants to download. Default is ALL.
 
-            Allowed values are: "SECURITY", "BUGFIX", "ACTIVITY", "ALL"
+            Allowed values are: "SECURITY", "BUGFIX", "ACTIVITY", "OTHER", "ALL"
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -225,7 +239,7 @@ class ReportingManagedInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_managed_instance_analytic_content.py.html>`__ to see an example of how to use get_managed_instance_analytic_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_managed_instance_analytic_content.py.html>`__ to see an example of how to use get_managed_instance_analytic_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -240,7 +254,9 @@ class ReportingManagedInstanceClient(object):
             "enable_strict_url_encoding",
             "retry_strategy",
             "compartment_id",
+            "compartment_id_in_subtree",
             "managed_instance_group_id",
+            "dynamic_set_id",
             "lifecycle_environment_id",
             "lifecycle_stage_id",
             "status",
@@ -248,8 +264,10 @@ class ReportingManagedInstanceClient(object):
             "display_name_contains",
             "security_updates_available_equals_to",
             "bug_updates_available_equals_to",
+            "other_updates_available_equals_to",
             "security_updates_available_greater_than",
             "bug_updates_available_greater_than",
+            "other_updates_available_greater_than",
             "location",
             "location_not_equal_to",
             "os_family",
@@ -288,7 +306,7 @@ class ReportingManagedInstanceClient(object):
                     )
 
         if 'os_family' in kwargs:
-            os_family_allowed_values = ["ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"]
+            os_family_allowed_values = ["ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"]
             for os_family_item in kwargs['os_family']:
                 if os_family_item not in os_family_allowed_values:
                     raise ValueError(
@@ -303,7 +321,7 @@ class ReportingManagedInstanceClient(object):
                 )
 
         if 'report_type' in kwargs:
-            report_type_allowed_values = ["SECURITY", "BUGFIX", "ACTIVITY", "ALL"]
+            report_type_allowed_values = ["SECURITY", "BUGFIX", "ACTIVITY", "OTHER", "ALL"]
             if kwargs['report_type'] not in report_type_allowed_values:
                 raise ValueError(
                     f"Invalid value for `report_type`, must be one of { report_type_allowed_values }"
@@ -311,7 +329,9 @@ class ReportingManagedInstanceClient(object):
 
         query_params = {
             "compartmentId": kwargs.get("compartment_id", missing),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing),
             "managedInstanceGroupId": kwargs.get("managed_instance_group_id", missing),
+            "dynamicSetId": kwargs.get("dynamic_set_id", missing),
             "lifecycleEnvironmentId": kwargs.get("lifecycle_environment_id", missing),
             "lifecycleStageId": kwargs.get("lifecycle_stage_id", missing),
             "status": self.base_client.generate_collection_format_param(kwargs.get("status", missing), 'multi'),
@@ -319,8 +339,10 @@ class ReportingManagedInstanceClient(object):
             "displayNameContains": kwargs.get("display_name_contains", missing),
             "securityUpdatesAvailableEqualsTo": kwargs.get("security_updates_available_equals_to", missing),
             "bugUpdatesAvailableEqualsTo": kwargs.get("bug_updates_available_equals_to", missing),
+            "otherUpdatesAvailableEqualsTo": kwargs.get("other_updates_available_equals_to", missing),
             "securityUpdatesAvailableGreaterThan": kwargs.get("security_updates_available_greater_than", missing),
             "bugUpdatesAvailableGreaterThan": kwargs.get("bug_updates_available_greater_than", missing),
+            "otherUpdatesAvailableGreaterThan": kwargs.get("other_updates_available_greater_than", missing),
             "location": self.base_client.generate_collection_format_param(kwargs.get("location", missing), 'multi'),
             "locationNotEqualTo": self.base_client.generate_collection_format_param(kwargs.get("location_not_equal_to", missing), 'multi'),
             "osFamily": self.base_client.generate_collection_format_param(kwargs.get("os_family", missing), 'multi'),
@@ -381,7 +403,7 @@ class ReportingManagedInstanceClient(object):
         :param str managed_instance_id: (required)
             The `OCID`__ of the managed instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.list[str] vulnerability_type: (required)
             A filter to return only vulnerabilities matching the given types.
@@ -435,7 +457,7 @@ class ReportingManagedInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_managed_instance_content.py.html>`__ to see an example of how to use get_managed_instance_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_managed_instance_content.py.html>`__ to see an example of how to use get_managed_instance_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedInstanceId', 'vulnerabilityType']
@@ -558,28 +580,36 @@ class ReportingManagedInstanceClient(object):
         :param oci.os_management_hub.models.list[str] metric_names: (required)
             A filter to return only metrics whose name matches the given metric names.
 
-            Allowed values are: "TOTAL_INSTANCE_COUNT", "INSTANCE_WITH_AVAILABLE_SECURITY_UPDATES_COUNT", "INSTANCE_WITH_AVAILABLE_BUGFIX_UPDATES_COUNT", "NORMAL_INSTANCE_COUNT", "ERROR_INSTANCE_COUNT", "WARNING_INSTANCE_COUNT", "UNREACHABLE_INSTANCE_COUNT", "REGISTRATION_FAILED_INSTANCE_COUNT", "DELETING_INSTANCE_COUNT", "ONBOARDING_INSTANCE_COUNT", "INSTANCE_SECURITY_UPDATES_COUNT", "INSTANCE_BUGFIX_UPDATES_COUNT", "INSTANCE_SECURITY_ADVISORY_COUNT", "INSTANCE_BUGFIX_ADVISORY_COUNT", "REBOOTING_INSTANCE_COUNT", "NEEDS_REBOOTING_INSTANCE_COUNT"
+            Allowed values are: "TOTAL_INSTANCE_COUNT", "INSTANCE_WITH_AVAILABLE_SECURITY_UPDATES_COUNT", "INSTANCE_WITH_AVAILABLE_BUGFIX_UPDATES_COUNT", "NORMAL_INSTANCE_COUNT", "ERROR_INSTANCE_COUNT", "WARNING_INSTANCE_COUNT", "UNREACHABLE_INSTANCE_COUNT", "REGISTRATION_FAILED_INSTANCE_COUNT", "INSTANCE_WITH_AVAILABLE_OTHER_UPDATES_COUNT", "DELETING_INSTANCE_COUNT", "ONBOARDING_INSTANCE_COUNT", "INSTANCE_SECURITY_UPDATES_COUNT", "INSTANCE_BUGFIX_UPDATES_COUNT", "INSTANCE_SECURITY_ADVISORY_COUNT", "INSTANCE_BUGFIX_ADVISORY_COUNT", "INSTANCE_OTHER_UPDATES_COUNT", "REBOOTING_INSTANCE_COUNT", "NEEDS_REBOOTING_INSTANCE_COUNT"
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
             This filter returns only resources contained within the specified compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param bool compartment_id_in_subtree: (optional)
+            Indicates whether to include subcompartments in the returned results. Default is false.
 
         :param str managed_instance_group_id: (optional)
             The `OCID`__ of the managed instance group. This filter returns resources associated with this group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param str dynamic_set_id: (optional)
+            The `OCID`__ of the dynamic set. This filter returns resources associated with this dynamic set.
+
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_environment_id: (optional)
             The `OCID`__ of the lifecycle environment. This filter returns only resource contained with the specified lifecycle environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_stage_id: (optional)
             The `OCID`__ of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] status: (optional)
             A filter to return only managed instances whose status matches the status provided.
@@ -599,7 +629,7 @@ class ReportingManagedInstanceClient(object):
         :param list[str] os_family: (optional)
             A filter to return only resources that match the given operating system family.
 
-            Allowed values are: "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"
+            Allowed values are: "ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"
 
         :param bool is_managed_by_autonomous_linux: (optional)
             Indicates whether to list only resources managed by the Autonomous Linux service.
@@ -616,7 +646,7 @@ class ReportingManagedInstanceClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -624,7 +654,7 @@ class ReportingManagedInstanceClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order may be provided. The default is to sort in ascending order by metricName (previously name, which is now depricated).
@@ -660,7 +690,7 @@ class ReportingManagedInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/summarize_managed_instance_analytics.py.html>`__ to see an example of how to use summarize_managed_instance_analytics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/summarize_managed_instance_analytics.py.html>`__ to see an example of how to use summarize_managed_instance_analytics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['metricNames']
@@ -675,7 +705,9 @@ class ReportingManagedInstanceClient(object):
             "enable_strict_url_encoding",
             "retry_strategy",
             "compartment_id",
+            "compartment_id_in_subtree",
             "managed_instance_group_id",
+            "dynamic_set_id",
             "lifecycle_environment_id",
             "lifecycle_stage_id",
             "status",
@@ -696,7 +728,7 @@ class ReportingManagedInstanceClient(object):
             raise ValueError(
                 f"summarize_managed_instance_analytics got unknown kwargs: {extra_kwargs!r}")
 
-        metric_names_allowed_values = ["TOTAL_INSTANCE_COUNT", "INSTANCE_WITH_AVAILABLE_SECURITY_UPDATES_COUNT", "INSTANCE_WITH_AVAILABLE_BUGFIX_UPDATES_COUNT", "NORMAL_INSTANCE_COUNT", "ERROR_INSTANCE_COUNT", "WARNING_INSTANCE_COUNT", "UNREACHABLE_INSTANCE_COUNT", "REGISTRATION_FAILED_INSTANCE_COUNT", "DELETING_INSTANCE_COUNT", "ONBOARDING_INSTANCE_COUNT", "INSTANCE_SECURITY_UPDATES_COUNT", "INSTANCE_BUGFIX_UPDATES_COUNT", "INSTANCE_SECURITY_ADVISORY_COUNT", "INSTANCE_BUGFIX_ADVISORY_COUNT", "REBOOTING_INSTANCE_COUNT", "NEEDS_REBOOTING_INSTANCE_COUNT"]
+        metric_names_allowed_values = ["TOTAL_INSTANCE_COUNT", "INSTANCE_WITH_AVAILABLE_SECURITY_UPDATES_COUNT", "INSTANCE_WITH_AVAILABLE_BUGFIX_UPDATES_COUNT", "NORMAL_INSTANCE_COUNT", "ERROR_INSTANCE_COUNT", "WARNING_INSTANCE_COUNT", "UNREACHABLE_INSTANCE_COUNT", "REGISTRATION_FAILED_INSTANCE_COUNT", "INSTANCE_WITH_AVAILABLE_OTHER_UPDATES_COUNT", "DELETING_INSTANCE_COUNT", "ONBOARDING_INSTANCE_COUNT", "INSTANCE_SECURITY_UPDATES_COUNT", "INSTANCE_BUGFIX_UPDATES_COUNT", "INSTANCE_SECURITY_ADVISORY_COUNT", "INSTANCE_BUGFIX_ADVISORY_COUNT", "INSTANCE_OTHER_UPDATES_COUNT", "REBOOTING_INSTANCE_COUNT", "NEEDS_REBOOTING_INSTANCE_COUNT"]
         for metric_names_item in metric_names:
             if metric_names_item not in metric_names_allowed_values:
                 raise ValueError(
@@ -728,7 +760,7 @@ class ReportingManagedInstanceClient(object):
                     )
 
         if 'os_family' in kwargs:
-            os_family_allowed_values = ["ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"]
+            os_family_allowed_values = ["ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"]
             for os_family_item in kwargs['os_family']:
                 if os_family_item not in os_family_allowed_values:
                     raise ValueError(
@@ -752,7 +784,9 @@ class ReportingManagedInstanceClient(object):
         query_params = {
             "metricNames": self.base_client.generate_collection_format_param(metric_names, 'multi'),
             "compartmentId": kwargs.get("compartment_id", missing),
+            "compartmentIdInSubtree": kwargs.get("compartment_id_in_subtree", missing),
             "managedInstanceGroupId": kwargs.get("managed_instance_group_id", missing),
+            "dynamicSetId": kwargs.get("dynamic_set_id", missing),
             "lifecycleEnvironmentId": kwargs.get("lifecycle_environment_id", missing),
             "lifecycleStageId": kwargs.get("lifecycle_stage_id", missing),
             "status": self.base_client.generate_collection_format_param(kwargs.get("status", missing), 'multi'),

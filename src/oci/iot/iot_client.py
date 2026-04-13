@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import iot_type_mapping
 missing = Sentinel("Missing")
 
@@ -31,7 +31,7 @@ class IotClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -50,7 +50,7 @@ class IotClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -82,7 +82,7 @@ class IotClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("iot"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -130,13 +130,13 @@ class IotClient(object):
         Moves an IoT domain to a different compartment within the same tenancy. For information about moving resources between
         compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.ChangeIotDomainCompartmentDetails change_iot_domain_compartment_details: (required)
             Details for changing the IoT domain compartment.
@@ -179,7 +179,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/change_iot_domain_compartment.py.html>`__ to see an example of how to use change_iot_domain_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/change_iot_domain_compartment.py.html>`__ to see an example of how to use change_iot_domain_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -266,7 +266,7 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.ChangeIotDomainDataRetentionPeriodDetails change_iot_domain_data_retention_period_details: (required)
             Details for changing data retention period of IoT domain data.
@@ -309,7 +309,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/change_iot_domain_data_retention_period.py.html>`__ to see an example of how to use change_iot_domain_data_retention_period API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/change_iot_domain_data_retention_period.py.html>`__ to see an example of how to use change_iot_domain_data_retention_period API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -393,13 +393,13 @@ class IotClient(object):
         Moves an IoT domain group to a different compartment within the same tenancy. For information about moving resources between
         compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str iot_domain_group_id: (required)
             The `OCID`__ of an IoT Domain Group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.ChangeIotDomainGroupCompartmentDetails change_iot_domain_group_compartment_details: (required)
             Details for changing the IoT domain group compartment.
@@ -442,7 +442,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/change_iot_domain_group_compartment.py.html>`__ to see an example of how to use change_iot_domain_group_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/change_iot_domain_group_compartment.py.html>`__ to see an example of how to use change_iot_domain_group_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainGroupId']
@@ -529,7 +529,7 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.ConfigureIotDomainDataAccessDetails configure_iot_domain_data_access_details: (required)
             Details for configuring data access.
@@ -572,7 +572,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/configure_iot_domain_data_access.py.html>`__ to see an example of how to use configure_iot_domain_data_access API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/configure_iot_domain_data_access.py.html>`__ to see an example of how to use configure_iot_domain_data_access API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -659,7 +659,7 @@ class IotClient(object):
         :param str iot_domain_group_id: (required)
             The `OCID`__ of an IoT Domain Group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.ConfigureIotDomainGroupDataAccessDetails configure_iot_domain_group_data_access_details: (required)
             Details for configuring data access.
@@ -702,7 +702,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/configure_iot_domain_group_data_access.py.html>`__ to see an example of how to use configure_iot_domain_group_data_access API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/configure_iot_domain_group_data_access.py.html>`__ to see an example of how to use configure_iot_domain_group_data_access API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainGroupId']
@@ -820,7 +820,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_adapter.py.html>`__ to see an example of how to use create_digital_twin_adapter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_adapter.py.html>`__ to see an example of how to use create_digital_twin_adapter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -926,7 +926,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_instance.py.html>`__ to see an example of how to use create_digital_twin_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_instance.py.html>`__ to see an example of how to use create_digital_twin_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1032,7 +1032,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_model.py.html>`__ to see an example of how to use create_digital_twin_model API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_model.py.html>`__ to see an example of how to use create_digital_twin_model API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1138,7 +1138,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_relationship.py.html>`__ to see an example of how to use create_digital_twin_relationship API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_digital_twin_relationship.py.html>`__ to see an example of how to use create_digital_twin_relationship API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1244,7 +1244,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_iot_domain.py.html>`__ to see an example of how to use create_iot_domain API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_iot_domain.py.html>`__ to see an example of how to use create_iot_domain API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1350,7 +1350,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_iot_domain_group.py.html>`__ to see an example of how to use create_iot_domain_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/create_iot_domain_group.py.html>`__ to see an example of how to use create_iot_domain_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1425,7 +1425,7 @@ class IotClient(object):
         :param str digital_twin_adapter_id: (required)
             The `OCID`__ of the digital twin adapter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -1458,7 +1458,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_adapter.py.html>`__ to see an example of how to use delete_digital_twin_adapter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_adapter.py.html>`__ to see an example of how to use delete_digital_twin_adapter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinAdapterId']
@@ -1540,7 +1540,7 @@ class IotClient(object):
         :param str digital_twin_instance_id: (required)
             The `OCID`__ of digital twin instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -1573,7 +1573,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_instance.py.html>`__ to see an example of how to use delete_digital_twin_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_instance.py.html>`__ to see an example of how to use delete_digital_twin_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinInstanceId']
@@ -1655,7 +1655,7 @@ class IotClient(object):
         :param str digital_twin_model_id: (required)
             The `OCID`__ of digital twin model.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -1688,7 +1688,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_model.py.html>`__ to see an example of how to use delete_digital_twin_model API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_model.py.html>`__ to see an example of how to use delete_digital_twin_model API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinModelId']
@@ -1770,7 +1770,7 @@ class IotClient(object):
         :param str digital_twin_relationship_id: (required)
             The `OCID`__ of digital twin relationship.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -1803,7 +1803,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_relationship.py.html>`__ to see an example of how to use delete_digital_twin_relationship API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_digital_twin_relationship.py.html>`__ to see an example of how to use delete_digital_twin_relationship API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinRelationshipId']
@@ -1885,7 +1885,7 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -1918,7 +1918,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_iot_domain.py.html>`__ to see an example of how to use delete_iot_domain API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_iot_domain.py.html>`__ to see an example of how to use delete_iot_domain API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -2000,7 +2000,7 @@ class IotClient(object):
         :param str iot_domain_group_id: (required)
             The `OCID`__ of an IoT Domain Group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -2033,7 +2033,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_iot_domain_group.py.html>`__ to see an example of how to use delete_iot_domain_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/delete_iot_domain_group.py.html>`__ to see an example of how to use delete_iot_domain_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainGroupId']
@@ -2115,7 +2115,7 @@ class IotClient(object):
         :param str digital_twin_adapter_id: (required)
             The `OCID`__ of the digital twin adapter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2141,7 +2141,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_adapter.py.html>`__ to see an example of how to use get_digital_twin_adapter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_adapter.py.html>`__ to see an example of how to use get_digital_twin_adapter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinAdapterId']
@@ -2223,7 +2223,7 @@ class IotClient(object):
         :param str digital_twin_instance_id: (required)
             The `OCID`__ of digital twin instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2249,7 +2249,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_instance.py.html>`__ to see an example of how to use get_digital_twin_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_instance.py.html>`__ to see an example of how to use get_digital_twin_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinInstanceId']
@@ -2332,7 +2332,7 @@ class IotClient(object):
         :param str digital_twin_instance_id: (required)
             The `OCID`__ of digital twin instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2361,7 +2361,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_instance_content.py.html>`__ to see an example of how to use get_digital_twin_instance_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_instance_content.py.html>`__ to see an example of how to use get_digital_twin_instance_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinInstanceId']
@@ -2451,7 +2451,7 @@ class IotClient(object):
         :param str digital_twin_model_id: (required)
             The `OCID`__ of digital twin model.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2477,7 +2477,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_model.py.html>`__ to see an example of how to use get_digital_twin_model API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_model.py.html>`__ to see an example of how to use get_digital_twin_model API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinModelId']
@@ -2559,7 +2559,7 @@ class IotClient(object):
         :param str digital_twin_model_id: (required)
             The `OCID`__ of digital twin model.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2585,7 +2585,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_model_spec.py.html>`__ to see an example of how to use get_digital_twin_model_spec API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_model_spec.py.html>`__ to see an example of how to use get_digital_twin_model_spec API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinModelId']
@@ -2667,7 +2667,7 @@ class IotClient(object):
         :param str digital_twin_relationship_id: (required)
             The `OCID`__ of digital twin relationship.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2693,7 +2693,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_relationship.py.html>`__ to see an example of how to use get_digital_twin_relationship API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_digital_twin_relationship.py.html>`__ to see an example of how to use get_digital_twin_relationship API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinRelationshipId']
@@ -2775,7 +2775,7 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2801,7 +2801,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_iot_domain.py.html>`__ to see an example of how to use get_iot_domain API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_iot_domain.py.html>`__ to see an example of how to use get_iot_domain API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -2883,7 +2883,7 @@ class IotClient(object):
         :param str iot_domain_group_id: (required)
             The `OCID`__ of an IoT Domain Group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -2909,7 +2909,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_iot_domain_group.py.html>`__ to see an example of how to use get_iot_domain_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_iot_domain_group.py.html>`__ to see an example of how to use get_iot_domain_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainGroupId']
@@ -2991,7 +2991,7 @@ class IotClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -3017,7 +3017,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -3099,7 +3099,7 @@ class IotClient(object):
         :param str digital_twin_instance_id: (required)
             The `OCID`__ of digital twin instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.InvokeRawCommandDetails invoke_raw_command_details: (required)
             Details for the raw command invocation.
@@ -3135,7 +3135,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/invoke_raw_command.py.html>`__ to see an example of how to use invoke_raw_command API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/invoke_raw_command.py.html>`__ to see an example of how to use invoke_raw_command API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinInstanceId']
@@ -3220,12 +3220,12 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain in which to list digital twin resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             Filter resources by `OCID`__. Must be a valid OCID of the resource type.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str digital_twin_model_spec_uri: (optional)
             Filter resources that match the specified URI (DTMI) of the digital twin model.
@@ -3233,7 +3233,7 @@ class IotClient(object):
         :param str digital_twin_model_id: (optional)
             Filter resources that match the specified `OCID`__ of the digital twin model.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             Filter resources whose display name matches the specified value.
@@ -3248,7 +3248,7 @@ class IotClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             Page representing the requested page of items.
@@ -3288,7 +3288,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_adapters.py.html>`__ to see an example of how to use list_digital_twin_adapters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_adapters.py.html>`__ to see an example of how to use list_digital_twin_adapters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -3404,7 +3404,7 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain in which to list digital twin resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             Filter resources whose display name matches the specified value.
@@ -3414,7 +3414,7 @@ class IotClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             Page representing the requested page of items.
@@ -3442,7 +3442,7 @@ class IotClient(object):
         :param str digital_twin_model_id: (optional)
             Filter resources that match the specified `OCID`__ of the digital twin model.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str digital_twin_model_spec_uri: (optional)
             Filter resources that match the specified URI (DTMI) of the digital twin model.
@@ -3450,7 +3450,7 @@ class IotClient(object):
         :param str id: (optional)
             Filter resources by `OCID`__. Must be a valid OCID of the resource type.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -3472,7 +3472,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_instances.py.html>`__ to see an example of how to use list_digital_twin_instances API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_instances.py.html>`__ to see an example of how to use list_digital_twin_instances API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -3588,12 +3588,12 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain in which to list digital twin resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             Filter resources by `OCID`__. Must be a valid OCID of the resource type.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             Filter resources whose display name matches the specified value.
@@ -3606,7 +3606,7 @@ class IotClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             Page representing the requested page of items.
@@ -3651,7 +3651,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_models.py.html>`__ to see an example of how to use list_digital_twin_models API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_models.py.html>`__ to see an example of how to use list_digital_twin_models API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -3765,7 +3765,7 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain in which to list digital twin resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             Filter resources whose display name matches the specified value.
@@ -3776,12 +3776,12 @@ class IotClient(object):
         :param str source_digital_twin_instance_id: (optional)
             Filter resources that match the specified `OCID`__ of source digital twin instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str target_digital_twin_instance_id: (optional)
             Filter resources that match the specified `OCID`__ of target digital twin instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             Filter resources whose lifecycleState matches the specified value.
@@ -3793,7 +3793,7 @@ class IotClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             Page representing the requested page of items.
@@ -3816,7 +3816,7 @@ class IotClient(object):
         :param str id: (optional)
             Filter resources by `OCID`__. Must be a valid OCID of the resource type.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -3838,7 +3838,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_relationships.py.html>`__ to see an example of how to use list_digital_twin_relationships API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_digital_twin_relationships.py.html>`__ to see an example of how to use list_digital_twin_relationships API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -3956,12 +3956,12 @@ class IotClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             Filter resources by `OCID`__. Must be a valid OCID of the resource type.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             Filter resources whose display name matches the specified value.
@@ -3981,14 +3981,14 @@ class IotClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination: The value of the opc-next-page response header from the previous \"List\" call.
             For important details on how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             Specifies sort order to use, either ASC (ascending) or DESC (descending).
@@ -4025,7 +4025,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_iot_domain_groups.py.html>`__ to see an example of how to use list_iot_domain_groups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_iot_domain_groups.py.html>`__ to see an example of how to use list_iot_domain_groups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -4146,17 +4146,17 @@ class IotClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             Filter resources by `OCID`__. Must be a valid OCID of the resource type.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str iot_domain_group_id: (optional)
             Filter resources that match the specified `OCID`__ of the IoT domain group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             Filter resources whose display name matches the specified value.
@@ -4171,14 +4171,14 @@ class IotClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination: The value of the opc-next-page response header from the previous \"List\" call.
             For important details on how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             Specifies sort order to use, either ASC (ascending) or DESC (descending).
@@ -4215,7 +4215,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_iot_domains.py.html>`__ to see an example of how to use list_iot_domains API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_iot_domains.py.html>`__ to see an example of how to use list_iot_domains API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -4329,7 +4329,7 @@ class IotClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -4340,14 +4340,14 @@ class IotClient(object):
             For important details on how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order can be specified. The default order for `timeCreated` is descending.
@@ -4379,7 +4379,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -4489,7 +4489,7 @@ class IotClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -4500,14 +4500,14 @@ class IotClient(object):
             For important details on how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order can be specified. The default order for `timeCreated` is descending.
@@ -4539,7 +4539,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -4649,12 +4649,12 @@ class IotClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str status: (optional)
             A filter to return only the resources that match the given lifecycle state.
@@ -4664,7 +4664,7 @@ class IotClient(object):
         :param str resource_id: (optional)
             The `OCID`__ of the resource affected by the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request.
@@ -4675,14 +4675,14 @@ class IotClient(object):
             For important details on how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             Specifies sort order to use, either ASC (ascending) or DESC (descending).
@@ -4714,7 +4714,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -4826,7 +4826,7 @@ class IotClient(object):
         :param str digital_twin_adapter_id: (required)
             The `OCID`__ of the digital twin adapter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.UpdateDigitalTwinAdapterDetails update_digital_twin_adapter_details: (required)
             The digital twin adapter details to be updated.
@@ -4862,7 +4862,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_adapter.py.html>`__ to see an example of how to use update_digital_twin_adapter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_adapter.py.html>`__ to see an example of how to use update_digital_twin_adapter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinAdapterId']
@@ -4948,7 +4948,7 @@ class IotClient(object):
         :param str digital_twin_instance_id: (required)
             The `OCID`__ of digital twin instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.UpdateDigitalTwinInstanceDetails update_digital_twin_instance_details: (required)
             The digital twin instance details to be updated.
@@ -4984,7 +4984,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_instance.py.html>`__ to see an example of how to use update_digital_twin_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_instance.py.html>`__ to see an example of how to use update_digital_twin_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinInstanceId']
@@ -5070,7 +5070,7 @@ class IotClient(object):
         :param str digital_twin_model_id: (required)
             The `OCID`__ of digital twin model.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.UpdateDigitalTwinModelDetails update_digital_twin_model_details: (required)
             The digital twin model details to be updated.
@@ -5106,7 +5106,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_model.py.html>`__ to see an example of how to use update_digital_twin_model API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_model.py.html>`__ to see an example of how to use update_digital_twin_model API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinModelId']
@@ -5192,7 +5192,7 @@ class IotClient(object):
         :param str digital_twin_relationship_id: (required)
             The `OCID`__ of digital twin relationship.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.UpdateDigitalTwinRelationshipDetails update_digital_twin_relationship_details: (required)
             The digital twin relationship details to be updated.
@@ -5228,7 +5228,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_relationship.py.html>`__ to see an example of how to use update_digital_twin_relationship API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_digital_twin_relationship.py.html>`__ to see an example of how to use update_digital_twin_relationship API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['digitalTwinRelationshipId']
@@ -5314,7 +5314,7 @@ class IotClient(object):
         :param str iot_domain_id: (required)
             The `OCID`__ of the IoT domain.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.UpdateIotDomainDetails update_iot_domain_details: (required)
             The IoT domain details to be updated.
@@ -5350,7 +5350,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_iot_domain.py.html>`__ to see an example of how to use update_iot_domain API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_iot_domain.py.html>`__ to see an example of how to use update_iot_domain API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainId']
@@ -5434,7 +5434,7 @@ class IotClient(object):
         :param str iot_domain_group_id: (required)
             The `OCID`__ of an IoT Domain Group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.iot.models.UpdateIotDomainGroupDetails update_iot_domain_group_details: (required)
             The IoT domain group details to be updated.
@@ -5470,7 +5470,7 @@ class IotClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_iot_domain_group.py.html>`__ to see an example of how to use update_iot_domain_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/iot/update_iot_domain_group.py.html>`__ to see an example of how to use update_iot_domain_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['iotDomainGroupId']

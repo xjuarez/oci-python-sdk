@@ -37,6 +37,9 @@ API Reference
 * :doc:`Block Storage <core/client/oci.core.BlockstorageClient>`
 * :doc:`Blockchain Platform <blockchain/client/oci.blockchain.BlockchainPlatformClient>`
 * :doc:`Budget <budget/client/oci.budget.BudgetClient>`
+* :doc:`Byol <ocvp/client/oci.ocvp.ByolClient>`
+* :doc:`Byol Allocation <ocvp/client/oci.ocvp.ByolAllocationClient>`
+* :doc:`Cancel Enrichment Job <generative_ai_data/client/oci.generative_ai_data.CancelEnrichmentJobClient>`
 * :doc:`Capacity Management <capacity_management/client/oci.capacity_management.CapacityManagementClient>`
 * :doc:`Certificates <certificates/client/oci.certificates.CertificatesClient>`
 * :doc:`Certificates Management <certificates_management/client/oci.certificates_management.CertificatesManagementClient>`
@@ -57,6 +60,7 @@ API Reference
 * :doc:`Connector Plugins <sch/client/oci.sch.ConnectorPluginsClient>`
 * :doc:`Container Engine <container_engine/client/oci.container_engine.ContainerEngineClient>`
 * :doc:`Container Instance <container_instances/client/oci.container_instances.ContainerInstanceClient>`
+* :doc:`Container Registry <container_registry/client/oci.container_registry.ContainerRegistryClient>`
 * :doc:`Cost Ad <budget/client/oci.budget.CostAdClient>`
 * :doc:`DNS <dns/client/oci.dns.DnsClient>`
 * :doc:`Dashboard <dashboard_service/client/oci.dashboard_service.DashboardClient>`
@@ -96,6 +100,7 @@ API Reference
 * :doc:`Distributed Db Work Request Service <distributed_database/client/oci.distributed_database.DistributedDbWorkRequestServiceClient>`
 * :doc:`Domain <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.DomainClient>`
 * :doc:`Domain Governance <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.DomainGovernanceClient>`
+* :doc:`Dynamic Set <os_management_hub/client/oci.os_management_hub.DynamicSetClient>`
 * :doc:`Ekm <key_management/client/oci.key_management.EkmClient>`
 * :doc:`Em Warehouse <em_warehouse/client/oci.em_warehouse.EmWarehouseClient>`
 * :doc:`Email <email/client/oci.email.EmailClient>`
@@ -117,14 +122,18 @@ API Reference
 * :doc:`Functions Management <functions/client/oci.functions.FunctionsManagementClient>`
 * :doc:`Fusion Applications <fusion_apps/client/oci.fusion_apps.FusionApplicationsClient>`
 * :doc:`Gateway <apigateway/client/oci.apigateway.GatewayClient>`
+* :doc:`Generate Enrichment Job <generative_ai_data/client/oci.generative_ai_data.GenerateEnrichmentJobClient>`
+* :doc:`Generate Sql From Nl Job <generative_ai_data/client/oci.generative_ai_data.GenerateSqlFromNlJobClient>`
 * :doc:`Generative Ai <generative_ai/client/oci.generative_ai.GenerativeAiClient>`
 * :doc:`Generative Ai Agent <generative_ai_agent/client/oci.generative_ai_agent.GenerativeAiAgentClient>`
 * :doc:`Generative Ai Agent Runtime <generative_ai_agent_runtime/client/oci.generative_ai_agent_runtime.GenerativeAiAgentRuntimeClient>`
 * :doc:`Generative Ai Inference <generative_ai_inference/client/oci.generative_ai_inference.GenerativeAiInferenceClient>`
 * :doc:`Generic Artifacts Content <generic_artifacts_content/client/oci.generic_artifacts_content.GenericArtifactsContentClient>`
+* :doc:`Get Enrichment Job <generative_ai_data/client/oci.generative_ai_data.GetEnrichmentJobClient>`
 * :doc:`Golden Gate <golden_gate/client/oci.golden_gate.GoldenGateClient>`
 * :doc:`Governance <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.GovernanceClient>`
 * :doc:`Governance Rule <governance_rules_control_plane/client/oci.governance_rules_control_plane.GovernanceRuleClient>`
+* :doc:`Guarded Data Pipeline <gdp/client/oci.gdp.GuardedDataPipelineClient>`
 * :doc:`Health Checks <healthchecks/client/oci.healthchecks.HealthChecksClient>`
 * :doc:`Identity <identity/client/oci.identity.IdentityClient>`
 * :doc:`Identity Domains <identity_domains/client/oci.identity_domains.IdentityDomainsClient>`
@@ -146,7 +155,9 @@ API Reference
 * :doc:`License Manager <license_manager/client/oci.license_manager.LicenseManagerClient>`
 * :doc:`Lifecycle Environment <os_management_hub/client/oci.os_management_hub.LifecycleEnvironmentClient>`
 * :doc:`Limits <limits/client/oci.limits.LimitsClient>`
+* :doc:`Limits Increase <limits_increase/client/oci.limits_increase.LimitsIncreaseClient>`
 * :doc:`Link <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.LinkClient>`
+* :doc:`List Enrichment Jobs <generative_ai_data/client/oci.generative_ai_data.ListEnrichmentJobsClient>`
 * :doc:`Load Balancer <load_balancer/client/oci.load_balancer.LoadBalancerClient>`
 * :doc:`Lockbox <lockbox/client/oci.lockbox.LockboxClient>`
 * :doc:`Log Analytics <log_analytics/client/oci.log_analytics.LogAnalyticsClient>`
@@ -216,6 +227,7 @@ API Reference
 * :doc:`Organization <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.OrganizationClient>`
 * :doc:`Organization Subscription <osub_organization_subscription/client/oci.osub_organization_subscription.OrganizationSubscriptionClient>`
 * :doc:`Organization Subscription <osub_organization_subscription/client/oci.osub_organization_subscription.OrganizationSubscriptionClient>`
+* :doc:`Partner Integeration <self/client/oci.self.PartnerIntegerationClient>`
 * :doc:`Perfhub <database_management/client/oci.database_management.PerfhubClient>`
 * :doc:`Plugin <compute_instance_agent/client/oci.compute_instance_agent.PluginClient>`
 * :doc:`Pluginconfig <compute_instance_agent/client/oci.compute_instance_agent.PluginconfigClient>`
@@ -265,6 +277,7 @@ API Reference
 * :doc:`Stream Admin <streaming/client/oci.streaming.StreamAdminClient>`
 * :doc:`Subscribed Service <onesubscription/client/oci.onesubscription.SubscribedServiceClient>`
 * :doc:`Subscribers <apigateway/client/oci.apigateway.SubscribersClient>`
+* :doc:`Subscription <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SubscriptionClient>`
 * :doc:`Subscription <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SubscriptionClient>`
 * :doc:`Subscription <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SubscriptionClient>`
 * :doc:`Subscription <tenant_manager_control_plane/client/oci.tenant_manager_control_plane.SubscriptionClient>`
@@ -354,6 +367,7 @@ API Reference
     compute_instance_agent
     container_engine
     container_instances
+    container_registry
     core
     dashboard_service
     data_catalog
@@ -386,9 +400,11 @@ API Reference
     fleet_software_update
     functions
     fusion_apps
+    gdp
     generative_ai
     generative_ai_agent
     generative_ai_agent_runtime
+    generative_ai_data
     generative_ai_inference
     generic_artifacts_content
     golden_gate
@@ -405,6 +421,7 @@ API Reference
     key_management
     license_manager
     limits
+    limits_increase
     load_balancer
     lockbox
     log_analytics
@@ -458,6 +475,7 @@ API Reference
     sch
     secrets
     security_attribute
+    self
     service_catalog
     service_manager_proxy
     stack_monitoring

@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import load_balancer_type_mapping
 missing = Sentinel("Missing")
 
@@ -31,7 +31,7 @@ class LoadBalancerClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -50,7 +50,7 @@ class LoadBalancerClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -82,7 +82,7 @@ class LoadBalancerClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("load_balancer"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -130,13 +130,13 @@ class LoadBalancerClient(object):
         Moves a load balancer into a different compartment within the same tenancy. For information about moving resources
         between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to move.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.load_balancer.models.ChangeLoadBalancerCompartmentDetails change_load_balancer_compartment_details: (required)
             The configuration details for moving a load balancer to a different compartment.
@@ -184,7 +184,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/change_load_balancer_compartment.py.html>`__ to see an example of how to use change_load_balancer_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/change_load_balancer_compartment.py.html>`__ to see an example of how to use change_load_balancer_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -272,7 +272,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set and servers.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set to add the backend server to.
@@ -322,7 +322,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_backend.py.html>`__ to see an example of how to use create_backend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_backend.py.html>`__ to see an example of how to use create_backend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -411,7 +411,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer on which to add a backend set.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -456,7 +456,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_backend_set.py.html>`__ to see an example of how to use create_backend_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_backend_set.py.html>`__ to see an example of how to use create_backend_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -544,7 +544,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer on which to add the certificate bundle.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -589,7 +589,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_certificate.py.html>`__ to see an example of how to use create_certificate API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_certificate.py.html>`__ to see an example of how to use create_certificate API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -671,7 +671,7 @@ class LoadBalancerClient(object):
         Adds a hostname resource to the specified load balancer. For more information, see
         `Managing Request Routing`__.
 
-        __ https://docs.cloud.oracle.com/Content/Balance/Tasks/managingrequest.htm
+        __ https://docs.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm
 
 
         :param oci.load_balancer.models.CreateHostnameDetails create_hostname_details: (required)
@@ -680,7 +680,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to add the hostname to.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -725,7 +725,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_hostname.py.html>`__ to see an example of how to use create_hostname API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_hostname.py.html>`__ to see an example of how to use create_hostname API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -813,7 +813,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer on which to add a listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -858,7 +858,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_listener.py.html>`__ to see an example of how to use create_listener API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_listener.py.html>`__ to see an example of how to use create_listener API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -965,10 +965,10 @@ class LoadBalancerClient(object):
         When you create a load balancer, the system assigns an IP address.
         To get the IP address, use the :func:`get_load_balancer` operation.
 
-        __ https://docs.cloud.oracle.com/Content/Balance/Concepts/balanceoverview.htm
-        __ https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/regions.htm
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.load_balancer.models.CreateLoadBalancerDetails create_load_balancer_details: (required)
@@ -1005,7 +1005,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_load_balancer.py.html>`__ to see an example of how to use create_load_balancer API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_load_balancer.py.html>`__ to see an example of how to use create_load_balancer API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1073,7 +1073,7 @@ class LoadBalancerClient(object):
         Adds a path route set to a load balancer. For more information, see
         `Managing Request Routing`__.
 
-        __ https://docs.cloud.oracle.com/Content/Balance/Tasks/managingrequest.htm
+        __ https://docs.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm
 
 
         :param oci.load_balancer.models.CreatePathRouteSetDetails create_path_route_set_details: (required)
@@ -1082,7 +1082,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to add the path route set to.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -1127,7 +1127,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_path_route_set.py.html>`__ to see an example of how to use create_path_route_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_path_route_set.py.html>`__ to see an example of how to use create_path_route_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -1209,7 +1209,7 @@ class LoadBalancerClient(object):
         Adds a routing policy to a load balancer. For more information, see
         `Managing Request Routing`__.
 
-        __ https://docs.cloud.oracle.com/Content/Balance/Tasks/managingrequest.htm
+        __ https://docs.oracle.com/iaas/Content/Balance/Tasks/managingrequest.htm
 
 
         :param oci.load_balancer.models.CreateRoutingPolicyDetails create_routing_policy_details: (required)
@@ -1218,7 +1218,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to add the routing policy rule list to.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -1263,7 +1263,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_routing_policy.py.html>`__ to see an example of how to use create_routing_policy API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_routing_policy.py.html>`__ to see an example of how to use create_routing_policy API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -1345,13 +1345,13 @@ class LoadBalancerClient(object):
         Creates a new rule set associated with the specified load balancer. For more information, see
         `Managing Rule Sets`__.
 
-        __ https://docs.cloud.oracle.com/Content/Balance/Tasks/managingrulesets.htm
+        __ https://docs.oracle.com/iaas/Content/Balance/Tasks/managingrulesets.htm
 
 
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.load_balancer.models.CreateRuleSetDetails create_rule_set_details: (required)
             The configuration details for the rule set to create.
@@ -1399,7 +1399,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_rule_set.py.html>`__ to see an example of how to use create_rule_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_rule_set.py.html>`__ to see an example of how to use create_rule_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -1487,7 +1487,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the associated load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
@@ -1532,7 +1532,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_ssl_cipher_suite.py.html>`__ to see an example of how to use create_ssl_cipher_suite API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/create_ssl_cipher_suite.py.html>`__ to see an example of how to use create_ssl_cipher_suite API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -1617,7 +1617,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set and server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set associated with the backend server.
@@ -1665,7 +1665,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_backend.py.html>`__ to see an example of how to use delete_backend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_backend.py.html>`__ to see an example of how to use delete_backend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName', 'backendName']
@@ -1749,7 +1749,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set to delete.
@@ -1792,7 +1792,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_backend_set.py.html>`__ to see an example of how to use delete_backend_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_backend_set.py.html>`__ to see an example of how to use delete_backend_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -1874,7 +1874,7 @@ class LoadBalancerClient(object):
             The `OCID`__ of the load balancer associated with the certificate bundle
             to be deleted.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str certificate_name: (required)
             The name of the certificate bundle to delete.
@@ -1917,7 +1917,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_certificate.py.html>`__ to see an example of how to use delete_certificate API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_certificate.py.html>`__ to see an example of how to use delete_certificate API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'certificateName']
@@ -1998,7 +1998,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the hostname to delete.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The name of the hostname resource to delete.
@@ -2041,7 +2041,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_hostname.py.html>`__ to see an example of how to use delete_hostname API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_hostname.py.html>`__ to see an example of how to use delete_hostname API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'name']
@@ -2122,7 +2122,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the listener to delete.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str listener_name: (required)
             The name of the listener to delete.
@@ -2165,7 +2165,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_listener.py.html>`__ to see an example of how to use delete_listener API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_listener.py.html>`__ to see an example of how to use delete_listener API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'listenerName']
@@ -2246,7 +2246,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to delete.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -2284,7 +2284,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_load_balancer.py.html>`__ to see an example of how to use delete_load_balancer API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_load_balancer.py.html>`__ to see an example of how to use delete_load_balancer API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -2367,7 +2367,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the path route set to delete.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str path_route_set_name: (required)
             The name of the path route set to delete.
@@ -2410,7 +2410,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_path_route_set.py.html>`__ to see an example of how to use delete_path_route_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_path_route_set.py.html>`__ to see an example of how to use delete_path_route_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'pathRouteSetName']
@@ -2494,7 +2494,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the routing policy to delete.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str routing_policy_name: (required)
             The name of the routing policy to delete.
@@ -2537,7 +2537,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_routing_policy.py.html>`__ to see an example of how to use delete_routing_policy API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_routing_policy.py.html>`__ to see an example of how to use delete_routing_policy API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'routingPolicyName']
@@ -2621,7 +2621,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str rule_set_name: (required)
             The name of the rule set to delete.
@@ -2664,7 +2664,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_rule_set.py.html>`__ to see an example of how to use delete_rule_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_rule_set.py.html>`__ to see an example of how to use delete_rule_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'ruleSetName']
@@ -2745,7 +2745,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the associated load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The name of the SSL cipher suite to delete.
@@ -2788,7 +2788,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_ssl_cipher_suite.py.html>`__ to see an example of how to use delete_ssl_cipher_suite API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/delete_ssl_cipher_suite.py.html>`__ to see an example of how to use delete_ssl_cipher_suite API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'name']
@@ -2869,7 +2869,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set and server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set that includes the backend server.
@@ -2917,7 +2917,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend.py.html>`__ to see an example of how to use get_backend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend.py.html>`__ to see an example of how to use get_backend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName', 'backendName']
@@ -3001,7 +3001,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend server health status to be retrieved.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set associated with the backend server to retrieve the health status for.
@@ -3049,7 +3049,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend_health.py.html>`__ to see an example of how to use get_backend_health API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend_health.py.html>`__ to see an example of how to use get_backend_health API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName', 'backendName']
@@ -3133,7 +3133,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set to retrieve.
@@ -3176,7 +3176,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend_set.py.html>`__ to see an example of how to use get_backend_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend_set.py.html>`__ to see an example of how to use get_backend_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -3259,7 +3259,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set health status to be retrieved.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set to retrieve the health status for.
@@ -3302,7 +3302,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend_set_health.py.html>`__ to see an example of how to use get_backend_set_health API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_backend_set_health.py.html>`__ to see an example of how to use get_backend_set_health API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -3385,7 +3385,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the health check policy to be retrieved.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set associated with the health check policy to be retrieved.
@@ -3428,7 +3428,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_health_checker.py.html>`__ to see an example of how to use get_health_checker API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_health_checker.py.html>`__ to see an example of how to use get_health_checker API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -3511,7 +3511,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The name of the hostname resource to retrieve.
@@ -3554,7 +3554,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_hostname.py.html>`__ to see an example of how to use get_hostname API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_hostname.py.html>`__ to see an example of how to use get_hostname API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'name']
@@ -3637,7 +3637,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to retrieve.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3675,7 +3675,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_load_balancer.py.html>`__ to see an example of how to use get_load_balancer API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_load_balancer.py.html>`__ to see an example of how to use get_load_balancer API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -3757,7 +3757,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to return health status for.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -3795,7 +3795,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_load_balancer_health.py.html>`__ to see an example of how to use get_load_balancer_health API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_load_balancer_health.py.html>`__ to see an example of how to use get_load_balancer_health API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -3877,7 +3877,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str path_route_set_name: (required)
             The name of the path route set to retrieve.
@@ -3920,7 +3920,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_path_route_set.py.html>`__ to see an example of how to use get_path_route_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_path_route_set.py.html>`__ to see an example of how to use get_path_route_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'pathRouteSetName']
@@ -4003,7 +4003,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str routing_policy_name: (required)
             The name of the routing policy to retrieve.
@@ -4046,7 +4046,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_routing_policy.py.html>`__ to see an example of how to use get_routing_policy API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_routing_policy.py.html>`__ to see an example of how to use get_routing_policy API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'routingPolicyName']
@@ -4129,7 +4129,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str rule_set_name: (required)
             The name of the rule set to retrieve.
@@ -4172,7 +4172,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_rule_set.py.html>`__ to see an example of how to use get_rule_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_rule_set.py.html>`__ to see an example of how to use get_rule_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'ruleSetName']
@@ -4255,7 +4255,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the associated load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The name of the SSL cipher suite to retrieve.
@@ -4298,7 +4298,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_ssl_cipher_suite.py.html>`__ to see an example of how to use get_ssl_cipher_suite API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_ssl_cipher_suite.py.html>`__ to see an example of how to use get_ssl_cipher_suite API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'name']
@@ -4381,7 +4381,7 @@ class LoadBalancerClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the work request to retrieve.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -4407,7 +4407,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -4487,7 +4487,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend sets to retrieve.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -4525,7 +4525,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_backend_sets.py.html>`__ to see an example of how to use list_backend_sets API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_backend_sets.py.html>`__ to see an example of how to use list_backend_sets API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -4607,7 +4607,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set and servers.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set associated with the backend servers.
@@ -4650,7 +4650,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_backends.py.html>`__ to see an example of how to use list_backends API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_backends.py.html>`__ to see an example of how to use list_backends API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -4734,7 +4734,7 @@ class LoadBalancerClient(object):
             The `OCID`__ of the load balancer associated with the certificate bundles
             to be listed.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -4772,7 +4772,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_certificates.py.html>`__ to see an example of how to use list_certificates API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_certificates.py.html>`__ to see an example of how to use list_certificates API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -4855,7 +4855,7 @@ class LoadBalancerClient(object):
             The `OCID`__ of the load balancer associated with the hostnames
             to retrieve.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -4893,7 +4893,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_hostnames.py.html>`__ to see an example of how to use list_hostnames API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_hostnames.py.html>`__ to see an example of how to use list_hostnames API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -4981,7 +4981,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the listener.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str listener_name: (required)
             The name of the listener the rules are associated with.
@@ -5023,7 +5023,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_listener_rules.py.html>`__ to see an example of how to use list_listener_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_listener_rules.py.html>`__ to see an example of how to use list_listener_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'listenerName']
@@ -5106,7 +5106,7 @@ class LoadBalancerClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment containing the load balancers to return health status information for.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5118,7 +5118,7 @@ class LoadBalancerClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -5126,7 +5126,7 @@ class LoadBalancerClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5148,7 +5148,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_load_balancer_healths.py.html>`__ to see an example of how to use list_load_balancer_healths API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_load_balancer_healths.py.html>`__ to see an example of how to use list_load_balancer_healths API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -5227,7 +5227,7 @@ class LoadBalancerClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment containing the load balancers to list.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5239,7 +5239,7 @@ class LoadBalancerClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -5247,7 +5247,7 @@ class LoadBalancerClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str detail: (optional)
             The level of detail to return for each result. Can be `full` or `simple`.
@@ -5297,7 +5297,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_load_balancers.py.html>`__ to see an example of how to use list_load_balancers API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_load_balancers.py.html>`__ to see an example of how to use list_load_balancers API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -5408,7 +5408,7 @@ class LoadBalancerClient(object):
             The `OCID`__ of the load balancer associated with the path route sets
             to retrieve.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5446,7 +5446,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_path_route_sets.py.html>`__ to see an example of how to use list_path_route_sets API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_path_route_sets.py.html>`__ to see an example of how to use list_path_route_sets API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -5528,7 +5528,7 @@ class LoadBalancerClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment containing the load balancer policies to list.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5540,7 +5540,7 @@ class LoadBalancerClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -5548,7 +5548,7 @@ class LoadBalancerClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5570,7 +5570,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_policies.py.html>`__ to see an example of how to use list_policies API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_policies.py.html>`__ to see an example of how to use list_policies API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -5649,7 +5649,7 @@ class LoadBalancerClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment containing the load balancer protocols to list.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5661,7 +5661,7 @@ class LoadBalancerClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -5669,7 +5669,7 @@ class LoadBalancerClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -5691,7 +5691,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_protocols.py.html>`__ to see an example of how to use list_protocols API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_protocols.py.html>`__ to see an example of how to use list_protocols API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -5770,7 +5770,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the routing policies.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5782,7 +5782,7 @@ class LoadBalancerClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -5790,7 +5790,7 @@ class LoadBalancerClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the if-match
@@ -5824,7 +5824,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_routing_policies.py.html>`__ to see an example of how to use list_routing_policies API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_routing_policies.py.html>`__ to see an example of how to use list_routing_policies API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -5916,7 +5916,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -5954,7 +5954,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_rule_sets.py.html>`__ to see an example of how to use list_rule_sets API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_rule_sets.py.html>`__ to see an example of how to use list_rule_sets API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -6036,7 +6036,7 @@ class LoadBalancerClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment containing the load balancer shapes to list.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -6048,7 +6048,7 @@ class LoadBalancerClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -6056,7 +6056,7 @@ class LoadBalancerClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -6078,7 +6078,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_shapes.py.html>`__ to see an example of how to use list_shapes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_shapes.py.html>`__ to see an example of how to use list_shapes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -6157,7 +6157,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the associated load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
@@ -6195,7 +6195,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_ssl_cipher_suites.py.html>`__ to see an example of how to use list_ssl_cipher_suites API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_ssl_cipher_suites.py.html>`__ to see an example of how to use list_ssl_cipher_suites API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -6277,7 +6277,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the work requests to retrieve.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -6289,7 +6289,7 @@ class LoadBalancerClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -6297,7 +6297,7 @@ class LoadBalancerClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -6319,7 +6319,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -6412,7 +6412,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set and server.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set associated with the backend server.
@@ -6467,7 +6467,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_backend.py.html>`__ to see an example of how to use update_backend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_backend.py.html>`__ to see an example of how to use update_backend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName', 'backendName']
@@ -6557,7 +6557,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the backend set.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set to update.
@@ -6607,7 +6607,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_backend_set.py.html>`__ to see an example of how to use update_backend_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_backend_set.py.html>`__ to see an example of how to use update_backend_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -6696,7 +6696,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the health check policy to be updated.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str backend_set_name: (required)
             The name of the backend set associated with the health check policy to be retrieved.
@@ -6746,7 +6746,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_health_checker.py.html>`__ to see an example of how to use update_health_checker API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_health_checker.py.html>`__ to see an example of how to use update_health_checker API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'backendSetName']
@@ -6837,7 +6837,7 @@ class LoadBalancerClient(object):
             The `OCID`__ of the load balancer associated with the virtual hostname
             to update.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The name of the hostname resource to update.
@@ -6887,7 +6887,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_hostname.py.html>`__ to see an example of how to use update_hostname API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_hostname.py.html>`__ to see an example of how to use update_hostname API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'name']
@@ -6976,7 +6976,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the listener to update.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str listener_name: (required)
             The name of the listener to update.
@@ -7026,7 +7026,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_listener.py.html>`__ to see an example of how to use update_listener API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_listener.py.html>`__ to see an example of how to use update_listener API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'listenerName']
@@ -7115,7 +7115,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to update.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -7160,7 +7160,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_load_balancer.py.html>`__ to see an example of how to use update_load_balancer API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_load_balancer.py.html>`__ to see an example of how to use update_load_balancer API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -7250,7 +7250,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer whose shape will be updated.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.load_balancer.models.UpdateLoadBalancerShapeDetails update_load_balancer_shape_details: (required)
             The details for updating a load balancer's shape. This contains the new, desired shape.
@@ -7298,7 +7298,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_load_balancer_shape.py.html>`__ to see an example of how to use update_load_balancer_shape API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_load_balancer_shape.py.html>`__ to see an example of how to use update_load_balancer_shape API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -7386,7 +7386,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer to update the NSGs for.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -7431,7 +7431,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_network_security_groups.py.html>`__ to see an example of how to use update_network_security_groups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_network_security_groups.py.html>`__ to see an example of how to use update_network_security_groups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId']
@@ -7524,7 +7524,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the path route set to update.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str path_route_set_name: (required)
             The name of the path route set to update.
@@ -7574,7 +7574,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_path_route_set.py.html>`__ to see an example of how to use update_path_route_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_path_route_set.py.html>`__ to see an example of how to use update_path_route_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'pathRouteSetName']
@@ -7666,7 +7666,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the load balancer associated with the routing policy to update.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str routing_policy_name: (required)
             The name of the routing policy to update.
@@ -7716,7 +7716,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_routing_policy.py.html>`__ to see an example of how to use update_routing_policy API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_routing_policy.py.html>`__ to see an example of how to use update_routing_policy API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'routingPolicyName']
@@ -7805,7 +7805,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the specified load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str rule_set_name: (required)
             The name of the rule set to update.
@@ -7858,7 +7858,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_rule_set.py.html>`__ to see an example of how to use update_rule_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_rule_set.py.html>`__ to see an example of how to use update_rule_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'ruleSetName']
@@ -7947,7 +7947,7 @@ class LoadBalancerClient(object):
         :param str load_balancer_id: (required)
             The `OCID`__ of the associated load balancer.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The name of the SSL cipher suite to update.
@@ -7997,7 +7997,7 @@ class LoadBalancerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_ssl_cipher_suite.py.html>`__ to see an example of how to use update_ssl_cipher_suite API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/loadbalancer/update_ssl_cipher_suite.py.html>`__ to see an example of how to use update_ssl_cipher_suite API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['loadBalancerId', 'name']

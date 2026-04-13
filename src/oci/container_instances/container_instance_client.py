@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import container_instances_type_mapping
 missing = Sentinel("Missing")
 
@@ -30,7 +30,7 @@ class ContainerInstanceClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -49,7 +49,7 @@ class ContainerInstanceClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -81,7 +81,7 @@ class ContainerInstanceClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("container_instances"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -132,7 +132,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (required)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.container_instances.models.ChangeContainerInstanceCompartmentDetails change_container_instance_compartment_details: (required)
             The information to be updated.
@@ -167,7 +167,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/change_container_instance_compartment.py.html>`__ to see an example of how to use change_container_instance_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/change_container_instance_compartment.py.html>`__ to see an example of how to use change_container_instance_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerInstanceId']
@@ -281,7 +281,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/create_container_instance.py.html>`__ to see an example of how to use create_container_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/create_container_instance.py.html>`__ to see an example of how to use create_container_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -356,7 +356,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (required)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -388,7 +388,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/delete_container_instance.py.html>`__ to see an example of how to use delete_container_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/delete_container_instance.py.html>`__ to see an example of how to use delete_container_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerInstanceId']
@@ -470,7 +470,7 @@ class ContainerInstanceClient(object):
         :param str container_id: (required)
             The `OCID`__ of the container.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -495,7 +495,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/get_container.py.html>`__ to see an example of how to use get_container API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/get_container.py.html>`__ to see an example of how to use get_container API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerId']
@@ -577,7 +577,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (required)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -602,7 +602,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/get_container_instance.py.html>`__ to see an example of how to use get_container_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/get_container_instance.py.html>`__ to see an example of how to use get_container_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerInstanceId']
@@ -707,7 +707,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -789,7 +789,7 @@ class ContainerInstanceClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str availability_domain: (optional)
             The name of the availability domain.
@@ -799,12 +799,12 @@ class ContainerInstanceClient(object):
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -829,7 +829,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_container_instance_shapes.py.html>`__ to see an example of how to use list_container_instance_shapes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_container_instance_shapes.py.html>`__ to see an example of how to use list_container_instance_shapes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -912,7 +912,7 @@ class ContainerInstanceClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to only return resources that match the given lifecycle state.
@@ -930,12 +930,12 @@ class ContainerInstanceClient(object):
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -970,7 +970,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_container_instances.py.html>`__ to see an example of how to use list_container_instances API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_container_instances.py.html>`__ to see an example of how to use list_container_instances API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -1082,7 +1082,7 @@ class ContainerInstanceClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to only return resources that match the given lifecycle state.
@@ -1095,7 +1095,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (optional)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str availability_domain: (optional)
             The name of the availability domain.
@@ -1105,12 +1105,12 @@ class ContainerInstanceClient(object):
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -1145,7 +1145,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_containers.py.html>`__ to see an example of how to use list_containers API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_containers.py.html>`__ to see an example of how to use list_containers API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -1265,12 +1265,12 @@ class ContainerInstanceClient(object):
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. You can provide one sort order. Default order for timestamp is descending.
@@ -1302,7 +1302,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -1418,12 +1418,12 @@ class ContainerInstanceClient(object):
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. You can provide one sort order. Default order for timestamp is descending.
@@ -1455,7 +1455,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -1565,7 +1565,7 @@ class ContainerInstanceClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str work_request_id: (optional)
             The ID of the asynchronous work request.
@@ -1576,12 +1576,12 @@ class ContainerInstanceClient(object):
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated \"List\" call. For important details about how pagination works, see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str availability_domain: (optional)
             The name of the availability domain.
@@ -1626,7 +1626,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -1740,7 +1740,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (required)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -1772,7 +1772,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/restart_container_instance.py.html>`__ to see an example of how to use restart_container_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/restart_container_instance.py.html>`__ to see an example of how to use restart_container_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerInstanceId']
@@ -1854,7 +1854,7 @@ class ContainerInstanceClient(object):
         :param str container_id: (required)
             The `OCID`__ of the container.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -1883,7 +1883,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/retrieve_logs.py.html>`__ to see an example of how to use retrieve_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/retrieve_logs.py.html>`__ to see an example of how to use retrieve_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerId']
@@ -1973,7 +1973,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (required)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -2005,7 +2005,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/start_container_instance.py.html>`__ to see an example of how to use start_container_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/start_container_instance.py.html>`__ to see an example of how to use start_container_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerInstanceId']
@@ -2087,7 +2087,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (required)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -2119,7 +2119,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/stop_container_instance.py.html>`__ to see an example of how to use stop_container_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/stop_container_instance.py.html>`__ to see an example of how to use stop_container_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerInstanceId']
@@ -2201,7 +2201,7 @@ class ContainerInstanceClient(object):
         :param str container_id: (required)
             The `OCID`__ of the container.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.container_instances.models.UpdateContainerDetails update_container_details: (required)
             The information to be updated.
@@ -2236,7 +2236,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/update_container.py.html>`__ to see an example of how to use update_container API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/update_container.py.html>`__ to see an example of how to use update_container API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerId']
@@ -2320,7 +2320,7 @@ class ContainerInstanceClient(object):
         :param str container_instance_id: (required)
             The `OCID`__ of the container instance.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.container_instances.models.UpdateContainerInstanceDetails update_container_instance_details: (required)
             The information to be updated.
@@ -2355,7 +2355,7 @@ class ContainerInstanceClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/update_container_instance.py.html>`__ to see an example of how to use update_container_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/containerinstances/update_container_instance.py.html>`__ to see an example of how to use update_container_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['containerInstanceId']

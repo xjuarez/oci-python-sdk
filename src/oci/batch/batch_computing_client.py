@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import batch_type_mapping
 missing = Sentinel("Missing")
 
@@ -30,7 +30,7 @@ class BatchComputingClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -49,7 +49,7 @@ class BatchComputingClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -81,7 +81,7 @@ class BatchComputingClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("batch"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -132,7 +132,7 @@ class BatchComputingClient(object):
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
@@ -166,7 +166,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/cancel_batch_job.py.html>`__ to see an example of how to use cancel_batch_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/cancel_batch_job.py.html>`__ to see an example of how to use cancel_batch_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId']
@@ -244,13 +244,13 @@ class BatchComputingClient(object):
         """
         Moves a batch context into a different compartment within the same tenancy. For information about moving resources between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str batch_context_id: (required)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.ChangeBatchContextCompartmentDetails change_batch_context_compartment_details: (required)
             The information to be updated.
@@ -287,7 +287,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_context_compartment.py.html>`__ to see an example of how to use change_batch_context_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_context_compartment.py.html>`__ to see an example of how to use change_batch_context_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchContextId']
@@ -367,13 +367,13 @@ class BatchComputingClient(object):
         """
         Moves a batch job into a different compartment within the same tenancy. For information about moving resources between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.ChangeBatchJobCompartmentDetails change_batch_job_compartment_details: (required)
             The information to be updated.
@@ -410,7 +410,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_job_compartment.py.html>`__ to see an example of how to use change_batch_job_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_job_compartment.py.html>`__ to see an example of how to use change_batch_job_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId']
@@ -490,13 +490,13 @@ class BatchComputingClient(object):
         """
         Moves a batch job pool into a different compartment within the same tenancy. For information about moving resources between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str batch_job_pool_id: (required)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.ChangeBatchJobPoolCompartmentDetails change_batch_job_pool_compartment_details: (required)
             The information to be updated.
@@ -533,7 +533,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_job_pool_compartment.py.html>`__ to see an example of how to use change_batch_job_pool_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_job_pool_compartment.py.html>`__ to see an example of how to use change_batch_job_pool_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobPoolId']
@@ -613,13 +613,13 @@ class BatchComputingClient(object):
         """
         Moves a batch task environment into a different compartment within the same tenancy. For information about moving resources between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str batch_task_environment_id: (required)
             The `OCID`__ of the batch task environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.ChangeBatchTaskEnvironmentCompartmentDetails change_batch_task_environment_compartment_details: (required)
             The information to be updated.
@@ -656,7 +656,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_task_environment_compartment.py.html>`__ to see an example of how to use change_batch_task_environment_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_task_environment_compartment.py.html>`__ to see an example of how to use change_batch_task_environment_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskEnvironmentId']
@@ -736,13 +736,13 @@ class BatchComputingClient(object):
         """
         Moves a batch task profile into a different compartment within the same tenancy. For information about moving resources between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str batch_task_profile_id: (required)
             The `OCID`__ of the batch task profile.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.ChangeBatchTaskProfileCompartmentDetails change_batch_task_profile_compartment_details: (required)
             The information to be updated.
@@ -779,7 +779,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_task_profile_compartment.py.html>`__ to see an example of how to use change_batch_task_profile_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/change_batch_task_profile_compartment.py.html>`__ to see an example of how to use change_batch_task_profile_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskProfileId']
@@ -896,7 +896,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_context.py.html>`__ to see an example of how to use create_batch_context API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_context.py.html>`__ to see an example of how to use create_batch_context API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1004,7 +1004,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_job.py.html>`__ to see an example of how to use create_batch_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_job.py.html>`__ to see an example of how to use create_batch_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1112,7 +1112,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_job_pool.py.html>`__ to see an example of how to use create_batch_job_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_job_pool.py.html>`__ to see an example of how to use create_batch_job_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1220,7 +1220,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_task_environment.py.html>`__ to see an example of how to use create_batch_task_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_task_environment.py.html>`__ to see an example of how to use create_batch_task_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1328,7 +1328,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_task_profile.py.html>`__ to see an example of how to use create_batch_task_profile API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/create_batch_task_profile.py.html>`__ to see an example of how to use create_batch_task_profile API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1403,7 +1403,7 @@ class BatchComputingClient(object):
         :param str batch_context_id: (required)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
@@ -1437,7 +1437,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_context.py.html>`__ to see an example of how to use delete_batch_context API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_context.py.html>`__ to see an example of how to use delete_batch_context API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchContextId']
@@ -1519,7 +1519,7 @@ class BatchComputingClient(object):
         :param str batch_job_pool_id: (required)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
@@ -1553,7 +1553,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_job_pool.py.html>`__ to see an example of how to use delete_batch_job_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_job_pool.py.html>`__ to see an example of how to use delete_batch_job_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobPoolId']
@@ -1635,7 +1635,7 @@ class BatchComputingClient(object):
         :param str batch_task_environment_id: (required)
             The `OCID`__ of the batch task environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
@@ -1669,7 +1669,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_task_environment.py.html>`__ to see an example of how to use delete_batch_task_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_task_environment.py.html>`__ to see an example of how to use delete_batch_task_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskEnvironmentId']
@@ -1751,7 +1751,7 @@ class BatchComputingClient(object):
         :param str batch_task_profile_id: (required)
             The `OCID`__ of the batch task profile.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
@@ -1785,7 +1785,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_task_profile.py.html>`__ to see an example of how to use delete_batch_task_profile API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/delete_batch_task_profile.py.html>`__ to see an example of how to use delete_batch_task_profile API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskProfileId']
@@ -1867,7 +1867,7 @@ class BatchComputingClient(object):
         :param str batch_context_id: (required)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -1895,7 +1895,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_context.py.html>`__ to see an example of how to use get_batch_context API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_context.py.html>`__ to see an example of how to use get_batch_context API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchContextId']
@@ -1977,7 +1977,7 @@ class BatchComputingClient(object):
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -2005,7 +2005,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_job.py.html>`__ to see an example of how to use get_batch_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_job.py.html>`__ to see an example of how to use get_batch_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId']
@@ -2087,7 +2087,7 @@ class BatchComputingClient(object):
         :param str batch_job_pool_id: (required)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -2115,7 +2115,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_job_pool.py.html>`__ to see an example of how to use get_batch_job_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_job_pool.py.html>`__ to see an example of how to use get_batch_job_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobPoolId']
@@ -2197,7 +2197,7 @@ class BatchComputingClient(object):
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str task_name: (required)
             The name of the batch task.
@@ -2228,7 +2228,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_task.py.html>`__ to see an example of how to use get_batch_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_task.py.html>`__ to see an example of how to use get_batch_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId', 'taskName']
@@ -2311,7 +2311,7 @@ class BatchComputingClient(object):
         :param str batch_task_environment_id: (required)
             The `OCID`__ of the batch task environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -2339,7 +2339,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_task_environment.py.html>`__ to see an example of how to use get_batch_task_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_task_environment.py.html>`__ to see an example of how to use get_batch_task_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskEnvironmentId']
@@ -2421,7 +2421,7 @@ class BatchComputingClient(object):
         :param str batch_task_profile_id: (required)
             The `OCID`__ of the batch task profile.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -2449,7 +2449,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_task_profile.py.html>`__ to see an example of how to use get_batch_task_profile API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_batch_task_profile.py.html>`__ to see an example of how to use get_batch_task_profile API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskProfileId']
@@ -2531,7 +2531,7 @@ class BatchComputingClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -2559,7 +2559,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -2641,7 +2641,7 @@ class BatchComputingClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str availability_domain: (optional)
             The name of the availability domain.
@@ -2651,14 +2651,14 @@ class BatchComputingClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -2686,7 +2686,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_context_shapes.py.html>`__ to see an example of how to use list_batch_context_shapes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_context_shapes.py.html>`__ to see an example of how to use list_batch_context_shapes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -2765,13 +2765,13 @@ class BatchComputingClient(object):
         """
         Lists the batch contexts by compartment or context `OCID`__. You can filter and sort them by various properties like lifecycle state, name and also ocid. All properties require an exact match. List operation only provides a summary information, use GetBatchContext to get the full details on a specific context
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state. The
@@ -2785,21 +2785,21 @@ class BatchComputingClient(object):
         :param str id: (optional)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -2838,7 +2838,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_contexts.py.html>`__ to see an example of how to use list_batch_contexts API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_contexts.py.html>`__ to see an example of how to use list_batch_contexts API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2947,13 +2947,13 @@ class BatchComputingClient(object):
         """
         Lists the batch job pools by compartment or job pool `OCID`__. You can filter and sort them by various properties like lifecycle state, display name and also ocid. All properties require an exact match. List operation only provides a summary information, use GetBatchJobPool to get the full details on a specific context
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state. The
@@ -2967,26 +2967,26 @@ class BatchComputingClient(object):
         :param str id: (optional)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str batch_context_id: (optional)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -3025,7 +3025,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_job_pools.py.html>`__ to see an example of how to use list_batch_job_pools API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_job_pools.py.html>`__ to see an example of how to use list_batch_job_pools API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3137,13 +3137,13 @@ class BatchComputingClient(object):
         Lists the batch tasks by batch job `OCID`__. You can filter and sort them by various properties like lifecycle state, name and also ocid. All properties require an exact match. List operation only provides a summary information, use GetBatchTask to get the full details on a specific context
         List is incomplete until jobs lifecycle is in_progress
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state. The
@@ -3159,14 +3159,14 @@ class BatchComputingClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -3204,7 +3204,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_job_tasks.py.html>`__ to see an example of how to use list_batch_job_tasks API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_job_tasks.py.html>`__ to see an example of how to use list_batch_job_tasks API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId']
@@ -3321,13 +3321,13 @@ class BatchComputingClient(object):
         """
         Lists the batch jobs by compartment or job `OCID`__. You can filter and sort them by various properties like lifecycle state, display name and also ocid. All properties require an exact match.  List operation only provides a summary information, use GetBatchJob to get the full details on a specific context
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state. The
@@ -3341,26 +3341,26 @@ class BatchComputingClient(object):
         :param str id: (optional)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str batch_job_pool_id: (optional)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -3399,7 +3399,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_jobs.py.html>`__ to see an example of how to use list_batch_jobs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_jobs.py.html>`__ to see an example of how to use list_batch_jobs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3510,13 +3510,13 @@ class BatchComputingClient(object):
         """
         Lists the task environments by compartment or environment `OCID`__. You can filter and sort them by various properties like lifecycle state, display name and also ocid. All properties require an exact match. List operation only provides a summary information, use GetBatchTaskEnvironment to get the full details on a specific context
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state. The
@@ -3530,21 +3530,21 @@ class BatchComputingClient(object):
         :param str id: (optional)
             The `OCID`__ of the batch task environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -3583,7 +3583,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_task_environments.py.html>`__ to see an example of how to use list_batch_task_environments API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_task_environments.py.html>`__ to see an example of how to use list_batch_task_environments API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3692,13 +3692,13 @@ class BatchComputingClient(object):
         """
         Lists the task profiles by compartment or profile `OCID`__. You can filter and sort them by various properties like lifecycle state, name and also ocid. All properties require an exact match. List operation only provides a summary information, use GetBatchTaskProfile to get the full details on a specific context
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state. The
@@ -3712,21 +3712,21 @@ class BatchComputingClient(object):
         :param str id: (optional)
             The `OCID`__ of the batch task profile.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -3765,7 +3765,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_task_profiles.py.html>`__ to see an example of how to use list_batch_task_profiles API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_task_profiles.py.html>`__ to see an example of how to use list_batch_task_profiles API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3878,12 +3878,12 @@ class BatchComputingClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str batch_job_id: (optional)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state. The
@@ -3899,14 +3899,14 @@ class BatchComputingClient(object):
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -3944,7 +3944,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_tasks.py.html>`__ to see an example of how to use list_batch_tasks API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_batch_tasks.py.html>`__ to see an example of how to use list_batch_tasks API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4057,7 +4057,7 @@ class BatchComputingClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -4070,14 +4070,14 @@ class BatchComputingClient(object):
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order may be provided. Default order for `timeCreated` is descending.
@@ -4109,7 +4109,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -4219,7 +4219,7 @@ class BatchComputingClient(object):
         :param str work_request_id: (required)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -4232,14 +4232,14 @@ class BatchComputingClient(object):
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order may be provided. Default order for `timeCreated` is descending.
@@ -4271,7 +4271,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -4381,12 +4381,12 @@ class BatchComputingClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str work_request_id: (optional)
             The `OCID`__ of the asynchronous work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str status: (optional)
             A filter to return only the resources that match the given lifecycle state.
@@ -4396,7 +4396,7 @@ class BatchComputingClient(object):
         :param str resource_id: (optional)
             The `OCID`__ of the resource affected by the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -4409,14 +4409,14 @@ class BatchComputingClient(object):
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a
             paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -4448,7 +4448,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -4561,7 +4561,7 @@ class BatchComputingClient(object):
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.PauseBatchJobDetails pause_batch_job_details: (required)
             Information needed to pause the batch job.
@@ -4598,7 +4598,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/pause_batch_job.py.html>`__ to see an example of how to use pause_batch_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/pause_batch_job.py.html>`__ to see an example of how to use pause_batch_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId']
@@ -4682,7 +4682,7 @@ class BatchComputingClient(object):
         :param str batch_context_id: (required)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.StartBatchContextDetails start_batch_context_details: (required)
             Information needed to start the batch context.
@@ -4719,7 +4719,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/start_batch_context.py.html>`__ to see an example of how to use start_batch_context API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/start_batch_context.py.html>`__ to see an example of how to use start_batch_context API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchContextId']
@@ -4803,7 +4803,7 @@ class BatchComputingClient(object):
         :param str batch_job_pool_id: (required)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.StartBatchJobPoolDetails start_batch_job_pool_details: (required)
             Information needed to start the batch job pool.
@@ -4840,7 +4840,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/start_batch_job_pool.py.html>`__ to see an example of how to use start_batch_job_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/start_batch_job_pool.py.html>`__ to see an example of how to use start_batch_job_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobPoolId']
@@ -4924,7 +4924,7 @@ class BatchComputingClient(object):
         :param str batch_context_id: (required)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.StopBatchContextDetails stop_batch_context_details: (required)
             Information needed to stop the batch context.
@@ -4961,7 +4961,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/stop_batch_context.py.html>`__ to see an example of how to use stop_batch_context API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/stop_batch_context.py.html>`__ to see an example of how to use stop_batch_context API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchContextId']
@@ -5045,7 +5045,7 @@ class BatchComputingClient(object):
         :param str batch_job_pool_id: (required)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.StopBatchJobPoolDetails stop_batch_job_pool_details: (required)
             Information needed to stop the batch job pool.
@@ -5082,7 +5082,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/stop_batch_job_pool.py.html>`__ to see an example of how to use stop_batch_job_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/stop_batch_job_pool.py.html>`__ to see an example of how to use stop_batch_job_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobPoolId']
@@ -5166,7 +5166,7 @@ class BatchComputingClient(object):
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.UnpauseBatchJobDetails unpause_batch_job_details: (required)
             Information needed to unpause the batch job.
@@ -5203,7 +5203,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/unpause_batch_job.py.html>`__ to see an example of how to use unpause_batch_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/unpause_batch_job.py.html>`__ to see an example of how to use unpause_batch_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId']
@@ -5287,7 +5287,7 @@ class BatchComputingClient(object):
         :param str batch_context_id: (required)
             The `OCID`__ of the batch context.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.UpdateBatchContextDetails update_batch_context_details: (required)
             The information to be updated.
@@ -5324,7 +5324,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_context.py.html>`__ to see an example of how to use update_batch_context API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_context.py.html>`__ to see an example of how to use update_batch_context API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchContextId']
@@ -5408,7 +5408,7 @@ class BatchComputingClient(object):
         :param str batch_job_id: (required)
             The `OCID`__ of the batch job.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.UpdateBatchJobDetails update_batch_job_details: (required)
             The information to be updated.
@@ -5445,7 +5445,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_job.py.html>`__ to see an example of how to use update_batch_job API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_job.py.html>`__ to see an example of how to use update_batch_job API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobId']
@@ -5529,7 +5529,7 @@ class BatchComputingClient(object):
         :param str batch_job_pool_id: (required)
             The `OCID`__ of the batch job pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.UpdateBatchJobPoolDetails update_batch_job_pool_details: (required)
             The information to be updated.
@@ -5566,7 +5566,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_job_pool.py.html>`__ to see an example of how to use update_batch_job_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_job_pool.py.html>`__ to see an example of how to use update_batch_job_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchJobPoolId']
@@ -5650,7 +5650,7 @@ class BatchComputingClient(object):
         :param str batch_task_environment_id: (required)
             The `OCID`__ of the batch task environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.UpdateBatchTaskEnvironmentDetails update_batch_task_environment_details: (required)
             The information to be updated.
@@ -5687,7 +5687,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_task_environment.py.html>`__ to see an example of how to use update_batch_task_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_task_environment.py.html>`__ to see an example of how to use update_batch_task_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskEnvironmentId']
@@ -5773,7 +5773,7 @@ class BatchComputingClient(object):
         :param str batch_task_profile_id: (required)
             The `OCID`__ of the batch task profile.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.batch.models.UpdateBatchTaskProfileDetails update_batch_task_profile_details: (required)
             The information to be updated.
@@ -5810,7 +5810,7 @@ class BatchComputingClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_task_profile.py.html>`__ to see an example of how to use update_batch_task_profile API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/batch/update_batch_task_profile.py.html>`__ to see an example of how to use update_batch_task_profile API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['batchTaskProfileId']

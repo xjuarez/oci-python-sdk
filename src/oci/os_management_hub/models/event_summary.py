@@ -55,6 +55,10 @@ class EventSummary(object):
     #: This constant has a value of "REBOOT"
     TYPE_REBOOT = "REBOOT"
 
+    #: A constant which can be used with the type property of a EventSummary.
+    #: This constant has a value of "SNAP_UPDATE"
+    TYPE_SNAP_UPDATE = "SNAP_UPDATE"
+
     def __init__(self, **kwargs):
         """
         Initializes a new EventSummary object with values from keyword arguments.
@@ -74,7 +78,7 @@ class EventSummary(object):
 
         :param type:
             The value to assign to the type property of this EventSummary.
-            Allowed values for this property are: "KERNEL_OOPS", "KERNEL_CRASH", "EXPLOIT_ATTEMPT", "SOFTWARE_UPDATE", "KSPLICE_UPDATE", "SOFTWARE_SOURCE", "AGENT", "MANAGEMENT_STATION", "SYSADMIN", "REBOOT", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "KERNEL_OOPS", "KERNEL_CRASH", "EXPLOIT_ATTEMPT", "SOFTWARE_UPDATE", "KSPLICE_UPDATE", "SOFTWARE_SOURCE", "AGENT", "MANAGEMENT_STATION", "SYSADMIN", "REBOOT", "SNAP_UPDATE", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type type: str
 
@@ -172,7 +176,7 @@ class EventSummary(object):
         **[Required]** Gets the id of this EventSummary.
         The `OCID`__ of the event.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this EventSummary.
@@ -186,7 +190,7 @@ class EventSummary(object):
         Sets the id of this EventSummary.
         The `OCID`__ of the event.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this EventSummary.
@@ -224,7 +228,7 @@ class EventSummary(object):
         **[Required]** Gets the compartment_id of this EventSummary.
         The `OCID`__ of the compartment.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this EventSummary.
@@ -238,7 +242,7 @@ class EventSummary(object):
         Sets the compartment_id of this EventSummary.
         The `OCID`__ of the compartment.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this EventSummary.
@@ -252,7 +256,7 @@ class EventSummary(object):
         **[Required]** Gets the type of this EventSummary.
         Type of event.
 
-        Allowed values for this property are: "KERNEL_OOPS", "KERNEL_CRASH", "EXPLOIT_ATTEMPT", "SOFTWARE_UPDATE", "KSPLICE_UPDATE", "SOFTWARE_SOURCE", "AGENT", "MANAGEMENT_STATION", "SYSADMIN", "REBOOT", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "KERNEL_OOPS", "KERNEL_CRASH", "EXPLOIT_ATTEMPT", "SOFTWARE_UPDATE", "KSPLICE_UPDATE", "SOFTWARE_SOURCE", "AGENT", "MANAGEMENT_STATION", "SYSADMIN", "REBOOT", "SNAP_UPDATE", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -271,7 +275,7 @@ class EventSummary(object):
         :param type: The type of this EventSummary.
         :type: str
         """
-        allowed_values = ["KERNEL_OOPS", "KERNEL_CRASH", "EXPLOIT_ATTEMPT", "SOFTWARE_UPDATE", "KSPLICE_UPDATE", "SOFTWARE_SOURCE", "AGENT", "MANAGEMENT_STATION", "SYSADMIN", "REBOOT"]
+        allowed_values = ["KERNEL_OOPS", "KERNEL_CRASH", "EXPLOIT_ATTEMPT", "SOFTWARE_UPDATE", "KSPLICE_UPDATE", "SOFTWARE_SOURCE", "AGENT", "MANAGEMENT_STATION", "SYSADMIN", "REBOOT", "SNAP_UPDATE"]
         if not value_allowed_none_or_none_sentinel(type, allowed_values):
             type = 'UNKNOWN_ENUM_VALUE'
         self._type = type
@@ -282,7 +286,7 @@ class EventSummary(object):
         Gets the resource_id of this EventSummary.
         The `OCID`__ of the managed instance or resource where the event occurred.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The resource_id of this EventSummary.
@@ -296,7 +300,7 @@ class EventSummary(object):
         Sets the resource_id of this EventSummary.
         The `OCID`__ of the managed instance or resource where the event occurred.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param resource_id: The resource_id of this EventSummary.
@@ -484,7 +488,7 @@ class EventSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this EventSummary.
@@ -500,7 +504,7 @@ class EventSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this EventSummary.
@@ -516,7 +520,7 @@ class EventSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this EventSummary.
@@ -532,7 +536,7 @@ class EventSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this EventSummary.

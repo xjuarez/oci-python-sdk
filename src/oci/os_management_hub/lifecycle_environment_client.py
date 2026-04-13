@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import os_management_hub_type_mapping
 missing = Sentinel("Missing")
 
@@ -23,7 +23,7 @@ missing = Sentinel("Missing")
 class LifecycleEnvironmentClient(object):
     """
     Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
-    For more information, see [Overview of OS Management Hub](https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+    For more information, see [Overview of OS Management Hub](https://docs.oracle.com/iaas/osmh/doc/overview.htm).
     """
 
     def __init__(self, config, **kwargs):
@@ -31,7 +31,7 @@ class LifecycleEnvironmentClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -50,7 +50,7 @@ class LifecycleEnvironmentClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -82,7 +82,7 @@ class LifecycleEnvironmentClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("os_management_hub"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -133,7 +133,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_stage_id: (required)
             The `OCID`__ of the lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.AttachManagedInstancesToLifecycleStageDetails attach_managed_instances_to_lifecycle_stage_details: (required)
             Details for managed instances to attach to the lifecycle stage.
@@ -175,7 +175,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/attach_managed_instances_to_lifecycle_stage.py.html>`__ to see an example of how to use attach_managed_instances_to_lifecycle_stage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/attach_managed_instances_to_lifecycle_stage.py.html>`__ to see an example of how to use attach_managed_instances_to_lifecycle_stage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleStageId']
@@ -258,18 +258,18 @@ class LifecycleEnvironmentClient(object):
         """
         Moves a lifecycle environment into a different compartment within the same tenancy. For information about moving resources between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str lifecycle_environment_id: (required)
             The `OCID`__ of the lifecycle environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.ChangeLifecycleEnvironmentCompartmentDetails change_lifecycle_environment_compartment_details: (required)
             The `OCID`__ of the compartment to move the lifecycle environment into.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -308,7 +308,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/change_lifecycle_environment_compartment.py.html>`__ to see an example of how to use change_lifecycle_environment_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/change_lifecycle_environment_compartment.py.html>`__ to see an example of how to use change_lifecycle_environment_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleEnvironmentId']
@@ -425,7 +425,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/create_lifecycle_environment.py.html>`__ to see an example of how to use create_lifecycle_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/create_lifecycle_environment.py.html>`__ to see an example of how to use create_lifecycle_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -500,7 +500,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_environment_id: (required)
             The `OCID`__ of the lifecycle environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -532,7 +532,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/delete_lifecycle_environment.py.html>`__ to see an example of how to use delete_lifecycle_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/delete_lifecycle_environment.py.html>`__ to see an example of how to use delete_lifecycle_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleEnvironmentId']
@@ -614,7 +614,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_stage_id: (required)
             The `OCID`__ of the lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.DetachManagedInstancesFromLifecycleStageDetails detach_managed_instances_from_lifecycle_stage_details: (required)
             Details for the managed instance to detach from the lifecycle stage.
@@ -656,7 +656,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/detach_managed_instances_from_lifecycle_stage.py.html>`__ to see an example of how to use detach_managed_instances_from_lifecycle_stage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/detach_managed_instances_from_lifecycle_stage.py.html>`__ to see an example of how to use detach_managed_instances_from_lifecycle_stage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleStageId']
@@ -743,7 +743,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_environment_id: (required)
             The `OCID`__ of the lifecycle environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -768,7 +768,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_lifecycle_environment.py.html>`__ to see an example of how to use get_lifecycle_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_lifecycle_environment.py.html>`__ to see an example of how to use get_lifecycle_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleEnvironmentId']
@@ -850,7 +850,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_stage_id: (required)
             The `OCID`__ of the lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -875,7 +875,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_lifecycle_stage.py.html>`__ to see an example of how to use get_lifecycle_stage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/get_lifecycle_stage.py.html>`__ to see an example of how to use get_lifecycle_stage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleStageId']
@@ -967,17 +967,17 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_environment_id: (optional)
             The `OCID`__ of the lifecycle environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str arch_type: (optional)
             A filter to return only profiles that match the given archType.
 
-            Allowed values are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386"
+            Allowed values are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386", "AMD64", "ARM64", "ALL"
 
         :param str os_family: (optional)
             A filter to return only resources that match the given operating system family.
 
-            Allowed values are: "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"
+            Allowed values are: "ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"
 
         :param list[str] location: (optional)
             A filter to return only resources whose location matches the given value.
@@ -995,7 +995,7 @@ class LifecycleEnvironmentClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -1003,7 +1003,7 @@ class LifecycleEnvironmentClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str lifecycle_state: (optional)
             A filter to return only the lifecycle environments that match the display name given.
@@ -1044,7 +1044,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_lifecycle_environments.py.html>`__ to see an example of how to use list_lifecycle_environments API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_lifecycle_environments.py.html>`__ to see an example of how to use list_lifecycle_environments API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1079,14 +1079,14 @@ class LifecycleEnvironmentClient(object):
                 f"list_lifecycle_environments got unknown kwargs: {extra_kwargs!r}")
 
         if 'arch_type' in kwargs:
-            arch_type_allowed_values = ["X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386"]
+            arch_type_allowed_values = ["X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386", "AMD64", "ARM64", "ALL"]
             if kwargs['arch_type'] not in arch_type_allowed_values:
                 raise ValueError(
                     f"Invalid value for `arch_type`, must be one of { arch_type_allowed_values }"
                 )
 
         if 'os_family' in kwargs:
-            os_family_allowed_values = ["ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"]
+            os_family_allowed_values = ["ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"]
             if kwargs['os_family'] not in os_family_allowed_values:
                 raise ValueError(
                     f"Invalid value for `os_family`, must be one of { os_family_allowed_values }"
@@ -1198,7 +1198,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_stage_id: (required)
             The `OCID`__ of the lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
@@ -1215,7 +1215,7 @@ class LifecycleEnvironmentClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -1223,7 +1223,7 @@ class LifecycleEnvironmentClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str lifecycle_state: (optional)
             A filter to return only lifecycle stages whose lifecycle state matches the given lifecycle state.
@@ -1264,7 +1264,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_lifecycle_stage_installed_packages.py.html>`__ to see an example of how to use list_lifecycle_stage_installed_packages API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_lifecycle_stage_installed_packages.py.html>`__ to see an example of how to use list_lifecycle_stage_installed_packages API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleStageId']
@@ -1385,7 +1385,7 @@ class LifecycleEnvironmentClient(object):
         """
         Lists lifecycle stages that match the specified compartment or lifecycle stage `OCID`__. Filter the list against
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (optional)
@@ -1400,22 +1400,22 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_stage_id: (optional)
             The `OCID`__ of the lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str software_source_id: (optional)
             The `OCID`__ of the software source. This filter returns resources associated with this software source.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str arch_type: (optional)
             A filter to return only profiles that match the given archType.
 
-            Allowed values are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386"
+            Allowed values are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386", "AMD64", "ARM64", "ALL"
 
         :param str os_family: (optional)
             A filter to return only resources that match the given operating system family.
 
-            Allowed values are: "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"
+            Allowed values are: "ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"
 
         :param list[str] location: (optional)
             A filter to return only resources whose location matches the given value.
@@ -1433,7 +1433,7 @@ class LifecycleEnvironmentClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\" call.
@@ -1441,7 +1441,7 @@ class LifecycleEnvironmentClient(object):
 
             Example: `3`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str lifecycle_state: (optional)
             A filter to return only lifecycle stages whose lifecycle state matches the given lifecycle state.
@@ -1482,7 +1482,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_lifecycle_stages.py.html>`__ to see an example of how to use list_lifecycle_stages API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/list_lifecycle_stages.py.html>`__ to see an example of how to use list_lifecycle_stages API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1518,14 +1518,14 @@ class LifecycleEnvironmentClient(object):
                 f"list_lifecycle_stages got unknown kwargs: {extra_kwargs!r}")
 
         if 'arch_type' in kwargs:
-            arch_type_allowed_values = ["X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386"]
+            arch_type_allowed_values = ["X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386", "AMD64", "ARM64", "ALL"]
             if kwargs['arch_type'] not in arch_type_allowed_values:
                 raise ValueError(
                     f"Invalid value for `arch_type`, must be one of { arch_type_allowed_values }"
                 )
 
         if 'os_family' in kwargs:
-            os_family_allowed_values = ["ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"]
+            os_family_allowed_values = ["ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"]
             if kwargs['os_family'] not in os_family_allowed_values:
                 raise ValueError(
                     f"Invalid value for `os_family`, must be one of { os_family_allowed_values }"
@@ -1639,7 +1639,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_stage_id: (required)
             The `OCID`__ of the lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.PromoteSoftwareSourceToLifecycleStageDetails promote_software_source_to_lifecycle_stage_details: (required)
             Details for the software source promotion job.
@@ -1647,7 +1647,7 @@ class LifecycleEnvironmentClient(object):
         :param str software_source_id: (optional)
             The `OCID`__ of the software source. This filter returns resources associated with this software source.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -1686,7 +1686,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/promote_software_source_to_lifecycle_stage.py.html>`__ to see an example of how to use promote_software_source_to_lifecycle_stage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/promote_software_source_to_lifecycle_stage.py.html>`__ to see an example of how to use promote_software_source_to_lifecycle_stage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleStageId']
@@ -1781,7 +1781,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_stage_id: (required)
             The `OCID`__ of the lifecycle stage.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.RebootLifecycleStageDetails reboot_lifecycle_stage_details: (required)
             Details rebooting managed instances in a lifecycle stage.
@@ -1823,7 +1823,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/reboot_lifecycle_stage.py.html>`__ to see an example of how to use reboot_lifecycle_stage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/reboot_lifecycle_stage.py.html>`__ to see an example of how to use reboot_lifecycle_stage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleStageId']
@@ -1910,7 +1910,7 @@ class LifecycleEnvironmentClient(object):
         :param str lifecycle_environment_id: (required)
             The `OCID`__ of the lifecycle environment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.UpdateLifecycleEnvironmentDetails update_lifecycle_environment_details: (required)
             The information to be updated.
@@ -1945,7 +1945,7 @@ class LifecycleEnvironmentClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/update_lifecycle_environment.py.html>`__ to see an example of how to use update_lifecycle_environment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/osmanagementhub/update_lifecycle_environment.py.html>`__ to see an example of how to use update_lifecycle_environment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['lifecycleEnvironmentId']

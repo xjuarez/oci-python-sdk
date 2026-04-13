@@ -94,6 +94,14 @@ class CreateEsxiHostDetails(object):
             The value to assign to the esxi_software_version property of this CreateEsxiHostDetails.
         :type esxi_software_version: str
 
+        :param vcf_byol_allocation_id:
+            The value to assign to the vcf_byol_allocation_id property of this CreateEsxiHostDetails.
+        :type vcf_byol_allocation_id: str
+
+        :param is_vsan_byol_enabled:
+            The value to assign to the is_vsan_byol_enabled property of this CreateEsxiHostDetails.
+        :type is_vsan_byol_enabled: bool
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CreateEsxiHostDetails.
         :type freeform_tags: dict(str, str)
@@ -114,6 +122,8 @@ class CreateEsxiHostDetails(object):
             'host_ocpu_count': 'float',
             'capacity_reservation_id': 'str',
             'esxi_software_version': 'str',
+            'vcf_byol_allocation_id': 'str',
+            'is_vsan_byol_enabled': 'bool',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
@@ -128,6 +138,8 @@ class CreateEsxiHostDetails(object):
             'host_ocpu_count': 'hostOcpuCount',
             'capacity_reservation_id': 'capacityReservationId',
             'esxi_software_version': 'esxiSoftwareVersion',
+            'vcf_byol_allocation_id': 'vcfByolAllocationId',
+            'is_vsan_byol_enabled': 'isVsanByolEnabled',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
@@ -141,6 +153,8 @@ class CreateEsxiHostDetails(object):
         self._host_ocpu_count = None
         self._capacity_reservation_id = None
         self._esxi_software_version = None
+        self._vcf_byol_allocation_id = None
+        self._is_vsan_byol_enabled = None
         self._freeform_tags = None
         self._defined_tags = None
 
@@ -150,7 +164,7 @@ class CreateEsxiHostDetails(object):
         **[Required]** Gets the cluster_id of this CreateEsxiHostDetails.
         The `OCID`__ of the Cluster to add the ESXi host to.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The cluster_id of this CreateEsxiHostDetails.
@@ -164,7 +178,7 @@ class CreateEsxiHostDetails(object):
         Sets the cluster_id of this CreateEsxiHostDetails.
         The `OCID`__ of the Cluster to add the ESXi host to.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param cluster_id: The cluster_id of this CreateEsxiHostDetails.
@@ -220,7 +234,7 @@ class CreateEsxiHostDetails(object):
         Gets the billing_donor_host_id of this CreateEsxiHostDetails.
         The `OCID`__ of the deleted ESXi Host with LeftOver billing cycle.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The billing_donor_host_id of this CreateEsxiHostDetails.
@@ -234,7 +248,7 @@ class CreateEsxiHostDetails(object):
         Sets the billing_donor_host_id of this CreateEsxiHostDetails.
         The `OCID`__ of the deleted ESXi Host with LeftOver billing cycle.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param billing_donor_host_id: The billing_donor_host_id of this CreateEsxiHostDetails.
@@ -394,7 +408,7 @@ class CreateEsxiHostDetails(object):
         Gets the capacity_reservation_id of this CreateEsxiHostDetails.
         The `OCID`__ of the Capacity Reservation.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The capacity_reservation_id of this CreateEsxiHostDetails.
@@ -408,7 +422,7 @@ class CreateEsxiHostDetails(object):
         Sets the capacity_reservation_id of this CreateEsxiHostDetails.
         The `OCID`__ of the Capacity Reservation.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param capacity_reservation_id: The capacity_reservation_id of this CreateEsxiHostDetails.
@@ -447,6 +461,58 @@ class CreateEsxiHostDetails(object):
         self._esxi_software_version = esxi_software_version
 
     @property
+    def vcf_byol_allocation_id(self):
+        """
+        Gets the vcf_byol_allocation_id of this CreateEsxiHostDetails.
+        The `OCID`__ of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :return: The vcf_byol_allocation_id of this CreateEsxiHostDetails.
+        :rtype: str
+        """
+        return self._vcf_byol_allocation_id
+
+    @vcf_byol_allocation_id.setter
+    def vcf_byol_allocation_id(self, vcf_byol_allocation_id):
+        """
+        Sets the vcf_byol_allocation_id of this CreateEsxiHostDetails.
+        The `OCID`__ of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :param vcf_byol_allocation_id: The vcf_byol_allocation_id of this CreateEsxiHostDetails.
+        :type: str
+        """
+        self._vcf_byol_allocation_id = vcf_byol_allocation_id
+
+    @property
+    def is_vsan_byol_enabled(self):
+        """
+        Gets the is_vsan_byol_enabled of this CreateEsxiHostDetails.
+        Indicates whether this host embedded VMware vSAN with BYOL Allocation.
+
+
+        :return: The is_vsan_byol_enabled of this CreateEsxiHostDetails.
+        :rtype: bool
+        """
+        return self._is_vsan_byol_enabled
+
+    @is_vsan_byol_enabled.setter
+    def is_vsan_byol_enabled(self, is_vsan_byol_enabled):
+        """
+        Sets the is_vsan_byol_enabled of this CreateEsxiHostDetails.
+        Indicates whether this host embedded VMware vSAN with BYOL Allocation.
+
+
+        :param is_vsan_byol_enabled: The is_vsan_byol_enabled of this CreateEsxiHostDetails.
+        :type: bool
+        """
+        self._is_vsan_byol_enabled = is_vsan_byol_enabled
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this CreateEsxiHostDetails.
@@ -455,7 +521,7 @@ class CreateEsxiHostDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateEsxiHostDetails.
@@ -472,7 +538,7 @@ class CreateEsxiHostDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateEsxiHostDetails.
@@ -489,7 +555,7 @@ class CreateEsxiHostDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateEsxiHostDetails.
@@ -506,7 +572,7 @@ class CreateEsxiHostDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateEsxiHostDetails.

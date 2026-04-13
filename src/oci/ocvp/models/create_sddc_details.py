@@ -65,6 +65,10 @@ class CreateSddcDetails(object):
             The value to assign to the ssh_authorized_keys property of this CreateSddcDetails.
         :type ssh_authorized_keys: str
 
+        :param sddc_byol_allocation_details:
+            The value to assign to the sddc_byol_allocation_details property of this CreateSddcDetails.
+        :type sddc_byol_allocation_details: oci.ocvp.models.SddcByolAllocationDetails
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this CreateSddcDetails.
         :type freeform_tags: dict(str, str)
@@ -83,6 +87,7 @@ class CreateSddcDetails(object):
             'initial_configuration': 'InitialConfiguration',
             'is_single_host_sddc': 'bool',
             'ssh_authorized_keys': 'str',
+            'sddc_byol_allocation_details': 'SddcByolAllocationDetails',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
@@ -95,6 +100,7 @@ class CreateSddcDetails(object):
             'initial_configuration': 'initialConfiguration',
             'is_single_host_sddc': 'isSingleHostSddc',
             'ssh_authorized_keys': 'sshAuthorizedKeys',
+            'sddc_byol_allocation_details': 'sddcByolAllocationDetails',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
@@ -106,6 +112,7 @@ class CreateSddcDetails(object):
         self._initial_configuration = None
         self._is_single_host_sddc = None
         self._ssh_authorized_keys = None
+        self._sddc_byol_allocation_details = None
         self._freeform_tags = None
         self._defined_tags = None
 
@@ -201,7 +208,7 @@ class CreateSddcDetails(object):
         **[Required]** Gets the compartment_id of this CreateSddcDetails.
         The `OCID`__ of the compartment to contain the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this CreateSddcDetails.
@@ -215,7 +222,7 @@ class CreateSddcDetails(object):
         Sets the compartment_id of this CreateSddcDetails.
         The `OCID`__ of the compartment to contain the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this CreateSddcDetails.
@@ -327,6 +334,26 @@ class CreateSddcDetails(object):
         self._ssh_authorized_keys = ssh_authorized_keys
 
     @property
+    def sddc_byol_allocation_details(self):
+        """
+        Gets the sddc_byol_allocation_details of this CreateSddcDetails.
+
+        :return: The sddc_byol_allocation_details of this CreateSddcDetails.
+        :rtype: oci.ocvp.models.SddcByolAllocationDetails
+        """
+        return self._sddc_byol_allocation_details
+
+    @sddc_byol_allocation_details.setter
+    def sddc_byol_allocation_details(self, sddc_byol_allocation_details):
+        """
+        Sets the sddc_byol_allocation_details of this CreateSddcDetails.
+
+        :param sddc_byol_allocation_details: The sddc_byol_allocation_details of this CreateSddcDetails.
+        :type: oci.ocvp.models.SddcByolAllocationDetails
+        """
+        self._sddc_byol_allocation_details = sddc_byol_allocation_details
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this CreateSddcDetails.
@@ -335,7 +362,7 @@ class CreateSddcDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateSddcDetails.
@@ -352,7 +379,7 @@ class CreateSddcDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateSddcDetails.
@@ -369,7 +396,7 @@ class CreateSddcDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateSddcDetails.
@@ -386,7 +413,7 @@ class CreateSddcDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateSddcDetails.

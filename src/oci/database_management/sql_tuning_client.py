@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import database_management_type_mapping
 missing = Sentinel("Missing")
 
@@ -32,7 +32,7 @@ class SqlTuningClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -51,7 +51,7 @@ class SqlTuningClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -83,7 +83,7 @@ class SqlTuningClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("database_management"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -134,7 +134,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.CloneSqlTuningTaskDetails clone_sql_tuning_task_details: (required)
             The detailed inputs required to clone a SQL tuning task.
@@ -169,7 +169,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/clone_sql_tuning_task.py.html>`__ to see an example of how to use clone_sql_tuning_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/clone_sql_tuning_task.py.html>`__ to see an example of how to use clone_sql_tuning_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -254,7 +254,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.CreateSqlTuningSetDetails create_sql_tuning_set_details: (required)
             The details required to create a Sql tuning set.
@@ -289,7 +289,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_sql_tuning_set.py.html>`__ to see an example of how to use create_sql_tuning_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/create_sql_tuning_set.py.html>`__ to see an example of how to use create_sql_tuning_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -376,7 +376,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_set_id: (required)
             The unique identifier of the Sql tuning set. This is not OCID.
@@ -414,7 +414,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sql_tuning_set.py.html>`__ to see an example of how to use drop_sql_tuning_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sql_tuning_set.py.html>`__ to see an example of how to use drop_sql_tuning_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningSetId']
@@ -502,7 +502,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.DropSqlTuningTaskDetails drop_sql_tuning_task_details: (required)
             The detailed inputs required to drop a SQL tuning task.
@@ -537,7 +537,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sql_tuning_task.py.html>`__ to see an example of how to use drop_sql_tuning_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sql_tuning_task.py.html>`__ to see an example of how to use drop_sql_tuning_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -621,7 +621,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_set_id: (required)
             The unique identifier of the Sql tuning set. This is not OCID.
@@ -659,7 +659,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sqls_in_sql_tuning_set.py.html>`__ to see an example of how to use drop_sqls_in_sql_tuning_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/drop_sqls_in_sql_tuning_set.py.html>`__ to see an example of how to use drop_sqls_in_sql_tuning_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningSetId']
@@ -747,7 +747,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_set_id: (required)
             The unique identifier of the Sql tuning set. This is not OCID.
@@ -785,7 +785,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/fetch_sql_tuning_set.py.html>`__ to see an example of how to use fetch_sql_tuning_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/fetch_sql_tuning_set.py.html>`__ to see an example of how to use fetch_sql_tuning_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningSetId']
@@ -875,22 +875,22 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_advisor_task_id: (required)
             The SQL tuning task identifier. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_object_id: (required)
             The SQL object ID for the SQL tuning task. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int execution_id: (required)
             The execution ID for an execution of a SQL tuning task. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request ID for tracing.
@@ -918,7 +918,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_execution_plan_stats_comparision.py.html>`__ to see an example of how to use get_execution_plan_stats_comparision API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_execution_plan_stats_comparision.py.html>`__ to see an example of how to use get_execution_plan_stats_comparision API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningAdvisorTaskId', 'sqlObjectId', 'executionId']
@@ -1009,17 +1009,17 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_advisor_task_id: (required)
             The SQL tuning task identifier. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_object_id: (required)
             The SQL object ID for the SQL tuning task. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str attribute: (required)
             The attribute of the SQL execution plan.
@@ -1052,7 +1052,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_execution_plan.py.html>`__ to see an example of how to use get_sql_execution_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_execution_plan.py.html>`__ to see an example of how to use get_sql_execution_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningAdvisorTaskId', 'sqlObjectId', 'attribute']
@@ -1149,12 +1149,12 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_advisor_task_id: (required)
             The SQL tuning task identifier. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str search_period: (optional)
             How far back the API will search for begin and end exec id. Unused if neither exec ids nor time filter query params are supplied. This is applicable only for Auto SQL Tuning tasks.
@@ -1199,7 +1199,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_tuning_advisor_task_summary_report.py.html>`__ to see an example of how to use get_sql_tuning_advisor_task_summary_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/get_sql_tuning_advisor_task_summary_report.py.html>`__ to see an example of how to use get_sql_tuning_advisor_task_summary_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningAdvisorTaskId']
@@ -1305,12 +1305,12 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_advisor_task_id: (required)
             The SQL tuning task identifier. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int begin_exec_id: (optional)
             The optional greater than or equal to filter on the execution ID related to a specific SQL Tuning Advisor task.
@@ -1378,7 +1378,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_advisor_task_findings.py.html>`__ to see an example of how to use list_sql_tuning_advisor_task_findings API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_advisor_task_findings.py.html>`__ to see an example of how to use list_sql_tuning_advisor_task_findings API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningAdvisorTaskId']
@@ -1516,22 +1516,22 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_advisor_task_id: (required)
             The SQL tuning task identifier. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_object_id: (required)
             The SQL object ID for the SQL tuning task. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int execution_id: (required)
             The execution ID for an execution of a SQL tuning task. This is not the `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sort_by: (optional)
             The possible sortBy values of an object's recommendations.
@@ -1576,7 +1576,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_advisor_task_recommendations.py.html>`__ to see an example of how to use list_sql_tuning_advisor_task_recommendations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_advisor_task_recommendations.py.html>`__ to see an example of how to use list_sql_tuning_advisor_task_recommendations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningAdvisorTaskId', 'sqlObjectId', 'executionId']
@@ -1689,7 +1689,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             The optional query parameter to filter the SQL Tuning Advisor task list by name.
@@ -1748,7 +1748,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_advisor_tasks.py.html>`__ to see an example of how to use list_sql_tuning_advisor_tasks API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_advisor_tasks.py.html>`__ to see an example of how to use list_sql_tuning_advisor_tasks API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -1873,7 +1873,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str owner: (optional)
             The owner of the SQL tuning set.
@@ -1924,7 +1924,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_sets.py.html>`__ to see an example of how to use list_sql_tuning_sets API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/list_sql_tuning_sets.py.html>`__ to see an example of how to use list_sql_tuning_sets API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -2038,7 +2038,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_set_id: (required)
             The unique identifier of the Sql tuning set. This is not OCID.
@@ -2076,7 +2076,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/load_sql_tuning_set.py.html>`__ to see an example of how to use load_sql_tuning_set API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/load_sql_tuning_set.py.html>`__ to see an example of how to use load_sql_tuning_set API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningSetId']
@@ -2164,7 +2164,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_set_id: (required)
             The unique identifier of the Sql tuning set. This is not OCID.
@@ -2202,7 +2202,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/save_sql_tuning_set_as.py.html>`__ to see an example of how to use save_sql_tuning_set_as API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/save_sql_tuning_set_as.py.html>`__ to see an example of how to use save_sql_tuning_set_as API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningSetId']
@@ -2290,7 +2290,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.database_management.models.StartSqlTuningTaskDetails start_sql_tuning_task_details: (required)
             The detailed inputs required to start a SQL tuning task.
@@ -2325,7 +2325,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/start_sql_tuning_task.py.html>`__ to see an example of how to use start_sql_tuning_task API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/start_sql_tuning_task.py.html>`__ to see an example of how to use start_sql_tuning_task API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId']
@@ -2410,7 +2410,7 @@ class SqlTuningClient(object):
         :param str managed_database_id: (required)
             The `OCID`__ of the Managed Database.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int sql_tuning_set_id: (required)
             The unique identifier of the Sql tuning set. This is not OCID.
@@ -2448,7 +2448,7 @@ class SqlTuningClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/validate_basic_filter.py.html>`__ to see an example of how to use validate_basic_filter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/databasemanagement/validate_basic_filter.py.html>`__ to see an example of how to use validate_basic_filter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['managedDatabaseId', 'sqlTuningSetId']

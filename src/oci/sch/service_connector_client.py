@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import sch_type_mapping
 missing = Sentinel("Missing")
 
@@ -33,7 +33,7 @@ class ServiceConnectorClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -52,7 +52,7 @@ class ServiceConnectorClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -84,7 +84,7 @@ class ServiceConnectorClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("sch"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -137,13 +137,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Activating a Connector`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm
 
 
         :param str service_connector_id: (required)
             The `OCID`__ of the connector.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_retry_token: (optional)
             A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -183,7 +183,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/activate_service_connector.py.html>`__ to see an example of how to use activate_service_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/activate_service_connector.py.html>`__ to see an example of how to use activate_service_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceConnectorId']
@@ -268,13 +268,13 @@ class ServiceConnectorClient(object):
 
         When provided, If-Match is checked against ETag values of the resource.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/change-compartment-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/change-compartment-service-connector.htm
 
 
         :param str service_connector_id: (required)
             The `OCID`__ of the connector.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.sch.models.ChangeServiceConnectorCompartmentDetails change_service_connector_compartment_details: (required)
             The configuration details for moving a connector to a different compartment.
@@ -310,7 +310,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/change_service_connector_compartment.py.html>`__ to see an example of how to use change_service_connector_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/change_service_connector_compartment.py.html>`__ to see an example of how to use change_service_connector_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceConnectorId']
@@ -409,11 +409,11 @@ class ServiceConnectorClient(object):
         activating connectors, see
         `Activating a Connector`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/create-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm
 
 
         :param oci.sch.models.CreateServiceConnectorDetails create_service_connector_details: (required)
@@ -450,7 +450,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/create_service_connector.py.html>`__ to see an example of how to use create_service_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/create_service_connector.py.html>`__ to see an example of how to use create_service_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -524,13 +524,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Deactivating a Connector`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/deactivate-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/deactivate-service-connector.htm
 
 
         :param str service_connector_id: (required)
             The `OCID`__ of the connector.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_retry_token: (optional)
             A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -570,7 +570,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/deactivate_service_connector.py.html>`__ to see an example of how to use deactivate_service_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/deactivate_service_connector.py.html>`__ to see an example of how to use deactivate_service_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceConnectorId']
@@ -656,13 +656,13 @@ class ServiceConnectorClient(object):
         After you send your request, the connector's state is temporarily
         DELETING and any data transfer stops. The state then changes to DELETED.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/delete-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/delete-service-connector.htm
 
 
         :param str service_connector_id: (required)
             The `OCID`__ of the connector.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -695,7 +695,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/delete_service_connector.py.html>`__ to see an example of how to use delete_service_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/delete_service_connector.py.html>`__ to see an example of how to use delete_service_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceConnectorId']
@@ -775,13 +775,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Getting a Connector`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/get-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/get-service-connector.htm
 
 
         :param str service_connector_id: (required)
             The `OCID`__ of the connector.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request.
@@ -807,7 +807,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/get_service_connector.py.html>`__ to see an example of how to use get_service_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/get_service_connector.py.html>`__ to see an example of how to use get_service_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceConnectorId']
@@ -887,13 +887,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Getting a Work Request's Details`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/get-work-request.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/get-work-request.htm
 
 
         :param str work_request_id: (required)
             The `OCID`__ of the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request.
@@ -919,7 +919,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -999,13 +999,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Listing Connectors`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/list-service-connector.htm
 
 
         :param str compartment_id: (required)
             The `OCID`__ of the compartment for this request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter to return only resources that match the given lifecycle state.
@@ -1024,14 +1024,14 @@ class ServiceConnectorClient(object):
             in a paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the opc-next-page response header from the previous
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either 'asc' or 'desc'.
@@ -1068,7 +1068,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_service_connectors.py.html>`__ to see an example of how to use list_service_connectors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_service_connectors.py.html>`__ to see an example of how to use list_service_connectors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -1176,13 +1176,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Listing Work Request Errors`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request-error.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/list-work-request-error.htm
 
 
         :param str work_request_id: (required)
             The `OCID`__ of the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request.
@@ -1193,14 +1193,14 @@ class ServiceConnectorClient(object):
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return
             in a paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1222,7 +1222,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -1312,13 +1312,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Listing Work Request Log Entries`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request-log-entry.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/list-work-request-log-entry.htm
 
 
         :param str work_request_id: (required)
             The `OCID`__ of the work request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request.
@@ -1329,14 +1329,14 @@ class ServiceConnectorClient(object):
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return
             in a paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1358,7 +1358,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -1448,13 +1448,13 @@ class ServiceConnectorClient(object):
         For more information, see
         `Listing Work Requests`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/list-work-request.htm
 
 
         :param str compartment_id: (required)
             The `OCID`__ of the compartment for this request.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request.
@@ -1465,14 +1465,14 @@ class ServiceConnectorClient(object):
             \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return
             in a paginated \"List\" call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1494,7 +1494,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -1577,13 +1577,13 @@ class ServiceConnectorClient(object):
         UPDATING and any data transfer pauses. The state then changes back to its
         original value: if ACTIVE, then data transfer resumes.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/connector-hub/update-service-connector.htm
+        __ https://docs.oracle.com/iaas/Content/connector-hub/update-service-connector.htm
 
 
         :param str service_connector_id: (required)
             The `OCID`__ of the connector.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.sch.models.UpdateServiceConnectorDetails update_service_connector_details: (required)
             The information to be updated.
@@ -1619,7 +1619,7 @@ class ServiceConnectorClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/update_service_connector.py.html>`__ to see an example of how to use update_service_connector API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/sch/update_service_connector.py.html>`__ to see an example of how to use update_service_connector API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceConnectorId']

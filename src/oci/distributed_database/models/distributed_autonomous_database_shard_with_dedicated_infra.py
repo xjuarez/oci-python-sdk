@@ -133,6 +133,14 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
             The value to assign to the peer_details property of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
         :type peer_details: list[oci.distributed_database.models.ShardPeerWithDedicatedInfra]
 
+        :param okv_key_store_id:
+            The value to assign to the okv_key_store_id property of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        :type okv_key_store_id: str
+
+        :param okv_end_point_group:
+            The value to assign to the okv_end_point_group property of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        :type okv_end_point_group: str
+
         :param metadata:
             The value to assign to the metadata property of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
         :type metadata: oci.distributed_database.models.DistributedAutonomousDbMetadata
@@ -157,6 +165,8 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
             'supporting_resource_id': 'str',
             'container_database_id': 'str',
             'peer_details': 'list[ShardPeerWithDedicatedInfra]',
+            'okv_key_store_id': 'str',
+            'okv_end_point_group': 'str',
             'metadata': 'DistributedAutonomousDbMetadata'
         }
         self.attribute_map = {
@@ -178,6 +188,8 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
             'supporting_resource_id': 'supportingResourceId',
             'container_database_id': 'containerDatabaseId',
             'peer_details': 'peerDetails',
+            'okv_key_store_id': 'okvKeyStoreId',
+            'okv_end_point_group': 'okvEndPointGroup',
             'metadata': 'metadata'
         }
         self._source = None
@@ -198,6 +210,8 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
         self._supporting_resource_id = None
         self._container_database_id = None
         self._peer_details = None
+        self._okv_key_store_id = None
+        self._okv_end_point_group = None
         self._metadata = None
         self._source = 'ADB_D'
 
@@ -303,7 +317,7 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
         **[Required]** Gets the cloud_autonomous_vm_cluster_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
         The `OCID`__ of the cloudAutonomousVmCluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The cloud_autonomous_vm_cluster_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
@@ -317,7 +331,7 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
         Sets the cloud_autonomous_vm_cluster_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
         The `OCID`__ of the cloudAutonomousVmCluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param cloud_autonomous_vm_cluster_id: The cloud_autonomous_vm_cluster_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
@@ -381,8 +395,8 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
         Gets the vault_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
         The `OCID`__ of the Oracle Cloud Infrastructure `vault`__. This parameter and `kmsKeyId` are required for Customer Managed Keys.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts
 
 
         :return: The vault_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
@@ -396,8 +410,8 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
         Sets the vault_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
         The `OCID`__ of the Oracle Cloud Infrastructure `vault`__. This parameter and `kmsKeyId` are required for Customer Managed Keys.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts
 
 
         :param vault_id: The vault_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
@@ -554,6 +568,58 @@ class DistributedAutonomousDatabaseShardWithDedicatedInfra(DistributedAutonomous
         :type: list[oci.distributed_database.models.ShardPeerWithDedicatedInfra]
         """
         self._peer_details = peer_details
+
+    @property
+    def okv_key_store_id(self):
+        """
+        Gets the okv_key_store_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        The `OCID`__ of the key store used to create the shard.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :return: The okv_key_store_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        :rtype: str
+        """
+        return self._okv_key_store_id
+
+    @okv_key_store_id.setter
+    def okv_key_store_id(self, okv_key_store_id):
+        """
+        Sets the okv_key_store_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        The `OCID`__ of the key store used to create the shard.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :param okv_key_store_id: The okv_key_store_id of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        :type: str
+        """
+        self._okv_key_store_id = okv_key_store_id
+
+    @property
+    def okv_end_point_group(self):
+        """
+        Gets the okv_end_point_group of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        The OKV endpoint name.
+
+
+        :return: The okv_end_point_group of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        :rtype: str
+        """
+        return self._okv_end_point_group
+
+    @okv_end_point_group.setter
+    def okv_end_point_group(self, okv_end_point_group):
+        """
+        Sets the okv_end_point_group of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        The OKV endpoint name.
+
+
+        :param okv_end_point_group: The okv_end_point_group of this DistributedAutonomousDatabaseShardWithDedicatedInfra.
+        :type: str
+        """
+        self._okv_end_point_group = okv_end_point_group
 
     @property
     def metadata(self):

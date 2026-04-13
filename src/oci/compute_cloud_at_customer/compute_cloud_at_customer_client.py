@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import compute_cloud_at_customer_type_mapping
 missing = Sentinel("Missing")
 
@@ -31,7 +31,7 @@ class ComputeCloudAtCustomerClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -50,7 +50,7 @@ class ComputeCloudAtCustomerClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -82,7 +82,7 @@ class ComputeCloudAtCustomerClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("compute_cloud_at_customer"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -134,13 +134,13 @@ class ComputeCloudAtCustomerClient(object):
             An `OCID`__ for a
             Compute Cloud@Customer Infrastructure.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.compute_cloud_at_customer.models.ChangeCccInfrastructureCompartmentDetails change_ccc_infrastructure_compartment_details: (required)
             Details about the compartment change operation including the destination compartment
             specified by the resource `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -159,7 +159,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -181,7 +181,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/change_ccc_infrastructure_compartment.py.html>`__ to see an example of how to use change_ccc_infrastructure_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/change_ccc_infrastructure_compartment.py.html>`__ to see an example of how to use change_ccc_infrastructure_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccInfrastructureId']
@@ -265,20 +265,20 @@ class ComputeCloudAtCustomerClient(object):
         Moves a Compute Cloud@Customer upgrade schedule from one compartment to another using the
         specified `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ccc_upgrade_schedule_id: (required)
             Compute Cloud@Customer upgrade schedule
             `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.compute_cloud_at_customer.models.ChangeCccUpgradeScheduleCompartmentDetails change_ccc_upgrade_schedule_compartment_details: (required)
             Details about the compartment change operation including the destination compartment
             specified by the resource `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -297,7 +297,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -319,7 +319,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/change_ccc_upgrade_schedule_compartment.py.html>`__ to see an example of how to use change_ccc_upgrade_schedule_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/change_ccc_upgrade_schedule_compartment.py.html>`__ to see an example of how to use change_ccc_upgrade_schedule_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccUpgradeScheduleId']
@@ -417,7 +417,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -439,7 +439,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/create_ccc_infrastructure.py.html>`__ to see an example of how to use create_ccc_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/create_ccc_infrastructure.py.html>`__ to see an example of how to use create_ccc_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -524,7 +524,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -546,7 +546,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/create_ccc_upgrade_schedule.py.html>`__ to see an example of how to use create_ccc_upgrade_schedule API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/create_ccc_upgrade_schedule.py.html>`__ to see an example of how to use create_ccc_upgrade_schedule API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -618,14 +618,14 @@ class ComputeCloudAtCustomerClient(object):
         Deletes a Compute Cloud@Customer infrastructure resource specified by the resource
         `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ccc_infrastructure_id: (required)
             An `OCID`__ for a
             Compute Cloud@Customer Infrastructure.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -637,7 +637,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -659,7 +659,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/delete_ccc_infrastructure.py.html>`__ to see an example of how to use delete_ccc_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/delete_ccc_infrastructure.py.html>`__ to see an example of how to use delete_ccc_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccInfrastructureId']
@@ -736,14 +736,14 @@ class ComputeCloudAtCustomerClient(object):
         Deletes a Compute Cloud@Customer upgrade schedule by the specified
         `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ccc_upgrade_schedule_id: (required)
             Compute Cloud@Customer upgrade schedule
             `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call
@@ -755,7 +755,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -777,7 +777,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/delete_ccc_upgrade_schedule.py.html>`__ to see an example of how to use delete_ccc_upgrade_schedule API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/delete_ccc_upgrade_schedule.py.html>`__ to see an example of how to use delete_ccc_upgrade_schedule API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccUpgradeScheduleId']
@@ -854,19 +854,19 @@ class ComputeCloudAtCustomerClient(object):
         Gets a Compute Cloud@Customer infrastructure using the infrastructure
         `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ccc_infrastructure_id: (required)
             An `OCID`__ for a
             Compute Cloud@Customer Infrastructure.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -888,7 +888,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/get_ccc_infrastructure.py.html>`__ to see an example of how to use get_ccc_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/get_ccc_infrastructure.py.html>`__ to see an example of how to use get_ccc_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccInfrastructureId']
@@ -967,19 +967,19 @@ class ComputeCloudAtCustomerClient(object):
         Gets a Compute Cloud@Customer upgrade schedule by the specified
         `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ccc_upgrade_schedule_id: (required)
             Compute Cloud@Customer upgrade schedule
             `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1001,7 +1001,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/get_ccc_upgrade_schedule.py.html>`__ to see an example of how to use get_ccc_upgrade_schedule API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/get_ccc_upgrade_schedule.py.html>`__ to see an example of how to use get_ccc_upgrade_schedule API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccUpgradeScheduleId']
@@ -1084,7 +1084,7 @@ class ComputeCloudAtCustomerClient(object):
             The `OCID`__ of the compartment in which to
             list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param bool compartment_id_in_subtree: (optional)
             Default is false.
@@ -1115,7 +1115,7 @@ class ComputeCloudAtCustomerClient(object):
             An `OCID`__ for a
             Compute Cloud@Customer Infrastructure.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The maximum number of items to return.
@@ -1136,7 +1136,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1158,7 +1158,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/list_ccc_infrastructures.py.html>`__ to see an example of how to use list_ccc_infrastructures API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/list_ccc_infrastructures.py.html>`__ to see an example of how to use list_ccc_infrastructures API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1285,13 +1285,13 @@ class ComputeCloudAtCustomerClient(object):
             Compute Cloud@Customer upgrade schedule
             `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment in which to
             list resources.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param bool compartment_id_in_subtree: (optional)
             Default is false.
@@ -1337,7 +1337,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1359,7 +1359,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/list_ccc_upgrade_schedules.py.html>`__ to see an example of how to use list_ccc_upgrade_schedules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/list_ccc_upgrade_schedules.py.html>`__ to see an example of how to use list_ccc_upgrade_schedules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1486,7 +1486,7 @@ class ComputeCloudAtCustomerClient(object):
             An `OCID`__ for a
             Compute Cloud@Customer Infrastructure.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.compute_cloud_at_customer.models.UpdateCccInfrastructureDetails update_ccc_infrastructure_details: (required)
             The information to be updated.
@@ -1501,7 +1501,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1523,7 +1523,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/update_ccc_infrastructure.py.html>`__ to see an example of how to use update_ccc_infrastructure API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/update_ccc_infrastructure.py.html>`__ to see an example of how to use update_ccc_infrastructure API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccInfrastructureId']
@@ -1608,7 +1608,7 @@ class ComputeCloudAtCustomerClient(object):
             Compute Cloud@Customer upgrade schedule
             `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.compute_cloud_at_customer.models.UpdateCccUpgradeScheduleDetails update_ccc_upgrade_schedule_details: (required)
             The information to be updated in the Compute Cloud@Customer upgrade schedule.
@@ -1623,7 +1623,7 @@ class ComputeCloudAtCustomerClient(object):
         :param str opc_request_id: (optional)
             The client request `OCID`__ for tracing.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1645,7 +1645,7 @@ class ComputeCloudAtCustomerClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/update_ccc_upgrade_schedule.py.html>`__ to see an example of how to use update_ccc_upgrade_schedule API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/computecloudatcustomer/update_ccc_upgrade_schedule.py.html>`__ to see an example of how to use update_ccc_upgrade_schedule API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cccUpgradeScheduleId']

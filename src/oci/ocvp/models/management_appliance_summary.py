@@ -156,6 +156,10 @@ class ManagementApplianceSummary(object):
             The value to assign to the heartbeat_connection_states property of this ManagementApplianceSummary.
         :type heartbeat_connection_states: list[oci.ocvp.models.ManagementApplianceConnectionStatus]
 
+        :param plugin_version:
+            The value to assign to the plugin_version property of this ManagementApplianceSummary.
+        :type plugin_version: str
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this ManagementApplianceSummary.
         :type freeform_tags: dict(str, str)
@@ -185,6 +189,7 @@ class ManagementApplianceSummary(object):
             'time_configuration_updated': 'datetime',
             'time_last_heartbeat': 'datetime',
             'heartbeat_connection_states': 'list[ManagementApplianceConnectionStatus]',
+            'plugin_version': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
@@ -205,6 +210,7 @@ class ManagementApplianceSummary(object):
             'time_configuration_updated': 'timeConfigurationUpdated',
             'time_last_heartbeat': 'timeLastHeartbeat',
             'heartbeat_connection_states': 'heartbeatConnectionStates',
+            'plugin_version': 'pluginVersion',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
@@ -224,6 +230,7 @@ class ManagementApplianceSummary(object):
         self._time_configuration_updated = None
         self._time_last_heartbeat = None
         self._heartbeat_connection_states = None
+        self._plugin_version = None
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None
@@ -234,7 +241,7 @@ class ManagementApplianceSummary(object):
         **[Required]** Gets the id of this ManagementApplianceSummary.
         The `OCID`__ of management appliance.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this ManagementApplianceSummary.
@@ -248,7 +255,7 @@ class ManagementApplianceSummary(object):
         Sets the id of this ManagementApplianceSummary.
         The `OCID`__ of management appliance.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this ManagementApplianceSummary.
@@ -262,7 +269,7 @@ class ManagementApplianceSummary(object):
         **[Required]** Gets the compartment_id of this ManagementApplianceSummary.
         The `OCID`__ of compartment in OCI, that this appliance is going to be created in.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this ManagementApplianceSummary.
@@ -276,7 +283,7 @@ class ManagementApplianceSummary(object):
         Sets the compartment_id of this ManagementApplianceSummary.
         The `OCID`__ of compartment in OCI, that this appliance is going to be created in.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this ManagementApplianceSummary.
@@ -290,7 +297,7 @@ class ManagementApplianceSummary(object):
         **[Required]** Gets the sddc_id of this ManagementApplianceSummary.
         `OCID`__ of SDDC in OCI, that this appliance is going to be registered in.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The sddc_id of this ManagementApplianceSummary.
@@ -304,7 +311,7 @@ class ManagementApplianceSummary(object):
         Sets the sddc_id of this ManagementApplianceSummary.
         `OCID`__ of SDDC in OCI, that this appliance is going to be registered in.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param sddc_id: The sddc_id of this ManagementApplianceSummary.
@@ -318,7 +325,7 @@ class ManagementApplianceSummary(object):
         Gets the compute_instance_id of this ManagementApplianceSummary.
         The `OCID`__ of compute instance of management appliance in OCI.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compute_instance_id of this ManagementApplianceSummary.
@@ -332,7 +339,7 @@ class ManagementApplianceSummary(object):
         Sets the compute_instance_id of this ManagementApplianceSummary.
         The `OCID`__ of compute instance of management appliance in OCI.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compute_instance_id: The compute_instance_id of this ManagementApplianceSummary.
@@ -346,7 +353,7 @@ class ManagementApplianceSummary(object):
         Gets the management_agent_id of this ManagementApplianceSummary.
         The `OCID`__ of management agent, that this appliance is running in.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The management_agent_id of this ManagementApplianceSummary.
@@ -360,7 +367,7 @@ class ManagementApplianceSummary(object):
         Sets the management_agent_id of this ManagementApplianceSummary.
         The `OCID`__ of management agent, that this appliance is running in.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param management_agent_id: The management_agent_id of this ManagementApplianceSummary.
@@ -633,6 +640,36 @@ class ManagementApplianceSummary(object):
         self._heartbeat_connection_states = heartbeat_connection_states
 
     @property
+    def plugin_version(self):
+        """
+        Gets the plugin_version of this ManagementApplianceSummary.
+        Current version of OCVS management plugin installed by Management Agent.
+        As soon as OCVS service team publishes a new version OCVS management plugin (ocvs-ma-plugin-<version>.zip) to Management Agent service,
+        the service distributes it to Management Appliances owned by customers.
+        This field shows which version of the OCVS management plugin is currently installed and running for this customer.
+
+
+        :return: The plugin_version of this ManagementApplianceSummary.
+        :rtype: str
+        """
+        return self._plugin_version
+
+    @plugin_version.setter
+    def plugin_version(self, plugin_version):
+        """
+        Sets the plugin_version of this ManagementApplianceSummary.
+        Current version of OCVS management plugin installed by Management Agent.
+        As soon as OCVS service team publishes a new version OCVS management plugin (ocvs-ma-plugin-<version>.zip) to Management Agent service,
+        the service distributes it to Management Appliances owned by customers.
+        This field shows which version of the OCVS management plugin is currently installed and running for this customer.
+
+
+        :param plugin_version: The plugin_version of this ManagementApplianceSummary.
+        :type: str
+        """
+        self._plugin_version = plugin_version
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this ManagementApplianceSummary.
@@ -641,7 +678,7 @@ class ManagementApplianceSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this ManagementApplianceSummary.
@@ -658,7 +695,7 @@ class ManagementApplianceSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this ManagementApplianceSummary.
@@ -675,7 +712,7 @@ class ManagementApplianceSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this ManagementApplianceSummary.
@@ -692,7 +729,7 @@ class ManagementApplianceSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this ManagementApplianceSummary.

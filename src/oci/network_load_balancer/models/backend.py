@@ -15,7 +15,7 @@ class Backend(object):
     The configuration of a backend server that is a member of a network load balancer backend set.
     For more information, see `Backend Servers for Network Load Balancers`__.
 
-    __ https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/BackendServers/backend-server-management.htm
+    __ https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/BackendServers/backend-server-management.htm
     """
 
     def __init__(self, **kwargs):
@@ -205,7 +205,7 @@ class Backend(object):
 
         Example: `3`
 
-        __ https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introduction.htm#Policies
+        __ https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies
 
 
         :return: The weight of this Backend.
@@ -225,7 +225,7 @@ class Backend(object):
 
         Example: `3`
 
-        __ https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introduction.htm#Policies
+        __ https://docs.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies
 
 
         :param weight: The weight of this Backend.
@@ -237,8 +237,8 @@ class Backend(object):
     def is_drain(self):
         """
         Gets the is_drain of this Backend.
-        Whether the network load balancer should drain this server. Servers marked \"isDrain\" receive no
-        incoming traffic.
+        Whether the network load balancer should drain this server.
+        Servers marked \"isDrain\" stop receiving new connections but will continue to receive traffic on existing connections until the connection is terminated or times out.
 
         Example: `false`
 
@@ -252,8 +252,8 @@ class Backend(object):
     def is_drain(self, is_drain):
         """
         Sets the is_drain of this Backend.
-        Whether the network load balancer should drain this server. Servers marked \"isDrain\" receive no
-        incoming traffic.
+        Whether the network load balancer should drain this server.
+        Servers marked \"isDrain\" stop receiving new connections but will continue to receive traffic on existing connections until the connection is terminated or times out.
 
         Example: `false`
 

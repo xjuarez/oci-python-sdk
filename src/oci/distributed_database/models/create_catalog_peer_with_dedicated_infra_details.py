@@ -76,7 +76,7 @@ class CreateCatalogPeerWithDedicatedInfraDetails(object):
         **[Required]** Gets the cloud_autonomous_vm_cluster_id of this CreateCatalogPeerWithDedicatedInfraDetails.
         The `OCID`__ of the cloud Autonomous VM Cluster for the peer catalog.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The cloud_autonomous_vm_cluster_id of this CreateCatalogPeerWithDedicatedInfraDetails.
@@ -90,7 +90,7 @@ class CreateCatalogPeerWithDedicatedInfraDetails(object):
         Sets the cloud_autonomous_vm_cluster_id of this CreateCatalogPeerWithDedicatedInfraDetails.
         The `OCID`__ of the cloud Autonomous VM Cluster for the peer catalog.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param cloud_autonomous_vm_cluster_id: The cloud_autonomous_vm_cluster_id of this CreateCatalogPeerWithDedicatedInfraDetails.
@@ -157,7 +157,7 @@ class CreateCatalogPeerWithDedicatedInfraDetails(object):
     def is_automatic_failover_enabled(self):
         """
         Gets the is_automatic_failover_enabled of this CreateCatalogPeerWithDedicatedInfraDetails.
-        Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association
+        This field is deprecated. Support for this field will be removed after one year of deprecation cycle.
 
 
         :return: The is_automatic_failover_enabled of this CreateCatalogPeerWithDedicatedInfraDetails.
@@ -169,7 +169,7 @@ class CreateCatalogPeerWithDedicatedInfraDetails(object):
     def is_automatic_failover_enabled(self, is_automatic_failover_enabled):
         """
         Sets the is_automatic_failover_enabled of this CreateCatalogPeerWithDedicatedInfraDetails.
-        Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association
+        This field is deprecated. Support for this field will be removed after one year of deprecation cycle.
 
 
         :param is_automatic_failover_enabled: The is_automatic_failover_enabled of this CreateCatalogPeerWithDedicatedInfraDetails.

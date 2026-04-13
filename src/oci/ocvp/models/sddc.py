@@ -22,7 +22,7 @@ class Sddc(object):
     set of VLANs for various components of the VMware environment (vSphere, vMotion,
     vSAN, and so on). See the Core Services API for information about VCN subnets and VLANs.
 
-    __ https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm
+    __ https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm
     """
 
     #: A constant which can be used with the hcx_mode property of a Sddc.
@@ -174,6 +174,10 @@ class Sddc(object):
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type lifecycle_state: str
 
+        :param sddc_byol_allocation_details:
+            The value to assign to the sddc_byol_allocation_details property of this Sddc.
+        :type sddc_byol_allocation_details: oci.ocvp.models.SddcByolAllocationDetails
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this Sddc.
         :type freeform_tags: dict(str, str)
@@ -214,6 +218,7 @@ class Sddc(object):
             'time_created': 'datetime',
             'time_updated': 'datetime',
             'lifecycle_state': 'str',
+            'sddc_byol_allocation_details': 'SddcByolAllocationDetails',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
@@ -245,6 +250,7 @@ class Sddc(object):
             'time_created': 'timeCreated',
             'time_updated': 'timeUpdated',
             'lifecycle_state': 'lifecycleState',
+            'sddc_byol_allocation_details': 'sddcByolAllocationDetails',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
@@ -275,6 +281,7 @@ class Sddc(object):
         self._time_created = None
         self._time_updated = None
         self._lifecycle_state = None
+        self._sddc_byol_allocation_details = None
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None
@@ -285,7 +292,7 @@ class Sddc(object):
         **[Required]** Gets the id of this Sddc.
         The `OCID`__ of the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this Sddc.
@@ -299,7 +306,7 @@ class Sddc(object):
         Sets the id of this Sddc.
         The `OCID`__ of the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this Sddc.
@@ -444,7 +451,7 @@ class Sddc(object):
         The `OCID`__ of the compartment that
         contains the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this Sddc.
@@ -459,7 +466,7 @@ class Sddc(object):
         The `OCID`__ of the compartment that
         contains the SDDC.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this Sddc.
@@ -555,7 +562,7 @@ class Sddc(object):
         the virtual IP (VIP) for vCenter. For information about `PrivateIp` objects, see the
         Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The vcenter_private_ip_id of this Sddc.
@@ -571,7 +578,7 @@ class Sddc(object):
         the virtual IP (VIP) for vCenter. For information about `PrivateIp` objects, see the
         Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param vcenter_private_ip_id: The vcenter_private_ip_id of this Sddc.
@@ -587,7 +594,7 @@ class Sddc(object):
         the virtual IP (VIP) for NSX Manager. For information about `PrivateIp` objects, see the
         Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The nsx_manager_private_ip_id of this Sddc.
@@ -603,7 +610,7 @@ class Sddc(object):
         the virtual IP (VIP) for NSX Manager. For information about `PrivateIp` objects, see the
         Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param nsx_manager_private_ip_id: The nsx_manager_private_ip_id of this Sddc.
@@ -720,7 +727,7 @@ class Sddc(object):
         route table rules when setting up connectivity between the SDDC and other networks.
         For information about `PrivateIp` objects, see the Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The nsx_edge_uplink_ip_id of this Sddc.
@@ -737,7 +744,7 @@ class Sddc(object):
         route table rules when setting up connectivity between the SDDC and other networks.
         For information about `PrivateIp` objects, see the Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param nsx_edge_uplink_ip_id: The nsx_edge_uplink_ip_id of this Sddc.
@@ -753,7 +760,7 @@ class Sddc(object):
         the virtual IP (VIP) for HCX Manager. For information about `PrivateIp` objects, see the
         Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The hcx_private_ip_id of this Sddc.
@@ -769,7 +776,7 @@ class Sddc(object):
         the virtual IP (VIP) for HCX Manager. For information about `PrivateIp` objects, see the
         Core Services API.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param hcx_private_ip_id: The hcx_private_ip_id of this Sddc.
@@ -1088,6 +1095,26 @@ class Sddc(object):
         self._lifecycle_state = lifecycle_state
 
     @property
+    def sddc_byol_allocation_details(self):
+        """
+        Gets the sddc_byol_allocation_details of this Sddc.
+
+        :return: The sddc_byol_allocation_details of this Sddc.
+        :rtype: oci.ocvp.models.SddcByolAllocationDetails
+        """
+        return self._sddc_byol_allocation_details
+
+    @sddc_byol_allocation_details.setter
+    def sddc_byol_allocation_details(self, sddc_byol_allocation_details):
+        """
+        Sets the sddc_byol_allocation_details of this Sddc.
+
+        :param sddc_byol_allocation_details: The sddc_byol_allocation_details of this Sddc.
+        :type: oci.ocvp.models.SddcByolAllocationDetails
+        """
+        self._sddc_byol_allocation_details = sddc_byol_allocation_details
+
+    @property
     def freeform_tags(self):
         """
         **[Required]** Gets the freeform_tags of this Sddc.
@@ -1096,7 +1123,7 @@ class Sddc(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this Sddc.
@@ -1113,7 +1140,7 @@ class Sddc(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this Sddc.
@@ -1130,7 +1157,7 @@ class Sddc(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this Sddc.
@@ -1147,7 +1174,7 @@ class Sddc(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this Sddc.

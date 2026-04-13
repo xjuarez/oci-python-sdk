@@ -24,6 +24,10 @@ class UpdateEmailIpPoolDetails(object):
             The value to assign to the description property of this UpdateEmailIpPoolDetails.
         :type description: str
 
+        :param last_ip_drain_period_in_hours:
+            The value to assign to the last_ip_drain_period_in_hours property of this UpdateEmailIpPoolDetails.
+        :type last_ip_drain_period_in_hours: int
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this UpdateEmailIpPoolDetails.
         :type freeform_tags: dict(str, str)
@@ -35,15 +39,18 @@ class UpdateEmailIpPoolDetails(object):
         """
         self.swagger_types = {
             'description': 'str',
+            'last_ip_drain_period_in_hours': 'int',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
         self.attribute_map = {
             'description': 'description',
+            'last_ip_drain_period_in_hours': 'lastIpDrainPeriodInHours',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
         self._description = None
+        self._last_ip_drain_period_in_hours = None
         self._freeform_tags = None
         self._defined_tags = None
 
@@ -72,6 +79,30 @@ class UpdateEmailIpPoolDetails(object):
         self._description = description
 
     @property
+    def last_ip_drain_period_in_hours(self):
+        """
+        Gets the last_ip_drain_period_in_hours of this UpdateEmailIpPoolDetails.
+        Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+
+
+        :return: The last_ip_drain_period_in_hours of this UpdateEmailIpPoolDetails.
+        :rtype: int
+        """
+        return self._last_ip_drain_period_in_hours
+
+    @last_ip_drain_period_in_hours.setter
+    def last_ip_drain_period_in_hours(self, last_ip_drain_period_in_hours):
+        """
+        Sets the last_ip_drain_period_in_hours of this UpdateEmailIpPoolDetails.
+        Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+
+
+        :param last_ip_drain_period_in_hours: The last_ip_drain_period_in_hours of this UpdateEmailIpPoolDetails.
+        :type: int
+        """
+        self._last_ip_drain_period_in_hours = last_ip_drain_period_in_hours
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this UpdateEmailIpPoolDetails.
@@ -80,7 +111,7 @@ class UpdateEmailIpPoolDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this UpdateEmailIpPoolDetails.
@@ -97,7 +128,7 @@ class UpdateEmailIpPoolDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this UpdateEmailIpPoolDetails.
@@ -114,7 +145,7 @@ class UpdateEmailIpPoolDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this UpdateEmailIpPoolDetails.
@@ -131,7 +162,7 @@ class UpdateEmailIpPoolDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this UpdateEmailIpPoolDetails.

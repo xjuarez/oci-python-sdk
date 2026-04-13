@@ -39,7 +39,7 @@ class CreateGroupProfileDetails(CreateProfileDetails):
 
         :param profile_type:
             The value to assign to the profile_type property of this CreateGroupProfileDetails.
-            Allowed values for this property are: "SOFTWARESOURCE", "GROUP", "LIFECYCLE", "STATION", "WINDOWS_STANDALONE"
+            Allowed values for this property are: "SOFTWARESOURCE", "GROUP", "LIFECYCLE", "STATION", "WINDOWS_STANDALONE", "UBUNTU_STANDALONE"
         :type profile_type: str
 
         :param registration_type:
@@ -105,7 +105,7 @@ class CreateGroupProfileDetails(CreateProfileDetails):
         **[Required]** Gets the managed_instance_group_id of this CreateGroupProfileDetails.
         The `OCID`__ of the managed instance group that the instance will join after registration.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The managed_instance_group_id of this CreateGroupProfileDetails.
@@ -119,7 +119,7 @@ class CreateGroupProfileDetails(CreateProfileDetails):
         Sets the managed_instance_group_id of this CreateGroupProfileDetails.
         The `OCID`__ of the managed instance group that the instance will join after registration.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param managed_instance_group_id: The managed_instance_group_id of this CreateGroupProfileDetails.

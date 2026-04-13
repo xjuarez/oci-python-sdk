@@ -167,6 +167,26 @@ class WorkRequest(object):
     #: This constant has a value of "REBOOT"
     OPERATION_TYPE_REBOOT = "REBOOT"
 
+    #: A constant which can be used with the operation_type property of a WorkRequest.
+    #: This constant has a value of "REGISTER_MANAGED_INSTANCE"
+    OPERATION_TYPE_REGISTER_MANAGED_INSTANCE = "REGISTER_MANAGED_INSTANCE"
+
+    #: A constant which can be used with the operation_type property of a WorkRequest.
+    #: This constant has a value of "LIST_SNAPS"
+    OPERATION_TYPE_LIST_SNAPS = "LIST_SNAPS"
+
+    #: A constant which can be used with the operation_type property of a WorkRequest.
+    #: This constant has a value of "INSTALL_SNAPS"
+    OPERATION_TYPE_INSTALL_SNAPS = "INSTALL_SNAPS"
+
+    #: A constant which can be used with the operation_type property of a WorkRequest.
+    #: This constant has a value of "REMOVE_SNAPS"
+    OPERATION_TYPE_REMOVE_SNAPS = "REMOVE_SNAPS"
+
+    #: A constant which can be used with the operation_type property of a WorkRequest.
+    #: This constant has a value of "SWITCH_SNAP_CHANNEL"
+    OPERATION_TYPE_SWITCH_SNAP_CHANNEL = "SWITCH_SNAP_CHANNEL"
+
     #: A constant which can be used with the status property of a WorkRequest.
     #: This constant has a value of "WAITING"
     STATUS_WAITING = "WAITING"
@@ -195,6 +215,10 @@ class WorkRequest(object):
     #: This constant has a value of "CANCELED"
     STATUS_CANCELED = "CANCELED"
 
+    #: A constant which can be used with the status property of a WorkRequest.
+    #: This constant has a value of "SKIPPED"
+    STATUS_SKIPPED = "SKIPPED"
+
     def __init__(self, **kwargs):
         """
         Initializes a new WorkRequest object with values from keyword arguments.
@@ -202,13 +226,13 @@ class WorkRequest(object):
 
         :param operation_type:
             The value to assign to the operation_type property of this WorkRequest.
-            Allowed values for this property are: "INSTALL_PACKAGES", "REMOVE_PACKAGES", "UPDATE_PACKAGES", "UPDATE_ALL_PACKAGES", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_KERNEL", "UPDATE_KSPLICE_USERSPACE", "ENABLE_MODULE_STREAMS", "DISABLE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "INSTALL_MODULE_PROFILES", "REMOVE_MODULE_PROFILES", "SET_SOFTWARE_SOURCES", "LIST_PACKAGES", "SET_MANAGEMENT_STATION_CONFIG", "SYNC_MANAGEMENT_STATION_MIRROR", "UPDATE_MANAGEMENT_STATION_SOFTWARE", "UPDATE", "MODULE_ACTIONS", "LIFECYCLE_PROMOTION", "CREATE_SOFTWARE_SOURCE", "UPDATE_SOFTWARE_SOURCE", "IMPORT_CONTENT", "SYNC_AGENT_CONFIG", "INSTALL_WINDOWS_UPDATES", "LIST_WINDOWS_UPDATE", "GET_WINDOWS_UPDATE_DETAILS", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REMOVE_CONTENT", "UNREGISTER_MANAGED_INSTANCE", "REBOOT", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "INSTALL_PACKAGES", "REMOVE_PACKAGES", "UPDATE_PACKAGES", "UPDATE_ALL_PACKAGES", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_KERNEL", "UPDATE_KSPLICE_USERSPACE", "ENABLE_MODULE_STREAMS", "DISABLE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "INSTALL_MODULE_PROFILES", "REMOVE_MODULE_PROFILES", "SET_SOFTWARE_SOURCES", "LIST_PACKAGES", "SET_MANAGEMENT_STATION_CONFIG", "SYNC_MANAGEMENT_STATION_MIRROR", "UPDATE_MANAGEMENT_STATION_SOFTWARE", "UPDATE", "MODULE_ACTIONS", "LIFECYCLE_PROMOTION", "CREATE_SOFTWARE_SOURCE", "UPDATE_SOFTWARE_SOURCE", "IMPORT_CONTENT", "SYNC_AGENT_CONFIG", "INSTALL_WINDOWS_UPDATES", "LIST_WINDOWS_UPDATE", "GET_WINDOWS_UPDATE_DETAILS", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REMOVE_CONTENT", "UNREGISTER_MANAGED_INSTANCE", "REBOOT", "REGISTER_MANAGED_INSTANCE", "LIST_SNAPS", "INSTALL_SNAPS", "REMOVE_SNAPS", "SWITCH_SNAP_CHANNEL", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type operation_type: str
 
         :param status:
             The value to assign to the status property of this WorkRequest.
-            Allowed values for this property are: "WAITING", "ACCEPTED", "IN_PROGRESS", "FAILED", "SUCCEEDED", "CANCELING", "CANCELED", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "WAITING", "ACCEPTED", "IN_PROGRESS", "FAILED", "SUCCEEDED", "CANCELING", "CANCELED", "SKIPPED", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type status: str
 
@@ -320,6 +344,10 @@ class WorkRequest(object):
             The value to assign to the reboot_timeout_in_mins property of this WorkRequest.
         :type reboot_timeout_in_mins: int
 
+        :param snap_specs:
+            The value to assign to the snap_specs property of this WorkRequest.
+        :type snap_specs: list[oci.os_management_hub.models.SnapSpecDetails]
+
         """
         self.swagger_types = {
             'operation_type': 'str',
@@ -350,7 +378,8 @@ class WorkRequest(object):
             'rerun_of_id': 'str',
             'retry_intervals': 'list[int]',
             'is_managed_by_autonomous_linux': 'bool',
-            'reboot_timeout_in_mins': 'int'
+            'reboot_timeout_in_mins': 'int',
+            'snap_specs': 'list[SnapSpecDetails]'
         }
         self.attribute_map = {
             'operation_type': 'operationType',
@@ -381,7 +410,8 @@ class WorkRequest(object):
             'rerun_of_id': 'rerunOfId',
             'retry_intervals': 'retryIntervals',
             'is_managed_by_autonomous_linux': 'isManagedByAutonomousLinux',
-            'reboot_timeout_in_mins': 'rebootTimeoutInMins'
+            'reboot_timeout_in_mins': 'rebootTimeoutInMins',
+            'snap_specs': 'snapSpecs'
         }
         self._operation_type = None
         self._status = None
@@ -412,6 +442,7 @@ class WorkRequest(object):
         self._retry_intervals = None
         self._is_managed_by_autonomous_linux = None
         self._reboot_timeout_in_mins = None
+        self._snap_specs = None
 
     @property
     def operation_type(self):
@@ -419,7 +450,7 @@ class WorkRequest(object):
         **[Required]** Gets the operation_type of this WorkRequest.
         Type of the work request.
 
-        Allowed values for this property are: "INSTALL_PACKAGES", "REMOVE_PACKAGES", "UPDATE_PACKAGES", "UPDATE_ALL_PACKAGES", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_KERNEL", "UPDATE_KSPLICE_USERSPACE", "ENABLE_MODULE_STREAMS", "DISABLE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "INSTALL_MODULE_PROFILES", "REMOVE_MODULE_PROFILES", "SET_SOFTWARE_SOURCES", "LIST_PACKAGES", "SET_MANAGEMENT_STATION_CONFIG", "SYNC_MANAGEMENT_STATION_MIRROR", "UPDATE_MANAGEMENT_STATION_SOFTWARE", "UPDATE", "MODULE_ACTIONS", "LIFECYCLE_PROMOTION", "CREATE_SOFTWARE_SOURCE", "UPDATE_SOFTWARE_SOURCE", "IMPORT_CONTENT", "SYNC_AGENT_CONFIG", "INSTALL_WINDOWS_UPDATES", "LIST_WINDOWS_UPDATE", "GET_WINDOWS_UPDATE_DETAILS", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REMOVE_CONTENT", "UNREGISTER_MANAGED_INSTANCE", "REBOOT", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "INSTALL_PACKAGES", "REMOVE_PACKAGES", "UPDATE_PACKAGES", "UPDATE_ALL_PACKAGES", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_KERNEL", "UPDATE_KSPLICE_USERSPACE", "ENABLE_MODULE_STREAMS", "DISABLE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "INSTALL_MODULE_PROFILES", "REMOVE_MODULE_PROFILES", "SET_SOFTWARE_SOURCES", "LIST_PACKAGES", "SET_MANAGEMENT_STATION_CONFIG", "SYNC_MANAGEMENT_STATION_MIRROR", "UPDATE_MANAGEMENT_STATION_SOFTWARE", "UPDATE", "MODULE_ACTIONS", "LIFECYCLE_PROMOTION", "CREATE_SOFTWARE_SOURCE", "UPDATE_SOFTWARE_SOURCE", "IMPORT_CONTENT", "SYNC_AGENT_CONFIG", "INSTALL_WINDOWS_UPDATES", "LIST_WINDOWS_UPDATE", "GET_WINDOWS_UPDATE_DETAILS", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REMOVE_CONTENT", "UNREGISTER_MANAGED_INSTANCE", "REBOOT", "REGISTER_MANAGED_INSTANCE", "LIST_SNAPS", "INSTALL_SNAPS", "REMOVE_SNAPS", "SWITCH_SNAP_CHANNEL", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -438,7 +469,7 @@ class WorkRequest(object):
         :param operation_type: The operation_type of this WorkRequest.
         :type: str
         """
-        allowed_values = ["INSTALL_PACKAGES", "REMOVE_PACKAGES", "UPDATE_PACKAGES", "UPDATE_ALL_PACKAGES", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_KERNEL", "UPDATE_KSPLICE_USERSPACE", "ENABLE_MODULE_STREAMS", "DISABLE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "INSTALL_MODULE_PROFILES", "REMOVE_MODULE_PROFILES", "SET_SOFTWARE_SOURCES", "LIST_PACKAGES", "SET_MANAGEMENT_STATION_CONFIG", "SYNC_MANAGEMENT_STATION_MIRROR", "UPDATE_MANAGEMENT_STATION_SOFTWARE", "UPDATE", "MODULE_ACTIONS", "LIFECYCLE_PROMOTION", "CREATE_SOFTWARE_SOURCE", "UPDATE_SOFTWARE_SOURCE", "IMPORT_CONTENT", "SYNC_AGENT_CONFIG", "INSTALL_WINDOWS_UPDATES", "LIST_WINDOWS_UPDATE", "GET_WINDOWS_UPDATE_DETAILS", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REMOVE_CONTENT", "UNREGISTER_MANAGED_INSTANCE", "REBOOT"]
+        allowed_values = ["INSTALL_PACKAGES", "REMOVE_PACKAGES", "UPDATE_PACKAGES", "UPDATE_ALL_PACKAGES", "UPDATE_SECURITY", "UPDATE_BUGFIX", "UPDATE_ENHANCEMENT", "UPDATE_OTHER", "UPDATE_KSPLICE_KERNEL", "UPDATE_KSPLICE_USERSPACE", "ENABLE_MODULE_STREAMS", "DISABLE_MODULE_STREAMS", "SWITCH_MODULE_STREAM", "INSTALL_MODULE_PROFILES", "REMOVE_MODULE_PROFILES", "SET_SOFTWARE_SOURCES", "LIST_PACKAGES", "SET_MANAGEMENT_STATION_CONFIG", "SYNC_MANAGEMENT_STATION_MIRROR", "UPDATE_MANAGEMENT_STATION_SOFTWARE", "UPDATE", "MODULE_ACTIONS", "LIFECYCLE_PROMOTION", "CREATE_SOFTWARE_SOURCE", "UPDATE_SOFTWARE_SOURCE", "IMPORT_CONTENT", "SYNC_AGENT_CONFIG", "INSTALL_WINDOWS_UPDATES", "LIST_WINDOWS_UPDATE", "GET_WINDOWS_UPDATE_DETAILS", "INSTALL_ALL_WINDOWS_UPDATES", "INSTALL_SECURITY_WINDOWS_UPDATES", "INSTALL_BUGFIX_WINDOWS_UPDATES", "INSTALL_ENHANCEMENT_WINDOWS_UPDATES", "INSTALL_OTHER_WINDOWS_UPDATES", "REMOVE_CONTENT", "UNREGISTER_MANAGED_INSTANCE", "REBOOT", "REGISTER_MANAGED_INSTANCE", "LIST_SNAPS", "INSTALL_SNAPS", "REMOVE_SNAPS", "SWITCH_SNAP_CHANNEL"]
         if not value_allowed_none_or_none_sentinel(operation_type, allowed_values):
             operation_type = 'UNKNOWN_ENUM_VALUE'
         self._operation_type = operation_type
@@ -449,7 +480,7 @@ class WorkRequest(object):
         **[Required]** Gets the status of this WorkRequest.
         Status of the work request.
 
-        Allowed values for this property are: "WAITING", "ACCEPTED", "IN_PROGRESS", "FAILED", "SUCCEEDED", "CANCELING", "CANCELED", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "WAITING", "ACCEPTED", "IN_PROGRESS", "FAILED", "SUCCEEDED", "CANCELING", "CANCELED", "SKIPPED", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -468,7 +499,7 @@ class WorkRequest(object):
         :param status: The status of this WorkRequest.
         :type: str
         """
-        allowed_values = ["WAITING", "ACCEPTED", "IN_PROGRESS", "FAILED", "SUCCEEDED", "CANCELING", "CANCELED"]
+        allowed_values = ["WAITING", "ACCEPTED", "IN_PROGRESS", "FAILED", "SUCCEEDED", "CANCELING", "CANCELED", "SKIPPED"]
         if not value_allowed_none_or_none_sentinel(status, allowed_values):
             status = 'UNKNOWN_ENUM_VALUE'
         self._status = status
@@ -479,7 +510,7 @@ class WorkRequest(object):
         **[Required]** Gets the id of this WorkRequest.
         The `OCID`__ of the work request.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this WorkRequest.
@@ -493,7 +524,7 @@ class WorkRequest(object):
         Sets the id of this WorkRequest.
         The `OCID`__ of the work request.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this WorkRequest.
@@ -579,7 +610,7 @@ class WorkRequest(object):
         Gets the parent_id of this WorkRequest.
         The `OCID`__ of the parent work request, if there is any.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The parent_id of this WorkRequest.
@@ -593,7 +624,7 @@ class WorkRequest(object):
         Sets the parent_id of this WorkRequest.
         The `OCID`__ of the parent work request, if there is any.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param parent_id: The parent_id of this WorkRequest.
@@ -607,7 +638,7 @@ class WorkRequest(object):
         Gets the children_id of this WorkRequest.
         The list of `OCIDs`__ for the child work requests.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The children_id of this WorkRequest.
@@ -621,7 +652,7 @@ class WorkRequest(object):
         Sets the children_id of this WorkRequest.
         The list of `OCIDs`__ for the child work requests.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param children_id: The children_id of this WorkRequest.
@@ -637,7 +668,7 @@ class WorkRequest(object):
         Work requests should be scoped to the same compartment as the resource it affects.
         If the work request affects multiple resources the different compartments, the services selects the compartment of the primary resource.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this WorkRequest.
@@ -653,7 +684,7 @@ class WorkRequest(object):
         Work requests should be scoped to the same compartment as the resource it affects.
         If the work request affects multiple resources the different compartments, the services selects the compartment of the primary resource.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this WorkRequest.
@@ -667,7 +698,7 @@ class WorkRequest(object):
         **[Required]** Gets the resources of this WorkRequest.
         The list of `OCIDs`__ for the resources affected by the work request.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The resources of this WorkRequest.
@@ -681,7 +712,7 @@ class WorkRequest(object):
         Sets the resources of this WorkRequest.
         The list of `OCIDs`__ for the resources affected by the work request.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param resources: The resources of this WorkRequest.
@@ -903,7 +934,7 @@ class WorkRequest(object):
         Gets the initiator_id of this WorkRequest.
         The `OCID`__ of the resource that initiated the work request.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The initiator_id of this WorkRequest.
@@ -917,7 +948,7 @@ class WorkRequest(object):
         Sets the initiator_id of this WorkRequest.
         The `OCID`__ of the resource that initiated the work request.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param initiator_id: The initiator_id of this WorkRequest.
@@ -1051,7 +1082,7 @@ class WorkRequest(object):
         Gets the retry_of_id of this WorkRequest.
         The `OCID`__ of the original work request that is being retried.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The retry_of_id of this WorkRequest.
@@ -1065,7 +1096,7 @@ class WorkRequest(object):
         Sets the retry_of_id of this WorkRequest.
         The `OCID`__ of the original work request that is being retried.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param retry_of_id: The retry_of_id of this WorkRequest.
@@ -1079,7 +1110,7 @@ class WorkRequest(object):
         Gets the rerun_of_id of this WorkRequest.
         The `OCID`__ of the original work request that is being rerun.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The rerun_of_id of this WorkRequest.
@@ -1093,7 +1124,7 @@ class WorkRequest(object):
         Sets the rerun_of_id of this WorkRequest.
         The `OCID`__ of the original work request that is being rerun.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param rerun_of_id: The rerun_of_id of this WorkRequest.
@@ -1178,6 +1209,30 @@ class WorkRequest(object):
         :type: int
         """
         self._reboot_timeout_in_mins = reboot_timeout_in_mins
+
+    @property
+    def snap_specs(self):
+        """
+        Gets the snap_specs of this WorkRequest.
+        The details about the snap.
+
+
+        :return: The snap_specs of this WorkRequest.
+        :rtype: list[oci.os_management_hub.models.SnapSpecDetails]
+        """
+        return self._snap_specs
+
+    @snap_specs.setter
+    def snap_specs(self, snap_specs):
+        """
+        Sets the snap_specs of this WorkRequest.
+        The details about the snap.
+
+
+        :param snap_specs: The snap_specs of this WorkRequest.
+        :type: list[oci.os_management_hub.models.SnapSpecDetails]
+        """
+        self._snap_specs = snap_specs
 
     def __repr__(self):
         return formatted_flat_dict(self)

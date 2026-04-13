@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import functions_type_mapping
 missing = Sentinel("Missing")
 
@@ -30,7 +30,7 @@ class FunctionsManagementClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -49,7 +49,7 @@ class FunctionsManagementClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -81,7 +81,7 @@ class FunctionsManagementClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("functions"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -129,13 +129,13 @@ class FunctionsManagementClient(object):
         Moves an application into a different compartment within the same tenancy.
         For information about moving resources between compartments, see `Moving Resources Between Compartments`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str application_id: (required)
             The `OCID`__ of this application.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.functions.models.ChangeApplicationCompartmentDetails change_application_compartment_details: (required)
             Properties to change the compartment of an application.
@@ -169,7 +169,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/change_application_compartment.py.html>`__ to see an example of how to use change_application_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/change_application_compartment.py.html>`__ to see an example of how to use change_application_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['applicationId']
@@ -277,7 +277,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/create_application.py.html>`__ to see an example of how to use create_application API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/create_application.py.html>`__ to see an example of how to use create_application API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -373,7 +373,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/create_function.py.html>`__ to see an example of how to use create_function API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/create_function.py.html>`__ to see an example of how to use create_function API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -445,7 +445,7 @@ class FunctionsManagementClient(object):
         :param str application_id: (required)
             The `OCID`__ of this application.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -476,7 +476,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/delete_application.py.html>`__ to see an example of how to use delete_application API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/delete_application.py.html>`__ to see an example of how to use delete_application API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['applicationId']
@@ -558,7 +558,7 @@ class FunctionsManagementClient(object):
         :param str function_id: (required)
             The `OCID`__ of this function.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -589,7 +589,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/delete_function.py.html>`__ to see an example of how to use delete_function API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/delete_function.py.html>`__ to see an example of how to use delete_function API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['functionId']
@@ -671,7 +671,7 @@ class FunctionsManagementClient(object):
         :param str application_id: (required)
             The `OCID`__ of this application.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -697,7 +697,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_application.py.html>`__ to see an example of how to use get_application API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_application.py.html>`__ to see an example of how to use get_application API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['applicationId']
@@ -779,7 +779,7 @@ class FunctionsManagementClient(object):
         :param str function_id: (required)
             The `OCID`__ of this function.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -805,7 +805,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_function.py.html>`__ to see an example of how to use get_function API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_function.py.html>`__ to see an example of how to use get_function API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['functionId']
@@ -911,7 +911,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_pbf_listing.py.html>`__ to see an example of how to use get_pbf_listing API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_pbf_listing.py.html>`__ to see an example of how to use get_pbf_listing API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['pbfListingId']
@@ -1017,7 +1017,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_pbf_listing_version.py.html>`__ to see an example of how to use get_pbf_listing_version API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/get_pbf_listing_version.py.html>`__ to see an example of how to use get_pbf_listing_version API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['pbfListingVersionId']
@@ -1099,7 +1099,7 @@ class FunctionsManagementClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment to which this resource belongs.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The maximum number of items to return. 1 is the minimum, 50 is the maximum.
@@ -1164,7 +1164,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_applications.py.html>`__ to see an example of how to use list_applications API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_applications.py.html>`__ to see an example of how to use list_applications API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -1276,7 +1276,7 @@ class FunctionsManagementClient(object):
         :param str application_id: (required)
             The `OCID`__ of the application to which this function belongs.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             The maximum number of items to return. 1 is the minimum, 50 is the maximum.
@@ -1341,7 +1341,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_functions.py.html>`__ to see an example of how to use list_functions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_functions.py.html>`__ to see an example of how to use list_functions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['applicationId']
@@ -1518,7 +1518,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_pbf_listing_versions.py.html>`__ to see an example of how to use list_pbf_listing_versions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_pbf_listing_versions.py.html>`__ to see an example of how to use list_pbf_listing_versions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['pbfListingId']
@@ -1695,7 +1695,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_pbf_listings.py.html>`__ to see an example of how to use list_pbf_listings API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_pbf_listings.py.html>`__ to see an example of how to use list_pbf_listings API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1852,7 +1852,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_triggers.py.html>`__ to see an example of how to use list_triggers API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/list_triggers.py.html>`__ to see an example of how to use list_triggers API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1943,7 +1943,7 @@ class FunctionsManagementClient(object):
         :param str application_id: (required)
             The `OCID`__ of this application.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.functions.models.UpdateApplicationDetails update_application_details: (required)
             The new application spec to apply
@@ -1977,7 +1977,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/update_application.py.html>`__ to see an example of how to use update_application API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/update_application.py.html>`__ to see an example of how to use update_application API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['applicationId']
@@ -2063,7 +2063,7 @@ class FunctionsManagementClient(object):
         :param str function_id: (required)
             The `OCID`__ of this function.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.functions.models.UpdateFunctionDetails update_function_details: (required)
             The new function spec to apply
@@ -2097,7 +2097,7 @@ class FunctionsManagementClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/update_function.py.html>`__ to see an example of how to use update_function API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/functions/update_function.py.html>`__ to see an example of how to use update_function API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['functionId']

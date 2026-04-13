@@ -5,14 +5,104 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 ====================
+2.170.0 - 2026-04-07
+====================
+
+Added 
+----- 
+* Support for managing OLVM environment and endpoint fields for asset sources in the Cloud Bridge service 
+* Support for managing OLVM environment asset class name, asset class version, and asset details in the Cloud Bridge service 
+* Support for Ubuntu, Windows Server 2025, Windows 11, and Dynamic Groupings in the OS Management Hub service 
+* Support for S3 virtual host URLs for existing and regionally unique buckets in the Object Storage service 
+* Support for dual-stack IPv6 endpoints in the Management Agent Cloud service 
+* Support for generic VNIC Attachment node pools with application resource-based pod networking and secondary VNIC profiles in the Kubernetes Engine service 
+* Support for getting currentSize of the instancePool resource in the Compute service 
+* Support for new launch instance networkType value ACCELERATEDPV in the Compute service  
+
+Breaking 
+-------- 
+* Removed parameters `freeform_tags` and `defined_tags` from ApplianceImageSummary model from Cloud bridge service  
+
+====================
+2.169.0 - 2026-03-31
+====================
+
+Added 
+----- 
+* Support for the Container Registry service 
+* Support for the Service Enablement Lifecycle Framework (SELF) service 
+* Support for custom CA certificates for LDAP on mount targets in the File Storage service 
+* Support for using IPv6 addresses as mount target IP addresses in the File Storage service 
+* Support for natural language to SQL (NL2SQL) in the Generative AI Data service 
+* Support for Zero Data Loss recovery in the Database service 
+* Support for private network replication in the Cloud Migrations service 
+* Support for reserved private IPs in the Network Load Balancer service 
+* Support for creating and updating model deployments with public egress in the Data Science service 
+* Support for validation of migrated Disaster Recovery instances in the Integration service 
+* Support for additional AI Autonomous Database types (Autonomous JSON DB (AJD), Autonomous APEX (APEX), and Autonomous Vector DB (AVD)) in the Ops Insights service 
+* Support for controlled updates in the MySQL HeatWave service  
+
+Breaking 
+-------- 
+* Parameter `compartment_id` was removed from the model `GenerateSqlFromNlJob` in the Generative AI Data service  
+
+====================
+2.168.3 - 2026-03-24
+====================
+
+Added 
+----- 
+* Support for the Generative AI Data service 
+* Support for Generative AI Project features in the Generative AI service 
+* Support for the Generative AI Vector Store Connector feature in the Generative AI service 
+* Support for Hosted Deployment in the Generative AI service 
+* Support for cluster admin password stored in OCI Vaults in the Big Data service (BDS) 
+* Support for Block Storage to Master/Utility and Edge Nodes in the Big Data service 
+* Support for deleting multiple nodes in the Big Data service  
+
+====================
+2.168.2 - 2026-03-17
+====================
+
+Added 
+----- 
+* Support for additional node pools for ML and Coordinator nodes in the OpenSearch service  
+
+Changed  
+-------  
+* The urllib3 is no more a vendored library   
+
+Security 
+-------- 
+* The upper bound for `urllib3` dependency has changed to versions till `2.6.0` for python version `>
+
+=3.10` to address security vulnerability CVE-2025-66418.     
+
+====================
+2.168.1 - 2026-03-10
+====================
+
+Added 
+----- 
+* Support for the Guarded Data Pipelines (GDP) service 
+* Support for the Limits Increase service 
+* Support for VMware Bring-Your-Own-License with VCF5.2 in the Oracle Cloud VMware Provisioning service 
+* Support for Identity Verification in the Identity Domains service 
+* Support for OKV-based keys, moving replication units and recreating failed resources based on Exascale and Autonomous infrastructure in the  
+* Globally Distributed Database service 
+* Support for setting the last IP drain period for email IP pools in the Email Delivery service. 
+* Support for additional filters when listing work requests in the Email Delivery service 
+* Support for the VCNIP IP Lifetime feature in the Compute service  
+
+====================
 2.168.0 - 2026-03-03
 ====================
 
 Added  
 -----  
 * Support for the User Managed Maintenance Window Feature in the Lustre File service 
-* Support for multiple standby databases across AD and Regions in a Data Guard environment for BaseDB in the Database service 
-* Support for OS Patching in BaseDB in the Database service 
+* Support for multiple standby databases across AD and Regions in a Data Guard environment for Base Database in the Database service
+* Support for OS Patching in Base Database in the Database service
 * Support for Valkey 8.1 in the Redis service 
 * Support for Exadata Cost Management in the Ops Insights service 
 * Support for accepting target database user credentials for masking and generating health reports in the Data Safe service  
@@ -4600,7 +4690,7 @@ Added
 
 Breaking
 --------
-* The attribute `model_type` in `TypedObject` model now raises `ValueError` when provided with an invalid value. Please see the `documentation <https://docs.cloud.oracle.com/en-us/iaas/tools/python/2.21.6/api/data_integration/models/oci.data_integration.models.TypedObject.html#oci.data_integration.models.TypedObject.model_type>`_ for a list of allowed values.
+* The attribute `model_type` in `TypedObject` model now raises `ValueError` when provided with an invalid value. Please see the `documentation <https://docs.oracle.com/en-us/iaas/tools/python/2.21.6/api/data_integration/models/oci.data_integration.models.TypedObject.html#oci.data_integration.models.TypedObject.model_type>`_ for a list of allowed values.
 
 ====================
 2.21.6 - 2020-09-29
@@ -4933,7 +5023,7 @@ Added
 -----
 * Support for access types on instances in the Content and Experience service
 * Support for identity contexts in the Search service
-* Support for Client Side Encryption: https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/clientsideencryption.htm
+* Support for Client Side Encryption: https://docs.oracle.com/en-us/iaas/Content/API/Concepts/clientsideencryption.htm
 * Support for retries on Python built-in `ConnectionError <https://docs.python.org/3/library/exceptions.html#ConnectionError>`__
 
 ====================

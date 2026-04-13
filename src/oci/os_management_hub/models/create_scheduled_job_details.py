@@ -73,6 +73,10 @@ class CreateScheduledJobDetails(object):
             The value to assign to the lifecycle_stage_ids property of this CreateScheduledJobDetails.
         :type lifecycle_stage_ids: list[str]
 
+        :param dynamic_set_ids:
+            The value to assign to the dynamic_set_ids property of this CreateScheduledJobDetails.
+        :type dynamic_set_ids: list[str]
+
         :param is_subcompartment_included:
             The value to assign to the is_subcompartment_included property of this CreateScheduledJobDetails.
         :type is_subcompartment_included: bool
@@ -114,6 +118,7 @@ class CreateScheduledJobDetails(object):
             'managed_instance_group_ids': 'list[str]',
             'managed_compartment_ids': 'list[str]',
             'lifecycle_stage_ids': 'list[str]',
+            'dynamic_set_ids': 'list[str]',
             'is_subcompartment_included': 'bool',
             'operations': 'list[ScheduledJobOperation]',
             'freeform_tags': 'dict(str, str)',
@@ -134,6 +139,7 @@ class CreateScheduledJobDetails(object):
             'managed_instance_group_ids': 'managedInstanceGroupIds',
             'managed_compartment_ids': 'managedCompartmentIds',
             'lifecycle_stage_ids': 'lifecycleStageIds',
+            'dynamic_set_ids': 'dynamicSetIds',
             'is_subcompartment_included': 'isSubcompartmentIncluded',
             'operations': 'operations',
             'freeform_tags': 'freeformTags',
@@ -153,6 +159,7 @@ class CreateScheduledJobDetails(object):
         self._managed_instance_group_ids = None
         self._managed_compartment_ids = None
         self._lifecycle_stage_ids = None
+        self._dynamic_set_ids = None
         self._is_subcompartment_included = None
         self._operations = None
         self._freeform_tags = None
@@ -167,7 +174,7 @@ class CreateScheduledJobDetails(object):
         **[Required]** Gets the compartment_id of this CreateScheduledJobDetails.
         The `OCID`__ of the compartment that contains the scheduled job.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this CreateScheduledJobDetails.
@@ -181,7 +188,7 @@ class CreateScheduledJobDetails(object):
         Sets the compartment_id of this CreateScheduledJobDetails.
         The `OCID`__ of the compartment that contains the scheduled job.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this CreateScheduledJobDetails.
@@ -324,7 +331,11 @@ class CreateScheduledJobDetails(object):
     def recurring_rule(self):
         """
         Gets the recurring_rule of this CreateScheduledJobDetails.
-        The frequency schedule for a recurring scheduled job.
+        The frequency schedule for a recurring scheduled job in the `RFC5535`__ format.
+        Note: Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported.
+        In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY\", HOURLY are supported.
+
+        __ https://www.rfc-editor.org/rfc/rfc5535
 
 
         :return: The recurring_rule of this CreateScheduledJobDetails.
@@ -336,7 +347,11 @@ class CreateScheduledJobDetails(object):
     def recurring_rule(self, recurring_rule):
         """
         Sets the recurring_rule of this CreateScheduledJobDetails.
-        The frequency schedule for a recurring scheduled job.
+        The frequency schedule for a recurring scheduled job in the `RFC5535`__ format.
+        Note: Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported.
+        In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY\", HOURLY are supported.
+
+        __ https://www.rfc-editor.org/rfc/rfc5535
 
 
         :param recurring_rule: The recurring_rule of this CreateScheduledJobDetails.
@@ -350,9 +365,9 @@ class CreateScheduledJobDetails(object):
         Gets the managed_instance_ids of this CreateScheduledJobDetails.
         The managed instance `OCIDs`__ that this scheduled job operates on.
         A scheduled job can only operate on one type of target, therefore you must supply either this or
-        managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds.
+        managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The managed_instance_ids of this CreateScheduledJobDetails.
@@ -366,9 +381,9 @@ class CreateScheduledJobDetails(object):
         Sets the managed_instance_ids of this CreateScheduledJobDetails.
         The managed instance `OCIDs`__ that this scheduled job operates on.
         A scheduled job can only operate on one type of target, therefore you must supply either this or
-        managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds.
+        managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param managed_instance_ids: The managed_instance_ids of this CreateScheduledJobDetails.
@@ -382,9 +397,9 @@ class CreateScheduledJobDetails(object):
         Gets the managed_instance_group_ids of this CreateScheduledJobDetails.
         The managed instance group `OCIDs`__ that this scheduled job operates on.
         A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,
-        or managedCompartmentIds, or lifecycleStageIds.
+        or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The managed_instance_group_ids of this CreateScheduledJobDetails.
@@ -398,9 +413,9 @@ class CreateScheduledJobDetails(object):
         Sets the managed_instance_group_ids of this CreateScheduledJobDetails.
         The managed instance group `OCIDs`__ that this scheduled job operates on.
         A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,
-        or managedCompartmentIds, or lifecycleStageIds.
+        or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param managed_instance_group_ids: The managed_instance_group_ids of this CreateScheduledJobDetails.
@@ -415,9 +430,9 @@ class CreateScheduledJobDetails(object):
         The compartment `OCIDs`__ that this scheduled job operates on.
         To apply the job to all compartments in the tenancy, set this to the tenancy OCID (root compartment) and set
         isSubcompartmentIncluded to true. A scheduled job can only operate on one type of target, therefore you must
-        supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds.
+        supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The managed_compartment_ids of this CreateScheduledJobDetails.
@@ -432,9 +447,9 @@ class CreateScheduledJobDetails(object):
         The compartment `OCIDs`__ that this scheduled job operates on.
         To apply the job to all compartments in the tenancy, set this to the tenancy OCID (root compartment) and set
         isSubcompartmentIncluded to true. A scheduled job can only operate on one type of target, therefore you must
-        supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds.
+        supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param managed_compartment_ids: The managed_compartment_ids of this CreateScheduledJobDetails.
@@ -448,9 +463,9 @@ class CreateScheduledJobDetails(object):
         Gets the lifecycle_stage_ids of this CreateScheduledJobDetails.
         The lifecycle stage `OCIDs`__ that this scheduled job operates on.
         A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,
-        or managedInstanceGroupIds, or managedCompartmentIds.
+        or managedInstanceGroupIds, or managedCompartmentIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The lifecycle_stage_ids of this CreateScheduledJobDetails.
@@ -464,9 +479,9 @@ class CreateScheduledJobDetails(object):
         Sets the lifecycle_stage_ids of this CreateScheduledJobDetails.
         The lifecycle stage `OCIDs`__ that this scheduled job operates on.
         A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,
-        or managedInstanceGroupIds, or managedCompartmentIds.
+        or managedInstanceGroupIds, or managedCompartmentIds, or dynamicSetIds.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param lifecycle_stage_ids: The lifecycle_stage_ids of this CreateScheduledJobDetails.
@@ -475,13 +490,45 @@ class CreateScheduledJobDetails(object):
         self._lifecycle_stage_ids = lifecycle_stage_ids
 
     @property
+    def dynamic_set_ids(self):
+        """
+        Gets the dynamic_set_ids of this CreateScheduledJobDetails.
+        The dynamic set `OCIDs`__ that this scheduled job operates on.
+        A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
+        managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, managedCompartmentIds.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :return: The dynamic_set_ids of this CreateScheduledJobDetails.
+        :rtype: list[str]
+        """
+        return self._dynamic_set_ids
+
+    @dynamic_set_ids.setter
+    def dynamic_set_ids(self, dynamic_set_ids):
+        """
+        Sets the dynamic_set_ids of this CreateScheduledJobDetails.
+        The dynamic set `OCIDs`__ that this scheduled job operates on.
+        A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
+        managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, managedCompartmentIds.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :param dynamic_set_ids: The dynamic_set_ids of this CreateScheduledJobDetails.
+        :type: list[str]
+        """
+        self._dynamic_set_ids = dynamic_set_ids
+
+    @property
     def is_subcompartment_included(self):
         """
         Gets the is_subcompartment_included of this CreateScheduledJobDetails.
         Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies
         the tenancy `OCID`__ (root compartment).
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The is_subcompartment_included of this CreateScheduledJobDetails.
@@ -496,7 +543,7 @@ class CreateScheduledJobDetails(object):
         Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies
         the tenancy `OCID`__ (root compartment).
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param is_subcompartment_included: The is_subcompartment_included of this CreateScheduledJobDetails.
@@ -554,7 +601,7 @@ class CreateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateScheduledJobDetails.
@@ -570,7 +617,7 @@ class CreateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateScheduledJobDetails.
@@ -586,7 +633,7 @@ class CreateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateScheduledJobDetails.
@@ -602,7 +649,7 @@ class CreateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateScheduledJobDetails.
@@ -670,7 +717,7 @@ class CreateScheduledJobDetails(object):
         Gets the work_request_id of this CreateScheduledJobDetails.
         The `OCID`__ for the work request that will be rerun.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The work_request_id of this CreateScheduledJobDetails.
@@ -684,7 +731,7 @@ class CreateScheduledJobDetails(object):
         Sets the work_request_id of this CreateScheduledJobDetails.
         The `OCID`__ for the work request that will be rerun.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param work_request_id: The work_request_id of this CreateScheduledJobDetails.

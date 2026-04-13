@@ -33,12 +33,12 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.AttachManagedInstancesToManagedInstanceGroupDetails attach_managed_instances_to_managed_instance_group_details: (required)
             The managed instances `OCIDs`__ to attach to the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] wait_for_states:
             An array of states to wait on. These should be valid values for :py:attr:`~oci.os_management_hub.models.WorkRequest.status`
@@ -79,12 +79,12 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.AttachSoftwareSourcesToManagedInstanceGroupDetails attach_software_sources_to_managed_instance_group_details: (required)
             The software source `OCIDs`__ to attach to the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] wait_for_states:
             An array of states to wait on. These should be valid values for :py:attr:`~oci.os_management_hub.models.WorkRequest.status`
@@ -167,7 +167,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] wait_for_states:
             An array of states to wait on. These should be valid values for :py:attr:`~oci.os_management_hub.models.ManagedInstanceGroup.lifecycle_state`
@@ -228,7 +228,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.DisableModuleStreamOnManagedInstanceGroupDetails disable_module_stream_on_managed_instance_group_details: (required)
             The details used to disable modules on the managed instance group.
@@ -272,7 +272,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.EnableModuleStreamOnManagedInstanceGroupDetails enable_module_stream_on_managed_instance_group_details: (required)
             The details used to enable the module stream on the managed instance group.
@@ -316,7 +316,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.InstallModuleStreamProfileOnManagedInstanceGroupDetails install_module_stream_profile_on_managed_instance_group_details: (required)
             The details used to install module stream profiles on a managed instance gorup.
@@ -360,7 +360,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.InstallPackagesOnManagedInstanceGroupDetails install_packages_on_managed_instance_group_details: (required)
             The names of packages to install on the specified managed instance group.
@@ -404,7 +404,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.InstallWindowsUpdatesOnManagedInstanceGroupDetails install_windows_updates_on_managed_instance_group_details: (required)
             Provides the details used to install Windows updates on a managed instance group.
@@ -448,7 +448,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] wait_for_states:
             An array of states to wait on. These should be valid values for :py:attr:`~oci.os_management_hub.models.WorkRequest.status`
@@ -489,7 +489,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.ManageModuleStreamsOnManagedInstanceGroupDetails manage_module_streams_on_managed_instance_group_details: (required)
             The set of changes to make to the modules, streams, and profiles on a managed instance group.
@@ -533,7 +533,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.RebootManagedInstanceGroupDetails reboot_managed_instance_group_details: (required)
             Provides the information used to reboot managed instances in a group.
@@ -569,6 +569,47 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         except Exception as e:
             raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
 
+    def refresh_software_on_managed_instance_group_and_wait_for_state(self, managed_instance_group_id, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
+        """
+        Calls :py:func:`~oci.os_management_hub.ManagedInstanceGroupClient.refresh_software_on_managed_instance_group` and waits for the :py:class:`~oci.os_management_hub.models.WorkRequest`
+        to enter the given state(s).
+
+        :param str managed_instance_group_id: (required)
+            The `OCID`__ of the managed instance group.
+
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param list[str] wait_for_states:
+            An array of states to wait on. These should be valid values for :py:attr:`~oci.os_management_hub.models.WorkRequest.status`
+
+        :param dict operation_kwargs:
+            A dictionary of keyword arguments to pass to :py:func:`~oci.os_management_hub.ManagedInstanceGroupClient.refresh_software_on_managed_instance_group`
+
+        :param dict waiter_kwargs:
+            A dictionary of keyword arguments to pass to the :py:func:`oci.wait_until` function. For example, you could pass ``max_interval_seconds`` or ``max_interval_seconds``
+            as dictionary keys to modify how long the waiter function will wait between retries and the maximum amount of time it will wait
+        """
+        operation_result = self.client.refresh_software_on_managed_instance_group(managed_instance_group_id, **operation_kwargs)
+        if not wait_for_states:
+            return operation_result
+        lowered_wait_for_states = [w.lower() for w in wait_for_states]
+        if 'opc-work-request-id' not in operation_result.headers:
+            return operation_result
+        wait_for_resource_id = operation_result.headers['opc-work-request-id']
+
+        try:
+            waiter_result = oci.wait_until(
+                self.client,
+                self.client.get_work_request(wait_for_resource_id),
+                evaluate_response=lambda r: getattr(r.data, 'status') and getattr(r.data, 'status').lower() in lowered_wait_for_states,
+                **waiter_kwargs
+            )
+            result_to_return = waiter_result
+
+            return result_to_return
+        except Exception as e:
+            raise oci.exceptions.CompositeOperationError(partial_results=[operation_result], cause=e)
+
     def remove_module_stream_profile_from_managed_instance_group_and_wait_for_state(self, managed_instance_group_id, remove_module_stream_profile_from_managed_instance_group_details, wait_for_states=[], operation_kwargs={}, waiter_kwargs={}):
         """
         Calls :py:func:`~oci.os_management_hub.ManagedInstanceGroupClient.remove_module_stream_profile_from_managed_instance_group` and waits for the :py:class:`~oci.os_management_hub.models.WorkRequest`
@@ -577,7 +618,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.RemoveModuleStreamProfileFromManagedInstanceGroupDetails remove_module_stream_profile_from_managed_instance_group_details: (required)
             The details used to remove profiles from the managed instance group. Providing the module stream name (without specifying a profile name) removes all profiles that have been installed for the module stream.
@@ -621,7 +662,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.RemovePackagesFromManagedInstanceGroupDetails remove_packages_from_managed_instance_group_details: (required)
             The names of packages to remove from the specified managed instance group.
@@ -665,7 +706,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.SwitchModuleStreamOnManagedInstanceGroupDetails switch_module_stream_on_managed_instance_group_details: (required)
             Provides the details used to switch module streams on a managed instance group.
@@ -709,7 +750,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.UpdateAllPackagesOnManagedInstanceGroupDetails update_all_packages_on_managed_instance_group_details: (required)
             Details for update operation on the managed instance group.
@@ -753,7 +794,7 @@ class ManagedInstanceGroupClientCompositeOperations(object):
         :param str managed_instance_group_id: (required)
             The `OCID`__ of the managed instance group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.os_management_hub.models.UpdateManagedInstanceGroupDetails update_managed_instance_group_details: (required)
             Provides the details used to update the managed instance group.

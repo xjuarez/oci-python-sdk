@@ -35,8 +35,8 @@ class Instance(object):
     **Warning:** Oracle recommends that you avoid using any confidential information when you
     supply string values using the API.
 
-    __ https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm
-    __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm
+    __ https://docs.oracle.com/iaas/Content/Compute/Concepts/computeoverview.htm
+    __ https://docs.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm
     """
 
     #: A constant which can be used with the security_attributes_state property of a Instance.
@@ -58,6 +58,10 @@ class Instance(object):
     #: A constant which can be used with the launch_mode property of a Instance.
     #: This constant has a value of "PARAVIRTUALIZED"
     LAUNCH_MODE_PARAVIRTUALIZED = "PARAVIRTUALIZED"
+
+    #: A constant which can be used with the launch_mode property of a Instance.
+    #: This constant has a value of "ACCELERATEDPV"
+    LAUNCH_MODE_ACCELERATEDPV = "ACCELERATEDPV"
 
     #: A constant which can be used with the launch_mode property of a Instance.
     #: This constant has a value of "CUSTOM"
@@ -176,7 +180,7 @@ class Instance(object):
 
         :param launch_mode:
             The value to assign to the launch_mode property of this Instance.
-            Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
+            Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "ACCELERATEDPV", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type launch_mode: str
 
@@ -404,7 +408,7 @@ class Instance(object):
         When this field contains an empty string or is null, the instance is not currently in a capacity reservation.
         For more information, see `Capacity Reservations`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default
+        __ https://docs.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default
 
 
         :return: The capacity_reservation_id of this Instance.
@@ -420,7 +424,7 @@ class Instance(object):
         When this field contains an empty string or is null, the instance is not currently in a capacity reservation.
         For more information, see `Capacity Reservations`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default
+        __ https://docs.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default
 
 
         :param capacity_reservation_id: The capacity_reservation_id of this Instance.
@@ -553,7 +557,7 @@ class Instance(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this Instance.
@@ -570,7 +574,7 @@ class Instance(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this Instance.
@@ -588,8 +592,8 @@ class Instance(object):
 
         Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
 
 
         :return: The security_attributes of this Instance.
@@ -607,8 +611,8 @@ class Instance(object):
 
         Example: `{\"Oracle-DataSecurity-ZPR\": {\"MaxEgressCount\": {\"value\":\"42\",\"mode\":\"audit\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
-        __ https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes
+        __ https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm
 
 
         :param security_attributes: The security_attributes of this Instance.
@@ -757,7 +761,7 @@ class Instance(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this Instance.
@@ -774,7 +778,7 @@ class Instance(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this Instance.
@@ -863,7 +867,7 @@ class Instance(object):
 
         For more information about iPXE, see http://ipxe.org.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
+        __ https://docs.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
 
 
         :return: The ipxe_script of this Instance.
@@ -904,7 +908,7 @@ class Instance(object):
 
         For more information about iPXE, see http://ipxe.org.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
+        __ https://docs.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm
 
 
         :param ipxe_script: The ipxe_script of this Instance.
@@ -920,9 +924,10 @@ class Instance(object):
         * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
         * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
         * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+        * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
         * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 
-        Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
+        Allowed values for this property are: "NATIVE", "EMULATED", "PARAVIRTUALIZED", "ACCELERATEDPV", "CUSTOM", 'UNKNOWN_ENUM_VALUE'.
         Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
 
 
@@ -939,13 +944,14 @@ class Instance(object):
         * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
         * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
         * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+        * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
         * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 
 
         :param launch_mode: The launch_mode of this Instance.
         :type: str
         """
-        allowed_values = ["NATIVE", "EMULATED", "PARAVIRTUALIZED", "CUSTOM"]
+        allowed_values = ["NATIVE", "EMULATED", "PARAVIRTUALIZED", "ACCELERATEDPV", "CUSTOM"]
         if not value_allowed_none_or_none_sentinel(launch_mode, allowed_values):
             launch_mode = 'UNKNOWN_ENUM_VALUE'
         self._launch_mode = launch_mode

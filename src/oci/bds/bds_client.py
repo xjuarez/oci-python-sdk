@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import bds_type_mapping
 missing = Sentinel("Missing")
 
@@ -30,7 +30,7 @@ class BdsClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -49,7 +49,7 @@ class BdsClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -81,7 +81,7 @@ class BdsClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("bds"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -175,7 +175,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/activate_bds_metastore_configuration.py.html>`__ to see an example of how to use activate_bds_metastore_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/activate_bds_metastore_configuration.py.html>`__ to see an example of how to use activate_bds_metastore_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'metastoreConfigId']
@@ -304,7 +304,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/activate_iam_user_sync_configuration.py.html>`__ to see an example of how to use activate_iam_user_sync_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/activate_iam_user_sync_configuration.py.html>`__ to see an example of how to use activate_iam_user_sync_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -433,7 +433,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/activate_upst_configuration.py.html>`__ to see an example of how to use activate_upst_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/activate_upst_configuration.py.html>`__ to see an example of how to use activate_upst_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -559,7 +559,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_auto_scaling_configuration.py.html>`__ to see an example of how to use add_auto_scaling_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_auto_scaling_configuration.py.html>`__ to see an example of how to use add_auto_scaling_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -638,7 +638,7 @@ class BdsClient(object):
 
     def add_block_storage(self, bds_instance_id, add_block_storage_details, **kwargs):
         """
-        Adds block storage to existing worker/compute only worker nodes. The same amount of  storage will be added to all worker/compute only worker nodes. No change will be made to storage that is already attached. Block storage cannot be removed.
+        Adds block storage to existing worker/compute only worker nodes. The same amount of storage will be added to all worker/compute only worker nodes. No change will be made to storage that is already attached. Block storage cannot be removed.
 
 
         :param str bds_instance_id: (required)
@@ -684,7 +684,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_block_storage.py.html>`__ to see an example of how to use add_block_storage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_block_storage.py.html>`__ to see an example of how to use add_block_storage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -809,7 +809,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_cloud_sql.py.html>`__ to see an example of how to use add_cloud_sql API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_cloud_sql.py.html>`__ to see an example of how to use add_cloud_sql API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -934,7 +934,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_kafka.py.html>`__ to see an example of how to use add_kafka API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_kafka.py.html>`__ to see an example of how to use add_kafka API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1059,7 +1059,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_master_nodes.py.html>`__ to see an example of how to use add_master_nodes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_master_nodes.py.html>`__ to see an example of how to use add_master_nodes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1184,7 +1184,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_utility_nodes.py.html>`__ to see an example of how to use add_utility_nodes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_utility_nodes.py.html>`__ to see an example of how to use add_utility_nodes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1263,7 +1263,7 @@ class BdsClient(object):
 
     def add_worker_nodes(self, bds_instance_id, add_worker_nodes_details, **kwargs):
         """
-        Increases the size (scales out) a cluster by adding worker nodes(data/compute). The added worker nodes will have the same shape and will have the same amount of attached block storage as other worker nodes in the cluster.
+        Increases the size (scales out) of a cluster by adding worker nodes (data/compute/edge). The added worker and compute only worker nodes will have the same amount of attached block storage as other nodes of the same type in the cluster. Edge nodes can have different block storage sizes within the valid range (50GB-10TB).
 
 
         :param str bds_instance_id: (required)
@@ -1309,7 +1309,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_worker_nodes.py.html>`__ to see an example of how to use add_worker_nodes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/add_worker_nodes.py.html>`__ to see an example of how to use add_worker_nodes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1434,7 +1434,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/backup_node.py.html>`__ to see an example of how to use backup_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/backup_node.py.html>`__ to see an example of how to use backup_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1511,6 +1511,133 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def bds_instance_reset_password(self, bds_instance_id, bds_instance_reset_password_details, **kwargs):
+        """
+        Admin function which allows the password reset of indicated service.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param oci.bds.models.BdsInstanceResetPasswordDetails bds_instance_reset_password_details: (required)
+            Parameters for resetting the admin password of the indicated component.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            etag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the etag you
+            provide matches the resource's current etag value.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error, without risk of executing that same action again. Retry tokens expire after 24
+            hours but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.bds.models.PasswordSummary`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/bds_instance_reset_password.py.html>`__ to see an example of how to use bds_instance_reset_password API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/actions/resetPassword"
+        method = "POST"
+        operation_name = "bds_instance_reset_password"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/BdsInstanceResetPassword"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_request_id",
+            "if_match",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"bds_instance_reset_password got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=bds_instance_reset_password_details,
+                response_type="PasswordSummary",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=bds_instance_reset_password_details,
+                response_type="PasswordSummary",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def certificate_service_info(self, bds_instance_id, certificate_service_info_details, **kwargs):
         """
         A list of services and their certificate details.
@@ -1559,7 +1686,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/certificate_service_info.py.html>`__ to see an example of how to use certificate_service_info API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/certificate_service_info.py.html>`__ to see an example of how to use certificate_service_info API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1686,7 +1813,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/change_bds_instance_compartment.py.html>`__ to see an example of how to use change_bds_instance_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/change_bds_instance_compartment.py.html>`__ to see an example of how to use change_bds_instance_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1811,7 +1938,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/change_shape.py.html>`__ to see an example of how to use change_shape API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/change_shape.py.html>`__ to see an example of how to use change_shape API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -1929,7 +2056,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_api_key.py.html>`__ to see an example of how to use create_bds_api_key API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_api_key.py.html>`__ to see an example of how to use create_bds_api_key API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -2042,7 +2169,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_capacity_report.py.html>`__ to see an example of how to use create_bds_capacity_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_capacity_report.py.html>`__ to see an example of how to use create_bds_capacity_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2107,6 +2234,122 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def create_bds_certificate_configuration(self, bds_instance_id, create_bds_certificate_configuration_details, **kwargs):
+        """
+        Create a BDS certificate configuration for the cluster.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param oci.bds.models.CreateBdsCertificateConfigurationDetails create_bds_certificate_configuration_details: (required)
+            Details of creating BDS certificate configuration for the Big Data Service cluster.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error, without risk of executing that same action again. Retry tokens expire after 24
+            hours but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_certificate_configuration.py.html>`__ to see an example of how to use create_bds_certificate_configuration API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/bdsCertificateConfigurations"
+        method = "POST"
+        operation_name = "create_bds_certificate_configuration"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/CreateBdsCertificateConfiguration"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_request_id",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"create_bds_certificate_configuration got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=create_bds_certificate_configuration_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=create_bds_certificate_configuration_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def create_bds_instance(self, create_bds_instance_details, **kwargs):
         """
         Creates a Big Data Service cluster.
@@ -2145,7 +2388,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_instance.py.html>`__ to see an example of how to use create_bds_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_instance.py.html>`__ to see an example of how to use create_bds_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2249,7 +2492,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_metastore_configuration.py.html>`__ to see an example of how to use create_bds_metastore_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_bds_metastore_configuration.py.html>`__ to see an example of how to use create_bds_metastore_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -2365,7 +2608,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_identity_configuration.py.html>`__ to see an example of how to use create_identity_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_identity_configuration.py.html>`__ to see an example of how to use create_identity_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -2481,7 +2724,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_node_backup_configuration.py.html>`__ to see an example of how to use create_node_backup_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_node_backup_configuration.py.html>`__ to see an example of how to use create_node_backup_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -2597,7 +2840,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_node_replace_configuration.py.html>`__ to see an example of how to use create_node_replace_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_node_replace_configuration.py.html>`__ to see an example of how to use create_node_replace_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -2713,7 +2956,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_resource_principal_configuration.py.html>`__ to see an example of how to use create_resource_principal_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/create_resource_principal_configuration.py.html>`__ to see an example of how to use create_resource_principal_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -2839,7 +3082,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/deactivate_iam_user_sync_configuration.py.html>`__ to see an example of how to use deactivate_iam_user_sync_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/deactivate_iam_user_sync_configuration.py.html>`__ to see an example of how to use deactivate_iam_user_sync_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -2968,7 +3211,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/deactivate_upst_configuration.py.html>`__ to see an example of how to use deactivate_upst_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/deactivate_upst_configuration.py.html>`__ to see an example of how to use deactivate_upst_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -3087,7 +3330,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_bds_api_key.py.html>`__ to see an example of how to use delete_bds_api_key API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_bds_api_key.py.html>`__ to see an example of how to use delete_bds_api_key API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'apiKeyId']
@@ -3160,6 +3403,130 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def delete_bds_certificate_configuration(self, bds_instance_id, bds_certificate_configuration_id, **kwargs):
+        """
+        Delete the BDS certificate configuration for the given ID.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param str bds_certificate_configuration_id: (required)
+            Unique Oracle-assigned identifier of the BdsCertificateConfiguration.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error, without risk of executing that same action again. Retry tokens expire after 24
+            hours but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            etag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the etag you
+            provide matches the resource's current etag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_bds_certificate_configuration.py.html>`__ to see an example of how to use delete_bds_certificate_configuration API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId', 'bdsCertificateConfigurationId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/bdsCertificateConfigurations/{bdsCertificateConfigurationId}"
+        method = "DELETE"
+        operation_name = "delete_bds_certificate_configuration"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsCertificateConfiguration/DeleteBdsCertificateConfiguration"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_retry_token",
+            "opc_request_id",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"delete_bds_certificate_configuration got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id,
+            "bdsCertificateConfigurationId": bds_certificate_configuration_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def delete_bds_instance(self, bds_instance_id, **kwargs):
         """
         Deletes the cluster identified by the given ID.
@@ -3198,7 +3565,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_bds_instance.py.html>`__ to see an example of how to use delete_bds_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_bds_instance.py.html>`__ to see an example of how to use delete_bds_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -3311,7 +3678,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_bds_metastore_configuration.py.html>`__ to see an example of how to use delete_bds_metastore_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_bds_metastore_configuration.py.html>`__ to see an example of how to use delete_bds_metastore_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'metastoreConfigId']
@@ -3425,7 +3792,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_identity_configuration.py.html>`__ to see an example of how to use delete_identity_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_identity_configuration.py.html>`__ to see an example of how to use delete_identity_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -3539,7 +3906,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_node_backup.py.html>`__ to see an example of how to use delete_node_backup API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_node_backup.py.html>`__ to see an example of how to use delete_node_backup API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeBackupId']
@@ -3653,7 +4020,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_node_backup_configuration.py.html>`__ to see an example of how to use delete_node_backup_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/delete_node_backup_configuration.py.html>`__ to see an example of how to use delete_node_backup_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeBackupConfigurationId']
@@ -3774,7 +4141,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/disable_certificate.py.html>`__ to see an example of how to use disable_certificate API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/disable_certificate.py.html>`__ to see an example of how to use disable_certificate API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -3899,7 +4266,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/enable_certificate.py.html>`__ to see an example of how to use enable_certificate API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/enable_certificate.py.html>`__ to see an example of how to use enable_certificate API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -4024,7 +4391,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/execute_bootstrap_script.py.html>`__ to see an example of how to use execute_bootstrap_script API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/execute_bootstrap_script.py.html>`__ to see an example of how to use execute_bootstrap_script API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -4152,7 +4519,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/force_refresh_resource_principal.py.html>`__ to see an example of how to use force_refresh_resource_principal API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/force_refresh_resource_principal.py.html>`__ to see an example of how to use force_refresh_resource_principal API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'resourcePrincipalConfigurationId']
@@ -4230,6 +4597,131 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def generate_bds_certificate(self, bds_instance_id, generate_bds_certificate_details, **kwargs):
+        """
+        Generating certificates under BDS cluster nodes.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param oci.bds.models.GenerateBdsCertificateDetails generate_bds_certificate_details: (required)
+            Details for generating BDS certificates.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            etag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the etag you
+            provide matches the resource's current etag value.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error, without risk of executing that same action again. Retry tokens expire after 24
+            hours but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/generate_bds_certificate.py.html>`__ to see an example of how to use generate_bds_certificate API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/actions/generateBdsCertificate"
+        method = "POST"
+        operation_name = "generate_bds_certificate"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GenerateBdsCertificate"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_request_id",
+            "if_match",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"generate_bds_certificate got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=generate_bds_certificate_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=generate_bds_certificate_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def get_auto_scaling_configuration(self, bds_instance_id, auto_scaling_configuration_id, **kwargs):
         """
         Returns details of the autoscale configuration identified by the given ID.
@@ -4264,7 +4756,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_auto_scaling_configuration.py.html>`__ to see an example of how to use get_auto_scaling_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_auto_scaling_configuration.py.html>`__ to see an example of how to use get_auto_scaling_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'autoScalingConfigurationId']
@@ -4371,7 +4863,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_bds_api_key.py.html>`__ to see an example of how to use get_bds_api_key API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_bds_api_key.py.html>`__ to see an example of how to use get_bds_api_key API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'apiKeyId']
@@ -4444,6 +4936,113 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def get_bds_certificate_configuration(self, bds_instance_id, bds_certificate_configuration_id, **kwargs):
+        """
+        Returns details of the BdsCertificateConfiguration identified by the given ID.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param str bds_certificate_configuration_id: (required)
+            Unique Oracle-assigned identifier of the BdsCertificateConfiguration.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type :class:`~oci.bds.models.BdsCertificateConfiguration`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_bds_certificate_configuration.py.html>`__ to see an example of how to use get_bds_certificate_configuration API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId', 'bdsCertificateConfigurationId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/bdsCertificateConfigurations/{bdsCertificateConfigurationId}"
+        method = "GET"
+        operation_name = "get_bds_certificate_configuration"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsCertificateConfiguration/GetBdsCertificateConfiguration"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"get_bds_certificate_configuration got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id,
+            "bdsCertificateConfigurationId": bds_certificate_configuration_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="BdsCertificateConfiguration",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                response_type="BdsCertificateConfiguration",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def get_bds_instance(self, bds_instance_id, **kwargs):
         """
         Returns information about the Big Data Service cluster identified by the given ID.
@@ -4475,7 +5074,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_bds_instance.py.html>`__ to see an example of how to use get_bds_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_bds_instance.py.html>`__ to see an example of how to use get_bds_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -4581,7 +5180,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_bds_metastore_configuration.py.html>`__ to see an example of how to use get_bds_metastore_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_bds_metastore_configuration.py.html>`__ to see an example of how to use get_bds_metastore_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'metastoreConfigId']
@@ -4704,7 +5303,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_identity_configuration.py.html>`__ to see an example of how to use get_identity_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_identity_configuration.py.html>`__ to see an example of how to use get_identity_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -4839,7 +5438,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_node_backup.py.html>`__ to see an example of how to use get_node_backup API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_node_backup.py.html>`__ to see an example of how to use get_node_backup API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeBackupId']
@@ -4946,7 +5545,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_node_backup_configuration.py.html>`__ to see an example of how to use get_node_backup_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_node_backup_configuration.py.html>`__ to see an example of how to use get_node_backup_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeBackupConfigurationId']
@@ -5053,7 +5652,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_node_replace_configuration.py.html>`__ to see an example of how to use get_node_replace_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_node_replace_configuration.py.html>`__ to see an example of how to use get_node_replace_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeReplaceConfigurationId']
@@ -5174,7 +5773,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_os_patch_details.py.html>`__ to see an example of how to use get_os_patch_details API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_os_patch_details.py.html>`__ to see an example of how to use get_os_patch_details API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'osPatchVersion']
@@ -5292,7 +5891,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_resource_principal_configuration.py.html>`__ to see an example of how to use get_resource_principal_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_resource_principal_configuration.py.html>`__ to see an example of how to use get_resource_principal_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'resourcePrincipalConfigurationId']
@@ -5413,7 +6012,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_software_update.py.html>`__ to see an example of how to use get_software_update API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_software_update.py.html>`__ to see an example of how to use get_software_update API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'softwareUpdateKey']
@@ -5522,7 +6121,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -5642,7 +6241,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/install_os_patch.py.html>`__ to see an example of how to use install_os_patch API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/install_os_patch.py.html>`__ to see an example of how to use install_os_patch API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -5767,7 +6366,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/install_patch.py.html>`__ to see an example of how to use install_patch API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/install_patch.py.html>`__ to see an example of how to use install_patch API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -5892,7 +6491,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/install_software_updates.py.html>`__ to see an example of how to use install_software_updates API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/install_software_updates.py.html>`__ to see an example of how to use install_software_updates API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -6027,7 +6626,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_auto_scaling_configurations.py.html>`__ to see an example of how to use list_auto_scaling_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_auto_scaling_configurations.py.html>`__ to see an example of how to use list_auto_scaling_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'compartmentId']
@@ -6197,7 +6796,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_api_keys.py.html>`__ to see an example of how to use list_bds_api_keys API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_api_keys.py.html>`__ to see an example of how to use list_bds_api_keys API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -6310,6 +6909,172 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def list_bds_certificate_configurations(self, bds_instance_id, **kwargs):
+        """
+        Returns a list of BDS certificate configurations associated with this Big Data Service cluster.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param str page: (optional)
+            The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
+
+        :param int limit: (optional)
+            The maximum number of items to return.
+
+        :param str sort_by: (optional)
+            The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is default.
+
+            Allowed values are: "timeCreated", "displayName"
+
+        :param str sort_order: (optional)
+            The sort order to use, either 'asc' or 'desc'.
+
+            Allowed values are: "ASC", "DESC"
+
+        :param str display_name: (optional)
+            A filter to return only resources that match the entire display name given.
+
+        :param str lifecycle_state: (optional)
+            The state of the BdsCertificateConfiguration.
+
+            Allowed values are: "CREATING", "ACTIVE", "DELETING", "DELETED", "FAILED"
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type list of :class:`~oci.bds.models.BdsCertificateConfigurationSummary`
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_certificate_configurations.py.html>`__ to see an example of how to use list_bds_certificate_configurations API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/bdsCertificateConfigurations"
+        method = "GET"
+        operation_name = "list_bds_certificate_configurations"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsCertificateConfiguration/ListBdsCertificateConfigurations"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "page",
+            "limit",
+            "sort_by",
+            "sort_order",
+            "display_name",
+            "lifecycle_state",
+            "opc_request_id"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"list_bds_certificate_configurations got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        if 'sort_by' in kwargs:
+            sort_by_allowed_values = ["timeCreated", "displayName"]
+            if kwargs['sort_by'] not in sort_by_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_by`, must be one of { sort_by_allowed_values }"
+                )
+
+        if 'sort_order' in kwargs:
+            sort_order_allowed_values = ["ASC", "DESC"]
+            if kwargs['sort_order'] not in sort_order_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `sort_order`, must be one of { sort_order_allowed_values }"
+                )
+
+        if 'lifecycle_state' in kwargs:
+            lifecycle_state_allowed_values = ["CREATING", "ACTIVE", "DELETING", "DELETED", "FAILED"]
+            if kwargs['lifecycle_state'] not in lifecycle_state_allowed_values:
+                raise ValueError(
+                    f"Invalid value for `lifecycle_state`, must be one of { lifecycle_state_allowed_values }"
+                )
+
+        query_params = {
+            "page": kwargs.get("page", missing),
+            "limit": kwargs.get("limit", missing),
+            "sortBy": kwargs.get("sort_by", missing),
+            "sortOrder": kwargs.get("sort_order", missing),
+            "displayName": kwargs.get("display_name", missing),
+            "lifecycleState": kwargs.get("lifecycle_state", missing)
+        }
+        query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="list[BdsCertificateConfigurationSummary]",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                query_params=query_params,
+                header_params=header_params,
+                response_type="list[BdsCertificateConfigurationSummary]",
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def list_bds_cluster_versions(self, **kwargs):
         """
         Returns a list of cluster versions with associated odh and bds versions.
@@ -6354,7 +7119,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_cluster_versions.py.html>`__ to see an example of how to use list_bds_cluster_versions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_cluster_versions.py.html>`__ to see an example of how to use list_bds_cluster_versions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6497,7 +7262,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_instances.py.html>`__ to see an example of how to use list_bds_instances API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_instances.py.html>`__ to see an example of how to use list_bds_instances API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -6663,7 +7428,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_metastore_configurations.py.html>`__ to see an example of how to use list_bds_metastore_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_bds_metastore_configurations.py.html>`__ to see an example of how to use list_bds_metastore_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -6845,7 +7610,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_identity_configurations.py.html>`__ to see an example of how to use list_identity_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_identity_configurations.py.html>`__ to see an example of how to use list_identity_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'compartmentId']
@@ -7012,7 +7777,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_node_backup_configurations.py.html>`__ to see an example of how to use list_node_backup_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_node_backup_configurations.py.html>`__ to see an example of how to use list_node_backup_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -7181,7 +7946,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_node_backups.py.html>`__ to see an example of how to use list_node_backups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_node_backups.py.html>`__ to see an example of how to use list_node_backups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -7349,7 +8114,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_node_replace_configurations.py.html>`__ to see an example of how to use list_node_replace_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_node_replace_configurations.py.html>`__ to see an example of how to use list_node_replace_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -7521,7 +8286,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_os_patches.py.html>`__ to see an example of how to use list_os_patches API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_os_patches.py.html>`__ to see an example of how to use list_os_patches API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -7686,7 +8451,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_patch_histories.py.html>`__ to see an example of how to use list_patch_histories API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_patch_histories.py.html>`__ to see an example of how to use list_patch_histories API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -7843,7 +8608,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_patches.py.html>`__ to see an example of how to use list_patches API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_patches.py.html>`__ to see an example of how to use list_patches API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -7980,7 +8745,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_resource_principal_configurations.py.html>`__ to see an example of how to use list_resource_principal_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_resource_principal_configurations.py.html>`__ to see an example of how to use list_resource_principal_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -8152,7 +8917,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_software_updates.py.html>`__ to see an example of how to use list_software_updates API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_software_updates.py.html>`__ to see an example of how to use list_software_updates API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -8304,7 +9069,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -8451,7 +9216,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -8601,7 +9366,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -8743,7 +9508,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/refresh_confidential_application.py.html>`__ to see an example of how to use refresh_confidential_application API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/refresh_confidential_application.py.html>`__ to see an example of how to use refresh_confidential_application API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -8872,7 +9637,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/refresh_upst_token_exchange_keytab.py.html>`__ to see an example of how to use refresh_upst_token_exchange_keytab API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/refresh_upst_token_exchange_keytab.py.html>`__ to see an example of how to use refresh_upst_token_exchange_keytab API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -9001,7 +9766,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_auto_scaling_configuration.py.html>`__ to see an example of how to use remove_auto_scaling_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_auto_scaling_configuration.py.html>`__ to see an example of how to use remove_auto_scaling_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'autoScalingConfigurationId']
@@ -9127,7 +9892,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_cloud_sql.py.html>`__ to see an example of how to use remove_cloud_sql API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_cloud_sql.py.html>`__ to see an example of how to use remove_cloud_sql API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -9252,7 +10017,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_kafka.py.html>`__ to see an example of how to use remove_kafka API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_kafka.py.html>`__ to see an example of how to use remove_kafka API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -9370,7 +10135,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_node.py.html>`__ to see an example of how to use remove_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_node.py.html>`__ to see an example of how to use remove_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -9495,7 +10260,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_node_replace_configuration.py.html>`__ to see an example of how to use remove_node_replace_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_node_replace_configuration.py.html>`__ to see an example of how to use remove_node_replace_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeReplaceConfigurationId']
@@ -9573,6 +10338,131 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def remove_nodes(self, bds_instance_id, remove_nodes_details, **kwargs):
+        """
+        Removes list of nodes from a Big Data Service cluster
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param oci.bds.models.RemoveNodesDetails remove_nodes_details: (required)
+            Details for the list of nodes to be removed.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            etag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the etag you
+            provide matches the resource's current etag value.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error, without risk of executing that same action again. Retry tokens expire after 24
+            hours but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_nodes.py.html>`__ to see an example of how to use remove_nodes API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/actions/removeNodes"
+        method = "POST"
+        operation_name = "remove_nodes"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/RemoveNodes"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_request_id",
+            "if_match",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"remove_nodes got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=remove_nodes_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=remove_nodes_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def remove_resource_principal_configuration(self, bds_instance_id, resource_principal_configuration_id, remove_resource_principal_configuration_details, **kwargs):
         """
         Delete the resource principal configuration for the cluster.
@@ -9617,7 +10507,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_resource_principal_configuration.py.html>`__ to see an example of how to use remove_resource_principal_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/remove_resource_principal_configuration.py.html>`__ to see an example of how to use remove_resource_principal_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'resourcePrincipalConfigurationId']
@@ -9692,6 +10582,131 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def renew_bds_certificate(self, bds_instance_id, renew_bds_certificate_details, **kwargs):
+        """
+        Renewing certificates under BDS cluster nodes.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param oci.bds.models.RenewBdsCertificateDetails renew_bds_certificate_details: (required)
+            Details for renewing BDS certificates.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            etag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the etag you
+            provide matches the resource's current etag value.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error, without risk of executing that same action again. Retry tokens expire after 24
+            hours but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/renew_bds_certificate.py.html>`__ to see an example of how to use renew_bds_certificate API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/actions/renewBdsCertificate"
+        method = "POST"
+        operation_name = "renew_bds_certificate"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/RenewBdsCertificate"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_request_id",
+            "if_match",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"renew_bds_certificate got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "if-match": kwargs.get("if_match", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=renew_bds_certificate_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=renew_bds_certificate_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def renew_certificate(self, bds_instance_id, renew_certificate_details, **kwargs):
         """
         Renewing TLS/SSL for various ODH services running on the BDS cluster.
@@ -9740,7 +10755,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/renew_certificate.py.html>`__ to see an example of how to use renew_certificate API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/renew_certificate.py.html>`__ to see an example of how to use renew_certificate API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -9865,7 +10880,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/replace_node.py.html>`__ to see an example of how to use replace_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/replace_node.py.html>`__ to see an example of how to use replace_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -9990,7 +11005,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/restart_node.py.html>`__ to see an example of how to use restart_node API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/restart_node.py.html>`__ to see an example of how to use restart_node API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -10067,6 +11082,135 @@ class BdsClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def set_default_bds_certificate_configuration(self, bds_instance_id, bds_certificate_configuration_id, set_default_bds_certificate_configuration_details, **kwargs):
+        """
+        Set specified BDS certificate configuration as default configuration.
+
+
+        :param str bds_instance_id: (required)
+            The OCID of the cluster.
+
+        :param str bds_certificate_configuration_id: (required)
+            Unique Oracle-assigned identifier of the BdsCertificateConfiguration.
+
+        :param oci.bds.models.SetDefaultBdsCertificateConfigurationDetails set_default_bds_certificate_configuration_details: (required)
+            The request body when setting specified certificate configuration as default configuration.
+
+        :param str opc_request_id: (optional)
+            The client request ID for tracing.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case of a timeout or
+            server error, without risk of executing that same action again. Retry tokens expire after 24
+            hours but can be invalidated before then due to conflicting operations. For example, if a resource
+            has been deleted and purged from the system, then a retry of the original creation request
+            might be rejected.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call
+            for a resource, set the `if-match` parameter to the value of the
+            etag from a previous GET or POST response for that resource.
+            The resource will be updated or deleted only if the etag you
+            provide matches the resource's current etag value.
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation will not retry by default, users can also use the convenient :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` provided by the SDK to enable retries for it.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/set_default_bds_certificate_configuration.py.html>`__ to see an example of how to use set_default_bds_certificate_configuration API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['bdsInstanceId', 'bdsCertificateConfigurationId']
+        resource_path = "/bdsInstances/{bdsInstanceId}/bdsCertificateConfigurations/{bdsCertificateConfigurationId}/actions/setDefault"
+        method = "POST"
+        operation_name = "set_default_bds_certificate_configuration"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsCertificateConfiguration/SetDefaultBdsCertificateConfiguration"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "opc_request_id",
+            "opc_retry_token",
+            "if_match"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"set_default_bds_certificate_configuration got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "bdsInstanceId": bds_instance_id,
+            "bdsCertificateConfigurationId": bds_certificate_configuration_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing),
+            "if-match": kwargs.get("if_match", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=set_default_bds_certificate_configuration_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=set_default_bds_certificate_configuration_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def start_bds_instance(self, bds_instance_id, start_bds_instance_details, **kwargs):
         """
         Starts the BDS cluster that was stopped earlier.
@@ -10108,7 +11252,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/start_bds_instance.py.html>`__ to see an example of how to use start_bds_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/start_bds_instance.py.html>`__ to see an example of how to use start_bds_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -10223,7 +11367,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/stop_bds_instance.py.html>`__ to see an example of how to use stop_bds_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/stop_bds_instance.py.html>`__ to see an example of how to use stop_bds_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -10341,7 +11485,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/test_bds_metastore_configuration.py.html>`__ to see an example of how to use test_bds_metastore_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/test_bds_metastore_configuration.py.html>`__ to see an example of how to use test_bds_metastore_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'metastoreConfigId']
@@ -10453,7 +11597,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/test_bds_object_storage_connection.py.html>`__ to see an example of how to use test_bds_object_storage_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/test_bds_object_storage_connection.py.html>`__ to see an example of how to use test_bds_object_storage_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'apiKeyId']
@@ -10577,7 +11721,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_auto_scaling_configuration.py.html>`__ to see an example of how to use update_auto_scaling_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_auto_scaling_configuration.py.html>`__ to see an example of how to use update_auto_scaling_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'autoScalingConfigurationId']
@@ -10696,7 +11840,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_bds_instance.py.html>`__ to see an example of how to use update_bds_instance API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_bds_instance.py.html>`__ to see an example of how to use update_bds_instance API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId']
@@ -10814,7 +11958,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_bds_metastore_configuration.py.html>`__ to see an example of how to use update_bds_metastore_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_bds_metastore_configuration.py.html>`__ to see an example of how to use update_bds_metastore_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'metastoreConfigId']
@@ -10940,7 +12084,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_identity_configuration.py.html>`__ to see an example of how to use update_identity_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_identity_configuration.py.html>`__ to see an example of how to use update_identity_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'identityConfigurationId']
@@ -11069,7 +12213,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_node_backup_configuration.py.html>`__ to see an example of how to use update_node_backup_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_node_backup_configuration.py.html>`__ to see an example of how to use update_node_backup_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeBackupConfigurationId']
@@ -11198,7 +12342,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_node_replace_configuration.py.html>`__ to see an example of how to use update_node_replace_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_node_replace_configuration.py.html>`__ to see an example of how to use update_node_replace_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'nodeReplaceConfigurationId']
@@ -11327,7 +12471,7 @@ class BdsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_resource_principal_configuration.py.html>`__ to see an example of how to use update_resource_principal_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/bds/update_resource_principal_configuration.py.html>`__ to see an example of how to use update_resource_principal_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['bdsInstanceId', 'resourcePrincipalConfigurationId']

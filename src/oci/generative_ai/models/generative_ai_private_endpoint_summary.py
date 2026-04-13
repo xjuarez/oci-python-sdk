@@ -68,6 +68,10 @@ class GenerativeAiPrivateEndpointSummary(object):
             The value to assign to the time_updated property of this GenerativeAiPrivateEndpointSummary.
         :type time_updated: datetime
 
+        :param resource_type:
+            The value to assign to the resource_type property of this GenerativeAiPrivateEndpointSummary.
+        :type resource_type: str
+
         :param defined_tags:
             The value to assign to the defined_tags property of this GenerativeAiPrivateEndpointSummary.
         :type defined_tags: dict(str, dict(str, object))
@@ -98,6 +102,7 @@ class GenerativeAiPrivateEndpointSummary(object):
             'private_endpoint_ip': 'str',
             'time_created': 'datetime',
             'time_updated': 'datetime',
+            'resource_type': 'str',
             'defined_tags': 'dict(str, dict(str, object))',
             'freeform_tags': 'dict(str, str)',
             'system_tags': 'dict(str, dict(str, object))',
@@ -116,6 +121,7 @@ class GenerativeAiPrivateEndpointSummary(object):
             'private_endpoint_ip': 'privateEndpointIp',
             'time_created': 'timeCreated',
             'time_updated': 'timeUpdated',
+            'resource_type': 'resourceType',
             'defined_tags': 'definedTags',
             'freeform_tags': 'freeformTags',
             'system_tags': 'systemTags',
@@ -133,6 +139,7 @@ class GenerativeAiPrivateEndpointSummary(object):
         self._private_endpoint_ip = None
         self._time_created = None
         self._time_updated = None
+        self._resource_type = None
         self._defined_tags = None
         self._freeform_tags = None
         self._system_tags = None
@@ -435,6 +442,30 @@ class GenerativeAiPrivateEndpointSummary(object):
         self._time_updated = time_updated
 
     @property
+    def resource_type(self):
+        """
+        Gets the resource_type of this GenerativeAiPrivateEndpointSummary.
+        The resource type that Generative AI private endpoint can be used for.
+
+
+        :return: The resource_type of this GenerativeAiPrivateEndpointSummary.
+        :rtype: str
+        """
+        return self._resource_type
+
+    @resource_type.setter
+    def resource_type(self, resource_type):
+        """
+        Sets the resource_type of this GenerativeAiPrivateEndpointSummary.
+        The resource type that Generative AI private endpoint can be used for.
+
+
+        :param resource_type: The resource_type of this GenerativeAiPrivateEndpointSummary.
+        :type: str
+        """
+        self._resource_type = resource_type
+
+    @property
     def defined_tags(self):
         """
         Gets the defined_tags of this GenerativeAiPrivateEndpointSummary.
@@ -443,7 +474,7 @@ class GenerativeAiPrivateEndpointSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this GenerativeAiPrivateEndpointSummary.
@@ -460,7 +491,7 @@ class GenerativeAiPrivateEndpointSummary(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this GenerativeAiPrivateEndpointSummary.
@@ -477,7 +508,7 @@ class GenerativeAiPrivateEndpointSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this GenerativeAiPrivateEndpointSummary.
@@ -494,7 +525,7 @@ class GenerativeAiPrivateEndpointSummary(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this GenerativeAiPrivateEndpointSummary.
@@ -538,7 +569,7 @@ class GenerativeAiPrivateEndpointSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"enforce\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The security_attributes of this GenerativeAiPrivateEndpointSummary.
@@ -554,7 +585,7 @@ class GenerativeAiPrivateEndpointSummary(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Oracle-ZPR\": {\"MaxEgressCount\": {\"value\": \"42\", \"mode\": \"enforce\"}}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param security_attributes: The security_attributes of this GenerativeAiPrivateEndpointSummary.

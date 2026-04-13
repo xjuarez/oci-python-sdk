@@ -209,7 +209,11 @@ class UpdateScheduledJobDetails(object):
     def recurring_rule(self):
         """
         Gets the recurring_rule of this UpdateScheduledJobDetails.
-        The frequency schedule for a recurring scheduled job.
+        The frequency schedule for a recurring scheduled job in the `RFC5535`__ format.
+        Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported.
+        In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY\", HOURLY are supported.
+
+        __ https://www.rfc-editor.org/rfc/rfc5535
 
 
         :return: The recurring_rule of this UpdateScheduledJobDetails.
@@ -221,7 +225,11 @@ class UpdateScheduledJobDetails(object):
     def recurring_rule(self, recurring_rule):
         """
         Sets the recurring_rule of this UpdateScheduledJobDetails.
-        The frequency schedule for a recurring scheduled job.
+        The frequency schedule for a recurring scheduled job in the `RFC5535`__ format.
+        Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported.
+        In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY\", HOURLY are supported.
+
+        __ https://www.rfc-editor.org/rfc/rfc5535
 
 
         :param recurring_rule: The recurring_rule of this UpdateScheduledJobDetails.
@@ -279,7 +287,7 @@ class UpdateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this UpdateScheduledJobDetails.
@@ -295,7 +303,7 @@ class UpdateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this UpdateScheduledJobDetails.
@@ -311,7 +319,7 @@ class UpdateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this UpdateScheduledJobDetails.
@@ -327,7 +335,7 @@ class UpdateScheduledJobDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this UpdateScheduledJobDetails.

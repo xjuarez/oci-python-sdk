@@ -156,6 +156,10 @@ class DistributedDatabase(object):
             The value to assign to the ons_port_remote property of this DistributedDatabase.
         :type ons_port_remote: int
 
+        :param scan_listener_port:
+            The value to assign to the scan_listener_port property of this DistributedDatabase.
+        :type scan_listener_port: int
+
         :param replication_method:
             The value to assign to the replication_method property of this DistributedDatabase.
             Allowed values for this property are: "RAFT", "DG", 'UNKNOWN_ENUM_VALUE'.
@@ -234,6 +238,7 @@ class DistributedDatabase(object):
             'listener_port_tls': 'int',
             'ons_port_local': 'int',
             'ons_port_remote': 'int',
+            'scan_listener_port': 'int',
             'replication_method': 'str',
             'replication_factor': 'int',
             'replication_unit': 'int',
@@ -269,6 +274,7 @@ class DistributedDatabase(object):
             'listener_port_tls': 'listenerPortTls',
             'ons_port_local': 'onsPortLocal',
             'ons_port_remote': 'onsPortRemote',
+            'scan_listener_port': 'scanListenerPort',
             'replication_method': 'replicationMethod',
             'replication_factor': 'replicationFactor',
             'replication_unit': 'replicationUnit',
@@ -303,6 +309,7 @@ class DistributedDatabase(object):
         self._listener_port_tls = None
         self._ons_port_local = None
         self._ons_port_remote = None
+        self._scan_listener_port = None
         self._replication_method = None
         self._replication_factor = None
         self._replication_unit = None
@@ -323,7 +330,7 @@ class DistributedDatabase(object):
         **[Required]** Gets the id of this DistributedDatabase.
         The `OCID`__ of the Globally distributed database.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this DistributedDatabase.
@@ -337,7 +344,7 @@ class DistributedDatabase(object):
         Sets the id of this DistributedDatabase.
         The `OCID`__ of the Globally distributed database.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this DistributedDatabase.
@@ -351,7 +358,7 @@ class DistributedDatabase(object):
         **[Required]** Gets the compartment_id of this DistributedDatabase.
         The `OCID`__ of the Globally distributed database compartment.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this DistributedDatabase.
@@ -365,7 +372,7 @@ class DistributedDatabase(object):
         Sets the compartment_id of this DistributedDatabase.
         The `OCID`__ of the Globally distributed database compartment.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this DistributedDatabase.
@@ -575,7 +582,7 @@ class DistributedDatabase(object):
         **[Required]** Gets the private_endpoint_ids of this DistributedDatabase.
         The collection of `OCID`__ of the private endpoint associated with Globally distributed autonomous database.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The private_endpoint_ids of this DistributedDatabase.
@@ -589,7 +596,7 @@ class DistributedDatabase(object):
         Sets the private_endpoint_ids of this DistributedDatabase.
         The collection of `OCID`__ of the private endpoint associated with Globally distributed autonomous database.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param private_endpoint_ids: The private_endpoint_ids of this DistributedDatabase.
@@ -816,6 +823,30 @@ class DistributedDatabase(object):
         :type: int
         """
         self._ons_port_remote = ons_port_remote
+
+    @property
+    def scan_listener_port(self):
+        """
+        Gets the scan_listener_port of this DistributedDatabase.
+        The TCP Single Client Access Name (SCAN) port for Globally distributed database clusters.
+
+
+        :return: The scan_listener_port of this DistributedDatabase.
+        :rtype: int
+        """
+        return self._scan_listener_port
+
+    @scan_listener_port.setter
+    def scan_listener_port(self, scan_listener_port):
+        """
+        Sets the scan_listener_port of this DistributedDatabase.
+        The TCP Single Client Access Name (SCAN) port for Globally distributed database clusters.
+
+
+        :param scan_listener_port: The scan_listener_port of this DistributedDatabase.
+        :type: int
+        """
+        self._scan_listener_port = scan_listener_port
 
     @property
     def replication_method(self):

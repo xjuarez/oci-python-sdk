@@ -78,6 +78,10 @@ class EmailIpPool(object):
             The value to assign to the outbound_ips property of this EmailIpPool.
         :type outbound_ips: list[oci.email.models.EmailOutboundIpSummary]
 
+        :param last_ip_drain_period_in_hours:
+            The value to assign to the last_ip_drain_period_in_hours property of this EmailIpPool.
+        :type last_ip_drain_period_in_hours: int
+
         :param time_created:
             The value to assign to the time_created property of this EmailIpPool.
         :type time_created: datetime
@@ -111,6 +115,7 @@ class EmailIpPool(object):
             'lifecycle_state': 'str',
             'lifecycle_details': 'str',
             'outbound_ips': 'list[EmailOutboundIpSummary]',
+            'last_ip_drain_period_in_hours': 'int',
             'time_created': 'datetime',
             'time_updated': 'datetime',
             'freeform_tags': 'dict(str, str)',
@@ -126,6 +131,7 @@ class EmailIpPool(object):
             'lifecycle_state': 'lifecycleState',
             'lifecycle_details': 'lifecycleDetails',
             'outbound_ips': 'outboundIps',
+            'last_ip_drain_period_in_hours': 'lastIpDrainPeriodInHours',
             'time_created': 'timeCreated',
             'time_updated': 'timeUpdated',
             'freeform_tags': 'freeformTags',
@@ -140,6 +146,7 @@ class EmailIpPool(object):
         self._lifecycle_state = None
         self._lifecycle_details = None
         self._outbound_ips = None
+        self._last_ip_drain_period_in_hours = None
         self._time_created = None
         self._time_updated = None
         self._freeform_tags = None
@@ -153,7 +160,7 @@ class EmailIpPool(object):
         **[Required]** Gets the id of this EmailIpPool.
         The unique `OCID`__ of the IpPool resource that is immutable on creation.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this EmailIpPool.
@@ -167,7 +174,7 @@ class EmailIpPool(object):
         Sets the id of this EmailIpPool.
         The unique `OCID`__ of the IpPool resource that is immutable on creation.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this EmailIpPool.
@@ -211,7 +218,7 @@ class EmailIpPool(object):
         **[Required]** Gets the compartment_id of this EmailIpPool.
         The `OCID`__ of the compartment containing the IpPool.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this EmailIpPool.
@@ -225,7 +232,7 @@ class EmailIpPool(object):
         Sets the compartment_id of this EmailIpPool.
         The `OCID`__ of the compartment containing the IpPool.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this EmailIpPool.
@@ -338,6 +345,30 @@ class EmailIpPool(object):
         self._outbound_ips = outbound_ips
 
     @property
+    def last_ip_drain_period_in_hours(self):
+        """
+        Gets the last_ip_drain_period_in_hours of this EmailIpPool.
+        Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+
+
+        :return: The last_ip_drain_period_in_hours of this EmailIpPool.
+        :rtype: int
+        """
+        return self._last_ip_drain_period_in_hours
+
+    @last_ip_drain_period_in_hours.setter
+    def last_ip_drain_period_in_hours(self, last_ip_drain_period_in_hours):
+        """
+        Sets the last_ip_drain_period_in_hours of this EmailIpPool.
+        Last IP will be unassigned from the IP Pool after the period of time (in hours) specified by this parameter. Default is 24 hours.
+
+
+        :param last_ip_drain_period_in_hours: The last_ip_drain_period_in_hours of this EmailIpPool.
+        :type: int
+        """
+        self._last_ip_drain_period_in_hours = last_ip_drain_period_in_hours
+
+    @property
     def time_created(self):
         """
         Gets the time_created of this EmailIpPool.
@@ -416,7 +447,7 @@ class EmailIpPool(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this EmailIpPool.
@@ -433,7 +464,7 @@ class EmailIpPool(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this EmailIpPool.
@@ -450,7 +481,7 @@ class EmailIpPool(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this EmailIpPool.
@@ -467,7 +498,7 @@ class EmailIpPool(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this EmailIpPool.

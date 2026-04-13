@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import mysql_type_mapping
 missing = Sentinel("Missing")
 
@@ -30,7 +30,7 @@ class DbSystemClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -49,7 +49,7 @@ class DbSystemClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -81,7 +81,7 @@ class DbSystemClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("mysql"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -132,7 +132,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.mysql.models.AddHeatWaveClusterDetails add_heat_wave_cluster_details: (required)
             Request to add a HeatWave cluster.
@@ -177,7 +177,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/add_heat_wave_cluster.py.html>`__ to see an example of how to use add_heat_wave_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/add_heat_wave_cluster.py.html>`__ to see an example of how to use add_heat_wave_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -258,6 +258,138 @@ class DbSystemClient(object):
                 api_reference_link=api_reference_link,
                 required_arguments=required_arguments)
 
+    def controlled_update_db_system(self, db_system_id, controlled_update_db_system_details, **kwargs):
+        """
+        Update the chosen subset of MySQL instances based on their role.
+
+
+        :param str db_system_id: (required)
+            The DB System `OCID`__.
+
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+        :param oci.mysql.models.ControlledUpdateDbSystemDetails controlled_update_db_system_details: (required)
+            Required parameters for the controlled update action.
+
+        :param str if_match: (optional)
+            For optimistic concurrency control. In the PUT or DELETE call for a
+            resource, set the `If-Match` header to the value of the etag from a
+            previous GET or POST response for that resource. The resource will be
+            updated or deleted only if the etag you provide matches the resource's
+            current etag value.
+
+        :param str opc_request_id: (optional)
+            Customer-defined unique identifier for the request. If you need to
+            contact Oracle about a specific request, please provide the request
+            ID that you supplied in this header with the request.
+
+        :param str opc_retry_token: (optional)
+            A token that uniquely identifies a request so it can be retried in case
+            of a timeout or server error without risk of executing that same action
+            again. Retry tokens expire after 24 hours, but can be invalidated before
+            then due to conflicting operations (for example, if a resource has been
+            deleted and purged from the system, then a retry of the original
+            creation request may be rejected).
+
+        :param obj retry_strategy: (optional)
+            A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
+
+            This should be one of the strategies available in the :py:mod:`~oci.retry` module. This operation uses :py:data:`~oci.retry.DEFAULT_RETRY_STRATEGY` as default if no retry strategy is provided.
+            The specifics of the default retry strategy are described `here <https://docs.oracle.com/en-us/iaas/tools/python/latest/sdk_behaviors/retries.html>`__.
+
+            To have this operation explicitly not perform any retries, pass an instance of :py:class:`~oci.retry.NoneRetryStrategy`.
+
+        :param bool allow_control_chars: (optional)
+            allow_control_chars is a boolean to indicate whether or not this request should allow control characters in the response object.
+            By default, the response will not allow control characters in strings
+
+        :param bool enable_strict_url_encoding: (optional)
+            enable_strict_url_encoding is a boolean to indicate whether or not this request should enable strict url encoding for path params.
+            By default, strict url encoding for path params is disabled
+
+        :return: A :class:`~oci.response.Response` object with data of type None
+        :rtype: :class:`~oci.response.Response`
+
+        :example:
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/controlled_update_db_system.py.html>`__ to see an example of how to use controlled_update_db_system API.
+        """
+        # Required path and query arguments. These are in camelCase to replace values in service endpoints.
+        required_arguments = ['dbSystemId']
+        resource_path = "/dbSystems/{dbSystemId}/actions/controlledUpdate"
+        method = "POST"
+        operation_name = "controlled_update_db_system"
+        api_reference_link = "https://docs.oracle.com/iaas/api/#/en/mysql/20190415/DbSystem/ControlledUpdateDbSystem"
+
+        # Don't accept unknown kwargs
+        expected_kwargs = [
+            "allow_control_chars",
+            "enable_strict_url_encoding",
+            "retry_strategy",
+            "if_match",
+            "opc_request_id",
+            "opc_retry_token"
+        ]
+        extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
+        if extra_kwargs:
+            raise ValueError(
+                f"controlled_update_db_system got unknown kwargs: {extra_kwargs!r}")
+
+        path_params = {
+            "dbSystemId": db_system_id
+        }
+
+        path_params = {k: v for (k, v) in six.iteritems(path_params) if v is not missing}
+
+        for (k, v) in six.iteritems(path_params):
+            if v is None or (isinstance(v, six.string_types) and len(v.strip()) == 0):
+                raise ValueError(f'Parameter {k} cannot be None, whitespace or empty string')
+
+        header_params = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "if-match": kwargs.get("if_match", missing),
+            "opc-request-id": kwargs.get("opc_request_id", missing),
+            "opc-retry-token": kwargs.get("opc_retry_token", missing)
+        }
+        header_params = {k: v for (k, v) in six.iteritems(header_params) if v is not missing and v is not None}
+
+        retry_strategy = self.base_client.get_preferred_retry_strategy(
+            operation_retry_strategy=kwargs.get('retry_strategy'),
+            client_retry_strategy=self.retry_strategy
+        )
+        if retry_strategy is None:
+            retry_strategy = retry.DEFAULT_RETRY_STRATEGY
+
+        if retry_strategy:
+            if not isinstance(retry_strategy, retry.NoneRetryStrategy):
+                self.base_client.add_opc_retry_token_if_needed(header_params)
+                self.base_client.add_opc_client_retries_header(header_params)
+                retry_strategy.add_circuit_breaker_callback(self.circuit_breaker_callback)
+            return retry_strategy.make_retrying_call(
+                self.base_client.call_api,
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=controlled_update_db_system_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+        else:
+            return self.base_client.call_api(
+                resource_path=resource_path,
+                method=method,
+                path_params=path_params,
+                header_params=header_params,
+                body=controlled_update_db_system_details,
+                allow_control_chars=kwargs.get('allow_control_chars'),
+                enable_strict_url_encoding=kwargs.get('enable_strict_url_encoding'),
+                operation_name=operation_name,
+                api_reference_link=api_reference_link,
+                required_arguments=required_arguments)
+
     def create_db_system(self, create_db_system_details, **kwargs):
         """
         Creates and launches a DB System.
@@ -299,7 +431,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/create_db_system.py.html>`__ to see an example of how to use create_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/create_db_system.py.html>`__ to see an example of how to use create_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -375,7 +507,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a
@@ -409,7 +541,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/delete_db_system.py.html>`__ to see an example of how to use delete_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/delete_db_system.py.html>`__ to see an example of how to use delete_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -492,7 +624,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a
@@ -526,7 +658,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/delete_heat_wave_cluster.py.html>`__ to see an example of how to use delete_heat_wave_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/delete_heat_wave_cluster.py.html>`__ to see an example of how to use delete_heat_wave_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -609,7 +741,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.mysql.models.GenerateDbSystemStatusDetails generate_db_system_status_details: (required)
             The parameters for selecting the attributes to collect the status of.
@@ -647,7 +779,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/generate_db_system_status.py.html>`__ to see an example of how to use generate_db_system_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/generate_db_system_status.py.html>`__ to see an example of how to use generate_db_system_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -734,7 +866,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -769,7 +901,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/generate_heat_wave_cluster_memory_estimate.py.html>`__ to see an example of how to use generate_heat_wave_cluster_memory_estimate API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/generate_heat_wave_cluster_memory_estimate.py.html>`__ to see an example of how to use generate_heat_wave_cluster_memory_estimate API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -854,7 +986,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -888,7 +1020,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_db_system.py.html>`__ to see an example of how to use get_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_db_system.py.html>`__ to see an example of how to use get_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -973,7 +1105,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -1000,7 +1132,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_db_system_status.py.html>`__ to see an example of how to use get_db_system_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_db_system_status.py.html>`__ to see an example of how to use get_db_system_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -1082,7 +1214,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -1116,7 +1248,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_heat_wave_cluster.py.html>`__ to see an example of how to use get_heat_wave_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_heat_wave_cluster.py.html>`__ to see an example of how to use get_heat_wave_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -1201,7 +1333,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -1228,7 +1360,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_heat_wave_cluster_memory_estimate.py.html>`__ to see an example of how to use get_heat_wave_cluster_memory_estimate API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_heat_wave_cluster_memory_estimate.py.html>`__ to see an example of how to use get_heat_wave_cluster_memory_estimate API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -1311,7 +1443,7 @@ class DbSystemClient(object):
         :param str compartment_id: (required)
             The compartment `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -1326,7 +1458,7 @@ class DbSystemClient(object):
         :param str db_system_id: (optional)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only the resource matching the given display name exactly.
@@ -1362,14 +1494,14 @@ class DbSystemClient(object):
             The maximum number of items to return in a paginated list call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param str page: (optional)
             The value of the `opc-next-page` or `opc-prev-page` response header from
             the previous list call. For information about pagination, see `List
             Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -1391,7 +1523,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_db_systems.py.html>`__ to see an example of how to use list_db_systems API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_db_systems.py.html>`__ to see an example of how to use list_db_systems API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -1519,7 +1651,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -1551,14 +1683,14 @@ class DbSystemClient(object):
             The maximum number of items to return in a paginated list call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param str page: (optional)
             The value of the `opc-next-page` or `opc-prev-page` response header from
             the previous list call. For information about pagination, see `List
             Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order may be provided.
@@ -1591,7 +1723,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_maintenance_events.py.html>`__ to see an example of how to use list_maintenance_events API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_maintenance_events.py.html>`__ to see an example of how to use list_maintenance_events API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -1732,7 +1864,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.mysql.models.RestartDbSystemDetails restart_db_system_details: (required)
             Optional parameters for the stop portion of the restart action.
@@ -1777,7 +1909,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/restart_db_system.py.html>`__ to see an example of how to use restart_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/restart_db_system.py.html>`__ to see an example of how to use restart_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -1864,7 +1996,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a
@@ -1906,7 +2038,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/restart_heat_wave_cluster.py.html>`__ to see an example of how to use restart_heat_wave_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/restart_heat_wave_cluster.py.html>`__ to see an example of how to use restart_heat_wave_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -1991,7 +2123,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a
@@ -2033,7 +2165,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/start_db_system.py.html>`__ to see an example of how to use start_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/start_db_system.py.html>`__ to see an example of how to use start_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -2118,7 +2250,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a
@@ -2160,7 +2292,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/start_heat_wave_cluster.py.html>`__ to see an example of how to use start_heat_wave_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/start_heat_wave_cluster.py.html>`__ to see an example of how to use start_heat_wave_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -2247,7 +2379,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.mysql.models.StopDbSystemDetails stop_db_system_details: (required)
             Optional parameters for the stop action.
@@ -2292,7 +2424,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/stop_db_system.py.html>`__ to see an example of how to use stop_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/stop_db_system.py.html>`__ to see an example of how to use stop_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -2379,7 +2511,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a
@@ -2421,7 +2553,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/stop_heat_wave_cluster.py.html>`__ to see an example of how to use stop_heat_wave_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/stop_heat_wave_cluster.py.html>`__ to see an example of how to use stop_heat_wave_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -2513,7 +2645,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.mysql.models.UpdateDbSystemDetails update_db_system_details: (required)
             Request to update a DB System.
@@ -2550,7 +2682,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/update_db_system.py.html>`__ to see an example of how to use update_db_system API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/update_db_system.py.html>`__ to see an example of how to use update_db_system API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']
@@ -2634,7 +2766,7 @@ class DbSystemClient(object):
         :param str db_system_id: (required)
             The DB System `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.mysql.models.UpdateHeatWaveClusterDetails update_heat_wave_cluster_details: (required)
             Request to update a HeatWave cluster.
@@ -2671,7 +2803,7 @@ class DbSystemClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/update_heat_wave_cluster.py.html>`__ to see an example of how to use update_heat_wave_cluster API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/update_heat_wave_cluster.py.html>`__ to see an example of how to use update_heat_wave_cluster API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dbSystemId']

@@ -39,6 +39,22 @@ class CreateLifecycleEnvironmentDetails(object):
     #: This constant has a value of "I386"
     ARCH_TYPE_I386 = "I386"
 
+    #: A constant which can be used with the arch_type property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "AMD64"
+    ARCH_TYPE_AMD64 = "AMD64"
+
+    #: A constant which can be used with the arch_type property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "ARM64"
+    ARCH_TYPE_ARM64 = "ARM64"
+
+    #: A constant which can be used with the arch_type property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "ALL"
+    ARCH_TYPE_ALL = "ALL"
+
+    #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "ORACLE_LINUX_10"
+    OS_FAMILY_ORACLE_LINUX_10 = "ORACLE_LINUX_10"
+
     #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
     #: This constant has a value of "ORACLE_LINUX_9"
     OS_FAMILY_ORACLE_LINUX_9 = "ORACLE_LINUX_9"
@@ -68,8 +84,28 @@ class CreateLifecycleEnvironmentDetails(object):
     OS_FAMILY_WINDOWS_SERVER_2022 = "WINDOWS_SERVER_2022"
 
     #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "WINDOWS_SERVER_2025"
+    OS_FAMILY_WINDOWS_SERVER_2025 = "WINDOWS_SERVER_2025"
+
+    #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "WINDOWS_11"
+    OS_FAMILY_WINDOWS_11 = "WINDOWS_11"
+
+    #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
     #: This constant has a value of "ALL"
     OS_FAMILY_ALL = "ALL"
+
+    #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "UBUNTU_20_04"
+    OS_FAMILY_UBUNTU_20_04 = "UBUNTU_20_04"
+
+    #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "UBUNTU_22_04"
+    OS_FAMILY_UBUNTU_22_04 = "UBUNTU_22_04"
+
+    #: A constant which can be used with the os_family property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "UBUNTU_24_04"
+    OS_FAMILY_UBUNTU_24_04 = "UBUNTU_24_04"
 
     #: A constant which can be used with the vendor_name property of a CreateLifecycleEnvironmentDetails.
     #: This constant has a value of "ORACLE"
@@ -78,6 +114,10 @@ class CreateLifecycleEnvironmentDetails(object):
     #: A constant which can be used with the vendor_name property of a CreateLifecycleEnvironmentDetails.
     #: This constant has a value of "MICROSOFT"
     VENDOR_NAME_MICROSOFT = "MICROSOFT"
+
+    #: A constant which can be used with the vendor_name property of a CreateLifecycleEnvironmentDetails.
+    #: This constant has a value of "CANONICAL"
+    VENDOR_NAME_CANONICAL = "CANONICAL"
 
     #: A constant which can be used with the location property of a CreateLifecycleEnvironmentDetails.
     #: This constant has a value of "ON_PREMISE"
@@ -122,17 +162,17 @@ class CreateLifecycleEnvironmentDetails(object):
 
         :param arch_type:
             The value to assign to the arch_type property of this CreateLifecycleEnvironmentDetails.
-            Allowed values for this property are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386"
+            Allowed values for this property are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386", "AMD64", "ARM64", "ALL"
         :type arch_type: str
 
         :param os_family:
             The value to assign to the os_family property of this CreateLifecycleEnvironmentDetails.
-            Allowed values for this property are: "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"
+            Allowed values for this property are: "ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"
         :type os_family: str
 
         :param vendor_name:
             The value to assign to the vendor_name property of this CreateLifecycleEnvironmentDetails.
-            Allowed values for this property are: "ORACLE", "MICROSOFT"
+            Allowed values for this property are: "ORACLE", "MICROSOFT", "CANONICAL"
         :type vendor_name: str
 
         :param location:
@@ -190,7 +230,7 @@ class CreateLifecycleEnvironmentDetails(object):
         **[Required]** Gets the compartment_id of this CreateLifecycleEnvironmentDetails.
         The `OCID`__ of the compartment that contains the lifecycle environment.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this CreateLifecycleEnvironmentDetails.
@@ -204,7 +244,7 @@ class CreateLifecycleEnvironmentDetails(object):
         Sets the compartment_id of this CreateLifecycleEnvironmentDetails.
         The `OCID`__ of the compartment that contains the lifecycle environment.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this CreateLifecycleEnvironmentDetails.
@@ -290,7 +330,7 @@ class CreateLifecycleEnvironmentDetails(object):
         **[Required]** Gets the arch_type of this CreateLifecycleEnvironmentDetails.
         The CPU architecture of the managed instances in the lifecycle environment.
 
-        Allowed values for this property are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386"
+        Allowed values for this property are: "X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386", "AMD64", "ARM64", "ALL"
 
 
         :return: The arch_type of this CreateLifecycleEnvironmentDetails.
@@ -308,7 +348,7 @@ class CreateLifecycleEnvironmentDetails(object):
         :param arch_type: The arch_type of this CreateLifecycleEnvironmentDetails.
         :type: str
         """
-        allowed_values = ["X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386"]
+        allowed_values = ["X86_64", "AARCH64", "I686", "NOARCH", "SRC", "I386", "AMD64", "ARM64", "ALL"]
         if not value_allowed_none_or_none_sentinel(arch_type, allowed_values):
             raise ValueError(
                 f"Invalid value for `arch_type`, must be None or one of {allowed_values}"
@@ -321,7 +361,7 @@ class CreateLifecycleEnvironmentDetails(object):
         **[Required]** Gets the os_family of this CreateLifecycleEnvironmentDetails.
         The operating system of the managed instances in the lifecycle environment.
 
-        Allowed values for this property are: "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"
+        Allowed values for this property are: "ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"
 
 
         :return: The os_family of this CreateLifecycleEnvironmentDetails.
@@ -339,7 +379,7 @@ class CreateLifecycleEnvironmentDetails(object):
         :param os_family: The os_family of this CreateLifecycleEnvironmentDetails.
         :type: str
         """
-        allowed_values = ["ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "ALL"]
+        allowed_values = ["ORACLE_LINUX_10", "ORACLE_LINUX_9", "ORACLE_LINUX_8", "ORACLE_LINUX_7", "ORACLE_LINUX_6", "WINDOWS_SERVER_2016", "WINDOWS_SERVER_2019", "WINDOWS_SERVER_2022", "WINDOWS_SERVER_2025", "WINDOWS_11", "ALL", "UBUNTU_20_04", "UBUNTU_22_04", "UBUNTU_24_04"]
         if not value_allowed_none_or_none_sentinel(os_family, allowed_values):
             raise ValueError(
                 f"Invalid value for `os_family`, must be None or one of {allowed_values}"
@@ -352,7 +392,7 @@ class CreateLifecycleEnvironmentDetails(object):
         **[Required]** Gets the vendor_name of this CreateLifecycleEnvironmentDetails.
         The vendor of the operating system used by the managed instances in the lifecycle environment.
 
-        Allowed values for this property are: "ORACLE", "MICROSOFT"
+        Allowed values for this property are: "ORACLE", "MICROSOFT", "CANONICAL"
 
 
         :return: The vendor_name of this CreateLifecycleEnvironmentDetails.
@@ -370,7 +410,7 @@ class CreateLifecycleEnvironmentDetails(object):
         :param vendor_name: The vendor_name of this CreateLifecycleEnvironmentDetails.
         :type: str
         """
-        allowed_values = ["ORACLE", "MICROSOFT"]
+        allowed_values = ["ORACLE", "MICROSOFT", "CANONICAL"]
         if not value_allowed_none_or_none_sentinel(vendor_name, allowed_values):
             raise ValueError(
                 f"Invalid value for `vendor_name`, must be None or one of {allowed_values}"
@@ -416,7 +456,7 @@ class CreateLifecycleEnvironmentDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this CreateLifecycleEnvironmentDetails.
@@ -432,7 +472,7 @@ class CreateLifecycleEnvironmentDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this CreateLifecycleEnvironmentDetails.
@@ -448,7 +488,7 @@ class CreateLifecycleEnvironmentDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this CreateLifecycleEnvironmentDetails.
@@ -464,7 +504,7 @@ class CreateLifecycleEnvironmentDetails(object):
         For more information, see `Resource Tags`__.
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this CreateLifecycleEnvironmentDetails.

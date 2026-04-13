@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import mysql_type_mapping
 missing = Sentinel("Missing")
 
@@ -30,7 +30,7 @@ class WorkRequestsClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -49,7 +49,7 @@ class WorkRequestsClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -81,7 +81,7 @@ class WorkRequestsClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("mysql"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -164,7 +164,7 @@ class WorkRequestsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/cancel_work_request.py.html>`__ to see an example of how to use cancel_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/cancel_work_request.py.html>`__ to see an example of how to use cancel_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -278,7 +278,7 @@ class WorkRequestsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -371,14 +371,14 @@ class WorkRequestsClient(object):
             The maximum number of items to return in a paginated list call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param str page: (optional)
             The value of the `opc-next-page` or `opc-prev-page` response header from
             the previous list call. For information about pagination, see `List
             Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -400,7 +400,7 @@ class WorkRequestsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -501,14 +501,14 @@ class WorkRequestsClient(object):
             The maximum number of items to return in a paginated list call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param str page: (optional)
             The value of the `opc-next-page` or `opc-prev-page` response header from
             the previous list call. For information about pagination, see `List
             Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -530,7 +530,7 @@ class WorkRequestsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -622,7 +622,7 @@ class WorkRequestsClient(object):
         :param str compartment_id: (required)
             The compartment `OCID`__.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Customer-defined unique identifier for the request. If you need to
@@ -643,14 +643,14 @@ class WorkRequestsClient(object):
             The maximum number of items to return in a paginated list call. For information about pagination, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param str page: (optional)
             The value of the `opc-next-page` or `opc-prev-page` response header from
             the previous list call. For information about pagination, see `List
             Pagination`__.
 
-            __ https://docs.cloud.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
+            __ https://docs.oracle.com/#API/Concepts/usingapi.htm#List_Pagination
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -672,7 +672,7 @@ class WorkRequestsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/mysql/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']

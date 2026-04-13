@@ -14,8 +14,8 @@ from oci.base_client import BaseClient
 from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import core_type_mapping
 missing = Sentinel("Missing")
 
@@ -36,7 +36,7 @@ class VirtualNetworkClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -55,7 +55,7 @@ class VirtualNetworkClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -87,7 +87,7 @@ class VirtualNetworkClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("core"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -140,7 +140,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_distribution_id: (required)
             The `OCID`__ of the route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.AddDrgRouteDistributionStatementsDetails add_drg_route_distribution_statements_details: (required)
             Request with one or more route distribution statements to be inserted into the route distribution.
@@ -165,7 +165,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_drg_route_distribution_statements.py.html>`__ to see an example of how to use add_drg_route_distribution_statements API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_drg_route_distribution_statements.py.html>`__ to see an example of how to use add_drg_route_distribution_statements API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteDistributionId']
@@ -239,7 +239,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.AddDrgRouteRulesDetails add_drg_route_rules_details: (required)
             Request for one or more route rules to be inserted into the DRG route table.
@@ -271,7 +271,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_drg_route_rules.py.html>`__ to see an example of how to use add_drg_route_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_drg_route_rules.py.html>`__ to see an example of how to use add_drg_route_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -354,7 +354,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.AddIpv4SubnetCidrDetails add_ipv4_subnet_cidr_details: (required)
             Details object for adding an IPv4 prefix to a subnet.
@@ -395,7 +395,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_ipv4_subnet_cidr.py.html>`__ to see an example of how to use add_ipv4_subnet_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_ipv4_subnet_cidr.py.html>`__ to see an example of how to use add_ipv4_subnet_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -482,7 +482,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.AddSubnetIpv6CidrDetails add_subnet_ipv6_cidr_details: (required)
             Details object for adding an IPv6 prefix to a subnet.
@@ -523,7 +523,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_ipv6_subnet_cidr.py.html>`__ to see an example of how to use add_ipv6_subnet_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_ipv6_subnet_cidr.py.html>`__ to see an example of how to use add_ipv6_subnet_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -609,7 +609,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -650,7 +650,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_ipv6_vcn_cidr.py.html>`__ to see an example of how to use add_ipv6_vcn_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_ipv6_vcn_cidr.py.html>`__ to see an example of how to use add_ipv6_vcn_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -736,7 +736,7 @@ class VirtualNetworkClient(object):
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.AddNetworkSecurityGroupSecurityRulesDetails add_network_security_group_security_rules_details: (required)
             Request with one or more security rules to be associated with the network security group.
@@ -761,7 +761,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_network_security_group_security_rules.py.html>`__ to see an example of how to use add_network_security_group_security_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_network_security_group_security_rules.py.html>`__ to see an example of how to use add_network_security_group_security_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -837,7 +837,7 @@ class VirtualNetworkClient(object):
         :param str public_ip_pool_id: (required)
             The `OCID`__ of the public IP pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.AddPublicIpPoolCapacityDetails add_public_ip_pool_capacity_details: (required)
             Byoip Range prefix and a cidr from it
@@ -873,7 +873,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_public_ip_pool_capacity.py.html>`__ to see an example of how to use add_public_ip_pool_capacity API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_public_ip_pool_capacity.py.html>`__ to see an example of how to use add_public_ip_pool_capacity API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpPoolId']
@@ -964,7 +964,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.AddVcnCidrDetails add_vcn_cidr_details: (required)
             Details object for deleting a VCN CIDR.
@@ -1005,7 +1005,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_vcn_cidr.py.html>`__ to see an example of how to use add_vcn_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/add_vcn_cidr.py.html>`__ to see an example of how to use add_vcn_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -1091,7 +1091,7 @@ class VirtualNetworkClient(object):
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -1117,7 +1117,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/advertise_byoip_range.py.html>`__ to see an example of how to use advertise_byoip_range API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/advertise_byoip_range.py.html>`__ to see an example of how to use advertise_byoip_range API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -1204,7 +1204,7 @@ class VirtualNetworkClient(object):
         :param str service_gateway_id: (required)
             The service gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ServiceIdRequestDetails attach_service_details: (required)
             ServiceId of Service to be attached to a service gateway.
@@ -1234,7 +1234,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/attach_service_id.py.html>`__ to see an example of how to use attach_service_id API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/attach_service_id.py.html>`__ to see an example of how to use attach_service_id API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceGatewayId']
@@ -1319,7 +1319,7 @@ class VirtualNetworkClient(object):
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.BulkAddVirtualCircuitPublicPrefixesDetails bulk_add_virtual_circuit_public_prefixes_details: (required)
             Request with publix prefixes to be added to the virtual circuit
@@ -1344,7 +1344,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_add_virtual_circuit_public_prefixes.py.html>`__ to see an example of how to use bulk_add_virtual_circuit_public_prefixes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_add_virtual_circuit_public_prefixes.py.html>`__ to see an example of how to use bulk_add_virtual_circuit_public_prefixes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -1449,7 +1449,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_create_ipv6s.py.html>`__ to see an example of how to use bulk_create_ipv6s API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_create_ipv6s.py.html>`__ to see an example of how to use bulk_create_ipv6s API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1553,7 +1553,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_create_private_ips.py.html>`__ to see an example of how to use bulk_create_private_ips API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_create_private_ips.py.html>`__ to see an example of how to use bulk_create_private_ips API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1657,7 +1657,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_delete_ipv6s.py.html>`__ to see an example of how to use bulk_delete_ipv6s API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_delete_ipv6s.py.html>`__ to see an example of how to use bulk_delete_ipv6s API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1761,7 +1761,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_delete_private_ips.py.html>`__ to see an example of how to use bulk_delete_private_ips API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_delete_private_ips.py.html>`__ to see an example of how to use bulk_delete_private_ips API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -1837,7 +1837,7 @@ class VirtualNetworkClient(object):
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.BulkDeleteVirtualCircuitPublicPrefixesDetails bulk_delete_virtual_circuit_public_prefixes_details: (required)
             Request with public prefixes to be deleted from the virtual circuit.
@@ -1862,7 +1862,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_delete_virtual_circuit_public_prefixes.py.html>`__ to see an example of how to use bulk_delete_virtual_circuit_public_prefixes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_delete_virtual_circuit_public_prefixes.py.html>`__ to see an example of how to use bulk_delete_virtual_circuit_public_prefixes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -1967,7 +1967,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_detach_ipv6s.py.html>`__ to see an example of how to use bulk_detach_ipv6s API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_detach_ipv6s.py.html>`__ to see an example of how to use bulk_detach_ipv6s API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2036,7 +2036,7 @@ class VirtualNetworkClient(object):
         """
         Unassign the specified PrivateIP address from Virtual Network Interface Card (VNIC). You must specify the PrivateIP `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.BulkDetachPrivateIpsDetails bulk_detach_private_ips_details: (required)
@@ -2073,7 +2073,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_detach_private_ips.py.html>`__ to see an example of how to use bulk_detach_private_ips API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_detach_private_ips.py.html>`__ to see an example of how to use bulk_detach_private_ips API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2177,7 +2177,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_update_ipv6s.py.html>`__ to see an example of how to use bulk_update_ipv6s API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_update_ipv6s.py.html>`__ to see an example of how to use bulk_update_ipv6s API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2281,7 +2281,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_update_private_ips.py.html>`__ to see an example of how to use bulk_update_private_ips API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/bulk_update_private_ips.py.html>`__ to see an example of how to use bulk_update_private_ips API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2352,13 +2352,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str byoasn_id: (required)
             The `OCID`__ of the `Byoasn` resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeByoasnCompartmentDetails change_byoasn_compartment_details: (required)
             Request to change the compartment of a BYOIP CIDR block.
@@ -2399,7 +2399,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_byoasn_compartment.py.html>`__ to see an example of how to use change_byoasn_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_byoasn_compartment.py.html>`__ to see an example of how to use change_byoasn_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoasnId']
@@ -2484,13 +2484,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeByoipRangeCompartmentDetails change_byoip_range_compartment_details: (required)
             Request to change the compartment of a BYOIP CIDR block.
@@ -2526,7 +2526,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_byoip_range_compartment.py.html>`__ to see an example of how to use change_byoip_range_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_byoip_range_compartment.py.html>`__ to see an example of how to use change_byoip_range_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -2607,13 +2607,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str capture_filter_id: (required)
             The `OCID`__ of the capture filter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeCaptureFilterCompartmentDetails change_capture_filter_compartment_details: (required)
             Request to change the compartment of a VTAP.
@@ -2654,7 +2654,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_capture_filter_compartment.py.html>`__ to see an example of how to use change_capture_filter_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_capture_filter_compartment.py.html>`__ to see an example of how to use change_capture_filter_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['captureFilterId']
@@ -2737,13 +2737,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str cpe_id: (required)
             The `OCID`__ of the CPE.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeCpeCompartmentDetails change_cpe_compartment_details: (required)
             Request to change the compartment of a CPE.
@@ -2779,7 +2779,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_cpe_compartment.py.html>`__ to see an example of how to use change_cpe_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_cpe_compartment.py.html>`__ to see an example of how to use change_cpe_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cpeId']
@@ -2862,13 +2862,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str cross_connect_id: (required)
             The `OCID`__ of the cross-connect.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeCrossConnectCompartmentDetails change_cross_connect_compartment_details: (required)
             Request to change the compartment of a Cross Connect.
@@ -2904,7 +2904,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_cross_connect_compartment.py.html>`__ to see an example of how to use change_cross_connect_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_cross_connect_compartment.py.html>`__ to see an example of how to use change_cross_connect_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectId']
@@ -2987,13 +2987,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str cross_connect_group_id: (required)
             The `OCID`__ of the cross-connect group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeCrossConnectGroupCompartmentDetails change_cross_connect_group_compartment_details: (required)
             Request to change the compartment of a Cross Connect Group.
@@ -3029,7 +3029,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_cross_connect_group_compartment.py.html>`__ to see an example of how to use change_cross_connect_group_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_cross_connect_group_compartment.py.html>`__ to see an example of how to use change_cross_connect_group_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectGroupId']
@@ -3112,13 +3112,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str dhcp_id: (required)
             The `OCID`__ for the set of DHCP options.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeDhcpOptionsCompartmentDetails change_dhcp_options_compartment_details: (required)
             Request to change the compartment of a set of DHCP Options.
@@ -3154,7 +3154,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_dhcp_options_compartment.py.html>`__ to see an example of how to use change_dhcp_options_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_dhcp_options_compartment.py.html>`__ to see an example of how to use change_dhcp_options_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dhcpId']
@@ -3235,13 +3235,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeDrgCompartmentDetails change_drg_compartment_details: (required)
             Request to change the compartment of a DRG.
@@ -3277,7 +3277,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_drg_compartment.py.html>`__ to see an example of how to use change_drg_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_drg_compartment.py.html>`__ to see an example of how to use change_drg_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -3358,13 +3358,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str ig_id: (required)
             The `OCID`__ of the internet gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeInternetGatewayCompartmentDetails change_internet_gateway_compartment_details: (required)
             Request to change the compartment of an internet gateway.
@@ -3400,7 +3400,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_internet_gateway_compartment.py.html>`__ to see an example of how to use change_internet_gateway_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_internet_gateway_compartment.py.html>`__ to see an example of how to use change_internet_gateway_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['igId']
@@ -3481,13 +3481,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeIPSecConnectionCompartmentDetails change_ip_sec_connection_compartment_details: (required)
             Request to change the compartment of a IPSec connection.
@@ -3523,7 +3523,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_ip_sec_connection_compartment.py.html>`__ to see an example of how to use change_ip_sec_connection_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_ip_sec_connection_compartment.py.html>`__ to see an example of how to use change_ip_sec_connection_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -3606,13 +3606,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str local_peering_gateway_id: (required)
             The `OCID`__ of the local peering gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeLocalPeeringGatewayCompartmentDetails change_local_peering_gateway_compartment_details: (required)
             Request to change the compartment of a given local peering gateway.
@@ -3648,7 +3648,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_local_peering_gateway_compartment.py.html>`__ to see an example of how to use change_local_peering_gateway_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_local_peering_gateway_compartment.py.html>`__ to see an example of how to use change_local_peering_gateway_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['localPeeringGatewayId']
@@ -3729,13 +3729,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str nat_gateway_id: (required)
             The NAT gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeNatGatewayCompartmentDetails change_nat_gateway_compartment_details: (required)
             Request to change the compartment of a given NAT Gateway.
@@ -3771,7 +3771,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_nat_gateway_compartment.py.html>`__ to see an example of how to use change_nat_gateway_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_nat_gateway_compartment.py.html>`__ to see an example of how to use change_nat_gateway_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['natGatewayId']
@@ -3851,13 +3851,13 @@ class VirtualNetworkClient(object):
         Moves a network security group into a different compartment within the same tenancy. For
         information about moving resources between compartments, see `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeNetworkSecurityGroupCompartmentDetails change_network_security_group_compartment_details: (required)
             Request to change the compartment of a network security group.
@@ -3893,7 +3893,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_network_security_group_compartment.py.html>`__ to see an example of how to use change_network_security_group_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_network_security_group_compartment.py.html>`__ to see an example of how to use change_network_security_group_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -3977,13 +3977,13 @@ class VirtualNetworkClient(object):
         This operation applies only to reserved public IPs. Ephemeral public IPs always belong to the
         same compartment as their VNIC and move accordingly.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str public_ip_id: (required)
             The `OCID`__ of the public IP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangePublicIpCompartmentDetails change_public_ip_compartment_details: (required)
             Request to change the compartment of a Public IP.
@@ -4019,7 +4019,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_public_ip_compartment.py.html>`__ to see an example of how to use change_public_ip_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_public_ip_compartment.py.html>`__ to see an example of how to use change_public_ip_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpId']
@@ -4100,13 +4100,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str public_ip_pool_id: (required)
             The `OCID`__ of the public IP pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangePublicIpPoolCompartmentDetails change_public_ip_pool_compartment_details: (required)
             Request to change the compartment of a public IP pool.
@@ -4142,7 +4142,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_public_ip_pool_compartment.py.html>`__ to see an example of how to use change_public_ip_pool_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_public_ip_pool_compartment.py.html>`__ to see an example of how to use change_public_ip_pool_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpPoolId']
@@ -4223,13 +4223,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str remote_peering_connection_id: (required)
             The `OCID`__ of the remote peering connection (RPC).
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeRemotePeeringConnectionCompartmentDetails change_remote_peering_connection_compartment_details: (required)
             Request to change the compartment of a remote peering connection.
@@ -4265,7 +4265,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_remote_peering_connection_compartment.py.html>`__ to see an example of how to use change_remote_peering_connection_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_remote_peering_connection_compartment.py.html>`__ to see an example of how to use change_remote_peering_connection_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['remotePeeringConnectionId']
@@ -4348,13 +4348,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str rt_id: (required)
             The `OCID`__ of the route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeRouteTableCompartmentDetails change_route_table_compartment_details: (required)
             Request to change the compartment of a given route table.
@@ -4390,7 +4390,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_route_table_compartment.py.html>`__ to see an example of how to use change_route_table_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_route_table_compartment.py.html>`__ to see an example of how to use change_route_table_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['rtId']
@@ -4471,13 +4471,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str security_list_id: (required)
             The `OCID`__ of the security list.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeSecurityListCompartmentDetails change_security_list_compartment_details: (required)
             Request to change the compartment of a given security list.
@@ -4513,7 +4513,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_security_list_compartment.py.html>`__ to see an example of how to use change_security_list_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_security_list_compartment.py.html>`__ to see an example of how to use change_security_list_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['securityListId']
@@ -4594,13 +4594,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str service_gateway_id: (required)
             The service gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeServiceGatewayCompartmentDetails change_service_gateway_compartment_details: (required)
             Request to change the compartment of a given Service Gateway.
@@ -4636,7 +4636,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_service_gateway_compartment.py.html>`__ to see an example of how to use change_service_gateway_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_service_gateway_compartment.py.html>`__ to see an example of how to use change_service_gateway_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceGatewayId']
@@ -4717,13 +4717,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeSubnetCompartmentDetails change_subnet_compartment_details: (required)
             Request to change the compartment of a given subnet.
@@ -4759,7 +4759,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_subnet_compartment.py.html>`__ to see an example of how to use change_subnet_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_subnet_compartment.py.html>`__ to see an example of how to use change_subnet_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -4840,13 +4840,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeVcnCompartmentDetails change_vcn_compartment_details: (required)
             Request to change the compartment of a given VCN.
@@ -4882,7 +4882,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_vcn_compartment.py.html>`__ to see an example of how to use change_vcn_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_vcn_compartment.py.html>`__ to see an example of how to use change_vcn_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -4963,13 +4963,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeVirtualCircuitCompartmentDetails change_virtual_circuit_compartment_details: (required)
             Request to change the compartment of a virtual circuit.
@@ -5005,7 +5005,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_virtual_circuit_compartment.py.html>`__ to see an example of how to use change_virtual_circuit_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_virtual_circuit_compartment.py.html>`__ to see an example of how to use change_virtual_circuit_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -5088,13 +5088,13 @@ class VirtualNetworkClient(object):
         For information about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str vlan_id: (required)
             The `OCID`__ of the VLAN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeVlanCompartmentDetails change_vlan_compartment_details: (required)
             Request to change the compartment of a given VLAN.
@@ -5135,7 +5135,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_vlan_compartment.py.html>`__ to see an example of how to use change_vlan_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_vlan_compartment.py.html>`__ to see an example of how to use change_vlan_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vlanId']
@@ -5218,13 +5218,13 @@ class VirtualNetworkClient(object):
         about moving resources between compartments, see
         `Moving Resources to a Different Compartment`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
+        __ https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes
 
 
         :param str vtap_id: (required)
             The `OCID`__ of the VTAP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ChangeVtapCompartmentDetails change_vtap_compartment_details: (required)
             Request to change the compartment that contains a VTAP.
@@ -5265,7 +5265,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_vtap_compartment.py.html>`__ to see an example of how to use change_vtap_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/change_vtap_compartment.py.html>`__ to see an example of how to use change_vtap_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vtapId']
@@ -5353,13 +5353,13 @@ class VirtualNetworkClient(object):
         operation will fail. For more information, see
         `VCN Peering`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm
 
 
         :param str local_peering_gateway_id: (required)
             The `OCID`__ of the local peering gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ConnectLocalPeeringGatewaysDetails connect_local_peering_gateways_details: (required)
             Details regarding the local peering gateway to connect.
@@ -5384,7 +5384,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/connect_local_peering_gateways.py.html>`__ to see an example of how to use connect_local_peering_gateways API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/connect_local_peering_gateways.py.html>`__ to see an example of how to use connect_local_peering_gateways API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['localPeeringGatewayId']
@@ -5459,13 +5459,13 @@ class VirtualNetworkClient(object):
         operation will fail. For more information, see
         `VCN Peering`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm
 
 
         :param str remote_peering_connection_id: (required)
             The `OCID`__ of the remote peering connection (RPC).
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ConnectRemotePeeringConnectionsDetails connect_remote_peering_connections_details: (required)
             Details to connect peering connection with peering connection from remote region
@@ -5490,7 +5490,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/connect_remote_peering_connections.py.html>`__ to see an example of how to use connect_remote_peering_connections API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/connect_remote_peering_connections.py.html>`__ to see an example of how to use connect_remote_peering_connections API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['remotePeeringConnectionId']
@@ -5595,7 +5595,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_byoasn.py.html>`__ to see an example of how to use create_byoasn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_byoasn.py.html>`__ to see an example of how to use create_byoasn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -5701,7 +5701,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_byoip_range.py.html>`__ to see an example of how to use create_byoip_range API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_byoip_range.py.html>`__ to see an example of how to use create_byoip_range API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -5778,9 +5778,9 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the VTAP, otherwise a default is provided.
         It does not have to be unique, and you can change it.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateCaptureFilterDetails create_capture_filter_details: (required)
@@ -5817,7 +5817,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_capture_filter.py.html>`__ to see an example of how to use create_capture_filter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_capture_filter.py.html>`__ to see an example of how to use create_capture_filter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -5900,11 +5900,11 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the CPE, otherwise a default is provided. It does not have to
         be unique, and you can change it. Avoid entering confidential information.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm
 
 
         :param oci.core.models.CreateCpeDetails create_cpe_details: (required)
@@ -5937,7 +5937,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_cpe.py.html>`__ to see an example of how to use create_cpe API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_cpe.py.html>`__ to see an example of how to use create_cpe API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6024,10 +6024,10 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the cross-connect.
         It does not have to be unique, and you can change it. Avoid entering confidential information.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateCrossConnectDetails create_cross_connect_details: (required)
@@ -6060,7 +6060,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_cross_connect.py.html>`__ to see an example of how to use create_cross_connect API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_cross_connect.py.html>`__ to see an example of how to use create_cross_connect API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6143,10 +6143,10 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the cross-connect group.
         It does not have to be unique, and you can change it. Avoid entering confidential information.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateCrossConnectGroupDetails create_cross_connect_group_details: (required)
@@ -6179,7 +6179,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_cross_connect_group.py.html>`__ to see an example of how to use create_cross_connect_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_cross_connect_group.py.html>`__ to see an example of how to use create_cross_connect_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6259,9 +6259,9 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the set of DHCP options, otherwise a default is provided.
         It does not have to be unique, and you can change it. Avoid entering confidential information.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateDhcpDetails create_dhcp_details: (required)
@@ -6294,7 +6294,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_dhcp_options.py.html>`__ to see an example of how to use create_dhcp_options API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_dhcp_options.py.html>`__ to see an example of how to use create_dhcp_options API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6372,10 +6372,10 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the DRG, otherwise a default is provided.
         It does not have to be unique, and you can change it. Avoid entering confidential information.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateDrgDetails create_drg_details: (required)
@@ -6408,7 +6408,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg.py.html>`__ to see an example of how to use create_drg API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg.py.html>`__ to see an example of how to use create_drg API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6485,9 +6485,9 @@ class VirtualNetworkClient(object):
         For more information about compartments and access control, see
         `Overview of the IAM Service`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
 
 
         :param oci.core.models.CreateDrgAttachmentDetails create_drg_attachment_details: (required)
@@ -6520,7 +6520,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg_attachment.py.html>`__ to see an example of how to use create_drg_attachment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg_attachment.py.html>`__ to see an example of how to use create_drg_attachment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6621,7 +6621,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg_route_distribution.py.html>`__ to see an example of how to use create_drg_route_distribution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg_route_distribution.py.html>`__ to see an example of how to use create_drg_route_distribution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6720,7 +6720,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg_route_table.py.html>`__ to see an example of how to use create_drg_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_drg_route_table.py.html>`__ to see an example of how to use create_drg_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6806,9 +6806,9 @@ class VirtualNetworkClient(object):
         use :func:`update_internet_gateway` to easily disable/enable
         the gateway without changing the route rule.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
 
 
         :param oci.core.models.CreateInternetGatewayDetails create_internet_gateway_details: (required)
@@ -6841,7 +6841,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_internet_gateway.py.html>`__ to see an example of how to use create_internet_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_internet_gateway.py.html>`__ to see an example of how to use create_internet_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -6935,10 +6935,10 @@ class VirtualNetworkClient(object):
         (that is, the pre-shared key). For more information, see
         `CPE Configuration`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm
 
 
         :param oci.core.models.CreateIPSecConnectionDetails create_ip_sec_connection_details: (required)
@@ -6971,7 +6971,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_ip_sec_connection.py.html>`__ to see an example of how to use create_ip_sec_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_ip_sec_connection.py.html>`__ to see an example of how to use create_ip_sec_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7075,7 +7075,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_ipv6.py.html>`__ to see an example of how to use create_ipv6 API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_ipv6.py.html>`__ to see an example of how to use create_ipv6 API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7175,7 +7175,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_local_peering_gateway.py.html>`__ to see an example of how to use create_local_peering_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_local_peering_gateway.py.html>`__ to see an example of how to use create_local_peering_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7274,7 +7274,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_nat_gateway.py.html>`__ to see an example of how to use create_nat_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_nat_gateway.py.html>`__ to see an example of how to use create_nat_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7372,7 +7372,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_network_security_group.py.html>`__ to see an example of how to use create_network_security_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_network_security_group.py.html>`__ to see an example of how to use create_network_security_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7441,7 +7441,7 @@ class VirtualNetworkClient(object):
         For more information about private IPs, see
         `IP Addresses`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingIPaddresses.htm
 
 
         :param oci.core.models.CreatePrivateIpDetails create_private_ip_details: (required)
@@ -7474,7 +7474,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_private_ip.py.html>`__ to see an example of how to use create_private_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_private_ip.py.html>`__ to see an example of how to use create_private_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7561,8 +7561,8 @@ class VirtualNetworkClient(object):
         asynchronous. Poll the public IP's `lifecycleState` to determine if the assignment
         succeeded.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreatePublicIpDetails create_public_ip_details: (required)
@@ -7595,7 +7595,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_public_ip.py.html>`__ to see an example of how to use create_public_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_public_ip.py.html>`__ to see an example of how to use create_public_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7697,7 +7697,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_public_ip_pool.py.html>`__ to see an example of how to use create_public_ip_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_public_ip_pool.py.html>`__ to see an example of how to use create_public_ip_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7797,7 +7797,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_remote_peering_connection.py.html>`__ to see an example of how to use create_remote_peering_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_remote_peering_connection.py.html>`__ to see an example of how to use create_remote_peering_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7880,11 +7880,11 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the route table, otherwise a default is provided.
         It does not have to be unique, and you can change it. Avoid entering confidential information.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateRouteTableDetails create_route_table_details: (required)
@@ -7917,7 +7917,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_route_table.py.html>`__ to see an example of how to use create_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_route_table.py.html>`__ to see an example of how to use create_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -7997,11 +7997,11 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the security list, otherwise a default is provided.
         It does not have to be unique, and you can change it. Avoid entering confidential information.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/securitylists.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateSecurityListDetails create_security_list_details: (required)
@@ -8034,7 +8034,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_security_list.py.html>`__ to see an example of how to use create_security_list API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_security_list.py.html>`__ to see an example of how to use create_security_list API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8112,9 +8112,9 @@ class VirtualNetworkClient(object):
         Use the :func:`list_services` operation to find service CIDR labels
         available in the region.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateServiceGatewayDetails create_service_gateway_details: (required)
@@ -8147,7 +8147,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_service_gateway.py.html>`__ to see an example of how to use create_service_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_service_gateway.py.html>`__ to see an example of how to use create_service_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8244,15 +8244,15 @@ class VirtualNetworkClient(object):
         VCN Resolver to resolve hostnames for instances in the subnet. For more information, see
         `DNS in Your Virtual Cloud Network`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/servicelimits.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDHCP.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/servicelimits.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/securitylists.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingDHCP.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm
 
 
         :param oci.core.models.CreateSubnetDetails create_subnet_details: (required)
@@ -8285,7 +8285,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_subnet.py.html>`__ to see an example of how to use create_subnet API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_subnet.py.html>`__ to see an example of how to use create_subnet API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8384,14 +8384,14 @@ class VirtualNetworkClient(object):
         or FastConnect. For more information, see
         `Overview of the Networking Service`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm
         __ https://tools.ietf.org/html/rfc1918
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/dns.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/overview.htm
 
 
         :param oci.core.models.CreateVcnDetails create_vcn_details: (required)
@@ -8424,7 +8424,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_vcn.py.html>`__ to see an example of how to use create_vcn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_vcn.py.html>`__ to see an example of how to use create_vcn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8511,11 +8511,11 @@ class VirtualNetworkClient(object):
         traffic will not flow. For more information, see
         `Route Tables`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm
 
 
         :param oci.core.models.CreateVirtualCircuitDetails create_virtual_circuit_details: (required)
@@ -8548,7 +8548,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_virtual_circuit.py.html>`__ to see an example of how to use create_virtual_circuit API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_virtual_circuit.py.html>`__ to see an example of how to use create_virtual_circuit API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8652,7 +8652,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_vlan.py.html>`__ to see an example of how to use create_vlan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_vlan.py.html>`__ to see an example of how to use create_vlan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8729,9 +8729,9 @@ class VirtualNetworkClient(object):
         You may optionally specify a *display name* for the VTAP, otherwise a default is provided.
         It does not have to be unique, and you can change it.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Identity/Concepts/overview.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.CreateVtapDetails create_vtap_details: (required)
@@ -8768,7 +8768,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_vtap.py.html>`__ to see an example of how to use create_vtap API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/create_vtap.py.html>`__ to see an example of how to use create_vtap API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -8840,13 +8840,13 @@ class VirtualNetworkClient(object):
         It must not be in use by any of the byoipRanges or deletion will fail.
         You must specify the `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str byoasn_id: (required)
             The `OCID`__ of the `Byoasn` resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -8877,7 +8877,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_byoasn.py.html>`__ to see an example of how to use delete_byoasn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_byoasn.py.html>`__ to see an example of how to use delete_byoasn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoasnId']
@@ -8957,13 +8957,13 @@ class VirtualNetworkClient(object):
         You must specify the `OCID`__.
         If the `ByoipRange` resource is currently in the PROVISIONED or ACTIVE state, it will be de-provisioned and then deleted.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -8994,7 +8994,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_byoip_range.py.html>`__ to see an example of how to use delete_byoip_range API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_byoip_range.py.html>`__ to see an example of how to use delete_byoip_range API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -9075,7 +9075,7 @@ class VirtualNetworkClient(object):
         :param str capture_filter_id: (required)
             The `OCID`__ of the capture filter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9106,7 +9106,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_capture_filter.py.html>`__ to see an example of how to use delete_capture_filter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_capture_filter.py.html>`__ to see an example of how to use delete_capture_filter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['captureFilterId']
@@ -9188,7 +9188,7 @@ class VirtualNetworkClient(object):
         :param str cpe_id: (required)
             The `OCID`__ of the CPE.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9215,7 +9215,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_cpe.py.html>`__ to see an example of how to use delete_cpe API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_cpe.py.html>`__ to see an example of how to use delete_cpe API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cpeId']
@@ -9296,7 +9296,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_id: (required)
             The `OCID`__ of the cross-connect.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9323,7 +9323,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_cross_connect.py.html>`__ to see an example of how to use delete_cross_connect API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_cross_connect.py.html>`__ to see an example of how to use delete_cross_connect API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectId']
@@ -9405,7 +9405,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_group_id: (required)
             The `OCID`__ of the cross-connect group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9432,7 +9432,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_cross_connect_group.py.html>`__ to see an example of how to use delete_cross_connect_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_cross_connect_group.py.html>`__ to see an example of how to use delete_cross_connect_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectGroupId']
@@ -9516,7 +9516,7 @@ class VirtualNetworkClient(object):
         :param str dhcp_id: (required)
             The `OCID`__ for the set of DHCP options.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9543,7 +9543,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_dhcp_options.py.html>`__ to see an example of how to use delete_dhcp_options API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_dhcp_options.py.html>`__ to see an example of how to use delete_dhcp_options API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dhcpId']
@@ -9624,7 +9624,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9651,7 +9651,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg.py.html>`__ to see an example of how to use delete_drg API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg.py.html>`__ to see an example of how to use delete_drg API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -9731,7 +9731,7 @@ class VirtualNetworkClient(object):
         :param str drg_attachment_id: (required)
             The `OCID`__ of the DRG attachment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9758,7 +9758,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg_attachment.py.html>`__ to see an example of how to use delete_drg_attachment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg_attachment.py.html>`__ to see an example of how to use delete_drg_attachment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgAttachmentId']
@@ -9838,7 +9838,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_distribution_id: (required)
             The `OCID`__ of the route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9865,7 +9865,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg_route_distribution.py.html>`__ to see an example of how to use delete_drg_route_distribution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg_route_distribution.py.html>`__ to see an example of how to use delete_drg_route_distribution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteDistributionId']
@@ -9943,7 +9943,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -9970,7 +9970,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg_route_table.py.html>`__ to see an example of how to use delete_drg_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_drg_route_table.py.html>`__ to see an example of how to use delete_drg_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -10052,7 +10052,7 @@ class VirtualNetworkClient(object):
         :param str ig_id: (required)
             The `OCID`__ of the internet gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10079,7 +10079,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_internet_gateway.py.html>`__ to see an example of how to use delete_internet_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_internet_gateway.py.html>`__ to see an example of how to use delete_internet_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['igId']
@@ -10164,7 +10164,7 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10191,7 +10191,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_ip_sec_connection.py.html>`__ to see an example of how to use delete_ip_sec_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_ip_sec_connection.py.html>`__ to see an example of how to use delete_ip_sec_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -10268,13 +10268,13 @@ class VirtualNetworkClient(object):
         Unassigns and deletes the specified IPv6. You must specify the object's `OCID`__.
         The IPv6 address is returned to the subnet's pool of available addresses.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ipv6_id: (required)
             The `OCID`__ of the IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10305,7 +10305,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_ipv6.py.html>`__ to see an example of how to use delete_ipv6 API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_ipv6.py.html>`__ to see an example of how to use delete_ipv6 API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipv6Id']
@@ -10388,7 +10388,7 @@ class VirtualNetworkClient(object):
         :param str local_peering_gateway_id: (required)
             The `OCID`__ of the local peering gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10415,7 +10415,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_local_peering_gateway.py.html>`__ to see an example of how to use delete_local_peering_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_local_peering_gateway.py.html>`__ to see an example of how to use delete_local_peering_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['localPeeringGatewayId']
@@ -10497,7 +10497,7 @@ class VirtualNetworkClient(object):
         :param str nat_gateway_id: (required)
             The NAT gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10524,7 +10524,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_nat_gateway.py.html>`__ to see an example of how to use delete_nat_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_nat_gateway.py.html>`__ to see an example of how to use delete_nat_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['natGatewayId']
@@ -10604,14 +10604,14 @@ class VirtualNetworkClient(object):
         contains both the `OCID`__ of the VNIC and the `OCID`__ of the VNIC's parent resource (for example,
         the Compute instance that the VNIC is attached to).
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10638,7 +10638,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_network_security_group.py.html>`__ to see an example of how to use delete_network_security_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_network_security_group.py.html>`__ to see an example of how to use delete_network_security_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -10722,14 +10722,14 @@ class VirtualNetworkClient(object):
         unassigning it from the VNIC causes that route rule to blackhole and the traffic
         will be dropped.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip
 
 
         :param str private_ip_id: (required)
             The `OCID`__ of the private IP or IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10756,7 +10756,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_private_ip.py.html>`__ to see an example of how to use delete_private_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_private_ip.py.html>`__ to see an example of how to use delete_private_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateIpId']
@@ -10844,13 +10844,13 @@ class VirtualNetworkClient(object):
         of reserved public IPs, instead use
         :func:`update_public_ip`.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str public_ip_id: (required)
             The `OCID`__ of the public IP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -10877,7 +10877,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_public_ip.py.html>`__ to see an example of how to use delete_public_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_public_ip.py.html>`__ to see an example of how to use delete_public_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpId']
@@ -10953,13 +10953,13 @@ class VirtualNetworkClient(object):
         To delete a public IP pool it must not have any active IP address allocations.
         You must specify the object's `OCID`__ when deleting an IP pool.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str public_ip_pool_id: (required)
             The `OCID`__ of the public IP pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -10990,7 +10990,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_public_ip_pool.py.html>`__ to see an example of how to use delete_public_ip_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_public_ip_pool.py.html>`__ to see an example of how to use delete_public_ip_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpPoolId']
@@ -11073,7 +11073,7 @@ class VirtualNetworkClient(object):
         :param str remote_peering_connection_id: (required)
             The `OCID`__ of the remote peering connection (RPC).
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11100,7 +11100,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_remote_peering_connection.py.html>`__ to see an example of how to use delete_remote_peering_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_remote_peering_connection.py.html>`__ to see an example of how to use delete_remote_peering_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['remotePeeringConnectionId']
@@ -11184,7 +11184,7 @@ class VirtualNetworkClient(object):
         :param str rt_id: (required)
             The `OCID`__ of the route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11211,7 +11211,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_route_table.py.html>`__ to see an example of how to use delete_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_route_table.py.html>`__ to see an example of how to use delete_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['rtId']
@@ -11293,7 +11293,7 @@ class VirtualNetworkClient(object):
         :param str security_list_id: (required)
             The `OCID`__ of the security list.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11320,7 +11320,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_security_list.py.html>`__ to see an example of how to use delete_security_list API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_security_list.py.html>`__ to see an example of how to use delete_security_list API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['securityListId']
@@ -11399,7 +11399,7 @@ class VirtualNetworkClient(object):
         :param str service_gateway_id: (required)
             The service gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11426,7 +11426,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_service_gateway.py.html>`__ to see an example of how to use delete_service_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_service_gateway.py.html>`__ to see an example of how to use delete_service_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceGatewayId']
@@ -11506,7 +11506,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11533,7 +11533,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_subnet.py.html>`__ to see an example of how to use delete_subnet API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_subnet.py.html>`__ to see an example of how to use delete_subnet API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -11616,7 +11616,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11643,7 +11643,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_vcn.py.html>`__ to see an example of how to use delete_vcn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_vcn.py.html>`__ to see an example of how to use delete_vcn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -11725,7 +11725,7 @@ class VirtualNetworkClient(object):
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11752,7 +11752,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_virtual_circuit.py.html>`__ to see an example of how to use delete_virtual_circuit API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_virtual_circuit.py.html>`__ to see an example of how to use delete_virtual_circuit API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -11832,7 +11832,7 @@ class VirtualNetworkClient(object):
         :param str vlan_id: (required)
             The `OCID`__ of the VLAN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11863,7 +11863,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_vlan.py.html>`__ to see an example of how to use delete_vlan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_vlan.py.html>`__ to see an example of how to use delete_vlan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vlanId']
@@ -11944,7 +11944,7 @@ class VirtualNetworkClient(object):
         :param str vtap_id: (required)
             The `OCID`__ of the VTAP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -11975,7 +11975,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_vtap.py.html>`__ to see an example of how to use delete_vtap API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/delete_vtap.py.html>`__ to see an example of how to use delete_vtap API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vtapId']
@@ -12066,7 +12066,7 @@ class VirtualNetworkClient(object):
         :param str service_gateway_id: (required)
             The service gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ServiceIdRequestDetails detach_service_details: (required)
             ServiceId of Service to be detached from a service gateway.
@@ -12096,7 +12096,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/detach_service_id.py.html>`__ to see an example of how to use detach_service_id API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/detach_service_id.py.html>`__ to see an example of how to use detach_service_id API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceGatewayId']
@@ -12178,7 +12178,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -12191,14 +12191,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str attachment_type: (optional)
             The type for the network resource attached to the DRG.
@@ -12228,7 +12228,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_all_drg_attachments.py.html>`__ to see an example of how to use get_all_drg_attachments API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_all_drg_attachments.py.html>`__ to see an example of how to use get_all_drg_attachments API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -12350,7 +12350,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_allowed_ike_ip_sec_parameters.py.html>`__ to see an example of how to use get_allowed_ike_ip_sec_parameters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_allowed_ike_ip_sec_parameters.py.html>`__ to see an example of how to use get_allowed_ike_ip_sec_parameters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -12416,13 +12416,13 @@ class VirtualNetworkClient(object):
         """
         Gets the `Byoasn` resource. You must specify the `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str byoasn_id: (required)
             The `OCID`__ of the `Byoasn` resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -12448,7 +12448,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_byoasn.py.html>`__ to see an example of how to use get_byoasn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_byoasn.py.html>`__ to see an example of how to use get_byoasn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoasnId']
@@ -12526,13 +12526,13 @@ class VirtualNetworkClient(object):
         """
         Gets the `ByoipRange` resource. You must specify the `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -12558,7 +12558,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_byoip_range.py.html>`__ to see an example of how to use get_byoip_range API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_byoip_range.py.html>`__ to see an example of how to use get_byoip_range API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -12638,7 +12638,7 @@ class VirtualNetworkClient(object):
         :param str capture_filter_id: (required)
             The `OCID`__ of the capture filter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -12664,7 +12664,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_capture_filter.py.html>`__ to see an example of how to use get_capture_filter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_capture_filter.py.html>`__ to see an example of how to use get_capture_filter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['captureFilterId']
@@ -12744,7 +12744,7 @@ class VirtualNetworkClient(object):
         :param str cpe_id: (required)
             The `OCID`__ of the CPE.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -12766,7 +12766,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cpe.py.html>`__ to see an example of how to use get_cpe API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cpe.py.html>`__ to see an example of how to use get_cpe API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cpeId']
@@ -12857,7 +12857,7 @@ class VirtualNetworkClient(object):
         :param str cpe_id: (required)
             The `OCID`__ of the CPE.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -12883,7 +12883,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cpe_device_config_content.py.html>`__ to see an example of how to use get_cpe_device_config_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cpe_device_config_content.py.html>`__ to see an example of how to use get_cpe_device_config_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cpeId']
@@ -12973,7 +12973,7 @@ class VirtualNetworkClient(object):
         :param str cpe_device_shape_id: (required)
             The `OCID`__ of the CPE device shape.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -12999,7 +12999,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cpe_device_shape.py.html>`__ to see an example of how to use get_cpe_device_shape API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cpe_device_shape.py.html>`__ to see an example of how to use get_cpe_device_shape API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cpeDeviceShapeId']
@@ -13081,7 +13081,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_id: (required)
             The `OCID`__ of the cross-connect.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13103,7 +13103,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect.py.html>`__ to see an example of how to use get_cross_connect API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect.py.html>`__ to see an example of how to use get_cross_connect API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectId']
@@ -13177,7 +13177,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_group_id: (required)
             The `OCID`__ of the cross-connect group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13199,7 +13199,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect_group.py.html>`__ to see an example of how to use get_cross_connect_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect_group.py.html>`__ to see an example of how to use get_cross_connect_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectGroupId']
@@ -13273,7 +13273,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_id: (required)
             The `OCID`__ of the cross-connect.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13295,7 +13295,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect_letter_of_authority.py.html>`__ to see an example of how to use get_cross_connect_letter_of_authority API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect_letter_of_authority.py.html>`__ to see an example of how to use get_cross_connect_letter_of_authority API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectId']
@@ -13369,7 +13369,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_id: (required)
             The `OCID`__ of the cross-connect.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13391,7 +13391,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect_status.py.html>`__ to see an example of how to use get_cross_connect_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_cross_connect_status.py.html>`__ to see an example of how to use get_cross_connect_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectId']
@@ -13465,7 +13465,7 @@ class VirtualNetworkClient(object):
         :param str dhcp_id: (required)
             The `OCID`__ for the set of DHCP options.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13487,7 +13487,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_dhcp_options.py.html>`__ to see an example of how to use get_dhcp_options API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_dhcp_options.py.html>`__ to see an example of how to use get_dhcp_options API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dhcpId']
@@ -13559,7 +13559,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13581,7 +13581,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg.py.html>`__ to see an example of how to use get_drg API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg.py.html>`__ to see an example of how to use get_drg API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -13653,7 +13653,7 @@ class VirtualNetworkClient(object):
         :param str drg_attachment_id: (required)
             The `OCID`__ of the DRG attachment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13675,7 +13675,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_attachment.py.html>`__ to see an example of how to use get_drg_attachment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_attachment.py.html>`__ to see an example of how to use get_drg_attachment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgAttachmentId']
@@ -13744,13 +13744,13 @@ class VirtualNetworkClient(object):
         Gets the redundancy status for the specified DRG. For more information, see
         `Redundancy Remedies`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Troubleshoot/drgredundancy.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Troubleshoot/drgredundancy.htm
 
 
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -13776,7 +13776,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_redundancy_status.py.html>`__ to see an example of how to use get_drg_redundancy_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_redundancy_status.py.html>`__ to see an example of how to use get_drg_redundancy_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -13858,7 +13858,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_distribution_id: (required)
             The `OCID`__ of the route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13880,7 +13880,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_route_distribution.py.html>`__ to see an example of how to use get_drg_route_distribution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_route_distribution.py.html>`__ to see an example of how to use get_drg_route_distribution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteDistributionId']
@@ -13952,7 +13952,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -13974,7 +13974,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_route_table.py.html>`__ to see an example of how to use get_drg_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_drg_route_table.py.html>`__ to see an example of how to use get_drg_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -14043,13 +14043,13 @@ class VirtualNetworkClient(object):
         Gets the specified provider service.
         For more information, see `FastConnect Overview`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
 
 
         :param str provider_service_id: (required)
             The `OCID`__ of the provider service.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14071,7 +14071,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_fast_connect_provider_service.py.html>`__ to see an example of how to use get_fast_connect_provider_service API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_fast_connect_provider_service.py.html>`__ to see an example of how to use get_fast_connect_provider_service API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['providerServiceId']
@@ -14146,7 +14146,7 @@ class VirtualNetworkClient(object):
         :param str provider_service_id: (required)
             The `OCID`__ of the provider service.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str provider_service_key_name: (required)
             The provider service key that the provider gives you when you set up a virtual circuit connection
@@ -14174,7 +14174,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_fast_connect_provider_service_key.py.html>`__ to see an example of how to use get_fast_connect_provider_service_key API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_fast_connect_provider_service_key.py.html>`__ to see an example of how to use get_fast_connect_provider_service_key API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['providerServiceId', 'providerServiceKeyName']
@@ -14249,7 +14249,7 @@ class VirtualNetworkClient(object):
         :param str ig_id: (required)
             The `OCID`__ of the internet gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14271,7 +14271,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_internet_gateway.py.html>`__ to see an example of how to use get_internet_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_internet_gateway.py.html>`__ to see an example of how to use get_internet_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['igId']
@@ -14345,7 +14345,7 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14367,7 +14367,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection.py.html>`__ to see an example of how to use get_ip_sec_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection.py.html>`__ to see an example of how to use get_ip_sec_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -14444,7 +14444,7 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14466,7 +14466,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_device_config.py.html>`__ to see an example of how to use get_ip_sec_connection_device_config API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_device_config.py.html>`__ to see an example of how to use get_ip_sec_connection_device_config API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -14541,7 +14541,7 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14563,7 +14563,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_device_status.py.html>`__ to see an example of how to use get_ip_sec_connection_device_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_device_status.py.html>`__ to see an example of how to use get_ip_sec_connection_device_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -14639,12 +14639,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14666,7 +14666,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_tunnel.py.html>`__ to see an example of how to use get_ip_sec_connection_tunnel API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_tunnel.py.html>`__ to see an example of how to use get_ip_sec_connection_tunnel API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -14741,12 +14741,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14768,7 +14768,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_tunnel_error.py.html>`__ to see an example of how to use get_ip_sec_connection_tunnel_error API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_tunnel_error.py.html>`__ to see an example of how to use get_ip_sec_connection_tunnel_error API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -14844,12 +14844,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -14871,7 +14871,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_tunnel_shared_secret.py.html>`__ to see an example of how to use get_ip_sec_connection_tunnel_shared_secret API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ip_sec_connection_tunnel_shared_secret.py.html>`__ to see an example of how to use get_ip_sec_connection_tunnel_shared_secret API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -14964,7 +14964,7 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -14990,7 +14990,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ipsec_cpe_device_config_content.py.html>`__ to see an example of how to use get_ipsec_cpe_device_config_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ipsec_cpe_device_config_content.py.html>`__ to see an example of how to use get_ipsec_cpe_device_config_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -15071,14 +15071,14 @@ class VirtualNetworkClient(object):
         :func:`list_ipv6s`
         with the IPv6 address (for example, 2001:0db8:0123:1111:98fe:dcba:9876:4321) and subnet `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ipv6_id: (required)
             The `OCID`__ of the IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -15104,7 +15104,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ipv6.py.html>`__ to see an example of how to use get_ipv6 API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_ipv6.py.html>`__ to see an example of how to use get_ipv6 API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipv6Id']
@@ -15184,7 +15184,7 @@ class VirtualNetworkClient(object):
         :param str local_peering_gateway_id: (required)
             The `OCID`__ of the local peering gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -15206,7 +15206,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_local_peering_gateway.py.html>`__ to see an example of how to use get_local_peering_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_local_peering_gateway.py.html>`__ to see an example of how to use get_local_peering_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['localPeeringGatewayId']
@@ -15278,7 +15278,7 @@ class VirtualNetworkClient(object):
         :param str nat_gateway_id: (required)
             The NAT gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -15300,7 +15300,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_nat_gateway.py.html>`__ to see an example of how to use get_nat_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_nat_gateway.py.html>`__ to see an example of how to use get_nat_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['natGatewayId']
@@ -15378,7 +15378,7 @@ class VirtualNetworkClient(object):
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -15400,7 +15400,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_network_security_group.py.html>`__ to see an example of how to use get_network_security_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_network_security_group.py.html>`__ to see an example of how to use get_network_security_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -15472,7 +15472,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str access_level: (optional)
             Valid values are `ANY` and `ACCESSIBLE`. The default is `ANY`.
@@ -15526,7 +15526,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_networking_topology.py.html>`__ to see an example of how to use get_networking_topology API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_networking_topology.py.html>`__ to see an example of how to use get_networking_topology API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -15615,14 +15615,14 @@ class VirtualNetworkClient(object):
         :func:`list_private_ips`
         with the private IP address (for example, 10.0.3.3) and subnet `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str private_ip_id: (required)
             The `OCID`__ of the private IP or IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -15644,7 +15644,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_private_ip.py.html>`__ to see an example of how to use get_private_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_private_ip.py.html>`__ to see an example of how to use get_private_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateIpId']
@@ -15722,15 +15722,15 @@ class VirtualNetworkClient(object):
         moved to a different private IP, the service returns the public IP object with
         `lifecycleState` = ASSIGNING and `assignedEntityId` = `OCID`__ of the target private IP.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str public_ip_id: (required)
             The `OCID`__ of the public IP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -15752,7 +15752,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip.py.html>`__ to see an example of how to use get_public_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip.py.html>`__ to see an example of how to use get_public_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpId']
@@ -15824,7 +15824,7 @@ class VirtualNetworkClient(object):
         moved to a different private IP, the service returns the public IP object with
         `lifecycleState` = ASSIGNING and `assignedEntityId` = `OCID`__ of the target private IP.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.GetPublicIpByIpAddressDetails get_public_ip_by_ip_address_details: (required)
@@ -15850,7 +15850,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip_by_ip_address.py.html>`__ to see an example of how to use get_public_ip_by_ip_address API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip_by_ip_address.py.html>`__ to see an example of how to use get_public_ip_by_ip_address API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -15918,9 +15918,9 @@ class VirtualNetworkClient(object):
         service returns the public IP object with `lifecycleState` = ASSIGNING and
         `assignedEntityId` = `OCID`__ of the target private IP.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param oci.core.models.GetPublicIpByPrivateIpIdDetails get_public_ip_by_private_ip_id_details: (required)
@@ -15946,7 +15946,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip_by_private_ip_id.py.html>`__ to see an example of how to use get_public_ip_by_private_ip_id API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip_by_private_ip_id.py.html>`__ to see an example of how to use get_public_ip_by_private_ip_id API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -16004,13 +16004,13 @@ class VirtualNetworkClient(object):
         """
         Gets the specified `PublicIpPool` object. You must specify the object's `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str public_ip_pool_id: (required)
             The `OCID`__ of the public IP pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -16036,7 +16036,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip_pool.py.html>`__ to see an example of how to use get_public_ip_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_public_ip_pool.py.html>`__ to see an example of how to use get_public_ip_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpPoolId']
@@ -16116,7 +16116,7 @@ class VirtualNetworkClient(object):
         :param str remote_peering_connection_id: (required)
             The `OCID`__ of the remote peering connection (RPC).
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -16138,7 +16138,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_remote_peering_connection.py.html>`__ to see an example of how to use get_remote_peering_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_remote_peering_connection.py.html>`__ to see an example of how to use get_remote_peering_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['remotePeeringConnectionId']
@@ -16236,7 +16236,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_resource_ip_inventory.py.html>`__ to see an example of how to use get_resource_ip_inventory API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_resource_ip_inventory.py.html>`__ to see an example of how to use get_resource_ip_inventory API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dataRequestId']
@@ -16316,7 +16316,7 @@ class VirtualNetworkClient(object):
         :param str rt_id: (required)
             The `OCID`__ of the route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -16338,7 +16338,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_route_table.py.html>`__ to see an example of how to use get_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_route_table.py.html>`__ to see an example of how to use get_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['rtId']
@@ -16410,7 +16410,7 @@ class VirtualNetworkClient(object):
         :param str security_list_id: (required)
             The `OCID`__ of the security list.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -16432,7 +16432,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_security_list.py.html>`__ to see an example of how to use get_security_list API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_security_list.py.html>`__ to see an example of how to use get_security_list API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['securityListId']
@@ -16504,7 +16504,7 @@ class VirtualNetworkClient(object):
         :param str service_id: (required)
             The service's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -16526,7 +16526,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_service.py.html>`__ to see an example of how to use get_service API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_service.py.html>`__ to see an example of how to use get_service API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceId']
@@ -16598,7 +16598,7 @@ class VirtualNetworkClient(object):
         :param str service_gateway_id: (required)
             The service gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -16620,7 +16620,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_service_gateway.py.html>`__ to see an example of how to use get_service_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_service_gateway.py.html>`__ to see an example of how to use get_service_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceGatewayId']
@@ -16692,7 +16692,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -16714,7 +16714,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet.py.html>`__ to see an example of how to use get_subnet API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet.py.html>`__ to see an example of how to use get_subnet API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -16782,13 +16782,13 @@ class VirtualNetworkClient(object):
         """
         Gets the CIDR utilization data of the specified subnet. Specify the `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -16814,7 +16814,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet_cidr_utilization.py.html>`__ to see an example of how to use get_subnet_cidr_utilization API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet_cidr_utilization.py.html>`__ to see an example of how to use get_subnet_cidr_utilization API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -16890,13 +16890,13 @@ class VirtualNetworkClient(object):
         """
         Gets the IP Inventory data of the specified subnet. Specify the `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -16922,7 +16922,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet_ip_inventory.py.html>`__ to see an example of how to use get_subnet_ip_inventory API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet_ip_inventory.py.html>`__ to see an example of how to use get_subnet_ip_inventory API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -17002,12 +17002,12 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str subnet_id: (required)
             The `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str access_level: (optional)
             Valid values are `ANY` and `ACCESSIBLE`. The default is `ANY`.
@@ -17061,7 +17061,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet_topology.py.html>`__ to see an example of how to use get_subnet_topology API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_subnet_topology.py.html>`__ to see an example of how to use get_subnet_topology API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'subnetId']
@@ -17156,12 +17156,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -17187,7 +17187,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_tunnel_cpe_device_config.py.html>`__ to see an example of how to use get_tunnel_cpe_device_config API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_tunnel_cpe_device_config.py.html>`__ to see an example of how to use get_tunnel_cpe_device_config API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -17287,12 +17287,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -17318,7 +17318,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_tunnel_cpe_device_config_content.py.html>`__ to see an example of how to use get_tunnel_cpe_device_config_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_tunnel_cpe_device_config_content.py.html>`__ to see an example of how to use get_tunnel_cpe_device_config_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -17401,7 +17401,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -17427,7 +17427,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_upgrade_status.py.html>`__ to see an example of how to use get_upgrade_status API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_upgrade_status.py.html>`__ to see an example of how to use get_upgrade_status API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -17507,7 +17507,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -17529,7 +17529,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn.py.html>`__ to see an example of how to use get_vcn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn.py.html>`__ to see an example of how to use get_vcn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -17601,7 +17601,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -17627,7 +17627,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn_dns_resolver_association.py.html>`__ to see an example of how to use get_vcn_dns_resolver_association API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn_dns_resolver_association.py.html>`__ to see an example of how to use get_vcn_dns_resolver_association API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -17703,13 +17703,13 @@ class VirtualNetworkClient(object):
         """
         Gets the CIDR overlap information of the specified VCN in selected compartments. Specify the `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.GetIpInventoryVcnOverlapDetails get_vcn_overlap_details: (required)
             Lists details of the IP Inventory VCN overlap data.
@@ -17745,7 +17745,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn_overlap.py.html>`__ to see an example of how to use get_vcn_overlap API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn_overlap.py.html>`__ to see an example of how to use get_vcn_overlap API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -17830,12 +17830,12 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (required)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str access_level: (optional)
             Valid values are `ANY` and `ACCESSIBLE`. The default is `ANY`.
@@ -17889,7 +17889,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn_topology.py.html>`__ to see an example of how to use get_vcn_topology API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vcn_topology.py.html>`__ to see an example of how to use get_vcn_topology API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'vcnId']
@@ -17980,7 +17980,7 @@ class VirtualNetworkClient(object):
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -18002,7 +18002,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_virtual_circuit.py.html>`__ to see an example of how to use get_virtual_circuit API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_virtual_circuit.py.html>`__ to see an example of how to use get_virtual_circuit API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -18076,7 +18076,7 @@ class VirtualNetworkClient(object):
         :param str vlan_id: (required)
             The `OCID`__ of the VLAN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -18102,7 +18102,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vlan.py.html>`__ to see an example of how to use get_vlan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vlan.py.html>`__ to see an example of how to use get_vlan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vlanId']
@@ -18181,13 +18181,13 @@ class VirtualNetworkClient(object):
         :func:`list_vnic_attachments`
         operation.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str vnic_id: (required)
             The `OCID`__ of the VNIC.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -18209,7 +18209,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vnic.py.html>`__ to see an example of how to use get_vnic API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vnic.py.html>`__ to see an example of how to use get_vnic API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vnicId']
@@ -18281,7 +18281,7 @@ class VirtualNetworkClient(object):
         :param str vtap_id: (required)
             The `OCID`__ of the VTAP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -18307,7 +18307,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vtap.py.html>`__ to see an example of how to use get_vtap API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/get_vtap.py.html>`__ to see an example of how to use get_vtap API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vtapId']
@@ -18383,13 +18383,13 @@ class VirtualNetworkClient(object):
         """
         Unassign the specified IPv6 address from Virtual Network Interface Card (VNIC). You must specify the IPv6 `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ipv6_id: (required)
             The `OCID`__ of the IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -18427,7 +18427,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/ipv6_vnic_detach.py.html>`__ to see an example of how to use ipv6_vnic_detach API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/ipv6_vnic_detach.py.html>`__ to see an example of how to use ipv6_vnic_detach API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipv6Id']
@@ -18509,7 +18509,7 @@ class VirtualNetworkClient(object):
         Lists the regions that support remote VCN peering (which is peering across regions).
         For more information, see `VCN Peering`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/VCNpeering.htm
 
 
         :param obj retry_strategy: (optional)
@@ -18532,7 +18532,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_allowed_peer_regions_for_remote_peering.py.html>`__ to see an example of how to use list_allowed_peer_regions_for_remote_peering API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_allowed_peer_regions_for_remote_peering.py.html>`__ to see an example of how to use list_allowed_peer_regions_for_remote_peering API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -18595,7 +18595,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -18608,14 +18608,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -18654,7 +18654,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_byoasns.py.html>`__ to see an example of how to use list_byoasns API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_byoasns.py.html>`__ to see an example of how to use list_byoasns API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -18758,7 +18758,7 @@ class VirtualNetworkClient(object):
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -18771,14 +18771,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -18800,7 +18800,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_byoip_allocated_ranges.py.html>`__ to see an example of how to use list_byoip_allocated_ranges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_byoip_allocated_ranges.py.html>`__ to see an example of how to use list_byoip_allocated_ranges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -18891,7 +18891,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -18904,14 +18904,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -18957,7 +18957,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_byoip_ranges.py.html>`__ to see an example of how to use list_byoip_ranges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_byoip_ranges.py.html>`__ to see an example of how to use list_byoip_ranges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -19058,7 +19058,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -19067,14 +19067,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -19132,7 +19132,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_capture_filters.py.html>`__ to see an example of how to use list_capture_filters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_capture_filters.py.html>`__ to see an example of how to use list_capture_filters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -19257,7 +19257,7 @@ class VirtualNetworkClient(object):
           * :func:`get_ipsec_cpe_device_config_content`
           * :func:`get_tunnel_cpe_device_config_content`
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param int limit: (optional)
@@ -19267,14 +19267,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -19300,7 +19300,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cpe_device_shapes.py.html>`__ to see an example of how to use list_cpe_device_shapes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cpe_device_shapes.py.html>`__ to see an example of how to use list_cpe_device_shapes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -19380,7 +19380,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -19389,14 +19389,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -19418,7 +19418,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cpes.py.html>`__ to see an example of how to use list_cpes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cpes.py.html>`__ to see an example of how to use list_cpes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -19496,7 +19496,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -19505,14 +19505,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -19561,7 +19561,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connect_groups.py.html>`__ to see an example of how to use list_cross_connect_groups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connect_groups.py.html>`__ to see an example of how to use list_cross_connect_groups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -19669,7 +19669,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -19678,14 +19678,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -19707,7 +19707,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connect_locations.py.html>`__ to see an example of how to use list_cross_connect_locations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connect_locations.py.html>`__ to see an example of how to use list_cross_connect_locations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -19786,7 +19786,7 @@ class VirtualNetworkClient(object):
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -19812,7 +19812,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connect_mappings.py.html>`__ to see an example of how to use list_cross_connect_mappings API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connect_mappings.py.html>`__ to see an example of how to use list_cross_connect_mappings API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -19891,18 +19891,18 @@ class VirtualNetworkClient(object):
         Lists the cross-connects in the specified compartment. You can filter the list
         by specifying the `OCID`__ of a cross-connect group.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cross_connect_group_id: (optional)
             The `OCID`__ of the cross-connect group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -19911,14 +19911,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -19967,7 +19967,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connects.py.html>`__ to see an example of how to use list_cross_connects API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_cross_connects.py.html>`__ to see an example of how to use list_cross_connects API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -20078,7 +20078,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -20087,14 +20087,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -20116,7 +20116,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_crossconnect_port_speed_shapes.py.html>`__ to see an example of how to use list_crossconnect_port_speed_shapes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_crossconnect_port_speed_shapes.py.html>`__ to see an example of how to use list_crossconnect_port_speed_shapes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -20197,12 +20197,12 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -20211,14 +20211,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -20267,7 +20267,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_dhcp_options.py.html>`__ to see an example of how to use list_dhcp_options API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_dhcp_options.py.html>`__ to see an example of how to use list_dhcp_options API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -20379,17 +20379,17 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str drg_id: (optional)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -20398,19 +20398,19 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str network_id: (optional)
             The `OCID`__ of the resource (virtual circuit, VCN, IPSec tunnel, or remote peering connection) attached to the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str attachment_type: (optional)
             The type for the network resource attached to the DRG.
@@ -20420,7 +20420,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (optional)
             The `OCID`__ of the DRG route table assigned to the DRG attachment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -20469,7 +20469,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_attachments.py.html>`__ to see an example of how to use list_drg_attachments API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_attachments.py.html>`__ to see an example of how to use list_drg_attachments API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -20591,7 +20591,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_distribution_id: (required)
             The `OCID`__ of the route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -20600,14 +20600,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by.
@@ -20640,7 +20640,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_distribution_statements.py.html>`__ to see an example of how to use list_drg_route_distribution_statements API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_distribution_statements.py.html>`__ to see an example of how to use list_drg_route_distribution_statements API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteDistributionId']
@@ -20748,7 +20748,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -20757,14 +20757,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -20813,7 +20813,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_distributions.py.html>`__ to see an example of how to use list_drg_route_distributions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_distributions.py.html>`__ to see an example of how to use list_drg_route_distributions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -20918,7 +20918,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -20927,14 +20927,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str route_type: (optional)
             Static routes are specified through the DRG route table API.
@@ -20962,7 +20962,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_rules.py.html>`__ to see an example of how to use list_drg_route_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_rules.py.html>`__ to see an example of how to use list_drg_route_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -21060,7 +21060,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -21069,14 +21069,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -21102,7 +21102,7 @@ class VirtualNetworkClient(object):
         :param str import_drg_route_distribution_id: (optional)
             The `OCID`__ of the import route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str lifecycle_state: (optional)
             A filter that only returns matches for the specified lifecycle
@@ -21130,7 +21130,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_tables.py.html>`__ to see an example of how to use list_drg_route_tables API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drg_route_tables.py.html>`__ to see an example of how to use list_drg_route_tables API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -21237,7 +21237,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -21246,14 +21246,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -21275,7 +21275,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drgs.py.html>`__ to see an example of how to use list_drgs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_drgs.py.html>`__ to see an example of how to use list_drgs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -21353,14 +21353,14 @@ class VirtualNetworkClient(object):
 
         For more information, see `FastConnect Overview`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
 
 
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -21369,14 +21369,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -21398,7 +21398,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_fast_connect_provider_services.py.html>`__ to see an example of how to use list_fast_connect_provider_services API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_fast_connect_provider_services.py.html>`__ to see an example of how to use list_fast_connect_provider_services API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -21475,13 +21475,13 @@ class VirtualNetworkClient(object):
 
         For more information about virtual circuits, see `FastConnect Overview`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
 
 
         :param str provider_service_id: (required)
             The `OCID`__ of the provider service.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -21490,14 +21490,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -21519,7 +21519,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_fast_connect_provider_virtual_circuit_bandwidth_shapes.py.html>`__ to see an example of how to use list_fast_connect_provider_virtual_circuit_bandwidth_shapes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_fast_connect_provider_virtual_circuit_bandwidth_shapes.py.html>`__ to see an example of how to use list_fast_connect_provider_virtual_circuit_bandwidth_shapes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['providerServiceId']
@@ -21609,12 +21609,12 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -21623,14 +21623,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -21679,7 +21679,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_internet_gateways.py.html>`__ to see an example of how to use list_internet_gateways API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_internet_gateways.py.html>`__ to see an example of how to use list_internet_gateways API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -21810,7 +21810,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_inventory.py.html>`__ to see an example of how to use list_ip_inventory API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_inventory.py.html>`__ to see an example of how to use list_ip_inventory API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -21880,12 +21880,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -21894,14 +21894,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str advertiser: (optional)
             Specifies the advertiser of the routes. If set to `ORACLE`, this returns only the
@@ -21930,7 +21930,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connection_tunnel_routes.py.html>`__ to see an example of how to use list_ip_sec_connection_tunnel_routes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connection_tunnel_routes.py.html>`__ to see an example of how to use list_ip_sec_connection_tunnel_routes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -22029,12 +22029,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -22043,14 +22043,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -22072,7 +22072,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connection_tunnel_security_associations.py.html>`__ to see an example of how to use list_ip_sec_connection_tunnel_security_associations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connection_tunnel_security_associations.py.html>`__ to see an example of how to use list_ip_sec_connection_tunnel_security_associations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -22162,7 +22162,7 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -22171,14 +22171,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -22200,7 +22200,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connection_tunnels.py.html>`__ to see an example of how to use list_ip_sec_connection_tunnels API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connection_tunnels.py.html>`__ to see an example of how to use list_ip_sec_connection_tunnels API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -22290,17 +22290,17 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str drg_id: (optional)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str cpe_id: (optional)
             The `OCID`__ of the CPE.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -22309,14 +22309,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -22338,7 +22338,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connections.py.html>`__ to see an example of how to use list_ip_sec_connections API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ip_sec_connections.py.html>`__ to see an example of how to use list_ip_sec_connections API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -22423,10 +22423,10 @@ class VirtualNetworkClient(object):
           IPv6 address (for example, 2001:0db8:0123:1111:abcd:ef01:2345:6789) and not its `OCID`__. For comparison,
           :func:`get_ipv6` requires the `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param int limit: (optional)
@@ -22436,14 +22436,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str ip_address: (optional)
             An IP address. This could be either IPv4 or IPv6, depending on the resource.
@@ -22452,7 +22452,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (optional)
             The `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vnic_id: (optional)
             The OCID of the VNIC.
@@ -22490,7 +22490,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ipv6s.py.html>`__ to see an example of how to use list_ipv6s API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_ipv6s.py.html>`__ to see an example of how to use list_ipv6s API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -22579,7 +22579,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -22588,19 +22588,19 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -22622,7 +22622,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_local_peering_gateways.py.html>`__ to see an example of how to use list_local_peering_gateways API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_local_peering_gateways.py.html>`__ to see an example of how to use list_local_peering_gateways API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -22701,12 +22701,12 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -22715,14 +22715,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -22771,7 +22771,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_nat_gateways.py.html>`__ to see an example of how to use list_nat_gateways API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_nat_gateways.py.html>`__ to see an example of how to use list_nat_gateways API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -22878,7 +22878,7 @@ class VirtualNetworkClient(object):
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str direction: (optional)
             Direction of the security rule. Set to `EGRESS` for rules that allow outbound IP packets,
@@ -22893,14 +22893,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by.
@@ -22933,7 +22933,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_network_security_group_security_rules.py.html>`__ to see an example of how to use list_network_security_group_security_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_network_security_group_security_rules.py.html>`__ to see an example of how to use list_network_security_group_security_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -23047,7 +23047,7 @@ class VirtualNetworkClient(object):
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -23056,14 +23056,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by.
@@ -23096,7 +23096,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_network_security_group_vnics.py.html>`__ to see an example of how to use list_network_security_group_vnics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_network_security_group_vnics.py.html>`__ to see an example of how to use list_network_security_group_vnics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -23202,17 +23202,17 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vlan_id: (optional)
             The `OCID`__ of the VLAN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -23221,14 +23221,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -23277,7 +23277,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_network_security_groups.py.html>`__ to see an example of how to use list_network_security_groups API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_network_security_groups.py.html>`__ to see an example of how to use list_network_security_groups API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -23398,11 +23398,11 @@ class VirtualNetworkClient(object):
         If you are an Oracle Cloud VMware Solution customer and have VLANs
         in your VCN, you can filter the list by VLAN `OCID`__. See :class:`Vlan`.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param int limit: (optional)
@@ -23412,14 +23412,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str ip_address: (optional)
             An IP address. This could be either IPv4 or IPv6, depending on the resource.
@@ -23428,7 +23428,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (optional)
             The `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vnic_id: (optional)
             The OCID of the VNIC.
@@ -23445,7 +23445,7 @@ class VirtualNetworkClient(object):
         :param str vlan_id: (optional)
             The `OCID`__ of the VLAN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -23467,7 +23467,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_private_ips.py.html>`__ to see an example of how to use list_private_ips API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_private_ips.py.html>`__ to see an example of how to use list_private_ips API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -23555,7 +23555,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -23568,14 +23568,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -23621,7 +23621,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_public_ip_pools.py.html>`__ to see an example of how to use list_public_ip_pools API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_public_ip_pools.py.html>`__ to see an example of how to use list_public_ip_pools API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -23755,7 +23755,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -23764,14 +23764,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str availability_domain: (optional)
             The name of the availability domain.
@@ -23806,7 +23806,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_public_ips.py.html>`__ to see an example of how to use list_public_ips API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_public_ips.py.html>`__ to see an example of how to use list_public_ips API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['scope', 'compartmentId']
@@ -23903,12 +23903,12 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str drg_id: (optional)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -23917,14 +23917,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -23946,7 +23946,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_remote_peering_connections.py.html>`__ to see an example of how to use list_remote_peering_connections API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_remote_peering_connections.py.html>`__ to see an example of how to use list_remote_peering_connections API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -24029,7 +24029,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -24038,19 +24038,19 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -24099,7 +24099,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_route_tables.py.html>`__ to see an example of how to use list_route_tables API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_route_tables.py.html>`__ to see an example of how to use list_route_tables API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -24207,7 +24207,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -24216,19 +24216,19 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -24277,7 +24277,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_security_lists.py.html>`__ to see an example of how to use list_security_lists API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_security_lists.py.html>`__ to see an example of how to use list_security_lists API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -24385,12 +24385,12 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -24399,14 +24399,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. You can provide one sort order (`sortOrder`). Default order for
@@ -24452,7 +24452,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_service_gateways.py.html>`__ to see an example of how to use list_service_gateways API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_service_gateways.py.html>`__ to see an example of how to use list_service_gateways API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -24562,14 +24562,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -24591,7 +24591,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_services.py.html>`__ to see an example of how to use list_services API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_services.py.html>`__ to see an example of how to use list_services API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -24667,7 +24667,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -24676,19 +24676,19 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -24737,7 +24737,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_subnets.py.html>`__ to see an example of how to use list_subnets API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_subnets.py.html>`__ to see an example of how to use list_subnets API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -24844,7 +24844,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -24853,14 +24853,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -24909,7 +24909,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_vcns.py.html>`__ to see an example of how to use list_vcns API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_vcns.py.html>`__ to see an example of how to use list_vcns API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25014,7 +25014,7 @@ class VirtualNetworkClient(object):
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -25023,14 +25023,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -25052,7 +25052,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuit_associated_tunnels.py.html>`__ to see an example of how to use list_virtual_circuit_associated_tunnels API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuit_associated_tunnels.py.html>`__ to see an example of how to use list_virtual_circuit_associated_tunnels API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -25137,13 +25137,13 @@ class VirtualNetworkClient(object):
         """
         The operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the `OCID`__ of your tenancy (the root compartment).
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -25152,14 +25152,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param obj retry_strategy: (optional)
             A retry strategy to apply to this specific operation/call. This will override any retry strategy set at the client-level.
@@ -25181,7 +25181,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuit_bandwidth_shapes.py.html>`__ to see an example of how to use list_virtual_circuit_bandwidth_shapes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuit_bandwidth_shapes.py.html>`__ to see an example of how to use list_virtual_circuit_bandwidth_shapes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25260,7 +25260,7 @@ class VirtualNetworkClient(object):
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str verification_state: (optional)
             A filter to only return resources that match the given verification
@@ -25290,7 +25290,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuit_public_prefixes.py.html>`__ to see an example of how to use list_virtual_circuit_public_prefixes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuit_public_prefixes.py.html>`__ to see an example of how to use list_virtual_circuit_public_prefixes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -25384,7 +25384,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -25393,14 +25393,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -25449,7 +25449,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuits.py.html>`__ to see an example of how to use list_virtual_circuits API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_virtual_circuits.py.html>`__ to see an example of how to use list_virtual_circuits API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25556,7 +25556,7 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -25565,19 +25565,19 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the given display name exactly.
@@ -25630,7 +25630,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_vlans.py.html>`__ to see an example of how to use list_vlans API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_vlans.py.html>`__ to see an example of how to use list_vlans API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25740,22 +25740,22 @@ class VirtualNetworkClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str source: (optional)
             The `OCID`__ of the VTAP source.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str target_id: (optional)
             The `OCID`__ of the VTAP target.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str target_ip: (optional)
             The IP address of the VTAP target.
@@ -25773,14 +25773,14 @@ class VirtualNetworkClient(object):
 
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from the previous \"List\"
             call. For important details about how pagination works, see
             `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -25833,7 +25833,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_vtaps.py.html>`__ to see an example of how to use list_vtaps API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/list_vtaps.py.html>`__ to see an example of how to use list_vtaps API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -25957,7 +25957,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ModifyIpv4SubnetCidrDetails modify_ipv4_subnet_cidr_details: (required)
             Details object for updating a SUBNET IPv4 prefix.
@@ -25998,7 +25998,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/modify_ipv4_subnet_cidr.py.html>`__ to see an example of how to use modify_ipv4_subnet_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/modify_ipv4_subnet_cidr.py.html>`__ to see an example of how to use modify_ipv4_subnet_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -26093,7 +26093,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.ModifyVcnCidrDetails modify_vcn_cidr_details: (required)
             Details object for updating a VCN CIDR.
@@ -26134,7 +26134,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/modify_vcn_cidr.py.html>`__ to see an example of how to use modify_vcn_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/modify_vcn_cidr.py.html>`__ to see an example of how to use modify_vcn_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -26215,13 +26215,13 @@ class VirtualNetworkClient(object):
         """
         Unassign the specified PrivateIP address from Virtual Network Interface Card (VNIC). You must specify the PrivateIP `OCID`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str private_ip_id: (required)
             The `OCID`__ of the private IP or IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
@@ -26259,7 +26259,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/private_ip_vnic_detach.py.html>`__ to see an example of how to use private_ip_vnic_detach API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/private_ip_vnic_detach.py.html>`__ to see an example of how to use private_ip_vnic_detach API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateIpId']
@@ -26344,7 +26344,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_distribution_id: (required)
             The `OCID`__ of the route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.RemoveDrgRouteDistributionStatementsDetails remove_drg_route_distribution_statements_details: (required)
             Request with one or more route distribution statements to remove from the route distribution.
@@ -26369,7 +26369,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_drg_route_distribution_statements.py.html>`__ to see an example of how to use remove_drg_route_distribution_statements API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_drg_route_distribution_statements.py.html>`__ to see an example of how to use remove_drg_route_distribution_statements API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteDistributionId']
@@ -26441,7 +26441,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.RemoveDrgRouteRulesDetails remove_drg_route_rules_details: (required)
             Request to remove one or more route rules in the DRG route table.
@@ -26466,7 +26466,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_drg_route_rules.py.html>`__ to see an example of how to use remove_drg_route_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_drg_route_rules.py.html>`__ to see an example of how to use remove_drg_route_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -26538,7 +26538,7 @@ class VirtualNetworkClient(object):
         :param str drg_attachment_id: (required)
             The `OCID`__ of the DRG attachment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -26569,7 +26569,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_export_drg_route_distribution.py.html>`__ to see an example of how to use remove_export_drg_route_distribution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_export_drg_route_distribution.py.html>`__ to see an example of how to use remove_export_drg_route_distribution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgAttachmentId']
@@ -26652,7 +26652,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -26683,7 +26683,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_import_drg_route_distribution.py.html>`__ to see an example of how to use remove_import_drg_route_distribution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_import_drg_route_distribution.py.html>`__ to see an example of how to use remove_import_drg_route_distribution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -26765,7 +26765,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.RemoveIpv4SubnetCidrDetails remove_ipv4_subnet_cidr_details: (required)
             Details object for removing an IPv4 SUBNET prefix.
@@ -26806,7 +26806,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_ipv4_subnet_cidr.py.html>`__ to see an example of how to use remove_ipv4_subnet_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_ipv4_subnet_cidr.py.html>`__ to see an example of how to use remove_ipv4_subnet_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -26893,7 +26893,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.RemoveSubnetIpv6CidrDetails remove_subnet_ipv6_cidr_details: (required)
             Details object for removing an IPv6 SUBNET prefix.
@@ -26934,7 +26934,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_ipv6_subnet_cidr.py.html>`__ to see an example of how to use remove_ipv6_subnet_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_ipv6_subnet_cidr.py.html>`__ to see an example of how to use remove_ipv6_subnet_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -27019,7 +27019,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -27060,7 +27060,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_ipv6_vcn_cidr.py.html>`__ to see an example of how to use remove_ipv6_vcn_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_ipv6_vcn_cidr.py.html>`__ to see an example of how to use remove_ipv6_vcn_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -27146,7 +27146,7 @@ class VirtualNetworkClient(object):
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.RemoveNetworkSecurityGroupSecurityRulesDetails remove_network_security_group_security_rules_details: (required)
             Request with one or more security rules associated with the network security group that
@@ -27172,7 +27172,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_network_security_group_security_rules.py.html>`__ to see an example of how to use remove_network_security_group_security_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_network_security_group_security_rules.py.html>`__ to see an example of how to use remove_network_security_group_security_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -27244,7 +27244,7 @@ class VirtualNetworkClient(object):
         :param str public_ip_pool_id: (required)
             The `OCID`__ of the public IP pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.RemovePublicIpPoolCapacityDetails remove_public_ip_pool_capacity_details: (required)
             The CIDR block to remove from the IP pool.
@@ -27280,7 +27280,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_public_ip_pool_capacity.py.html>`__ to see an example of how to use remove_public_ip_pool_capacity API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_public_ip_pool_capacity.py.html>`__ to see an example of how to use remove_public_ip_pool_capacity API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpPoolId']
@@ -27369,7 +27369,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.RemoveVcnCidrDetails remove_vcn_cidr_details: (required)
             Details object for removing a VCN CIDR.
@@ -27410,7 +27410,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_vcn_cidr.py.html>`__ to see an example of how to use remove_vcn_cidr API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/remove_vcn_cidr.py.html>`__ to see an example of how to use remove_vcn_cidr API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -27495,7 +27495,7 @@ class VirtualNetworkClient(object):
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.SetOriginAsnDetails set_origin_asn_details: (required)
             ASN details
@@ -27536,7 +27536,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/set_origin_asn.py.html>`__ to see an example of how to use set_origin_asn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/set_origin_asn.py.html>`__ to see an example of how to use set_origin_asn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -27623,7 +27623,7 @@ class VirtualNetworkClient(object):
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -27654,7 +27654,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/set_origin_asn_to_oracle.py.html>`__ to see an example of how to use set_origin_asn_to_oracle API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/set_origin_asn_to_oracle.py.html>`__ to see an example of how to use set_origin_asn_to_oracle API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -27734,7 +27734,7 @@ class VirtualNetworkClient(object):
         :param str byoasn_id: (required)
             The `OCID`__ of the `Byoasn` resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateByoasnDetails update_byoasn_details: (required)
             Byoasn Range details.
@@ -27768,7 +27768,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_byoasn.py.html>`__ to see an example of how to use update_byoasn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_byoasn.py.html>`__ to see an example of how to use update_byoasn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoasnId']
@@ -27852,7 +27852,7 @@ class VirtualNetworkClient(object):
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateByoipRangeDetails update_byoip_range_details: (required)
             Byoip Range details.
@@ -27886,7 +27886,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_byoip_range.py.html>`__ to see an example of how to use update_byoip_range API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_byoip_range.py.html>`__ to see an example of how to use update_byoip_range API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -27970,7 +27970,7 @@ class VirtualNetworkClient(object):
         :param str capture_filter_id: (required)
             The `OCID`__ of the capture filter.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateCaptureFilterDetails update_capture_filter_details: (required)
             Details object for updating a VTAP.
@@ -28004,7 +28004,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_capture_filter.py.html>`__ to see an example of how to use update_capture_filter API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_capture_filter.py.html>`__ to see an example of how to use update_capture_filter API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['captureFilterId']
@@ -28089,7 +28089,7 @@ class VirtualNetworkClient(object):
         :param str cpe_id: (required)
             The `OCID`__ of the CPE.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateCpeDetails update_cpe_details: (required)
             Details object for updating a CPE.
@@ -28119,7 +28119,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_cpe.py.html>`__ to see an example of how to use update_cpe API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_cpe.py.html>`__ to see an example of how to use update_cpe API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['cpeId']
@@ -28203,7 +28203,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_id: (required)
             The `OCID`__ of the cross-connect.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateCrossConnectDetails update_cross_connect_details: (required)
             Update CrossConnect fields.
@@ -28233,7 +28233,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_cross_connect.py.html>`__ to see an example of how to use update_cross_connect API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_cross_connect.py.html>`__ to see an example of how to use update_cross_connect API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectId']
@@ -28318,7 +28318,7 @@ class VirtualNetworkClient(object):
         :param str cross_connect_group_id: (required)
             The `OCID`__ of the cross-connect group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateCrossConnectGroupDetails update_cross_connect_group_details: (required)
             Update CrossConnectGroup fields
@@ -28348,7 +28348,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_cross_connect_group.py.html>`__ to see an example of how to use update_cross_connect_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_cross_connect_group.py.html>`__ to see an example of how to use update_cross_connect_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['crossConnectGroupId']
@@ -28435,7 +28435,7 @@ class VirtualNetworkClient(object):
         :param str dhcp_id: (required)
             The `OCID`__ for the set of DHCP options.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateDhcpDetails update_dhcp_details: (required)
             Request object for updating a set of DHCP options.
@@ -28465,7 +28465,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_dhcp_options.py.html>`__ to see an example of how to use update_dhcp_options API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_dhcp_options.py.html>`__ to see an example of how to use update_dhcp_options API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['dhcpId']
@@ -28547,7 +28547,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateDrgDetails update_drg_details: (required)
             Details object for updating a DRG.
@@ -28577,7 +28577,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg.py.html>`__ to see an example of how to use update_drg API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg.py.html>`__ to see an example of how to use update_drg API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -28660,7 +28660,7 @@ class VirtualNetworkClient(object):
         :param str drg_attachment_id: (required)
             The `OCID`__ of the DRG attachment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateDrgAttachmentDetails update_drg_attachment_details: (required)
             Details object for updating a `DrgAttachment`.
@@ -28690,7 +28690,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_attachment.py.html>`__ to see an example of how to use update_drg_attachment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_attachment.py.html>`__ to see an example of how to use update_drg_attachment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgAttachmentId']
@@ -28772,7 +28772,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_distribution_id: (required)
             The `OCID`__ of the route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateDrgRouteDistributionDetails update_drg_route_distribution_details: (required)
             Details object for updating a route distribution
@@ -28802,7 +28802,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_distribution.py.html>`__ to see an example of how to use update_drg_route_distribution API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_distribution.py.html>`__ to see an example of how to use update_drg_route_distribution API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteDistributionId']
@@ -28884,7 +28884,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_distribution_id: (required)
             The `OCID`__ of the route distribution.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateDrgRouteDistributionStatementsDetails update_drg_route_distribution_statements_details: (required)
             Request to update one or more route distribution statements in the route distribution.
@@ -28909,7 +28909,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_distribution_statements.py.html>`__ to see an example of how to use update_drg_route_distribution_statements API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_distribution_statements.py.html>`__ to see an example of how to use update_drg_route_distribution_statements API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteDistributionId']
@@ -28983,7 +28983,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateDrgRouteRulesDetails update_drg_route_rules_details: (required)
             Request to update one or more route rules in the DRG route table.
@@ -29008,7 +29008,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_rules.py.html>`__ to see an example of how to use update_drg_route_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_rules.py.html>`__ to see an example of how to use update_drg_route_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -29082,7 +29082,7 @@ class VirtualNetworkClient(object):
         :param str drg_route_table_id: (required)
             The `OCID`__ of the DRG route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateDrgRouteTableDetails update_drg_route_table_details: (required)
             Details object used to updating a DRG route table.
@@ -29112,7 +29112,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_table.py.html>`__ to see an example of how to use update_drg_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_drg_route_table.py.html>`__ to see an example of how to use update_drg_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgRouteTableId']
@@ -29198,7 +29198,7 @@ class VirtualNetworkClient(object):
         :param str ig_id: (required)
             The `OCID`__ of the internet gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateInternetGatewayDetails update_internet_gateway_details: (required)
             Details for updating the internet gateway.
@@ -29228,7 +29228,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_internet_gateway.py.html>`__ to see an example of how to use update_internet_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_internet_gateway.py.html>`__ to see an example of how to use update_internet_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['igId']
@@ -29313,7 +29313,7 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateIPSecConnectionDetails update_ip_sec_connection_details: (required)
             Details object for updating an IPSec connection.
@@ -29343,7 +29343,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ip_sec_connection.py.html>`__ to see an example of how to use update_ip_sec_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ip_sec_connection.py.html>`__ to see an example of how to use update_ip_sec_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId']
@@ -29438,12 +29438,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateIPSecConnectionTunnelDetails update_ip_sec_connection_tunnel_details: (required)
             Details object for updating a IPSecConnection tunnel's details.
@@ -29477,7 +29477,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ip_sec_connection_tunnel.py.html>`__ to see an example of how to use update_ip_sec_connection_tunnel API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ip_sec_connection_tunnel.py.html>`__ to see an example of how to use update_ip_sec_connection_tunnel API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -29566,12 +29566,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateIPSecConnectionTunnelSharedSecretDetails update_ip_sec_connection_tunnel_shared_secret_details: (required)
             Details object for updating a IPSec connection tunnel's sharedSecret.
@@ -29601,7 +29601,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ip_sec_connection_tunnel_shared_secret.py.html>`__ to see an example of how to use update_ip_sec_connection_tunnel_shared_secret API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ip_sec_connection_tunnel_shared_secret.py.html>`__ to see an example of how to use update_ip_sec_connection_tunnel_shared_secret API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -29688,13 +29688,13 @@ class VirtualNetworkClient(object):
           * Change the display name for an IPv6.
           * Update resource tags for an IPv6.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str ipv6_id: (required)
             The `OCID`__ of the IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateIpv6Details update_ipv6_details: (required)
             IPv6 details to be updated.
@@ -29728,7 +29728,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ipv6.py.html>`__ to see an example of how to use update_ipv6 API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_ipv6.py.html>`__ to see an example of how to use update_ipv6 API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipv6Id']
@@ -29812,7 +29812,7 @@ class VirtualNetworkClient(object):
         :param str local_peering_gateway_id: (required)
             The `OCID`__ of the local peering gateway.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateLocalPeeringGatewayDetails update_local_peering_gateway_details: (required)
             Details object for updating a local peering gateway.
@@ -29842,7 +29842,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_local_peering_gateway.py.html>`__ to see an example of how to use update_local_peering_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_local_peering_gateway.py.html>`__ to see an example of how to use update_local_peering_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['localPeeringGatewayId']
@@ -29924,7 +29924,7 @@ class VirtualNetworkClient(object):
         :param str nat_gateway_id: (required)
             The NAT gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateNatGatewayDetails update_nat_gateway_details: (required)
             Details object for updating a NAT gateway.
@@ -29954,7 +29954,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_nat_gateway.py.html>`__ to see an example of how to use update_nat_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_nat_gateway.py.html>`__ to see an example of how to use update_nat_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['natGatewayId']
@@ -30046,13 +30046,13 @@ class VirtualNetworkClient(object):
         To edit the contents of existing security rules in the group, use
         :func:`update_network_security_group_security_rules`.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateNetworkSecurityGroupDetails update_network_security_group_details: (required)
             Details object for updating a network security group.
@@ -30082,7 +30082,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_network_security_group.py.html>`__ to see an example of how to use update_network_security_group API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_network_security_group.py.html>`__ to see an example of how to use update_network_security_group API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -30164,7 +30164,7 @@ class VirtualNetworkClient(object):
         :param str network_security_group_id: (required)
             The `OCID`__ of the network security group.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateNetworkSecurityGroupSecurityRulesDetails update_network_security_group_security_rules_details: (required)
             Request with one or more security rules associated with the network security group that
@@ -30190,7 +30190,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_network_security_group_security_rules.py.html>`__ to see an example of how to use update_network_security_group_security_rules API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_network_security_group_security_rules.py.html>`__ to see an example of how to use update_network_security_group_security_rules API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['networkSecurityGroupId']
@@ -30269,13 +30269,13 @@ class VirtualNetworkClient(object):
         To update the hostname for the primary IP on a VNIC, use
         :func:`update_vnic`.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param str private_ip_id: (required)
             The `OCID`__ of the private IP or IPv6.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdatePrivateIpDetails update_private_ip_details: (required)
             Private IP details.
@@ -30305,7 +30305,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_private_ip.py.html>`__ to see an example of how to use update_private_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_private_ip.py.html>`__ to see an example of how to use update_private_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['privateIpId']
@@ -30421,14 +30421,14 @@ class VirtualNetworkClient(object):
         returned. For information about the public IP limits, see
         `Public IP Addresses`__.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Tasks/managingpublicIPs.htm
 
 
         :param str public_ip_id: (required)
             The `OCID`__ of the public IP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdatePublicIpDetails update_public_ip_details: (required)
             Public IP details.
@@ -30458,7 +30458,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_public_ip.py.html>`__ to see an example of how to use update_public_ip API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_public_ip.py.html>`__ to see an example of how to use update_public_ip API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpId']
@@ -30540,7 +30540,7 @@ class VirtualNetworkClient(object):
         :param str public_ip_pool_id: (required)
             The `OCID`__ of the public IP pool.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdatePublicIpPoolDetails update_public_ip_pool_details: (required)
             Public IP pool details.
@@ -30574,7 +30574,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_public_ip_pool.py.html>`__ to see an example of how to use update_public_ip_pool API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_public_ip_pool.py.html>`__ to see an example of how to use update_public_ip_pool API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['publicIpPoolId']
@@ -30658,7 +30658,7 @@ class VirtualNetworkClient(object):
         :param str remote_peering_connection_id: (required)
             The `OCID`__ of the remote peering connection (RPC).
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateRemotePeeringConnectionDetails update_remote_peering_connection_details: (required)
             Request to the update the peering connection to remote region
@@ -30688,7 +30688,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_remote_peering_connection.py.html>`__ to see an example of how to use update_remote_peering_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_remote_peering_connection.py.html>`__ to see an example of how to use update_remote_peering_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['remotePeeringConnectionId']
@@ -30775,7 +30775,7 @@ class VirtualNetworkClient(object):
         :param str rt_id: (required)
             The `OCID`__ of the route table.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateRouteTableDetails update_route_table_details: (required)
             Details object for updating a route table.
@@ -30805,7 +30805,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_route_table.py.html>`__ to see an example of how to use update_route_table API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_route_table.py.html>`__ to see an example of how to use update_route_table API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['rtId']
@@ -30891,7 +30891,7 @@ class VirtualNetworkClient(object):
         :param str security_list_id: (required)
             The `OCID`__ of the security list.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateSecurityListDetails update_security_list_details: (required)
             Updated details for the security list.
@@ -30921,7 +30921,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_security_list.py.html>`__ to see an example of how to use update_security_list API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_security_list.py.html>`__ to see an example of how to use update_security_list API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['securityListId']
@@ -31004,7 +31004,7 @@ class VirtualNetworkClient(object):
         :param str service_gateway_id: (required)
             The service gateway's `OCID`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateServiceGatewayDetails update_service_gateway_details: (required)
             Details object for updating a service gateway.
@@ -31034,7 +31034,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_service_gateway.py.html>`__ to see an example of how to use update_service_gateway API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_service_gateway.py.html>`__ to see an example of how to use update_service_gateway API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['serviceGatewayId']
@@ -31116,7 +31116,7 @@ class VirtualNetworkClient(object):
         :param str subnet_id: (required)
             Specify the `OCID`__ of the subnet.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateSubnetDetails update_subnet_details: (required)
             Details object for updating a subnet.
@@ -31146,7 +31146,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_subnet.py.html>`__ to see an example of how to use update_subnet API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_subnet.py.html>`__ to see an example of how to use update_subnet API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['subnetId']
@@ -31230,12 +31230,12 @@ class VirtualNetworkClient(object):
         :param str ipsc_id: (required)
             The `OCID`__ of the IPSec connection.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str tunnel_id: (required)
             The `OCID`__ of the tunnel.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateTunnelCpeDeviceConfigDetails update_tunnel_cpe_device_config_details: (required)
             Request to input the tunnel's cpe configuration parameters
@@ -31276,7 +31276,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_tunnel_cpe_device_config.py.html>`__ to see an example of how to use update_tunnel_cpe_device_config API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_tunnel_cpe_device_config.py.html>`__ to see an example of how to use update_tunnel_cpe_device_config API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['ipscId', 'tunnelId']
@@ -31366,7 +31366,7 @@ class VirtualNetworkClient(object):
         :param str vcn_id: (required)
             Specify the `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateVcnDetails update_vcn_details: (required)
             Details object for updating a VCN.
@@ -31396,7 +31396,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vcn.py.html>`__ to see an example of how to use update_vcn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vcn.py.html>`__ to see an example of how to use update_vcn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vcnId']
@@ -31497,13 +31497,13 @@ class VirtualNetworkClient(object):
         Oracle must verify the customer's ownership of each added prefix before
         traffic for that prefix will flow across the virtual circuit.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm
 
 
         :param str virtual_circuit_id: (required)
             The `OCID`__ of the virtual circuit.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateVirtualCircuitDetails update_virtual_circuit_details: (required)
             Update VirtualCircuit fields.
@@ -31533,7 +31533,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_virtual_circuit.py.html>`__ to see an example of how to use update_virtual_circuit API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_virtual_circuit.py.html>`__ to see an example of how to use update_virtual_circuit API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['virtualCircuitId']
@@ -31618,7 +31618,7 @@ class VirtualNetworkClient(object):
         :param str vlan_id: (required)
             The `OCID`__ of the VLAN.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateVlanDetails update_vlan_details: (required)
             Details object for updating a subnet.
@@ -31652,7 +31652,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vlan.py.html>`__ to see an example of how to use update_vlan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vlan.py.html>`__ to see an example of how to use update_vlan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vlanId']
@@ -31736,7 +31736,7 @@ class VirtualNetworkClient(object):
         :param str vnic_id: (required)
             The `OCID`__ of the VNIC.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateVnicDetails update_vnic_details: (required)
             Details object for updating a VNIC.
@@ -31766,7 +31766,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vnic.py.html>`__ to see an example of how to use update_vnic API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vnic.py.html>`__ to see an example of how to use update_vnic API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vnicId']
@@ -31848,7 +31848,7 @@ class VirtualNetworkClient(object):
         :param str vtap_id: (required)
             The `OCID`__ of the VTAP.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.core.models.UpdateVtapDetails update_vtap_details: (required)
             Details object for updating a VTAP.
@@ -31882,7 +31882,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vtap.py.html>`__ to see an example of how to use update_vtap API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/update_vtap.py.html>`__ to see an example of how to use update_vtap API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['vtapId']
@@ -31967,7 +31967,7 @@ class VirtualNetworkClient(object):
         :param str drg_id: (required)
             The `OCID`__ of the DRG.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -32000,7 +32000,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/upgrade_drg.py.html>`__ to see an example of how to use upgrade_drg API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/upgrade_drg.py.html>`__ to see an example of how to use upgrade_drg API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['drgId']
@@ -32078,13 +32078,13 @@ class VirtualNetworkClient(object):
         Submits the BYOASN for validation. Please do not submit to Oracle for validation if the information for the BYOASN is not already modified in the Regional Internet Registry.
         See `To import a BYOASN`__ for details.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm
 
 
         :param str byoasn_id: (required)
             The `OCID`__ of the `Byoasn` resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -32122,7 +32122,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/validate_byoasn.py.html>`__ to see an example of how to use validate_byoasn API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/validate_byoasn.py.html>`__ to see an example of how to use validate_byoasn API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoasnId']
@@ -32204,13 +32204,13 @@ class VirtualNetworkClient(object):
         Submits the BYOIP CIDR block you are importing for validation. Do not submit to Oracle for validation if you have not already
         modified the information for the BYOIP CIDR block with your Regional Internet Registry. See `To import a CIDR block`__ for details.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOIP.htm#import_cidr
+        __ https://docs.oracle.com/iaas/Content/Network/Concepts/BYOIP.htm#import_cidr
 
 
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -32236,7 +32236,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/validate_byoip_range.py.html>`__ to see an example of how to use validate_byoip_range API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/validate_byoip_range.py.html>`__ to see an example of how to use validate_byoip_range API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']
@@ -32314,7 +32314,7 @@ class VirtualNetworkClient(object):
         :param str byoip_range_id: (required)
             The `OCID`__ of the `ByoipRange` resource containing the BYOIP CIDR block.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique identifier for the request.
@@ -32340,7 +32340,7 @@ class VirtualNetworkClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/withdraw_byoip_range.py.html>`__ to see an example of how to use withdraw_byoip_range API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/core/withdraw_byoip_range.py.html>`__ to see an example of how to use withdraw_byoip_range API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['byoipRangeId']

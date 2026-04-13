@@ -39,7 +39,7 @@ class CreateLifecycleProfileDetails(CreateProfileDetails):
 
         :param profile_type:
             The value to assign to the profile_type property of this CreateLifecycleProfileDetails.
-            Allowed values for this property are: "SOFTWARESOURCE", "GROUP", "LIFECYCLE", "STATION", "WINDOWS_STANDALONE"
+            Allowed values for this property are: "SOFTWARESOURCE", "GROUP", "LIFECYCLE", "STATION", "WINDOWS_STANDALONE", "UBUNTU_STANDALONE"
         :type profile_type: str
 
         :param registration_type:
@@ -105,7 +105,7 @@ class CreateLifecycleProfileDetails(CreateProfileDetails):
         **[Required]** Gets the lifecycle_stage_id of this CreateLifecycleProfileDetails.
         The `OCID`__ of the lifecycle stage that the instance will be associated with.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The lifecycle_stage_id of this CreateLifecycleProfileDetails.
@@ -119,7 +119,7 @@ class CreateLifecycleProfileDetails(CreateProfileDetails):
         Sets the lifecycle_stage_id of this CreateLifecycleProfileDetails.
         The `OCID`__ of the lifecycle stage that the instance will be associated with.
 
-        __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param lifecycle_stage_id: The lifecycle_stage_id of this CreateLifecycleProfileDetails.

@@ -22,7 +22,7 @@ class Cluster(object):
     set of VLANs for various components of the VMware environment (vSphere, vMotion,
     vSAN, and so on). See the Core Services API for information about VCN subnets and VLANs.
 
-    __ https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm
+    __ https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm
     """
 
     #: A constant which can be used with the initial_commitment property of a Cluster.
@@ -180,6 +180,14 @@ class Cluster(object):
             Any unrecognized values returned by a service will be mapped to 'UNKNOWN_ENUM_VALUE'.
         :type vsphere_type: str
 
+        :param cluster_byol_allocation_details:
+            The value to assign to the cluster_byol_allocation_details property of this Cluster.
+        :type cluster_byol_allocation_details: oci.ocvp.models.ClusterByolAllocationDetails
+
+        :param initial_vcf_byol_allocation_id:
+            The value to assign to the initial_vcf_byol_allocation_id property of this Cluster.
+        :type initial_vcf_byol_allocation_id: str
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this Cluster.
         :type freeform_tags: dict(str, str)
@@ -218,6 +226,8 @@ class Cluster(object):
             'datastores': 'list[DatastoreDetails]',
             'datastore_cluster_ids': 'list[str]',
             'vsphere_type': 'str',
+            'cluster_byol_allocation_details': 'ClusterByolAllocationDetails',
+            'initial_vcf_byol_allocation_id': 'str',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))',
             'system_tags': 'dict(str, dict(str, object))'
@@ -247,6 +257,8 @@ class Cluster(object):
             'datastores': 'datastores',
             'datastore_cluster_ids': 'datastoreClusterIds',
             'vsphere_type': 'vsphereType',
+            'cluster_byol_allocation_details': 'clusterByolAllocationDetails',
+            'initial_vcf_byol_allocation_id': 'initialVcfByolAllocationId',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags',
             'system_tags': 'systemTags'
@@ -275,6 +287,8 @@ class Cluster(object):
         self._datastores = None
         self._datastore_cluster_ids = None
         self._vsphere_type = None
+        self._cluster_byol_allocation_details = None
+        self._initial_vcf_byol_allocation_id = None
         self._freeform_tags = None
         self._defined_tags = None
         self._system_tags = None
@@ -285,7 +299,7 @@ class Cluster(object):
         **[Required]** Gets the id of this Cluster.
         The `OCID`__ of the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The id of this Cluster.
@@ -299,7 +313,7 @@ class Cluster(object):
         Sets the id of this Cluster.
         The `OCID`__ of the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param id: The id of this Cluster.
@@ -504,7 +518,7 @@ class Cluster(object):
         The `OCID`__ of the compartment that
         contains the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The compartment_id of this Cluster.
@@ -519,7 +533,7 @@ class Cluster(object):
         The `OCID`__ of the compartment that
         contains the Cluster.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param compartment_id: The compartment_id of this Cluster.
@@ -534,7 +548,7 @@ class Cluster(object):
         The `OCID`__ of the SDDC that the
         Cluster belongs to.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The sddc_id of this Cluster.
@@ -549,7 +563,7 @@ class Cluster(object):
         The `OCID`__ of the SDDC that the
         Cluster belongs to.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param sddc_id: The sddc_id of this Cluster.
@@ -881,7 +895,7 @@ class Cluster(object):
         Gets the capacity_reservation_id of this Cluster.
         The `OCID`__ of the Capacity Reservation.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The capacity_reservation_id of this Cluster.
@@ -895,7 +909,7 @@ class Cluster(object):
         Sets the capacity_reservation_id of this Cluster.
         The `OCID`__ of the Capacity Reservation.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param capacity_reservation_id: The capacity_reservation_id of this Cluster.
@@ -982,6 +996,54 @@ class Cluster(object):
         self._vsphere_type = vsphere_type
 
     @property
+    def cluster_byol_allocation_details(self):
+        """
+        Gets the cluster_byol_allocation_details of this Cluster.
+
+        :return: The cluster_byol_allocation_details of this Cluster.
+        :rtype: oci.ocvp.models.ClusterByolAllocationDetails
+        """
+        return self._cluster_byol_allocation_details
+
+    @cluster_byol_allocation_details.setter
+    def cluster_byol_allocation_details(self, cluster_byol_allocation_details):
+        """
+        Sets the cluster_byol_allocation_details of this Cluster.
+
+        :param cluster_byol_allocation_details: The cluster_byol_allocation_details of this Cluster.
+        :type: oci.ocvp.models.ClusterByolAllocationDetails
+        """
+        self._cluster_byol_allocation_details = cluster_byol_allocation_details
+
+    @property
+    def initial_vcf_byol_allocation_id(self):
+        """
+        Gets the initial_vcf_byol_allocation_id of this Cluster.
+        The `OCID`__ of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :return: The initial_vcf_byol_allocation_id of this Cluster.
+        :rtype: str
+        """
+        return self._initial_vcf_byol_allocation_id
+
+    @initial_vcf_byol_allocation_id.setter
+    def initial_vcf_byol_allocation_id(self, initial_vcf_byol_allocation_id):
+        """
+        Sets the initial_vcf_byol_allocation_id of this Cluster.
+        The `OCID`__ of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation.
+
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+
+
+        :param initial_vcf_byol_allocation_id: The initial_vcf_byol_allocation_id of this Cluster.
+        :type: str
+        """
+        self._initial_vcf_byol_allocation_id = initial_vcf_byol_allocation_id
+
+    @property
     def freeform_tags(self):
         """
         **[Required]** Gets the freeform_tags of this Cluster.
@@ -990,7 +1052,7 @@ class Cluster(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this Cluster.
@@ -1007,7 +1069,7 @@ class Cluster(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this Cluster.
@@ -1024,7 +1086,7 @@ class Cluster(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this Cluster.
@@ -1041,7 +1103,7 @@ class Cluster(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this Cluster.

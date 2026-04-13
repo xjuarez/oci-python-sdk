@@ -42,6 +42,10 @@ class UpdateClusterDetails(object):
             The value to assign to the esxi_software_version property of this UpdateClusterDetails.
         :type esxi_software_version: str
 
+        :param cluster_byol_allocation_details:
+            The value to assign to the cluster_byol_allocation_details property of this UpdateClusterDetails.
+        :type cluster_byol_allocation_details: oci.ocvp.models.ClusterByolAllocationDetails
+
         :param freeform_tags:
             The value to assign to the freeform_tags property of this UpdateClusterDetails.
         :type freeform_tags: dict(str, str)
@@ -56,6 +60,7 @@ class UpdateClusterDetails(object):
             'network_configuration': 'NetworkConfiguration',
             'vmware_software_version': 'str',
             'esxi_software_version': 'str',
+            'cluster_byol_allocation_details': 'ClusterByolAllocationDetails',
             'freeform_tags': 'dict(str, str)',
             'defined_tags': 'dict(str, dict(str, object))'
         }
@@ -64,6 +69,7 @@ class UpdateClusterDetails(object):
             'network_configuration': 'networkConfiguration',
             'vmware_software_version': 'vmwareSoftwareVersion',
             'esxi_software_version': 'esxiSoftwareVersion',
+            'cluster_byol_allocation_details': 'clusterByolAllocationDetails',
             'freeform_tags': 'freeformTags',
             'defined_tags': 'definedTags'
         }
@@ -71,6 +77,7 @@ class UpdateClusterDetails(object):
         self._network_configuration = None
         self._vmware_software_version = None
         self._esxi_software_version = None
+        self._cluster_byol_allocation_details = None
         self._freeform_tags = None
         self._defined_tags = None
 
@@ -81,7 +88,7 @@ class UpdateClusterDetails(object):
         The `OCID`__ of the Cluster.
         Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :return: The display_name of this UpdateClusterDetails.
@@ -96,7 +103,7 @@ class UpdateClusterDetails(object):
         The `OCID`__ of the Cluster.
         Cluster name requirements are 1-22 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region.
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
 
         :param display_name: The display_name of this UpdateClusterDetails.
@@ -183,6 +190,26 @@ class UpdateClusterDetails(object):
         self._esxi_software_version = esxi_software_version
 
     @property
+    def cluster_byol_allocation_details(self):
+        """
+        Gets the cluster_byol_allocation_details of this UpdateClusterDetails.
+
+        :return: The cluster_byol_allocation_details of this UpdateClusterDetails.
+        :rtype: oci.ocvp.models.ClusterByolAllocationDetails
+        """
+        return self._cluster_byol_allocation_details
+
+    @cluster_byol_allocation_details.setter
+    def cluster_byol_allocation_details(self, cluster_byol_allocation_details):
+        """
+        Sets the cluster_byol_allocation_details of this UpdateClusterDetails.
+
+        :param cluster_byol_allocation_details: The cluster_byol_allocation_details of this UpdateClusterDetails.
+        :type: oci.ocvp.models.ClusterByolAllocationDetails
+        """
+        self._cluster_byol_allocation_details = cluster_byol_allocation_details
+
+    @property
     def freeform_tags(self):
         """
         Gets the freeform_tags of this UpdateClusterDetails.
@@ -191,7 +218,7 @@ class UpdateClusterDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The freeform_tags of this UpdateClusterDetails.
@@ -208,7 +235,7 @@ class UpdateClusterDetails(object):
 
         Example: `{\"Department\": \"Finance\"}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param freeform_tags: The freeform_tags of this UpdateClusterDetails.
@@ -225,7 +252,7 @@ class UpdateClusterDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :return: The defined_tags of this UpdateClusterDetails.
@@ -242,7 +269,7 @@ class UpdateClusterDetails(object):
 
         Example: `{\"Operations\": {\"CostCenter\": \"42\"}}`
 
-        __ https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm
+        __ https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm
 
 
         :param defined_tags: The defined_tags of this UpdateClusterDetails.

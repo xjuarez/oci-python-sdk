@@ -15,8 +15,8 @@ from oci.config import get_config_value_or_default, validate_config
 from oci.signer import Signer
 from oci.util import Sentinel, get_signer_from_authentication_type, AUTHENTICATION_TYPE_FIELD_NAME
 from oci.util import back_up_body_calculate_stream_content_length, is_content_length_calculable_by_req_util
-from oci.exceptions import InvalidAlloyConfig
-from oci.alloy import OCI_SDK_ENABLED_SERVICES_SET
+from oci.exceptions import InvalidDeveloperToolConfiguration
+from oci.developer_tool_configuration import OCI_SDK_ENABLED_SERVICES_SET
 from .models import opsi_type_mapping
 missing = Sentinel("Missing")
 
@@ -25,7 +25,7 @@ class OperationsInsightsClient(object):
     """
     Use the Ops Insights API to perform data extraction operations to obtain database
     resource utilization, performance statistics, and reference information. For more information,
-    see [About Oracle Cloud Infrastructure Ops Insights](https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+    see [About Oracle Cloud Infrastructure Ops Insights](https://docs.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
     """
 
     def __init__(self, config, **kwargs):
@@ -33,7 +33,7 @@ class OperationsInsightsClient(object):
         Creates a new service client
 
         :param dict config:
-            Configuration keys and values as per `SDK and Tool Configuration <https://docs.cloud.oracle.com/Content/API/Concepts/sdkconfig.htm>`__.
+            Configuration keys and values as per `SDK and Tool Configuration <https://docs.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm>`__.
             The :py:meth:`~oci.config.from_file` method can be used to load configuration from a file. Alternatively, a ``dict`` can be passed. You can validate_config
             the dict using :py:meth:`~oci.config.validate_config`
 
@@ -52,7 +52,7 @@ class OperationsInsightsClient(object):
             The signer to use when signing requests made by the service client. The default is to use a :py:class:`~oci.signer.Signer` based on the values
             provided in the config parameter.
 
-            One use case for this parameter is for `Instance Principals authentication <https://docs.cloud.oracle.com/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
+            One use case for this parameter is for `Instance Principals authentication <https://docs.oracle.com/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm>`__
             by passing an instance of :py:class:`~oci.auth.signers.InstancePrincipalsSecurityTokenSigner` as the value for this keyword argument
         :type signer: :py:class:`~oci.signer.AbstractBaseSigner`
 
@@ -84,7 +84,7 @@ class OperationsInsightsClient(object):
             By default, the client will not enable strict url encoding
         """
         if not OCI_SDK_ENABLED_SERVICES_SET.is_service_enabled("opsi"):
-            raise InvalidAlloyConfig("The Alloy configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local alloy-config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+            raise InvalidDeveloperToolConfiguration("The Developer Tool Configuration has disabled this service, this behavior is controlled by OCI_SDK_ENABLED_SERVICES_SET variable. Please check if your local developer-tool-configuration file configured the service you're targeting or contact the cloud provider on the availability of this service")
 
         validate_config(config, signer=kwargs.get('signer'))
         if 'signer' in kwargs:
@@ -175,7 +175,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/add_exadata_insight_members.py.html>`__ to see an example of how to use add_exadata_insight_members API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/add_exadata_insight_members.py.html>`__ to see an example of how to use add_exadata_insight_members API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -302,7 +302,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use change_autonomous_database_insight_advanced_features API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use change_autonomous_database_insight_advanced_features API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -429,7 +429,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_awr_hub_source_compartment.py.html>`__ to see an example of how to use change_awr_hub_source_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_awr_hub_source_compartment.py.html>`__ to see an example of how to use change_awr_hub_source_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId']
@@ -516,7 +516,7 @@ class OperationsInsightsClient(object):
         :param str chargebackplan_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.ChangeChargebackPlanCompartmentDetails change_chargeback_plan_compartment_details: (required)
             The information to be updated.
@@ -558,7 +558,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_chargeback_plan_compartment.py.html>`__ to see an example of how to use change_chargeback_plan_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_chargeback_plan_compartment.py.html>`__ to see an example of how to use change_chargeback_plan_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackplanId']
@@ -685,7 +685,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_database_insight_compartment.py.html>`__ to see an example of how to use change_database_insight_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_database_insight_compartment.py.html>`__ to see an example of how to use change_database_insight_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -804,7 +804,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_enterprise_manager_bridge_compartment.py.html>`__ to see an example of how to use change_enterprise_manager_bridge_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_enterprise_manager_bridge_compartment.py.html>`__ to see an example of how to use change_enterprise_manager_bridge_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['enterpriseManagerBridgeId']
@@ -928,7 +928,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_exadata_insight_compartment.py.html>`__ to see an example of how to use change_exadata_insight_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_exadata_insight_compartment.py.html>`__ to see an example of how to use change_exadata_insight_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -1056,7 +1056,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_external_mysql_database_insight_connection.py.html>`__ to see an example of how to use change_external_mysql_database_insight_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_external_mysql_database_insight_connection.py.html>`__ to see an example of how to use change_external_mysql_database_insight_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -1183,7 +1183,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_host_insight_compartment.py.html>`__ to see an example of how to use change_host_insight_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_host_insight_compartment.py.html>`__ to see an example of how to use change_host_insight_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['hostInsightId']
@@ -1310,7 +1310,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_macs_managed_autonomous_database_insight_connection.py.html>`__ to see an example of how to use change_macs_managed_autonomous_database_insight_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_macs_managed_autonomous_database_insight_connection.py.html>`__ to see an example of how to use change_macs_managed_autonomous_database_insight_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -1437,7 +1437,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_macs_managed_cloud_database_insight_connection.py.html>`__ to see an example of how to use change_macs_managed_cloud_database_insight_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_macs_managed_cloud_database_insight_connection.py.html>`__ to see an example of how to use change_macs_managed_cloud_database_insight_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -1564,7 +1564,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_news_report_compartment.py.html>`__ to see an example of how to use change_news_report_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_news_report_compartment.py.html>`__ to see an example of how to use change_news_report_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['newsReportId']
@@ -1651,7 +1651,7 @@ class OperationsInsightsClient(object):
         :param str operations_insights_private_endpoint_id: (required)
             The `OCID`__ of the Operation Insights private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.ChangeOperationsInsightsPrivateEndpointCompartmentDetails change_operations_insights_private_endpoint_compartment_details: (required)
             The details used to change the compartment of a private endpoint
@@ -1693,7 +1693,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_operations_insights_private_endpoint_compartment.py.html>`__ to see an example of how to use change_operations_insights_private_endpoint_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_operations_insights_private_endpoint_compartment.py.html>`__ to see an example of how to use change_operations_insights_private_endpoint_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsPrivateEndpointId']
@@ -1820,7 +1820,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_operations_insights_warehouse_compartment.py.html>`__ to see an example of how to use change_operations_insights_warehouse_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_operations_insights_warehouse_compartment.py.html>`__ to see an example of how to use change_operations_insights_warehouse_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -1907,7 +1907,7 @@ class OperationsInsightsClient(object):
         :param str opsi_configuration_id: (required)
             `OCID`__ of OPSI configuration resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.ChangeOpsiConfigurationCompartmentDetails change_opsi_configuration_compartment_details: (required)
             The information to be updated.
@@ -1949,7 +1949,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_opsi_configuration_compartment.py.html>`__ to see an example of how to use change_opsi_configuration_compartment API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_opsi_configuration_compartment.py.html>`__ to see an example of how to use change_opsi_configuration_compartment API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['opsiConfigurationId']
@@ -2076,7 +2076,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_pe_comanaged_database_insight.py.html>`__ to see an example of how to use change_pe_comanaged_database_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/change_pe_comanaged_database_insight.py.html>`__ to see an example of how to use change_pe_comanaged_database_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -2196,7 +2196,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_awr_hub.py.html>`__ to see an example of how to use create_awr_hub API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_awr_hub.py.html>`__ to see an example of how to use create_awr_hub API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2303,7 +2303,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_awr_hub_source.py.html>`__ to see an example of how to use create_awr_hub_source API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_awr_hub_source.py.html>`__ to see an example of how to use create_awr_hub_source API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2410,7 +2410,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_chargeback_plan.py.html>`__ to see an example of how to use create_chargeback_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_chargeback_plan.py.html>`__ to see an example of how to use create_chargeback_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2529,7 +2529,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_chargeback_plan_report.py.html>`__ to see an example of how to use create_chargeback_plan_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_chargeback_plan_report.py.html>`__ to see an example of how to use create_chargeback_plan_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['id', 'resourceType']
@@ -2646,7 +2646,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_database_insight.py.html>`__ to see an example of how to use create_database_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_database_insight.py.html>`__ to see an example of how to use create_database_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2753,7 +2753,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_enterprise_manager_bridge.py.html>`__ to see an example of how to use create_enterprise_manager_bridge API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_enterprise_manager_bridge.py.html>`__ to see an example of how to use create_enterprise_manager_bridge API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2860,7 +2860,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_exadata_insight.py.html>`__ to see an example of how to use create_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_exadata_insight.py.html>`__ to see an example of how to use create_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -2967,7 +2967,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_host_insight.py.html>`__ to see an example of how to use create_host_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_host_insight.py.html>`__ to see an example of how to use create_host_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3074,7 +3074,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_news_report.py.html>`__ to see an example of how to use create_news_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_news_report.py.html>`__ to see an example of how to use create_news_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3182,7 +3182,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_private_endpoint.py.html>`__ to see an example of how to use create_operations_insights_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_private_endpoint.py.html>`__ to see an example of how to use create_operations_insights_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3291,7 +3291,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_warehouse.py.html>`__ to see an example of how to use create_operations_insights_warehouse API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_warehouse.py.html>`__ to see an example of how to use create_operations_insights_warehouse API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3399,7 +3399,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_warehouse_user.py.html>`__ to see an example of how to use create_operations_insights_warehouse_user API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_operations_insights_warehouse_user.py.html>`__ to see an example of how to use create_operations_insights_warehouse_user API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3525,7 +3525,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_opsi_configuration.py.html>`__ to see an example of how to use create_opsi_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/create_opsi_configuration.py.html>`__ to see an example of how to use create_opsi_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -3667,7 +3667,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_awr_hub.py.html>`__ to see an example of how to use delete_awr_hub API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_awr_hub.py.html>`__ to see an example of how to use delete_awr_hub API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId']
@@ -3781,7 +3781,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_awr_hub_object.py.html>`__ to see an example of how to use delete_awr_hub_object API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_awr_hub_object.py.html>`__ to see an example of how to use delete_awr_hub_object API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId', 'objectName']
@@ -3893,7 +3893,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_awr_hub_source.py.html>`__ to see an example of how to use delete_awr_hub_source API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_awr_hub_source.py.html>`__ to see an example of how to use delete_awr_hub_source API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId']
@@ -3975,7 +3975,7 @@ class OperationsInsightsClient(object):
         :param str chargebackplan_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
@@ -4006,7 +4006,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_chargeback_plan.py.html>`__ to see an example of how to use delete_chargeback_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_chargeback_plan.py.html>`__ to see an example of how to use delete_chargeback_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackplanId']
@@ -4088,7 +4088,7 @@ class OperationsInsightsClient(object):
         :param str chargeback_plan_report_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan report
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Unique Ops insight identifier
@@ -4126,7 +4126,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_chargeback_plan_report.py.html>`__ to see an example of how to use delete_chargeback_plan_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_chargeback_plan_report.py.html>`__ to see an example of how to use delete_chargeback_plan_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackPlanReportId', 'id', 'resourceType']
@@ -4245,7 +4245,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_database_insight.py.html>`__ to see an example of how to use delete_database_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_database_insight.py.html>`__ to see an example of how to use delete_database_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -4356,7 +4356,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_enterprise_manager_bridge.py.html>`__ to see an example of how to use delete_enterprise_manager_bridge API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_enterprise_manager_bridge.py.html>`__ to see an example of how to use delete_enterprise_manager_bridge API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['enterpriseManagerBridgeId']
@@ -4467,7 +4467,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_exadata_insight.py.html>`__ to see an example of how to use delete_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_exadata_insight.py.html>`__ to see an example of how to use delete_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -4578,7 +4578,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_host_insight.py.html>`__ to see an example of how to use delete_host_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_host_insight.py.html>`__ to see an example of how to use delete_host_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['hostInsightId']
@@ -4689,7 +4689,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_news_report.py.html>`__ to see an example of how to use delete_news_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_news_report.py.html>`__ to see an example of how to use delete_news_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['newsReportId']
@@ -4771,7 +4771,7 @@ class OperationsInsightsClient(object):
         :param str operations_insights_private_endpoint_id: (required)
             The `OCID`__ of the Operation Insights private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
@@ -4802,7 +4802,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_private_endpoint.py.html>`__ to see an example of how to use delete_operations_insights_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_private_endpoint.py.html>`__ to see an example of how to use delete_operations_insights_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsPrivateEndpointId']
@@ -4916,7 +4916,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_warehouse.py.html>`__ to see an example of how to use delete_operations_insights_warehouse API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_warehouse.py.html>`__ to see an example of how to use delete_operations_insights_warehouse API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -5027,7 +5027,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_warehouse_user.py.html>`__ to see an example of how to use delete_operations_insights_warehouse_user API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_operations_insights_warehouse_user.py.html>`__ to see an example of how to use delete_operations_insights_warehouse_user API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseUserId']
@@ -5109,7 +5109,7 @@ class OperationsInsightsClient(object):
         :param str opsi_configuration_id: (required)
             `OCID`__ of OPSI configuration resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
@@ -5140,7 +5140,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_opsi_configuration.py.html>`__ to see an example of how to use delete_opsi_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/delete_opsi_configuration.py.html>`__ to see an example of how to use delete_opsi_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['opsiConfigurationId']
@@ -5259,7 +5259,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use disable_autonomous_database_insight_advanced_features API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use disable_autonomous_database_insight_advanced_features API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -5381,7 +5381,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_awr_hub_source.py.html>`__ to see an example of how to use disable_awr_hub_source API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_awr_hub_source.py.html>`__ to see an example of how to use disable_awr_hub_source API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId']
@@ -5503,7 +5503,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_database_insight.py.html>`__ to see an example of how to use disable_database_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_database_insight.py.html>`__ to see an example of how to use disable_database_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -5625,7 +5625,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_exadata_insight.py.html>`__ to see an example of how to use disable_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_exadata_insight.py.html>`__ to see an example of how to use disable_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -5747,7 +5747,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_host_insight.py.html>`__ to see an example of how to use disable_host_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_host_insight.py.html>`__ to see an example of how to use disable_host_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['hostInsightId']
@@ -5869,7 +5869,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_plan_exadata_insight.py.html>`__ to see an example of how to use disable_plan_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/disable_plan_exadata_insight.py.html>`__ to see an example of how to use disable_plan_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -5989,7 +5989,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/download_operations_insights_warehouse_wallet.py.html>`__ to see an example of how to use download_operations_insights_warehouse_wallet API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/download_operations_insights_warehouse_wallet.py.html>`__ to see an example of how to use download_operations_insights_warehouse_wallet API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -6116,7 +6116,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use enable_autonomous_database_insight_advanced_features API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_autonomous_database_insight_advanced_features.py.html>`__ to see an example of how to use enable_autonomous_database_insight_advanced_features API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -6240,7 +6240,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_awr_hub_source.py.html>`__ to see an example of how to use enable_awr_hub_source API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_awr_hub_source.py.html>`__ to see an example of how to use enable_awr_hub_source API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId']
@@ -6365,7 +6365,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_database_insight.py.html>`__ to see an example of how to use enable_database_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_database_insight.py.html>`__ to see an example of how to use enable_database_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -6492,7 +6492,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_exadata_insight.py.html>`__ to see an example of how to use enable_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_exadata_insight.py.html>`__ to see an example of how to use enable_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -6619,7 +6619,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_host_insight.py.html>`__ to see an example of how to use enable_host_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_host_insight.py.html>`__ to see an example of how to use enable_host_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['hostInsightId']
@@ -6746,7 +6746,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_plan_exadata_insight.py.html>`__ to see an example of how to use enable_plan_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/enable_plan_exadata_insight.py.html>`__ to see an example of how to use enable_plan_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -6838,7 +6838,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -6889,7 +6889,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_database_report.py.html>`__ to see an example of how to use get_awr_database_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_database_report.py.html>`__ to see an example of how to use get_awr_database_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -7011,7 +7011,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_id: (required)
             The parameter to filter SQL by ID. Note that the SQL ID is generated internally by Oracle for each SQL statement and can be retrieved from AWR Report API (/awrHubs/{awrHubId}/awrDbReport).
@@ -7060,7 +7060,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_database_sql_report.py.html>`__ to see an example of how to use get_awr_database_sql_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_database_sql_report.py.html>`__ to see an example of how to use get_awr_database_sql_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'sqlId']
@@ -7193,7 +7193,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_hub.py.html>`__ to see an example of how to use get_awr_hub API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_hub.py.html>`__ to see an example of how to use get_awr_hub API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId']
@@ -7302,7 +7302,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_hub_object.py.html>`__ to see an example of how to use get_awr_hub_object API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_hub_object.py.html>`__ to see an example of how to use get_awr_hub_object API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId', 'objectName']
@@ -7409,7 +7409,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_hub_source.py.html>`__ to see an example of how to use get_awr_hub_source API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_hub_source.py.html>`__ to see an example of how to use get_awr_hub_source API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId']
@@ -7539,7 +7539,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_report.py.html>`__ to see an example of how to use get_awr_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_awr_report.py.html>`__ to see an example of how to use get_awr_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -7647,7 +7647,7 @@ class OperationsInsightsClient(object):
         :param str chargebackplan_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -7673,7 +7673,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_chargeback_plan.py.html>`__ to see an example of how to use get_chargeback_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_chargeback_plan.py.html>`__ to see an example of how to use get_chargeback_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackplanId']
@@ -7755,7 +7755,7 @@ class OperationsInsightsClient(object):
         :param str chargeback_plan_report_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan report
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Unique Ops insight identifier
@@ -7788,7 +7788,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_chargeback_plan_report.py.html>`__ to see an example of how to use get_chargeback_plan_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_chargeback_plan_report.py.html>`__ to see an example of how to use get_chargeback_plan_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackPlanReportId', 'id', 'resourceType']
@@ -7878,7 +7878,7 @@ class OperationsInsightsClient(object):
         :param str chargeback_plan_report_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan report
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Unique Ops insight identifier
@@ -7929,7 +7929,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_chargeback_plan_report_content.py.html>`__ to see an example of how to use get_chargeback_plan_report_content API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_chargeback_plan_report_content.py.html>`__ to see an example of how to use get_chargeback_plan_report_content API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackPlanReportId', 'id', 'resourceType']
@@ -8049,7 +8049,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_database_insight.py.html>`__ to see an example of how to use get_database_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_database_insight.py.html>`__ to see an example of how to use get_database_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -8155,7 +8155,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_enterprise_manager_bridge.py.html>`__ to see an example of how to use get_enterprise_manager_bridge API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_enterprise_manager_bridge.py.html>`__ to see an example of how to use get_enterprise_manager_bridge API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['enterpriseManagerBridgeId']
@@ -8261,7 +8261,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_exadata_insight.py.html>`__ to see an example of how to use get_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_exadata_insight.py.html>`__ to see an example of how to use get_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -8367,7 +8367,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_host_insight.py.html>`__ to see an example of how to use get_host_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_host_insight.py.html>`__ to see an example of how to use get_host_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['hostInsightId']
@@ -8473,7 +8473,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_news_report.py.html>`__ to see an example of how to use get_news_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_news_report.py.html>`__ to see an example of how to use get_news_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['newsReportId']
@@ -8555,7 +8555,7 @@ class OperationsInsightsClient(object):
         :param str operations_insights_private_endpoint_id: (required)
             The `OCID`__ of the Operation Insights private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -8581,7 +8581,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_private_endpoint.py.html>`__ to see an example of how to use get_operations_insights_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_private_endpoint.py.html>`__ to see an example of how to use get_operations_insights_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsPrivateEndpointId']
@@ -8688,7 +8688,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_warehouse.py.html>`__ to see an example of how to use get_operations_insights_warehouse API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_warehouse.py.html>`__ to see an example of how to use get_operations_insights_warehouse API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -8794,7 +8794,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_warehouse_user.py.html>`__ to see an example of how to use get_operations_insights_warehouse_user API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_operations_insights_warehouse_user.py.html>`__ to see an example of how to use get_operations_insights_warehouse_user API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseUserId']
@@ -8878,7 +8878,7 @@ class OperationsInsightsClient(object):
         :param str opsi_configuration_id: (required)
             `OCID`__ of OPSI configuration resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] opsi_config_field: (optional)
             Optional fields to return as part of OpsiConfiguration object. Unless requested, these fields will not be returned by default.
@@ -8923,7 +8923,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_opsi_configuration.py.html>`__ to see an example of how to use get_opsi_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_opsi_configuration.py.html>`__ to see an example of how to use get_opsi_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['opsiConfigurationId']
@@ -9043,7 +9043,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opsi_data_object_identifier: (required)
             Unique OPSI data object identifier.
@@ -9072,7 +9072,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_opsi_data_object.py.html>`__ to see an example of how to use get_opsi_data_object API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_opsi_data_object.py.html>`__ to see an example of how to use get_opsi_data_object API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['opsiDataObjectIdentifier', 'compartmentId']
@@ -9185,7 +9185,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/get_work_request.py.html>`__ to see an example of how to use get_work_request API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -9294,7 +9294,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/head_awr_hub_object.py.html>`__ to see an example of how to use head_awr_hub_object API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/head_awr_hub_object.py.html>`__ to see an example of how to use head_awr_hub_object API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId', 'objectName']
@@ -9379,12 +9379,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -9423,7 +9423,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_addm_reports.py.html>`__ to see an example of how to use ingest_addm_reports API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_addm_reports.py.html>`__ to see an example of how to use ingest_addm_reports API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -9513,12 +9513,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -9557,7 +9557,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_database_configuration.py.html>`__ to see an example of how to use ingest_database_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_database_configuration.py.html>`__ to see an example of how to use ingest_database_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -9644,7 +9644,7 @@ class OperationsInsightsClient(object):
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.IngestHostConfigurationDetails ingest_host_configuration_details: (required)
             Payload for one or more host configuration metrics for a particular host.
@@ -9686,7 +9686,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_host_configuration.py.html>`__ to see an example of how to use ingest_host_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_host_configuration.py.html>`__ to see an example of how to use ingest_host_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['id']
@@ -9770,7 +9770,7 @@ class OperationsInsightsClient(object):
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.IngestHostMetricsDetails ingest_host_metrics_details: (required)
             Payload for one or more host performance metrics for a particular host.
@@ -9812,7 +9812,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_host_metrics.py.html>`__ to see an example of how to use ingest_host_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_host_metrics.py.html>`__ to see an example of how to use ingest_host_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['id']
@@ -9900,12 +9900,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -9944,7 +9944,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_my_sql_sql_stats.py.html>`__ to see an example of how to use ingest_my_sql_sql_stats API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_my_sql_sql_stats.py.html>`__ to see an example of how to use ingest_my_sql_sql_stats API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -10036,17 +10036,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -10085,7 +10085,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_my_sql_sql_text.py.html>`__ to see an example of how to use ingest_my_sql_sql_text API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_my_sql_sql_text.py.html>`__ to see an example of how to use ingest_my_sql_sql_text API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -10178,17 +10178,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -10227,7 +10227,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_bucket.py.html>`__ to see an example of how to use ingest_sql_bucket API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_bucket.py.html>`__ to see an example of how to use ingest_sql_bucket API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -10320,17 +10320,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -10369,7 +10369,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_plan_lines.py.html>`__ to see an example of how to use ingest_sql_plan_lines API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_plan_lines.py.html>`__ to see an example of how to use ingest_sql_plan_lines API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -10462,12 +10462,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -10506,7 +10506,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_stats.py.html>`__ to see an example of how to use ingest_sql_stats API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_stats.py.html>`__ to see an example of how to use ingest_sql_stats API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -10598,17 +10598,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -10647,7 +10647,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_text.py.html>`__ to see an example of how to use ingest_sql_text API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/ingest_sql_text.py.html>`__ to see an example of how to use ingest_sql_text API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -10736,17 +10736,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -10755,14 +10755,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -10826,7 +10826,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_finding_categories.py.html>`__ to see an example of how to use list_addm_db_finding_categories API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_finding_categories.py.html>`__ to see an example of how to use list_addm_db_finding_categories API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -10939,17 +10939,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -10977,14 +10977,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -11048,7 +11048,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_findings_time_series.py.html>`__ to see an example of how to use list_addm_db_findings_time_series API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_findings_time_series.py.html>`__ to see an example of how to use list_addm_db_findings_time_series API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -11169,17 +11169,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -11188,14 +11188,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -11259,7 +11259,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_parameter_categories.py.html>`__ to see an example of how to use list_addm_db_parameter_categories API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_parameter_categories.py.html>`__ to see an example of how to use list_addm_db_parameter_categories API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -11372,17 +11372,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -11391,14 +11391,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -11462,7 +11462,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_recommendation_categories.py.html>`__ to see an example of how to use list_addm_db_recommendation_categories API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_recommendation_categories.py.html>`__ to see an example of how to use list_addm_db_recommendation_categories API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -11575,17 +11575,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -11629,14 +11629,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -11700,7 +11700,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_recommendations_time_series.py.html>`__ to see an example of how to use list_addm_db_recommendations_time_series API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_db_recommendations_time_series.py.html>`__ to see an example of how to use list_addm_db_recommendations_time_series API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -11829,17 +11829,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param datetime time_interval_start: (optional)
             Analysis start time in UTC in ISO 8601 format(inclusive).
@@ -11861,14 +11861,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -11932,7 +11932,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_dbs.py.html>`__ to see an example of how to use list_addm_dbs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_addm_dbs.py.html>`__ to see an example of how to use list_addm_dbs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -12054,7 +12054,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -12076,7 +12076,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -12085,7 +12085,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the AWR snapshot summary data.
@@ -12121,7 +12121,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_database_snapshots.py.html>`__ to see an example of how to use list_awr_database_snapshots API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_database_snapshots.py.html>`__ to see an example of how to use list_awr_database_snapshots API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -12256,7 +12256,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -12265,7 +12265,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the AWR summary data.
@@ -12301,7 +12301,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_databases.py.html>`__ to see an example of how to use list_awr_databases API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_databases.py.html>`__ to see an example of how to use list_awr_databases API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId']
@@ -12441,7 +12441,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -12450,7 +12450,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str fields: (optional)
             By default all the fields are returned. Use this parameter to fetch specific fields 'size', 'etag', 'md5',
@@ -12484,7 +12484,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_hub_objects.py.html>`__ to see an example of how to use list_awr_hub_objects API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_hub_objects.py.html>`__ to see an example of how to use list_awr_hub_objects API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId']
@@ -12598,7 +12598,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str awr_hub_source_id: (optional)
             Awr Hub source identifier
@@ -12607,7 +12607,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "UNDEFINED"
+            Allowed values are: "ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "LH_S", "APEX_S", "AJD_S", "AVD_S", "LH_D", "APEX_D", "AJD_D", "AVD_D", "UNDEFINED"
 
         :param str name: (optional)
             Awr Hub source database name
@@ -12629,14 +12629,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -12672,7 +12672,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_hub_sources.py.html>`__ to see an example of how to use list_awr_hub_sources API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_hub_sources.py.html>`__ to see an example of how to use list_awr_hub_sources API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId']
@@ -12704,7 +12704,7 @@ class OperationsInsightsClient(object):
                 f"list_awr_hub_sources got unknown kwargs: {extra_kwargs!r}")
 
         if 'source_type' in kwargs:
-            source_type_allowed_values = ["ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "UNDEFINED"]
+            source_type_allowed_values = ["ADW_S", "ATP_S", "ADW_D", "ATP_D", "EXTERNAL_PDB", "EXTERNAL_NONCDB", "COMANAGED_VM_CDB", "COMANAGED_VM_PDB", "COMANAGED_VM_NONCDB", "COMANAGED_BM_CDB", "COMANAGED_BM_PDB", "COMANAGED_BM_NONCDB", "COMANAGED_EXACS_CDB", "COMANAGED_EXACS_PDB", "COMANAGED_EXACS_NONCDB", "LH_S", "APEX_S", "AJD_S", "AVD_S", "LH_D", "APEX_D", "AJD_D", "AVD_D", "UNDEFINED"]
             for source_type_item in kwargs['source_type']:
                 if source_type_item not in source_type_allowed_values:
                     raise ValueError(
@@ -12810,7 +12810,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the entire display name.
@@ -12830,14 +12830,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -12873,7 +12873,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_hubs.py.html>`__ to see an example of how to use list_awr_hubs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_hubs.py.html>`__ to see an example of how to use list_awr_hubs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -13005,14 +13005,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -13048,7 +13048,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_snapshots.py.html>`__ to see an example of how to use list_awr_snapshots API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_awr_snapshots.py.html>`__ to see an example of how to use list_awr_snapshots API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -13174,14 +13174,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -13217,7 +13217,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_chargeback_plan_reports.py.html>`__ to see an example of how to use list_chargeback_plan_reports API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_chargeback_plan_reports.py.html>`__ to see an example of how to use list_chargeback_plan_reports API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['id', 'resourceType']
@@ -13317,12 +13317,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str chargebackplan_id: (optional)
             The `OCID`__ of the Ops Insights chargeback plan.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -13331,14 +13331,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -13377,7 +13377,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_chargeback_plans.py.html>`__ to see an example of how to use list_chargeback_plans API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_chargeback_plans.py.html>`__ to see an example of how to use list_chargeback_plans API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -13482,7 +13482,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str enterprise_manager_bridge_id: (optional)
             Unique Enterprise Manager bridge identifier
@@ -13490,17 +13490,17 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] cdb_name: (optional)
             Filter by one or more cdb name.
@@ -13509,7 +13509,7 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -13518,14 +13518,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -13595,7 +13595,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_database_configurations.py.html>`__ to see an example of how to use list_database_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_database_configurations.py.html>`__ to see an example of how to use list_database_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -13635,7 +13635,7 @@ class OperationsInsightsClient(object):
                 f"list_database_configurations got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -13730,7 +13730,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str enterprise_manager_bridge_id: (optional)
             Unique Enterprise Manager bridge identifier
@@ -13738,7 +13738,7 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] status: (optional)
             Resource Status
@@ -13754,12 +13754,12 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] fields: (optional)
             Specifies the fields to return in a database summary response. By default all fields are returned if omitted.
@@ -13773,14 +13773,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -13795,7 +13795,7 @@ class OperationsInsightsClient(object):
         :param str exadata_insight_id: (optional)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param bool compartment_id_in_subtree: (optional)
             A flag to search all resources within a given compartment and all sub-compartments.
@@ -13827,7 +13827,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_database_insights.py.html>`__ to see an example of how to use list_database_insights API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_database_insights.py.html>`__ to see an example of how to use list_database_insights API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -13880,7 +13880,7 @@ class OperationsInsightsClient(object):
                     )
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -13980,7 +13980,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the entire display name.
@@ -14000,14 +14000,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -14046,7 +14046,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_enterprise_manager_bridges.py.html>`__ to see an example of how to use list_enterprise_manager_bridges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_enterprise_manager_bridges.py.html>`__ to see an example of how to use list_enterprise_manager_bridges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -14162,12 +14162,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_type: (optional)
             Filter by one or more Exadata types.
@@ -14180,14 +14180,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -14251,7 +14251,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_exadata_configurations.py.html>`__ to see an example of how to use list_exadata_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_exadata_configurations.py.html>`__ to see an example of how to use list_exadata_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -14366,7 +14366,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str enterprise_manager_bridge_id: (optional)
             Unique Enterprise Manager bridge identifier
@@ -14374,7 +14374,7 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of Exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] status: (optional)
             Resource Status
@@ -14397,14 +14397,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -14443,7 +14443,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_exadata_insights.py.html>`__ to see an example of how to use list_exadata_insights API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_exadata_insights.py.html>`__ to see an example of how to use list_exadata_insights API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -14572,7 +14572,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str enterprise_manager_bridge_id: (optional)
             Unique Enterprise Manager bridge identifier
@@ -14580,12 +14580,12 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] platform_type: (optional)
             Filter by one or more platform types.
@@ -14602,14 +14602,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -14660,7 +14660,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] vmcluster_name: (optional)
             Optional list of Exadata Insight VM cluster name.
@@ -14690,7 +14690,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_host_configurations.py.html>`__ to see an example of how to use list_host_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_host_configurations.py.html>`__ to see an example of how to use list_host_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -14833,12 +14833,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] status: (optional)
             Resource Status
@@ -14869,14 +14869,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -14894,7 +14894,7 @@ class OperationsInsightsClient(object):
         :param str exadata_insight_id: (optional)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param bool compartment_id_in_subtree: (optional)
             A flag to search all resources within a given compartment and all sub-compartments.
@@ -14923,7 +14923,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_host_insights.py.html>`__ to see an example of how to use list_host_insights API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_host_insights.py.html>`__ to see an example of how to use list_host_insights API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -15063,12 +15063,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -15100,7 +15100,7 @@ class OperationsInsightsClient(object):
         :param str exadata_insight_id: (optional)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -15109,14 +15109,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -15139,7 +15139,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] status: (optional)
             Resource Status
@@ -15166,7 +15166,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_hosted_entities.py.html>`__ to see an example of how to use list_hosted_entities API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_hosted_entities.py.html>`__ to see an example of how to use list_hosted_entities API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id']
@@ -15302,7 +15302,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -15311,14 +15311,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -15354,7 +15354,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_agent_entities.py.html>`__ to see an example of how to use list_importable_agent_entities API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_agent_entities.py.html>`__ to see an example of how to use list_importable_agent_entities API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -15459,7 +15459,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -15468,14 +15468,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -15511,7 +15511,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_compute_entities.py.html>`__ to see an example of how to use list_importable_compute_entities API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_compute_entities.py.html>`__ to see an example of how to use list_importable_compute_entities API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -15617,14 +15617,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param list[str] enterprise_manager_entity_type: (optional)
             Filter by one or more Enterprise Manager entity types. Currently, the supported types are \"oracle_pdb\", \"oracle_database\", \"host\", \"oracle_dbmachine\", \"oracle_exa_cloud_service\", and \"oracle_oci_exadata_cloud_service\". If this parameter is not specified, targets of all supported entity types are returned by default.
@@ -15659,7 +15659,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_enterprise_manager_entities.py.html>`__ to see an example of how to use list_importable_enterprise_manager_entities API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_importable_enterprise_manager_entities.py.html>`__ to see an example of how to use list_importable_enterprise_manager_entities API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['enterpriseManagerBridgeId']
@@ -15757,7 +15757,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str news_report_id: (optional)
             Unique Ops Insights news report identifier
@@ -15779,14 +15779,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -15825,7 +15825,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_news_reports.py.html>`__ to see an example of how to use list_news_reports API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_news_reports.py.html>`__ to see an example of how to use list_news_reports API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -15949,7 +15949,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the entire display name.
@@ -15963,7 +15963,7 @@ class OperationsInsightsClient(object):
         :param str vcn_id: (optional)
             The `OCID`__ of the VCN.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] lifecycle_state: (optional)
             Lifecycle states
@@ -15977,14 +15977,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -16023,7 +16023,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_private_endpoints.py.html>`__ to see an example of how to use list_operations_insights_private_endpoints API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_private_endpoints.py.html>`__ to see an example of how to use list_operations_insights_private_endpoints API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -16146,7 +16146,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the entire display name.
@@ -16166,14 +16166,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -16209,7 +16209,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_warehouse_users.py.html>`__ to see an example of how to use list_operations_insights_warehouse_users API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_warehouse_users.py.html>`__ to see an example of how to use list_operations_insights_warehouse_users API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -16325,7 +16325,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             A filter to return only resources that match the entire display name.
@@ -16345,14 +16345,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -16388,7 +16388,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_warehouses.py.html>`__ to see an example of how to use list_operations_insights_warehouses API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_operations_insights_warehouses.py.html>`__ to see an example of how to use list_operations_insights_warehouses API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -16502,7 +16502,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str display_name: (optional)
             Filter to return based on resources that match the entire display name.
@@ -16524,14 +16524,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -16567,7 +16567,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_opsi_configurations.py.html>`__ to see an example of how to use list_opsi_configurations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_opsi_configurations.py.html>`__ to see an example of how to use list_opsi_configurations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -16688,7 +16688,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] data_object_type: (optional)
             OPSI data object types.
@@ -16705,14 +16705,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -16754,7 +16754,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_opsi_data_objects.py.html>`__ to see an example of how to use list_opsi_data_objects API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_opsi_data_objects.py.html>`__ to see an example of how to use list_opsi_data_objects API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -16870,7 +16870,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_identifier: (required)
             Unique SQL_ID for a SQL Statement.
@@ -16883,19 +16883,19 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -16921,7 +16921,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_plans.py.html>`__ to see an example of how to use list_sql_plans API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_plans.py.html>`__ to see an example of how to use list_sql_plans API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier', 'planHash']
@@ -17008,7 +17008,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_identifier: (required)
             Unique SQL_ID for a SQL Statement.
@@ -17038,7 +17038,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -17092,7 +17092,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_searches.py.html>`__ to see an example of how to use list_sql_searches API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_searches.py.html>`__ to see an example of how to use list_sql_searches API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier']
@@ -17188,7 +17188,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.list[str] sql_identifier: (required)
             One or more unique SQL_IDs for a SQL Statement.
@@ -17197,19 +17197,19 @@ class OperationsInsightsClient(object):
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the assosicated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database `OCIDs`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -17263,7 +17263,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_texts.py.html>`__ to see an example of how to use list_sql_texts API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_sql_texts.py.html>`__ to see an example of how to use list_sql_texts API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier']
@@ -17362,7 +17362,7 @@ class OperationsInsightsClient(object):
         :param str warehouse_id: (required)
             The `OCID`__ of a Warehouse.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] data_object_type: (optional)
             A filter to return only data objects that match the data object type. By default, no filtering will be applied on data object type.
@@ -17382,14 +17382,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -17430,7 +17430,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_warehouse_data_objects.py.html>`__ to see an example of how to use list_warehouse_data_objects API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_warehouse_data_objects.py.html>`__ to see an example of how to use list_warehouse_data_objects API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['warehouseType', 'warehouseId']
@@ -17574,7 +17574,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -17583,7 +17583,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
@@ -17615,7 +17615,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_request_errors.py.html>`__ to see an example of how to use list_work_request_errors API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -17734,7 +17734,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -17743,7 +17743,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.
@@ -17775,7 +17775,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_request_logs.py.html>`__ to see an example of how to use list_work_request_logs API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['workRequestId']
@@ -17891,7 +17891,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -17900,12 +17900,12 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             The ID of the asynchronous work request.
@@ -17951,7 +17951,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/list_work_requests.py.html>`__ to see an example of how to use list_work_requests API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -18109,7 +18109,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/put_awr_hub_object.py.html>`__ to see an example of how to use put_awr_hub_object API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/put_awr_hub_object.py.html>`__ to see an example of how to use put_awr_hub_object API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId', 'objectName']
@@ -18218,7 +18218,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.QueryOpsiDataObjectDataDetails query_opsi_data_object_data_details: (required)
             The information to be used for querying an OPSI data object.
@@ -18230,14 +18230,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -18263,7 +18263,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/query_opsi_data_object_data.py.html>`__ to see an example of how to use query_opsi_data_object_data API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/query_opsi_data_object_data.py.html>`__ to see an example of how to use query_opsi_data_object_data API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -18352,7 +18352,7 @@ class OperationsInsightsClient(object):
         :param str warehouse_id: (required)
             The `OCID`__ of a Warehouse.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.QueryWarehouseDataObjectDataDetails query_warehouse_data_object_data_details: (required)
             The information to be used for querying a Warehouse.
@@ -18364,14 +18364,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -18397,7 +18397,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/query_warehouse_data_object_data.py.html>`__ to see an example of how to use query_warehouse_data_object_data API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/query_warehouse_data_object_data.py.html>`__ to see an example of how to use query_warehouse_data_object_data API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['warehouseType', 'warehouseId']
@@ -18521,7 +18521,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/rotate_operations_insights_warehouse_wallet.py.html>`__ to see an example of how to use rotate_operations_insights_warehouse_wallet API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/rotate_operations_insights_warehouse_wallet.py.html>`__ to see an example of how to use rotate_operations_insights_warehouse_wallet API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -18603,17 +18603,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -18641,14 +18641,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -18712,7 +18712,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_findings.py.html>`__ to see an example of how to use summarize_addm_db_findings API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_findings.py.html>`__ to see an example of how to use summarize_addm_db_findings API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -18835,7 +18835,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             Required filter to return only changes for the specified parameter. The
@@ -18844,12 +18844,12 @@ class OperationsInsightsClient(object):
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -18878,14 +18878,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -18949,7 +18949,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_parameter_changes.py.html>`__ to see an example of how to use summarize_addm_db_parameter_changes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_parameter_changes.py.html>`__ to see an example of how to use summarize_addm_db_parameter_changes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'name']
@@ -19074,17 +19074,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -19136,14 +19136,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -19207,7 +19207,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_parameters.py.html>`__ to see an example of how to use summarize_addm_db_parameters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_parameters.py.html>`__ to see an example of how to use summarize_addm_db_parameters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -19357,17 +19357,17 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -19414,14 +19414,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -19485,7 +19485,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_recommendations.py.html>`__ to see an example of how to use summarize_addm_db_recommendations API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_recommendations.py.html>`__ to see an example of how to use summarize_addm_db_recommendations API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -19616,7 +19616,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.list[int] object_identifier: (required)
             One or more unique Object id (from RDBMS)
@@ -19624,12 +19624,12 @@ class OperationsInsightsClient(object):
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param datetime time_interval_start: (optional)
             Analysis start time in UTC in ISO 8601 format(inclusive).
@@ -19651,14 +19651,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -19712,7 +19712,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_schema_objects.py.html>`__ to see an example of how to use summarize_addm_db_schema_objects API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_schema_objects.py.html>`__ to see an example of how to use summarize_addm_db_schema_objects API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'objectIdentifier']
@@ -19812,7 +19812,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.list[str] sql_identifier: (required)
             One or more unique SQL_IDs for a SQL Statement.
@@ -19821,12 +19821,12 @@ class OperationsInsightsClient(object):
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param datetime time_interval_start: (optional)
             Analysis start time in UTC in ISO 8601 format(inclusive).
@@ -19848,14 +19848,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -19909,7 +19909,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_sql_statements.py.html>`__ to see an example of how to use summarize_addm_db_sql_statements API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_addm_db_sql_statements.py.html>`__ to see an example of how to use summarize_addm_db_sql_statements API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier']
@@ -20018,7 +20018,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -20045,7 +20045,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -20054,7 +20054,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the AWR CPU usage summary data.
@@ -20090,7 +20090,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_cpu_usages.py.html>`__ to see an example of how to use summarize_awr_database_cpu_usages API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_cpu_usages.py.html>`__ to see an example of how to use summarize_awr_database_cpu_usages API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -20225,7 +20225,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.list[str] name: (required)
             The required multiple value query parameter to filter the entity name.
@@ -20250,7 +20250,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -20259,7 +20259,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the AWR time series summary data.
@@ -20295,7 +20295,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_metrics.py.html>`__ to see an example of how to use summarize_awr_database_metrics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_metrics.py.html>`__ to see an example of how to use summarize_awr_database_metrics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
@@ -20426,7 +20426,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The required single value query parameter to filter the entity name.
@@ -20451,7 +20451,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -20460,7 +20460,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the AWR database parameter change history data.
@@ -20496,7 +20496,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_parameter_changes.py.html>`__ to see an example of how to use summarize_awr_database_parameter_changes API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_parameter_changes.py.html>`__ to see an example of how to use summarize_awr_database_parameter_changes API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
@@ -20633,7 +20633,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -20676,7 +20676,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -20685,7 +20685,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the AWR database parameter change history data.
@@ -20721,7 +20721,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_parameters.py.html>`__ to see an example of how to use summarize_awr_database_parameters API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_parameters.py.html>`__ to see an example of how to use summarize_awr_database_parameters API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -20887,7 +20887,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -20896,7 +20896,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the AWR summary data.
@@ -20932,7 +20932,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_snapshot_ranges.py.html>`__ to see an example of how to use summarize_awr_database_snapshot_ranges API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_snapshot_ranges.py.html>`__ to see an example of how to use summarize_awr_database_snapshot_ranges API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId']
@@ -21053,7 +21053,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.list[str] name: (required)
             The required multiple value query parameter to filter the entity name.
@@ -21078,7 +21078,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -21087,7 +21087,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the data within a time period.
@@ -21123,7 +21123,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_sysstats.py.html>`__ to see an example of how to use summarize_awr_database_sysstats API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_sysstats.py.html>`__ to see an example of how to use summarize_awr_database_sysstats API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
@@ -21250,7 +21250,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -21309,7 +21309,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_top_wait_events.py.html>`__ to see an example of how to use summarize_awr_database_top_wait_events API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_top_wait_events.py.html>`__ to see an example of how to use summarize_awr_database_top_wait_events API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -21442,7 +21442,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (required)
             The required single value query parameter to filter the entity name.
@@ -21476,7 +21476,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -21485,7 +21485,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort distribution data.
@@ -21521,7 +21521,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_wait_event_buckets.py.html>`__ to see an example of how to use summarize_awr_database_wait_event_buckets API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_wait_event_buckets.py.html>`__ to see an example of how to use summarize_awr_database_wait_event_buckets API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier', 'name']
@@ -21654,7 +21654,7 @@ class OperationsInsightsClient(object):
             It can be retrieved from the following endpoint:
             /awrHubs/{awrHubId}/awrDatabases
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str instance_number: (optional)
             The optional single value query parameter to filter by database instance number.
@@ -21684,7 +21684,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -21693,7 +21693,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The option to sort the data within a time period.
@@ -21729,7 +21729,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_wait_events.py.html>`__ to see an example of how to use summarize_awr_database_wait_events API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_database_wait_events.py.html>`__ to see an example of how to use summarize_awr_database_wait_events API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId', 'awrSourceDatabaseIdentifier']
@@ -21864,7 +21864,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str name: (optional)
             Name for an Awr source database
@@ -21876,14 +21876,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_by: (optional)
             The order in which Awr sources summary records are listed
@@ -21919,7 +21919,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_sources_summaries.py.html>`__ to see an example of how to use summarize_awr_sources_summaries API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_awr_sources_summaries.py.html>`__ to see an example of how to use summarize_awr_sources_summaries API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId']
@@ -22034,7 +22034,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opsi_config_type: (optional)
             Filter to return configuration items based on configuration type of OPSI configuration.
@@ -22048,14 +22048,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param list[str] config_items_applicable_context: (optional)
             Returns the configuration items filtered by applicable contexts sent in this param. By default configuration items of all applicable contexts are returned.
@@ -22092,7 +22092,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_configuration_items.py.html>`__ to see an example of how to use summarize_configuration_items API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_configuration_items.py.html>`__ to see an example of how to use summarize_configuration_items API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -22199,7 +22199,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by resource metric.
@@ -22228,22 +22228,22 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] cdb_name: (optional)
             Filter by one or more cdb name.
@@ -22262,7 +22262,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -22346,7 +22346,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_capacity_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_capacity_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -22391,7 +22391,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_capacity_trend got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -22500,7 +22500,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by resource metric.
@@ -22529,22 +22529,22 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] cdb_name: (optional)
             Filter by one or more cdb name.
@@ -22587,7 +22587,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param list[str] host_name: (optional)
             Filter by one or more hostname.
@@ -22661,7 +22661,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_forecast_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_forecast_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -22708,7 +22708,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_forecast_trend got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -22819,7 +22819,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by resource metric.
@@ -22848,22 +22848,22 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] cdb_name: (optional)
             Filter by one or more cdb name.
@@ -22886,14 +22886,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -22974,7 +22974,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_database_insight_resource_statistics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_database_insight_resource_statistics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -23021,7 +23021,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_statistics got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -23127,7 +23127,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by resource metric.
@@ -23156,22 +23156,22 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] host_name: (optional)
             Filter by one or more hostname.
@@ -23186,7 +23186,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int percentile: (optional)
             Percentile values of daily usage to be used for computing the aggregate resource usage.
@@ -23249,7 +23249,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_usage.py.html>`__ to see an example of how to use summarize_database_insight_resource_usage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_usage.py.html>`__ to see an example of how to use summarize_database_insight_resource_usage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -23289,7 +23289,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_usage got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -23373,7 +23373,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by resource metric.
@@ -23402,29 +23402,29 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -23502,7 +23502,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_usage_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_usage_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_usage_trend.py.html>`__ to see an example of how to use summarize_database_insight_resource_usage_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -23543,7 +23543,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_usage_trend got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -23641,7 +23641,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by resource metric.
@@ -23670,22 +23670,22 @@ class OperationsInsightsClient(object):
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int forecast_days: (optional)
             Number of days used for utilization forecast analysis.
@@ -23703,7 +23703,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -23769,7 +23769,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_database_insight_resource_utilization_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_database_insight_resource_utilization_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -23811,7 +23811,7 @@ class OperationsInsightsClient(object):
                 f"summarize_database_insight_resource_utilization_insight got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -23897,7 +23897,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -23921,19 +23921,19 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -23942,7 +23942,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -23968,7 +23968,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_tablespace_usage_trend.py.html>`__ to see an example of how to use summarize_database_insight_tablespace_usage_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_database_insight_tablespace_usage_trend.py.html>`__ to see an example of how to use summarize_database_insight_tablespace_usage_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -24074,12 +24074,12 @@ class OperationsInsightsClient(object):
         :param str exadata_insight_id: (required)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -24103,12 +24103,12 @@ class OperationsInsightsClient(object):
         :param list[str] database_insight_id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] host_insight_id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] storage_server_name: (optional)
             Optional storage server name on an exadata system.
@@ -24128,7 +24128,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -24137,7 +24137,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -24173,7 +24173,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_capacity_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_capacity_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['resourceType', 'resourceMetric', 'exadataInsightId']
@@ -24306,7 +24306,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -24330,7 +24330,7 @@ class OperationsInsightsClient(object):
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_type: (optional)
             Filter by one or more Exadata types.
@@ -24347,7 +24347,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -24411,7 +24411,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_capacity_trend_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_capacity_trend_aggregated API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_capacity_trend_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_capacity_trend_aggregated API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['resourceType', 'resourceMetric']
@@ -24550,7 +24550,7 @@ class OperationsInsightsClient(object):
         :param str exadata_insight_id: (required)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -24574,12 +24574,12 @@ class OperationsInsightsClient(object):
         :param list[str] database_insight_id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] host_insight_id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] storage_server_name: (optional)
             Optional storage server name on an exadata system.
@@ -24621,7 +24621,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int confidence: (optional)
             This parameter is used to change data's confidence level, this data is ingested by the
@@ -24645,7 +24645,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -24671,7 +24671,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_forecast_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_forecast_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['resourceType', 'resourceMetric', 'exadataInsightId']
@@ -24825,7 +24825,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -24849,7 +24849,7 @@ class OperationsInsightsClient(object):
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_type: (optional)
             Filter by one or more Exadata types.
@@ -24893,7 +24893,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param list[str] defined_tag_equals: (optional)
             A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
@@ -24947,7 +24947,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_forecast_trend_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_forecast_trend_aggregated API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_forecast_trend_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_forecast_trend_aggregated API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['resourceType', 'resourceMetric']
@@ -25081,7 +25081,7 @@ class OperationsInsightsClient(object):
         :param str exadata_insight_id: (required)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_type: (required)
             Filter by resource.
@@ -25140,14 +25140,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -25173,7 +25173,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_statistics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_statistics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId', 'resourceType', 'resourceMetric']
@@ -25293,7 +25293,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_type: (required)
             Filter by resource.
@@ -25325,7 +25325,7 @@ class OperationsInsightsClient(object):
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_type: (optional)
             Filter by one or more Exadata types.
@@ -25352,7 +25352,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -25361,7 +25361,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int percentile: (optional)
             Percentile values of daily usage to be used for computing the aggregate resource usage.
@@ -25418,7 +25418,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_usage.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_usage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_usage.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_usage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceType', 'resourceMetric']
@@ -25550,7 +25550,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_type: (required)
             Filter by resource.
@@ -25582,7 +25582,7 @@ class OperationsInsightsClient(object):
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_type: (optional)
             Filter by one or more Exadata types.
@@ -25599,7 +25599,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int percentile: (optional)
             Percentile values of daily usage to be used for computing the aggregate resource usage.
@@ -25656,7 +25656,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_usage_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_usage_aggregated API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_usage_aggregated.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_usage_aggregated API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceType', 'resourceMetric']
@@ -25763,7 +25763,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_type: (required)
             Filter by resource.
@@ -25795,7 +25795,7 @@ class OperationsInsightsClient(object):
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_type: (optional)
             Filter by one or more Exadata types.
@@ -25820,14 +25820,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param list[str] defined_tag_equals: (optional)
             A list of tag filters to apply.  Only resources with a defined tag matching the value will be returned.
@@ -25887,7 +25887,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_utilization_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_exadata_insight_resource_utilization_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceType', 'resourceMetric']
@@ -26002,7 +26002,7 @@ class OperationsInsightsClient(object):
         :param str exadata_insight_id: (required)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_type: (optional)
             Filter by one or more Exadata types.
@@ -26025,14 +26025,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -26058,7 +26058,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_members.py.html>`__ to see an example of how to use summarize_exadata_members API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_exadata_members.py.html>`__ to see an example of how to use summarize_exadata_members API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -26159,12 +26159,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -26188,7 +26188,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str statistic: (optional)
             Choose the type of statistic metric data to be used for forecasting.
@@ -26224,7 +26224,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_disk_statistics.py.html>`__ to see an example of how to use summarize_host_insight_disk_statistics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_disk_statistics.py.html>`__ to see an example of how to use summarize_host_insight_disk_statistics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id']
@@ -26329,12 +26329,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by host resource metric.
@@ -26362,7 +26362,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -26371,7 +26371,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str statistic: (optional)
             Choose the type of statistic metric data to be used for forecasting.
@@ -26402,7 +26402,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_host_recommendation.py.html>`__ to see an example of how to use summarize_host_insight_host_recommendation API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_host_recommendation.py.html>`__ to see an example of how to use summarize_host_insight_host_recommendation API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id', 'resourceMetric']
@@ -26500,12 +26500,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -26529,14 +26529,14 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -26545,7 +26545,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str statistic: (optional)
             Choose the type of statistic metric data to be used for forecasting.
@@ -26581,7 +26581,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_io_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_io_usage_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_io_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_io_usage_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id']
@@ -26690,12 +26690,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -26719,14 +26719,14 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -26735,7 +26735,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str statistic: (optional)
             Choose the type of statistic metric data to be used for forecasting.
@@ -26771,7 +26771,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_network_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_network_usage_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_network_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_network_usage_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id']
@@ -26882,7 +26882,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by host resource metric.
@@ -26918,12 +26918,12 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str utilization_level: (optional)
             Filter by utilization level by the following buckets:
@@ -26939,7 +26939,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -26990,7 +26990,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] vmcluster_name: (optional)
             Optional list of Exadata Insight VM cluster name.
@@ -27026,7 +27026,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_capacity_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_capacity_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_capacity_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -27184,7 +27184,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by host resource metric.
@@ -27220,12 +27220,12 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str statistic: (optional)
             Choose the type of statistic metric data to be used for forecasting.
@@ -27265,7 +27265,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -27306,7 +27306,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] vmcluster_name: (optional)
             Optional list of Exadata Insight VM cluster name.
@@ -27351,7 +27351,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_forecast_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_forecast_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_forecast_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -27519,7 +27519,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by host resource metric.
@@ -27555,12 +27555,12 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int percentile: (optional)
             Percentile values of daily usage to be used for computing the aggregate resource usage.
@@ -27580,14 +27580,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -27638,7 +27638,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] vmcluster_name: (optional)
             Optional list of Exadata Insight VM cluster name.
@@ -27674,7 +27674,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_host_insight_resource_statistics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_statistics.py.html>`__ to see an example of how to use summarize_host_insight_resource_statistics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -27833,7 +27833,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by host resource metric.
@@ -27869,19 +27869,19 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int percentile: (optional)
             Percentile values of daily usage to be used for computing the aggregate resource usage.
@@ -27925,7 +27925,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] vmcluster_name: (optional)
             Optional list of Exadata Insight VM cluster name.
@@ -27955,7 +27955,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_usage.py.html>`__ to see an example of how to use summarize_host_insight_resource_usage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_usage.py.html>`__ to see an example of how to use summarize_host_insight_resource_usage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -28085,7 +28085,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by host resource metric.
@@ -28121,19 +28121,19 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str sort_order: (optional)
             The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -28184,7 +28184,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] vmcluster_name: (optional)
             Optional list of Exadata Insight VM cluster name.
@@ -28214,7 +28214,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_usage_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_resource_usage_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -28359,7 +28359,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Filter by host resource metric.
@@ -28395,12 +28395,12 @@ class OperationsInsightsClient(object):
         :param list[str] id: (optional)
             Optional list of host insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param int forecast_days: (optional)
             Number of days used for utilization forecast analysis.
@@ -28410,7 +28410,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -28451,7 +28451,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] vmcluster_name: (optional)
             Optional list of Exadata Insight VM cluster name.
@@ -28487,7 +28487,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_host_insight_resource_utilization_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_resource_utilization_insight.py.html>`__ to see an example of how to use summarize_host_insight_resource_utilization_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'resourceMetric']
@@ -28619,12 +28619,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -28648,14 +28648,14 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -28664,7 +28664,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str statistic: (optional)
             Choose the type of statistic metric data to be used for forecasting.
@@ -28700,7 +28700,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_storage_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_storage_usage_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_storage_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_storage_usage_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id']
@@ -28811,12 +28811,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Host top processes resource metric sort options.
@@ -28844,7 +28844,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -28853,7 +28853,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -28872,7 +28872,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str statistic: (optional)
             Choose the type of statistic metric data to be used for forecasting.
@@ -28904,7 +28904,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_top_processes_usage.py.html>`__ to see an example of how to use summarize_host_insight_top_processes_usage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_top_processes_usage.py.html>`__ to see an example of how to use summarize_host_insight_top_processes_usage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id', 'resourceMetric', 'timestamp']
@@ -29019,12 +29019,12 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Required `OCID`__ of the host insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str resource_metric: (required)
             Host top processes resource metric sort options.
@@ -29054,7 +29054,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param int limit: (optional)
             For list pagination. The maximum number of results per page, or items to
@@ -29063,7 +29063,7 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -29076,7 +29076,7 @@ class OperationsInsightsClient(object):
         :param str host_id: (optional)
             Optional `OCID`__ of the host (Compute Id)
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str process_hash: (optional)
             Unique identifier for a process.
@@ -29111,7 +29111,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_top_processes_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_top_processes_usage_trend API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_host_insight_top_processes_usage_trend.py.html>`__ to see an example of how to use summarize_host_insight_top_processes_usage_trend API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'id', 'resourceMetric']
@@ -29250,7 +29250,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_operations_insights_warehouse_resource_usage.py.html>`__ to see an example of how to use summarize_operations_insights_warehouse_resource_usage API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_operations_insights_warehouse_resource_usage.py.html>`__ to see an example of how to use summarize_operations_insights_warehouse_resource_usage API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -29334,28 +29334,28 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_type: (optional)
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] cdb_name: (optional)
             Filter by one or more cdb name.
@@ -29390,7 +29390,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -29447,7 +29447,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_insights.py.html>`__ to see an example of how to use summarize_sql_insights API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_insights.py.html>`__ to see an example of how to use summarize_sql_insights API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -29486,7 +29486,7 @@ class OperationsInsightsClient(object):
                 f"summarize_sql_insights got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -29568,7 +29568,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_identifier: (required)
             Unique SQL_ID for a SQL Statement.
@@ -29577,12 +29577,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -29608,7 +29608,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -29634,7 +29634,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_plan_insights.py.html>`__ to see an example of how to use summarize_sql_plan_insights API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_plan_insights.py.html>`__ to see an example of how to use summarize_sql_plan_insights API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier']
@@ -29725,7 +29725,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_identifier: (required)
             Unique SQL_ID for a SQL Statement.
@@ -29734,12 +29734,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -29765,7 +29765,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -29791,7 +29791,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_response_time_distributions.py.html>`__ to see an example of how to use summarize_sql_response_time_distributions API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_response_time_distributions.py.html>`__ to see an example of how to use summarize_sql_response_time_distributions API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier']
@@ -29883,28 +29883,28 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] database_type: (optional)
             Filter by one or more database type.
             Possible values are ADW-S, ATP-S, ADW-D, ATP-D, EXTERNAL-PDB, EXTERNAL-NONCDB.
 
-            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"
+            Allowed values are: "ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"
 
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] cdb_name: (optional)
             Filter by one or more cdb name.
@@ -29945,14 +29945,14 @@ class OperationsInsightsClient(object):
             `List Pagination`__.
             Example: `50`
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str page: (optional)
             For list pagination. The value of the `opc-next-page` response header from
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -30025,7 +30025,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics.py.html>`__ to see an example of how to use summarize_sql_statistics API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics.py.html>`__ to see an example of how to use summarize_sql_statistics API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId']
@@ -30069,7 +30069,7 @@ class OperationsInsightsClient(object):
                 f"summarize_sql_statistics got unknown kwargs: {extra_kwargs!r}")
 
         if 'database_type' in kwargs:
-            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP"]
+            database_type_allowed_values = ["ADW-S", "ATP-S", "ADW-D", "ATP-D", "EXTERNAL-PDB", "EXTERNAL-NONCDB", "COMANAGED-VM-CDB", "COMANAGED-VM-PDB", "COMANAGED-VM-NONCDB", "COMANAGED-BM-CDB", "COMANAGED-BM-PDB", "COMANAGED-BM-NONCDB", "COMANAGED-EXACS-CDB", "COMANAGED-EXACS-PDB", "COMANAGED-EXACS-NONCDB", "COMANAGED-EXACC-CDB", "COMANAGED-EXACC-PDB", "COMANAGED-EXACC-NONCDB", "MDS-MYSQL", "EXTERNAL-MYSQL", "ATP-EXACC", "ADW-EXACC", "EXTERNAL-ADW", "EXTERNAL-ATP", "LH-D", "APEX-D", "AJD-D", "AVD-D", "LH-S", "APEX-S", "AJD-S", "AVD-S", "LH-EXACC", "APEX-EXACC", "AJD-EXACC", "AVD-EXACC"]
             for database_type_item in kwargs['database_type']:
                 if database_type_item not in database_type_allowed_values:
                     raise ValueError(
@@ -30178,7 +30178,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_identifier: (required)
             Unique SQL_ID for a SQL Statement.
@@ -30187,17 +30187,17 @@ class OperationsInsightsClient(object):
         :param list[str] database_id: (optional)
             Optional list of database `OCIDs`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] id: (optional)
             Optional list of database `OCIDs`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] exadata_insight_id: (optional)
             Optional list of exadata insight resource `OCIDs`__.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param list[str] cdb_name: (optional)
             Filter by one or more cdb name.
@@ -30229,7 +30229,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -30286,7 +30286,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics_time_series.py.html>`__ to see an example of how to use summarize_sql_statistics_time_series API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics_time_series.py.html>`__ to see an example of how to use summarize_sql_statistics_time_series API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier']
@@ -30396,7 +30396,7 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (required)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str sql_identifier: (required)
             Unique SQL_ID for a SQL Statement.
@@ -30405,12 +30405,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str analysis_time_interval: (optional)
             Specify time period in ISO 8601 format with respect to current time.
@@ -30436,7 +30436,7 @@ class OperationsInsightsClient(object):
             the previous \"List\" call. For important details about how pagination works,
             see `List Pagination`__.
 
-            __ https://docs.cloud.oracle.com/Content/API/Concepts/usingapi.htm#nine
+            __ https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -30462,7 +30462,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics_time_series_by_plan.py.html>`__ to see an example of how to use summarize_sql_statistics_time_series_by_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/summarize_sql_statistics_time_series_by_plan.py.html>`__ to see an example of how to use summarize_sql_statistics_time_series_by_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['compartmentId', 'sqlIdentifier']
@@ -30556,22 +30556,22 @@ class OperationsInsightsClient(object):
         :param str compartment_id: (optional)
             The `OCID`__ of the compartment.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str exadata_insight_id: (optional)
             `OCID`__ of exadata insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str if_match: (optional)
             Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`
@@ -30610,7 +30610,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/synchronize_autonomous_database_to_exadata.py.html>`__ to see an example of how to use synchronize_autonomous_database_to_exadata API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/synchronize_autonomous_database_to_exadata.py.html>`__ to see an example of how to use synchronize_autonomous_database_to_exadata API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -30702,12 +30702,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -30741,7 +30741,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/test_macs_managed_autonomous_database_insight_connection.py.html>`__ to see an example of how to use test_macs_managed_autonomous_database_insight_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/test_macs_managed_autonomous_database_insight_connection.py.html>`__ to see an example of how to use test_macs_managed_autonomous_database_insight_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -30827,12 +30827,12 @@ class OperationsInsightsClient(object):
         :param str database_id: (optional)
             Optional `OCID`__ of the associated DBaaS entity.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (optional)
             `OCID`__ of the database insight resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str opc_request_id: (optional)
             Unique Oracle-assigned identifier for the request. If you need to contact
@@ -30866,7 +30866,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/test_macs_managed_cloud_database_insight_connection.py.html>`__ to see an example of how to use test_macs_managed_cloud_database_insight_connection API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/test_macs_managed_cloud_database_insight_connection.py.html>`__ to see an example of how to use test_macs_managed_cloud_database_insight_connection API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = []
@@ -30981,7 +30981,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_awr_hub.py.html>`__ to see an example of how to use update_awr_hub API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_awr_hub.py.html>`__ to see an example of how to use update_awr_hub API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubId']
@@ -31097,7 +31097,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_awr_hub_source.py.html>`__ to see an example of how to use update_awr_hub_source API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_awr_hub_source.py.html>`__ to see an example of how to use update_awr_hub_source API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['awrHubSourceId']
@@ -31181,7 +31181,7 @@ class OperationsInsightsClient(object):
         :param str chargebackplan_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.UpdateChargebackPlanDetails update_chargeback_plan_details: (required)
             The details used to update a chargeback plan.
@@ -31215,7 +31215,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_chargeback_plan.py.html>`__ to see an example of how to use update_chargeback_plan API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_chargeback_plan.py.html>`__ to see an example of how to use update_chargeback_plan API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackplanId']
@@ -31299,7 +31299,7 @@ class OperationsInsightsClient(object):
         :param str chargeback_plan_report_id: (required)
             The `OCID`__ of the Ops Insights chargeback plan report
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param str id: (required)
             Unique Ops insight identifier
@@ -31340,7 +31340,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_chargeback_plan_report.py.html>`__ to see an example of how to use update_chargeback_plan_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_chargeback_plan_report.py.html>`__ to see an example of how to use update_chargeback_plan_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['chargebackPlanReportId', 'id', 'resourceType']
@@ -31464,7 +31464,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_database_insight.py.html>`__ to see an example of how to use update_database_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_database_insight.py.html>`__ to see an example of how to use update_database_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['databaseInsightId']
@@ -31580,7 +31580,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_enterprise_manager_bridge.py.html>`__ to see an example of how to use update_enterprise_manager_bridge API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_enterprise_manager_bridge.py.html>`__ to see an example of how to use update_enterprise_manager_bridge API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['enterpriseManagerBridgeId']
@@ -31696,7 +31696,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_exadata_insight.py.html>`__ to see an example of how to use update_exadata_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_exadata_insight.py.html>`__ to see an example of how to use update_exadata_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['exadataInsightId']
@@ -31812,7 +31812,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_host_insight.py.html>`__ to see an example of how to use update_host_insight API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_host_insight.py.html>`__ to see an example of how to use update_host_insight API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['hostInsightId']
@@ -31928,7 +31928,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_news_report.py.html>`__ to see an example of how to use update_news_report API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_news_report.py.html>`__ to see an example of how to use update_news_report API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['newsReportId']
@@ -32012,7 +32012,7 @@ class OperationsInsightsClient(object):
         :param str operations_insights_private_endpoint_id: (required)
             The `OCID`__ of the Operation Insights private endpoint.
 
-            __ https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.UpdateOperationsInsightsPrivateEndpointDetails update_operations_insights_private_endpoint_details: (required)
             The details used to update a private endpoint.
@@ -32046,7 +32046,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_private_endpoint.py.html>`__ to see an example of how to use update_operations_insights_private_endpoint API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_private_endpoint.py.html>`__ to see an example of how to use update_operations_insights_private_endpoint API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsPrivateEndpointId']
@@ -32163,7 +32163,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_warehouse.py.html>`__ to see an example of how to use update_operations_insights_warehouse API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_warehouse.py.html>`__ to see an example of how to use update_operations_insights_warehouse API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseId']
@@ -32279,7 +32279,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_warehouse_user.py.html>`__ to see an example of how to use update_operations_insights_warehouse_user API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_operations_insights_warehouse_user.py.html>`__ to see an example of how to use update_operations_insights_warehouse_user API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['operationsInsightsWarehouseUserId']
@@ -32363,7 +32363,7 @@ class OperationsInsightsClient(object):
         :param str opsi_configuration_id: (required)
             `OCID`__ of OPSI configuration resource.
 
-            __ https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm
+            __ https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm
 
         :param oci.opsi.models.UpdateOpsiConfigurationDetails update_opsi_configuration_details: (required)
             The OPSI configuration resource details to be updated.
@@ -32397,7 +32397,7 @@ class OperationsInsightsClient(object):
         :rtype: :class:`~oci.response.Response`
 
         :example:
-        Click `here <https://docs.cloud.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_opsi_configuration.py.html>`__ to see an example of how to use update_opsi_configuration API.
+        Click `here <https://docs.oracle.com/en-us/iaas/tools/python-sdk-examples/latest/opsi/update_opsi_configuration.py.html>`__ to see an example of how to use update_opsi_configuration API.
         """
         # Required path and query arguments. These are in camelCase to replace values in service endpoints.
         required_arguments = ['opsiConfigurationId']
