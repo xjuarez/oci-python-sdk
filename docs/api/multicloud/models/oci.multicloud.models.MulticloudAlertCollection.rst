@@ -1,9 +1,9 @@
-UpdateComputeHostsDetails
+MulticloudAlertCollection
 =========================
 
-.. currentmodule:: oci.core.models
+.. currentmodule:: oci.multicloud.models
 
-.. autoclass:: UpdateComputeHostsDetails
+.. autoclass:: MulticloudAlertCollection
     :show-inheritance:
     :special-members: __init__
     :members:

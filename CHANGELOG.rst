@@ -5,6 +5,58 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 ====================
+2.172.0 - 2026-04-21
+====================
+
+Added 
+----- 
+* Support for Azure AD, Avro Metadata, and Microsoft Fabric Eventstream (Kafka-like) data sources in the GoldenGate service 
+* Support for creating branded email subdomains without delegating DNS subzone in the Fusion Apps as a Service 
+* Support for IPv6 endpoints in the Events service  
+* Support for IPv6 endpoints in the Logging service  
+* Support for IPv6 endpoints in the Logging Search service  
+* Support for IPv6 endpoints in the Logging Ingestion service 
+* Support for reserved private IP IDs in the Compute service 
+* Support for USAGE_ONLY query type in the Usage Api service 
+* Support for resizing Data, Reco, and Sparse disk groups in the Database service 
+* Support for logging line format in the Functions service  
+
+Breaking 
+-------- 
+* Model was renamed from `UpdateComputeHostsDetails` to `UpdateComputeHostDetails` in the Compute service 
+* Model was renamed from `ComputeHostGroup ` to `ComputeHost` in the Compute service 
+* Method `get_compute_host_group` was renamed to `get_compute_host` in the Compute service 
+* Method `get_compute_hosts` was renamed to `get_compute_host_group` in the Compute service 
+* Method `update_compute_host_group` was renamed to `update_compute_host` in the Compute service 
+* Method `update_compute_hosts` was renamed to `update_compute_host_group` in the Compute service 
+* Parameters `compute_host_group_id ` was renamed to `compute_host_id ` in the Compute service 
+* Parameters `compute_host_id ` was renamed to `compute_host_group_id ` in the Compute service 
+* Property `secret_access_key_secret_id ` was made required in the model `AmazonS3IcebergStorageSummary `, `AmazonS3IcebergStorage ` in the GoldenGate service 
+* Parameter `private_ip` was removed from model `CreateGoldenGateConnectionDetails`, `CreateJavaMessageServiceConnectionDetails`, `CreateKafkaSchemaRegistryConnectionDetails`, `CreateMicrosoftSqlserverConnectionDetails`, `CreateMysqlConnectionDetails`, `CreateOracleConnectionDetails` and `CreatePostgresqlConnectionDetails` in the GoldenGate service 
+* Type of field `lifecycle_state ` has removed enum values like `UPDATING`, `INACTIVE` , `NEEDS_ATTENTION`, `IN_PROGRESS`, `SUCCEEDED`,  `WAITING` in the GoldenGate service 
+* Type of field `bootstrap_servers ` was changed from `KafkaBootstrapServer ` to `CreateKafkaBootstrapServer ` in the model `CreateKafkaConnectionDetails` in the GoldenGate service  
+
+====================
+2.171.0 - 2026-04-14
+====================
+
+Added 
+----- 
+* Support for filesystem snapshot locking for ransomware protection in the File Storage service 
+* Support for creating refresh-able metadata clones in Autonomous Database in the Database service 
+* Support for cross-region Data Guard for Azure, GCP, and AWS KMS-based databases in the Database MultiCloud service 
+* Support for multicloud policies API and OMHub Resource View and Policy Hub UI features in the Multicloud service 
+* Support for Development and Production domain group types in place of Lightweight and Standard in the OCI Internet of Things (OCI IoT) service 
+* Support for Fusion Data Intelligence (FDI) self-service integration in the Fusion Application as a Service 
+* Support for implementing Customer self-service feature to add egress ports in the Fusion Application as a Service 
+* Support for a new flag to the create and update capacity reservation APIs in the Compute service 
+* Support for alarms and notifications in the OCI Control Center service  
+
+Breaking 
+-------- 
+* Parameter `compartment_id_in_subtree` was removed from the model `OmhubNetworkAnchorClient ` in the MultiCloud service  
+
+====================
 2.170.0 - 2026-04-07
 ====================
 
