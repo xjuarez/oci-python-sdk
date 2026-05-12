@@ -77,6 +77,7 @@ API Reference
 * :doc:`Database Migration <database_migration/client/oci.database_migration.DatabaseMigrationClient>`
 * :doc:`Database Recovery <recovery/client/oci.recovery.DatabaseRecoveryClient>`
 * :doc:`Database Tools <database_tools/client/oci.database_tools.DatabaseToolsClient>`
+* :doc:`Database Tools Runtime <database_tools_runtime/client/oci.database_tools_runtime.DatabaseToolsRuntimeClient>`
 * :doc:`Dataplane <identity_data_plane/client/oci.identity_data_plane.DataplaneClient>`
 * :doc:`Datastore <ocvp/client/oci.ocvp.DatastoreClient>`
 * :doc:`Datastore Cluster <ocvp/client/oci.ocvp.DatastoreClusterClient>`
@@ -201,6 +202,7 @@ API Reference
 * :doc:`Occ Metric Alarm <demand_signal/client/oci.demand_signal.OccMetricAlarmClient>`
 * :doc:`Occ Metrics <oci_control_center/client/oci.oci_control_center.OccMetricsClient>`
 * :doc:`Oce Instance <oce/client/oci.oce.OceInstanceClient>`
+* :doc:`Oci Cache Backup <redis/client/oci.redis.OciCacheBackupClient>`
 * :doc:`Oci Cache Config Set <redis/client/oci.redis.OciCacheConfigSetClient>`
 * :doc:`Oci Cache Default Config Set <redis/client/oci.redis.OciCacheDefaultConfigSetClient>`
 * :doc:`Oci Cache Engine Options <redis/client/oci.redis.OciCacheEngineOptionsClient>`
@@ -384,6 +386,7 @@ API Reference
     database_management
     database_migration
     database_tools
+    database_tools_runtime
     dblm
     dbmulticloud
     delegate_access_control

@@ -394,14 +394,44 @@ class UploadManager:
             parallel_processes = parallel_process_count
 
         target_pool_size = UploadManager.REQUESTS_POOL_SIZE_FACTOR * parallel_processes
-        adapter = requests.adapters.HTTPAdapter(pool_maxsize=target_pool_size)
+        current_adapter = object_storage_client.base_client.session.adapters.get(mount_protocol)
 
-        if mount_protocol in object_storage_client.base_client.session.adapters:
+        if current_adapter is not None:
             # If someone has already mounted and it's large enough, don't mount over the top
-            if object_storage_client.base_client.session.adapters[mount_protocol]._pool_maxsize >= target_pool_size:
+            current_pool_maxsize = getattr(current_adapter, '_pool_maxsize', 0)
+            if current_pool_maxsize >= target_pool_size:
                 return
 
+        adapter = UploadManager._create_adapter_for_pool_size(current_adapter, target_pool_size)
         object_storage_client.base_client.session.mount(mount_protocol, adapter)
+
+    @staticmethod
+    def _create_adapter_for_pool_size(current_adapter, target_pool_size):
+        """Create a larger adapter while preserving adapter type and key settings."""
+        # Missing attributes are treated as default requests adapter settings.
+        # This preserves compatibility with user-mounted custom adapters while
+        # avoiding assumptions about their internal implementation.
+        pool_connections = getattr(current_adapter, '_pool_connections', requests.adapters.DEFAULT_POOLSIZE)
+        pool_block = getattr(current_adapter, '_pool_block', requests.adapters.DEFAULT_POOLBLOCK)
+        max_retries = getattr(current_adapter, 'max_retries', requests.adapters.DEFAULT_RETRIES)
+
+        # OCIHTTPAdapter sets this marker so resizing preserves OCI's scoped
+        # Expect-header transport behavior instead of replacing it with a plain
+        # HTTPAdapter.
+        if getattr(current_adapter, 'uses_oci_connection_pool', False):
+            return current_adapter.__class__(
+                pool_connections=pool_connections,
+                pool_maxsize=target_pool_size,
+                max_retries=max_retries,
+                pool_block=pool_block
+            )
+
+        return requests.adapters.HTTPAdapter(
+            pool_connections=pool_connections,
+            pool_maxsize=target_pool_size,
+            max_retries=max_retries,
+            pool_block=pool_block
+        )
 
     @staticmethod
     def _use_multipart(content_length, part_size=DEFAULT_PART_SIZE):

@@ -41,6 +41,8 @@ missing = Sentinel("Missing")
 APPEND_USER_AGENT_ENV_VAR_NAME = "OCI_SDK_APPEND_USER_AGENT"
 PROPAGATION_ENABLED_ENV_VAR_NAME = "PROPAGATION_ENABLED"
 OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME = "OPC_INCOMING_REQUEST_ID"
+PROPAGATION_REQUEST_ID_FILE_ENV_VAR_NAME = "OCI_PYSDK_PROPAGATION_REQUEST_ID_FILE"
+DEFAULT_PROPAGATION_REQUEST_ID_FILE_NAME = "sdk_propagation.txt"
 OCI_REALM_SPECIFIC_SERVICE_ENDPOINT_TEMPLATE_ENABLED = "OCI_REALM_SPECIFIC_SERVICE_ENDPOINT_TEMPLATE_ENABLED"
 OCI_HEADER_PARSING_ERROR_MAX_RETRIES = "OCI_HEADER_PARSING_ERROR_MAX_RETRIES"
 APPEND_USER_AGENT = os.environ.get(APPEND_USER_AGENT_ENV_VAR_NAME)
@@ -85,6 +87,61 @@ def build_user_agent(extra=""):
 
 def utc_now():
     return " " + str(datetime.utcnow()) + ": "
+
+
+def _get_propagation_request_id_file_path():
+    file_location = os.environ.get(PROPAGATION_REQUEST_ID_FILE_ENV_VAR_NAME)
+    if file_location is None:
+        file_location = os.path.join(os.path.dirname(os.path.abspath(__file__)), DEFAULT_PROPAGATION_REQUEST_ID_FILE_NAME)
+    return os.path.expandvars(os.path.expanduser(file_location))
+
+
+def _normalize_propagation_request_id(request_id):
+    if request_id is None:
+        return None
+    request_id = str(request_id).strip()
+    if request_id == "":
+        return None
+    segments = request_id.split("/")
+    if len(segments) == 1:
+        return segments[0]
+    stack_id = segments[1]
+    if stack_id == "":
+        return segments[0]
+    return segments[0] + "/" + stack_id
+
+
+def _read_propagation_request_id_from_file():
+    file_location = _get_propagation_request_id_file_path()
+    if not os.path.exists(file_location):
+        return None
+    try:
+        with open(file_location, 'r') as file:
+            for line in file:
+                segments = line.strip().split(':', 1)
+                if len(segments) > 1 and segments[0].strip() == "PROPAGATION_REQUEST_ID":
+                    return _normalize_propagation_request_id(segments[1].strip())
+    except Exception:
+        return None
+    return None
+
+
+def _write_propagation_request_id_to_file(request_id):
+    normalized_request_id = _normalize_propagation_request_id(request_id)
+    if not normalized_request_id:
+        return
+    existing_request_id = _read_propagation_request_id_from_file()
+    if existing_request_id:
+        return
+    file_location = _get_propagation_request_id_file_path()
+    try:
+        file_dir = os.path.dirname(file_location)
+        if file_dir and not os.path.exists(file_dir):
+            os.makedirs(file_dir, exist_ok=True)
+        with open(file_location, 'w') as file:
+            file.write("PROPAGATION_REQUEST_ID:{}".format(normalized_request_id))
+    except Exception:
+        return
 
 
 def is_http_log_enabled(is_enabled):
@@ -274,10 +331,71 @@ class OCIConnectionPool(urllib3.HTTPSConnectionPool):
     """ HTTPConnectionPool with 100 Continue support. """
 
 
-# Replace the HTTPS connection pool with OCIConnectionPool once the env var `OCI_PYSDK_USING_EXPECT_HEADER` is not set
-# to "FALSE"
-if enable_expect_header:
-    urllib3.poolmanager.pool_classes_by_scheme["https"] = OCIConnectionPool
+def _get_oci_scoped_pool_classes_by_scheme():
+    """Return a urllib3 pool mapping with OCI HTTPS behavior scoped locally."""
+    # Copy before modifying so OCI does not mutate urllib3's process-wide
+    # pool class registry. Values are pool classes, so a shallow copy is
+    # sufficient; this method only replaces the HTTPS pool class entry.
+    pool_classes_by_scheme = urllib3.poolmanager.pool_classes_by_scheme.copy()
+    pool_classes_by_scheme["https"] = OCIConnectionPool
+    return pool_classes_by_scheme
+
+
+class OCIPoolManager(urllib3.PoolManager):
+    """Pool manager that applies OCIConnectionPool only to this instance."""
+
+    def __init__(self, *args, **kwargs):
+        super(OCIPoolManager, self).__init__(*args, **kwargs)
+        self.pool_classes_by_scheme = _get_oci_scoped_pool_classes_by_scheme()
+
+
+class OCIProxyManager(urllib3.ProxyManager):
+    """Proxy manager that applies OCIConnectionPool only to this instance."""
+
+    def __init__(self, *args, **kwargs):
+        super(OCIProxyManager, self).__init__(*args, **kwargs)
+        self.pool_classes_by_scheme = _get_oci_scoped_pool_classes_by_scheme()
+
+
+class OCIHTTPAdapter(requests.adapters.HTTPAdapter):
+    """HTTP adapter that confines OCI Expect-header support to one session."""
+
+    # UploadManager uses this marker to preserve OCI transport behavior when it
+    # replaces an adapter only to increase connection pool size.
+    uses_oci_connection_pool = True
+
+    def init_poolmanager(self, connections, maxsize, block=requests.adapters.DEFAULT_POOLBLOCK, **pool_kwargs):
+        """Initialize a per-adapter pool manager with OCI HTTPS support."""
+        self._pool_connections = connections
+        self._pool_maxsize = maxsize
+        self._pool_block = block
+
+        self.poolmanager = OCIPoolManager(
+            num_pools=connections,
+            maxsize=maxsize,
+            block=block,
+            strict=True,
+            **pool_kwargs
+        )
+
+    def proxy_manager_for(self, proxy, **proxy_kwargs):
+        """Return a scoped OCI proxy manager for regular HTTP/HTTPS proxies."""
+        if proxy in self.proxy_manager:
+            return self.proxy_manager[proxy]
+
+        if proxy.lower().startswith('socks'):
+            return super(OCIHTTPAdapter, self).proxy_manager_for(proxy, **proxy_kwargs)
+
+        manager = OCIProxyManager(
+            proxy,
+            proxy_headers=self.proxy_headers(proxy),
+            num_pools=self._pool_connections,
+            maxsize=self._pool_maxsize,
+            block=self._pool_block,
+            **proxy_kwargs
+        )
+        self.proxy_manager[proxy] = manager
+        return manager
 
 
 class BaseClient(object):
@@ -348,6 +466,7 @@ class BaseClient(object):
         self.complex_type_mappings = type_mapping
         self.type_mappings = merge_type_mappings(self.primitive_type_map, type_mapping)
         self.session = requests.Session()
+        self._configure_session_for_expect_header()
 
         # If the user doesn't specify timeout explicitly we would use default timeout.
         self.timeout = kwargs.get('timeout') if 'timeout' in kwargs else (DEFAULT_CONNECTION_TIMEOUT, DEFAULT_READ_TIMEOUT)
@@ -383,6 +502,15 @@ class BaseClient(object):
             # Equivalent to decorating the request function with Circuit Breaker
             self.request = circuit_breaker(self.request)
         self.logger.debug('Endpoint: {}'.format(self._endpoint))
+
+    def _configure_session_for_expect_header(self):
+        """Mount OCI's scoped HTTPS adapter when Expect-header support is enabled.
+
+        This keeps OCIConnectionPool limited to this BaseClient session instead
+        of replacing urllib3's process-wide HTTPS pool class.
+        """
+        if enable_expect_header:
+            self.session.mount('https://', OCIHTTPAdapter())
 
     def handle_service_endpoint_template(self, region_id, service_endpoint_template, service_endpoint_template_per_realm):
         should_enable_realm_template = self.should_allow_template_per_realm()
@@ -688,7 +816,9 @@ class BaseClient(object):
             os.environ.pop(OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME)
 
     def get_downstream_request_id(self):
-        request_id = os.environ.get(OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME)
+        request_id = _read_propagation_request_id_from_file()
+        if self.PROPAGATION_ENABLED and not request_id:
+            request_id = os.environ.get(OPC_INCOMING_REQUEST_ID_ENV_VAR_NAME)
         if self.PROPAGATION_ENABLED and request_id:
             self.logger.debug(f"Downstream requestID: {str(request_id)}")
             self.custom_opc_request_id = request_id
@@ -697,7 +827,9 @@ class BaseClient(object):
     def use_custom_opc_request_id(self, rid: str = None):
         self.custom_opc_request_id = None
         if self.PROPAGATION_ENABLED:
-            rid = self.get_downstream_request_id()
+            downstream_rid = self.get_downstream_request_id()
+            if downstream_rid is not None and downstream_rid != "":
+                rid = downstream_rid
         if rid is not None and rid != "":
             self.PROPAGATION_ENABLED = True
         if self.PROPAGATION_ENABLED:
@@ -714,6 +846,8 @@ class BaseClient(object):
                     stackId = segments[1]
                 self.custom_opc_request_id = segments[0] + "/" + stackId
                 self.logger.debug(f"Truncated request ID to: {str(self.custom_opc_request_id)}")
+        if self.PROPAGATION_ENABLED and self.custom_opc_request_id:
+            _write_propagation_request_id_to_file(self.custom_opc_request_id)
         return self.custom_opc_request_id
 
     def map_service_params_to_values(self, service_params_url, path_params, query_params, required_arguments):
