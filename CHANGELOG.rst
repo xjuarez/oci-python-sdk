@@ -5,6 +5,144 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`_.
 
 ====================
+2.179.0 - 2026-06-16
+====================
+
+Added 
+----- 
+* Support for ExaDB-D Public Cloud in the Operator Access Control service 
+* Support for cross region replication with hot standby in the PostgreSQL service 
+* Support for starting and stopping DB systems in the PostgreSQL service 
+* Support for Kerberos authentication in the PostgreSQL service 
+* Support for performance insights in the PostgreSQL service 
+* Support for log analytics integration in the Application Performance Monitoring Control Plane service 
+* Support for storing large data files in Application Performance Monitoring configurations in the Application Performance Monitoring service 
+* Support for compute clusters and host groups in the Kubernetes Engine service 
+* Support for Zero Trust Packet Routing (ZPR) security attributes on private endpoints in the Object Storage service 
+* Support for Zero Trust Packet Routing (ZPR) security attributes in the Cloud Migrations service 
+* Support for Zero Trust Packet Routing (ZPR) security attributes in the Secure Desktops service 
+* Support for forcefully restarting and stopping Autonomous Databases and Autonomous Container Databases in the Database service 
+* Support for restarting Oracle Rest Data Services (ORDS) services on Autonomous VM Clusters and Cloud Autonomous VM Clusters in the Database service 
+* Support for triggering forced reboot and stop of DB nodes in ExaDB-D, ExaDB-XS and ExaDB-C@C in the Database service 
+* Support for additional coordinator node pools for OCI Search in the OpenSearch service 
+* Support for multi-link organizations in the Organization Management service  
+
+Breaking 
+-------- 
+* The model `CustomerLoggingDetails` has been removed from the OpenSearch service  
+* The model `ReviveWorkflowInstanceDetails` has been removed from the Organization Management service  
+
+====================
+2.178.0 - 2026-06-08
+====================
+
+Added
+-----
+* Support for B200 shapes in dedicated AI clusters in the Generative AI service
+* Support for Oracle Managed Database Software Updates in the Database service
+* Support for scheduling preferences, version series selection, and readiness details in Oracle Managed Database Software Updates in the Database service
+* Support for rescheduling Oracle Managed Database Software Updates in the Database service
+* Support for Oracle-managed and customer-managed database home types in the Database service
+* Support for specifying VM cluster IDs when creating databases in the Database service
+* Support for Oracle Managed Software Updates delegation controls in the Delegate Access Control service
+* Support for Exadata Database VM Clusters in delegation controls in the Delegate Access Control service
+* Support for database IDs in delegated resource access requests in the Delegate Access Control service
+* Support for approval action timestamps and SSH access indicators in the Delegate Access Control service
+* Support for public connectivity add-ons in the OCI Streaming with Apache Kafka service
+* Support for listing, installing, updating, getting, and uninstalling Kafka cluster add-ons in the OCI Streaming with Apache Kafka service
+* Support for SASL and mTLS authentication mechanisms in public connectivity add-ons in the OCI Streaming with Apache Kafka service
+* Support for GPU memory fabric IDs and size details in GPU memory cluster summaries in the Compute service
+* Support for filtering GPU memory clusters by GPU memory fabric in the Compute service
+* Support for associated GPU memory cluster IDs in GPU memory fabric resources in the Compute service
+* Support for partner-provided OS licenses when launching and updating instances in the Compute service
+* Support for work request IDs and waiters when attaching volumes, detaching volumes, and terminating instances in the Compute service
+* Support for single-stack IPv6 in the Virtual Cloud Network service
+* Support for hostnames on IPv6 addresses during create, update, and bulk operations in the Virtual Cloud Network service
+* Support for IPv6 addresses on DB systems, read endpoints, read replicas, and snapshots in the MySQL HeatWave service
+* Support for IPv6 selection in replication channels on dual-stack DB systems in the MySQL HeatWave service
+* Support for X.509 identity propagation trusts and CA certificate chains in the Identity Domains service
+* Support for resource subject type, impersonating resources, claim validations, and claim propagation in identity propagation trusts in the Identity Domains service
+
+Breaking
+--------
+* Method `detach_volume_and_wait_for_state` was renamed to `detach_volume_and_wait_for_work_request` in the Compute service
+* Method `terminate_instance_and_wait_for_state` was renamed to `terminate_instance_and_wait_for_work_request` in the Compute service
+
+====================
+2.177.0 - 2026-06-02
+====================
+
+Added 
+----- 
+* Support for Zero Trust Packet Routing (ZPR) security attributes for private endpoints in the Operations Insights service 
+* Support for Zero Trust Packet Routing (ZPR) security attributes for private endpoints in the Database Management service 
+* Support for multimodal image input and flagged modalities when applying guardrails in the Generative AI service 
+* Support for filtering incidents by last update time in the Cloud Incident Management service 
+* Support for Cloud Incident Management APIs without Customer Support Identifier (CSI) parameters in the Cloud Incident Management service 
+* Support for site IDs when creating and updating VMware BYOL registrations in the Oracle Cloud VMware Provisioning service 
+* Support for VMware Cloud Foundation (VCF) BYOL allocation IDs during ESXi host replacement and in-place upgrades in the Oracle Cloud VMware Provisioning service  
+
+Breaking 
+-------- 
+* Parameter `csi` is removed from the model `CreateIncident`, `CreateUserDetails` and `User` in the Customer Incident Management service 
+* Parameter `customer_support_key` is removed from the model `TenancyInformation` in the Customer Incident Management service  
+
+====================
+2.176.0 - 2026-05-26
+====================
+
+Added 
+----- 
+* Support for calling Oracle Cloud Infrastructure services in the me-alrayyan-1 region 
+* Support for Veridata deployment types in the GoldenGate service 
+* Support for cloning ZeroETL pipelines in the GoldenGate service 
+* Support for Object Storage initial load in ZeroETL pipelines in the GoldenGate service 
+* Support for specifying CPU core count and autoscaling in ZeroETL pipelines in the GoldenGate service 
+* Support for setting disaster recovery status during deployment creation in the GoldenGate service 
+* Support for switchover and failover mode selection in disaster recovery peer switchovers in the GoldenGate service 
+* Support for generating and retrieving disaster recovery precheck reports for standby peers in the GoldenGate service 
+* Support for scheduling policies and scheduling windows as part of granular maintenance scheduling of Exadata Infrastructure components in the Database service 
+* Support for specifying System Global Area (SGA) memory percentage and distributed algorithm configuration in Autonomous VM Clusters and Cloud Autonomous VM Clusters in the Database service 
+* Support for Database Resident Connection Pooling (DRCP) in Autonomous Container Databases in the Database service 
+* Support for creating additional VMs in Exadata Cloud Service and Exadata Cloud@Customer in the Database service 
+* Support for selecting specific compute shapes during cluster placement group creation in the Cluster Placement Groups service 
+* Support for compute target resource when creating and managing reusable managed compute capacity for workload deployments in the Data Science service 
+* Support for managed compute cluster as a compute target type in the Data Science service 
+* Support for creating model deployments and jobs that use a compute target as the deployment infrastructure in the Data Science service 
+* Support for multi-inference endpoints in model deployments in the Data Science service 
+* Support for flexible dense virtual machine shapes in the Compute service 
+* Support for network firewall health status APIs in the Network Firewall service 
+* Support for security attributes when creating or updating network firewalls in the Network Firewall service
+* Support for mapped secrets when creating or updating decryption rules in the Network Firewall service
+* Support for Zero Trust Packet Routing (ZPR) security attributes in the Kubernetes Engine service  
+
+Breaking 
+-------- 
+* The fields `availability_domain` and `subnet_id` were made required in `PlacementConfiguration` in the Kubernetes Engine service 
+* The models `CreateIdcsAuthConfigurationDetails`, `CreateIdcsCustomServiceAuthConfigurationDetails`, `IdcsAuthConfiguration`, and `IdcsCustomServiceAuthConfiguration` were removed in the Data Science service 
+* The enum values `IDCS` and `IDCS_CUSTOM_SERVICE` were removed from `AuthConfiguration.type` in the Data Science service 
+
+====================
+2.175.0 - 2026-05-19
+====================
+
+Added 
+----- 
+* Support for the Cost Anomaly Detection service 
+* Support for listing OCI Generative AI Guardrails versions with accuracy and performance in the Generative AI service 
+* Support for guardrail versions when applying guardrails in the Generative AI service 
+* Support for data population status on tenancy attachment in the Resource Analytics service 
+* Support for compute count options in the Resource Analytics service 
+* Support for Cluster Placement Groups (CPG) and security groups (SG) in compute capacity reports in the Compute service 
+* Support for failed node replacement in the Big Data service 
+* Support for creating new DB systems from existing DB systems with an optional replication channels in the MySQL HeatWave service 
+* Support for work requests to track create, update, and delete operations for streams, stream pools, and Kafka Connect configuration resources in the Streaming service  
+
+Breaking 
+-------- 
+* Parameter `cluster_admin_password` and `secret_id` was removed from the model `CreateBdsCertificateConfigurationDetails` in the Big Data service  
+
+====================
 2.174.0 - 2026-05-12
 ====================
 

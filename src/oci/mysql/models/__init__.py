@@ -45,6 +45,8 @@ from .create_database_console_details import CreateDatabaseConsoleDetails
 from .create_db_system_details import CreateDbSystemDetails
 from .create_db_system_source_details import CreateDbSystemSourceDetails
 from .create_db_system_source_from_backup_details import CreateDbSystemSourceFromBackupDetails
+from .create_db_system_source_from_db_system_channel_details import CreateDbSystemSourceFromDbSystemChannelDetails
+from .create_db_system_source_from_db_system_details import CreateDbSystemSourceFromDbSystemDetails
 from .create_db_system_source_from_none_details import CreateDbSystemSourceFromNoneDetails
 from .create_db_system_source_from_pitr_details import CreateDbSystemSourceFromPitrDetails
 from .create_db_system_source_import_from_url_details import CreateDbSystemSourceImportFromUrlDetails
@@ -65,6 +67,7 @@ from .db_system_snapshot import DbSystemSnapshot
 from .db_system_snapshot_summary import DbSystemSnapshotSummary
 from .db_system_source import DbSystemSource
 from .db_system_source_from_backup import DbSystemSourceFromBackup
+from .db_system_source_from_db_system import DbSystemSourceFromDbSystem
 from .db_system_source_from_none import DbSystemSourceFromNone
 from .db_system_source_from_pitr import DbSystemSourceFromPitr
 from .db_system_source_import_from_url import DbSystemSourceImportFromUrl
@@ -85,6 +88,7 @@ from .heat_wave_cluster_summary import HeatWaveClusterSummary
 from .heat_wave_cluster_table_memory_estimate import HeatWaveClusterTableMemoryEstimate
 from .heat_wave_node import HeatWaveNode
 from .initialization_variables import InitializationVariables
+from .ipv6_address_ipv6_subnet_cidr_pair_details import Ipv6AddressIpv6SubnetCidrPairDetails
 from .logging_destination_configuration import LoggingDestinationConfiguration
 from .maintenance_details import MaintenanceDetails
 from .maintenance_disabled_window import MaintenanceDisabledWindow
@@ -171,6 +175,8 @@ mysql_type_mapping = {
     "CreateDbSystemDetails": CreateDbSystemDetails,
     "CreateDbSystemSourceDetails": CreateDbSystemSourceDetails,
     "CreateDbSystemSourceFromBackupDetails": CreateDbSystemSourceFromBackupDetails,
+    "CreateDbSystemSourceFromDbSystemChannelDetails": CreateDbSystemSourceFromDbSystemChannelDetails,
+    "CreateDbSystemSourceFromDbSystemDetails": CreateDbSystemSourceFromDbSystemDetails,
     "CreateDbSystemSourceFromNoneDetails": CreateDbSystemSourceFromNoneDetails,
     "CreateDbSystemSourceFromPitrDetails": CreateDbSystemSourceFromPitrDetails,
     "CreateDbSystemSourceImportFromUrlDetails": CreateDbSystemSourceImportFromUrlDetails,
@@ -191,6 +197,7 @@ mysql_type_mapping = {
     "DbSystemSnapshotSummary": DbSystemSnapshotSummary,
     "DbSystemSource": DbSystemSource,
     "DbSystemSourceFromBackup": DbSystemSourceFromBackup,
+    "DbSystemSourceFromDbSystem": DbSystemSourceFromDbSystem,
     "DbSystemSourceFromNone": DbSystemSourceFromNone,
     "DbSystemSourceFromPitr": DbSystemSourceFromPitr,
     "DbSystemSourceImportFromUrl": DbSystemSourceImportFromUrl,
@@ -211,6 +218,7 @@ mysql_type_mapping = {
     "HeatWaveClusterTableMemoryEstimate": HeatWaveClusterTableMemoryEstimate,
     "HeatWaveNode": HeatWaveNode,
     "InitializationVariables": InitializationVariables,
+    "Ipv6AddressIpv6SubnetCidrPairDetails": Ipv6AddressIpv6SubnetCidrPairDetails,
     "LoggingDestinationConfiguration": LoggingDestinationConfiguration,
     "MaintenanceDetails": MaintenanceDetails,
     "MaintenanceDisabledWindow": MaintenanceDisabledWindow,

@@ -406,7 +406,13 @@ Database
     oci.database.models.MaintenanceRunHistory
     oci.database.models.MaintenanceRunHistorySummary
     oci.database.models.MaintenanceRunSummary
+    oci.database.models.MaintenanceVersionPreferenceDetails
     oci.database.models.MaintenanceWindow
+    oci.database.models.ManagedSoftwareUpdateDayOfWeek
+    oci.database.models.ManagedSoftwareUpdateDetails
+    oci.database.models.ManagedSoftwareUpdateInputDetails
+    oci.database.models.ManagedSoftwareUpdateMaintenanceDetails
+    oci.database.models.ManagedSoftwareUpdatePreferenceDetails
     oci.database.models.MigrateVaultKeyDetails
     oci.database.models.ModifyDatabaseManagementDetails
     oci.database.models.ModifyPluggableDatabaseManagementDetails
@@ -465,6 +471,8 @@ Database
     oci.database.models.ResourcePoolShapeCollection
     oci.database.models.ResourcePoolShapeSummary
     oci.database.models.ResourcePoolSummary
+    oci.database.models.RestartAutonomousContainerDatabaseDetails
+    oci.database.models.RestartAutonomousDatabaseDetails
     oci.database.models.RestoreAutonomousDatabaseDetails
     oci.database.models.RestoreDatabaseDetails
     oci.database.models.RotateAutonomousContainerDatabaseEncryptionKeyDetails
@@ -492,6 +500,7 @@ Database
     oci.database.models.SetKeyVersionDetails
     oci.database.models.SourceDatabaseDetails
     oci.database.models.StackMonitoringConfig
+    oci.database.models.StopAutonomousDatabaseDetails
     oci.database.models.StoragePerformanceDetails
     oci.database.models.SwitchOverDataGuardDetails
     oci.database.models.SwitchoverDataGuardAssociationDetails
@@ -555,6 +564,8 @@ Database
     oci.database.models.UpgradeDatabaseDetails
     oci.database.models.UpgradeDbSystemDetails
     oci.database.models.VanityUrlDetails
+    oci.database.models.VersionSchemeDetails
+    oci.database.models.VersionSchemeFromVersionSeriesDetails
     oci.database.models.VmCluster
     oci.database.models.VmClusterNetwork
     oci.database.models.VmClusterNetworkDetails
@@ -568,4 +579,5 @@ Database
     oci.database.models.VmNetworkDetails
     oci.database.models.VolumeDetails
     oci.database.models.WindowPreferenceDetail
+    oci.database.models.WindowTypeDescription
     oci.database.models.WorkloadType

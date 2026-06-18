@@ -67,6 +67,8 @@ Mysql
     oci.mysql.models.CreateDbSystemDetails
     oci.mysql.models.CreateDbSystemSourceDetails
     oci.mysql.models.CreateDbSystemSourceFromBackupDetails
+    oci.mysql.models.CreateDbSystemSourceFromDbSystemChannelDetails
+    oci.mysql.models.CreateDbSystemSourceFromDbSystemDetails
     oci.mysql.models.CreateDbSystemSourceFromNoneDetails
     oci.mysql.models.CreateDbSystemSourceFromPitrDetails
     oci.mysql.models.CreateDbSystemSourceImportFromUrlDetails
@@ -87,6 +89,7 @@ Mysql
     oci.mysql.models.DbSystemSnapshotSummary
     oci.mysql.models.DbSystemSource
     oci.mysql.models.DbSystemSourceFromBackup
+    oci.mysql.models.DbSystemSourceFromDbSystem
     oci.mysql.models.DbSystemSourceFromNone
     oci.mysql.models.DbSystemSourceFromPitr
     oci.mysql.models.DbSystemSourceImportFromUrl
@@ -107,6 +110,7 @@ Mysql
     oci.mysql.models.HeatWaveClusterTableMemoryEstimate
     oci.mysql.models.HeatWaveNode
     oci.mysql.models.InitializationVariables
+    oci.mysql.models.Ipv6AddressIpv6SubnetCidrPairDetails
     oci.mysql.models.LoggingDestinationConfiguration
     oci.mysql.models.MaintenanceDetails
     oci.mysql.models.MaintenanceDisabledWindow

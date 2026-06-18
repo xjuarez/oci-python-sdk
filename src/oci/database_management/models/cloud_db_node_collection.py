@@ -12,7 +12,7 @@ from oci.decorators import init_model_state_from_kwargs
 @init_model_state_from_kwargs
 class CloudDbNodeCollection(object):
     """
-    A collection of cloud database nodes.
+    A collection of cloud DB nodes.
     """
 
     def __init__(self, **kwargs):

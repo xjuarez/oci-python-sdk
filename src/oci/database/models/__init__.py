@@ -394,7 +394,13 @@ from .maintenance_run import MaintenanceRun
 from .maintenance_run_history import MaintenanceRunHistory
 from .maintenance_run_history_summary import MaintenanceRunHistorySummary
 from .maintenance_run_summary import MaintenanceRunSummary
+from .maintenance_version_preference_details import MaintenanceVersionPreferenceDetails
 from .maintenance_window import MaintenanceWindow
+from .managed_software_update_day_of_week import ManagedSoftwareUpdateDayOfWeek
+from .managed_software_update_details import ManagedSoftwareUpdateDetails
+from .managed_software_update_input_details import ManagedSoftwareUpdateInputDetails
+from .managed_software_update_maintenance_details import ManagedSoftwareUpdateMaintenanceDetails
+from .managed_software_update_preference_details import ManagedSoftwareUpdatePreferenceDetails
 from .migrate_vault_key_details import MigrateVaultKeyDetails
 from .modify_database_management_details import ModifyDatabaseManagementDetails
 from .modify_pluggable_database_management_details import ModifyPluggableDatabaseManagementDetails
@@ -453,6 +459,8 @@ from .resource_pool_member_summary import ResourcePoolMemberSummary
 from .resource_pool_shape_collection import ResourcePoolShapeCollection
 from .resource_pool_shape_summary import ResourcePoolShapeSummary
 from .resource_pool_summary import ResourcePoolSummary
+from .restart_autonomous_container_database_details import RestartAutonomousContainerDatabaseDetails
+from .restart_autonomous_database_details import RestartAutonomousDatabaseDetails
 from .restore_autonomous_database_details import RestoreAutonomousDatabaseDetails
 from .restore_database_details import RestoreDatabaseDetails
 from .rotate_autonomous_container_database_encryption_key_details import RotateAutonomousContainerDatabaseEncryptionKeyDetails
@@ -480,6 +488,7 @@ from .self_mount_details import SelfMountDetails
 from .set_key_version_details import SetKeyVersionDetails
 from .source_database_details import SourceDatabaseDetails
 from .stack_monitoring_config import StackMonitoringConfig
+from .stop_autonomous_database_details import StopAutonomousDatabaseDetails
 from .storage_performance_details import StoragePerformanceDetails
 from .switch_over_data_guard_details import SwitchOverDataGuardDetails
 from .switchover_data_guard_association_details import SwitchoverDataGuardAssociationDetails
@@ -543,6 +552,8 @@ from .update_vm_cluster_network_details import UpdateVmClusterNetworkDetails
 from .upgrade_database_details import UpgradeDatabaseDetails
 from .upgrade_db_system_details import UpgradeDbSystemDetails
 from .vanity_url_details import VanityUrlDetails
+from .version_scheme_details import VersionSchemeDetails
+from .version_scheme_from_version_series_details import VersionSchemeFromVersionSeriesDetails
 from .vm_cluster import VmCluster
 from .vm_cluster_network import VmClusterNetwork
 from .vm_cluster_network_details import VmClusterNetworkDetails
@@ -556,6 +567,7 @@ from .vm_cluster_update_summary import VmClusterUpdateSummary
 from .vm_network_details import VmNetworkDetails
 from .volume_details import VolumeDetails
 from .window_preference_detail import WindowPreferenceDetail
+from .window_type_description import WindowTypeDescription
 from .workload_type import WorkloadType
 
 # Maps type names to classes for database services.
@@ -948,7 +960,13 @@ database_type_mapping = {
     "MaintenanceRunHistory": MaintenanceRunHistory,
     "MaintenanceRunHistorySummary": MaintenanceRunHistorySummary,
     "MaintenanceRunSummary": MaintenanceRunSummary,
+    "MaintenanceVersionPreferenceDetails": MaintenanceVersionPreferenceDetails,
     "MaintenanceWindow": MaintenanceWindow,
+    "ManagedSoftwareUpdateDayOfWeek": ManagedSoftwareUpdateDayOfWeek,
+    "ManagedSoftwareUpdateDetails": ManagedSoftwareUpdateDetails,
+    "ManagedSoftwareUpdateInputDetails": ManagedSoftwareUpdateInputDetails,
+    "ManagedSoftwareUpdateMaintenanceDetails": ManagedSoftwareUpdateMaintenanceDetails,
+    "ManagedSoftwareUpdatePreferenceDetails": ManagedSoftwareUpdatePreferenceDetails,
     "MigrateVaultKeyDetails": MigrateVaultKeyDetails,
     "ModifyDatabaseManagementDetails": ModifyDatabaseManagementDetails,
     "ModifyPluggableDatabaseManagementDetails": ModifyPluggableDatabaseManagementDetails,
@@ -1007,6 +1025,8 @@ database_type_mapping = {
     "ResourcePoolShapeCollection": ResourcePoolShapeCollection,
     "ResourcePoolShapeSummary": ResourcePoolShapeSummary,
     "ResourcePoolSummary": ResourcePoolSummary,
+    "RestartAutonomousContainerDatabaseDetails": RestartAutonomousContainerDatabaseDetails,
+    "RestartAutonomousDatabaseDetails": RestartAutonomousDatabaseDetails,
     "RestoreAutonomousDatabaseDetails": RestoreAutonomousDatabaseDetails,
     "RestoreDatabaseDetails": RestoreDatabaseDetails,
     "RotateAutonomousContainerDatabaseEncryptionKeyDetails": RotateAutonomousContainerDatabaseEncryptionKeyDetails,
@@ -1034,6 +1054,7 @@ database_type_mapping = {
     "SetKeyVersionDetails": SetKeyVersionDetails,
     "SourceDatabaseDetails": SourceDatabaseDetails,
     "StackMonitoringConfig": StackMonitoringConfig,
+    "StopAutonomousDatabaseDetails": StopAutonomousDatabaseDetails,
     "StoragePerformanceDetails": StoragePerformanceDetails,
     "SwitchOverDataGuardDetails": SwitchOverDataGuardDetails,
     "SwitchoverDataGuardAssociationDetails": SwitchoverDataGuardAssociationDetails,
@@ -1097,6 +1118,8 @@ database_type_mapping = {
     "UpgradeDatabaseDetails": UpgradeDatabaseDetails,
     "UpgradeDbSystemDetails": UpgradeDbSystemDetails,
     "VanityUrlDetails": VanityUrlDetails,
+    "VersionSchemeDetails": VersionSchemeDetails,
+    "VersionSchemeFromVersionSeriesDetails": VersionSchemeFromVersionSeriesDetails,
     "VmCluster": VmCluster,
     "VmClusterNetwork": VmClusterNetwork,
     "VmClusterNetworkDetails": VmClusterNetworkDetails,
@@ -1110,5 +1133,6 @@ database_type_mapping = {
     "VmNetworkDetails": VmNetworkDetails,
     "VolumeDetails": VolumeDetails,
     "WindowPreferenceDetail": WindowPreferenceDetail,
+    "WindowTypeDescription": WindowTypeDescription,
     "WorkloadType": WorkloadType
 }

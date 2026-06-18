@@ -110,7 +110,8 @@ class ComputeClient(object):
             'regional_client': True,
             'service_endpoint': kwargs.get('service_endpoint'),
             'base_path': '/20160918',
-            'service_endpoint_template': 'https://iaas.{region}.{secondLevelDomain}',
+            'service_endpoint_template': 'https://iaas.{region}.{dualStack?ds.oci.:}{secondLevelDomain}',
+            'endpoint_service_name': 'iaas',
             'service_endpoint_template_per_realm': {  },  # noqa: E201 E202
             'service_uses_dualstack_endpoints_by_default': False,
             'skip_deserialization': kwargs.get('skip_deserialization', False),
@@ -11293,6 +11294,9 @@ class ComputeClient(object):
         :param str compute_gpu_memory_cluster_id: (optional)
             A filter to return only the listings that matches the given GPU memory cluster id.
 
+        :param str compute_gpu_memory_fabric_id: (optional)
+            A filter to return only the listings that matches the given GPU memory fabric id.
+
         :param str availability_domain: (optional)
             The name of the availability domain.
 
@@ -11379,6 +11383,7 @@ class ComputeClient(object):
             "retry_strategy",
             "opc_request_id",
             "compute_gpu_memory_cluster_id",
+            "compute_gpu_memory_fabric_id",
             "availability_domain",
             "display_name",
             "compute_cluster_id",
@@ -11408,6 +11413,7 @@ class ComputeClient(object):
 
         query_params = {
             "computeGpuMemoryClusterId": kwargs.get("compute_gpu_memory_cluster_id", missing),
+            "computeGpuMemoryFabricId": kwargs.get("compute_gpu_memory_fabric_id", missing),
             "availabilityDomain": kwargs.get("availability_domain", missing),
             "compartmentId": compartment_id,
             "displayName": kwargs.get("display_name", missing),
@@ -12872,6 +12878,9 @@ class ComputeClient(object):
         :param float remaining_ocpus_greater_than_or_equal_to: (optional)
             The available OCPUs of the dedicated VM host.
 
+        :param float remaining_local_volume_in_gbs_greater_than_or_equal_to: (optional)
+            The remaining local volume of the dedicated VM host, in GBs.
+
         :param bool is_memory_encryption_enabled: (optional)
             A filter to return only confidential Dedicated VM hosts (DVMH) or confidential VM instances on DVMH.
 
@@ -12920,6 +12929,7 @@ class ComputeClient(object):
             "sort_order",
             "remaining_memory_in_gbs_greater_than_or_equal_to",
             "remaining_ocpus_greater_than_or_equal_to",
+            "remaining_local_volume_in_gbs_greater_than_or_equal_to",
             "is_memory_encryption_enabled"
         ]
         extra_kwargs = [_key for _key in six.iterkeys(kwargs) if _key not in expected_kwargs]
@@ -12960,6 +12970,7 @@ class ComputeClient(object):
             "sortOrder": kwargs.get("sort_order", missing),
             "remainingMemoryInGBsGreaterThanOrEqualTo": kwargs.get("remaining_memory_in_gbs_greater_than_or_equal_to", missing),
             "remainingOcpusGreaterThanOrEqualTo": kwargs.get("remaining_ocpus_greater_than_or_equal_to", missing),
+            "remainingLocalVolumeInGBsGreaterThanOrEqualTo": kwargs.get("remaining_local_volume_in_gbs_greater_than_or_equal_to", missing),
             "isMemoryEncryptionEnabled": kwargs.get("is_memory_encryption_enabled", missing)
         }
         query_params = {k: v for (k, v) in six.iteritems(query_params) if v is not missing and v is not None}
